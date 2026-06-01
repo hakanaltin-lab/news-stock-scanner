@@ -52,7 +52,7 @@ import pandas as pd
 # AYARLAR
 # =============================================================================
 
-APP_NAME = "Global News-to-Stock Opportunity Scanner v2.0"
+APP_NAME = "Global News-to-Stock Opportunity Scanner v2.1 - Portfolio Impact"
 
 TOP_N = 20
 DEFAULT_HOURS = 8
@@ -84,6 +84,29 @@ MIN_PRICE_ROWS = 80
 MIN_MARKET_CAP = 300_000_000
 MIN_AVG_VOLUME = 200_000
 MIN_PRICE = 2.0
+
+# =============================================================================
+# KULLANICI PORTFÖYÜ - MY PORTFOLIO IMPACT
+# =============================================================================
+# Snapshot bazlı portföy: 02.06.2026 ekran görüntüsündeki adet ve maliyetler.
+# Bu bölüm her raporda mevcut pozisyonların haber/teknik/skor etkisini ayrıca gösterir.
+
+PORTFOLIO_POSITIONS: Dict[str, Dict[str, float]] = {
+    "AMD":  {"shares": 18,  "cost": 140.16},
+    "ANET": {"shares": 28,  "cost": 142.69},
+    "ASML": {"shares": 4,   "cost": 676.38},
+    "CLSK": {"shares": 104, "cost": 18.17},
+    "FN":   {"shares": 5,   "cost": 720.21},
+    "GOOG": {"shares": 16,  "cost": 169.28},
+    "LITE": {"shares": 3,   "cost": 911.21},
+    "NBIS": {"shares": 11,  "cost": 96.07},
+    "NRXS": {"shares": 222, "cost": 7.19},
+    "NVDA": {"shares": 22,  "cost": 157.27},
+    "VRT":  {"shares": 5,   "cost": 320.72},
+}
+
+PORTFOLIO_TICKERS = tuple(PORTFOLIO_POSITIONS.keys())
+
 
 
 # =============================================================================
@@ -1174,6 +1197,97 @@ def scan(
     return rows, risks, impact, news
 
 
+
+def portfolio_decision(row: Dict[str, Any], pnl_pct: Optional[float]) -> Tuple[str, str]:
+    """Mevcut portföy pozisyonu için kısa aksiyon etiketi ve yorum üretir."""
+    if not row:
+        return "VERİ YOK", "Tarayıcı bu hisse için yeterli veri üretemedi; manuel kontrol et."
+
+    score = safe_float(row.get("score"), 0.0) or 0.0
+    catalyst = safe_float(row.get("catalyst"), 0.0) or 0.0
+    technical = safe_float(row.get("technical"), 0.0) or 0.0
+    negative_raw = safe_float(row.get("negative_news_raw"), 0.0) or 0.0
+
+    if negative_raw >= 0.35:
+        return "RİSK / ALARM", "Negatif haber skoru yüksek; açılışta haber ve destek seviyesi kontrol edilmeli."
+    if score >= 78 and catalyst >= 70 and technical >= 55:
+        return "GÜÇLÜ TUT", "Haber/katalizör ve toplam skor güçlü; yeni ekleme için geri çekilme bekle."
+    if score >= 70 and technical >= 50:
+        return "TUT / İZLE", "Skor olumlu; mevcut pozisyon korunabilir, kırılım teyidi gelirse güçlenir."
+    if score >= 60:
+        return "NÖTR", "Skor orta; yeni ekleme yerine destek/direnç teyidi bekle."
+    if pnl_pct is not None and pnl_pct > 80:
+        return "KÂR KORU", "Yüksek kâr var ama skor zayıflıyor; kademeli trim veya stop sıkılaştır."
+    return "DİKKAT", "Skor düşük; ekleme yapma, stop/zarar kontrolü öncelikli."
+
+
+def build_portfolio_rows(rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Genel fırsat listesi içinden portföy hisselerini çekip portföy görünümü üretir."""
+    by_ticker = {str(r.get("ticker", "")).upper(): r for r in rows}
+    out: List[Dict[str, Any]] = []
+
+    # İlk geçiş: değerleri hesapla
+    total_value = 0.0
+    temp: List[Dict[str, Any]] = []
+    for ticker, pos in PORTFOLIO_POSITIONS.items():
+        r = by_ticker.get(ticker, {})
+        price = safe_float(r.get("price")) if r else None
+        shares = float(pos["shares"])
+        cost = float(pos["cost"])
+        value = shares * price if price is not None else None
+        pnl = (price - cost) * shares if price is not None else None
+        pnl_pct = ((price / cost - 1.0) * 100.0) if price is not None and cost > 0 else None
+        if value is not None:
+            total_value += value
+        action, comment = portfolio_decision(r, pnl_pct)
+        temp.append({
+            "ticker": ticker,
+            "shares": shares,
+            "cost": cost,
+            "price": price,
+            "value": value,
+            "pnl": pnl,
+            "pnl_pct": pnl_pct,
+            "score": r.get("score", "") if r else "",
+            "catalyst": r.get("catalyst", "") if r else "",
+            "technical": r.get("technical", "") if r else "",
+            "quality": r.get("quality", "") if r else "",
+            "value_score": r.get("value", "") if r else "",
+            "risk": r.get("risk", "") if r else "",
+            "theme": r.get("theme", "-") if r else "-",
+            "news": r.get("news", "") if r else "",
+            "action": action,
+            "comment": comment,
+        })
+
+    # İkinci geçiş: ağırlık
+    for x in temp:
+        x["weight_pct"] = (x["value"] / total_value * 100.0) if total_value and x["value"] is not None else None
+        out.append(x)
+
+    out.sort(key=lambda x: (x["weight_pct"] if x["weight_pct"] is not None else -1), reverse=True)
+    return out
+
+
+def fmt_money(x: Optional[float]) -> str:
+    if x is None:
+        return "-"
+    try:
+        return f"{x:,.2f}"
+    except Exception:
+        return "-"
+
+
+def fmt_pct(x: Optional[float]) -> str:
+    if x is None:
+        return "-"
+    try:
+        return f"{x:+.1f}%"
+    except Exception:
+        return "-"
+
+
+
 # =============================================================================
 # RAPORLAMA
 # =============================================================================
@@ -1241,6 +1355,26 @@ def write_html(rows: List[Dict[str, Any]], risks: List[Dict[str, Any]], impact: 
           <td class="reason">{html.escape(short(str(r['news']), 220))}</td>
         </tr>"""
 
+    portfolio_rows_html = ""
+    for p in build_portfolio_rows(rows):
+        pnl_color = "#16a34a" if (p["pnl"] is not None and p["pnl"] >= 0) else "#dc2626"
+        score_val = safe_float(p.get("score"), 0.0) or 0.0
+        score_c = score_color(score_val) if score_val else "#94a3b8"
+        portfolio_rows_html += f"""
+        <tr>
+          <td><b>{html.escape(p['ticker'])}</b><br><span class="dim">{html.escape(short(p['theme'], 28))}</span></td>
+          <td>{p['shares']:.0f}</td>
+          <td>{fmt_money(p['cost'])}</td>
+          <td>{fmt_money(p['price'])}</td>
+          <td>{fmt_money(p['value'])}</td>
+          <td style="color:{pnl_color};font-weight:800">{fmt_money(p['pnl'])}<br><span class="dim">{fmt_pct(p['pnl_pct'])}</span></td>
+          <td>{fmt_pct(p['weight_pct'])}</td>
+          <td style="color:{score_c};font-weight:800">{p['score']}</td>
+          <td>{p['catalyst']}</td><td>{p['technical']}</td><td>{p['quality']}</td><td>{p['risk']}</td>
+          <td><b>{html.escape(p['action'])}</b><br><span class="dim">{html.escape(short(p['comment'], 110))}</span></td>
+          <td class="reason">{html.escape(short(str(p['news']), 180))}</td>
+        </tr>"""
+
     theme_rows = ""
     for theme_key, score in sorted(impact.theme_scores.items(), key=lambda kv: -abs(kv[1]))[:20]:
         label = THEMES.get(theme_key).label if theme_key in THEMES else theme_key
@@ -1251,7 +1385,7 @@ def write_html(rows: List[Dict[str, Any]], risks: List[Dict[str, Any]], impact: 
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
     doc = f"""<!doctype html>
 <html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Global Haber → Hisse Fırsat Raporu v2.0</title>
+<title>Global Haber → Hisse Fırsat Raporu v2.1</title>
 <style>
 body{{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;background:#0b0f17;color:#e5e7eb;margin:0;padding:24px}}
 h1{{font-size:22px;margin:0 0 4px}} h2{{font-size:16px;margin-top:26px;color:#f8fafc}}
@@ -1260,10 +1394,15 @@ table{{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}} th,t
 th{{font-size:11px;text-transform:uppercase;color:#94a3b8}} tr:hover{{background:#111827}} .reason{{text-align:left;color:#cbd5e1;line-height:1.35}}
 .badge{{display:inline-block;background:#111827;border:1px solid #334155;border-radius:999px;padding:4px 8px;margin-right:6px;color:#cbd5e1;font-size:12px}}
 </style></head><body>
-<h1>Global Haber → Sektör → Hisse Fırsat Raporu v2.0</h1>
+<h1>Global Haber → Sektör → Hisse Fırsat Raporu v2.1</h1>
 <div class="dim">Oluşturma: {now} · Haber: {len(news)} · Aday: {len(rows)} · Gösterilen: {min(top_n, len(rows))}</div>
 <div class="warn">⚠️ Ücretsiz RSS/GDELT/yfinance kaynakları kullanılır. Gerçek zamanlı terminal değildir. Yatırım tavsiyesi değildir; araştırma başlangıç noktasıdır.</div>
 <div><span class="badge">Catalyst</span><span class="badge">Sector Momentum</span><span class="badge">Technical</span><span class="badge">Quality</span><span class="badge">Value</span><span class="badge">Risk/Liquidity</span></div>
+
+<h2>My Portfolio Impact — Mevcut Pozisyonların Günlük Etki Analizi</h2>
+<table><tr><th>Hisse</th><th>Adet</th><th>Maliyet</th><th>Fiyat</th><th>Tutar</th><th>K/Z</th><th>Ağırlık</th><th>Skor</th><th>Kat</th><th>Teknik</th><th>Kalite</th><th>Risk</th><th>Aksiyon</th><th>Haber/Gerekçe</th></tr>
+{portfolio_rows_html}
+</table>
 
 <h2>En Yüksek Skorlu Fırsat Adayları</h2>
 <table><tr><th>#</th><th>Hisse</th><th>Tema</th><th>Fiyat</th><th>Skor</th><th>Kat</th><th>Sektör</th><th>Teknik</th><th>Kalite</th><th>Değer</th><th>Risk</th><th>Gerekçe</th></tr>
