@@ -52,7 +52,7 @@ import pandas as pd
 # AYARLAR
 # =============================================================================
 
-APP_NAME = "Global News-to-Stock Opportunity Scanner v2.1 - Portfolio Impact"
+APP_NAME = "Global News-to-Stock Opportunity Scanner v2.2 - Portfolio Action Summary"
 
 TOP_N = 20
 DEFAULT_HOURS = 8
@@ -1288,6 +1288,79 @@ def fmt_pct(x: Optional[float]) -> str:
 
 
 
+def _join_tickers(items: List[Dict[str, Any]], n: int = 4) -> str:
+    tickers = []
+    for x in items[:n]:
+        t = str(x.get("ticker", "")).upper()
+        if t and t not in tickers:
+            tickers.append(t)
+    return ", ".join(tickers) if tickers else "-"
+
+
+def build_action_summary_html(portfolio_rows: List[Dict[str, Any]], rows: List[Dict[str, Any]], risks: List[Dict[str, Any]]) -> str:
+    """Portföy için 3 satırlık günlük aksiyon özeti üretir."""
+    strong = [
+        p for p in portfolio_rows
+        if (safe_float(p.get("score"), 0.0) or 0.0) >= 75
+        and p.get("action") in ("GÜÇLÜ TUT", "TUT / İZLE")
+    ]
+    strong.sort(key=lambda p: (safe_float(p.get("score"), 0.0) or 0.0), reverse=True)
+
+    caution = [
+        p for p in portfolio_rows
+        if p.get("action") in ("RİSK / ALARM", "DİKKAT", "KÂR KORU")
+        or (safe_float(p.get("technical"), 100.0) or 100.0) < 45
+    ]
+    caution.sort(key=lambda p: (
+        0 if p.get("action") == "RİSK / ALARM" else 1,
+        safe_float(p.get("technical"), 100.0) or 100.0
+    ))
+
+    portfolio_tickers = {str(x).upper() for x in PORTFOLIO_TICKERS}
+    fresh_opps = [
+        r for r in rows
+        if str(r.get("ticker", "")).upper() not in portfolio_tickers
+        and (safe_float(r.get("score"), 0.0) or 0.0) >= 78
+        and (safe_float(r.get("catalyst"), 0.0) or 0.0) >= 70
+    ]
+    fresh_opps.sort(key=lambda r: (safe_float(r.get("score"), 0.0) or 0.0), reverse=True)
+
+    top_hold = _join_tickers(strong, 4)
+    top_caution = _join_tickers(caution, 4)
+    top_fresh = _join_tickers(fresh_opps, 4)
+
+    if top_hold == "-":
+        do_text = "Portföyde net güçlü skor teyidi sınırlı; yeni ekleme yerine mevcut riskleri ve açılış fiyat davranışını izle."
+    else:
+        do_text = f"{top_hold} tarafında skor/katalizör güçlü; mevcut pozisyonları koru, ekleme gerekiyorsa sadece geri çekilme/destek bölgesinde kademeli gir."
+
+    if top_caution == "-":
+        dont_text = "Belirgin kırmızı alarm yok; yine de açılışta gap-up kovalamadan ve tek temaya aşırı ekleme yapmadan ilerle."
+    else:
+        dont_text = f"{top_caution} tarafında teknik/risk/aksiyon zayıf; bu hisselerde yeni ekleme yapma, stop veya kâr koruma seviyelerini sıkılaştır."
+
+    if top_fresh == "-":
+        wait_text = "Portföy dışı net yeni fırsat sınırlı; bugünkü ana iş mevcut AI/data-center pozisyonlarında relatif güç ayrışmasını izlemek."
+    else:
+        wait_text = f"Portföy dışı radar: {top_fresh}; sadece haber + fiyat + hacim teyidi gelirse izleme listesine al, direkt piyasa emriyle kovalamaya girme."
+
+    # Risk radarından negatif haber varsa ayrıca kısa uyarı ekle
+    risk_tickers = _join_tickers(risks, 3)
+    risk_note = ""
+    if risk_tickers != "-":
+        risk_note = f"<div class='risk-note'>Negatif haber radarı: <b>{html.escape(risk_tickers)}</b>. Bu isimlerde haber başlığı ve destek kırılımı kontrol edilmeden işlem açma.</div>"
+
+    return f"""
+<div class="action-grid">
+  <div class="action-card green"><div class="action-title">1) Ne yap?</div><div>{html.escape(do_text)}</div></div>
+  <div class="action-card red"><div class="action-title">2) Ne yapma?</div><div>{html.escape(dont_text)}</div></div>
+  <div class="action-card yellow"><div class="action-title">3) Ne bekle?</div><div>{html.escape(wait_text)}</div></div>
+</div>
+{risk_note}
+"""
+
+
+
 # =============================================================================
 # RAPORLAMA
 # =============================================================================
@@ -1355,8 +1428,11 @@ def write_html(rows: List[Dict[str, Any]], risks: List[Dict[str, Any]], impact: 
           <td class="reason">{html.escape(short(str(r['news']), 220))}</td>
         </tr>"""
 
+    portfolio_rows = build_portfolio_rows(rows)
+    action_summary_html = build_action_summary_html(portfolio_rows, rows, risks)
+
     portfolio_rows_html = ""
-    for p in build_portfolio_rows(rows):
+    for p in portfolio_rows:
         pnl_color = "#16a34a" if (p["pnl"] is not None and p["pnl"] >= 0) else "#dc2626"
         score_val = safe_float(p.get("score"), 0.0) or 0.0
         score_c = score_color(score_val) if score_val else "#94a3b8"
@@ -1385,7 +1461,7 @@ def write_html(rows: List[Dict[str, Any]], risks: List[Dict[str, Any]], impact: 
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
     doc = f"""<!doctype html>
 <html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Global Haber → Hisse Fırsat Raporu v2.1</title>
+<title>Global Haber → Hisse Fırsat Raporu v2.2</title>
 <style>
 body{{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;background:#0b0f17;color:#e5e7eb;margin:0;padding:24px}}
 h1{{font-size:22px;margin:0 0 4px}} h2{{font-size:16px;margin-top:26px;color:#f8fafc}}
@@ -1393,11 +1469,18 @@ h1{{font-size:22px;margin:0 0 4px}} h2{{font-size:16px;margin-top:26px;color:#f8
 table{{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}} th,td{{padding:8px 10px;border-bottom:1px solid #1f2937;text-align:center;vertical-align:top}}
 th{{font-size:11px;text-transform:uppercase;color:#94a3b8}} tr:hover{{background:#111827}} .reason{{text-align:left;color:#cbd5e1;line-height:1.35}}
 .badge{{display:inline-block;background:#111827;border:1px solid #334155;border-radius:999px;padding:4px 8px;margin-right:6px;color:#cbd5e1;font-size:12px}}
+.action-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:12px}}
+.action-card{{background:#111827;border:1px solid #334155;border-radius:12px;padding:12px 14px;line-height:1.4}}
+.action-card.green{{border-left:4px solid #16a34a}} .action-card.red{{border-left:4px solid #dc2626}} .action-card.yellow{{border-left:4px solid #f59e0b}}
+.action-title{{font-weight:800;color:#f8fafc;margin-bottom:5px}} .risk-note{{margin-top:10px;background:#1f2937;border-left:4px solid #ef4444;border-radius:8px;padding:10px 12px;color:#e5e7eb;font-size:13px}}
 </style></head><body>
-<h1>Global Haber → Sektör → Hisse Fırsat Raporu v2.1</h1>
+<h1>Global Haber → Sektör → Hisse Fırsat Raporu v2.2</h1>
 <div class="dim">Oluşturma: {now} · Haber: {len(news)} · Aday: {len(rows)} · Gösterilen: {min(top_n, len(rows))}</div>
 <div class="warn">⚠️ Ücretsiz RSS/GDELT/yfinance kaynakları kullanılır. Gerçek zamanlı terminal değildir. Yatırım tavsiyesi değildir; araştırma başlangıç noktasıdır.</div>
 <div><span class="badge">Catalyst</span><span class="badge">Sector Momentum</span><span class="badge">Technical</span><span class="badge">Quality</span><span class="badge">Value</span><span class="badge">Risk/Liquidity</span></div>
+
+<h2>Bugün Ne Yapmalıyım? — 3 Satırlık Aksiyon Özeti</h2>
+{action_summary_html}
 
 <h2>My Portfolio Impact — Mevcut Pozisyonların Günlük Etki Analizi</h2>
 <table><tr><th>Hisse</th><th>Adet</th><th>Maliyet</th><th>Fiyat</th><th>Tutar</th><th>K/Z</th><th>Ağırlık</th><th>Skor</th><th>Kat</th><th>Teknik</th><th>Kalite</th><th>Risk</th><th>Aksiyon</th><th>Haber/Gerekçe</th></tr>
@@ -1428,7 +1511,7 @@ th{{font-size:11px;text-transform:uppercase;color:#94a3b8}} tr:hover{{background
 # =============================================================================
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Global haber -> sektör -> hisse fırsat tarayıcı v2.0 / free stack")
+    parser = argparse.ArgumentParser(description="Global haber -> sektör -> hisse fırsat tarayıcı v2.2 / free stack")
     parser.add_argument("--demo", action="store_true", help="İnternetsiz demo haber ve sentetik fiyat/veriyle çalıştır.")
     parser.add_argument("--source", choices=["rss", "gdelt", "both"], default="both", help="Haber kaynağı. Varsayılan: both")
     parser.add_argument("--hours", type=int, default=DEFAULT_HOURS, help="Kaç saat içindeki haberler dikkate alınsın? Varsayılan: 8")
