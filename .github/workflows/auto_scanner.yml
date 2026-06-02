@@ -7,12 +7,14 @@ on:
       - "news_stock_scanner_v2.py"
       - "requirements.txt"
       - ".github/workflows/auto_scanner.yml"
-  workflow_dispatch:
+    workflow_dispatch:
   schedule:
-    # Doha / Türkiye 10:17 = UTC 07:17, Monday-Friday
+    # Doha/Turkiye morning check: 10:17 = UTC 07:17, Monday-Friday
     - cron: "17 7 * * 1-5"
-    # Doha / Türkiye 17:17 = UTC 14:17, Monday-Friday
-    - cron: "17 14 * * 1-5"
+
+    # NY session updates: every 30 minutes, UTC 13:00-21:30
+    # Doha/Turkiye time: 16:00-00:30, Monday-Friday
+    - cron: "0,30 13-21 * * 1-5"
 
 permissions:
   contents: write
