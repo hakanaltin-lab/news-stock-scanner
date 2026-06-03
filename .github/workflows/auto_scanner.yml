@@ -43,7 +43,7 @@ jobs:
 
       - name: Run scanner automatically
         run: |
-          python news_stock_scanner_v2.py --source both --hours 12 --universe core --top 20
+          python news_stock_scanner_v2.py --source both --hours 12 --universe full --top 10
 
       - name: Publish latest report into docs folder
         run: |
