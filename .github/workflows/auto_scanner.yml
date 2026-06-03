@@ -15,7 +15,9 @@ on:
     # NY session updates: every 30 minutes, UTC 13:00-21:30
     # Doha/Turkiye time: 16:00-00:30, Monday-Friday
     - cron: "0,30 13-21 * * 1-5"
-
+concurrency:
+  group: auto-news-stock-scanner-main
+  cancel-in-progress: true
 permissions:
   contents: write
 
@@ -56,4 +58,5 @@ jobs:
           git config user.email "github-actions@github.com"
           git add docs/index.html docs/latest.csv docs/last_run.txt
           git commit -m "Update automatic stock scanner report" || echo "No report changes to commit"
-          git push
+          git pull --rebase origin main
+          git push origin main
