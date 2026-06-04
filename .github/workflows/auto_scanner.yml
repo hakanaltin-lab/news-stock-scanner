@@ -52,11 +52,30 @@ jobs:
           cp news_stock_opportunities_v20.csv docs/latest.csv
           date -u +"Last automatic run: %Y-%m-%d %H:%M UTC" > docs/last_run.txt
 
-      - name: Commit updated reports
+            - name: Commit updated reports
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
+
+          mkdir -p /tmp/generated-report
+          cp docs/index.html /tmp/generated-report/index.html
+          cp docs/latest.csv /tmp/generated-report/latest.csv
+          cp docs/last_run.txt /tmp/generated-report/last_run.txt
+
+          git fetch origin main
+          git reset --hard origin/main
+
+          mkdir -p docs
+          cp /tmp/generated-report/index.html docs/index.html
+          cp /tmp/generated-report/latest.csv docs/latest.csv
+          cp /tmp/generated-report/last_run.txt docs/last_run.txt
+
           git add docs/index.html docs/latest.csv docs/last_run.txt
-          git commit -m "Update automatic stock scanner report" || echo "No report changes to commit"
-          git pull --rebase origin main
-          git push origin main
+
+          if git diff --cached --quiet; then
+            echo "No report changes to commit"
+            exit 0
+          fi
+
+          git commit -m "Update automatic stock scanner report"
+          git push origin HEAD:main
