@@ -54,7 +54,7 @@ import pandas as pd
 
 APP_NAME = "Global News-to-Stock Opportunity Scanner v2.2 - Portfolio Action Summary"
 
-TOP_N = 20
+TOP_N = 10
 DEFAULT_HOURS = 8
 
 OUTPUT_CSV = "news_stock_opportunities_v20.csv"
