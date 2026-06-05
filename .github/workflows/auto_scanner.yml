@@ -1,35 +1,27 @@
 name: Auto News Stock Scanner
 
 on:
-  push:
-    branches: ["main"]
-    paths:
-      - "news_stock_scanner_v2.py"
-      - "requirements.txt"
-      - ".github/workflows/auto_scanner.yml"
-    workflow_dispatch:
+  workflow_dispatch:
   schedule:
-    # Doha/Turkiye morning check: 10:17 = UTC 07:17, Monday-Friday
-    - cron: "17 7 * * 1-5"
+    - cron: "7,37 6-21 * * 1-5"
 
-    # NY session updates: every 30 minutes, UTC 13:00-21:30
-    # Doha/Turkiye time: 16:00-00:30, Monday-Friday
-    - cron: "0,30 13-21 * * 1-5"
-concurrency:
-  group: auto-news-stock-scanner-main
-  cancel-in-progress: true
 permissions:
   contents: write
 
+concurrency:
+  group: auto-news-stock-scanner-main
+  cancel-in-progress: true
+
 jobs:
   run-scanner:
-    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -52,23 +44,10 @@ jobs:
           cp news_stock_opportunities_v20.csv docs/latest.csv
           date -u +"Last automatic run: %Y-%m-%d %H:%M UTC" > docs/last_run.txt
 
-            - name: Commit updated reports
+      - name: Commit updated reports
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-
-          mkdir -p /tmp/generated-report
-          cp docs/index.html /tmp/generated-report/index.html
-          cp docs/latest.csv /tmp/generated-report/latest.csv
-          cp docs/last_run.txt /tmp/generated-report/last_run.txt
-
-          git fetch origin main
-          git reset --hard origin/main
-
-          mkdir -p docs
-          cp /tmp/generated-report/index.html docs/index.html
-          cp /tmp/generated-report/latest.csv docs/latest.csv
-          cp /tmp/generated-report/last_run.txt docs/last_run.txt
 
           git add docs/index.html docs/latest.csv docs/last_run.txt
 
@@ -78,4 +57,4 @@ jobs:
           fi
 
           git commit -m "Update automatic stock scanner report"
-          git push origin HEAD:main
+          git push
