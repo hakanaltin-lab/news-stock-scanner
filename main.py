@@ -1,24 +1,13 @@
 """
-V5 Market Intelligence Scanner
+V5.1 Global Market Intelligence Scanner
 
-Main execution layer
-
-Reads:
-- data/portfolio.csv
-- data/us_universe.json
-
-Creates:
-- Portfolio analysis
-- Market opportunity scan
-- Dashboard data output
+Portfolio Intelligence Engine
 """
 
 import csv
 import json
 import os
 from datetime import datetime
-
-from scanner_core import MarketScanner
 
 
 PORTFOLIO_FILE = "data/portfolio.csv"
@@ -29,24 +18,46 @@ def load_portfolio():
 
     portfolio = []
 
-    with open(PORTFOLIO_FILE, newline="", encoding="utf-8") as file:
+    if not os.path.exists(PORTFOLIO_FILE):
+        return portfolio
+
+    with open(
+        PORTFOLIO_FILE,
+        newline="",
+        encoding="utf-8"
+    ) as file:
 
         reader = csv.DictReader(file)
 
         for row in reader:
 
-            portfolio.append(
-                {
-                    "ticker": row["ticker"],
-                    "shares": int(row["shares"]),
-                    "avg_cost": float(row["avg_cost"]),
-                    "sector": row.get("sector", ""),
-                    "theme": row.get("theme", ""),
-                    "status": row.get("status", "HOLD"),
-                }
-            )
+            portfolio.append({
+
+                "ticker": row["ticker"],
+
+                "shares": int(row["shares"]),
+
+                "avg_cost": float(row["avg_cost"]),
+
+                "sector": row.get(
+                    "sector",
+                    ""
+                ),
+
+                "theme": row.get(
+                    "theme",
+                    ""
+                ),
+
+                "status": row.get(
+                    "status",
+                    "HOLD"
+                )
+
+            })
 
     return portfolio
+
 
 
 def load_universe():
@@ -54,44 +65,101 @@ def load_universe():
     if not os.path.exists(UNIVERSE_FILE):
         return []
 
-    with open(UNIVERSE_FILE, encoding="utf-8") as file:
+    with open(
+        UNIVERSE_FILE,
+        encoding="utf-8"
+    ) as file:
+
         return json.load(file)
 
 
-def analyze_portfolio(portfolio):
 
-    result = []
+def generate_portfolio_intelligence(portfolio):
+
+    intelligence = []
+
 
     for stock in portfolio:
 
-        position_value = (
-            stock["shares"] * stock["avg_cost"]
+        ticker = stock["ticker"]
+
+        sector = stock.get(
+            "sector",
+            ""
         )
 
-        result.append(
-            {
-                "ticker": stock["ticker"],
-                "shares": stock["shares"],
-                "avg_cost": stock["avg_cost"],
-                "sector": stock["sector"],
-                "theme": stock["theme"],
-                "status": stock["status"],
-                "position_value": round(position_value, 2),
+        theme = stock.get(
+            "theme",
+            ""
+        )
+
+
+        score = 70
+
+
+        if "AI" in theme:
+            score += 10
+
+
+        if "Semiconductor" in sector:
+            score += 5
+
+
+        if "Cloud" in theme:
+            score += 5
+
+
+
+        if score >= 85:
+
+            action = "ACCUMULATE"
+
+        elif score < 65:
+
+            action = "REDUCE"
+
+        else:
+
+            action = "HOLD"
+
+
+
+        intelligence.append({
+
+            "ticker": ticker,
+
+
+            "decision": {
+
+                "score": score,
+
+                "action": action,
+
+                "confidence": "MEDIUM"
+
+            },
+
+
+            "signals": {
+
+                "theme_strength": score,
+
+                "sector_strength": score - 5,
+
+                "catalyst": score
+
             }
-        )
 
-    return result
+        })
 
 
-def run_scanner():
-
-    print("Starting Market Intelligence Scanner V5")
+    return intelligence
+    def run_scanner():
 
     portfolio = load_portfolio()
 
     universe = load_universe()
 
-    scanner = MarketScanner()
 
     print(
         f"Portfolio loaded: {len(portfolio)} stocks"
@@ -101,26 +169,54 @@ def run_scanner():
         f"Universe loaded: {len(universe)} stocks"
     )
 
-    portfolio_report = analyze_portfolio(
+
+    intelligence = generate_portfolio_intelligence(
         portfolio
     )
+
+
+    risk_summary = {
+
+        "portfolio_score": round(
+            sum(
+                item["decision"]["score"]
+                for item in intelligence
+            )
+            /
+            max(len(intelligence),1)
+        ),
+
+        "risk_level": "MEDIUM",
+
+        "market_mode": "ACTIVE"
+
+    }
+
 
 
     output = {
 
         "generated": datetime.utcnow().isoformat(),
 
-        "portfolio": portfolio_report,
+        "scanner_version": "V5.1",
 
-        "scanner_version": "V5"
+        "portfolio": portfolio,
+
+        "intelligence": intelligence,
+
+        "risk_summary": risk_summary,
+
+        "opportunities": []
 
     }
+
 
 
     os.makedirs(
         "docs",
         exist_ok=True
     )
+
 
 
     with open(
@@ -137,7 +233,11 @@ def run_scanner():
         )
 
 
-    print("Scanner completed successfully")
+
+    print(
+        "V5.1 Scanner completed successfully"
+    )
+
 
 
 if __name__ == "__main__":
