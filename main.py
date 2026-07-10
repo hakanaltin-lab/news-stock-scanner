@@ -1,5 +1,5 @@
 """
-V5.5 Global Market Intelligence Scanner
+V5.6 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -10,6 +10,8 @@ Portfolio Engine
 Market Data Engine
         |
 Scoring Engine
+        |
+Catalyst Intelligence Engine
         |
 Alpha Intelligence Engine
         |
@@ -30,6 +32,11 @@ from engines.market_data_engine import (
 
 from engines.scoring_engine import (
     calculate_market_score
+)
+
+
+from engines.catalyst_engine import (
+    analyze_catalyst
 )
 
 
@@ -69,7 +76,9 @@ def load_portfolio():
 
 
 
+
 def run_scanner():
+
 
     portfolio = load_portfolio()
 
@@ -77,6 +86,7 @@ def run_scanner():
 
 
     for stock in portfolio:
+
 
         ticker = stock.get(
             "ticker",
@@ -89,10 +99,12 @@ def run_scanner():
             101
         ]
 
+
         volumes = [
             100000,
             120000
         ]
+
 
 
         snapshot = build_market_snapshot(
@@ -107,55 +119,106 @@ def run_scanner():
         )
 
 
+
         market_score = calculate_market_score(
             snapshot
         )
 
 
-        catalyst_score = 50
+
+        catalyst_result = analyze_catalyst(
+            ticker,
+            []
+        )
+
+
+        catalyst_score = catalyst_result[
+            "catalyst_score"
+        ]
+
+
+
         sector_score = 50
+
         risk_score = 50
 
 
+
+
         alpha_score = calculate_alpha_score(
+
             market_score,
+
             catalyst_score,
+
             sector_score,
+
             risk_score
+
         )
+
 
 
         result = {
 
+
             "ticker": ticker,
+
 
             "timestamp":
             datetime.utcnow().isoformat(),
 
+
+
             "market": snapshot,
+
+
 
             "signal": signal,
 
-            "components": {
 
-                "market_score": market_score,
 
-                "catalyst_score": catalyst_score,
+            "scores": {
 
-                "sector_score": sector_score,
+                "market_score":
+                market_score,
 
-                "risk_score": risk_score
+
+                "catalyst_score":
+                catalyst_score,
+
+
+                "sector_score":
+                sector_score,
+
+
+                "risk_score":
+                risk_score,
+
+
+                "alpha_score":
+                alpha_score
+
             },
 
 
-            "alpha_score": alpha_score,
+            "catalyst":
+            catalyst_result,
+
+
 
             "rating":
-            generate_rating(alpha_score),
+            generate_rating(
+                alpha_score
+            ),
+
 
 
             "action":
-            generate_action(alpha_score),
+            generate_action(
+                alpha_score
+            ),
+
 
 
             "status":
@@ -170,11 +233,13 @@ def run_scanner():
 
     output = {
 
+
         "generated":
         datetime.utcnow().isoformat(),
 
+
         "scanner_version":
-        "V5.5",
+        "V5.6",
 
 
         "portfolio":
@@ -183,10 +248,12 @@ def run_scanner():
     }
 
 
+
     os.makedirs(
         "docs",
         exist_ok=True
     )
+
 
 
     with open(
@@ -195,6 +262,7 @@ def run_scanner():
         encoding="utf-8"
     ) as file:
 
+
         json.dump(
             output,
             file,
@@ -202,9 +270,12 @@ def run_scanner():
         )
 
 
+
     print(
-        "V5.5 Scanner completed successfully"
+        "V5.6 Scanner completed successfully"
     )
+
+
 
 
 
