@@ -30,13 +30,14 @@ class MarketScanner:
     ):
 
         alpha_score = calculate_alpha_score(
-            ticker=ticker,
-            catalyst=news_score,
-            sector=sector_score,
-            price_action=price_score,
-            quality=quality_score,
-            risk=risk_score
-        )
+    ticker=ticker,
+    catalyst=news_score,
+    sector=sector_score,
+    price_action=price_score,
+    technical=technical_score,
+    quality=quality_score,
+    risk=risk_score
+)
 
         final_risk = calculate_risk_score(
             ticker=ticker,
