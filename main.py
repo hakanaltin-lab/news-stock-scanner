@@ -1,12 +1,12 @@
 """
-V5.3 Global Market Intelligence Scanner
+V5.4 Global Market Intelligence Scanner
 
-Main Controller
+Controller Layer
 
 Connects:
 - Portfolio Engine
 - Market Data Engine
-- Scoring Logic
+- Scoring Engine
 - JSON Report Generator
 """
 
@@ -19,6 +19,8 @@ from engines.market_data_engine import (
     build_market_snapshot,
     get_market_signal
 )
+
+from engines.scoring_engine import calculate_market_score
 
 
 PORTFOLIO_FILE = "data/portfolio.csv"
@@ -43,100 +45,21 @@ def load_portfolio():
 
 
 
-def generate_score(snapshot, signal):
+def run_scanner():
 
-    score = 50
-
-
-    momentum = snapshot.get("momentum", 0)
-    vwap = snapshot.get("vwap", 0)
-    price = snapshot.get("last_price", 0)
-
-
-    # Momentum factor
-
-    if momentum > 3:
-        score += 20
-
-    elif momentum < -3:
-        score -= 20
-
-
-
-    # VWAP factor
-
-    if price and vwap:
-
-        if price > vwap:
-            score += 10
-
-        else:
-            score -= 10
-
-
-
-    # Signal factor
-
-    if signal == "BULLISH":
-        score += 15
-
-    elif signal == "BEARISH":
-        score -= 15
-
-
-
-    if score > 100:
-        score = 100
-
-    if score < 0:
-        score = 0
-
-
-    return score
-
-
-
-def get_action(score):
-
-    if score >= 75:
-        return "ADD"
-
-    elif score >= 60:
-        return "WATCH"
-
-    elif score >= 35:
-        return "HOLD"
-
-    else:
-        return "AVOID"
-
-
-
-def generate_intelligence(portfolio):
+    portfolio = load_portfolio()
 
     results = []
 
 
     for stock in portfolio:
 
-        ticker = stock.get(
-            "ticker",
-            "UNKNOWN"
-        )
+        ticker = stock.get("ticker", "UNKNOWN")
 
 
-        # Temporary market input layer
-        # Real API connection will be added next
-
-        prices = [
-            100,
-            101
-        ]
-
-        volumes = [
-            100000,
-            120000
-        ]
+        # Temporary market data layer
+        prices = [100,101]
+        volumes = [100000,120000]
 
 
         snapshot = build_market_snapshot(
@@ -146,86 +69,46 @@ def generate_intelligence(portfolio):
         )
 
 
-        signal = get_market_signal(
-            snapshot
-        )
+        signal = get_market_signal(snapshot)
 
 
-        score = generate_score(
-            snapshot,
-            signal
-        )
+        score = calculate_market_score(snapshot)
 
 
-        item = {
+        result = {
 
             "ticker": ticker,
 
-            "decision": {
-
-                "score": score,
-
-                "action": get_action(score),
-
-                "confidence": "MEDIUM"
-
-            },
-
+            "timestamp": datetime.utcnow().isoformat(),
 
             "market": snapshot,
 
-
             "signal": signal,
 
+            "score": score,
 
             "status": "ACTIVE"
 
         }
 
 
-        results.append(item)
+        results.append(result)
 
-
-
-    return results
-
-
-
-def run_scanner():
-
-    portfolio = load_portfolio()
-
-
-    intelligence = generate_intelligence(
-        portfolio
-    )
 
 
     output = {
 
-        "generated":
+        "generated": datetime.utcnow().isoformat(),
 
-            datetime.utcnow().isoformat(),
+        "scanner_version": "V5.4",
 
-
-        "scanner_version":
-
-            "V5.3",
-
-
-        "portfolio":
-
-            intelligence
+        "portfolio": results
 
     }
 
 
 
-    os.makedirs(
-        "docs",
-        exist_ok=True
-    )
-
+    os.makedirs("docs", exist_ok=True)
 
 
     with open(
@@ -237,14 +120,12 @@ def run_scanner():
         json.dump(
             output,
             file,
-            indent=2,
-            ensure_ascii=False
+            indent=2
         )
 
 
-
     print(
-        "V5.3 Scanner completed successfully"
+        "V5.4 Scanner completed successfully"
     )
 
 
