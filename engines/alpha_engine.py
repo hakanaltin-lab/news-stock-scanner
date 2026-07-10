@@ -27,6 +27,7 @@ class AlphaScore:
 
 
 def calculate_alpha_score(
+    ticker,
     catalyst,
     sector,
     price_action,
@@ -57,13 +58,14 @@ def rank_stock(
 ):
 
     score = calculate_alpha_score(
-        catalyst,
-        sector,
-        price_action,
-        technical,
-        quality,
-        risk
-    )
+    ticker,
+    catalyst,
+    sector,
+    price_action,
+    technical,
+    quality,
+    risk
+)
 
     return AlphaScore(
         ticker,
