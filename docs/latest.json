@@ -1,0 +1,87 @@
+{
+  "generated": "2026-07-10T21:41:55.524359",
+  "portfolio": [
+    {
+      "ticker": "AMD",
+      "shares": 15,
+      "avg_cost": 140.16,
+      "sector": "AI Semiconductor",
+      "theme": "AI Infrastructure",
+      "status": "HOLD",
+      "position_value": 2102.4
+    },
+    {
+      "ticker": "ANET",
+      "shares": 34,
+      "avg_cost": 146.83,
+      "sector": "Networking",
+      "theme": "AI Infrastructure",
+      "status": "HOLD",
+      "position_value": 4992.22
+    },
+    {
+      "ticker": "ASML",
+      "shares": 3,
+      "avg_cost": 676.38,
+      "sector": "Semiconductor Equipment",
+      "theme": "AI",
+      "status": "HOLD",
+      "position_value": 2029.14
+    },
+    {
+      "ticker": "FN",
+      "shares": 4,
+      "avg_cost": 720.21,
+      "sector": "Financial",
+      "theme": "Special Situation",
+      "status": "HOLD",
+      "position_value": 2880.84
+    },
+    {
+      "ticker": "GOOG",
+      "shares": 20,
+      "avg_cost": 207.68,
+      "sector": "AI Platform",
+      "theme": "AI",
+      "status": "HOLD",
+      "position_value": 4153.6
+    },
+    {
+      "ticker": "HROW",
+      "shares": 30,
+      "avg_cost": 42.01,
+      "sector": "Healthcare",
+      "theme": "Specialty Pharma",
+      "status": "HOLD",
+      "position_value": 1260.3
+    },
+    {
+      "ticker": "NBIS",
+      "shares": 14,
+      "avg_cost": 147.83,
+      "sector": "AI Cloud",
+      "theme": "AI Infrastructure",
+      "status": "HOLD",
+      "position_value": 2069.62
+    },
+    {
+      "ticker": "NVDA",
+      "shares": 24,
+      "avg_cost": 160.96,
+      "sector": "AI GPU",
+      "theme": "AI",
+      "status": "HOLD",
+      "position_value": 3863.04
+    },
+    {
+      "ticker": "VRT",
+      "shares": 11,
+      "avg_cost": 316.2,
+      "sector": "Data Center Power",
+      "theme": "AI Infrastructure",
+      "status": "HOLD",
+      "position_value": 3478.2
+    }
+  ],
+  "scanner_version": "V5"
+}
