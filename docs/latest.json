@@ -1,87 +1,186 @@
 {
-  "generated": "2026-07-10T21:41:55.524359",
+  "generated": "2026-07-10T22:23:51.756866",
   "portfolio": [
     {
       "ticker": "AMD",
-      "shares": 15,
-      "avg_cost": 140.16,
-      "sector": "AI Semiconductor",
-      "theme": "AI Infrastructure",
-      "status": "HOLD",
-      "position_value": 2102.4
+      "decision": {
+        "score": 50,
+        "action": "HOLD",
+        "confidence": "MEDIUM"
+      },
+      "signals": {
+        "theme_strength": 50,
+        "sector_strength": 45,
+        "catalyst": 50
+      },
+      "position": {
+        "shares": "15",
+        "avg_cost": "140.16",
+        "sector": "AI Semiconductor",
+        "theme": "AI Infrastructure",
+        "status": "HOLD"
+      }
     },
     {
       "ticker": "ANET",
-      "shares": 34,
-      "avg_cost": 146.83,
-      "sector": "Networking",
-      "theme": "AI Infrastructure",
-      "status": "HOLD",
-      "position_value": 4992.22
+      "decision": {
+        "score": 50,
+        "action": "HOLD",
+        "confidence": "MEDIUM"
+      },
+      "signals": {
+        "theme_strength": 50,
+        "sector_strength": 45,
+        "catalyst": 50
+      },
+      "position": {
+        "shares": "34",
+        "avg_cost": "146.83",
+        "sector": "Networking",
+        "theme": "AI Infrastructure",
+        "status": "HOLD"
+      }
     },
     {
       "ticker": "ASML",
-      "shares": 3,
-      "avg_cost": 676.38,
-      "sector": "Semiconductor Equipment",
-      "theme": "AI",
-      "status": "HOLD",
-      "position_value": 2029.14
+      "decision": {
+        "score": 50,
+        "action": "HOLD",
+        "confidence": "MEDIUM"
+      },
+      "signals": {
+        "theme_strength": 50,
+        "sector_strength": 45,
+        "catalyst": 50
+      },
+      "position": {
+        "shares": "3",
+        "avg_cost": "676.38",
+        "sector": "Semiconductor Equipment",
+        "theme": "AI",
+        "status": "HOLD"
+      }
     },
     {
       "ticker": "FN",
-      "shares": 4,
-      "avg_cost": 720.21,
-      "sector": "Financial",
-      "theme": "Special Situation",
-      "status": "HOLD",
-      "position_value": 2880.84
+      "decision": {
+        "score": 50,
+        "action": "HOLD",
+        "confidence": "MEDIUM"
+      },
+      "signals": {
+        "theme_strength": 50,
+        "sector_strength": 45,
+        "catalyst": 50
+      },
+      "position": {
+        "shares": "4",
+        "avg_cost": "720.21",
+        "sector": "Financial",
+        "theme": "Special Situation",
+        "status": "HOLD"
+      }
     },
     {
       "ticker": "GOOG",
-      "shares": 20,
-      "avg_cost": 207.68,
-      "sector": "AI Platform",
-      "theme": "AI",
-      "status": "HOLD",
-      "position_value": 4153.6
+      "decision": {
+        "score": 50,
+        "action": "HOLD",
+        "confidence": "MEDIUM"
+      },
+      "signals": {
+        "theme_strength": 50,
+        "sector_strength": 45,
+        "catalyst": 50
+      },
+      "position": {
+        "shares": "20",
+        "avg_cost": "207.68",
+        "sector": "AI Platform",
+        "theme": "AI",
+        "status": "HOLD"
+      }
     },
     {
       "ticker": "HROW",
-      "shares": 30,
-      "avg_cost": 42.01,
-      "sector": "Healthcare",
-      "theme": "Specialty Pharma",
-      "status": "HOLD",
-      "position_value": 1260.3
+      "decision": {
+        "score": 50,
+        "action": "HOLD",
+        "confidence": "MEDIUM"
+      },
+      "signals": {
+        "theme_strength": 50,
+        "sector_strength": 45,
+        "catalyst": 50
+      },
+      "position": {
+        "shares": "30",
+        "avg_cost": "42.01",
+        "sector": "Healthcare",
+        "theme": "Specialty Pharma",
+        "status": "HOLD"
+      }
     },
     {
       "ticker": "NBIS",
-      "shares": 14,
-      "avg_cost": 147.83,
-      "sector": "AI Cloud",
-      "theme": "AI Infrastructure",
-      "status": "HOLD",
-      "position_value": 2069.62
+      "decision": {
+        "score": 50,
+        "action": "HOLD",
+        "confidence": "MEDIUM"
+      },
+      "signals": {
+        "theme_strength": 50,
+        "sector_strength": 45,
+        "catalyst": 50
+      },
+      "position": {
+        "shares": "14",
+        "avg_cost": "147.83",
+        "sector": "AI Cloud",
+        "theme": "AI Infrastructure",
+        "status": "HOLD"
+      }
     },
     {
       "ticker": "NVDA",
-      "shares": 24,
-      "avg_cost": 160.96,
-      "sector": "AI GPU",
-      "theme": "AI",
-      "status": "HOLD",
-      "position_value": 3863.04
+      "decision": {
+        "score": 50,
+        "action": "HOLD",
+        "confidence": "MEDIUM"
+      },
+      "signals": {
+        "theme_strength": 50,
+        "sector_strength": 45,
+        "catalyst": 50
+      },
+      "position": {
+        "shares": "24",
+        "avg_cost": "160.96",
+        "sector": "AI GPU",
+        "theme": "AI",
+        "status": "HOLD"
+      }
     },
     {
       "ticker": "VRT",
-      "shares": 11,
-      "avg_cost": 316.2,
-      "sector": "Data Center Power",
-      "theme": "AI Infrastructure",
-      "status": "HOLD",
-      "position_value": 3478.2
+      "decision": {
+        "score": 50,
+        "action": "HOLD",
+        "confidence": "MEDIUM"
+      },
+      "signals": {
+        "theme_strength": 50,
+        "sector_strength": 45,
+        "catalyst": 50
+      },
+      "position": {
+        "shares": "11",
+        "avg_cost": "316.20",
+        "sector": "Data Center Power",
+        "theme": "AI Infrastructure",
+        "status": "HOLD"
+      }
     }
   ],
-  "scanner_version": "V5"
+  "scanner_version": "V5.1"
 }
