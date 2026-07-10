@@ -1,5 +1,5 @@
 """
-V4 Market Intelligence Scanner
+V5 Market Intelligence Scanner
 
 Main execution layer
 
@@ -21,30 +21,28 @@ from datetime import datetime
 from scanner_core import MarketScanner
 
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PORTFOLIO_FILE = "data/portfolio.csv"
+UNIVERSE_FILE = "data/us_universe.json"
 
 
 def load_portfolio():
-    """
-    Load user's current portfolio
-    """
-
-    path = os.path.join(BASE_DIR, "data", "portfolio.csv")
 
     portfolio = []
 
-    if not os.path.exists(path):
-        return portfolio
+    with open(PORTFOLIO_FILE, newline="", encoding="utf-8") as file:
 
-    with open(path, newline="", encoding="utf-8") as file:
         reader = csv.DictReader(file)
 
         for row in reader:
+
             portfolio.append(
                 {
                     "ticker": row["ticker"],
-                    "shares": float(row["shares"]),
-                    "cost": float(row["cost"])
+                    "shares": int(row["shares"]),
+                    "avg_cost": float(row["avg_cost"]),
+                    "sector": row.get("sector", ""),
+                    "theme": row.get("theme", ""),
+                    "status": row.get("status", "HOLD"),
                 }
             )
 
@@ -53,75 +51,80 @@ def load_portfolio():
 
 def load_universe():
 
-    path = os.path.join(BASE_DIR, "data", "us_universe.json")
-
-    if not os.path.exists(path):
+    if not os.path.exists(UNIVERSE_FILE):
         return []
 
-    with open(path, encoding="utf-8") as file:
+    with open(UNIVERSE_FILE, encoding="utf-8") as file:
         return json.load(file)
 
 
+def analyze_portfolio(portfolio):
 
-def calculate_position_value(position):
+    result = []
 
-    return position["shares"] * position["cost"]
+    for stock in portfolio:
+
+        position_value = (
+            stock["shares"] * stock["avg_cost"]
+        )
+
+        result.append(
+            {
+                "ticker": stock["ticker"],
+                "shares": stock["shares"],
+                "avg_cost": stock["avg_cost"],
+                "sector": stock["sector"],
+                "theme": stock["theme"],
+                "status": stock["status"],
+                "position_value": round(position_value, 2),
+            }
+        )
+
+    return result
 
 
+def run_scanner():
 
-def main():
-
-    print("Starting Market Intelligence Scanner V4")
-
-    scanner = MarketScanner()
-
+    print("Starting Market Intelligence Scanner V5")
 
     portfolio = load_portfolio()
 
     universe = load_universe()
 
+    scanner = MarketScanner()
 
-    results = []
+    print(
+        f"Portfolio loaded: {len(portfolio)} stocks"
+    )
 
+    print(
+        f"Universe loaded: {len(universe)} stocks"
+    )
 
-    for stock in universe:
-
-        score = scanner.scan_stock(
-            ticker=stock.get("ticker"),
-            news_score=stock.get("news", 50),
-            sector_score=stock.get("sector", 50),
-            price_score=stock.get("price", 50),
-            quality_score=stock.get("quality", 50),
-            risk_score=stock.get("risk", 50)
-        )
-
-
-        results.append(score)
-
+    portfolio_report = analyze_portfolio(
+        portfolio
+    )
 
 
     output = {
 
-        "created": datetime.now().strftime(
-            "%Y-%m-%d %H:%M"
-        ),
+        "generated": datetime.utcnow().isoformat(),
 
-        "portfolio": portfolio,
+        "portfolio": portfolio_report,
 
-        "scanner_results": results
+        "scanner_version": "V5"
 
     }
 
 
-    output_path = os.path.join(
-        BASE_DIR,
-        "data",
-        "latest_scan.json"
+    os.makedirs(
+        "docs",
+        exist_ok=True
     )
 
 
     with open(
-        output_path,
+        "docs/latest.json",
         "w",
         encoding="utf-8"
     ) as file:
@@ -136,16 +139,7 @@ def main():
 
     print("Scanner completed successfully")
 
-    print(
-        f"Portfolio positions: {len(portfolio)}"
-    )
-
-    print(
-        f"Market candidates: {len(results)}"
-    )
-
-
 
 if __name__ == "__main__":
 
-    main()
+    run_scanner()
