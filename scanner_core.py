@@ -1,22 +1,68 @@
 """
-V3 Market Scanner Core Engine
+V4 Market Intelligence Scanner Core
 
-Combines:
-- Catalyst
-- Sector Momentum
-- Price Action
-- Technical Score
-- Quality
-- Risk
+Scoring engine
 """
 
-from engines.alpha_engine import calculate_alpha_score
 
 
 class MarketScanner:
 
+
     def __init__(self):
-        self.version = "V3"
+
+        self.version = "V4"
+
+
+
+    def calculate_score(
+        self,
+        news_score,
+        sector_score,
+        price_score,
+        quality_score,
+        risk_score
+    ):
+
+        score = (
+
+            news_score * 0.25 +
+
+            sector_score * 0.20 +
+
+            price_score * 0.20 +
+
+            quality_score * 0.25 +
+
+            (100 - risk_score) * 0.10
+
+        )
+
+        return round(score, 2)
+
+
+
+    def get_action(self, score):
+
+        if score >= 85:
+
+            return "STRONG BUY / ACCUMULATE"
+
+
+        elif score >= 70:
+
+            return "HOLD / ADD ON PULLBACK"
+
+
+        elif score >= 55:
+
+            return "WATCH"
+
+
+        else:
+
+            return "AVOID"
+
 
 
     def scan_stock(
@@ -29,53 +75,32 @@ class MarketScanner:
         risk_score
     ):
 
-        # Temporary technical engine
-        # Will be replaced with live indicators later
-        technical_score = 50
 
+        score = self.calculate_score(
 
-        alpha_score = calculate_alpha_score(
-            ticker=ticker,
-            catalyst=news_score,
-            sector=sector_score,
-            price_action=price_score,
-            technical=technical_score,
-            quality=quality_score,
-            risk=risk_score
+            news_score,
+            sector_score,
+            price_score,
+            quality_score,
+            risk_score
+
         )
-
-
-        final_risk = risk_score
 
 
         return {
+
             "ticker": ticker,
-            "alpha_score": alpha_score,
-            "risk_score": final_risk,
-            "technical_score": technical_score
+
+            "score": score,
+
+            "action": self.get_action(score),
+
+            "news": news_score,
+
+            "sector": sector_score,
+
+            "quality": quality_score,
+
+            "risk": risk_score
+
         }
-
-
-    def rank_market(self, stocks):
-
-        results = []
-
-        for stock in stocks:
-
-            result = self.scan_stock(
-                ticker=stock["ticker"],
-                news_score=stock.get("news_score", 50),
-                sector_score=stock.get("sector_score", 50),
-                price_score=stock.get("price_score", 50),
-                quality_score=stock.get("quality_score", 50),
-                risk_score=stock.get("risk_score", 50)
-            )
-
-            results.append(result)
-
-
-        return sorted(
-            results,
-            key=lambda x: x["alpha_score"],
-            reverse=True
-        )
