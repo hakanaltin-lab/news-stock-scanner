@@ -1,132 +1,177 @@
 {
-  "generated": "2026-07-10T22:48:19.542693",
+  "generated": "2026-07-10T23:04:37.184365",
+  "scanner_version": "V5.3",
   "portfolio": [
     {
       "ticker": "AMD",
       "decision": {
-        "score": 50,
-        "action": "HOLD",
+        "score": 60,
+        "action": "WATCH",
         "confidence": "MEDIUM"
       },
-      "signals": {
-        "theme_strength": 50,
-        "sector_strength": 50,
-        "catalyst": 50
+      "market": {
+        "ticker": "AMD",
+        "timestamp": "2026-07-10T23:04:37.184295",
+        "last_price": 101,
+        "vwap": 100.55,
+        "momentum": 1.0,
+        "volume": 220000,
+        "data_quality": "FOUNDATION"
       },
-      "status": "MONITOR"
+      "signal": "NEUTRAL",
+      "status": "ACTIVE"
     },
     {
       "ticker": "ANET",
       "decision": {
-        "score": 50,
-        "action": "HOLD",
+        "score": 60,
+        "action": "WATCH",
         "confidence": "MEDIUM"
       },
-      "signals": {
-        "theme_strength": 50,
-        "sector_strength": 50,
-        "catalyst": 50
+      "market": {
+        "ticker": "ANET",
+        "timestamp": "2026-07-10T23:04:37.184314",
+        "last_price": 101,
+        "vwap": 100.55,
+        "momentum": 1.0,
+        "volume": 220000,
+        "data_quality": "FOUNDATION"
       },
-      "status": "MONITOR"
+      "signal": "NEUTRAL",
+      "status": "ACTIVE"
     },
     {
       "ticker": "ASML",
       "decision": {
-        "score": 50,
-        "action": "HOLD",
+        "score": 60,
+        "action": "WATCH",
         "confidence": "MEDIUM"
       },
-      "signals": {
-        "theme_strength": 50,
-        "sector_strength": 50,
-        "catalyst": 50
+      "market": {
+        "ticker": "ASML",
+        "timestamp": "2026-07-10T23:04:37.184323",
+        "last_price": 101,
+        "vwap": 100.55,
+        "momentum": 1.0,
+        "volume": 220000,
+        "data_quality": "FOUNDATION"
       },
-      "status": "MONITOR"
+      "signal": "NEUTRAL",
+      "status": "ACTIVE"
     },
     {
       "ticker": "FN",
       "decision": {
-        "score": 50,
-        "action": "HOLD",
+        "score": 60,
+        "action": "WATCH",
         "confidence": "MEDIUM"
       },
-      "signals": {
-        "theme_strength": 50,
-        "sector_strength": 50,
-        "catalyst": 50
+      "market": {
+        "ticker": "FN",
+        "timestamp": "2026-07-10T23:04:37.184328",
+        "last_price": 101,
+        "vwap": 100.55,
+        "momentum": 1.0,
+        "volume": 220000,
+        "data_quality": "FOUNDATION"
       },
-      "status": "MONITOR"
+      "signal": "NEUTRAL",
+      "status": "ACTIVE"
     },
     {
       "ticker": "GOOG",
       "decision": {
-        "score": 50,
-        "action": "HOLD",
+        "score": 60,
+        "action": "WATCH",
         "confidence": "MEDIUM"
       },
-      "signals": {
-        "theme_strength": 50,
-        "sector_strength": 50,
-        "catalyst": 50
+      "market": {
+        "ticker": "GOOG",
+        "timestamp": "2026-07-10T23:04:37.184333",
+        "last_price": 101,
+        "vwap": 100.55,
+        "momentum": 1.0,
+        "volume": 220000,
+        "data_quality": "FOUNDATION"
       },
-      "status": "MONITOR"
+      "signal": "NEUTRAL",
+      "status": "ACTIVE"
     },
     {
       "ticker": "HROW",
       "decision": {
-        "score": 50,
-        "action": "HOLD",
+        "score": 60,
+        "action": "WATCH",
         "confidence": "MEDIUM"
       },
-      "signals": {
-        "theme_strength": 50,
-        "sector_strength": 50,
-        "catalyst": 50
+      "market": {
+        "ticker": "HROW",
+        "timestamp": "2026-07-10T23:04:37.184338",
+        "last_price": 101,
+        "vwap": 100.55,
+        "momentum": 1.0,
+        "volume": 220000,
+        "data_quality": "FOUNDATION"
       },
-      "status": "MONITOR"
+      "signal": "NEUTRAL",
+      "status": "ACTIVE"
     },
     {
       "ticker": "NBIS",
       "decision": {
-        "score": 50,
-        "action": "HOLD",
+        "score": 60,
+        "action": "WATCH",
         "confidence": "MEDIUM"
       },
-      "signals": {
-        "theme_strength": 50,
-        "sector_strength": 50,
-        "catalyst": 50
+      "market": {
+        "ticker": "NBIS",
+        "timestamp": "2026-07-10T23:04:37.184342",
+        "last_price": 101,
+        "vwap": 100.55,
+        "momentum": 1.0,
+        "volume": 220000,
+        "data_quality": "FOUNDATION"
       },
-      "status": "MONITOR"
+      "signal": "NEUTRAL",
+      "status": "ACTIVE"
     },
     {
       "ticker": "NVDA",
       "decision": {
-        "score": 50,
-        "action": "HOLD",
+        "score": 60,
+        "action": "WATCH",
         "confidence": "MEDIUM"
       },
-      "signals": {
-        "theme_strength": 50,
-        "sector_strength": 50,
-        "catalyst": 50
+      "market": {
+        "ticker": "NVDA",
+        "timestamp": "2026-07-10T23:04:37.184349",
+        "last_price": 101,
+        "vwap": 100.55,
+        "momentum": 1.0,
+        "volume": 220000,
+        "data_quality": "FOUNDATION"
       },
-      "status": "MONITOR"
+      "signal": "NEUTRAL",
+      "status": "ACTIVE"
     },
     {
       "ticker": "VRT",
       "decision": {
-        "score": 50,
-        "action": "HOLD",
+        "score": 60,
+        "action": "WATCH",
         "confidence": "MEDIUM"
       },
-      "signals": {
-        "theme_strength": 50,
-        "sector_strength": 50,
-        "catalyst": 50
+      "market": {
+        "ticker": "VRT",
+        "timestamp": "2026-07-10T23:04:37.184359",
+        "last_price": 101,
+        "vwap": 100.55,
+        "momentum": 1.0,
+        "volume": 220000,
+        "data_quality": "FOUNDATION"
       },
-      "status": "MONITOR"
+      "signal": "NEUTRAL",
+      "status": "ACTIVE"
     }
-  ],
-  "scanner_version": "V5.2"
+  ]
 }
