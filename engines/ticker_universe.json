@@ -1,0 +1,74 @@
+{
+  "AI": [
+    "NVDA",
+    "AMD",
+    "AVGO",
+    "MSFT",
+    "GOOGL",
+    "META",
+    "AMZN",
+    "PLTR"
+  ],
+
+  "Semiconductors": [
+    "NVDA",
+    "AMD",
+    "AVGO",
+    "TSM",
+    "ASML",
+    "AMAT",
+    "LRCX",
+    "KLAC"
+  ],
+
+  "Cloud_Data_Center": [
+    "MSFT",
+    "AMZN",
+    "GOOGL",
+    "ORCL",
+    "VRT",
+    "ANET",
+    "DELL",
+    "SMCI"
+  ],
+
+  "Cybersecurity": [
+    "CRWD",
+    "PANW",
+    "FTNT",
+    "ZS"
+  ],
+
+  "Energy": [
+    "XOM",
+    "CVX",
+    "CCJ",
+    "OKLO"
+  ],
+
+  "Space": [
+    "RKLB",
+    "LUNR"
+  ],
+
+  "Robotics_Automation": [
+    "TSLA",
+    "ISRG",
+    "SYM",
+    "TER"
+  ],
+
+  "Healthcare_AI": [
+    "LLY",
+    "NVO",
+    "TEM",
+    "RXST"
+  ],
+
+  "Financial_AI": [
+    "JPM",
+    "GS",
+    "MS",
+    "COF"
+  ]
+}
