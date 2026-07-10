@@ -1,13 +1,13 @@
 {
-  "generated": "2026-07-10T23:32:50.879408",
-  "scanner_version": "V5.5",
+  "generated": "2026-07-10T23:50:48.335677",
+  "scanner_version": "V5.6",
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-07-10T23:32:50.879332",
+      "timestamp": "2026-07-10T23:50:48.335588",
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-07-10T23:32:50.879313",
+        "timestamp": "2026-07-10T23:50:48.335541",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -15,23 +15,28 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "components": {
+      "scores": {
         "market_score": 30,
         "catalyst_score": 50,
         "sector_score": 50,
-        "risk_score": 50
+        "risk_score": 50,
+        "alpha_score": 42.0
       },
-      "alpha_score": 42.0,
+      "catalyst": {
+        "ticker": "AMD",
+        "catalyst_score": 50,
+        "catalysts": []
+      },
       "rating": "HOLD",
       "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-07-10T23:32:50.879344",
+      "timestamp": "2026-07-10T23:50:48.335602",
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-07-10T23:32:50.879335",
+        "timestamp": "2026-07-10T23:50:48.335592",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -39,23 +44,28 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "components": {
+      "scores": {
         "market_score": 30,
         "catalyst_score": 50,
         "sector_score": 50,
-        "risk_score": 50
+        "risk_score": 50,
+        "alpha_score": 42.0
       },
-      "alpha_score": 42.0,
+      "catalyst": {
+        "ticker": "ANET",
+        "catalyst_score": 50,
+        "catalysts": []
+      },
       "rating": "HOLD",
       "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-07-10T23:32:50.879352",
+      "timestamp": "2026-07-10T23:50:48.335611",
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-07-10T23:32:50.879346",
+        "timestamp": "2026-07-10T23:50:48.335604",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -63,23 +73,28 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "components": {
+      "scores": {
         "market_score": 30,
         "catalyst_score": 50,
         "sector_score": 50,
-        "risk_score": 50
+        "risk_score": 50,
+        "alpha_score": 42.0
       },
-      "alpha_score": 42.0,
+      "catalyst": {
+        "ticker": "ASML",
+        "catalyst_score": 50,
+        "catalysts": []
+      },
       "rating": "HOLD",
       "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "FN",
-      "timestamp": "2026-07-10T23:32:50.879359",
+      "timestamp": "2026-07-10T23:50:48.335619",
       "market": {
         "ticker": "FN",
-        "timestamp": "2026-07-10T23:32:50.879354",
+        "timestamp": "2026-07-10T23:50:48.335613",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -87,23 +102,28 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "components": {
+      "scores": {
         "market_score": 30,
         "catalyst_score": 50,
         "sector_score": 50,
-        "risk_score": 50
+        "risk_score": 50,
+        "alpha_score": 42.0
       },
-      "alpha_score": 42.0,
+      "catalyst": {
+        "ticker": "FN",
+        "catalyst_score": 50,
+        "catalysts": []
+      },
       "rating": "HOLD",
       "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-07-10T23:32:50.879365",
+      "timestamp": "2026-07-10T23:50:48.335631",
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-07-10T23:32:50.879361",
+        "timestamp": "2026-07-10T23:50:48.335625",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -111,23 +131,28 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "components": {
+      "scores": {
         "market_score": 30,
         "catalyst_score": 50,
         "sector_score": 50,
-        "risk_score": 50
+        "risk_score": 50,
+        "alpha_score": 42.0
       },
-      "alpha_score": 42.0,
+      "catalyst": {
+        "ticker": "GOOG",
+        "catalyst_score": 50,
+        "catalysts": []
+      },
       "rating": "HOLD",
       "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "HROW",
-      "timestamp": "2026-07-10T23:32:50.879372",
+      "timestamp": "2026-07-10T23:50:48.335639",
       "market": {
         "ticker": "HROW",
-        "timestamp": "2026-07-10T23:32:50.879367",
+        "timestamp": "2026-07-10T23:50:48.335633",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -135,23 +160,28 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "components": {
+      "scores": {
         "market_score": 30,
         "catalyst_score": 50,
         "sector_score": 50,
-        "risk_score": 50
+        "risk_score": 50,
+        "alpha_score": 42.0
       },
-      "alpha_score": 42.0,
+      "catalyst": {
+        "ticker": "HROW",
+        "catalyst_score": 50,
+        "catalysts": []
+      },
       "rating": "HOLD",
       "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-07-10T23:32:50.879378",
+      "timestamp": "2026-07-10T23:50:48.335646",
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-07-10T23:32:50.879374",
+        "timestamp": "2026-07-10T23:50:48.335641",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -159,23 +189,28 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "components": {
+      "scores": {
         "market_score": 30,
         "catalyst_score": 50,
         "sector_score": 50,
-        "risk_score": 50
+        "risk_score": 50,
+        "alpha_score": 42.0
       },
-      "alpha_score": 42.0,
+      "catalyst": {
+        "ticker": "NBIS",
+        "catalyst_score": 50,
+        "catalysts": []
+      },
       "rating": "HOLD",
       "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-07-10T23:32:50.879393",
+      "timestamp": "2026-07-10T23:50:48.335664",
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-07-10T23:32:50.879382",
+        "timestamp": "2026-07-10T23:50:48.335651",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -183,23 +218,28 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "components": {
+      "scores": {
         "market_score": 30,
         "catalyst_score": 50,
         "sector_score": 50,
-        "risk_score": 50
+        "risk_score": 50,
+        "alpha_score": 42.0
       },
-      "alpha_score": 42.0,
+      "catalyst": {
+        "ticker": "NVDA",
+        "catalyst_score": 50,
+        "catalysts": []
+      },
       "rating": "HOLD",
       "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-07-10T23:32:50.879405",
+      "timestamp": "2026-07-10T23:50:48.335674",
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-07-10T23:32:50.879399",
+        "timestamp": "2026-07-10T23:50:48.335667",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -207,13 +247,18 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "components": {
+      "scores": {
         "market_score": 30,
         "catalyst_score": 50,
         "sector_score": 50,
-        "risk_score": 50
+        "risk_score": 50,
+        "alpha_score": 42.0
       },
-      "alpha_score": 42.0,
+      "catalyst": {
+        "ticker": "VRT",
+        "catalyst_score": 50,
+        "catalysts": []
+      },
       "rating": "HOLD",
       "action": "NO TRADE",
       "status": "ACTIVE"
