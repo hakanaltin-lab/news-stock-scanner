@@ -1,13 +1,13 @@
 {
-  "generated": "2026-07-10T23:21:36.119582",
-  "scanner_version": "V5.4",
+  "generated": "2026-07-10T23:32:50.879408",
+  "scanner_version": "V5.5",
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-07-10T23:21:36.119522",
+      "timestamp": "2026-07-10T23:32:50.879332",
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-07-10T23:21:36.119505",
+        "timestamp": "2026-07-10T23:32:50.879313",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -15,15 +15,23 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "score": 30,
+      "components": {
+        "market_score": 30,
+        "catalyst_score": 50,
+        "sector_score": 50,
+        "risk_score": 50
+      },
+      "alpha_score": 42.0,
+      "rating": "HOLD",
+      "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-07-10T23:21:36.119532",
+      "timestamp": "2026-07-10T23:32:50.879344",
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-07-10T23:21:36.119525",
+        "timestamp": "2026-07-10T23:32:50.879335",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -31,15 +39,23 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "score": 30,
+      "components": {
+        "market_score": 30,
+        "catalyst_score": 50,
+        "sector_score": 50,
+        "risk_score": 50
+      },
+      "alpha_score": 42.0,
+      "rating": "HOLD",
+      "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-07-10T23:21:36.119539",
+      "timestamp": "2026-07-10T23:32:50.879352",
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-07-10T23:21:36.119534",
+        "timestamp": "2026-07-10T23:32:50.879346",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -47,15 +63,23 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "score": 30,
+      "components": {
+        "market_score": 30,
+        "catalyst_score": 50,
+        "sector_score": 50,
+        "risk_score": 50
+      },
+      "alpha_score": 42.0,
+      "rating": "HOLD",
+      "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "FN",
-      "timestamp": "2026-07-10T23:21:36.119545",
+      "timestamp": "2026-07-10T23:32:50.879359",
       "market": {
         "ticker": "FN",
-        "timestamp": "2026-07-10T23:21:36.119540",
+        "timestamp": "2026-07-10T23:32:50.879354",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -63,15 +87,23 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "score": 30,
+      "components": {
+        "market_score": 30,
+        "catalyst_score": 50,
+        "sector_score": 50,
+        "risk_score": 50
+      },
+      "alpha_score": 42.0,
+      "rating": "HOLD",
+      "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-07-10T23:21:36.119550",
+      "timestamp": "2026-07-10T23:32:50.879365",
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-07-10T23:21:36.119546",
+        "timestamp": "2026-07-10T23:32:50.879361",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -79,15 +111,23 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "score": 30,
+      "components": {
+        "market_score": 30,
+        "catalyst_score": 50,
+        "sector_score": 50,
+        "risk_score": 50
+      },
+      "alpha_score": 42.0,
+      "rating": "HOLD",
+      "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "HROW",
-      "timestamp": "2026-07-10T23:21:36.119556",
+      "timestamp": "2026-07-10T23:32:50.879372",
       "market": {
         "ticker": "HROW",
-        "timestamp": "2026-07-10T23:21:36.119551",
+        "timestamp": "2026-07-10T23:32:50.879367",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -95,15 +135,23 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "score": 30,
+      "components": {
+        "market_score": 30,
+        "catalyst_score": 50,
+        "sector_score": 50,
+        "risk_score": 50
+      },
+      "alpha_score": 42.0,
+      "rating": "HOLD",
+      "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-07-10T23:21:36.119561",
+      "timestamp": "2026-07-10T23:32:50.879378",
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-07-10T23:21:36.119557",
+        "timestamp": "2026-07-10T23:32:50.879374",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -111,15 +159,23 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "score": 30,
+      "components": {
+        "market_score": 30,
+        "catalyst_score": 50,
+        "sector_score": 50,
+        "risk_score": 50
+      },
+      "alpha_score": 42.0,
+      "rating": "HOLD",
+      "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-07-10T23:21:36.119574",
+      "timestamp": "2026-07-10T23:32:50.879393",
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-07-10T23:21:36.119564",
+        "timestamp": "2026-07-10T23:32:50.879382",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -127,15 +183,23 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "score": 30,
+      "components": {
+        "market_score": 30,
+        "catalyst_score": 50,
+        "sector_score": 50,
+        "risk_score": 50
+      },
+      "alpha_score": 42.0,
+      "rating": "HOLD",
+      "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-07-10T23:21:36.119581",
+      "timestamp": "2026-07-10T23:32:50.879405",
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-07-10T23:21:36.119575",
+        "timestamp": "2026-07-10T23:32:50.879399",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -143,7 +207,15 @@
         "data_quality": "FOUNDATION"
       },
       "signal": "NEUTRAL",
-      "score": 30,
+      "components": {
+        "market_score": 30,
+        "catalyst_score": 50,
+        "sector_score": 50,
+        "risk_score": 50
+      },
+      "alpha_score": 42.0,
+      "rating": "HOLD",
+      "action": "NO TRADE",
       "status": "ACTIVE"
     }
   ]
