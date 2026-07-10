@@ -30,7 +30,7 @@ class MarketScanner:
     ):
     technical_score = 50
 
-alpha_score = calculate_alpha_score(
+    alpha_score = calculate_alpha_score(
     ticker=ticker,
     catalyst=news_score,
     sector=sector_score,
