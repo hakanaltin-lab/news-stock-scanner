@@ -1,0 +1,42 @@
+[
+  {
+    "ticker": "NVDA",
+    "sector": "Technology",
+    "industry": "Semiconductors"
+  },
+  {
+    "ticker": "AMD",
+    "sector": "Technology",
+    "industry": "Semiconductors"
+  },
+  {
+    "ticker": "LLY",
+    "sector": "Healthcare",
+    "industry": "Pharmaceuticals"
+  },
+  {
+    "ticker": "XOM",
+    "sector": "Energy",
+    "industry": "Oil & Gas"
+  },
+  {
+    "ticker": "JPM",
+    "sector": "Financials",
+    "industry": "Banking"
+  },
+  {
+    "ticker": "CAT",
+    "sector": "Industrials",
+    "industry": "Machinery"
+  },
+  {
+    "ticker": "VRT",
+    "sector": "Industrials",
+    "industry": "Data Center Infrastructure"
+  },
+  {
+    "ticker": "ANET",
+    "sector": "Technology",
+    "industry": "Networking"
+  }
+]
