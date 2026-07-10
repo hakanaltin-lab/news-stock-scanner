@@ -21,24 +21,15 @@ def load_portfolio():
     if not os.path.exists(PORTFOLIO_FILE):
         return portfolio
 
-    with open(PORTFOLIO_FILE, newline="", encoding="utf-8") as file:
+    with open(PORTFOLIO_FILE, "r", encoding="utf-8") as file:
 
         reader = csv.DictReader(file)
 
         for row in reader:
-
-            portfolio.append(
-                {
-                    "ticker": row["ticker"],
-                    "shares": int(row["shares"]),
-                    "avg_cost": float(row["avg_cost"]),
-                    "sector": row.get("sector", ""),
-                    "theme": row.get("theme", ""),
-                    "status": row.get("status", "HOLD")
-                }
-            )
+            portfolio.append(row)
 
     return portfolio
+
 
 
 def load_universe():
@@ -46,28 +37,14 @@ def load_universe():
     if not os.path.exists(UNIVERSE_FILE):
         return []
 
-    with open(UNIVERSE_FILE, encoding="utf-8") as file:
+    with open(
+        UNIVERSE_FILE,
+        "r",
+        encoding="utf-8"
+    ) as file:
 
         return json.load(file)
 
-
-def calculate_score(stock):
-
-    score = 50
-
-    theme = stock.get("theme", "").lower()
-    sector = stock.get("sector", "").lower()
-
-    if "ai" in theme:
-        score += 10
-
-    if "semiconductor" in sector:
-        score += 10
-
-    if "cloud" in theme:
-        score += 5
-
-    return min(score, 100)
 
 
 def generate_portfolio_intelligence(portfolio):
@@ -76,46 +53,51 @@ def generate_portfolio_intelligence(portfolio):
 
     for stock in portfolio:
 
-        score = calculate_score(stock)
+        intelligence.append({
 
-        if score >= 80:
-            action = "ACCUMULATE"
+            "ticker": stock.get("ticker"),
 
-        elif score >= 60:
-            action = "HOLD"
+            "decision": {
 
-        else:
-            action = "REVIEW"
+                "score": 50,
 
+                "action": "HOLD",
 
-        intelligence.append(
-            {
-                "ticker": stock["ticker"],
+                "confidence": "MEDIUM"
 
-                "position": {
-                    "shares": stock["shares"],
-                    "avg_cost": stock["avg_cost"],
-                    "sector": stock["sector"],
-                    "theme": stock["theme"],
-                    "status": stock["status"]
-                },
+            },
 
-                "decision": {
-                    "score": score,
-                    "action": action,
-                    "confidence": "MEDIUM"
-                },
+            "signals": {
 
-                "signals": {
-                    "theme_strength": score,
-                    "sector_strength": score - 5,
-                    "catalyst": score
-                }
+                "theme_strength": 50,
+
+                "sector_strength": 45,
+
+                "catalyst": 50
+
+            },
+
+            "position": {
+
+                "shares": stock.get("shares"),
+
+                "avg_cost": stock.get("avg_cost"),
+
+                "sector": stock.get("sector"),
+
+                "theme": stock.get("theme"),
+
+                "status": stock.get("status")
+
             }
-        )
+
+        })
 
     return intelligence
-    def run_scanner():
+
+
+
+def run_scanner():
 
     portfolio = load_portfolio()
 
