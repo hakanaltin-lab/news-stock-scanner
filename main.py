@@ -1,17 +1,17 @@
 """
-V5.1 Global Market Intelligence Scanner
-
-Portfolio Intelligence Engine
+V5.2 Global Market Intelligence Scanner
+Main Controller
 """
 
-import csv
-import json
 import os
+import json
+import csv
 from datetime import datetime
 
 
 PORTFOLIO_FILE = "data/portfolio.csv"
 UNIVERSE_FILE = "data/us_universe.json"
+OUTPUT_FILE = "docs/latest.json"
 
 
 def load_portfolio():
@@ -31,7 +31,6 @@ def load_portfolio():
     return portfolio
 
 
-
 def load_universe():
 
     if not os.path.exists(UNIVERSE_FILE):
@@ -46,23 +45,25 @@ def load_universe():
         return json.load(file)
 
 
+def generate_intelligence(portfolio):
 
-def generate_portfolio_intelligence(portfolio):
-
-    intelligence = []
+    results = []
 
     for stock in portfolio:
 
-        intelligence.append({
+        ticker = stock.get(
+            "ticker",
+            "UNKNOWN"
+        )
 
-            "ticker": stock.get("ticker"),
+        item = {
+
+            "ticker": ticker,
 
             "decision": {
 
                 "score": 50,
-
                 "action": "HOLD",
-
                 "confidence": "MEDIUM"
 
             },
@@ -70,30 +71,19 @@ def generate_portfolio_intelligence(portfolio):
             "signals": {
 
                 "theme_strength": 50,
-
-                "sector_strength": 45,
-
+                "sector_strength": 50,
                 "catalyst": 50
 
             },
 
-            "position": {
+            "status": "MONITOR"
 
-                "shares": stock.get("shares"),
+        }
 
-                "avg_cost": stock.get("avg_cost"),
+        results.append(item)
 
-                "sector": stock.get("sector"),
 
-                "theme": stock.get("theme"),
-
-                "status": stock.get("status")
-
-            }
-
-        })
-
-    return intelligence
+    return results
 
 
 
@@ -114,18 +104,21 @@ def run_scanner():
     )
 
 
-    intelligence = generate_portfolio_intelligence(
+    intelligence = generate_intelligence(
         portfolio
     )
 
 
     output = {
 
-        "generated": datetime.utcnow().isoformat(),
+        "generated":
+            datetime.utcnow().isoformat(),
 
-        "portfolio": intelligence,
+        "portfolio":
+            intelligence,
 
-        "scanner_version": "V5.1"
+        "scanner_version":
+            "V5.2"
 
     }
 
@@ -137,7 +130,7 @@ def run_scanner():
 
 
     with open(
-        "docs/latest.json",
+        OUTPUT_FILE,
         "w",
         encoding="utf-8"
     ) as file:
@@ -151,7 +144,7 @@ def run_scanner():
 
 
     print(
-        "V5.1 Scanner completed successfully"
+        "V5.2 Scanner completed successfully"
     )
 
 
