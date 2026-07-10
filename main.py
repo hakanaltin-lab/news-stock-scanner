@@ -34,7 +34,7 @@ def load_portfolio():
                     "avg_cost": float(row["avg_cost"]),
                     "sector": row.get("sector", ""),
                     "theme": row.get("theme", ""),
-                    "status": row.get("status", "HOLD"),
+                    "status": row.get("status", "HOLD")
                 }
             )
 
@@ -51,7 +51,7 @@ def load_universe():
         return json.load(file)
 
 
-def score_stock(stock):
+def calculate_score(stock):
 
     score = 50
 
@@ -59,24 +59,15 @@ def score_stock(stock):
     sector = stock.get("sector", "").lower()
 
     if "ai" in theme:
-        score += 15
+        score += 10
 
     if "semiconductor" in sector:
         score += 10
 
     if "cloud" in theme:
-        score += 10
+        score += 5
 
-    if score >= 75:
-        action = "ACCUMULATE"
-
-    elif score >= 60:
-        action = "WATCH"
-
-    else:
-        action = "HOLD"
-
-    return score, action
+    return min(score, 100)
 
 
 def generate_portfolio_intelligence(portfolio):
@@ -85,60 +76,75 @@ def generate_portfolio_intelligence(portfolio):
 
     for stock in portfolio:
 
-        ticker = stock["ticker"]
+        score = calculate_score(stock)
 
-        score, action = score_stock(stock)
+        if score >= 80:
+            action = "ACCUMULATE"
+
+        elif score >= 60:
+            action = "HOLD"
+
+        else:
+            action = "REVIEW"
+
 
         intelligence.append(
             {
-                "ticker": ticker,
-
-                "decision": {
-                    "score": score,
-                    "action": action,
-                    "confidence": "MEDIUM",
-                },
-
-                "signals": {
-                    "theme_strength": score,
-                    "sector_strength": score - 5,
-                    "catalyst": score,
-                },
+                "ticker": stock["ticker"],
 
                 "position": {
                     "shares": stock["shares"],
                     "avg_cost": stock["avg_cost"],
                     "sector": stock["sector"],
                     "theme": stock["theme"],
-                    "status": stock["status"],
+                    "status": stock["status"]
                 },
+
+                "decision": {
+                    "score": score,
+                    "action": action,
+                    "confidence": "MEDIUM"
+                },
+
+                "signals": {
+                    "theme_strength": score,
+                    "sector_strength": score - 5,
+                    "catalyst": score
+                }
             }
         )
 
     return intelligence
-
-
-def run_scanner():
+    def run_scanner():
 
     portfolio = load_portfolio()
 
     universe = load_universe()
 
+
     print(
         f"Portfolio loaded: {len(portfolio)} stocks"
     )
+
 
     print(
         f"Universe loaded: {len(universe)} stocks"
     )
 
+
     intelligence = generate_portfolio_intelligence(
         portfolio
     )
-        output = {
+
+
+    output = {
+
         "generated": datetime.utcnow().isoformat(),
+
         "portfolio": intelligence,
+
         "scanner_version": "V5.1"
+
     }
 
 
