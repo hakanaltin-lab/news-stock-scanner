@@ -1,23 +1,23 @@
 """
-V3 Market Intelligence Scanner Core
+V3 Market Scanner Core Engine
 
 Combines:
-- News Catalyst Engine
-- Sector Momentum Engine
-- Price Action Engine
-- Alpha Ranking Engine
-- Risk Management Engine
-- Portfolio Selection Engine
+- Catalyst
+- Sector Momentum
+- Price Action
+- Technical Score
+- Quality
+- Risk
 """
 
 from engines.alpha_engine import calculate_alpha_score
-from engines.risk_engine import calculate_risk_score
 
 
 class MarketScanner:
 
     def __init__(self):
         self.version = "V3"
+
 
     def scan_stock(
         self,
@@ -28,27 +28,31 @@ class MarketScanner:
         quality_score,
         risk_score
     ):
-    technical_score = 50
 
-    alpha_score = calculate_alpha_score(
-    ticker=ticker,
-    catalyst=news_score,
-    sector=sector_score,
-    price_action=price_score,
-    technical=technical_score,
-    quality=quality_score,
-    risk=risk_score
-)
+        # Temporary technical engine
+        # Will be replaced with live indicators later
+        technical_score = 50
 
-        final_risk = calculate_risk_score(
+
+        alpha_score = calculate_alpha_score(
             ticker=ticker,
-            risk_score=risk_score
+            catalyst=news_score,
+            sector=sector_score,
+            price_action=price_score,
+            technical=technical_score,
+            quality=quality_score,
+            risk=risk_score
         )
+
+
+        final_risk = risk_score
+
 
         return {
             "ticker": ticker,
             "alpha_score": alpha_score,
-            "risk_score": final_risk
+            "risk_score": final_risk,
+            "technical_score": technical_score
         }
 
 
@@ -60,14 +64,15 @@ class MarketScanner:
 
             result = self.scan_stock(
                 ticker=stock["ticker"],
-                news_score=stock["news"],
-                sector_score=stock["sector"],
-                price_score=stock["price"],
-                quality_score=stock["quality"],
-                risk_score=stock["risk"]
+                news_score=stock.get("news_score", 50),
+                sector_score=stock.get("sector_score", 50),
+                price_score=stock.get("price_score", 50),
+                quality_score=stock.get("quality_score", 50),
+                risk_score=stock.get("risk_score", 50)
             )
 
             results.append(result)
+
 
         return sorted(
             results,
