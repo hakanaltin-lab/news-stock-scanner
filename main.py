@@ -136,13 +136,9 @@ def run_scanner():
         portfolio
     )
         output = {
-
         "generated": datetime.utcnow().isoformat(),
-
         "portfolio": intelligence,
-
         "scanner_version": "V5.1"
-
     }
 
 
