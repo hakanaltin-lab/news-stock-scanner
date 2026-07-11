@@ -1,15 +1,17 @@
 """
-V5.2 Market Data Engine
+V5.8 Market Data Intelligence Engine
 
-Foundation layer for:
-- Price data
-- OHLCV structure
-- Momentum calculation
+Functions:
+- Live market data layer
+- Price intelligence
 - VWAP calculation
-- Volume intelligence
+- Momentum analysis
+- Market snapshot generation
 """
 
 from datetime import datetime
+
+import yfinance as yf
 
 
 def calculate_vwap(prices, volumes):
@@ -30,80 +32,180 @@ def calculate_vwap(prices, volumes):
         for price, volume in zip(prices, volumes)
     )
 
-    return round(weighted_sum / total_volume, 2)
-
+    return round(
+        weighted_sum / total_volume,
+        2
+    )
 
 
 def calculate_momentum(prices):
     """
-    Simple momentum calculation
+    Basic momentum calculation
     """
 
     if len(prices) < 2:
         return 0
 
-    first = prices[0]
-    last = prices[-1]
+    return round(
+        prices[-1] - prices[0],
+        2
+    )
 
-    if first == 0:
-        return 0
 
-    momentum = ((last - first) / first) * 100
+def get_live_market_data(ticker):
+    """
+    Retrieve live market data
 
-    return round(momentum, 2)
+    Future expansion:
+    - Real time feed
+    - IBKR API
+    - Alpaca API
+    """
+
+    try:
+
+        stock = yf.Ticker(ticker)
+
+        data = stock.history(
+            period="5d",
+            interval="15m"
+        )
+
+
+        if data.empty:
+
+            return {
+                "ticker": ticker,
+                "data_quality": "NO_DATA"
+            }
+
+
+        latest = data.iloc[-1]
+
+
+        return {
+
+            "ticker": ticker,
+
+            "last_price":
+                round(
+                    float(latest["Close"]),
+                    2
+                ),
+
+            "volume":
+                int(
+                    latest["Volume"]
+                ),
+
+            "high":
+                round(
+                    float(latest["High"]),
+                    2
+                ),
+
+            "low":
+                round(
+                    float(latest["Low"]),
+                    2
+                ),
+
+            "open":
+                round(
+                    float(latest["Open"]),
+                    2
+                ),
+
+            "data_quality":
+                "LIVE"
+
+        }
+
+
+    except Exception as e:
+
+
+        return {
+
+            "ticker": ticker,
+
+            "error":
+                str(e),
+
+            "data_quality":
+                "ERROR"
+
+        }
 
 
 
 def build_market_snapshot(
-    ticker,
-    prices,
-    volumes
+        ticker,
+        prices,
+        volumes
 ):
+
     """
     Creates market intelligence snapshot
     """
 
+
     snapshot = {
 
-        "ticker": ticker,
 
-        "timestamp": datetime.utcnow().isoformat(),
+        "ticker":
+            ticker,
 
-        "last_price": prices[-1] if prices else None,
 
-        "vwap": calculate_vwap(
-            prices,
-            volumes
-        ),
+        "timestamp":
+            datetime.utcnow().isoformat(),
 
-        "momentum": calculate_momentum(
-            prices
-        ),
 
-        "volume": sum(volumes),
+        "last_price":
+            prices[-1]
+            if prices
+            else None,
 
-        "data_quality": "FOUNDATION"
+
+        "vwap":
+            calculate_vwap(
+                prices,
+                volumes
+            ),
+
+
+        "momentum":
+            calculate_momentum(
+                prices
+            ),
+
+
+        "volume":
+            sum(volumes),
+
+
+        "data_quality":
+            "FOUNDATION"
 
     }
+
 
     return snapshot
 
 
 
 def get_market_signal(snapshot):
+
     """
     Basic market interpretation layer
     """
+
 
     momentum = snapshot.get(
         "momentum",
         0
     )
 
-    vwap = snapshot.get(
-        "vwap",
-        0
-    )
 
     price = snapshot.get(
         "last_price",
@@ -111,32 +213,22 @@ def get_market_signal(snapshot):
     )
 
 
-    if price > vwap and momentum > 1:
+    vwap = snapshot.get(
+        "vwap",
+        0
+    )
+
+
+    if price > vwap and momentum > 0:
+
         return "BULLISH"
 
 
-    if price < vwap and momentum < -1:
+    elif price < vwap and momentum < 0:
+
         return "BEARISH"
 
 
-    return "NEUTRAL"
+    else:
 
-
-
-def run_market_engine(
-    ticker,
-    prices,
-    volumes
-):
-
-    snapshot = build_market_snapshot(
-        ticker,
-        prices,
-        volumes
-    )
-
-    snapshot["signal"] = get_market_signal(
-        snapshot
-    )
-
-    return snapshot
+        return "NEUTRAL"
