@@ -1,20 +1,20 @@
 {
-  "generated": "2026-07-11T00:02:05.901560",
+  "generated": "2026-07-11T00:11:06.290770",
   "scanner_version": "V5.7",
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-07-11T00:02:05.901438",
+      "timestamp": "2026-07-11T00:11:06.290521",
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-07-11T00:02:05.901412",
+        "timestamp": "2026-07-11T00:11:06.290493",
         "last_price": 101,
         "vwap": 100.55,
-        "momentum": 1.0,
+        "momentum": 1,
         "volume": 220000,
         "data_quality": "FOUNDATION"
       },
-      "signal": "NEUTRAL",
+      "signal": "BULLISH",
       "scores": {
         "market_score": 30,
         "news_score": 50,
@@ -39,17 +39,17 @@
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-07-11T00:02:05.901458",
+      "timestamp": "2026-07-11T00:11:06.290541",
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-07-11T00:02:05.901443",
+        "timestamp": "2026-07-11T00:11:06.290527",
         "last_price": 101,
         "vwap": 100.55,
-        "momentum": 1.0,
+        "momentum": 1,
         "volume": 220000,
         "data_quality": "FOUNDATION"
       },
-      "signal": "NEUTRAL",
+      "signal": "BULLISH",
       "scores": {
         "market_score": 30,
         "news_score": 50,
@@ -74,17 +74,17 @@
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-07-11T00:02:05.901472",
+      "timestamp": "2026-07-11T00:11:06.290556",
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-07-11T00:02:05.901462",
+        "timestamp": "2026-07-11T00:11:06.290546",
         "last_price": 101,
         "vwap": 100.55,
-        "momentum": 1.0,
+        "momentum": 1,
         "volume": 220000,
         "data_quality": "FOUNDATION"
       },
-      "signal": "NEUTRAL",
+      "signal": "BULLISH",
       "scores": {
         "market_score": 30,
         "news_score": 50,
@@ -109,17 +109,17 @@
     },
     {
       "ticker": "FN",
-      "timestamp": "2026-07-11T00:02:05.901484",
+      "timestamp": "2026-07-11T00:11:06.290569",
       "market": {
         "ticker": "FN",
-        "timestamp": "2026-07-11T00:02:05.901475",
+        "timestamp": "2026-07-11T00:11:06.290559",
         "last_price": 101,
         "vwap": 100.55,
-        "momentum": 1.0,
+        "momentum": 1,
         "volume": 220000,
         "data_quality": "FOUNDATION"
       },
-      "signal": "NEUTRAL",
+      "signal": "BULLISH",
       "scores": {
         "market_score": 30,
         "news_score": 50,
@@ -144,17 +144,17 @@
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-07-11T00:02:05.901496",
+      "timestamp": "2026-07-11T00:11:06.290581",
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-07-11T00:02:05.901487",
+        "timestamp": "2026-07-11T00:11:06.290572",
         "last_price": 101,
         "vwap": 100.55,
-        "momentum": 1.0,
+        "momentum": 1,
         "volume": 220000,
         "data_quality": "FOUNDATION"
       },
-      "signal": "NEUTRAL",
+      "signal": "BULLISH",
       "scores": {
         "market_score": 30,
         "news_score": 50,
@@ -179,17 +179,17 @@
     },
     {
       "ticker": "HROW",
-      "timestamp": "2026-07-11T00:02:05.901508",
+      "timestamp": "2026-07-11T00:11:06.290593",
       "market": {
         "ticker": "HROW",
-        "timestamp": "2026-07-11T00:02:05.901500",
+        "timestamp": "2026-07-11T00:11:06.290584",
         "last_price": 101,
         "vwap": 100.55,
-        "momentum": 1.0,
+        "momentum": 1,
         "volume": 220000,
         "data_quality": "FOUNDATION"
       },
-      "signal": "NEUTRAL",
+      "signal": "BULLISH",
       "scores": {
         "market_score": 30,
         "news_score": 50,
@@ -214,17 +214,17 @@
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-07-11T00:02:05.901519",
+      "timestamp": "2026-07-11T00:11:06.290723",
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-07-11T00:02:05.901511",
+        "timestamp": "2026-07-11T00:11:06.290596",
         "last_price": 101,
         "vwap": 100.55,
-        "momentum": 1.0,
+        "momentum": 1,
         "volume": 220000,
         "data_quality": "FOUNDATION"
       },
-      "signal": "NEUTRAL",
+      "signal": "BULLISH",
       "scores": {
         "market_score": 30,
         "news_score": 50,
@@ -249,17 +249,17 @@
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-07-11T00:02:05.901543",
+      "timestamp": "2026-07-11T00:11:06.290750",
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-07-11T00:02:05.901526",
+        "timestamp": "2026-07-11T00:11:06.290732",
         "last_price": 101,
         "vwap": 100.55,
-        "momentum": 1.0,
+        "momentum": 1,
         "volume": 220000,
         "data_quality": "FOUNDATION"
       },
-      "signal": "NEUTRAL",
+      "signal": "BULLISH",
       "scores": {
         "market_score": 30,
         "news_score": 50,
@@ -284,17 +284,17 @@
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-07-11T00:02:05.901558",
+      "timestamp": "2026-07-11T00:11:06.290768",
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-07-11T00:02:05.901547",
+        "timestamp": "2026-07-11T00:11:06.290755",
         "last_price": 101,
         "vwap": 100.55,
-        "momentum": 1.0,
+        "momentum": 1,
         "volume": 220000,
         "data_quality": "FOUNDATION"
       },
-      "signal": "NEUTRAL",
+      "signal": "BULLISH",
       "scores": {
         "market_score": 30,
         "news_score": 50,
