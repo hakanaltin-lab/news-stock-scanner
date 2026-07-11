@@ -1,13 +1,13 @@
 {
-  "generated": "2026-07-10T23:50:48.335677",
-  "scanner_version": "V5.6",
+  "generated": "2026-07-11T00:02:05.901560",
+  "scanner_version": "V5.7",
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-07-10T23:50:48.335588",
+      "timestamp": "2026-07-11T00:02:05.901438",
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-07-10T23:50:48.335541",
+        "timestamp": "2026-07-11T00:02:05.901412",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -17,10 +17,16 @@
       "signal": "NEUTRAL",
       "scores": {
         "market_score": 30,
+        "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
         "alpha_score": 42.0
+      },
+      "news": {
+        "ticker": "AMD",
+        "news_score": 50,
+        "events": []
       },
       "catalyst": {
         "ticker": "AMD",
@@ -33,10 +39,10 @@
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-07-10T23:50:48.335602",
+      "timestamp": "2026-07-11T00:02:05.901458",
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-07-10T23:50:48.335592",
+        "timestamp": "2026-07-11T00:02:05.901443",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -46,10 +52,16 @@
       "signal": "NEUTRAL",
       "scores": {
         "market_score": 30,
+        "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
         "alpha_score": 42.0
+      },
+      "news": {
+        "ticker": "ANET",
+        "news_score": 50,
+        "events": []
       },
       "catalyst": {
         "ticker": "ANET",
@@ -62,10 +74,10 @@
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-07-10T23:50:48.335611",
+      "timestamp": "2026-07-11T00:02:05.901472",
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-07-10T23:50:48.335604",
+        "timestamp": "2026-07-11T00:02:05.901462",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -75,10 +87,16 @@
       "signal": "NEUTRAL",
       "scores": {
         "market_score": 30,
+        "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
         "alpha_score": 42.0
+      },
+      "news": {
+        "ticker": "ASML",
+        "news_score": 50,
+        "events": []
       },
       "catalyst": {
         "ticker": "ASML",
@@ -91,10 +109,10 @@
     },
     {
       "ticker": "FN",
-      "timestamp": "2026-07-10T23:50:48.335619",
+      "timestamp": "2026-07-11T00:02:05.901484",
       "market": {
         "ticker": "FN",
-        "timestamp": "2026-07-10T23:50:48.335613",
+        "timestamp": "2026-07-11T00:02:05.901475",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -104,10 +122,16 @@
       "signal": "NEUTRAL",
       "scores": {
         "market_score": 30,
+        "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
         "alpha_score": 42.0
+      },
+      "news": {
+        "ticker": "FN",
+        "news_score": 50,
+        "events": []
       },
       "catalyst": {
         "ticker": "FN",
@@ -120,10 +144,10 @@
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-07-10T23:50:48.335631",
+      "timestamp": "2026-07-11T00:02:05.901496",
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-07-10T23:50:48.335625",
+        "timestamp": "2026-07-11T00:02:05.901487",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -133,10 +157,16 @@
       "signal": "NEUTRAL",
       "scores": {
         "market_score": 30,
+        "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
         "alpha_score": 42.0
+      },
+      "news": {
+        "ticker": "GOOG",
+        "news_score": 50,
+        "events": []
       },
       "catalyst": {
         "ticker": "GOOG",
@@ -149,10 +179,10 @@
     },
     {
       "ticker": "HROW",
-      "timestamp": "2026-07-10T23:50:48.335639",
+      "timestamp": "2026-07-11T00:02:05.901508",
       "market": {
         "ticker": "HROW",
-        "timestamp": "2026-07-10T23:50:48.335633",
+        "timestamp": "2026-07-11T00:02:05.901500",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -162,10 +192,16 @@
       "signal": "NEUTRAL",
       "scores": {
         "market_score": 30,
+        "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
         "alpha_score": 42.0
+      },
+      "news": {
+        "ticker": "HROW",
+        "news_score": 50,
+        "events": []
       },
       "catalyst": {
         "ticker": "HROW",
@@ -178,10 +214,10 @@
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-07-10T23:50:48.335646",
+      "timestamp": "2026-07-11T00:02:05.901519",
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-07-10T23:50:48.335641",
+        "timestamp": "2026-07-11T00:02:05.901511",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -191,10 +227,16 @@
       "signal": "NEUTRAL",
       "scores": {
         "market_score": 30,
+        "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
         "alpha_score": 42.0
+      },
+      "news": {
+        "ticker": "NBIS",
+        "news_score": 50,
+        "events": []
       },
       "catalyst": {
         "ticker": "NBIS",
@@ -207,10 +249,10 @@
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-07-10T23:50:48.335664",
+      "timestamp": "2026-07-11T00:02:05.901543",
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-07-10T23:50:48.335651",
+        "timestamp": "2026-07-11T00:02:05.901526",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -220,10 +262,16 @@
       "signal": "NEUTRAL",
       "scores": {
         "market_score": 30,
+        "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
         "alpha_score": 42.0
+      },
+      "news": {
+        "ticker": "NVDA",
+        "news_score": 50,
+        "events": []
       },
       "catalyst": {
         "ticker": "NVDA",
@@ -236,10 +284,10 @@
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-07-10T23:50:48.335674",
+      "timestamp": "2026-07-11T00:02:05.901558",
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-07-10T23:50:48.335667",
+        "timestamp": "2026-07-11T00:02:05.901547",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1.0,
@@ -249,10 +297,16 @@
       "signal": "NEUTRAL",
       "scores": {
         "market_score": 30,
+        "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
         "alpha_score": 42.0
+      },
+      "news": {
+        "ticker": "VRT",
+        "news_score": 50,
+        "events": []
       },
       "catalyst": {
         "ticker": "VRT",
