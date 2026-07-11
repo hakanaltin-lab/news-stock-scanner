@@ -1,195 +1,236 @@
 """
-V6.8 Market Regime Engine
+V8.6 Market Regime Intelligence Engine
 
-Market environment intelligence layer.
+Purpose:
+Determine current market environment
+for autonomous CIO decision making.
 
 Functions:
-- Bull / Bear detection
-- Volatility regime
-- Risk environment
-- Strategy adjustment
+- Market trend analysis
+- Volatility assessment
+- Breadth evaluation
+- Risk appetite detection
+- CIO exposure recommendation
 """
 
 
 from datetime import datetime
 
 
-BULL_THRESHOLD = 1.05
-BEAR_THRESHOLD = 0.95
 
-
-
-def detect_market_regime(
-    index_price,
-    moving_average,
-    volatility
+def calculate_trend_score(
+    sp500_trend,
+    nasdaq_trend
 ):
     """
-    Determines current market regime
+    Evaluate index trend strength
+    """
+
+    score = (
+
+        sp500_trend * 0.5
+
+        +
+
+        nasdaq_trend * 0.5
+
+    )
+
+    return round(score)
+
+
+
+
+def calculate_volatility_score(
+    vix_level
+):
+    """
+    Evaluate volatility environment
     """
 
 
-    if moving_average == 0:
+    if vix_level < 15:
 
-        return {
-            "regime": "UNKNOWN",
-            "confidence": 0
-        }
+        return 90
 
 
-    trend_ratio = index_price / moving_average
+    elif vix_level < 20:
+
+        return 75
 
 
-    if trend_ratio >= BULL_THRESHOLD:
+    elif vix_level < 30:
 
-        regime = "BULL"
-
-
-    elif trend_ratio <= BEAR_THRESHOLD:
-
-        regime = "BEAR"
+        return 50
 
 
     else:
 
-        regime = "SIDEWAYS"
+        return 25
 
 
 
-    if volatility > 0.30:
 
-        volatility_state = "HIGH_VOLATILITY"
 
-    elif volatility > 0.15:
+def determine_regime(
+    trend_score,
+    volatility_score,
+    breadth_score
+):
+    """
+    Generate market regime
+    """
 
-        volatility_state = "NORMAL_VOLATILITY"
+
+    total_score = round(
+
+        trend_score * 0.45
+
+        +
+
+        volatility_score * 0.30
+
+        +
+
+        breadth_score * 0.25
+
+    )
+
+
+
+    if total_score >= 80:
+
+        regime = "BULLISH"
+
+        action = "INCREASE_EQUITY_EXPOSURE"
+
+
+
+    elif total_score >= 60:
+
+        regime = "NEUTRAL"
+
+        action = "SELECTIVE_BUYING"
+
+
+
+    elif total_score >= 40:
+
+        regime = "CAUTION"
+
+        action = "REDUCE_NEW_POSITIONS"
+
+
 
     else:
 
-        volatility_state = "LOW_VOLATILITY"
+        regime = "RISK_OFF"
+
+        action = "RAISE_CASH"
 
 
 
     return {
 
-        "timestamp":
-        datetime.utcnow().isoformat(),
-
-        "regime":
-        regime,
-
-        "volatility":
-        volatility_state,
-
-        "trend_ratio":
-        round(trend_ratio,4),
-
-        "confidence":
-        calculate_confidence(
-            trend_ratio,
-            volatility
-        )
-
-    }
-
-
-
-
-def calculate_confidence(
-    trend_ratio,
-    volatility
-):
-    """
-    Calculates regime confidence score
-    """
-
-
-    score = 50
-
-
-    if trend_ratio > 1.05 or trend_ratio < 0.95:
-
-        score += 25
-
-
-    if volatility < 0.30:
-
-        score += 15
-
-
-    return min(score,100)
-
-
-
-
-def strategy_adjustment(
-    regime
-):
-    """
-    Adjusts strategy according to market condition
-    """
-
-
-    if regime == "BULL":
-
-        return {
-
-            "risk_multiplier": 1.2,
-
-            "allocation":
-            "AGGRESSIVE"
-
-        }
-
-
-    if regime == "BEAR":
-
-        return {
-
-            "risk_multiplier": 0.5,
-
-            "allocation":
-            "DEFENSIVE"
-
-        }
-
-
-
-    return {
-
-        "risk_multiplier": 0.8,
-
-        "allocation":
-        "BALANCED"
-
-    }
-
-
-
-
-def market_regime_snapshot(
-    regime_data
-):
-    """
-    Creates market intelligence snapshot
-    """
-
-    return {
-
-        "engine":
-        "V6.8",
-
-        "timestamp":
-        datetime.utcnow().isoformat(),
 
         "market_regime":
-        regime_data.get(
-            "regime"
-        ),
 
-        "volatility":
-        regime_data.get(
-            "volatility"
-        )
+        regime,
+
+
+        "confidence":
+
+        total_score,
+
+
+        "cio_action":
+
+        action
+
+    }
+
+
+
+
+
+def analyze_market_environment(
+    sp500_trend,
+    nasdaq_trend,
+    vix_level,
+    breadth_score
+):
+    """
+    Main V8.6 Market Intelligence Function
+    """
+
+
+    trend_score = calculate_trend_score(
+
+        sp500_trend,
+
+        nasdaq_trend
+
+    )
+
+
+
+    volatility_score = calculate_volatility_score(
+
+        vix_level
+
+    )
+
+
+
+    regime = determine_regime(
+
+        trend_score,
+
+        volatility_score,
+
+        breadth_score
+
+    )
+
+
+
+    return {
+
+
+        "engine":
+
+        "V8.6 Market Regime Intelligence Engine",
+
+
+        "timestamp":
+
+        datetime.utcnow().isoformat(),
+
+
+        "market_metrics":
+
+        {
+
+
+            "trend_score":
+
+            trend_score,
+
+
+            "volatility_score":
+
+            volatility_score,
+
+
+            "breadth_score":
+
+            breadth_score
+
+        },
+
+
+        "cio_decision":
+
+        regime
 
     }
