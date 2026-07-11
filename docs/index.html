@@ -1,40 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
-<title>AI CIO Trading Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI CIO Trading Dashboard V7.1.2</title>
 
 <style>
 
 body{
-font-family:Arial,sans-serif;
-background:#0b0f17;
-color:#e5e7eb;
+background:#080d18;
+color:#e6edf3;
+font-family:Arial,Helvetica,sans-serif;
+margin:0;
 padding:25px;
 }
 
 h1{
-font-size:32px;
+font-size:28px;
+margin-bottom:5px;
+}
+
+.subtitle{
+color:#8b949e;
+margin-bottom:25px;
 }
 
 .card{
 background:#111827;
-border:1px solid #334155;
-border-radius:12px;
+border:1px solid #263244;
+border-radius:14px;
 padding:20px;
-margin-top:20px;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-}
-
-th,td{
-padding:10px;
-border-bottom:1px solid #334155;
-text-align:left;
+margin-bottom:20px;
 }
 
 .green{
@@ -49,37 +46,126 @@ border-left:5px solid #eab308;
 border-left:5px solid #dc2626;
 }
 
+.title{
+font-size:20px;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+text-align:left;
+color:#94a3b8;
+font-size:12px;
+padding:10px;
+border-bottom:1px solid #263244;
+}
+
+td{
+padding:10px;
+border-bottom:1px solid #1f2937;
+}
+
+.badge{
+padding:5px 10px;
+border-radius:20px;
+background:#1e293b;
+}
+
+.buy{
+color:#22c55e;
+font-weight:bold;
+}
+
+.sell{
+color:#ef4444;
+font-weight:bold;
+}
+
+.hold{
+color:#eab308;
+font-weight:bold;
+}
+
 </style>
 
 </head>
 
-
 <body>
 
+<h1>Global Market → AI CIO Trading Dashboard V7.1.2</h1>
 
-<h1>
-Global Haber → AI CIO Trading Dashboard
-</h1>
+<div class="subtitle">
+Autonomous Portfolio Intelligence & Risk Management System
+</div>
 
 
 <div class="card green">
 
-<h2>System Status</h2>
+<div class="title">
+System Status
+</div>
 
 <p>
-V6.6 Trading Orchestrator : ACTIVE
+✅ V6.6 Trading Orchestrator : ACTIVE
 </p>
 
 <p>
-V7.1 Dashboard Data Engine : CONNECTED
+✅ V6.7 Portfolio Risk Controller : CONNECTED
+</p>
+
+<p>
+✅ V7 CIO Decision Layer : ACTIVE
 </p>
 
 </div>
 
 
+<div class="card yellow">
+
+<div class="title">
+CIO Risk Control Layer
+</div>
+
+<table>
+
+<tr>
+<th>Module</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>Portfolio Exposure Control</td>
+<td class="badge">ACTIVE</td>
+</tr>
+
+<tr>
+<td>Position Risk Management</td>
+<td class="badge">ACTIVE</td>
+</tr>
+
+<tr>
+<td>Drawdown Protection</td>
+<td class="badge">ACTIVE</td>
+</tr>
+
+<tr>
+<td>Kill Switch</td>
+<td class="badge">READY</td>
+</tr>
+
+</table>
+
+</div>
 <div class="card">
 
-<h2>CIO Portfolio Intelligence</h2>
+<div class="title">
+CIO Portfolio Intelligence
+</div>
 
 
 <table>
@@ -89,41 +175,82 @@ V7.1 Dashboard Data Engine : CONNECTED
 <tr>
 
 <th>Ticker</th>
-<th>Price</th>
 <th>Signal</th>
-<th>Score</th>
+<th>Alpha Score</th>
 <th>Action</th>
+<th>Confidence</th>
 
 </tr>
 
 </thead>
 
 
-<tbody id="stocks">
+<tbody id="portfolio">
 
 <tr>
 <td colspan="5">
-Loading latest intelligence...
+Loading AI intelligence...
 </td>
 </tr>
 
 </tbody>
 
-
 </table>
+
+</div>
+
+
+
+<div class="card">
+
+<div class="title">
+AI CIO Commentary
+</div>
+
+
+<p id="commentary">
+Analyzing market intelligence...
+</p>
 
 
 </div>
 
 
 
-<div class="card yellow">
+<div class="card">
 
-<h2>Risk Layer</h2>
+<div class="title">
+Execution Layer
+</div>
 
-<p>
-V6.7 Portfolio Risk Controller : Pending Integration
-</p>
+
+<table>
+
+<tr>
+<th>Component</th>
+<th>Status</th>
+</tr>
+
+
+<tr>
+<td>Execution Engine</td>
+<td>READY</td>
+</tr>
+
+
+<tr>
+<td>Broker Connector</td>
+<td>PAPER MODE</td>
+</tr>
+
+
+<tr>
+<td>Live Trading</td>
+<td>DISABLED</td>
+</tr>
+
+
+</table>
 
 
 </div>
@@ -134,51 +261,134 @@ V6.7 Portfolio Risk Controller : Pending Integration
 
 
 fetch("latest.json")
-.then(response=>response.json())
-.then(data=>{
+
+.then(response => response.json())
+
+.then(data => {
 
 
-let table=document.getElementById("stocks");
+let portfolio =
+data.portfolio || [];
+
+
+let table =
+document.getElementById(
+"portfolio"
+);
 
 
 table.innerHTML="";
 
 
-data.portfolio.forEach(stock=>{
+
+portfolio.forEach(stock=>{
 
 
-let row=document.createElement("tr");
+let score =
+stock.scores?.alpha_score || 0;
 
 
-row.innerHTML=`
+let action =
+stock.decision?.action ||
+stock.action ||
+"WATCH";
 
-<td>${stock.ticker}</td>
 
-<td>${stock.market.last_price}</td>
+let confidence =
+stock.decision?.confidence ||
+0;
 
-<td>${stock.signal}</td>
 
-<td>${stock.scores.alpha_score}</td>
 
-<td>${stock.action}</td>
+let colorClass="hold";
+
+
+if(action==="BUY" ||
+action==="ACCUMULATE"){
+
+colorClass="buy";
+
+}
+
+
+if(action==="SELL" ||
+action==="AVOID"){
+
+colorClass="sell";
+
+}
+
+
+
+table.innerHTML += `
+
+<tr>
+
+<td>
+${stock.ticker}
+</td>
+
+
+<td>
+${stock.signal || "N/A"}
+</td>
+
+
+<td>
+${score}
+</td>
+
+
+<td class="${colorClass}">
+${action}
+</td>
+
+
+<td>
+${confidence}%
+</td>
+
+
+</tr>
 
 `;
 
-
-table.appendChild(row);
 
 
 });
 
 
+
+document.getElementById(
+"commentary"
+).innerHTML =
+
+"AI CIO analysis connected. " +
+portfolio.length +
+" instruments evaluated.";
+
+
+
 })
+
 
 .catch(error=>{
 
 
-document.getElementById("stocks").innerHTML=
+document.getElementById(
+"portfolio"
+).innerHTML =
 
-"<tr><td colspan='5'>Data connection error</td></tr>";
+"<tr><td colspan='5'>Latest intelligence data unavailable</td></tr>";
+
+
+
+document.getElementById(
+"commentary"
+).innerHTML =
+
+"Waiting for scanner output.";
+
 
 
 });
