@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <title>AI CIO Trading Dashboard</title>
 
 <style>
+
 body{
-font-family:Arial, sans-serif;
+font-family:Arial,sans-serif;
 background:#0b0f17;
 color:#e5e7eb;
 padding:25px;
 }
 
 h1{
-color:#f8fafc;
+font-size:32px;
 }
 
 .card{
@@ -22,6 +24,17 @@ border:1px solid #334155;
 border-radius:12px;
 padding:20px;
 margin-top:20px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:10px;
+border-bottom:1px solid #334155;
+text-align:left;
 }
 
 .green{
@@ -40,48 +53,140 @@ border-left:5px solid #dc2626;
 
 </head>
 
+
 <body>
 
-<h1>Global Haber → AI CIO Trading Dashboard</h1>
+
+<h1>
+Global Haber → AI CIO Trading Dashboard
+</h1>
+
 
 <div class="card green">
+
 <h2>System Status</h2>
-<p>V6.6 Trading Orchestrator ACTIVE</p>
-<p>V6.7 Portfolio Risk Controller CONNECTING</p>
+
+<p>
+V6.6 Trading Orchestrator : ACTIVE
+</p>
+
+<p>
+V7.1 Dashboard Data Engine : CONNECTED
+</p>
+
 </div>
 
 
 <div class="card">
-<h2>CIO Decision Layer</h2>
 
-<p>
-Market Intelligence → ACTIVE
-</p>
+<h2>CIO Portfolio Intelligence</h2>
 
-<p>
-Portfolio Risk → Pending Integration
-</p>
 
-<p>
-Execution Engine → ACTIVE
-</p>
+<table>
+
+<thead>
+
+<tr>
+
+<th>Ticker</th>
+<th>Price</th>
+<th>Signal</th>
+<th>Score</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="stocks">
+
+<tr>
+<td colspan="5">
+Loading latest intelligence...
+</td>
+</tr>
+
+</tbody>
+
+
+</table>
+
 
 </div>
+
 
 
 <div class="card yellow">
-<h2>Next Upgrade</h2>
+
+<h2>Risk Layer</h2>
 
 <p>
-V6.7 Portfolio Risk Controller
+V6.7 Portfolio Risk Controller : Pending Integration
 </p>
 
-<p>
-Risk allocation, exposure control and portfolio protection.
-</p>
 
 </div>
 
 
+
+<script>
+
+
+fetch("latest.json")
+.then(response=>response.json())
+.then(data=>{
+
+
+let table=document.getElementById("stocks");
+
+
+table.innerHTML="";
+
+
+data.portfolio.forEach(stock=>{
+
+
+let row=document.createElement("tr");
+
+
+row.innerHTML=`
+
+<td>${stock.ticker}</td>
+
+<td>${stock.market.last_price}</td>
+
+<td>${stock.signal}</td>
+
+<td>${stock.scores.alpha_score}</td>
+
+<td>${stock.action}</td>
+
+`;
+
+
+table.appendChild(row);
+
+
+});
+
+
+})
+
+.catch(error=>{
+
+
+document.getElementById("stocks").innerHTML=
+
+"<tr><td colspan='5'>Data connection error</td></tr>";
+
+
+});
+
+
+</script>
+
+
 </body>
+
 </html>
