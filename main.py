@@ -1,5 +1,5 @@
 """
-V5.6 Global Market Intelligence Scanner
+V5.7 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -11,7 +11,9 @@ Market Data Engine
         |
 Scoring Engine
         |
-Catalyst Intelligence Engine
+News Intelligence Engine
+        |
+Catalyst Engine
         |
 Alpha Intelligence Engine
         |
@@ -32,6 +34,11 @@ from engines.market_data_engine import (
 
 from engines.scoring_engine import (
     calculate_market_score
+)
+
+
+from engines.news_engine import (
+    analyze_news
 )
 
 
@@ -76,6 +83,21 @@ def load_portfolio():
 
 
 
+def safe_call(function, default):
+
+    try:
+        return function()
+
+    except Exception as error:
+
+        print(
+            "Engine error:",
+            error
+        )
+
+        return default
+
+
 
 def run_scanner():
 
@@ -94,6 +116,13 @@ def run_scanner():
         )
 
 
+        print(
+            "Scanning:",
+            ticker
+        )
+
+
+
         prices = [
             100,
             101
@@ -107,53 +136,106 @@ def run_scanner():
 
 
 
-        snapshot = build_market_snapshot(
-            ticker,
-            prices,
-            volumes
-        )
+        snapshot = safe_call(
 
+            lambda:
+            build_market_snapshot(
+                ticker,
+                prices,
+                volumes
+            ),
 
-        signal = get_market_signal(
-            snapshot
-        )
+            {}
 
-
-
-        market_score = calculate_market_score(
-            snapshot
         )
 
 
 
-        catalyst_result = analyze_catalyst(
-            ticker,
-            []
+        signal = safe_call(
+
+            lambda:
+            get_market_signal(
+                snapshot
+            ),
+
+            "UNKNOWN"
+
         )
 
 
-        catalyst_score = catalyst_result[
-            "catalyst_score"
-        ]
+
+        market_score = safe_call(
+
+            lambda:
+            calculate_market_score(
+                snapshot
+            ),
+
+            50
+
+        )
+
+
+
+        news_result = safe_call(
+
+            lambda:
+            analyze_news(
+                ticker
+            ),
+
+            {
+                "news_score":50,
+                "events":[]
+            }
+
+        )
+
+
+
+        catalyst_result = safe_call(
+
+            lambda:
+            analyze_catalyst(
+                ticker
+            ),
+
+            {
+                "catalyst_score":50,
+                "catalysts":[]
+            }
+
+        )
 
 
 
         sector_score = 50
 
+
         risk_score = 50
 
 
 
+        catalyst_score = catalyst_result.get(
+            "catalyst_score",
+            50
+        )
 
-        alpha_score = calculate_alpha_score(
 
-            market_score,
 
-            catalyst_score,
+        alpha_score = safe_call(
 
-            sector_score,
+            lambda:
+            calculate_alpha_score(
 
-            risk_score
+                market_score,
+                catalyst_score,
+                sector_score,
+                risk_score
+
+            ),
+
+            50
 
         )
 
@@ -162,7 +244,8 @@ def run_scanner():
         result = {
 
 
-            "ticker": ticker,
+            "ticker":
+            ticker,
 
 
             "timestamp":
@@ -170,18 +253,28 @@ def run_scanner():
 
 
 
-            "market": snapshot,
+            "market":
+            snapshot,
 
 
 
-            "signal": signal,
+            "signal":
+            signal,
 
 
 
             "scores": {
 
+
                 "market_score":
                 market_score,
+
+
+                "news_score":
+                news_result.get(
+                    "news_score",
+                    50
+                ),
 
 
                 "catalyst_score":
@@ -202,12 +295,21 @@ def run_scanner():
             },
 
 
+
+            "news":
+
+            news_result,
+
+
+
             "catalyst":
+
             catalyst_result,
 
 
 
             "rating":
+
             generate_rating(
                 alpha_score
             ),
@@ -215,6 +317,7 @@ def run_scanner():
 
 
             "action":
+
             generate_action(
                 alpha_score
             ),
@@ -222,7 +325,9 @@ def run_scanner():
 
 
             "status":
+
             "ACTIVE"
+
 
         }
 
@@ -238,12 +343,15 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
 
+
         "scanner_version":
-        "V5.6",
+        "V5.7",
+
 
 
         "portfolio":
         results
+
 
     }
 
@@ -257,24 +365,31 @@ def run_scanner():
 
 
     with open(
+
         OUTPUT_FILE,
+
         "w",
+
         encoding="utf-8"
+
     ) as file:
 
 
         json.dump(
+
             output,
+
             file,
+
             indent=2
+
         )
 
 
 
     print(
-        "V5.6 Scanner completed successfully"
+        "V5.7 Scanner completed successfully"
     )
-
 
 
 
