@@ -1,0 +1,67 @@
+{
+  "engine": "V8.1 Autonomous CIO Dashboard Integration",
+  "timestamp": "2026-07-11T00:00:00Z",
+
+  "market_regime": {
+    "status": "BULLISH",
+    "confidence": 78
+  },
+
+  "cio_decisions": [
+
+    {
+      "ticker": "NVDA",
+      "cio_score": 87,
+      "decision": "ACCUMULATE",
+      "confidence": 86,
+      "recommended_weight": 10,
+      "risk_status": "CONTROLLED",
+      "thesis": "AI infrastructure leadership with strong long term growth potential."
+    },
+
+    {
+      "ticker": "ASML",
+      "cio_score": 84,
+      "decision": "BUY_REDUCED",
+      "confidence": 82,
+      "recommended_weight": 8,
+      "risk_status": "LOW",
+      "thesis": "Critical semiconductor equipment position with strategic advantage."
+    },
+
+    {
+      "ticker": "AMD",
+      "cio_score": 76,
+      "decision": "WATCH",
+      "confidence": 72,
+      "recommended_weight": 5,
+      "risk_status": "MEDIUM",
+      "thesis": "Strong AI opportunity but requires selective entry."
+    }
+
+  ],
+
+  "portfolio": {
+
+    "recommended_cash": 35,
+
+    "portfolio_risk": "CONTROLLED",
+
+    "drawdown_status": "SAFE",
+
+    "kill_switch": "READY"
+
+  },
+
+  "execution": {
+
+    "signal_generation": "READY",
+
+    "risk_approval": "PASSED",
+
+    "broker_connection": "READY",
+
+    "live_trading": "DISABLED"
+
+  }
+}
