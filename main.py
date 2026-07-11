@@ -1,5 +1,5 @@
 """
-V5.9 Global Market Intelligence Scanner
+V6.0 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -17,19 +17,22 @@ Catalyst Engine
         |
 Alpha Intelligence Engine
         |
+Decision Engine
+        |
 JSON Report
 """
+
 
 import os
 import json
 import csv
+
 from datetime import datetime
 
 
 from engines.market_data_engine import (
     build_market_snapshot,
-    get_market_signal,
-    get_live_market_data
+    get_market_signal
 )
 
 
@@ -52,6 +55,11 @@ from engines.alpha_intelligence_engine import (
     calculate_alpha_score,
     generate_rating,
     generate_action
+)
+
+
+from engines.decision_engine import (
+    generate_decision
 )
 
 
@@ -79,7 +87,6 @@ def load_portfolio():
         reader = csv.DictReader(file)
 
         for row in reader:
-
             portfolio.append(row)
 
 
@@ -91,11 +98,9 @@ def load_portfolio():
 
 def run_scanner():
 
-
     portfolio = load_portfolio()
 
     results = []
-
 
 
     for stock in portfolio:
@@ -107,43 +112,20 @@ def run_scanner():
         )
 
 
+        #
+        # Temporary fallback data
+        # Live market engine will replace this layer
+        #
 
-        live_data = get_live_market_data(
-            ticker
-        )
+        prices = [
+            100,
+            101
+        ]
 
-
-
-        if live_data and live_data.get(
-            "data_quality"
-        ) == "LIVE":
-
-
-            prices = [
-                live_data["open"],
-                live_data["last_price"]
-            ]
-
-
-            volumes = [
-                live_data["volume"],
-                live_data["volume"]
-            ]
-
-
-        else:
-
-
-            prices = [
-                100,
-                101
-            ]
-
-
-            volumes = [
-                100000,
-                120000
-            ]
+        volumes = [
+            100000,
+            120000
+        ]
 
 
 
@@ -171,19 +153,16 @@ def run_scanner():
             ticker
         )
 
-
-
-        catalyst_result = analyze_catalyst(
-            ticker
-        )
-
-
-
         news_score = news_result.get(
             "news_score",
             50
         )
 
+
+
+        catalyst_result = analyze_catalyst(
+            ticker
+        )
 
         catalyst_score = catalyst_result.get(
             "catalyst_score",
@@ -191,8 +170,8 @@ def run_scanner():
         )
 
 
-        sector_score = 50
 
+        sector_score = 50
 
         risk_score = 50
 
@@ -207,25 +186,35 @@ def run_scanner():
 
 
 
+        decision = generate_decision(
+            alpha_score,
+            market_score,
+            catalyst_score,
+            risk_score,
+            snapshot.get(
+                "last_price"
+            )
+        )
+
+
+
         result = {
 
 
             "ticker":
-                ticker,
+            ticker,
 
 
             "timestamp":
-                datetime.utcnow().isoformat(),
-
+            datetime.utcnow().isoformat(),
 
 
             "market":
-                snapshot,
-
+            snapshot,
 
 
             "signal":
-                signal,
+            signal,
 
 
 
@@ -233,66 +222,69 @@ def run_scanner():
 
 
                 "market_score":
-                    market_score,
+                market_score,
 
 
                 "news_score":
-                    news_score,
+                news_score,
 
 
                 "catalyst_score":
-                    catalyst_score,
+                catalyst_score,
 
 
                 "sector_score":
-                    sector_score,
+                sector_score,
 
 
                 "risk_score":
-                    risk_score,
+                risk_score,
 
 
                 "alpha_score":
-                    alpha_score
+                alpha_score
 
             },
 
 
-
             "news":
-                news_result,
-
+            news_result,
 
 
             "catalyst":
-                catalyst_result,
+            catalyst_result,
 
 
 
             "rating":
-                generate_rating(
-                    alpha_score
-                ),
+            generate_rating(
+                alpha_score
+            ),
 
 
 
             "action":
-                generate_action(
-                    alpha_score
-                ),
+            generate_action(
+                alpha_score
+            ),
+
+
+
+            "decision":
+            decision,
 
 
 
             "status":
-                "ACTIVE"
-
+            "ACTIVE"
 
         }
 
 
 
-        results.append(result)
-
+        results.append(
+            result
+        )
 
 
 
@@ -301,15 +293,15 @@ def run_scanner():
 
 
         "generated":
-            datetime.utcnow().isoformat(),
+        datetime.utcnow().isoformat(),
 
 
         "scanner_version":
-            "V5.9",
+        "V6.0",
 
 
         "portfolio":
-            results
+        results
 
     }
 
@@ -338,9 +330,8 @@ def run_scanner():
 
 
 
-
     print(
-        "V5.9 Scanner completed successfully"
+        "V6.0 Scanner completed successfully"
     )
 
 
