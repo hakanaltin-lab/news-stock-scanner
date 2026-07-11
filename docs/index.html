@@ -2,119 +2,210 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AI CIO Trading Dashboard V8.1.1</title>
+
+<title>
+AI CIO Trading Dashboard V8.2.1
+</title>
+
 
 <style>
 
 body{
+
 background:#080d18;
 color:#e6edf3;
 font-family:Arial,Helvetica,sans-serif;
 margin:0;
 padding:25px;
+
 }
+
 
 h1{
+
 font-size:30px;
+margin-bottom:5px;
+
 }
+
 
 .subtitle{
+
 color:#94a3b8;
 margin-bottom:25px;
+
 }
 
+
 .card{
+
 background:#111827;
 border:1px solid #334155;
 border-radius:14px;
 padding:20px;
 margin-bottom:20px;
+
 }
+
 
 .green{
+
 border-left:5px solid #22c55e;
+
 }
 
-.yellow{
-border-left:5px solid #eab308;
-}
 
 .blue{
+
 border-left:5px solid #3b82f6;
+
 }
 
+
+.yellow{
+
+border-left:5px solid #eab308;
+
+}
+
+
+.red{
+
+border-left:5px solid #ef4444;
+
+}
+
+
 .title{
+
 font-size:22px;
 font-weight:bold;
 margin-bottom:15px;
+
 }
 
+
 .row{
+
 display:flex;
 justify-content:space-between;
 padding:10px 0;
 border-bottom:1px solid #1f2937;
+
 }
 
+
 .badge{
+
 background:#1e293b;
 padding:6px 12px;
 border-radius:20px;
+
 }
+
 
 table{
+
 width:100%;
 border-collapse:collapse;
+
 }
 
-td,th{
+
+th,td{
+
 padding:12px;
 border-bottom:1px solid #334155;
 text-align:left;
+
 }
 
+
+.loading{
+
+color:#94a3b8;
+
+}
+
+
 </style>
+
 
 </head>
 
 
 <body>
 
-<h1>Global Market → AI CIO Trading Dashboard V8.1.1</h1>
+
+<h1>
+Global Market → AI CIO Trading Dashboard V8.2.1
+</h1>
+
 
 <div class="subtitle">
-Autonomous Portfolio Intelligence & Risk Management System
+
+Autonomous Portfolio Intelligence & Live CIO Decision System
+
 </div>
 
 
+
 <div class="card green">
+
 
 <div class="title">
 System Status
 </div>
 
+
 <div class="row">
+
 V6.6 Trading Orchestrator
-<span class="badge">ACTIVE</span>
+
+<span class="badge">
+ACTIVE
+</span>
+
 </div>
 
+
 <div class="row">
+
 V6.7 Portfolio Risk Controller
-<span class="badge">CONNECTED</span>
+
+<span class="badge">
+CONNECTED
+</span>
+
 </div>
 
+
 <div class="row">
+
 V8.0 Autonomous CIO Brain
-<span class="badge">ACTIVE</span>
+
+<span class="badge">
+ACTIVE
+</span>
+
 </div>
 
+
 <div class="row">
-V8.1 CIO Output Layer
-<span class="badge">CONNECTED</span>
+
+V8.2 Live CIO Connector
+
+<span class="badge">
+CONNECTED
+</span>
+
 </div>
+
 
 </div>
 
@@ -122,29 +213,20 @@ V8.1 CIO Output Layer
 
 <div class="card blue">
 
+
 <div class="title">
 🧠 Autonomous CIO Brain
 </div>
 
-<div class="row">
-Market Regime
-<span class="badge">BULLISH 78%</span>
-</div>
 
-<div class="row">
-Portfolio Risk
-<span class="badge">CONTROLLED</span>
-</div>
+<div id="market-regime">
 
-<div class="row">
-Execution Status
-<span class="badge">READY</span>
-</div>
+Loading CIO Market Regime...
 
 </div>
 
 
-
+</div>
 <div class="card yellow">
 
 <div class="title">
@@ -154,6 +236,8 @@ CIO Final Decision Panel
 
 <table>
 
+<thead>
+
 <tr>
 <th>Ticker</th>
 <th>CIO Score</th>
@@ -162,63 +246,390 @@ CIO Final Decision Panel
 <th>Risk</th>
 </tr>
 
+</thead>
 
-<tr>
-<td>NVDA</td>
-<td>87</td>
-<td>ACCUMULATE</td>
-<td>10%</td>
-<td>CONTROLLED</td>
-</tr>
+
+<tbody id="cio-table">
 
 
 <tr>
-<td>ASML</td>
-<td>84</td>
-<td>BUY REDUCED</td>
-<td>8%</td>
-<td>LOW</td>
+
+<td colspan="5" class="loading">
+
+Loading CIO decisions...
+
+</td>
+
 </tr>
 
 
-<tr>
-<td>AMD</td>
-<td>76</td>
-<td>WATCH</td>
-<td>5%</td>
-<td>MEDIUM</td>
-</tr>
+</tbody>
 
 
 </table>
+
 
 </div>
 
 
 
-<div class="card">
+
+
+<div class="card blue">
+
 
 <div class="title">
 Portfolio Intelligence
 </div>
 
+
 <div class="row">
+
 Recommended Cash
-<span class="badge">35%</span>
+
+<span class="badge" id="cash">
+
+Loading...
+
+</span>
+
 </div>
 
+
+
 <div class="row">
+
+Portfolio Risk
+
+<span class="badge" id="risk">
+
+Loading...
+
+</span>
+
+</div>
+
+
+
+<div class="row">
+
 Drawdown Protection
-<span class="badge">SAFE</span>
+
+<span class="badge" id="drawdown">
+
+Loading...
+
+</span>
+
 </div>
+
+
 
 <div class="row">
+
 Kill Switch
-<span class="badge">READY</span>
+
+<span class="badge" id="killswitch">
+
+Loading...
+
+</span>
+
 </div>
 
 
 </div>
+
+
+
+
+
+<div class="card">
+
+
+<div class="title">
+
+Execution Layer
+
+</div>
+
+
+
+<div class="row">
+
+Signal Generation
+
+<span class="badge" id="signal">
+
+Loading...
+
+</span>
+
+</div>
+
+
+
+<div class="row">
+
+Risk Approval
+
+<span class="badge" id="approval">
+
+Loading...
+
+</span>
+
+</div>
+
+
+
+<div class="row">
+
+Broker Connection
+
+<span class="badge" id="broker">
+
+Loading...
+
+</span>
+
+</div>
+
+
+
+<div class="row">
+
+Live Trading
+
+<span class="badge" id="live">
+
+Loading...
+
+</span>
+
+</div>
+
+
+
+</div>
+<script>
+
+async function loadCIOData(){
+
+try{
+
+
+const response = await fetch(
+"cio_output.json"
+);
+
+
+const data = await response.json();
+
+
+
+//
+// Market Regime
+//
+
+if(data.market_regime){
+
+
+document.getElementById(
+"market-regime"
+).innerHTML =
+
+
+"Market Regime: <b>" +
+
+data.market_regime.status +
+
+"</b> | Confidence: " +
+
+data.market_regime.confidence +
+
+"%";
+
+
+}
+
+
+
+//
+// CIO Decisions
+//
+
+const table =
+document.getElementById(
+"cio-table"
+);
+
+
+table.innerHTML="";
+
+
+
+if(data.cio_decisions){
+
+
+data.cio_decisions.forEach(
+(item)=>{
+
+
+table.innerHTML += `
+
+<tr>
+
+<td>
+${item.ticker}
+</td>
+
+
+<td>
+${item.cio_score}
+</td>
+
+
+<td>
+${item.decision}
+</td>
+
+
+<td>
+${item.recommended_weight}%
+</td>
+
+
+<td>
+${item.risk_status}
+</td>
+
+
+</tr>
+
+`;
+
+
+});
+
+
+}
+
+
+
+//
+// Portfolio
+//
+
+if(data.portfolio){
+
+
+document.getElementById(
+"cash"
+).innerHTML =
+
+data.portfolio.recommended_cash
++
+"%";
+
+
+document.getElementById(
+"risk"
+).innerHTML =
+
+data.portfolio.portfolio_risk;
+
+
+document.getElementById(
+"drawdown"
+).innerHTML =
+
+data.portfolio.drawdown_status;
+
+
+document.getElementById(
+"killswitch"
+).innerHTML =
+
+data.portfolio.kill_switch;
+
+
+}
+
+
+
+//
+// Execution
+//
+
+if(data.execution){
+
+
+document.getElementById(
+"signal"
+).innerHTML =
+
+data.execution.signal_generation;
+
+
+
+document.getElementById(
+"approval"
+).innerHTML =
+
+data.execution.risk_approval;
+
+
+
+document.getElementById(
+"broker"
+).innerHTML =
+
+data.execution.broker_connection;
+
+
+
+document.getElementById(
+"live"
+).innerHTML =
+
+data.execution.live_trading;
+
+
+
+}
+
+
+
+}
+
+catch(error){
+
+
+console.log(
+"CIO data loading error",
+error
+);
+
+
+document.getElementById(
+"market-regime"
+).innerHTML =
+
+"CIO data connection pending";
+
+
+}
+
+
+}
+
+
+
+loadCIOData();
+
+
+</script>
 
 
 </body>
