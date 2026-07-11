@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AI CIO Trading Dashboard V7.3</title>
+<title>AI CIO Trading Dashboard V8.1.1</title>
 
 <style>
 
@@ -22,7 +22,7 @@ font-size:30px;
 }
 
 .subtitle{
-color:#8b949e;
+color:#94a3b8;
 margin-bottom:25px;
 }
 
@@ -42,13 +42,27 @@ border-left:5px solid #22c55e;
 border-left:5px solid #eab308;
 }
 
-.red{
-border-left:5px solid #ef4444;
+.blue{
+border-left:5px solid #3b82f6;
 }
 
-.status{
-font-size:18px;
-margin:10px 0;
+.title{
+font-size:22px;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+padding:10px 0;
+border-bottom:1px solid #1f2937;
+}
+
+.badge{
+background:#1e293b;
+padding:6px 12px;
+border-radius:20px;
 }
 
 table{
@@ -62,12 +76,6 @@ border-bottom:1px solid #334155;
 text-align:left;
 }
 
-.badge{
-padding:6px 12px;
-border-radius:20px;
-background:#1f2937;
-}
-
 </style>
 
 </head>
@@ -75,10 +83,7 @@ background:#1f2937;
 
 <body>
 
-
-<h1>
-Global Market → AI CIO Trading Dashboard V7.3
-</h1>
+<h1>Global Market → AI CIO Trading Dashboard V8.1.1</h1>
 
 <div class="subtitle">
 Autonomous Portfolio Intelligence & Risk Management System
@@ -87,293 +92,101 @@ Autonomous Portfolio Intelligence & Risk Management System
 
 <div class="card green">
 
-<h2>System Status</h2>
-
-<div class="status">
-✅ V6.6 Trading Orchestrator : ACTIVE
+<div class="title">
+System Status
 </div>
 
-<div class="status">
-✅ V6.7 Portfolio Risk Controller : CONNECTED
+<div class="row">
+V6.6 Trading Orchestrator
+<span class="badge">ACTIVE</span>
 </div>
 
-<div class="status">
-✅ V7 CIO Decision Engine : ACTIVE
+<div class="row">
+V6.7 Portfolio Risk Controller
+<span class="badge">CONNECTED</span>
 </div>
 
-<div class="status">
-✅ Execution Layer : READY
+<div class="row">
+V8.0 Autonomous CIO Brain
+<span class="badge">ACTIVE</span>
+</div>
+
+<div class="row">
+V8.1 CIO Output Layer
+<span class="badge">CONNECTED</span>
 </div>
 
 </div>
+
+
+
+<div class="card blue">
+
+<div class="title">
+🧠 Autonomous CIO Brain
+</div>
+
+<div class="row">
+Market Regime
+<span class="badge">BULLISH 78%</span>
+</div>
+
+<div class="row">
+Portfolio Risk
+<span class="badge">CONTROLLED</span>
+</div>
+
+<div class="row">
+Execution Status
+<span class="badge">READY</span>
+</div>
+
+</div>
+
+
+
 <div class="card yellow">
 
-<h2>CIO Final Decision Panel</h2>
+<div class="title">
+CIO Final Decision Panel
+</div>
+
 
 <table>
 
 <tr>
 <th>Ticker</th>
-<th>AI Signal</th>
-<th>Risk Status</th>
-<th>CIO Action</th>
-<th>Confidence</th>
-</tr>
-
-
-<tr>
-
-<td>AMD</td>
-
-<td>
-<span class="badge">
-BULLISH
-</span>
-</td>
-
-<td>
-<span class="badge">
-CONTROLLED
-</span>
-</td>
-
-<td>
-<span class="badge">
-BUY REDUCED
-</span>
-</td>
-
-<td>
-72%
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>ASML</td>
-
-<td>
-<span class="badge">
-STRONG
-</span>
-</td>
-
-<td>
-<span class="badge">
-LOW RISK
-</span>
-</td>
-
-<td>
-<span class="badge">
-HOLD / ADD ON DIP
-</span>
-</td>
-
-<td>
-78%
-</td>
-
-</tr>
-
-
-</table>
-
-</div>
-
-
-
-<div class="card">
-
-<h2>CIO Risk Control Layer</h2>
-
-
-<table>
-
-<tr>
-<th>Module</th>
-<th>Status</th>
-</tr>
-
-
-<tr>
-<td>
-Portfolio Exposure Control
-</td>
-
-<td>
-<span class="badge">
-ACTIVE
-</span>
-</td>
-
-</tr>
-
-
-<tr>
-<td>
-Position Risk Management
-</td>
-
-<td>
-<span class="badge">
-ACTIVE
-</span>
-</td>
-
-</tr>
-
-
-<tr>
-<td>
-Drawdown Protection
-</td>
-
-<td>
-<span class="badge">
-ACTIVE
-</span>
-</td>
-
-</tr>
-
-
-<tr>
-<td>
-Kill Switch
-</td>
-
-<td>
-<span class="badge">
-READY
-</span>
-</td>
-
-</tr>
-
-
-</table>
-
-
-</div>
-<div class="card green">
-
-<h2>Execution Readiness</h2>
-
-<table>
-
-<tr>
-<th>Process</th>
-<th>Status</th>
-</tr>
-
-
-<tr>
-<td>
-Signal Generated
-</td>
-
-<td>
-<span class="badge">
-READY
-</span>
-</td>
-
-</tr>
-
-
-<tr>
-<td>
-Risk Approval
-</td>
-
-<td>
-<span class="badge">
-PASSED
-</span>
-</td>
-
-</tr>
-
-
-<tr>
-<td>
-Broker Connector
-</td>
-
-<td>
-<span class="badge">
-CONNECTED
-</span>
-</td>
-
-</tr>
-
-
-<tr>
-<td>
-Trade Permission
-</td>
-
-<td>
-<span class="badge">
-CIO APPROVED
-</span>
-</td>
-
-</tr>
-
-
-</table>
-
-</div>
-
-
-
-<div class="card">
-
-<h2>CIO Portfolio Intelligence</h2>
-
-<table>
-
-<tr>
-<th>Asset</th>
+<th>CIO Score</th>
 <th>Decision</th>
-<th>Position Control</th>
+<th>Weight</th>
+<th>Risk</th>
 </tr>
 
 
 <tr>
-<td>
-AMD
-</td>
-
-<td>
-BUY REDUCED
-</td>
-
-<td>
-Risk Controlled
-</td>
-
+<td>NVDA</td>
+<td>87</td>
+<td>ACCUMULATE</td>
+<td>10%</td>
+<td>CONTROLLED</td>
 </tr>
 
 
 <tr>
-<td>
-ASML
-</td>
+<td>ASML</td>
+<td>84</td>
+<td>BUY REDUCED</td>
+<td>8%</td>
+<td>LOW</td>
+</tr>
 
-<td>
-HOLD / ADD ON DIP
-</td>
 
-<td>
-Core Position
-</td>
-
+<tr>
+<td>AMD</td>
+<td>76</td>
+<td>WATCH</td>
+<td>5%</td>
+<td>MEDIUM</td>
 </tr>
 
 
@@ -383,21 +196,27 @@ Core Position
 
 
 
-<div class="card yellow">
+<div class="card">
 
-<h2>Next Upgrade</h2>
+<div class="title">
+Portfolio Intelligence
+</div>
 
-<p>
-V7.4 Live Market Data Integration
-</p>
+<div class="row">
+Recommended Cash
+<span class="badge">35%</span>
+</div>
 
-<p>
-V7.5 AI Portfolio Optimization
-</p>
+<div class="row">
+Drawdown Protection
+<span class="badge">SAFE</span>
+</div>
 
-<p>
-V8 Autonomous Trading Decision System
-</p>
+<div class="row">
+Kill Switch
+<span class="badge">READY</span>
+</div>
+
 
 </div>
 
