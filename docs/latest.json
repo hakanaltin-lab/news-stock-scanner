@@ -1,27 +1,27 @@
 {
-  "generated": "2026-07-11T00:11:06.290770",
-  "scanner_version": "V5.7",
+  "generated": "2026-07-11T00:15:29.917824",
+  "scanner_version": "V5.9",
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-07-11T00:11:06.290521",
+      "timestamp": "2026-07-11T00:15:26.239376",
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-07-11T00:11:06.290493",
-        "last_price": 101,
-        "vwap": 100.55,
-        "momentum": 1,
-        "volume": 220000,
+        "timestamp": "2026-07-11T00:15:26.239356",
+        "last_price": 557.99,
+        "vwap": 556.28,
+        "momentum": 3.41,
+        "volume": 2979556,
         "data_quality": "FOUNDATION"
       },
       "signal": "BULLISH",
       "scores": {
-        "market_score": 30,
+        "market_score": 40,
         "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 42.0
+        "alpha_score": 46.0
       },
       "news": {
         "ticker": "AMD",
@@ -39,24 +39,24 @@
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-07-11T00:11:06.290541",
+      "timestamp": "2026-07-11T00:15:26.398049",
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-07-11T00:11:06.290527",
-        "last_price": 101,
-        "vwap": 100.55,
-        "momentum": 1,
-        "volume": 220000,
+        "timestamp": "2026-07-11T00:15:26.398024",
+        "last_price": 186.96,
+        "vwap": 187.08,
+        "momentum": -0.23,
+        "volume": 1522664,
         "data_quality": "FOUNDATION"
       },
-      "signal": "BULLISH",
+      "signal": "BEARISH",
       "scores": {
-        "market_score": 30,
+        "market_score": 15,
         "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 42.0
+        "alpha_score": 36.0
       },
       "news": {
         "ticker": "ANET",
@@ -68,20 +68,20 @@
         "catalyst_score": 50,
         "catalysts": []
       },
-      "rating": "HOLD",
+      "rating": "AVOID",
       "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-07-11T00:11:06.290556",
+      "timestamp": "2026-07-11T00:15:26.599059",
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-07-11T00:11:06.290546",
-        "last_price": 101,
-        "vwap": 100.55,
-        "momentum": 1,
-        "volume": 220000,
+        "timestamp": "2026-07-11T00:15:26.599032",
+        "last_price": 1798.57,
+        "vwap": 1798.43,
+        "momentum": 0.28,
+        "volume": 238484,
         "data_quality": "FOUNDATION"
       },
       "signal": "BULLISH",
@@ -109,24 +109,24 @@
     },
     {
       "ticker": "FN",
-      "timestamp": "2026-07-11T00:11:06.290569",
+      "timestamp": "2026-07-11T00:15:26.759627",
       "market": {
         "ticker": "FN",
-        "timestamp": "2026-07-11T00:11:06.290559",
-        "last_price": 101,
-        "vwap": 100.55,
-        "momentum": 1,
-        "volume": 220000,
+        "timestamp": "2026-07-11T00:15:26.759599",
+        "last_price": 471.13,
+        "vwap": 472.3,
+        "momentum": -2.35,
+        "volume": 167164,
         "data_quality": "FOUNDATION"
       },
-      "signal": "BULLISH",
+      "signal": "BEARISH",
       "scores": {
-        "market_score": 30,
+        "market_score": 10,
         "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 42.0
+        "alpha_score": 34.0
       },
       "news": {
         "ticker": "FN",
@@ -138,30 +138,30 @@
         "catalyst_score": 50,
         "catalysts": []
       },
-      "rating": "HOLD",
+      "rating": "AVOID",
       "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-07-11T00:11:06.290581",
+      "timestamp": "2026-07-11T00:15:27.016619",
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-07-11T00:11:06.290572",
-        "last_price": 101,
-        "vwap": 100.55,
-        "momentum": 1,
-        "volume": 220000,
+        "timestamp": "2026-07-11T00:15:27.016594",
+        "last_price": 355.04,
+        "vwap": 354.69,
+        "momentum": 0.7,
+        "volume": 2359504,
         "data_quality": "FOUNDATION"
       },
       "signal": "BULLISH",
       "scores": {
-        "market_score": 30,
+        "market_score": 35,
         "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 42.0
+        "alpha_score": 44.0
       },
       "news": {
         "ticker": "GOOG",
@@ -179,14 +179,14 @@
     },
     {
       "ticker": "HROW",
-      "timestamp": "2026-07-11T00:11:06.290593",
+      "timestamp": "2026-07-11T00:15:27.318682",
       "market": {
         "ticker": "HROW",
-        "timestamp": "2026-07-11T00:11:06.290584",
-        "last_price": 101,
-        "vwap": 100.55,
-        "momentum": 1,
-        "volume": 220000,
+        "timestamp": "2026-07-11T00:15:27.318639",
+        "last_price": 42.49,
+        "vwap": 42.32,
+        "momentum": 0.33,
+        "volume": 111878,
         "data_quality": "FOUNDATION"
       },
       "signal": "BULLISH",
@@ -214,24 +214,24 @@
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-07-11T00:11:06.290723",
+      "timestamp": "2026-07-11T00:15:28.093111",
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-07-11T00:11:06.290596",
-        "last_price": 101,
-        "vwap": 100.55,
-        "momentum": 1,
-        "volume": 220000,
+        "timestamp": "2026-07-11T00:15:28.093089",
+        "last_price": 219.64,
+        "vwap": 220.75,
+        "momentum": -2.22,
+        "volume": 1411564,
         "data_quality": "FOUNDATION"
       },
-      "signal": "BULLISH",
+      "signal": "BEARISH",
       "scores": {
-        "market_score": 30,
+        "market_score": 15,
         "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 42.0
+        "alpha_score": 36.0
       },
       "news": {
         "ticker": "NBIS",
@@ -243,30 +243,30 @@
         "catalyst_score": 50,
         "catalysts": []
       },
-      "rating": "HOLD",
+      "rating": "AVOID",
       "action": "NO TRADE",
       "status": "ACTIVE"
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-07-11T00:11:06.290750",
+      "timestamp": "2026-07-11T00:15:29.719914",
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-07-11T00:11:06.290732",
-        "last_price": 101,
-        "vwap": 100.55,
-        "momentum": 1,
-        "volume": 220000,
+        "timestamp": "2026-07-11T00:15:29.719883",
+        "last_price": 210.95,
+        "vwap": 210.29,
+        "momentum": 1.31,
+        "volume": 18208548,
         "data_quality": "FOUNDATION"
       },
       "signal": "BULLISH",
       "scores": {
-        "market_score": 30,
+        "market_score": 35,
         "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 42.0
+        "alpha_score": 44.0
       },
       "news": {
         "ticker": "NVDA",
@@ -284,24 +284,24 @@
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-07-11T00:11:06.290768",
+      "timestamp": "2026-07-11T00:15:29.917819",
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-07-11T00:11:06.290755",
-        "last_price": 101,
-        "vwap": 100.55,
-        "momentum": 1,
-        "volume": 220000,
+        "timestamp": "2026-07-11T00:15:29.917794",
+        "last_price": 318.85,
+        "vwap": 319.8,
+        "momentum": -1.89,
+        "volume": 657770,
         "data_quality": "FOUNDATION"
       },
-      "signal": "BULLISH",
+      "signal": "BEARISH",
       "scores": {
-        "market_score": 30,
+        "market_score": 15,
         "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 42.0
+        "alpha_score": 36.0
       },
       "news": {
         "ticker": "VRT",
@@ -313,7 +313,7 @@
         "catalyst_score": 50,
         "catalysts": []
       },
-      "rating": "HOLD",
+      "rating": "AVOID",
       "action": "NO TRADE",
       "status": "ACTIVE"
     }
