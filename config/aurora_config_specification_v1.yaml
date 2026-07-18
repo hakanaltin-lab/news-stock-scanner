@@ -1,0 +1,368 @@
+# ==========================================================
+# AURORA AI CIO v3.1
+# Configuration Specification v1.0
+#
+# Purpose:
+# Central configuration layer for all AURORA engines
+#
+# Status:
+# Sprint 0 Freeze Document
+# ==========================================================
+
+
+system:
+
+  name: "AURORA AI CIO"
+
+  version: "3.1"
+
+  environment: "PAPER_TRADING"
+
+  timezone: "UTC+3"
+
+  owner_approval_required: true
+
+
+
+# ==========================================================
+# Portfolio Configuration
+# ==========================================================
+
+portfolio:
+
+  initial_capital: 100000
+
+  currency: "USD"
+
+  max_total_exposure: 0.90
+
+  minimum_cash_reserve: 0.10
+
+  benchmark:
+
+    primary: "SP500"
+
+    secondary: "NASDAQ100"
+
+
+
+# ==========================================================
+# Investment Universe
+# ==========================================================
+
+universe:
+
+  core_watchlist:
+
+    - AMD
+
+    - ANET
+
+    - ASML
+
+    - FN
+
+    - GOOG
+
+    - HROW
+
+    - NBIS
+
+    - NVDA
+
+    - VRT
+
+
+
+# ==========================================================
+# L6 Risk Authority Configuration
+# ==========================================================
+
+risk:
+
+  max_single_position:
+
+    tier_1_core: 0.15
+
+    tier_2_growth: 0.10
+
+    tier_3_speculative: 0.05
+
+
+
+  sector_limits:
+
+    maximum_sector_exposure: 0.40
+
+    ai_theme_max_exposure: 0.60
+
+
+
+  drawdown_controls:
+
+    warning_level: -0.10
+
+    critical_level: -0.15
+
+    emergency_level: -0.20
+
+
+
+  loss_limits:
+
+    daily_loss_limit: -0.03
+
+    weekly_loss_limit: -0.07
+
+
+
+  liquidity:
+
+    minimum_average_daily_volume_usd: 20000000
+
+
+
+  correlation:
+
+    maximum_cluster_exposure: 0.60
+
+
+
+# ==========================================================
+# Dynamic Risk Adjustment
+# ==========================================================
+
+volatility:
+
+  adjustment:
+
+    low:
+
+      multiplier: 1.0
+
+
+    medium:
+
+      multiplier: 0.75
+
+
+    high:
+
+      multiplier: 0.50
+
+
+
+# ==========================================================
+# Market Regime Configuration
+# ==========================================================
+
+market_regime:
+
+  states:
+
+    - BULL
+
+    - NEUTRAL
+
+    - BEAR
+
+
+  risk_multiplier:
+
+    BULL: 1.0
+
+    NEUTRAL: 0.75
+
+    BEAR: 0.50
+
+
+
+# ==========================================================
+# Alpha Model Configuration
+# ==========================================================
+
+alpha:
+
+  minimum_buy_score: 85
+
+  watch_score: 70
+
+  minimum_confidence: 75
+
+
+  factors:
+
+    momentum: 0.25
+
+    fundamentals: 0.25
+
+    catalyst: 0.20
+
+    valuation: 0.15
+
+    regime_fit: 0.15
+
+
+
+# ==========================================================
+# Thesis Engine Configuration
+# ==========================================================
+
+thesis:
+
+  review_required_on:
+
+    - earnings
+
+    - major_news
+
+    - regime_change
+
+    - volatility_spike
+
+
+
+  statuses:
+
+    - CONFIRMED
+
+    - WATCH
+
+    - UNDER_REVIEW
+
+    - INVALIDATED
+
+
+
+# ==========================================================
+# CIO Decision Engine
+# ==========================================================
+
+decision_engine:
+
+
+  allowed_actions:
+
+    - BUY
+
+    - ADD
+
+    - HOLD
+
+    - WATCH
+
+    - REDUCE
+
+    - EXIT
+
+
+
+  automatic_execution:
+
+    enabled: false
+
+
+  human_approval:
+
+    required: true
+
+
+
+# ==========================================================
+# Simulation Twin
+# ==========================================================
+
+simulation:
+
+
+  mandatory_validation:
+
+    enabled: true
+
+
+  minimum_validation_period_days: 30
+
+
+  no_model_change_without_validation: true
+
+
+
+# ==========================================================
+# Paper Trading Pilot
+# ==========================================================
+
+pilot:
+
+
+  duration_days: 90
+
+
+  mode: "PAPER_TRADING"
+
+
+  maximum_exposure: 0.80
+
+
+  maximum_single_position: 0.10
+
+
+  human_approval_required: true
+
+
+
+# ==========================================================
+# Logging & Audit
+# ==========================================================
+
+logging:
+
+
+  enabled: true
+
+
+  decision_journal: true
+
+
+  risk_events: true
+
+
+  trade_history: true
+
+
+  audit_trail: true
+
+
+
+# ==========================================================
+# Emergency Control Bus
+# ==========================================================
+
+emergency:
+
+
+  enabled: true
+
+
+  triggers:
+
+
+    - broker_failure
+
+    - market_data_failure
+
+    - risk_engine_failure
+
+    - unexpected_exposure
+
+    - system_integrity_failure
+
+
+
+  actions:
+
+
+    freeze_new_orders: true
+
+    cancel_pending_orders: true
+
+    automatic_liquidation: false
