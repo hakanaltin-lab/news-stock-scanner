@@ -1,13 +1,13 @@
 {
-  "generated": "2026-08-20T17:35:47.831681",
+  "generated": "2026-08-20T17:59:10.745291",
   "scanner_version": "V6.0",
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-08-20T17:35:47.831564",
+      "timestamp": "2026-08-20T17:59:10.745175",
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-08-20T17:35:47.831534",
+        "timestamp": "2026-08-20T17:59:10.745144",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1,
@@ -47,10 +47,10 @@
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-08-20T17:35:47.831582",
+      "timestamp": "2026-08-20T17:59:10.745193",
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-08-20T17:35:47.831568",
+        "timestamp": "2026-08-20T17:59:10.745180",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1,
@@ -90,10 +90,10 @@
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-08-20T17:35:47.831594",
+      "timestamp": "2026-08-20T17:59:10.745206",
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-08-20T17:35:47.831585",
+        "timestamp": "2026-08-20T17:59:10.745196",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1,
@@ -133,10 +133,10 @@
     },
     {
       "ticker": "FN",
-      "timestamp": "2026-08-20T17:35:47.831605",
+      "timestamp": "2026-08-20T17:59:10.745217",
       "market": {
         "ticker": "FN",
-        "timestamp": "2026-08-20T17:35:47.831597",
+        "timestamp": "2026-08-20T17:59:10.745208",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1,
@@ -176,10 +176,10 @@
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-08-20T17:35:47.831616",
+      "timestamp": "2026-08-20T17:59:10.745228",
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-08-20T17:35:47.831608",
+        "timestamp": "2026-08-20T17:59:10.745220",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1,
@@ -219,10 +219,10 @@
     },
     {
       "ticker": "HROW",
-      "timestamp": "2026-08-20T17:35:47.831628",
+      "timestamp": "2026-08-20T17:59:10.745239",
       "market": {
         "ticker": "HROW",
-        "timestamp": "2026-08-20T17:35:47.831619",
+        "timestamp": "2026-08-20T17:59:10.745230",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1,
@@ -262,10 +262,10 @@
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-08-20T17:35:47.831638",
+      "timestamp": "2026-08-20T17:59:10.745249",
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-08-20T17:35:47.831630",
+        "timestamp": "2026-08-20T17:59:10.745241",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1,
@@ -305,10 +305,10 @@
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-08-20T17:35:47.831666",
+      "timestamp": "2026-08-20T17:59:10.745272",
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-08-20T17:35:47.831643",
+        "timestamp": "2026-08-20T17:59:10.745254",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1,
@@ -348,10 +348,10 @@
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-08-20T17:35:47.831679",
+      "timestamp": "2026-08-20T17:59:10.745285",
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-08-20T17:35:47.831669",
+        "timestamp": "2026-08-20T17:59:10.745275",
         "last_price": 101,
         "vwap": 100.55,
         "momentum": 1,
