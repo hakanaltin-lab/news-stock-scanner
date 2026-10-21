@@ -1,10 +1,13 @@
 ticker,shares,avg_cost,sector,theme,status
-AMD,15,140.16,AI Semiconductor,AI Infrastructure,HOLD
-ANET,34,146.83,Networking,AI Infrastructure,HOLD
+AMD,10,140.16,AI Semiconductor,AI Infrastructure,HOLD
+ANET,35,147.95,Networking,AI Infrastructure,HOLD
 ASML,3,676.38,Semiconductor Equipment,AI,HOLD
-FN,4,720.21,Financial,Special Situation,HOLD
+BKR,13,57.80,Energy Services,Energy,HOLD
+CCLD,490,2.04,Technology,Special Situation,HOLD
+CTAS,4,196.26,Business Services,Industrial,HOLD
 GOOG,20,207.68,AI Platform,AI,HOLD
-HROW,30,42.01,Healthcare,Specialty Pharma,HOLD
-NBIS,14,147.83,AI Cloud,AI Infrastructure,HOLD
+NBIS,44,171.81,AI Cloud,AI Infrastructure,HOLD
 NVDA,24,160.96,AI GPU,AI,HOLD
+OMDA,10,20.45,Healthcare,Healthcare,HOLD
+UNH,2,369.93,Health Insurance,Healthcare,HOLD
 VRT,11,316.20,Data Center Power,AI Infrastructure,HOLD
