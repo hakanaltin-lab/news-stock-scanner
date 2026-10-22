@@ -32,7 +32,8 @@ from datetime import datetime
 
 from engines.market_data_engine import (
     build_market_snapshot,
-    get_market_signal
+    get_market_signal,
+    get_live_market_data
 )
 
 
@@ -112,20 +113,13 @@ def run_scanner():
         )
 
 
-        #
-        # Temporary fallback data
-        # Live market engine will replace this layer
-        #
+        live_data = get_live_market_data(ticker)
 
-        prices = [
-            100,
-            101
-        ]
+        prices = live_data.get("prices", [])
+        volumes = live_data.get("volumes", [])
 
-        volumes = [
-            100000,
-            120000
-        ]
+        if not prices or not volumes:
+            continue
 
 
 
