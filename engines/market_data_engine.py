@@ -221,7 +221,7 @@ def build_market_snapshot(
 
 
         "data_quality":
-            "FOUNDATION"
+            "LIVE"
 
     }
 
