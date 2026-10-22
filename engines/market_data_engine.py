@@ -54,12 +54,16 @@ def calculate_momentum(prices):
 
 def get_live_market_data(ticker):
     """
-    Retrieve live market data
+    Retrieve recent market data from Yahoo Finance.
+
+    Returns:
+    - Latest OHLCV data
+    - Price history
+    - Volume history
 
     Future expansion:
-    - Real time feed
     - IBKR API
-    - Alpaca API
+    - Real-time broker feed
     """
 
     try:
@@ -71,17 +75,39 @@ def get_live_market_data(ticker):
             interval="15m"
         )
 
-
         if data.empty:
 
             return {
                 "ticker": ticker,
+                "prices": [],
+                "volumes": [],
                 "data_quality": "NO_DATA"
             }
 
+        clean_data = data.dropna(
+            subset=["Close", "Volume"]
+        )
 
-        latest = data.iloc[-1]
+        if clean_data.empty:
 
+            return {
+                "ticker": ticker,
+                "prices": [],
+                "volumes": [],
+                "data_quality": "NO_DATA"
+            }
+
+        latest = clean_data.iloc[-1]
+
+        prices = [
+            round(float(price), 2)
+            for price in clean_data["Close"].tolist()
+        ]
+
+        volumes = [
+            int(volume)
+            for volume in clean_data["Volume"].tolist()
+        ]
 
         return {
 
@@ -116,18 +142,29 @@ def get_live_market_data(ticker):
                     2
                 ),
 
+            "prices":
+                prices,
+
+            "volumes":
+                volumes,
+
+            "data_points":
+                len(prices),
+
             "data_quality":
                 "LIVE"
 
         }
 
-
     except Exception as e:
-
 
         return {
 
             "ticker": ticker,
+
+            "prices": [],
+
+            "volumes": [],
 
             "error":
                 str(e),
@@ -136,7 +173,6 @@ def get_live_market_data(ticker):
                 "ERROR"
 
         }
-
 
 
 def build_market_snapshot(
