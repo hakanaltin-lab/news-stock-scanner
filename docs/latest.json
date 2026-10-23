@@ -1,17 +1,17 @@
 {
-  "generated": "2026-10-23T11:22:41.168404",
+  "generated": "2026-10-23T15:50:49.870805",
   "scanner_version": "V6.0",
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-10-23T11:22:40.016629",
+      "timestamp": "2026-10-23T15:50:48.737619",
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-23T11:22:40.016594",
-        "last_price": 507.76,
-        "vwap": 535.86,
-        "momentum": -40.13,
-        "volume": 95641722,
+        "timestamp": "2026-10-23T15:50:48.737585",
+        "last_price": 521.58,
+        "vwap": 533.13,
+        "momentum": -30.19,
+        "volume": 76017922,
         "data_quality": "LIVE"
       },
       "signal": "BEARISH",
@@ -47,14 +47,14 @@
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-10-23T11:22:40.114664",
+      "timestamp": "2026-10-23T15:50:48.828482",
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-23T11:22:40.114629",
-        "last_price": 171.02,
-        "vwap": 179.26,
-        "momentum": -11.18,
-        "volume": 27639068,
+        "timestamp": "2026-10-23T15:50:48.828448",
+        "last_price": 174.88,
+        "vwap": 178.58,
+        "momentum": -6.03,
+        "volume": 25462697,
         "data_quality": "LIVE"
       },
       "signal": "BEARISH",
@@ -90,14 +90,14 @@
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-10-23T11:22:40.219418",
+      "timestamp": "2026-10-23T15:50:48.927221",
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-23T11:22:40.219383",
-        "last_price": 1561.35,
-        "vwap": 1640.61,
-        "momentum": -121.71,
-        "volume": 6523888,
+        "timestamp": "2026-10-23T15:50:48.927186",
+        "last_price": 1579.69,
+        "vwap": 1621.93,
+        "momentum": -81.4,
+        "volume": 5824279,
         "data_quality": "LIVE"
       },
       "signal": "BEARISH",
@@ -133,24 +133,24 @@
     },
     {
       "ticker": "BKR",
-      "timestamp": "2026-10-23T11:22:40.345014",
+      "timestamp": "2026-10-23T15:50:49.049073",
       "market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-23T11:22:40.344980",
-        "last_price": 53.62,
-        "vwap": 55.03,
-        "momentum": -1.59,
-        "volume": 21999508,
+        "timestamp": "2026-10-23T15:50:49.049037",
+        "last_price": 55.52,
+        "vwap": 54.87,
+        "momentum": -0.12,
+        "volume": 19364060,
         "data_quality": "LIVE"
       },
-      "signal": "BEARISH",
+      "signal": "NEUTRAL",
       "scores": {
-        "market_score": 15,
+        "market_score": 25,
         "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 36.0
+        "alpha_score": 40.0
       },
       "news": {
         "ticker": "BKR",
@@ -162,11 +162,11 @@
         "catalyst_score": 50,
         "catalysts": []
       },
-      "rating": "AVOID",
+      "rating": "HOLD",
       "action": "NO TRADE",
       "decision": {
         "action": "AVOID",
-        "confidence": 64.0,
+        "confidence": 60.0,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -176,14 +176,14 @@
     },
     {
       "ticker": "CCLD",
-      "timestamp": "2026-10-23T11:22:40.443985",
+      "timestamp": "2026-10-23T15:50:49.141225",
       "market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-23T11:22:40.443949",
-        "last_price": 1.77,
-        "vwap": 1.8,
-        "momentum": -0.19,
-        "volume": 972793,
+        "timestamp": "2026-10-23T15:50:49.141191",
+        "last_price": 1.73,
+        "vwap": 1.78,
+        "momentum": -0.1,
+        "volume": 887622,
         "data_quality": "LIVE"
       },
       "signal": "BEARISH",
@@ -219,14 +219,14 @@
     },
     {
       "ticker": "CTAS",
-      "timestamp": "2026-10-23T11:22:40.560261",
+      "timestamp": "2026-10-23T15:50:49.252825",
       "market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-23T11:22:40.560225",
-        "last_price": 224.14,
-        "vwap": 218.04,
-        "momentum": 8.68,
-        "volume": 6487053,
+        "timestamp": "2026-10-23T15:50:49.252769",
+        "last_price": 224.26,
+        "vwap": 219.25,
+        "momentum": 12.44,
+        "volume": 5952690,
         "data_quality": "LIVE"
       },
       "signal": "BULLISH",
@@ -262,14 +262,14 @@
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-10-23T11:22:40.656716",
+      "timestamp": "2026-10-23T15:50:49.353033",
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-23T11:22:40.656681",
-        "last_price": 320.85,
-        "vwap": 332.3,
-        "momentum": -22.08,
-        "volume": 63793721,
+        "timestamp": "2026-10-23T15:50:49.352999",
+        "last_price": 320.27,
+        "vwap": 329.85,
+        "momentum": -19.33,
+        "volume": 55294092,
         "data_quality": "LIVE"
       },
       "signal": "BEARISH",
@@ -305,14 +305,14 @@
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-10-23T11:22:40.749021",
+      "timestamp": "2026-10-23T15:50:49.448297",
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-23T11:22:40.748980",
-        "last_price": 159.13,
-        "vwap": 168.18,
-        "momentum": -21.49,
-        "volume": 120393050,
+        "timestamp": "2026-10-23T15:50:49.448255",
+        "last_price": 161.67,
+        "vwap": 166.67,
+        "momentum": -9.88,
+        "volume": 95489442,
         "data_quality": "LIVE"
       },
       "signal": "BEARISH",
@@ -348,14 +348,14 @@
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-10-23T11:22:40.856162",
+      "timestamp": "2026-10-23T15:50:49.564947",
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-23T11:22:40.856128",
-        "last_price": 212.28,
-        "vwap": 216.55,
-        "momentum": -4.09,
-        "volume": 442720244,
+        "timestamp": "2026-10-23T15:50:49.564915",
+        "last_price": 212.62,
+        "vwap": 214.89,
+        "momentum": -2.89,
+        "volume": 557237394,
         "data_quality": "LIVE"
       },
       "signal": "BEARISH",
@@ -391,24 +391,24 @@
     },
     {
       "ticker": "OMDA",
-      "timestamp": "2026-10-23T11:22:40.950573",
+      "timestamp": "2026-10-23T15:50:49.649071",
       "market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-23T11:22:40.950539",
-        "last_price": 18.97,
-        "vwap": 18.92,
-        "momentum": 0.34,
-        "volume": 3944923,
+        "timestamp": "2026-10-23T15:50:49.649040",
+        "last_price": 18.83,
+        "vwap": 19.1,
+        "momentum": 0.89,
+        "volume": 3382080,
         "data_quality": "LIVE"
       },
-      "signal": "BULLISH",
+      "signal": "NEUTRAL",
       "scores": {
-        "market_score": 35,
+        "market_score": 25,
         "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 44.0
+        "alpha_score": 40.0
       },
       "news": {
         "ticker": "OMDA",
@@ -424,7 +424,7 @@
       "action": "NO TRADE",
       "decision": {
         "action": "AVOID",
-        "confidence": 56.0,
+        "confidence": 60.0,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -434,14 +434,14 @@
     },
     {
       "ticker": "UNH",
-      "timestamp": "2026-10-23T11:22:41.066992",
+      "timestamp": "2026-10-23T15:50:49.759920",
       "market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-23T11:22:41.066959",
-        "last_price": 425.06,
-        "vwap": 412.26,
-        "momentum": 26.12,
-        "volume": 23915822,
+        "timestamp": "2026-10-23T15:50:49.759887",
+        "last_price": 423.95,
+        "vwap": 417.18,
+        "momentum": 19.86,
+        "volume": 17998675,
         "data_quality": "LIVE"
       },
       "signal": "BULLISH",
@@ -477,14 +477,14 @@
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-10-23T11:22:41.168399",
+      "timestamp": "2026-10-23T15:50:49.870800",
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-23T11:22:41.168365",
-        "last_price": 195.54,
-        "vwap": 205.38,
-        "momentum": -14.33,
-        "volume": 29288169,
+        "timestamp": "2026-10-23T15:50:49.870746",
+        "last_price": 196.08,
+        "vwap": 203.23,
+        "momentum": -13.81,
+        "volume": 26591364,
         "data_quality": "LIVE"
       },
       "signal": "BEARISH",
