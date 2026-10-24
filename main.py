@@ -1,5 +1,5 @@
 """
-V7.0 Global Market Intelligence Scanner
+V7.1 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -451,7 +451,7 @@ def run_scanner():
 
 
     # =====================================================
-    # 2. V7.0 POSITION SIZING & REBALANCING
+    # 2. V7.1 POSITION SIZING & REBALANCING
     # =====================================================
 
     portfolio_rebalancing = (
@@ -494,7 +494,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V7.0",
+        "V7.1",
 
         "portfolio":
         results,
@@ -530,7 +530,7 @@ def run_scanner():
 
 
     print(
-        "V7.0 Scanner completed successfully"
+        "V7.1 Scanner completed successfully"
     )
 
 
