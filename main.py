@@ -1,5 +1,5 @@
 """
-V6.2 Global Market Intelligence Scanner
+V6.3 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -14,6 +14,8 @@ Scoring Engine
 News Intelligence Engine
         |
 Catalyst Engine
+        |
+Sector Intelligence Engine
         |
 Risk Intelligence Engine
         |
@@ -50,6 +52,11 @@ from engines.news_engine import (
 
 from engines.catalyst_engine import (
     analyze_catalyst
+)
+
+
+from engines.sector_engine import (
+    analyze_sector
 )
 
 
@@ -182,10 +189,16 @@ def run_scanner():
 
         # =================================================
         # 5. SECTOR INTELLIGENCE
-        # Temporary neutral score
         # =================================================
 
-        sector_score = 50
+        sector_result = analyze_sector(
+            ticker
+        )
+
+        sector_score = sector_result.get(
+            "sector_score",
+            50
+        )
 
 
         # =================================================
@@ -277,6 +290,9 @@ def run_scanner():
             "catalyst":
             catalyst_result,
 
+            "sector":
+            sector_result,
+
             "risk":
             risk_result,
 
@@ -313,7 +329,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V6.2",
+        "V6.3",
 
         "portfolio":
         results
@@ -341,7 +357,7 @@ def run_scanner():
 
 
     print(
-        "V6.2 Scanner completed successfully"
+        "V6.3 Scanner completed successfully"
     )
 
 
