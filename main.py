@@ -1,5 +1,5 @@
 """
-V6.5 Global Market Intelligence Scanner
+V6.6 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -22,6 +22,8 @@ Risk Intelligence Engine
 Alpha Intelligence Engine
         |
 Decision Engine
+        |
+Opportunity Scanner
         |
 JSON Report
 """
@@ -76,6 +78,11 @@ from engines.decision_engine import (
 )
 
 
+from engines.opportunity_scanner_engine import (
+    scan_opportunities
+)
+
+
 PORTFOLIO_FILE = "data/portfolio.csv"
 
 OUTPUT_FILE = "docs/latest.json"
@@ -85,7 +92,9 @@ def load_portfolio():
 
     portfolio = []
 
-    if not os.path.exists(PORTFOLIO_FILE):
+    if not os.path.exists(
+        PORTFOLIO_FILE
+    ):
         return portfolio
 
     with open(
@@ -94,19 +103,28 @@ def load_portfolio():
         encoding="utf-8"
     ) as file:
 
-        reader = csv.DictReader(file)
+        reader = csv.DictReader(
+            file
+        )
 
         for row in reader:
-            portfolio.append(row)
+            portfolio.append(
+                row
+            )
 
     return portfolio
 
 
 def run_scanner():
 
+    # =====================================================
+    # 1. PORTFOLIO ANALYSIS
+    # =====================================================
+
     portfolio = load_portfolio()
 
     results = []
+
 
     for stock in portfolio:
 
@@ -115,8 +133,9 @@ def run_scanner():
             "UNKNOWN"
         )
 
+
         # =================================================
-        # 1. LIVE MARKET DATA
+        # LIVE MARKET DATA
         # =================================================
 
         live_data = get_live_market_data(
@@ -138,7 +157,7 @@ def run_scanner():
 
 
         # =================================================
-        # 2. MARKET SNAPSHOT
+        # MARKET SNAPSHOT
         # =================================================
 
         snapshot = build_market_snapshot(
@@ -159,7 +178,7 @@ def run_scanner():
 
 
         # =================================================
-        # 3. NEWS INTELLIGENCE
+        # NEWS INTELLIGENCE
         # =================================================
 
         news_result = analyze_news(
@@ -173,7 +192,7 @@ def run_scanner():
 
 
         # =================================================
-        # 4. CATALYST INTELLIGENCE
+        # CATALYST INTELLIGENCE
         # =================================================
 
         catalyst_result = analyze_catalyst(
@@ -187,7 +206,7 @@ def run_scanner():
 
 
         # =================================================
-        # 5. SECTOR INTELLIGENCE
+        # SECTOR INTELLIGENCE
         # =================================================
 
         sector_result = analyze_sector(
@@ -201,7 +220,7 @@ def run_scanner():
 
 
         # =================================================
-        # 6. RISK INTELLIGENCE
+        # RISK INTELLIGENCE
         # =================================================
 
         risk_result = calculate_live_risk(
@@ -217,7 +236,7 @@ def run_scanner():
 
 
         # =================================================
-        # 7. ALPHA INTELLIGENCE
+        # ALPHA INTELLIGENCE
         # =================================================
 
         alpha_score = calculate_alpha_score(
@@ -234,7 +253,7 @@ def run_scanner():
 
 
         # =================================================
-        # 8. DECISION ENGINE
+        # DECISION ENGINE
         # =================================================
 
         decision = generate_decision(
@@ -255,7 +274,7 @@ def run_scanner():
 
 
         # =================================================
-        # 9. STOCK RESULT
+        # STOCK RESULT
         # =================================================
 
         result = {
@@ -320,13 +339,25 @@ def run_scanner():
 
         }
 
+
         results.append(
             result
         )
 
 
     # =====================================================
-    # 10. FINAL PORTFOLIO OUTPUT
+    # 2. MARKET OPPORTUNITY SCANNER
+    # =====================================================
+
+    opportunity_scan = (
+        scan_opportunities(
+            top_n=15
+        )
+    )
+
+
+    # =====================================================
+    # 3. FINAL OUTPUT
     # =====================================================
 
     output = {
@@ -335,10 +366,13 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V6.5",
+        "V6.6",
 
         "portfolio":
-        results
+        results,
+
+        "opportunity_scan":
+        opportunity_scan
 
     }
 
@@ -363,7 +397,7 @@ def run_scanner():
 
 
     print(
-        "V6.5 Scanner completed successfully"
+        "V6.6 Scanner completed successfully"
     )
 
 
