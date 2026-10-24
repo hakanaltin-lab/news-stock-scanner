@@ -1,5 +1,5 @@
 """
-V6.8 Global Market Intelligence Scanner
+V6.9 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -21,7 +21,9 @@ Risk Intelligence Engine
         |
 Alpha Intelligence Engine
         |
-Decision Engine
+New Entry Decision Engine
+        |
+Portfolio Management Engine
         |
 Opportunity Fast Scanner
         |
@@ -83,6 +85,11 @@ from engines.decision_engine import (
 )
 
 
+from engines.portfolio_management_engine import (
+    evaluate_portfolio_position
+)
+
+
 from engines.opportunity_scanner_engine import (
     scan_opportunities
 )
@@ -129,7 +136,7 @@ def load_portfolio():
 def run_scanner():
 
     # =====================================================
-    # 1. PORTFOLIO ANALYSIS
+    # 1. CURRENT PORTFOLIO ANALYSIS
     # =====================================================
 
     portfolio = load_portfolio()
@@ -142,6 +149,18 @@ def run_scanner():
         ticker = stock.get(
             "ticker",
             "UNKNOWN"
+        ).strip().upper()
+
+
+        shares = stock.get(
+            "shares",
+            0
+        )
+
+
+        avg_cost = stock.get(
+            "avg_cost",
+            0
         )
 
 
@@ -153,15 +172,18 @@ def run_scanner():
             ticker
         )
 
+
         prices = live_data.get(
             "prices",
             []
         )
 
+
         volumes = live_data.get(
             "volumes",
             []
         )
+
 
         if not prices or not volumes:
             continue
@@ -188,9 +210,15 @@ def run_scanner():
         )
 
 
+        current_price = snapshot.get(
+            "last_price",
+            0
+        )
+
+
         # =================================================
         # NEWS + CATALYST INTELLIGENCE
-        # Fetch news once and reuse it
+        # Fetch once and reuse
         # =================================================
 
         news_items = fetch_live_news(
@@ -273,23 +301,45 @@ def run_scanner():
 
 
         # =================================================
-        # DECISION ENGINE
+        # NEW ENTRY DECISION
+        # Kept for analytical transparency
         # =================================================
 
-        decision = generate_decision(
+        entry_decision = generate_decision(
             alpha_score,
             market_score,
             catalyst_score,
             risk_score,
-            snapshot.get(
-                "last_price"
+            current_price
+        )
+
+
+        # =================================================
+        # V6.9 PORTFOLIO MANAGEMENT
+        # Existing-position decision
+        # =================================================
+
+        portfolio_management = (
+            evaluate_portfolio_position(
+                ticker=ticker,
+                shares=shares,
+                avg_cost=avg_cost,
+                current_price=current_price,
+                alpha_score=alpha_score,
+                market_score=market_score,
+                catalyst_score=catalyst_score,
+                sector_score=sector_score,
+                risk_score=risk_score,
+                signal=signal
             )
         )
 
 
-        final_action = decision.get(
-            "action",
-            "AVOID"
+        portfolio_action = (
+            portfolio_management.get(
+                "action",
+                "WATCH"
+            )
         )
 
 
@@ -304,6 +354,30 @@ def run_scanner():
 
             "timestamp":
             datetime.utcnow().isoformat(),
+
+            "holding": {
+
+                "shares":
+                shares,
+
+                "avg_cost":
+                avg_cost,
+
+                "sector":
+                stock.get(
+                    "sector"
+                ),
+
+                "theme":
+                stock.get(
+                    "theme"
+                ),
+
+                "status":
+                stock.get(
+                    "status"
+                )
+            },
 
             "market":
             snapshot,
@@ -347,11 +421,20 @@ def run_scanner():
             "rating":
             alpha_rating,
 
-            "action":
-            final_action,
+            "entry_action":
+            entry_decision.get(
+                "action",
+                "AVOID"
+            ),
 
-            "decision":
-            decision,
+            "entry_decision":
+            entry_decision,
+
+            "portfolio_action":
+            portfolio_action,
+
+            "portfolio_management":
+            portfolio_management,
 
             "status":
             "ACTIVE"
@@ -375,7 +458,7 @@ def run_scanner():
 
 
     # =====================================================
-    # 3. OPPORTUNITY DEEP ANALYSIS + V6.8 SAFETY GATE
+    # 3. OPPORTUNITY DEEP ANALYSIS + SAFETY GATE
     # =====================================================
 
     opportunity_analysis = (
@@ -396,7 +479,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V6.8",
+        "V6.9",
 
         "portfolio":
         results,
@@ -429,7 +512,7 @@ def run_scanner():
 
 
     print(
-        "V6.8 Scanner completed successfully"
+        "V6.9 Scanner completed successfully"
     )
 
 
