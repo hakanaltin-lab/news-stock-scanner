@@ -1,17 +1,44 @@
 """
-V6.0 Decision Engine
+V6.5 Institutional Decision Engine
 
 Purpose:
-Convert intelligence scores into portfolio actions.
+- Convert intelligence scores into actionable decisions
+- Require confirmation across Alpha, Market, Catalyst and Risk
+- Prevent weak setups from becoming BUY / ACCUMULATE
+- Generate entry, stop, target and risk/reward
 
-Outputs:
-- action
-- entry zone
-- stop loss
-- target
-- confidence
-- risk reward
+Decision hierarchy:
+BUY
+ACCUMULATE
+WATCH
+AVOID
 """
+
+
+def calculate_confidence(
+    alpha_score,
+    market_score,
+    catalyst_score,
+    risk_score
+):
+
+    confidence = (
+        alpha_score * 0.50
+        + market_score * 0.20
+        + catalyst_score * 0.15
+        + risk_score * 0.15
+    )
+
+    return round(
+        max(
+            0,
+            min(
+                100,
+                confidence
+            )
+        ),
+        1
+    )
 
 
 def generate_decision(
@@ -22,58 +49,159 @@ def generate_decision(
     price
 ):
 
+    confidence = calculate_confidence(
+        alpha_score,
+        market_score,
+        catalyst_score,
+        risk_score
+    )
+
     decision = {
-        "action": "WATCH",
-        "confidence": 0,
-        "entry_zone": None,
-        "stop_loss": None,
-        "target_price": None,
-        "risk_reward": None
+
+        "action":
+        "AVOID",
+
+        "confidence":
+        confidence,
+
+        "entry_zone":
+        None,
+
+        "stop_loss":
+        None,
+
+        "target_price":
+        None,
+
+        "risk_reward":
+        None,
+
+        "setup_quality":
+        "WEAK",
+
+        "reasons":
+        []
+
     }
 
 
-    # Strong bullish setup
+    # ==============================================
+    # HARD RISK / TECHNICAL FILTERS
+    # ==============================================
 
-    if alpha_score >= 80 and risk_score >= 60:
+    if risk_score < 45:
+
+        decision["reasons"].append(
+            "Risk profile too weak"
+        )
+
+        return decision
+
+
+    if market_score < 35:
+
+        decision["reasons"].append(
+            "Technical setup too weak"
+        )
+
+        return decision
+
+
+    # ==============================================
+    # HIGH-CONVICTION BUY
+    # ==============================================
+
+    if (
+        alpha_score >= 75
+        and market_score >= 65
+        and catalyst_score >= 60
+        and risk_score >= 60
+    ):
 
         decision["action"] = "BUY"
 
-        decision["confidence"] = min(
-            95,
-            alpha_score
+        decision["setup_quality"] = (
+            "HIGH_CONVICTION"
         )
 
+        decision["reasons"] = [
+            "Strong alpha score",
+            "Strong technical confirmation",
+            "Positive catalyst confirmation",
+            "Acceptable risk profile"
+        ]
+
         decision["entry_zone"] = {
-            "low": round(price * 0.97,2),
-            "high": round(price * 1.01,2)
+
+            "low":
+            round(
+                price * 0.98,
+                2
+            ),
+
+            "high":
+            round(
+                price * 1.01,
+                2
+            )
+
         }
 
         decision["stop_loss"] = round(
-            price * 0.92,
+            price * 0.93,
             2
         )
 
         decision["target_price"] = round(
-            price * 1.20,
+            price * 1.18,
             2
         )
 
 
-    # Accumulate zone
+    # ==============================================
+    # ACCUMULATE
+    # ==============================================
 
-    elif alpha_score >= 65:
+    elif (
+        alpha_score >= 65
+        and market_score >= 55
+        and catalyst_score >= 55
+        and risk_score >= 55
+    ):
 
-        decision["action"] = "ACCUMULATE"
+        decision["action"] = (
+            "ACCUMULATE"
+        )
 
-        decision["confidence"] = alpha_score
+        decision["setup_quality"] = (
+            "POSITIVE"
+        )
+
+        decision["reasons"] = [
+            "Positive alpha score",
+            "Technical confirmation present",
+            "Catalyst confirmation present",
+            "Risk profile acceptable"
+        ]
 
         decision["entry_zone"] = {
-            "low": round(price * 0.95,2),
-            "high": round(price,2)
+
+            "low":
+            round(
+                price * 0.96,
+                2
+            ),
+
+            "high":
+            round(
+                price,
+                2
+            )
+
         }
 
         decision["stop_loss"] = round(
-            price * 0.90,
+            price * 0.91,
             2
         )
 
@@ -83,31 +211,51 @@ def generate_decision(
         )
 
 
-    # Neutral
+    # ==============================================
+    # WATCH
+    # ==============================================
 
-    elif alpha_score >= 45:
+    elif (
+        alpha_score >= 55
+        and market_score >= 45
+        and risk_score >= 50
+    ):
 
         decision["action"] = "WATCH"
 
-        decision["confidence"] = alpha_score
+        decision["setup_quality"] = (
+            "DEVELOPING"
+        )
+
+        decision["reasons"] = [
+            "Setup has potential",
+            "Further confirmation required"
+        ]
 
 
-    # Weak setup
+    # ==============================================
+    # AVOID
+    # ==============================================
 
     else:
 
         decision["action"] = "AVOID"
 
-        decision["confidence"] = (
-            100 - alpha_score
-        )
+        decision["setup_quality"] = "WEAK"
+
+        decision["reasons"] = [
+            "Insufficient multi-factor confirmation"
+        ]
 
 
-    # Risk reward calculation
+    # ==============================================
+    # RISK / REWARD
+    # ==============================================
 
     if (
-        decision["target_price"]
-        and decision["stop_loss"]
+        decision["target_price"] is not None
+        and decision["stop_loss"] is not None
+        and price
     ):
 
         upside = (
