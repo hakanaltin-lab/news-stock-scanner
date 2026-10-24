@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-24T20:07:47.849873",
-  "scanner_version": "V6.9",
+  "generated": "2026-10-24T20:26:02.187851",
+  "scanner_version": "V7.0",
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-10-24T20:07:35.558934",
+      "timestamp": "2026-10-24T20:25:48.539362",
       "holding": {
         "shares": "10",
         "avg_cost": "140.16",
@@ -14,13 +14,13 @@
       },
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-24T20:07:34.856326",
+        "timestamp": "2026-10-24T20:25:47.878373",
         "last_price": 516.87,
         "vwap": 532.04,
         "momentum": -34.9,
         "momentum_pct": -6.33,
         "vwap_distance_pct": -2.85,
-        "volume": 81607946,
+        "volume": 81617246,
         "volume_ratio": 0.76,
         "data_points": 130,
         "data_quality": "LIVE"
@@ -81,7 +81,7 @@
         "volatility_pct": 0.67,
         "max_drawdown_pct": 9.4,
         "trend_pct": -6.33,
-        "average_dollar_volume": 333990524.4,
+        "average_dollar_volume": 334028991.04,
         "components": {
           "volatility_score": 83.3,
           "drawdown_score": 24.8,
@@ -139,7 +139,7 @@
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-10-24T20:07:36.082899",
+      "timestamp": "2026-10-24T20:25:49.126123",
       "holding": {
         "shares": "35",
         "avg_cost": "147.95",
@@ -149,13 +149,13 @@
       },
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-24T20:07:35.670844",
+        "timestamp": "2026-10-24T20:25:48.660908",
         "last_price": 172.34,
         "vwap": 178.27,
         "momentum": -8.57,
         "momentum_pct": -4.74,
         "vwap_distance_pct": -3.33,
-        "volume": 26466050,
+        "volume": 26465057,
         "volume_ratio": 0.77,
         "data_points": 130,
         "data_quality": "LIVE"
@@ -216,7 +216,7 @@
         "volatility_pct": 0.59,
         "max_drawdown_pct": 8.34,
         "trend_pct": -4.74,
-        "average_dollar_volume": 36292871.71,
+        "average_dollar_volume": 36291271.49,
         "components": {
           "volatility_score": 85.3,
           "drawdown_score": 33.3,
@@ -274,7 +274,7 @@
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-10-24T20:07:36.605566",
+      "timestamp": "2026-10-24T20:25:49.616920",
       "holding": {
         "shares": "3",
         "avg_cost": "676.38",
@@ -284,13 +284,13 @@
       },
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-24T20:07:36.203623",
+        "timestamp": "2026-10-24T20:25:49.254872",
         "last_price": 1571.19,
         "vwap": 1622.44,
         "momentum": -89.9,
         "momentum_pct": -5.41,
         "vwap_distance_pct": -3.16,
-        "volume": 5784786,
+        "volume": 5784676,
         "volume_ratio": 0.77,
         "data_points": 130,
         "data_quality": "LIVE"
@@ -343,9 +343,9 @@
         "volatility_pct": 0.47,
         "max_drawdown_pct": 7.41,
         "trend_pct": -5.41,
-        "average_dollar_volume": 72196116.23,
+        "average_dollar_volume": 72194423.43,
         "components": {
-          "volatility_score": 88.1,
+          "volatility_score": 88.2,
           "drawdown_score": 40.7,
           "liquidity_score": 100,
           "downside_momentum_score": 72.9
@@ -401,7 +401,7 @@
     },
     {
       "ticker": "BKR",
-      "timestamp": "2026-10-24T20:07:37.238358",
+      "timestamp": "2026-10-24T20:25:50.291587",
       "holding": {
         "shares": "13",
         "avg_cost": "57.80",
@@ -411,13 +411,13 @@
       },
       "market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-24T20:07:36.784959",
+        "timestamp": "2026-10-24T20:25:49.756687",
         "last_price": 55.86,
         "vwap": 54.98,
         "momentum": 0.22,
         "momentum_pct": 0.4,
         "vwap_distance_pct": 1.6,
-        "volume": 22022638,
+        "volume": 22023010,
         "volume_ratio": 1.05,
         "data_points": 130,
         "data_quality": "LIVE"
@@ -484,7 +484,7 @@
         "volatility_pct": 0.4,
         "max_drawdown_pct": 6.63,
         "trend_pct": 0.4,
-        "average_dollar_volume": 9314671.97,
+        "average_dollar_volume": 9314833.19,
         "components": {
           "volatility_score": 89.9,
           "drawdown_score": 47.0,
@@ -550,7 +550,7 @@
     },
     {
       "ticker": "CCLD",
-      "timestamp": "2026-10-24T20:07:37.780713",
+      "timestamp": "2026-10-24T20:25:51.006174",
       "holding": {
         "shares": "490",
         "avg_cost": "2.04",
@@ -560,25 +560,25 @@
       },
       "market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-24T20:07:37.353260",
+        "timestamp": "2026-10-24T20:25:50.461341",
         "last_price": 1.76,
         "vwap": 1.78,
         "momentum": -0.07,
         "momentum_pct": -3.83,
         "vwap_distance_pct": -1.12,
-        "volume": 1081009,
-        "volume_ratio": 1.01,
+        "volume": 1077214,
+        "volume_ratio": 0.99,
         "data_points": 119,
         "data_quality": "LIVE"
       },
       "signal": "BEARISH",
       "scores": {
-        "market_score": 37.0,
+        "market_score": 37.1,
         "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 88.7,
         "risk_score": 59.5,
-        "alpha_score": 53.63
+        "alpha_score": 53.66
       },
       "news": {
         "ticker": "CCLD",
@@ -619,7 +619,7 @@
         "volatility_pct": 0.58,
         "max_drawdown_pct": 6.99,
         "trend_pct": -3.83,
-        "average_dollar_volume": 16172.3,
+        "average_dollar_volume": 16115.75,
         "components": {
           "volatility_score": 85.6,
           "drawdown_score": 44.1,
@@ -632,7 +632,7 @@
       "entry_action": "AVOID",
       "entry_decision": {
         "action": "AVOID",
-        "confidence": 50.6,
+        "confidence": 50.7,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -663,8 +663,8 @@
           "No immediate portfolio action required"
         ],
         "inputs": {
-          "alpha_score": 53.63,
-          "market_score": 37.0,
+          "alpha_score": 53.66,
+          "market_score": 37.1,
           "catalyst_score": 50,
           "sector_score": 88.7,
           "risk_score": 59.5,
@@ -676,7 +676,7 @@
     },
     {
       "ticker": "CTAS",
-      "timestamp": "2026-10-24T20:07:38.404309",
+      "timestamp": "2026-10-24T20:25:51.848298",
       "holding": {
         "shares": "4",
         "avg_cost": "196.26",
@@ -686,25 +686,25 @@
       },
       "market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-24T20:07:37.956711",
-        "last_price": 224.13,
+        "timestamp": "2026-10-24T20:25:51.152992",
+        "last_price": 224.09,
         "vwap": 219.88,
-        "momentum": 12.31,
-        "momentum_pct": 5.81,
-        "vwap_distance_pct": 1.93,
-        "volume": 6817240,
+        "momentum": 12.27,
+        "momentum_pct": 5.79,
+        "vwap_distance_pct": 1.91,
+        "volume": 6817350,
         "volume_ratio": 0.95,
         "data_points": 130,
         "data_quality": "LIVE"
       },
       "signal": "BULLISH",
       "scores": {
-        "market_score": 70.1,
+        "market_score": 70.0,
         "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 27.6,
         "risk_score": 90.9,
-        "alpha_score": 63.9
+        "alpha_score": 63.87
       },
       "news": {
         "ticker": "CTAS",
@@ -744,8 +744,8 @@
         "risk_signal": "LOW_RISK",
         "volatility_pct": 0.25,
         "max_drawdown_pct": 1.04,
-        "trend_pct": 5.81,
-        "average_dollar_volume": 11530680.02,
+        "trend_pct": 5.79,
+        "average_dollar_volume": 11530786.63,
         "components": {
           "volatility_score": 93.8,
           "drawdown_score": 91.7,
@@ -779,11 +779,11 @@
         "position": {
           "shares": 4.0,
           "avg_cost": 196.26,
-          "current_price": 224.13,
+          "current_price": 224.09,
           "cost_basis": 785.04,
-          "current_value": 896.52,
-          "unrealized_pnl": 111.48,
-          "unrealized_pnl_pct": 14.2
+          "current_value": 896.36,
+          "unrealized_pnl": 111.32,
+          "unrealized_pnl_pct": 14.18
         },
         "reasons": [
           "Position remains fundamentally acceptable",
@@ -792,8 +792,8 @@
           "Sector backdrop limits conviction"
         ],
         "inputs": {
-          "alpha_score": 63.9,
-          "market_score": 70.1,
+          "alpha_score": 63.87,
+          "market_score": 70.0,
           "catalyst_score": 50,
           "sector_score": 27.6,
           "risk_score": 90.9,
@@ -805,7 +805,7 @@
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-10-24T20:07:38.938335",
+      "timestamp": "2026-10-24T20:25:52.557262",
       "holding": {
         "shares": "20",
         "avg_cost": "207.68",
@@ -815,7 +815,7 @@
       },
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-24T20:07:38.522161",
+        "timestamp": "2026-10-24T20:25:51.975747",
         "last_price": 317.24,
         "vwap": 328.95,
         "momentum": -22.36,
@@ -882,7 +882,7 @@
         "volatility_pct": 0.3,
         "max_drawdown_pct": 7.2,
         "trend_pct": -6.58,
-        "average_dollar_volume": 152278849.26,
+        "average_dollar_volume": 152278850.43,
         "components": {
           "volatility_score": 92.5,
           "drawdown_score": 42.4,
@@ -940,7 +940,7 @@
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-10-24T20:07:39.752175",
+      "timestamp": "2026-10-24T20:25:52.921015",
       "holding": {
         "shares": "44",
         "avg_cost": "171.81",
@@ -950,7 +950,7 @@
       },
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-24T20:07:39.052348",
+        "timestamp": "2026-10-24T20:25:52.678369",
         "last_price": 158.74,
         "vwap": 166.34,
         "momentum": -12.81,
@@ -1017,7 +1017,7 @@
         "volatility_pct": 0.98,
         "max_drawdown_pct": 10.15,
         "trend_pct": -7.47,
-        "average_dollar_volume": 128639508.04,
+        "average_dollar_volume": 128639505.72,
         "components": {
           "volatility_score": 75.5,
           "drawdown_score": 18.8,
@@ -1075,7 +1075,7 @@
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-10-24T20:07:40.123220",
+      "timestamp": "2026-10-24T20:25:53.394934",
       "holding": {
         "shares": "24",
         "avg_cost": "160.96",
@@ -1085,25 +1085,25 @@
       },
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-24T20:07:39.889119",
+        "timestamp": "2026-10-24T20:25:53.045398",
         "last_price": 211.0,
-        "vwap": 216.27,
+        "vwap": 215.88,
         "momentum": -4.51,
         "momentum_pct": -2.09,
-        "vwap_distance_pct": -2.44,
-        "volume": 463284697,
-        "volume_ratio": 0.86,
+        "vwap_distance_pct": -2.26,
+        "volume": 376070628,
+        "volume_ratio": 0.84,
         "data_points": 130,
         "data_quality": "LIVE"
       },
       "signal": "BEARISH",
       "scores": {
-        "market_score": 38.2,
+        "market_score": 38.8,
         "news_score": 58,
         "catalyst_score": 56,
         "sector_score": 0,
         "risk_score": 81.9,
-        "alpha_score": 47.84
+        "alpha_score": 48.05
       },
       "news": {
         "ticker": "NVDA",
@@ -1152,9 +1152,9 @@
         "volatility_pct": 0.38,
         "max_drawdown_pct": 4.9,
         "trend_pct": -2.09,
-        "average_dollar_volume": 770739599.53,
+        "average_dollar_volume": 624522149.86,
         "components": {
-          "volatility_score": 90.5,
+          "volatility_score": 90.6,
           "drawdown_score": 60.8,
           "liquidity_score": 100,
           "downside_momentum_score": 89.5
@@ -1165,7 +1165,7 @@
       "entry_action": "AVOID",
       "entry_decision": {
         "action": "AVOID",
-        "confidence": 52.2,
+        "confidence": 52.5,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -1196,8 +1196,8 @@
           "Technical confirmation is insufficient"
         ],
         "inputs": {
-          "alpha_score": 47.84,
-          "market_score": 38.2,
+          "alpha_score": 48.05,
+          "market_score": 38.8,
           "catalyst_score": 56,
           "sector_score": 0,
           "risk_score": 81.9,
@@ -1209,7 +1209,7 @@
     },
     {
       "ticker": "OMDA",
-      "timestamp": "2026-10-24T20:07:40.568539",
+      "timestamp": "2026-10-24T20:25:53.902722",
       "holding": {
         "shares": "10",
         "avg_cost": "20.45",
@@ -1219,7 +1219,7 @@
       },
       "market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-24T20:07:40.287368",
+        "timestamp": "2026-10-24T20:25:53.513804",
         "last_price": 18.95,
         "vwap": 19.09,
         "momentum": 1.01,
@@ -1278,7 +1278,7 @@
         "volatility_pct": 0.48,
         "max_drawdown_pct": 5.32,
         "trend_pct": 5.63,
-        "average_dollar_volume": 562458.7,
+        "average_dollar_volume": 562458.82,
         "components": {
           "volatility_score": 88.0,
           "drawdown_score": 57.4,
@@ -1337,7 +1337,7 @@
     },
     {
       "ticker": "UNH",
-      "timestamp": "2026-10-24T20:07:41.049138",
+      "timestamp": "2026-10-24T20:25:54.451187",
       "holding": {
         "shares": "2",
         "avg_cost": "369.93",
@@ -1347,25 +1347,25 @@
       },
       "market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-24T20:07:40.698489",
+        "timestamp": "2026-10-24T20:25:54.044298",
         "last_price": 418.01,
-        "vwap": 417.33,
+        "vwap": 417.39,
         "momentum": 13.92,
         "momentum_pct": 3.44,
-        "vwap_distance_pct": 0.16,
-        "volume": 21355286,
-        "volume_ratio": 0.67,
+        "vwap_distance_pct": 0.15,
+        "volume": 20140426,
+        "volume_ratio": 0.72,
         "data_points": 130,
         "data_quality": "LIVE"
       },
       "signal": "BULLISH",
       "scores": {
-        "market_score": 57.4,
+        "market_score": 57.6,
         "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 88.7,
         "risk_score": 91.4,
-        "alpha_score": 68.75
+        "alpha_score": 68.81
       },
       "news": {
         "ticker": "UNH",
@@ -1406,7 +1406,7 @@
         "volatility_pct": 0.29,
         "max_drawdown_pct": 2.19,
         "trend_pct": 3.44,
-        "average_dollar_volume": 68555307.37,
+        "average_dollar_volume": 64664546.05,
         "components": {
           "volatility_score": 92.9,
           "drawdown_score": 82.5,
@@ -1452,8 +1452,8 @@
           "Catalyst confirmation not strong enough to add"
         ],
         "inputs": {
-          "alpha_score": 68.75,
-          "market_score": 57.4,
+          "alpha_score": 68.81,
+          "market_score": 57.6,
           "catalyst_score": 50,
           "sector_score": 88.7,
           "risk_score": 91.4,
@@ -1465,7 +1465,7 @@
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-10-24T20:07:41.433699",
+      "timestamp": "2026-10-24T20:25:55.058608",
       "holding": {
         "shares": "11",
         "avg_cost": "316.20",
@@ -1475,13 +1475,13 @@
       },
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-24T20:07:41.173789",
+        "timestamp": "2026-10-24T20:25:54.575827",
         "last_price": 194.31,
         "vwap": 202.31,
         "momentum": -15.58,
         "momentum_pct": -7.42,
         "vwap_distance_pct": -3.95,
-        "volume": 30144168,
+        "volume": 30144294,
         "volume_ratio": 1.09,
         "data_points": 130,
         "data_quality": "LIVE"
@@ -1542,7 +1542,7 @@
         "volatility_pct": 0.89,
         "max_drawdown_pct": 11.49,
         "trend_pct": -7.42,
-        "average_dollar_volume": 46912306.58,
+        "average_dollar_volume": 46912510.99,
         "components": {
           "volatility_score": 77.8,
           "drawdown_score": 8.1,
@@ -1599,6 +1599,229 @@
       "status": "ACTIVE"
     }
   ],
+  "portfolio_rebalancing": {
+    "engine": "V7.0 Position Sizing & Rebalancing Engine",
+    "portfolio_value": 39955.4,
+    "position_count": 12,
+    "max_position_weight_pct": 12.0,
+    "theme_concentration_limit_pct": 35.0,
+    "theme_exposure": {
+      "AI Infrastructure": {
+        "value": 20322.57,
+        "weight_pct": 50.86,
+        "concentration_status": "HIGH"
+      },
+      "AI": {
+        "value": 16122.37,
+        "weight_pct": 40.35,
+        "concentration_status": "HIGH"
+      },
+      "Energy": {
+        "value": 726.18,
+        "weight_pct": 1.82,
+        "concentration_status": "NORMAL"
+      },
+      "Special Situation": {
+        "value": 862.4,
+        "weight_pct": 2.16,
+        "concentration_status": "NORMAL"
+      },
+      "Industrial": {
+        "value": 896.36,
+        "weight_pct": 2.24,
+        "concentration_status": "NORMAL"
+      },
+      "Healthcare": {
+        "value": 1025.52,
+        "weight_pct": 2.57,
+        "concentration_status": "NORMAL"
+      }
+    },
+    "concentration_alerts": [
+      {
+        "theme": "AI Infrastructure",
+        "weight_pct": 50.86,
+        "limit_pct": 35.0,
+        "status": "HIGH_CONCENTRATION"
+      },
+      {
+        "theme": "AI",
+        "weight_pct": 40.35,
+        "limit_pct": 35.0,
+        "status": "HIGH_CONCENTRATION"
+      }
+    ],
+    "rebalancing_plan": [
+      {
+        "ticker": "NBIS",
+        "base_action": "EXIT",
+        "conviction": "HIGH",
+        "current_weight_pct": 17.48,
+        "target_weight_pct": 0.0,
+        "current_value": 6984.56,
+        "target_value": 0.0,
+        "trade_action": "SELL_ALL",
+        "suggested_shares": 44,
+        "suggested_trade_value": 6984.56,
+        "requires_cash": false,
+        "reason": "Portfolio engine recommends full exit"
+      },
+      {
+        "ticker": "VRT",
+        "base_action": "EXIT",
+        "conviction": "HIGH",
+        "current_weight_pct": 5.35,
+        "target_weight_pct": 0.0,
+        "current_value": 2137.41,
+        "target_value": 0.0,
+        "trade_action": "SELL_ALL",
+        "suggested_shares": 11,
+        "suggested_trade_value": 2137.41,
+        "requires_cash": false,
+        "reason": "Portfolio engine recommends full exit"
+      },
+      {
+        "ticker": "AMD",
+        "base_action": "REDUCE",
+        "conviction": "HIGH",
+        "current_weight_pct": 12.94,
+        "target_weight_pct": 10.0,
+        "current_value": 5168.7,
+        "target_value": 3995.54,
+        "trade_action": "SELL_PARTIAL",
+        "suggested_shares": 3,
+        "suggested_trade_value": 1550.61,
+        "requires_cash": false,
+        "reason": "Reduce exposure toward V7.0 target weight"
+      },
+      {
+        "ticker": "ANET",
+        "base_action": "REDUCE",
+        "conviction": "HIGH",
+        "current_weight_pct": 15.1,
+        "target_weight_pct": 10.0,
+        "current_value": 6031.9,
+        "target_value": 3995.54,
+        "trade_action": "SELL_PARTIAL",
+        "suggested_shares": 12,
+        "suggested_trade_value": 2068.08,
+        "requires_cash": false,
+        "reason": "Reduce exposure toward V7.0 target weight"
+      },
+      {
+        "ticker": "ASML",
+        "base_action": "REDUCE",
+        "conviction": "HIGH",
+        "current_weight_pct": 11.8,
+        "target_weight_pct": 10.0,
+        "current_value": 4713.57,
+        "target_value": 3995.54,
+        "trade_action": "SELL_PARTIAL",
+        "suggested_shares": 1,
+        "suggested_trade_value": 1571.19,
+        "requires_cash": false,
+        "reason": "Reduce exposure toward V7.0 target weight"
+      },
+      {
+        "ticker": "GOOG",
+        "base_action": "REDUCE",
+        "conviction": "HIGH",
+        "current_weight_pct": 15.88,
+        "target_weight_pct": 10.0,
+        "current_value": 6344.8,
+        "target_value": 3995.54,
+        "trade_action": "SELL_PARTIAL",
+        "suggested_shares": 8,
+        "suggested_trade_value": 2537.92,
+        "requires_cash": false,
+        "reason": "Reduce exposure toward V7.0 target weight"
+      },
+      {
+        "ticker": "NVDA",
+        "base_action": "REDUCE",
+        "conviction": "MEDIUM",
+        "current_weight_pct": 12.67,
+        "target_weight_pct": 11.0,
+        "current_value": 5064.0,
+        "target_value": 4395.09,
+        "trade_action": "SELL_PARTIAL",
+        "suggested_shares": 4,
+        "suggested_trade_value": 844.0,
+        "requires_cash": false,
+        "reason": "Reduce exposure toward V7.0 target weight"
+      },
+      {
+        "ticker": "BKR",
+        "base_action": "ADD",
+        "conviction": "HIGH",
+        "current_weight_pct": 1.82,
+        "target_weight_pct": 5.0,
+        "current_value": 726.18,
+        "target_value": 1997.77,
+        "trade_action": "BUY_TO_TARGET",
+        "suggested_shares": 22,
+        "suggested_trade_value": 1228.92,
+        "requires_cash": true,
+        "reason": "Additional capital required to reach target weight"
+      },
+      {
+        "ticker": "CCLD",
+        "base_action": "WATCH",
+        "conviction": "LOW",
+        "current_weight_pct": 2.16,
+        "target_weight_pct": 2.16,
+        "current_value": 862.4,
+        "target_value": 862.4,
+        "trade_action": "NO_TRADE",
+        "suggested_shares": 0,
+        "suggested_trade_value": 0.0,
+        "requires_cash": false,
+        "reason": "Position already aligned with target"
+      },
+      {
+        "ticker": "CTAS",
+        "base_action": "HOLD",
+        "conviction": "MEDIUM",
+        "current_weight_pct": 2.24,
+        "target_weight_pct": 2.24,
+        "current_value": 896.36,
+        "target_value": 896.36,
+        "trade_action": "NO_TRADE",
+        "suggested_shares": 0,
+        "suggested_trade_value": 0.0,
+        "requires_cash": false,
+        "reason": "Position already aligned with target"
+      },
+      {
+        "ticker": "OMDA",
+        "base_action": "HOLD",
+        "conviction": "MEDIUM",
+        "current_weight_pct": 0.47,
+        "target_weight_pct": 0.47,
+        "current_value": 189.5,
+        "target_value": 189.5,
+        "trade_action": "NO_TRADE",
+        "suggested_shares": 0,
+        "suggested_trade_value": 0.0,
+        "requires_cash": false,
+        "reason": "Position already aligned with target"
+      },
+      {
+        "ticker": "UNH",
+        "base_action": "HOLD",
+        "conviction": "MEDIUM",
+        "current_weight_pct": 2.09,
+        "target_weight_pct": 2.09,
+        "current_value": 836.02,
+        "target_value": 836.02,
+        "trade_action": "NO_TRADE",
+        "suggested_shares": 0,
+        "suggested_trade_value": 0.0,
+        "requires_cash": false,
+        "reason": "Position already aligned with target"
+      }
+    ]
+  },
   "opportunity_scan": {
     "scanned": 53,
     "qualified": 30,
@@ -1902,25 +2125,25 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-24T20:07:45.338365",
+          "timestamp": "2026-10-24T20:25:59.336602",
           "last_price": 150.81,
-          "vwap": 147.0,
+          "vwap": 146.85,
           "momentum": 4.55,
           "momentum_pct": 3.11,
-          "vwap_distance_pct": 2.59,
-          "volume": 21539370,
-          "volume_ratio": 1.52,
+          "vwap_distance_pct": 2.7,
+          "volume": 24041724,
+          "volume_ratio": 1.31,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BULLISH",
         "scores": {
-          "market_score": 68.1,
+          "market_score": 67.4,
           "news_score": 60,
           "catalyst_score": 60,
           "sector_score": 94.4,
           "risk_score": 88.6,
-          "alpha_score": 75.14
+          "alpha_score": 74.9
         },
         "news": {
           "ticker": "COP",
@@ -1969,7 +2192,7 @@
           "volatility_pct": 0.36,
           "max_drawdown_pct": 2.24,
           "trend_pct": 3.11,
-          "average_dollar_volume": 24356496.34,
+          "average_dollar_volume": 27157531.87,
           "components": {
             "volatility_score": 90.9,
             "drawdown_score": 82.1,
@@ -1979,46 +2202,46 @@
           "data_quality": "LIVE"
         },
         "rating": "STRONG",
-        "action": "BUY",
+        "action": "ACCUMULATE",
         "base_decision": {
-          "action": "BUY",
-          "confidence": 73.5,
+          "action": "ACCUMULATE",
+          "confidence": 73.2,
           "entry_zone": {
-            "low": 147.79,
-            "high": 152.32
+            "low": 144.78,
+            "high": 150.81
           },
-          "stop_loss": 140.25,
-          "target_price": 177.96,
-          "risk_reward": 2.57,
-          "setup_quality": "HIGH_CONVICTION",
+          "stop_loss": 137.24,
+          "target_price": 173.43,
+          "risk_reward": 1.67,
+          "setup_quality": "POSITIVE",
           "reasons": [
-            "Strong alpha score",
-            "Strong technical confirmation",
-            "Positive catalyst confirmation",
-            "Acceptable risk profile"
+            "Positive alpha score",
+            "Technical confirmation present",
+            "Catalyst confirmation present",
+            "Risk profile acceptable"
           ]
         },
         "decision": {
-          "action": "BUY",
-          "confidence": 73.5,
+          "action": "ACCUMULATE",
+          "confidence": 73.2,
           "entry_zone": {
-            "low": 147.79,
-            "high": 152.32
+            "low": 144.78,
+            "high": 150.81
           },
-          "stop_loss": 140.25,
-          "target_price": 177.96,
-          "risk_reward": 2.57,
-          "setup_quality": "HIGH_CONVICTION",
+          "stop_loss": 137.24,
+          "target_price": 173.43,
+          "risk_reward": 1.67,
+          "setup_quality": "POSITIVE",
           "reasons": [
-            "Strong alpha score",
-            "Strong technical confirmation",
-            "Positive catalyst confirmation",
-            "Acceptable risk profile"
+            "Positive alpha score",
+            "Technical confirmation present",
+            "Catalyst confirmation present",
+            "Risk profile acceptable"
           ],
           "safety_gate": {
             "triggered": false,
-            "original_action": "BUY",
-            "final_action": "BUY",
+            "original_action": "ACCUMULATE",
+            "final_action": "ACCUMULATE",
             "reasons": []
           }
         },
@@ -2041,13 +2264,13 @@
         },
         "market": {
           "ticker": "ADBE",
-          "timestamp": "2026-10-24T20:07:46.754461",
+          "timestamp": "2026-10-24T20:26:01.130643",
           "last_price": 263.83,
           "vwap": 259.75,
           "momentum": 19.01,
           "momentum_pct": 7.76,
           "vwap_distance_pct": 1.57,
-          "volume": 16400335,
+          "volume": 16400197,
           "volume_ratio": 0.71,
           "data_points": 130,
           "data_quality": "LIVE"
@@ -2108,7 +2331,7 @@
           "volatility_pct": 0.44,
           "max_drawdown_pct": 3.09,
           "trend_pct": 7.76,
-          "average_dollar_volume": 32769319.17,
+          "average_dollar_volume": 32769055.86,
           "components": {
             "volatility_score": 88.9,
             "drawdown_score": 75.3,
@@ -2182,25 +2405,25 @@
         },
         "market": {
           "ticker": "NOW",
-          "timestamp": "2026-10-24T20:07:43.898934",
+          "timestamp": "2026-10-24T20:25:57.671424",
           "last_price": 158.99,
-          "vwap": 152.64,
+          "vwap": 152.28,
           "momentum": 16.73,
           "momentum_pct": 11.76,
-          "vwap_distance_pct": 4.16,
-          "volume": 54298696,
-          "volume_ratio": 0.92,
+          "vwap_distance_pct": 4.41,
+          "volume": 59490595,
+          "volume_ratio": 0.82,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BULLISH",
         "scores": {
-          "market_score": 87.1,
+          "market_score": 87.3,
           "news_score": 58,
           "catalyst_score": 56,
           "sector_score": 87.0,
           "risk_score": 91.0,
-          "alpha_score": 80.28
+          "alpha_score": 80.35
         },
         "news": {
           "ticker": "NOW",
@@ -2249,7 +2472,7 @@
           "volatility_pct": 0.45,
           "max_drawdown_pct": 1.79,
           "trend_pct": 11.76,
-          "average_dollar_volume": 63753641.8,
+          "average_dollar_volume": 69687138.81,
           "components": {
             "volatility_score": 88.7,
             "drawdown_score": 85.7,
@@ -2262,7 +2485,7 @@
         "action": "WATCH",
         "base_decision": {
           "action": "ACCUMULATE",
-          "confidence": 79.6,
+          "confidence": 79.7,
           "entry_zone": {
             "low": 152.63,
             "high": 158.99
@@ -2280,7 +2503,7 @@
         },
         "decision": {
           "action": "WATCH",
-          "confidence": 79.6,
+          "confidence": 79.7,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -2318,25 +2541,25 @@
         },
         "market": {
           "ticker": "CVX",
-          "timestamp": "2026-10-24T20:07:46.103467",
+          "timestamp": "2026-10-24T20:26:00.232517",
           "last_price": 233.2,
-          "vwap": 226.84,
+          "vwap": 226.88,
           "momentum": 8.38,
           "momentum_pct": 3.73,
-          "vwap_distance_pct": 2.8,
-          "volume": 32001959,
-          "volume_ratio": 1.1,
+          "vwap_distance_pct": 2.79,
+          "volume": 28452723,
+          "volume_ratio": 1.29,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BULLISH",
         "scores": {
-          "market_score": 68.2,
+          "market_score": 69.1,
           "news_score": 50,
           "catalyst_score": 50,
           "sector_score": 94.4,
-          "risk_score": 92.1,
-          "alpha_score": 73.56
+          "risk_score": 90.1,
+          "alpha_score": 73.37
         },
         "news": {
           "ticker": "CVX",
@@ -2372,16 +2595,16 @@
         },
         "risk": {
           "ticker": "CVX",
-          "risk_score": 92.1,
+          "risk_score": 90.1,
           "risk_signal": "LOW_RISK",
           "volatility_pct": 0.26,
           "max_drawdown_pct": 2.03,
           "trend_pct": 3.73,
-          "average_dollar_volume": 55840394.87,
+          "average_dollar_volume": 49656411.22,
           "components": {
             "volatility_score": 93.5,
             "drawdown_score": 83.8,
-            "liquidity_score": 100,
+            "liquidity_score": 90,
             "downside_momentum_score": 100
           },
           "data_quality": "LIVE"
@@ -2390,7 +2613,7 @@
         "action": "WATCH",
         "base_decision": {
           "action": "WATCH",
-          "confidence": 71.7,
+          "confidence": 71.5,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -2403,7 +2626,7 @@
         },
         "decision": {
           "action": "WATCH",
-          "confidence": 71.7,
+          "confidence": 71.5,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -2438,7 +2661,7 @@
         },
         "market": {
           "ticker": "ISRG",
-          "timestamp": "2026-10-24T20:07:45.646488",
+          "timestamp": "2026-10-24T20:25:59.801678",
           "last_price": 452.29,
           "vwap": 436.53,
           "momentum": 25.56,
@@ -2497,7 +2720,7 @@
           "volatility_pct": 0.43,
           "max_drawdown_pct": 4.18,
           "trend_pct": 5.99,
-          "average_dollar_volume": 43828471.15,
+          "average_dollar_volume": 43828471.62,
           "components": {
             "volatility_score": 89.3,
             "drawdown_score": 66.6,
@@ -2558,7 +2781,7 @@
         },
         "market": {
           "ticker": "XOM",
-          "timestamp": "2026-10-24T20:07:46.436103",
+          "timestamp": "2026-10-24T20:26:00.684378",
           "last_price": 183.21,
           "vwap": 178.61,
           "momentum": 4.2,
@@ -2617,7 +2840,7 @@
           "volatility_pct": 0.27,
           "max_drawdown_pct": 2.16,
           "trend_pct": 2.35,
-          "average_dollar_volume": 60234052.79,
+          "average_dollar_volume": 60234053.91,
           "components": {
             "volatility_score": 93.2,
             "drawdown_score": 82.7,
@@ -2678,13 +2901,13 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-24T20:07:44.601250",
+          "timestamp": "2026-10-24T20:25:58.668421",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
           "momentum_pct": 10.82,
           "vwap_distance_pct": 5.23,
-          "volume": 7631803,
+          "volume": 7631907,
           "volume_ratio": 1.07,
           "data_points": 130,
           "data_quality": "LIVE"
@@ -2751,7 +2974,7 @@
           "volatility_pct": 0.85,
           "max_drawdown_pct": 3.32,
           "trend_pct": 10.82,
-          "average_dollar_volume": 33717092.41,
+          "average_dollar_volume": 33717534.87,
           "components": {
             "volatility_score": 78.9,
             "drawdown_score": 73.4,
@@ -2822,13 +3045,13 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-10-24T20:07:47.184877",
+          "timestamp": "2026-10-24T20:26:01.575638",
           "last_price": 407.94,
           "vwap": 408.1,
           "momentum": 6.03,
           "momentum_pct": 1.5,
           "vwap_distance_pct": -0.04,
-          "volume": 24501387,
+          "volume": 24492681,
           "volume_ratio": 0.84,
           "data_points": 130,
           "data_quality": "LIVE"
@@ -2889,7 +3112,7 @@
           "volatility_pct": 0.21,
           "max_drawdown_pct": 1.71,
           "trend_pct": 1.5,
-          "average_dollar_volume": 76914630.83,
+          "average_dollar_volume": 76887616.05,
           "components": {
             "volatility_score": 94.8,
             "drawdown_score": 86.3,
@@ -2952,25 +3175,25 @@
         },
         "market": {
           "ticker": "NOW",
-          "timestamp": "2026-10-24T20:07:43.898934",
+          "timestamp": "2026-10-24T20:25:57.671424",
           "last_price": 158.99,
-          "vwap": 152.64,
+          "vwap": 152.28,
           "momentum": 16.73,
           "momentum_pct": 11.76,
-          "vwap_distance_pct": 4.16,
-          "volume": 54298696,
-          "volume_ratio": 0.92,
+          "vwap_distance_pct": 4.41,
+          "volume": 59490595,
+          "volume_ratio": 0.82,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BULLISH",
         "scores": {
-          "market_score": 87.1,
+          "market_score": 87.3,
           "news_score": 58,
           "catalyst_score": 56,
           "sector_score": 87.0,
           "risk_score": 91.0,
-          "alpha_score": 80.28
+          "alpha_score": 80.35
         },
         "news": {
           "ticker": "NOW",
@@ -3019,7 +3242,7 @@
           "volatility_pct": 0.45,
           "max_drawdown_pct": 1.79,
           "trend_pct": 11.76,
-          "average_dollar_volume": 63753641.8,
+          "average_dollar_volume": 69687138.81,
           "components": {
             "volatility_score": 88.7,
             "drawdown_score": 85.7,
@@ -3032,7 +3255,7 @@
         "action": "WATCH",
         "base_decision": {
           "action": "ACCUMULATE",
-          "confidence": 79.6,
+          "confidence": 79.7,
           "entry_zone": {
             "low": 152.63,
             "high": 158.99
@@ -3050,7 +3273,7 @@
         },
         "decision": {
           "action": "WATCH",
-          "confidence": 79.6,
+          "confidence": 79.7,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -3088,13 +3311,13 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-24T20:07:44.601250",
+          "timestamp": "2026-10-24T20:25:58.668421",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
           "momentum_pct": 10.82,
           "vwap_distance_pct": 5.23,
-          "volume": 7631803,
+          "volume": 7631907,
           "volume_ratio": 1.07,
           "data_points": 130,
           "data_quality": "LIVE"
@@ -3161,7 +3384,7 @@
           "volatility_pct": 0.85,
           "max_drawdown_pct": 3.32,
           "trend_pct": 10.82,
-          "average_dollar_volume": 33717092.41,
+          "average_dollar_volume": 33717534.87,
           "components": {
             "volatility_score": 78.9,
             "drawdown_score": 73.4,
@@ -3234,25 +3457,25 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-24T20:07:45.338365",
+          "timestamp": "2026-10-24T20:25:59.336602",
           "last_price": 150.81,
-          "vwap": 147.0,
+          "vwap": 146.85,
           "momentum": 4.55,
           "momentum_pct": 3.11,
-          "vwap_distance_pct": 2.59,
-          "volume": 21539370,
-          "volume_ratio": 1.52,
+          "vwap_distance_pct": 2.7,
+          "volume": 24041724,
+          "volume_ratio": 1.31,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BULLISH",
         "scores": {
-          "market_score": 68.1,
+          "market_score": 67.4,
           "news_score": 60,
           "catalyst_score": 60,
           "sector_score": 94.4,
           "risk_score": 88.6,
-          "alpha_score": 75.14
+          "alpha_score": 74.9
         },
         "news": {
           "ticker": "COP",
@@ -3301,7 +3524,7 @@
           "volatility_pct": 0.36,
           "max_drawdown_pct": 2.24,
           "trend_pct": 3.11,
-          "average_dollar_volume": 24356496.34,
+          "average_dollar_volume": 27157531.87,
           "components": {
             "volatility_score": 90.9,
             "drawdown_score": 82.1,
@@ -3311,46 +3534,46 @@
           "data_quality": "LIVE"
         },
         "rating": "STRONG",
-        "action": "BUY",
+        "action": "ACCUMULATE",
         "base_decision": {
-          "action": "BUY",
-          "confidence": 73.5,
+          "action": "ACCUMULATE",
+          "confidence": 73.2,
           "entry_zone": {
-            "low": 147.79,
-            "high": 152.32
+            "low": 144.78,
+            "high": 150.81
           },
-          "stop_loss": 140.25,
-          "target_price": 177.96,
-          "risk_reward": 2.57,
-          "setup_quality": "HIGH_CONVICTION",
+          "stop_loss": 137.24,
+          "target_price": 173.43,
+          "risk_reward": 1.67,
+          "setup_quality": "POSITIVE",
           "reasons": [
-            "Strong alpha score",
-            "Strong technical confirmation",
-            "Positive catalyst confirmation",
-            "Acceptable risk profile"
+            "Positive alpha score",
+            "Technical confirmation present",
+            "Catalyst confirmation present",
+            "Risk profile acceptable"
           ]
         },
         "decision": {
-          "action": "BUY",
-          "confidence": 73.5,
+          "action": "ACCUMULATE",
+          "confidence": 73.2,
           "entry_zone": {
-            "low": 147.79,
-            "high": 152.32
+            "low": 144.78,
+            "high": 150.81
           },
-          "stop_loss": 140.25,
-          "target_price": 177.96,
-          "risk_reward": 2.57,
-          "setup_quality": "HIGH_CONVICTION",
+          "stop_loss": 137.24,
+          "target_price": 173.43,
+          "risk_reward": 1.67,
+          "setup_quality": "POSITIVE",
           "reasons": [
-            "Strong alpha score",
-            "Strong technical confirmation",
-            "Positive catalyst confirmation",
-            "Acceptable risk profile"
+            "Positive alpha score",
+            "Technical confirmation present",
+            "Catalyst confirmation present",
+            "Risk profile acceptable"
           ],
           "safety_gate": {
             "triggered": false,
-            "original_action": "BUY",
-            "final_action": "BUY",
+            "original_action": "ACCUMULATE",
+            "final_action": "ACCUMULATE",
             "reasons": []
           }
         },
@@ -3373,13 +3596,13 @@
         },
         "market": {
           "ticker": "ADBE",
-          "timestamp": "2026-10-24T20:07:46.754461",
+          "timestamp": "2026-10-24T20:26:01.130643",
           "last_price": 263.83,
           "vwap": 259.75,
           "momentum": 19.01,
           "momentum_pct": 7.76,
           "vwap_distance_pct": 1.57,
-          "volume": 16400335,
+          "volume": 16400197,
           "volume_ratio": 0.71,
           "data_points": 130,
           "data_quality": "LIVE"
@@ -3440,7 +3663,7 @@
           "volatility_pct": 0.44,
           "max_drawdown_pct": 3.09,
           "trend_pct": 7.76,
-          "average_dollar_volume": 32769319.17,
+          "average_dollar_volume": 32769055.86,
           "components": {
             "volatility_score": 88.9,
             "drawdown_score": 75.3,
@@ -3512,25 +3735,25 @@
         },
         "market": {
           "ticker": "NOW",
-          "timestamp": "2026-10-24T20:07:43.898934",
+          "timestamp": "2026-10-24T20:25:57.671424",
           "last_price": 158.99,
-          "vwap": 152.64,
+          "vwap": 152.28,
           "momentum": 16.73,
           "momentum_pct": 11.76,
-          "vwap_distance_pct": 4.16,
-          "volume": 54298696,
-          "volume_ratio": 0.92,
+          "vwap_distance_pct": 4.41,
+          "volume": 59490595,
+          "volume_ratio": 0.82,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BULLISH",
         "scores": {
-          "market_score": 87.1,
+          "market_score": 87.3,
           "news_score": 58,
           "catalyst_score": 56,
           "sector_score": 87.0,
           "risk_score": 91.0,
-          "alpha_score": 80.28
+          "alpha_score": 80.35
         },
         "news": {
           "ticker": "NOW",
@@ -3579,7 +3802,7 @@
           "volatility_pct": 0.45,
           "max_drawdown_pct": 1.79,
           "trend_pct": 11.76,
-          "average_dollar_volume": 63753641.8,
+          "average_dollar_volume": 69687138.81,
           "components": {
             "volatility_score": 88.7,
             "drawdown_score": 85.7,
@@ -3592,7 +3815,7 @@
         "action": "WATCH",
         "base_decision": {
           "action": "ACCUMULATE",
-          "confidence": 79.6,
+          "confidence": 79.7,
           "entry_zone": {
             "low": 152.63,
             "high": 158.99
@@ -3610,7 +3833,7 @@
         },
         "decision": {
           "action": "WATCH",
-          "confidence": 79.6,
+          "confidence": 79.7,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -3648,25 +3871,25 @@
         },
         "market": {
           "ticker": "CVX",
-          "timestamp": "2026-10-24T20:07:46.103467",
+          "timestamp": "2026-10-24T20:26:00.232517",
           "last_price": 233.2,
-          "vwap": 226.84,
+          "vwap": 226.88,
           "momentum": 8.38,
           "momentum_pct": 3.73,
-          "vwap_distance_pct": 2.8,
-          "volume": 32001959,
-          "volume_ratio": 1.1,
+          "vwap_distance_pct": 2.79,
+          "volume": 28452723,
+          "volume_ratio": 1.29,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BULLISH",
         "scores": {
-          "market_score": 68.2,
+          "market_score": 69.1,
           "news_score": 50,
           "catalyst_score": 50,
           "sector_score": 94.4,
-          "risk_score": 92.1,
-          "alpha_score": 73.56
+          "risk_score": 90.1,
+          "alpha_score": 73.37
         },
         "news": {
           "ticker": "CVX",
@@ -3702,16 +3925,16 @@
         },
         "risk": {
           "ticker": "CVX",
-          "risk_score": 92.1,
+          "risk_score": 90.1,
           "risk_signal": "LOW_RISK",
           "volatility_pct": 0.26,
           "max_drawdown_pct": 2.03,
           "trend_pct": 3.73,
-          "average_dollar_volume": 55840394.87,
+          "average_dollar_volume": 49656411.22,
           "components": {
             "volatility_score": 93.5,
             "drawdown_score": 83.8,
-            "liquidity_score": 100,
+            "liquidity_score": 90,
             "downside_momentum_score": 100
           },
           "data_quality": "LIVE"
@@ -3720,7 +3943,7 @@
         "action": "WATCH",
         "base_decision": {
           "action": "WATCH",
-          "confidence": 71.7,
+          "confidence": 71.5,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -3733,7 +3956,7 @@
         },
         "decision": {
           "action": "WATCH",
-          "confidence": 71.7,
+          "confidence": 71.5,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -3768,7 +3991,7 @@
         },
         "market": {
           "ticker": "ISRG",
-          "timestamp": "2026-10-24T20:07:45.646488",
+          "timestamp": "2026-10-24T20:25:59.801678",
           "last_price": 452.29,
           "vwap": 436.53,
           "momentum": 25.56,
@@ -3827,7 +4050,7 @@
           "volatility_pct": 0.43,
           "max_drawdown_pct": 4.18,
           "trend_pct": 5.99,
-          "average_dollar_volume": 43828471.15,
+          "average_dollar_volume": 43828471.62,
           "components": {
             "volatility_score": 89.3,
             "drawdown_score": 66.6,
@@ -3888,7 +4111,7 @@
         },
         "market": {
           "ticker": "XOM",
-          "timestamp": "2026-10-24T20:07:46.436103",
+          "timestamp": "2026-10-24T20:26:00.684378",
           "last_price": 183.21,
           "vwap": 178.61,
           "momentum": 4.2,
@@ -3947,7 +4170,7 @@
           "volatility_pct": 0.27,
           "max_drawdown_pct": 2.16,
           "trend_pct": 2.35,
-          "average_dollar_volume": 60234052.79,
+          "average_dollar_volume": 60234053.91,
           "components": {
             "volatility_score": 93.2,
             "drawdown_score": 82.7,
@@ -4008,13 +4231,13 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-24T20:07:44.601250",
+          "timestamp": "2026-10-24T20:25:58.668421",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
           "momentum_pct": 10.82,
           "vwap_distance_pct": 5.23,
-          "volume": 7631803,
+          "volume": 7631907,
           "volume_ratio": 1.07,
           "data_points": 130,
           "data_quality": "LIVE"
@@ -4081,7 +4304,7 @@
           "volatility_pct": 0.85,
           "max_drawdown_pct": 3.32,
           "trend_pct": 10.82,
-          "average_dollar_volume": 33717092.41,
+          "average_dollar_volume": 33717534.87,
           "components": {
             "volatility_score": 78.9,
             "drawdown_score": 73.4,
@@ -4152,13 +4375,13 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-10-24T20:07:47.184877",
+          "timestamp": "2026-10-24T20:26:01.575638",
           "last_price": 407.94,
           "vwap": 408.1,
           "momentum": 6.03,
           "momentum_pct": 1.5,
           "vwap_distance_pct": -0.04,
-          "volume": 24501387,
+          "volume": 24492681,
           "volume_ratio": 0.84,
           "data_points": 130,
           "data_quality": "LIVE"
@@ -4219,7 +4442,7 @@
           "volatility_pct": 0.21,
           "max_drawdown_pct": 1.71,
           "trend_pct": 1.5,
-          "average_dollar_volume": 76914630.83,
+          "average_dollar_volume": 76887616.05,
           "components": {
             "volatility_score": 94.8,
             "drawdown_score": 86.3,
