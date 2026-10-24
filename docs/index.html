@@ -29,7 +29,7 @@ padding:22px;
 }
 
 .container{
-max-width:1450px;
+max-width:1500px;
 margin:auto;
 }
 
@@ -51,7 +51,7 @@ margin-bottom:22px;
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
 gap:14px;
 margin-bottom:20px;
 }
@@ -113,15 +113,17 @@ font-weight:bold;
 margin-bottom:15px;
 }
 
-.small{
-font-size:12px;
+.section-note{
+font-size:13px;
 color:#94a3b8;
+margin-top:-7px;
+margin-bottom:14px;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-min-width:850px;
+min-width:950px;
 }
 
 th{
@@ -161,12 +163,27 @@ background:#064e3b;
 color:#6ee7b7;
 }
 
+.add{
+background:#14532d;
+color:#86efac;
+}
+
+.hold{
+background:#1e3a8a;
+color:#bfdbfe;
+}
+
 .watch{
 background:#713f12;
 color:#fde68a;
 }
 
-.avoid{
+.reduce{
+background:#7c2d12;
+color:#fed7aa;
+}
+
+.exit{
 background:#7f1d1d;
 color:#fecaca;
 }
@@ -181,19 +198,22 @@ background:#1e293b;
 color:#cbd5e1;
 }
 
+.positive{
+color:#86efac;
+font-weight:bold;
+}
+
+.negative{
+color:#fca5a5;
+font-weight:bold;
+}
+
 .loading{
 color:#94a3b8;
 }
 
 .error{
 color:#fca5a5;
-}
-
-.section-note{
-font-size:13px;
-color:#94a3b8;
-margin-top:-7px;
-margin-bottom:14px;
 }
 
 @media(max-width:700px){
@@ -283,12 +303,28 @@ id="stocks-scanned"
 <div class="stat">
 
 <div class="stat-label">
-Action Now
+New Opportunities
 </div>
 
 <div
 class="stat-value"
 id="actionable-count"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Portfolio EXIT / REDUCE
+</div>
+
+<div
+class="stat-value"
+id="portfolio-alerts"
 >
 -
 </div>
@@ -321,11 +357,11 @@ id="blocked-count"
 <div class="card green">
 
 <div class="title">
-🚀 ACTION NOW
+🚀 NEW OPPORTUNITIES — ACTION NOW
 </div>
 
 <div class="section-note">
-Only BUY and ACCUMULATE opportunities that passed all AURORA safety checks.
+BUY and ACCUMULATE opportunities outside the current portfolio that passed all AURORA safety checks.
 </div>
 
 <table>
@@ -350,14 +386,12 @@ Only BUY and ACCUMULATE opportunities that passed all AURORA safety checks.
 <tbody id="action-table">
 
 <tr>
-
 <td
 colspan="10"
 class="loading"
 >
 Loading actionable opportunities...
 </td>
-
 </tr>
 
 </tbody>
@@ -374,11 +408,11 @@ Loading actionable opportunities...
 <div class="card yellow">
 
 <div class="title">
-👀 WATCHLIST
+👀 NEW OPPORTUNITY WATCHLIST
 </div>
 
 <div class="section-note">
-Strong setups that need additional confirmation before a new position.
+Strong external candidates that still require further confirmation.
 </div>
 
 <table>
@@ -387,7 +421,6 @@ Strong setups that need additional confirmation before a new position.
 
 <tr>
 <th>Ticker</th>
-<th>Action</th>
 <th>Price</th>
 <th>Alpha</th>
 <th>Confidence</th>
@@ -402,14 +435,12 @@ Strong setups that need additional confirmation before a new position.
 <tbody id="watch-table">
 
 <tr>
-
 <td
-colspan="9"
+colspan="8"
 class="loading"
 >
 Loading watchlist...
 </td>
-
 </tr>
 
 </tbody>
@@ -430,7 +461,7 @@ Loading watchlist...
 </div>
 
 <div class="section-note">
-AURORA found potential, but the Safety Gate blocked immediate entry.
+Potential opportunities blocked by the V6.8 Safety Gate because entry conditions are not yet attractive.
 </div>
 
 <table>
@@ -453,14 +484,12 @@ AURORA found potential, but the Safety Gate blocked immediate entry.
 <tbody id="pullback-table">
 
 <tr>
-
 <td
 colspan="8"
 class="loading"
 >
 Loading Safety Gate...
 </td>
-
 </tr>
 
 </tbody>
@@ -477,11 +506,11 @@ Loading Safety Gate...
 <div class="card blue">
 
 <div class="title">
-💼 CURRENT PORTFOLIO
+💼 CURRENT PORTFOLIO — V6.9 POSITION MANAGEMENT
 </div>
 
 <div class="section-note">
-AURORA assessment of positions already held in the portfolio.
+Actions below are for positions already owned: ADD / HOLD / WATCH / REDUCE / EXIT.
 </div>
 
 <table>
@@ -490,14 +519,16 @@ AURORA assessment of positions already held in the portfolio.
 
 <tr>
 <th>Ticker</th>
+<th>Shares</th>
+<th>Avg Cost</th>
 <th>Price</th>
-<th>Signal</th>
-<th>Alpha</th>
+<th>P&L</th>
+<th>P&L %</th>
 <th>Action</th>
-<th>Confidence</th>
+<th>Conviction</th>
+<th>Urgency</th>
+<th>Alpha</th>
 <th>Market</th>
-<th>Catalyst</th>
-<th>Sector</th>
 <th>Risk</th>
 </tr>
 
@@ -506,14 +537,12 @@ AURORA assessment of positions already held in the portfolio.
 <tbody id="portfolio-table">
 
 <tr>
-
 <td
-colspan="10"
+colspan="12"
 class="loading"
 >
 Loading portfolio...
 </td>
-
 </tr>
 
 </tbody>
@@ -562,14 +591,12 @@ Loading benchmark...
 <tbody id="radar-table">
 
 <tr>
-
 <td
 colspan="10"
 class="loading"
 >
 Loading market radar...
 </td>
-
 </tr>
 
 </tbody>
@@ -637,7 +664,28 @@ value
 }
 
 
-function actionClass(
+function pnlClass(
+value
+){
+
+if(
+value > 0
+){
+return "positive";
+}
+
+if(
+value < 0
+){
+return "negative";
+}
+
+return "";
+
+}
+
+
+function opportunityActionClass(
 action
 ){
 
@@ -653,8 +701,33 @@ if(action === "WATCH"){
 return "watch";
 }
 
-if(action === "AVOID"){
-return "avoid";
+return "neutral";
+
+}
+
+
+function portfolioActionClass(
+action
+){
+
+if(action === "ADD"){
+return "add";
+}
+
+if(action === "HOLD"){
+return "hold";
+}
+
+if(action === "WATCH"){
+return "watch";
+}
+
+if(action === "REDUCE"){
+return "reduce";
+}
+
+if(action === "EXIT"){
+return "exit";
 }
 
 return "neutral";
@@ -662,16 +735,17 @@ return "neutral";
 }
 
 
-function actionPriority(
+function portfolioPriority(
 action
 ){
 
 const priorities = {
 
-"BUY":4,
-"ACCUMULATE":3,
+"EXIT":5,
+"REDUCE":4,
+"ADD":3,
 "WATCH":2,
-"AVOID":1
+"HOLD":1
 
 };
 
@@ -737,6 +811,11 @@ data.opportunity_analysis
 || {};
 
 
+const portfolio =
+data.portfolio
+|| [];
+
+
 /* =============================================== */
 /* SUMMARY */
 /* =============================================== */
@@ -770,6 +849,24 @@ analysis.safety_blocked_count
 ?? "-";
 
 
+const portfolioAlerts =
+portfolio.filter(
+item =>
+[
+"EXIT",
+"REDUCE"
+].includes(
+item.portfolio_action
+)
+).length;
+
+
+document.getElementById(
+"portfolio-alerts"
+).textContent =
+portfolioAlerts;
+
+
 if(data.generated){
 
 const generatedDate =
@@ -789,7 +886,7 @@ generatedDate.toLocaleString();
 
 
 /* =============================================== */
-/* ACTION NOW */
+/* NEW OPPORTUNITIES — ACTION NOW */
 /* =============================================== */
 
 
@@ -860,7 +957,7 @@ actionTable.innerHTML += `
 
 <td>
 
-<span class="badge ${actionClass(item.action)}">
+<span class="badge ${opportunityActionClass(item.action)}">
 
 ${item.action || "-"}
 
@@ -910,7 +1007,7 @@ ${item.sector || "-"}
 
 
 /* =============================================== */
-/* WATCHLIST */
+/* NEW OPPORTUNITY WATCHLIST */
 /* =============================================== */
 
 
@@ -958,7 +1055,7 @@ watchTable.innerHTML = `
 
 <tr>
 
-<td colspan="9">
+<td colspan="8">
 
 No regular WATCH opportunities in the latest scan.
 
@@ -998,16 +1095,6 @@ watchTable.innerHTML += `
 
 <td>
 <b>${item.ticker}</b>
-</td>
-
-<td>
-
-<span class="badge watch">
-
-WATCH
-
-</span>
-
 </td>
 
 <td>
@@ -1200,19 +1287,14 @@ portfolioTable.innerHTML =
 "";
 
 
-const portfolio =
-data.portfolio
-|| [];
-
-
 portfolio.sort(
 (a,b)=>
-actionPriority(
-b.action
+portfolioPriority(
+b.portfolio_action
 )
 -
-actionPriority(
-a.action
+portfolioPriority(
+a.portfolio_action
 )
 );
 
@@ -1225,7 +1307,7 @@ portfolioTable.innerHTML = `
 
 <tr>
 
-<td colspan="10">
+<td colspan="12">
 
 No portfolio data available.
 
@@ -1244,19 +1326,29 @@ portfolio.forEach(
 item => {
 
 
+const management =
+item.portfolio_management
+|| {};
+
+
+const position =
+management.position
+|| {};
+
+
 const scores =
 item.scores
 || {};
 
 
-const decision =
-item.decision
-|| {};
+const pnl =
+position.unrealized_pnl
+?? 0;
 
 
-const market =
-item.market
-|| {};
+const pnlPct =
+position.unrealized_pnl_pct
+?? 0;
 
 
 portfolioTable.innerHTML += `
@@ -1268,11 +1360,41 @@ portfolioTable.innerHTML += `
 </td>
 
 <td>
-${formatPrice(market.last_price)}
+${formatNumber(position.shares,0)}
 </td>
 
 <td>
-${item.signal || "-"}
+${formatPrice(position.avg_cost)}
+</td>
+
+<td>
+${formatPrice(position.current_price)}
+</td>
+
+<td class="${pnlClass(pnl)}">
+${formatPrice(pnl)}
+</td>
+
+<td class="${pnlClass(pnlPct)}">
+${formatNumber(pnlPct,2)}%
+</td>
+
+<td>
+
+<span class="badge ${portfolioActionClass(item.portfolio_action)}">
+
+${item.portfolio_action || "-"}
+
+</span>
+
+</td>
+
+<td>
+${management.conviction || "-"}
+</td>
+
+<td>
+${management.urgency || "-"}
 </td>
 
 <td>
@@ -1280,29 +1402,7 @@ ${formatNumber(scores.alpha_score,2)}
 </td>
 
 <td>
-
-<span class="badge ${actionClass(item.action)}">
-
-${item.action || "-"}
-
-</span>
-
-</td>
-
-<td>
-${formatNumber(decision.confidence,1)}%
-</td>
-
-<td>
 ${formatNumber(scores.market_score,1)}
-</td>
-
-<td>
-${formatNumber(scores.catalyst_score,1)}
-</td>
-
-<td>
-${formatNumber(scores.sector_score,1)}
 </td>
 
 <td>
