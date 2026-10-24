@@ -1,5 +1,5 @@
 """
-V6.7 Global Market Intelligence Scanner
+V6.8 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -26,6 +26,8 @@ Decision Engine
 Opportunity Fast Scanner
         |
 Opportunity Deep Analysis
+        |
+Opportunity Safety Gate
         |
 JSON Report
 """
@@ -116,6 +118,7 @@ def load_portfolio():
         )
 
         for row in reader:
+
             portfolio.append(
                 row
             )
@@ -327,7 +330,6 @@ def run_scanner():
 
                 "alpha_score":
                 alpha_score
-
             },
 
             "news":
@@ -353,7 +355,6 @@ def run_scanner():
 
             "status":
             "ACTIVE"
-
         }
 
 
@@ -374,7 +375,7 @@ def run_scanner():
 
 
     # =====================================================
-    # 3. OPPORTUNITY DEEP ANALYSIS
+    # 3. OPPORTUNITY DEEP ANALYSIS + V6.8 SAFETY GATE
     # =====================================================
 
     opportunity_analysis = (
@@ -395,7 +396,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V6.7",
+        "V6.8",
 
         "portfolio":
         results,
@@ -405,7 +406,6 @@ def run_scanner():
 
         "opportunity_analysis":
         opportunity_analysis
-
     }
 
 
@@ -429,7 +429,7 @@ def run_scanner():
 
 
     print(
-        "V6.7 Scanner completed successfully"
+        "V6.8 Scanner completed successfully"
     )
 
 
