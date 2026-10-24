@@ -51,7 +51,7 @@ margin-bottom:22px;
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 gap:14px;
 margin-bottom:20px;
 }
@@ -105,6 +105,10 @@ border-left:5px solid #a855f7;
 
 .orange{
 border-left:5px solid #f97316;
+}
+
+.cyan{
+border-left:5px solid #06b6d4;
 }
 
 .title{
@@ -193,6 +197,31 @@ background:#7c2d12;
 color:#fed7aa;
 }
 
+.sellall{
+background:#7f1d1d;
+color:#fecaca;
+}
+
+.sellpartial{
+background:#7c2d12;
+color:#fed7aa;
+}
+
+.buytarget{
+background:#14532d;
+color:#86efac;
+}
+
+.manual{
+background:#713f12;
+color:#fde68a;
+}
+
+.notrade{
+background:#1e293b;
+color:#cbd5e1;
+}
+
 .neutral{
 background:#1e293b;
 color:#cbd5e1;
@@ -205,6 +234,11 @@ font-weight:bold;
 
 .negative{
 color:#fca5a5;
+font-weight:bold;
+}
+
+.warning{
+color:#fde68a;
 font-weight:bold;
 }
 
@@ -251,7 +285,7 @@ AURORA Market Intelligence
 </h1>
 
 <div class="subtitle">
-Portfolio Management + US Market Opportunity Radar
+Portfolio Management + Position Sizing + US Market Opportunity Radar
 </div>
 
 <div
@@ -277,6 +311,22 @@ Scanner Version
 <div
 class="stat-value"
 id="scanner-version"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Portfolio Value
+</div>
+
+<div
+class="stat-value"
+id="portfolio-value"
 >
 -
 </div>
@@ -319,12 +369,44 @@ id="actionable-count"
 <div class="stat">
 
 <div class="stat-label">
-Portfolio EXIT / REDUCE
+EXIT / REDUCE
 </div>
 
 <div
 class="stat-value"
 id="portfolio-alerts"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Projected Net Cash
+</div>
+
+<div
+class="stat-value"
+id="net-cash"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Theme Alerts After Plan
+</div>
+
+<div
+class="stat-value"
+id="theme-alerts"
 >
 -
 </div>
@@ -351,7 +433,7 @@ id="blocked-count"
 
 
 <!-- ================================================= -->
-<!-- ACTION NOW -->
+<!-- NEW OPPORTUNITIES -->
 <!-- ================================================= -->
 
 <div class="card green">
@@ -386,10 +468,7 @@ BUY and ACCUMULATE opportunities outside the current portfolio that passed all A
 <tbody id="action-table">
 
 <tr>
-<td
-colspan="10"
-class="loading"
->
+<td colspan="10" class="loading">
 Loading actionable opportunities...
 </td>
 </tr>
@@ -435,10 +514,7 @@ Strong external candidates that still require further confirmation.
 <tbody id="watch-table">
 
 <tr>
-<td
-colspan="8"
-class="loading"
->
+<td colspan="8" class="loading">
 Loading watchlist...
 </td>
 </tr>
@@ -461,7 +537,7 @@ Loading watchlist...
 </div>
 
 <div class="section-note">
-Potential opportunities blocked by the V6.8 Safety Gate because entry conditions are not yet attractive.
+Potential opportunities blocked by the Safety Gate because immediate entry conditions are not attractive enough.
 </div>
 
 <table>
@@ -484,11 +560,102 @@ Potential opportunities blocked by the V6.8 Safety Gate because entry conditions
 <tbody id="pullback-table">
 
 <tr>
-<td
-colspan="8"
-class="loading"
->
+<td colspan="8" class="loading">
 Loading Safety Gate...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- V7.1 REBALANCING -->
+<!-- ================================================= -->
+
+<div class="card red">
+
+<div class="title">
+⚖️ V7.1 REBALANCING PLAN
+</div>
+
+<div
+id="rebalance-summary"
+class="section-note"
+>
+Loading rebalancing plan...
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Ticker</th>
+<th>Portfolio Action</th>
+<th>Trade</th>
+<th>Shares</th>
+<th>Trade Value</th>
+<th>Current Weight</th>
+<th>Target Weight</th>
+<th>Projected Weight</th>
+<th>Reason</th>
+</tr>
+
+</thead>
+
+<tbody id="rebalance-table">
+
+<tr>
+<td colspan="9" class="loading">
+Loading position sizing...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- THEME EXPOSURE -->
+<!-- ================================================= -->
+
+<div class="card cyan">
+
+<div class="title">
+🧭 THEME CONCENTRATION — CURRENT → PROJECTED
+</div>
+
+<div class="section-note">
+Shows how the V7.1 rebalancing plan changes portfolio concentration. Limit: 35% per theme.
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Theme</th>
+<th>Current Value</th>
+<th>Current Weight</th>
+<th>Projected Value</th>
+<th>Projected Weight</th>
+<th>Status After Plan</th>
+</tr>
+
+</thead>
+
+<tbody id="theme-table">
+
+<tr>
+<td colspan="6" class="loading">
+Loading theme exposure...
 </td>
 </tr>
 
@@ -506,11 +673,11 @@ Loading Safety Gate...
 <div class="card blue">
 
 <div class="title">
-💼 CURRENT PORTFOLIO — V6.9 POSITION MANAGEMENT
+💼 CURRENT PORTFOLIO — POSITION MANAGEMENT
 </div>
 
 <div class="section-note">
-Actions below are for positions already owned: ADD / HOLD / WATCH / REDUCE / EXIT.
+Existing-position decisions: ADD / HOLD / WATCH / REDUCE / EXIT. Rebalancing quantities are shown separately above.
 </div>
 
 <table>
@@ -537,10 +704,7 @@ Actions below are for positions already owned: ADD / HOLD / WATCH / REDUCE / EXI
 <tbody id="portfolio-table">
 
 <tr>
-<td
-colspan="12"
-class="loading"
->
+<td colspan="12" class="loading">
 Loading portfolio...
 </td>
 </tr>
@@ -591,10 +755,7 @@ Loading benchmark...
 <tbody id="radar-table">
 
 <tr>
-<td
-colspan="10"
-class="loading"
->
+<td colspan="10" class="loading">
 Loading market radar...
 </td>
 </tr>
@@ -648,6 +809,10 @@ if(
 value === null
 ||
 value === undefined
+||
+Number.isNaN(
+Number(value)
+)
 ){
 
 return "-";
@@ -668,15 +833,11 @@ function pnlClass(
 value
 ){
 
-if(
-value > 0
-){
+if(Number(value) > 0){
 return "positive";
 }
 
-if(
-value < 0
-){
+if(Number(value) < 0){
 return "negative";
 }
 
@@ -735,6 +896,31 @@ return "neutral";
 }
 
 
+function tradeActionClass(
+action
+){
+
+if(action === "SELL_ALL"){
+return "sellall";
+}
+
+if(action === "SELL_PARTIAL"){
+return "sellpartial";
+}
+
+if(action === "BUY_TO_TARGET"){
+return "buytarget";
+}
+
+if(action === "MANUAL_REVIEW"){
+return "manual";
+}
+
+return "notrade";
+
+}
+
+
 function portfolioPriority(
 action
 ){
@@ -746,6 +932,27 @@ const priorities = {
 "ADD":3,
 "WATCH":2,
 "HOLD":1
+
+};
+
+return priorities[
+action
+] || 0;
+
+}
+
+
+function tradePriority(
+action
+){
+
+const priorities = {
+
+"SELL_ALL":6,
+"SELL_PARTIAL":5,
+"MANUAL_REVIEW":4,
+"BUY_TO_TARGET":3,
+"NO_TRADE":1
 
 };
 
@@ -816,6 +1023,16 @@ data.portfolio
 || [];
 
 
+const rebalancing =
+data.portfolio_rebalancing
+|| {};
+
+
+const rebalancePlan =
+rebalancing.rebalancing_plan
+|| [];
+
+
 /* =============================================== */
 /* SUMMARY */
 /* =============================================== */
@@ -826,6 +1043,14 @@ document.getElementById(
 ).textContent =
 data.scanner_version
 || "-";
+
+
+document.getElementById(
+"portfolio-value"
+).textContent =
+formatPrice(
+rebalancing.portfolio_value
+);
 
 
 document.getElementById(
@@ -867,6 +1092,24 @@ document.getElementById(
 portfolioAlerts;
 
 
+document.getElementById(
+"net-cash"
+).textContent =
+formatPrice(
+rebalancing.estimated_net_cash_generated
+);
+
+
+document.getElementById(
+"theme-alerts"
+).textContent =
+(
+rebalancing.concentration_alerts
+||
+[]
+).length;
+
+
 if(data.generated){
 
 const generatedDate =
@@ -886,7 +1129,7 @@ generatedDate.toLocaleString();
 
 
 /* =============================================== */
-/* NEW OPPORTUNITIES — ACTION NOW */
+/* NEW OPPORTUNITIES */
 /* =============================================== */
 
 
@@ -1007,7 +1250,7 @@ ${item.sector || "-"}
 
 
 /* =============================================== */
-/* NEW OPPORTUNITY WATCHLIST */
+/* WATCHLIST */
 /* =============================================== */
 
 
@@ -1261,6 +1504,295 @@ ${formatNumber(fast.overextension_pct,2)}%
 
 <td>
 ${reasons || "-"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =============================================== */
+/* V7.1 REBALANCING PLAN */
+/* =============================================== */
+
+
+const rebalanceTable =
+document.getElementById(
+"rebalance-table"
+);
+
+
+rebalanceTable.innerHTML =
+"";
+
+
+document.getElementById(
+"rebalance-summary"
+).textContent =
+
+"Estimated sell proceeds: "
++
+formatPrice(
+rebalancing.estimated_sell_proceeds
+)
++
+" | Buy requirement: "
++
+formatPrice(
+rebalancing.estimated_buy_requirement
+)
++
+" | Net cash generated: "
++
+formatPrice(
+rebalancing.estimated_net_cash_generated
+);
+
+
+const sortedPlan =
+[
+...rebalancePlan
+].sort(
+(a,b)=>
+tradePriority(
+b.trade_action
+)
+-
+tradePriority(
+a.trade_action
+)
+);
+
+
+if(
+sortedPlan.length === 0
+){
+
+rebalanceTable.innerHTML = `
+
+<tr>
+
+<td colspan="9">
+
+No rebalancing plan available.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+sortedPlan.forEach(
+item => {
+
+
+rebalanceTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.ticker}</b>
+</td>
+
+<td>
+
+<span class="badge ${portfolioActionClass(item.base_action)}">
+
+${item.base_action || "-"}
+
+</span>
+
+</td>
+
+<td>
+
+<span class="badge ${tradeActionClass(item.trade_action)}">
+
+${item.trade_action || "-"}
+
+</span>
+
+</td>
+
+<td>
+${formatNumber(item.suggested_shares,0)}
+</td>
+
+<td>
+${formatPrice(item.suggested_trade_value)}
+</td>
+
+<td>
+${formatNumber(item.current_weight_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.target_weight_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.projected_weight_pct,2)}%
+</td>
+
+<td>
+${item.reason || "-"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =============================================== */
+/* THEME CONCENTRATION */
+/* =============================================== */
+
+
+const themeTable =
+document.getElementById(
+"theme-table"
+);
+
+
+themeTable.innerHTML =
+"";
+
+
+const currentThemes =
+rebalancing.current_theme_exposure
+|| {};
+
+
+const projectedThemes =
+rebalancing.projected_theme_exposure
+|| {};
+
+
+const themeNames =
+Array.from(
+new Set(
+[
+...Object.keys(
+currentThemes
+),
+...Object.keys(
+projectedThemes
+)
+]
+)
+);
+
+
+themeNames.sort(
+(a,b)=>
+(
+currentThemes[b]?.weight_pct
+||
+0
+)
+-
+(
+currentThemes[a]?.weight_pct
+||
+0
+)
+);
+
+
+if(
+themeNames.length === 0
+){
+
+themeTable.innerHTML = `
+
+<tr>
+
+<td colspan="6">
+
+No theme exposure data available.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+themeNames.forEach(
+theme => {
+
+
+const current =
+currentThemes[
+theme
+]
+|| {};
+
+
+const projected =
+projectedThemes[
+theme
+]
+|| {};
+
+
+const status =
+projected.concentration_status
+||
+"NORMAL";
+
+
+const statusClass =
+status === "HIGH"
+?
+"negative"
+:
+"positive";
+
+
+themeTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${theme}</b>
+</td>
+
+<td>
+${formatPrice(current.value)}
+</td>
+
+<td>
+${formatNumber(current.weight_pct,2)}%
+</td>
+
+<td>
+${formatPrice(projected.value)}
+</td>
+
+<td>
+${formatNumber(projected.weight_pct,2)}%
+</td>
+
+<td class="${statusClass}">
+${status}
 </td>
 
 </tr>
