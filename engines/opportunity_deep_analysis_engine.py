@@ -1,12 +1,11 @@
 """
-V6.7 AURORA Opportunity Deep Analysis Engine
+V6.8 AURORA Opportunity Deep Analysis Engine
 
 Purpose:
-- Take the strongest candidates from Opportunity Scanner
+- Take strongest candidates from Opportunity Scanner
 - Run full AURORA intelligence stack
-- Reuse the same news feed for News and Catalyst engines
+- Apply V6.8 Safety Gate before final action
 - Produce BUY / ACCUMULATE / WATCH / AVOID decisions
-- Rank new opportunities by decision quality and alpha
 """
 
 from engines.market_data_engine import (
@@ -45,6 +44,10 @@ from engines.decision_engine import (
     generate_decision
 )
 
+from engines.opportunity_safety_engine import (
+    apply_opportunity_safety_gate
+)
+
 
 ACTION_PRIORITY = {
     "BUY": 4,
@@ -54,16 +57,13 @@ ACTION_PRIORITY = {
 }
 
 
-def analyze_single_opportunity(
-    candidate
-):
+def analyze_single_opportunity(candidate):
 
     ticker = candidate.get(
         "ticker"
     )
 
     if not ticker:
-
         return None
 
 
@@ -88,14 +88,9 @@ def analyze_single_opportunity(
     if not prices or not volumes:
 
         return {
-            "ticker":
-            ticker,
-
-            "status":
-            "NO_MARKET_DATA",
-
-            "fast_scan":
-            candidate
+            "ticker": ticker,
+            "status": "NO_MARKET_DATA",
+            "fast_scan": candidate
         }
 
 
@@ -120,7 +115,6 @@ def analyze_single_opportunity(
 
     # ==============================================
     # NEWS + CATALYST INTELLIGENCE
-    # Fetch once, reuse twice
     # ==============================================
 
     news_items = fetch_live_news(
@@ -137,7 +131,6 @@ def analyze_single_opportunity(
         "news_score",
         50
     )
-
 
     catalyst_result = analyze_catalyst(
         ticker,
@@ -197,10 +190,10 @@ def analyze_single_opportunity(
 
 
     # ==============================================
-    # DECISION ENGINE
+    # BASE DECISION ENGINE
     # ==============================================
 
-    decision = generate_decision(
+    base_decision = generate_decision(
         alpha_score,
         market_score,
         catalyst_score,
@@ -208,6 +201,22 @@ def analyze_single_opportunity(
         snapshot.get(
             "last_price"
         )
+    )
+
+
+    # ==============================================
+    # V6.8 SAFETY GATE
+    # ==============================================
+
+    overextension_pct = candidate.get(
+        "overextension_pct",
+        0
+    )
+
+    decision = apply_opportunity_safety_gate(
+        base_decision,
+        sector_score,
+        overextension_pct
     )
 
     action = decision.get(
@@ -244,6 +253,7 @@ def analyze_single_opportunity(
         ),
 
         "fast_scan": {
+
             "opportunity_score":
             candidate.get(
                 "opportunity_score"
@@ -280,9 +290,7 @@ def analyze_single_opportunity(
             ),
 
             "overextension_pct":
-            candidate.get(
-                "overextension_pct"
-            )
+            overextension_pct
         },
 
         "market":
@@ -310,7 +318,6 @@ def analyze_single_opportunity(
 
             "alpha_score":
             alpha_score
-
         },
 
         "news":
@@ -330,6 +337,9 @@ def analyze_single_opportunity(
 
         "action":
         action,
+
+        "base_decision":
+        base_decision,
 
         "decision":
         decision,
@@ -352,11 +362,9 @@ def analyze_opportunity_candidates(
         []
     )
 
-
     selected_candidates = candidates[
         :max_candidates
     ]
-
 
     results = []
 
@@ -370,7 +378,6 @@ def analyze_opportunity_candidates(
             )
 
             if result:
-
                 results.append(
                     result
                 )
@@ -379,7 +386,6 @@ def analyze_opportunity_candidates(
 
             results.append(
                 {
-
                     "ticker":
                     candidate.get(
                         "ticker",
@@ -394,14 +400,11 @@ def analyze_opportunity_candidates(
 
                     "fast_scan":
                     candidate
-
                 }
             )
 
 
-    def ranking_key(
-        item
-    ):
+    def ranking_key(item):
 
         action = item.get(
             "action",
@@ -469,6 +472,24 @@ def analyze_opportunity_candidates(
     ]
 
 
+    safety_blocked = [
+        item
+        for item in results
+        if (
+            item.get(
+                "decision",
+                {}
+            ).get(
+                "safety_gate",
+                {}
+            ).get(
+                "triggered",
+                False
+            )
+        )
+    ]
+
+
     return {
 
         "candidates_received":
@@ -483,11 +504,17 @@ def analyze_opportunity_candidates(
         "watch_count":
         len(watchlist),
 
+        "safety_blocked_count":
+        len(safety_blocked),
+
         "top_actionable":
         actionable,
 
         "watchlist":
         watchlist,
+
+        "safety_blocked":
+        safety_blocked,
 
         "all_analyzed":
         results,
