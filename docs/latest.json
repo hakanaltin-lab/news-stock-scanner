@@ -1,13 +1,13 @@
 {
-  "generated": "2026-10-24T19:00:07.972529",
-  "scanner_version": "V6.3",
+  "generated": "2026-10-24T19:08:51.116540",
+  "scanner_version": "V6.5",
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-10-24T19:00:01.167147",
+      "timestamp": "2026-10-24T19:08:45.087564",
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-24T19:00:00.171246",
+        "timestamp": "2026-10-24T19:08:44.398377",
         "last_price": 516.87,
         "vwap": 532.04,
         "momentum": -34.9,
@@ -25,7 +25,7 @@
         "catalyst_score": 56,
         "sector_score": 0,
         "risk_score": 64.7,
-        "alpha_score": 34.42
+        "alpha_score": 39.55
       },
       "news": {
         "ticker": "AMD",
@@ -83,24 +83,28 @@
         },
         "data_quality": "LIVE"
       },
-      "rating": "AVOID",
-      "action": "NO TRADE",
+      "rating": "WEAK",
+      "action": "AVOID",
       "decision": {
         "action": "AVOID",
-        "confidence": 65.58,
+        "confidence": 43.2,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
-        "risk_reward": null
+        "risk_reward": null,
+        "setup_quality": "WEAK",
+        "reasons": [
+          "Technical setup too weak"
+        ]
       },
       "status": "ACTIVE"
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-10-24T19:00:01.853991",
+      "timestamp": "2026-10-24T19:08:45.604010",
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-24T19:00:01.353036",
+        "timestamp": "2026-10-24T19:08:45.213823",
         "last_price": 172.34,
         "vwap": 178.27,
         "momentum": -8.57,
@@ -118,7 +122,7 @@
         "catalyst_score": 56,
         "sector_score": 14.0,
         "risk_score": 67.1,
-        "alpha_score": 38.59
+        "alpha_score": 43.13
       },
       "news": {
         "ticker": "ANET",
@@ -176,24 +180,28 @@
         },
         "data_quality": "LIVE"
       },
-      "rating": "AVOID",
-      "action": "NO TRADE",
+      "rating": "CAUTIOUS",
+      "action": "AVOID",
       "decision": {
         "action": "AVOID",
-        "confidence": 61.41,
+        "confidence": 45.9,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
-        "risk_reward": null
+        "risk_reward": null,
+        "setup_quality": "WEAK",
+        "reasons": [
+          "Technical setup too weak"
+        ]
       },
       "status": "ACTIVE"
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-10-24T19:00:02.388544",
+      "timestamp": "2026-10-24T19:08:45.996281",
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-24T19:00:02.002251",
+        "timestamp": "2026-10-24T19:08:45.745916",
         "last_price": 1571.19,
         "vwap": 1622.44,
         "momentum": -89.9,
@@ -211,7 +219,7 @@
         "catalyst_score": 50,
         "sector_score": 0,
         "risk_score": 72.4,
-        "alpha_score": 34.6
+        "alpha_score": 40.44
       },
       "news": {
         "ticker": "ASML",
@@ -261,24 +269,28 @@
         },
         "data_quality": "LIVE"
       },
-      "rating": "AVOID",
-      "action": "NO TRADE",
+      "rating": "CAUTIOUS",
+      "action": "AVOID",
       "decision": {
         "action": "AVOID",
-        "confidence": 65.4,
+        "confidence": 44.2,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
-        "risk_reward": null
+        "risk_reward": null,
+        "setup_quality": "WEAK",
+        "reasons": [
+          "Technical setup too weak"
+        ]
       },
       "status": "ACTIVE"
     },
     {
       "ticker": "BKR",
-      "timestamp": "2026-10-24T19:00:03.206315",
+      "timestamp": "2026-10-24T19:08:46.680672",
       "market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-24T19:00:02.593610",
+        "timestamp": "2026-10-24T19:08:46.177241",
         "last_price": 55.86,
         "vwap": 54.98,
         "momentum": 0.22,
@@ -296,7 +308,7 @@
         "catalyst_score": 66,
         "sector_score": 94.4,
         "risk_score": 73.9,
-        "alpha_score": 68.87
+        "alpha_score": 68.73
       },
       "news": {
         "ticker": "BKR",
@@ -360,27 +372,34 @@
         },
         "data_quality": "LIVE"
       },
-      "rating": "WATCH",
-      "action": "MONITOR",
+      "rating": "POSITIVE",
+      "action": "ACCUMULATE",
       "decision": {
         "action": "ACCUMULATE",
-        "confidence": 68.87,
+        "confidence": 66.6,
         "entry_zone": {
-          "low": 53.07,
+          "low": 53.63,
           "high": 55.86
         },
-        "stop_loss": 50.27,
+        "stop_loss": 50.83,
         "target_price": 64.24,
-        "risk_reward": 1.5
+        "risk_reward": 1.67,
+        "setup_quality": "POSITIVE",
+        "reasons": [
+          "Positive alpha score",
+          "Technical confirmation present",
+          "Catalyst confirmation present",
+          "Risk profile acceptable"
+        ]
       },
       "status": "ACTIVE"
     },
     {
       "ticker": "CCLD",
-      "timestamp": "2026-10-24T19:00:03.949221",
+      "timestamp": "2026-10-24T19:08:47.311047",
       "market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-24T19:00:03.330227",
+        "timestamp": "2026-10-24T19:08:46.804797",
         "last_price": 1.76,
         "vwap": 1.78,
         "momentum": -0.07,
@@ -398,7 +417,7 @@
         "catalyst_score": 50,
         "sector_score": 88.7,
         "risk_score": 59.5,
-        "alpha_score": 53.97
+        "alpha_score": 53.63
       },
       "news": {
         "ticker": "CCLD",
@@ -448,24 +467,28 @@
         },
         "data_quality": "LIVE"
       },
-      "rating": "HOLD",
-      "action": "NO TRADE",
+      "rating": "NEUTRAL",
+      "action": "AVOID",
       "decision": {
-        "action": "WATCH",
-        "confidence": 53.97,
+        "action": "AVOID",
+        "confidence": 50.6,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
-        "risk_reward": null
+        "risk_reward": null,
+        "setup_quality": "WEAK",
+        "reasons": [
+          "Insufficient multi-factor confirmation"
+        ]
       },
       "status": "ACTIVE"
     },
     {
       "ticker": "CTAS",
-      "timestamp": "2026-10-24T19:00:04.712439",
+      "timestamp": "2026-10-24T19:08:47.916754",
       "market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-24T19:00:04.095570",
+        "timestamp": "2026-10-24T19:08:47.491334",
         "last_price": 224.13,
         "vwap": 219.88,
         "momentum": 12.31,
@@ -483,7 +506,7 @@
         "catalyst_score": 50,
         "sector_score": 27.6,
         "risk_score": 90.9,
-        "alpha_score": 59.7
+        "alpha_score": 63.9
       },
       "news": {
         "ticker": "CTAS",
@@ -533,24 +556,29 @@
         },
         "data_quality": "LIVE"
       },
-      "rating": "WATCH",
-      "action": "MONITOR",
+      "rating": "POSITIVE",
+      "action": "WATCH",
       "decision": {
         "action": "WATCH",
-        "confidence": 59.7,
+        "confidence": 67.1,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
-        "risk_reward": null
+        "risk_reward": null,
+        "setup_quality": "DEVELOPING",
+        "reasons": [
+          "Setup has potential",
+          "Further confirmation required"
+        ]
       },
       "status": "ACTIVE"
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-10-24T19:00:05.475755",
+      "timestamp": "2026-10-24T19:08:48.568315",
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-24T19:00:04.945257",
+        "timestamp": "2026-10-24T19:08:48.044623",
         "last_price": 317.24,
         "vwap": 328.95,
         "momentum": -22.36,
@@ -568,7 +596,7 @@
         "catalyst_score": 56,
         "sector_score": 7.9,
         "risk_score": 73.9,
-        "alpha_score": 36.47
+        "alpha_score": 42.23
       },
       "news": {
         "ticker": "GOOG",
@@ -626,24 +654,28 @@
         },
         "data_quality": "LIVE"
       },
-      "rating": "AVOID",
-      "action": "NO TRADE",
+      "rating": "CAUTIOUS",
+      "action": "AVOID",
       "decision": {
         "action": "AVOID",
-        "confidence": 63.53,
+        "confidence": 45.5,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
-        "risk_reward": null
+        "risk_reward": null,
+        "setup_quality": "WEAK",
+        "reasons": [
+          "Technical setup too weak"
+        ]
       },
       "status": "ACTIVE"
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-10-24T19:00:06.087271",
+      "timestamp": "2026-10-24T19:08:49.087199",
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-24T19:00:05.601534",
+        "timestamp": "2026-10-24T19:08:48.724667",
         "last_price": 158.74,
         "vwap": 166.34,
         "momentum": -12.81,
@@ -661,7 +693,7 @@
         "catalyst_score": 56,
         "sector_score": 7.9,
         "risk_score": 59.3,
-        "alpha_score": 32.36
+        "alpha_score": 36.91
       },
       "news": {
         "ticker": "NBIS",
@@ -719,24 +751,28 @@
         },
         "data_quality": "LIVE"
       },
-      "rating": "AVOID",
-      "action": "NO TRADE",
+      "rating": "WEAK",
+      "action": "AVOID",
       "decision": {
         "action": "AVOID",
-        "confidence": 67.64,
+        "confidence": 39.7,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
-        "risk_reward": null
+        "risk_reward": null,
+        "setup_quality": "WEAK",
+        "reasons": [
+          "Technical setup too weak"
+        ]
       },
       "status": "ACTIVE"
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-10-24T19:00:06.481217",
+      "timestamp": "2026-10-24T19:08:49.691909",
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-24T19:00:06.224082",
+        "timestamp": "2026-10-24T19:08:49.256065",
         "last_price": 211.0,
         "vwap": 216.27,
         "momentum": -4.51,
@@ -754,7 +790,7 @@
         "catalyst_score": 56,
         "sector_score": 0,
         "risk_score": 81.9,
-        "alpha_score": 41.56
+        "alpha_score": 47.84
       },
       "news": {
         "ticker": "NVDA",
@@ -812,24 +848,28 @@
         },
         "data_quality": "LIVE"
       },
-      "rating": "HOLD",
-      "action": "NO TRADE",
+      "rating": "CAUTIOUS",
+      "action": "AVOID",
       "decision": {
         "action": "AVOID",
-        "confidence": 58.44,
+        "confidence": 52.2,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
-        "risk_reward": null
+        "risk_reward": null,
+        "setup_quality": "WEAK",
+        "reasons": [
+          "Insufficient multi-factor confirmation"
+        ]
       },
       "status": "ACTIVE"
     },
     {
       "ticker": "OMDA",
-      "timestamp": "2026-10-24T19:00:07.105584",
+      "timestamp": "2026-10-24T19:08:50.144941",
       "market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-24T19:00:06.643986",
+        "timestamp": "2026-10-24T19:08:49.834550",
         "last_price": 18.95,
         "vwap": 19.09,
         "momentum": 1.01,
@@ -847,7 +887,7 @@
         "catalyst_score": 50,
         "sector_score": 88.7,
         "risk_score": 70.9,
-        "alpha_score": 65.64
+        "alpha_score": 65.19
       },
       "news": {
         "ticker": "OMDA",
@@ -897,27 +937,29 @@
         },
         "data_quality": "LIVE"
       },
-      "rating": "WATCH",
-      "action": "MONITOR",
+      "rating": "POSITIVE",
+      "action": "WATCH",
       "decision": {
-        "action": "ACCUMULATE",
-        "confidence": 65.64,
-        "entry_zone": {
-          "low": 18.0,
-          "high": 18.95
-        },
-        "stop_loss": 17.05,
-        "target_price": 21.79,
-        "risk_reward": 1.49
+        "action": "WATCH",
+        "confidence": 63.1,
+        "entry_zone": null,
+        "stop_loss": null,
+        "target_price": null,
+        "risk_reward": null,
+        "setup_quality": "DEVELOPING",
+        "reasons": [
+          "Setup has potential",
+          "Further confirmation required"
+        ]
       },
       "status": "ACTIVE"
     },
     {
       "ticker": "UNH",
-      "timestamp": "2026-10-24T19:00:07.552496",
+      "timestamp": "2026-10-24T19:08:50.740530",
       "market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-24T19:00:07.256297",
+        "timestamp": "2026-10-24T19:08:50.287005",
         "last_price": 418.01,
         "vwap": 417.33,
         "momentum": 13.92,
@@ -935,7 +977,7 @@
         "catalyst_score": 50,
         "sector_score": 88.7,
         "risk_score": 91.4,
-        "alpha_score": 66.91
+        "alpha_score": 68.75
       },
       "news": {
         "ticker": "UNH",
@@ -985,27 +1027,29 @@
         },
         "data_quality": "LIVE"
       },
-      "rating": "WATCH",
-      "action": "MONITOR",
+      "rating": "POSITIVE",
+      "action": "WATCH",
       "decision": {
-        "action": "ACCUMULATE",
-        "confidence": 66.91,
-        "entry_zone": {
-          "low": 397.11,
-          "high": 418.01
-        },
-        "stop_loss": 376.21,
-        "target_price": 480.71,
-        "risk_reward": 1.5
+        "action": "WATCH",
+        "confidence": 67.1,
+        "entry_zone": null,
+        "stop_loss": null,
+        "target_price": null,
+        "risk_reward": null,
+        "setup_quality": "DEVELOPING",
+        "reasons": [
+          "Setup has potential",
+          "Further confirmation required"
+        ]
       },
       "status": "ACTIVE"
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-10-24T19:00:07.972521",
+      "timestamp": "2026-10-24T19:08:51.116532",
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-24T19:00:07.713271",
+        "timestamp": "2026-10-24T19:08:50.875529",
         "last_price": 194.31,
         "vwap": 202.31,
         "momentum": -15.58,
@@ -1023,7 +1067,7 @@
         "catalyst_score": 56,
         "sector_score": 27.6,
         "risk_score": 54.3,
-        "alpha_score": 35.3
+        "alpha_score": 38.4
       },
       "news": {
         "ticker": "VRT",
@@ -1081,15 +1125,19 @@
         },
         "data_quality": "LIVE"
       },
-      "rating": "AVOID",
-      "action": "NO TRADE",
+      "rating": "WEAK",
+      "action": "AVOID",
       "decision": {
         "action": "AVOID",
-        "confidence": 64.7,
+        "confidence": 39.6,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
-        "risk_reward": null
+        "risk_reward": null,
+        "setup_quality": "WEAK",
+        "reasons": [
+          "Technical setup too weak"
+        ]
       },
       "status": "ACTIVE"
     }
