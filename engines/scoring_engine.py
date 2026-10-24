@@ -1,144 +1,202 @@
 """
-V5.4 Scoring Engine
+V6.4 Normalized Market Scoring Engine
 
-Institutional style stock scoring layer
+Purpose:
+- Convert market data into a true 0-100 score
+- Score percentage momentum
+- Score VWAP positioning
+- Score volume confirmation
 
-Inputs:
-- Market snapshot
-- Momentum
-- VWAP
-- Volume
-
-Output:
-- Score
-- Rating
-- Confidence
+Higher market_score = stronger technical setup
 """
 
 
-def calculate_market_score(snapshot):
+def clamp(
+    value,
+    minimum=0,
+    maximum=100
+):
 
-    score = 0
+    return max(
+        minimum,
+        min(
+            maximum,
+            value
+        )
+    )
 
-    price = snapshot.get(
-        "last_price",
+
+def calculate_momentum_score(
+    momentum_pct
+):
+
+    """
+    -10% or worse -> near 0
+    0%             -> 50
+    +10% or better -> near 100
+    """
+
+    score = (
+        50
+        + momentum_pct * 5
+    )
+
+    return clamp(
+        score
+    )
+
+
+def calculate_vwap_score(
+    vwap_distance_pct
+):
+
+    """
+    -5% below VWAP -> near 0
+    At VWAP        -> 50
+    +5% above      -> near 100
+    """
+
+    score = (
+        50
+        + vwap_distance_pct * 10
+    )
+
+    return clamp(
+        score
+    )
+
+
+def calculate_volume_confirmation_score(
+    momentum_pct,
+    vwap_distance_pct,
+    volume_ratio
+):
+
+    """
+    Rising volume confirms the prevailing direction.
+
+    Strong price + strong volume:
+        positive confirmation
+
+    Weak price + strong volume:
+        negative confirmation
+    """
+
+    volume_ratio = max(
+        0,
+        min(
+            volume_ratio,
+            5
+        )
+    )
+
+
+    bullish = (
+        momentum_pct > 0
+        and vwap_distance_pct > 0
+    )
+
+
+    bearish = (
+        momentum_pct < 0
+        and vwap_distance_pct < 0
+    )
+
+
+    if bullish:
+
+        score = (
+            50
+            + (
+                volume_ratio - 1
+            ) * 25
+        )
+
+        return clamp(
+            score,
+            35,
+            100
+        )
+
+
+    if bearish:
+
+        score = (
+            50
+            - (
+                volume_ratio - 1
+            ) * 25
+        )
+
+        return clamp(
+            score,
+            0,
+            65
+        )
+
+
+    return 50
+
+
+def calculate_market_score(
+    snapshot
+):
+
+    momentum_pct = snapshot.get(
+        "momentum_pct",
         0
     )
 
-    vwap = snapshot.get(
-        "vwap",
-        0
-    )
 
-    momentum = snapshot.get(
-        "momentum",
-        0
-    )
-
-    volume = snapshot.get(
-        "volume",
+    vwap_distance_pct = snapshot.get(
+        "vwap_distance_pct",
         0
     )
 
 
-    # VWAP condition
-    if price > vwap:
-        score += 15
-    else:
-        score += 5
-
-
-    # Momentum
-    if momentum > 2:
-        score += 15
-    elif momentum > 0:
-        score += 10
-
-
-    # Volume
-    if volume > 500000:
-        score += 10
-    elif volume > 100000:
-        score += 5
-
-
-    return score
-
-
-
-def calculate_catalyst_score():
-
-    # Future connection:
-    # News engine
-    # Earnings
-    # Analyst upgrades
-
-    return 20
-
-
-
-def calculate_risk_score(snapshot):
-
-    # Future:
-    # volatility
-    # drawdown
-    # liquidity risk
-
-    return 10
-
-
-
-def generate_stock_score(snapshot):
-
-    market = calculate_market_score(snapshot)
-
-    catalyst = calculate_catalyst_score()
-
-    risk = calculate_risk_score(snapshot)
-
-
-    total = (
-        market +
-        catalyst +
-        risk
+    volume_ratio = snapshot.get(
+        "volume_ratio",
+        1
     )
 
 
-    if total >= 85:
-        rating = "STRONG BUY"
-
-    elif total >= 70:
-        rating = "BUY"
-
-    elif total >= 55:
-        rating = "WATCH"
-
-    elif total >= 40:
-        rating = "HOLD"
-
-    else:
-        rating = "AVOID"
+    momentum_score = (
+        calculate_momentum_score(
+            momentum_pct
+        )
+    )
 
 
-    confidence = "MEDIUM"
+    vwap_score = (
+        calculate_vwap_score(
+            vwap_distance_pct
+        )
+    )
 
 
-    return {
+    volume_score = (
+        calculate_volume_confirmation_score(
+            momentum_pct,
+            vwap_distance_pct,
+            volume_ratio
+        )
+    )
 
-        "score": total,
 
-        "rating": rating,
+    market_score = (
 
-        "confidence": confidence,
+        momentum_score * 0.50
 
-        "breakdown": {
+        + vwap_score * 0.30
 
-            "market": market,
+        + volume_score * 0.20
 
-            "catalyst": catalyst,
+    )
 
-            "risk": risk
 
-        }
-
-    }
+    return round(
+        clamp(
+            market_score
+        ),
+        1
+    )
