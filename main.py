@@ -1,5 +1,5 @@
 """
-V6.3 Global Market Intelligence Scanner
+V6.5 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -67,8 +67,7 @@ from engines.risk_engine import (
 
 from engines.alpha_intelligence_engine import (
     calculate_alpha_score,
-    generate_rating,
-    generate_action
+    generate_rating
 )
 
 
@@ -202,7 +201,7 @@ def run_scanner():
 
 
         # =================================================
-        # 6. DYNAMIC RISK INTELLIGENCE
+        # 6. RISK INTELLIGENCE
         # =================================================
 
         risk_result = calculate_live_risk(
@@ -229,6 +228,11 @@ def run_scanner():
         )
 
 
+        alpha_rating = generate_rating(
+            alpha_score
+        )
+
+
         # =================================================
         # 8. DECISION ENGINE
         # =================================================
@@ -241,6 +245,12 @@ def run_scanner():
             snapshot.get(
                 "last_price"
             )
+        )
+
+
+        final_action = decision.get(
+            "action",
+            "AVOID"
         )
 
 
@@ -297,14 +307,10 @@ def run_scanner():
             risk_result,
 
             "rating":
-            generate_rating(
-                alpha_score
-            ),
+            alpha_rating,
 
             "action":
-            generate_action(
-                alpha_score
-            ),
+            final_action,
 
             "decision":
             decision,
@@ -329,7 +335,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V6.3",
+        "V6.5",
 
         "portfolio":
         results
@@ -357,7 +363,7 @@ def run_scanner():
 
 
     print(
-        "V6.3 Scanner completed successfully"
+        "V6.5 Scanner completed successfully"
     )
 
 
