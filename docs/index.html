@@ -11,9 +11,8 @@ content="width=device-width, initial-scale=1.0"
 >
 
 <title>
-AURORA Market Intelligence Dashboard
+AURORA Market Intelligence
 </title>
-
 
 <style>
 
@@ -104,6 +103,10 @@ border-left:5px solid #ef4444;
 border-left:5px solid #a855f7;
 }
 
+.orange{
+border-left:5px solid #f97316;
+}
+
 .title{
 font-size:21px;
 font-weight:bold;
@@ -118,7 +121,7 @@ color:#94a3b8;
 table{
 width:100%;
 border-collapse:collapse;
-min-width:800px;
+min-width:850px;
 }
 
 th{
@@ -168,22 +171,14 @@ background:#7f1d1d;
 color:#fecaca;
 }
 
-.neutral{
-background:#1e293b;
-color:#cbd5e1;
-}
-
 .blocked{
 background:#7c2d12;
 color:#fed7aa;
 }
 
-.row{
-display:flex;
-justify-content:space-between;
-gap:15px;
-padding:10px 0;
-border-bottom:1px solid #253043;
+.neutral{
+background:#1e293b;
+color:#cbd5e1;
 }
 
 .loading{
@@ -192,6 +187,13 @@ color:#94a3b8;
 
 .error{
 color:#fca5a5;
+}
+
+.section-note{
+font-size:13px;
+color:#94a3b8;
+margin-top:-7px;
+margin-bottom:14px;
 }
 
 @media(max-width:700px){
@@ -247,56 +249,83 @@ Loading latest scan...
 <div class="grid">
 
 <div class="stat">
-<div class="stat-label">Scanner Version</div>
+
+<div class="stat-label">
+Scanner Version
+</div>
+
 <div
 class="stat-value"
 id="scanner-version"
 >
 -
 </div>
+
 </div>
 
+
 <div class="stat">
-<div class="stat-label">Stocks Scanned</div>
+
+<div class="stat-label">
+Stocks Scanned
+</div>
+
 <div
 class="stat-value"
 id="stocks-scanned"
 >
 -
 </div>
+
 </div>
 
+
 <div class="stat">
-<div class="stat-label">Actionable Opportunities</div>
+
+<div class="stat-label">
+Action Now
+</div>
+
 <div
 class="stat-value"
 id="actionable-count"
 >
 -
 </div>
+
 </div>
 
+
 <div class="stat">
-<div class="stat-label">Safety Blocked</div>
+
+<div class="stat-label">
+Wait for Pullback
+</div>
+
 <div
 class="stat-value"
 id="blocked-count"
 >
 -
 </div>
+
 </div>
 
 </div>
 
 
 <!-- ================================================= -->
-<!-- NEW OPPORTUNITIES -->
+<!-- ACTION NOW -->
 <!-- ================================================= -->
 
 <div class="card green">
 
 <div class="title">
-🚀 Top New Opportunities
+🚀 ACTION NOW
+</div>
+
+<div class="section-note">
+Only BUY and ACCUMULATE opportunities that passed all AURORA safety checks.
 </div>
 
 <table>
@@ -312,20 +341,23 @@ id="blocked-count"
 <th>Entry Zone</th>
 <th>Stop</th>
 <th>Target</th>
+<th>Risk / Reward</th>
 <th>Sector</th>
 </tr>
 
 </thead>
 
-<tbody id="opportunity-table">
+<tbody id="action-table">
 
 <tr>
+
 <td
-colspan="9"
+colspan="10"
 class="loading"
 >
-Loading opportunities...
+Loading actionable opportunities...
 </td>
+
 </tr>
 
 </tbody>
@@ -336,13 +368,69 @@ Loading opportunities...
 
 
 <!-- ================================================= -->
-<!-- SAFETY BLOCKED -->
+<!-- WATCHLIST -->
 <!-- ================================================= -->
 
 <div class="card yellow">
 
 <div class="title">
-🛡️ Safety Gate — Blocked / Pullback Required
+👀 WATCHLIST
+</div>
+
+<div class="section-note">
+Strong setups that need additional confirmation before a new position.
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Ticker</th>
+<th>Action</th>
+<th>Price</th>
+<th>Alpha</th>
+<th>Confidence</th>
+<th>Market</th>
+<th>Catalyst</th>
+<th>Sector</th>
+<th>Risk</th>
+</tr>
+
+</thead>
+
+<tbody id="watch-table">
+
+<tr>
+
+<td
+colspan="9"
+class="loading"
+>
+Loading watchlist...
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- WAIT FOR PULLBACK -->
+<!-- ================================================= -->
+
+<div class="card orange">
+
+<div class="title">
+🛡️ WAIT FOR PULLBACK
+</div>
+
+<div class="section-note">
+AURORA found potential, but the Safety Gate blocked immediate entry.
 </div>
 
 <table>
@@ -353,23 +441,26 @@ Loading opportunities...
 <th>Ticker</th>
 <th>Base Action</th>
 <th>Final Action</th>
+<th>Price</th>
 <th>Alpha</th>
 <th>Sector Score</th>
-<th>Extension</th>
+<th>SMA20 Extension</th>
 <th>Reason</th>
 </tr>
 
 </thead>
 
-<tbody id="safety-table">
+<tbody id="pullback-table">
 
 <tr>
+
 <td
-colspan="7"
+colspan="8"
 class="loading"
 >
 Loading Safety Gate...
 </td>
+
 </tr>
 
 </tbody>
@@ -380,13 +471,17 @@ Loading Safety Gate...
 
 
 <!-- ================================================= -->
-<!-- PORTFOLIO -->
+<!-- CURRENT PORTFOLIO -->
 <!-- ================================================= -->
 
 <div class="card blue">
 
 <div class="title">
-💼 Current Portfolio Actions
+💼 CURRENT PORTFOLIO
+</div>
+
+<div class="section-note">
+AURORA assessment of positions already held in the portfolio.
 </div>
 
 <table>
@@ -401,6 +496,7 @@ Loading Safety Gate...
 <th>Action</th>
 <th>Confidence</th>
 <th>Market</th>
+<th>Catalyst</th>
 <th>Sector</th>
 <th>Risk</th>
 </tr>
@@ -410,12 +506,14 @@ Loading Safety Gate...
 <tbody id="portfolio-table">
 
 <tr>
+
 <td
-colspan="9"
+colspan="10"
 class="loading"
 >
 Loading portfolio...
 </td>
+
 </tr>
 
 </tbody>
@@ -426,19 +524,18 @@ Loading portfolio...
 
 
 <!-- ================================================= -->
-<!-- FAST RADAR -->
+<!-- MARKET RADAR -->
 <!-- ================================================= -->
 
 <div class="card purple">
 
 <div class="title">
-📡 Fast Market Radar — Top 15
+📡 MARKET RADAR — TOP 15
 </div>
 
 <div
 id="benchmark"
-class="small"
-style="margin-bottom:12px;"
+class="section-note"
 >
 Loading benchmark...
 </div>
@@ -454,6 +551,7 @@ Loading benchmark...
 <th>Signal</th>
 <th>5D</th>
 <th>20D</th>
+<th>60D</th>
 <th>RS vs SPY</th>
 <th>Volume</th>
 <th>SMA20 Extension</th>
@@ -464,62 +562,14 @@ Loading benchmark...
 <tbody id="radar-table">
 
 <tr>
+
 <td
-colspan="9"
+colspan="10"
 class="loading"
 >
-Loading radar...
+Loading market radar...
 </td>
-</tr>
 
-</tbody>
-
-</table>
-
-</div>
-
-
-<!-- ================================================= -->
-<!-- CIO LEGACY -->
-<!-- ================================================= -->
-
-<div class="card">
-
-<div class="title">
-🧠 CIO Legacy Layer
-</div>
-
-<div
-id="cio-status"
-class="small"
-style="margin-bottom:12px;"
->
-Loading CIO layer...
-</div>
-
-<table>
-
-<thead>
-
-<tr>
-<th>Ticker</th>
-<th>CIO Score</th>
-<th>Decision</th>
-<th>Weight</th>
-<th>Risk</th>
-</tr>
-
-</thead>
-
-<tbody id="cio-table">
-
-<tr>
-<td
-colspan="5"
-class="loading"
->
-Loading CIO data...
-</td>
 </tr>
 
 </tbody>
@@ -545,7 +595,9 @@ value === null
 ||
 value === undefined
 ||
-Number.isNaN(Number(value))
+Number.isNaN(
+Number(value)
+)
 ){
 
 return "-";
@@ -671,7 +723,8 @@ Date.now()
 );
 
 
-const data = await response.json();
+const data =
+await response.json();
 
 
 const scan =
@@ -682,6 +735,11 @@ data.opportunity_scan
 const analysis =
 data.opportunity_analysis
 || {};
+
+
+/* =============================================== */
+/* SUMMARY */
+/* =============================================== */
 
 
 document.getElementById(
@@ -731,16 +789,17 @@ generatedDate.toLocaleString();
 
 
 /* =============================================== */
-/* TOP OPPORTUNITIES */
+/* ACTION NOW */
 /* =============================================== */
 
-const opportunityTable =
+
+const actionTable =
 document.getElementById(
-"opportunity-table"
+"action-table"
 );
 
 
-opportunityTable.innerHTML =
+actionTable.innerHTML =
 "";
 
 
@@ -749,28 +808,17 @@ analysis.top_actionable
 || [];
 
 
-const watchlist =
-analysis.watchlist
-|| [];
-
-
-const opportunities = [
-...actionable,
-...watchlist
-];
-
-
 if(
-opportunities.length === 0
+actionable.length === 0
 ){
 
-opportunityTable.innerHTML = `
+actionTable.innerHTML = `
 
 <tr>
 
-<td colspan="9">
+<td colspan="10">
 
-No qualified opportunities in the latest scan.
+No BUY or ACCUMULATE opportunity passed all filters.
 
 </td>
 
@@ -783,7 +831,7 @@ No qualified opportunities in the latest scan.
 else{
 
 
-opportunities.forEach(
+actionable.forEach(
 item => {
 
 
@@ -802,7 +850,7 @@ item.market
 || {};
 
 
-opportunityTable.innerHTML += `
+actionTable.innerHTML += `
 
 <tr>
 
@@ -845,6 +893,10 @@ ${formatPrice(decision.target_price)}
 </td>
 
 <td>
+${formatNumber(decision.risk_reward,2)}
+</td>
+
+<td>
 ${item.sector || "-"}
 </td>
 
@@ -858,16 +910,155 @@ ${item.sector || "-"}
 
 
 /* =============================================== */
-/* SAFETY GATE */
+/* WATCHLIST */
 /* =============================================== */
 
-const safetyTable =
+
+const watchTable =
 document.getElementById(
-"safety-table"
+"watch-table"
 );
 
 
-safetyTable.innerHTML =
+watchTable.innerHTML =
+"";
+
+
+const blockedTickers =
+new Set(
+(
+analysis.safety_blocked
+||
+[]
+).map(
+item =>
+item.ticker
+)
+);
+
+
+const watchlist =
+(
+analysis.watchlist
+||
+[]
+).filter(
+item =>
+!blockedTickers.has(
+item.ticker
+)
+);
+
+
+if(
+watchlist.length === 0
+){
+
+watchTable.innerHTML = `
+
+<tr>
+
+<td colspan="9">
+
+No regular WATCH opportunities in the latest scan.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+watchlist.forEach(
+item => {
+
+
+const scores =
+item.scores
+|| {};
+
+
+const decision =
+item.decision
+|| {};
+
+
+const market =
+item.market
+|| {};
+
+
+watchTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.ticker}</b>
+</td>
+
+<td>
+
+<span class="badge watch">
+
+WATCH
+
+</span>
+
+</td>
+
+<td>
+${formatPrice(market.last_price)}
+</td>
+
+<td>
+${formatNumber(scores.alpha_score,2)}
+</td>
+
+<td>
+${formatNumber(decision.confidence,1)}%
+</td>
+
+<td>
+${formatNumber(scores.market_score,1)}
+</td>
+
+<td>
+${formatNumber(scores.catalyst_score,1)}
+</td>
+
+<td>
+${formatNumber(scores.sector_score,1)}
+</td>
+
+<td>
+${formatNumber(scores.risk_score,1)}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =============================================== */
+/* WAIT FOR PULLBACK */
+/* =============================================== */
+
+
+const pullbackTable =
+document.getElementById(
+"pullback-table"
+);
+
+
+pullbackTable.innerHTML =
 "";
 
 
@@ -880,11 +1071,11 @@ if(
 blocked.length === 0
 ){
 
-safetyTable.innerHTML = `
+pullbackTable.innerHTML = `
 
 <tr>
 
-<td colspan="7">
+<td colspan="8">
 
 No opportunities blocked by Safety Gate.
 
@@ -923,6 +1114,11 @@ item.fast_scan
 || {};
 
 
+const market =
+item.market
+|| {};
+
+
 const safety =
 decision.safety_gate
 || {};
@@ -931,13 +1127,14 @@ decision.safety_gate
 const reasons =
 (
 safety.reasons
-|| []
+||
+[]
 ).join(
 ", "
 );
 
 
-safetyTable.innerHTML += `
+pullbackTable.innerHTML += `
 
 <tr>
 
@@ -957,6 +1154,10 @@ ${item.action || "-"}
 
 </span>
 
+</td>
+
+<td>
+${formatPrice(market.last_price)}
 </td>
 
 <td>
@@ -985,8 +1186,9 @@ ${reasons || "-"}
 
 
 /* =============================================== */
-/* PORTFOLIO */
+/* CURRENT PORTFOLIO */
 /* =============================================== */
+
 
 const portfolioTable =
 document.getElementById(
@@ -1023,7 +1225,7 @@ portfolioTable.innerHTML = `
 
 <tr>
 
-<td colspan="9">
+<td colspan="10">
 
 No portfolio data available.
 
@@ -1096,6 +1298,10 @@ ${formatNumber(scores.market_score,1)}
 </td>
 
 <td>
+${formatNumber(scores.catalyst_score,1)}
+</td>
+
+<td>
 ${formatNumber(scores.sector_score,1)}
 </td>
 
@@ -1113,8 +1319,9 @@ ${formatNumber(scores.risk_score,1)}
 
 
 /* =============================================== */
-/* FAST RADAR */
+/* MARKET RADAR */
 /* =============================================== */
+
 
 const radarTable =
 document.getElementById(
@@ -1134,10 +1341,11 @@ document.getElementById(
 +
 (
 scan.benchmark
-|| "SPY"
+||
+"SPY"
 )
 +
-" | 20D return: "
+" | SPY 20D return: "
 +
 formatNumber(
 scan.benchmark_return_20d_pct,
@@ -1152,8 +1360,34 @@ scan.opportunities
 || [];
 
 
+if(
+radar.length === 0
+){
+
+radarTable.innerHTML = `
+
+<tr>
+
+<td colspan="10">
+
+No radar candidates available.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
 radar.forEach(
-(item,index)=>{
+(
+item,
+index
+)=>{
 
 
 radarTable.innerHTML += `
@@ -1185,6 +1419,10 @@ ${formatNumber(item.return_20d_pct,2)}%
 </td>
 
 <td>
+${formatNumber(item.return_60d_pct,2)}%
+</td>
+
+<td>
 ${formatNumber(item.relative_strength_20d,2)}%
 </td>
 
@@ -1201,6 +1439,8 @@ ${formatNumber(item.overextension_pct,2)}%
 `;
 
 });
+
+}
 
 
 }
@@ -1226,122 +1466,7 @@ document.getElementById(
 }
 
 
-async function loadCIO(){
-
-try{
-
-
-const response = await fetch(
-"cio_output.json?ts="
-+
-Date.now()
-);
-
-
-const data = await response.json();
-
-
-const cioTable =
-document.getElementById(
-"cio-table"
-);
-
-
-cioTable.innerHTML =
-"";
-
-
-document.getElementById(
-"cio-status"
-).textContent =
-
-(data.engine || "CIO")
-+
-" | Source timestamp: "
-+
-(data.timestamp || "-");
-
-
-const decisions =
-data.cio_decisions
-|| [];
-
-
-if(
-decisions.length === 0
-){
-
-cioTable.innerHTML = `
-
-<tr>
-
-<td colspan="5">
-No CIO data available.
-</td>
-
-</tr>
-
-`;
-
-return;
-
-}
-
-
-decisions.forEach(
-item=>{
-
-
-cioTable.innerHTML += `
-
-<tr>
-
-<td>
-<b>${item.ticker}</b>
-</td>
-
-<td>
-${item.cio_score ?? "-"}
-</td>
-
-<td>
-${item.decision || "-"}
-</td>
-
-<td>
-${item.recommended_weight ?? "-"}%
-</td>
-
-<td>
-${item.risk_status || "-"}
-</td>
-
-</tr>
-
-`;
-
-});
-
-
-}
-
-catch(error){
-
-
-document.getElementById(
-"cio-status"
-).textContent =
-"CIO legacy data unavailable";
-
-
-}
-
-}
-
-
 loadAurora();
-
-loadCIO();
 
 
 </script>
