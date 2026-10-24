@@ -1,14 +1,33 @@
 """
-V5.5 Alpha Intelligence Engine
+V6.5 Calibrated Alpha Intelligence Engine
 
-Institutional decision layer
+Purpose:
+- Combine normalized intelligence scores
+- Prevent sector score from dominating the model
+- Give more importance to risk quality
+- Produce a balanced 0-100 alpha score
 
-Combines:
-- Price Action
-- News Catalyst
-- Sector Momentum
-- Risk
+Weights:
+Market Technicals : 35%
+Catalyst           : 25%
+Sector             : 15%
+Risk Quality       : 25%
 """
+
+
+def clamp(
+    value,
+    minimum=0,
+    maximum=100
+):
+
+    return max(
+        minimum,
+        min(
+            maximum,
+            value
+        )
+    )
 
 
 def calculate_alpha_score(
@@ -18,46 +37,61 @@ def calculate_alpha_score(
     risk_score
 ):
 
-    score = 0
+    score = (
 
-    score += market_score * 0.40
-    score += catalyst_score * 0.25
-    score += sector_score * 0.20
-    score += risk_score * 0.15
+        market_score * 0.35
 
-    return round(score, 2)
+        + catalyst_score * 0.25
 
+        + sector_score * 0.15
+
+        + risk_score * 0.25
+
+    )
+
+    return round(
+        clamp(
+            score
+        ),
+        2
+    )
 
 
 def generate_rating(score):
 
-    if score >= 85:
-        return "HIGH CONVICTION"
+    if score >= 80:
+        return "EXCEPTIONAL"
 
     elif score >= 70:
-        return "ACCUMULATE"
+        return "STRONG"
 
-    elif score >= 55:
-        return "WATCH"
+    elif score >= 60:
+        return "POSITIVE"
+
+    elif score >= 50:
+        return "NEUTRAL"
 
     elif score >= 40:
-        return "HOLD"
+        return "CAUTIOUS"
 
     else:
-        return "AVOID"
-
+        return "WEAK"
 
 
 def generate_action(score):
 
-    if score >= 85:
-        return "BUY"
+    """
+    Legacy compatibility only.
 
-    elif score >= 70:
-        return "ADD"
+    Final investment action is generated
+    by decision_engine.py.
+    """
 
-    elif score >= 55:
-        return "MONITOR"
+    if score >= 75:
+        return "DECISION ENGINE REVIEW"
+
+    elif score >= 60:
+        return "WATCHLIST"
 
     else:
         return "NO TRADE"
