@@ -1,13 +1,13 @@
 {
-  "generated": "2026-10-24T16:49:15.299015",
+  "generated": "2026-10-24T17:02:55.858531",
   "scanner_version": "V6.0",
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-10-24T16:49:09.663774",
+      "timestamp": "2026-10-24T17:02:51.670545",
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-24T16:49:09.397493",
+        "timestamp": "2026-10-24T17:02:51.568530",
         "last_price": 516.87,
         "vwap": 532.04,
         "momentum": -34.9,
@@ -18,10 +18,10 @@
       "scores": {
         "market_score": 15,
         "news_score": 58,
-        "catalyst_score": 50,
+        "catalyst_score": 56,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 36.0
+        "alpha_score": 37.5
       },
       "news": {
         "ticker": "AMD",
@@ -34,14 +34,23 @@
       },
       "catalyst": {
         "ticker": "AMD",
-        "catalyst_score": 50,
-        "catalysts": []
+        "catalyst_score": 56,
+        "catalyst_signal": "NEUTRAL",
+        "catalysts": [
+          {
+            "type": "POSITIVE",
+            "catalyst": "ai",
+            "impact": 6
+          }
+        ],
+        "article_count": 10,
+        "data_quality": "LIVE"
       },
       "rating": "AVOID",
       "action": "NO TRADE",
       "decision": {
         "action": "AVOID",
-        "confidence": 64.0,
+        "confidence": 62.5,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -51,10 +60,10 @@
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-10-24T16:49:10.272263",
+      "timestamp": "2026-10-24T17:02:51.936467",
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-24T16:49:10.144371",
+        "timestamp": "2026-10-24T17:02:51.822416",
         "last_price": 172.34,
         "vwap": 178.27,
         "momentum": -8.57,
@@ -65,10 +74,10 @@
       "scores": {
         "market_score": 15,
         "news_score": 58,
-        "catalyst_score": 50,
+        "catalyst_score": 56,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 36.0
+        "alpha_score": 37.5
       },
       "news": {
         "ticker": "ANET",
@@ -81,14 +90,23 @@
       },
       "catalyst": {
         "ticker": "ANET",
-        "catalyst_score": 50,
-        "catalysts": []
+        "catalyst_score": 56,
+        "catalyst_signal": "NEUTRAL",
+        "catalysts": [
+          {
+            "type": "POSITIVE",
+            "catalyst": "ai",
+            "impact": 6
+          }
+        ],
+        "article_count": 10,
+        "data_quality": "LIVE"
       },
       "rating": "AVOID",
       "action": "NO TRADE",
       "decision": {
         "action": "AVOID",
-        "confidence": 64.0,
+        "confidence": 62.5,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -98,10 +116,10 @@
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-10-24T16:49:10.751260",
+      "timestamp": "2026-10-24T17:02:52.243631",
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-24T16:49:10.502419",
+        "timestamp": "2026-10-24T17:02:52.137257",
         "last_price": 1571.19,
         "vwap": 1622.44,
         "momentum": -89.9,
@@ -127,7 +145,10 @@
       "catalyst": {
         "ticker": "ASML",
         "catalyst_score": 50,
-        "catalysts": []
+        "catalyst_signal": "NEUTRAL",
+        "catalysts": [],
+        "article_count": 9,
+        "data_quality": "LIVE"
       },
       "rating": "AVOID",
       "action": "NO TRADE",
@@ -143,10 +164,10 @@
     },
     {
       "ticker": "BKR",
-      "timestamp": "2026-10-24T16:49:11.324801",
+      "timestamp": "2026-10-24T17:02:52.707519",
       "market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-24T16:49:10.999463",
+        "timestamp": "2026-10-24T17:02:52.423740",
         "last_price": 55.86,
         "vwap": 54.98,
         "momentum": 0.22,
@@ -157,10 +178,10 @@
       "scores": {
         "market_score": 35,
         "news_score": 68,
-        "catalyst_score": 50,
+        "catalyst_score": 66,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 44.0
+        "alpha_score": 48.0
       },
       "news": {
         "ticker": "BKR",
@@ -174,14 +195,28 @@
       },
       "catalyst": {
         "ticker": "BKR",
-        "catalyst_score": 50,
-        "catalysts": []
+        "catalyst_score": 66,
+        "catalyst_signal": "POSITIVE",
+        "catalysts": [
+          {
+            "type": "POSITIVE",
+            "catalyst": "ai",
+            "impact": 6
+          },
+          {
+            "type": "POSITIVE",
+            "catalyst": "earnings beat",
+            "impact": 10
+          }
+        ],
+        "article_count": 10,
+        "data_quality": "LIVE"
       },
       "rating": "HOLD",
       "action": "NO TRADE",
       "decision": {
-        "action": "AVOID",
-        "confidence": 56.0,
+        "action": "WATCH",
+        "confidence": 48.0,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -191,10 +226,10 @@
     },
     {
       "ticker": "CCLD",
-      "timestamp": "2026-10-24T16:49:11.843133",
+      "timestamp": "2026-10-24T17:02:53.131303",
       "market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-24T16:49:11.539478",
+        "timestamp": "2026-10-24T17:02:52.859646",
         "last_price": 1.76,
         "vwap": 1.78,
         "momentum": -0.07,
@@ -220,7 +255,10 @@
       "catalyst": {
         "ticker": "CCLD",
         "catalyst_score": 50,
-        "catalysts": []
+        "catalyst_signal": "NEUTRAL",
+        "catalysts": [],
+        "article_count": 10,
+        "data_quality": "LIVE"
       },
       "rating": "AVOID",
       "action": "NO TRADE",
@@ -236,10 +274,10 @@
     },
     {
       "ticker": "CTAS",
-      "timestamp": "2026-10-24T16:49:12.388309",
+      "timestamp": "2026-10-24T17:02:53.576083",
       "market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-24T16:49:12.093241",
+        "timestamp": "2026-10-24T17:02:53.303932",
         "last_price": 224.13,
         "vwap": 219.88,
         "momentum": 12.31,
@@ -265,7 +303,10 @@
       "catalyst": {
         "ticker": "CTAS",
         "catalyst_score": 50,
-        "catalysts": []
+        "catalyst_signal": "NEUTRAL",
+        "catalysts": [],
+        "article_count": 10,
+        "data_quality": "LIVE"
       },
       "rating": "HOLD",
       "action": "NO TRADE",
@@ -281,10 +322,10 @@
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-10-24T16:49:12.835973",
+      "timestamp": "2026-10-24T17:02:53.836871",
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-24T16:49:12.601870",
+        "timestamp": "2026-10-24T17:02:53.734881",
         "last_price": 317.24,
         "vwap": 328.95,
         "momentum": -22.36,
@@ -295,10 +336,10 @@
       "scores": {
         "market_score": 15,
         "news_score": 58,
-        "catalyst_score": 50,
+        "catalyst_score": 56,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 36.0
+        "alpha_score": 37.5
       },
       "news": {
         "ticker": "GOOG",
@@ -311,14 +352,23 @@
       },
       "catalyst": {
         "ticker": "GOOG",
-        "catalyst_score": 50,
-        "catalysts": []
+        "catalyst_score": 56,
+        "catalyst_signal": "NEUTRAL",
+        "catalysts": [
+          {
+            "type": "POSITIVE",
+            "catalyst": "ai",
+            "impact": 6
+          }
+        ],
+        "article_count": 10,
+        "data_quality": "LIVE"
       },
       "rating": "AVOID",
       "action": "NO TRADE",
       "decision": {
         "action": "AVOID",
-        "confidence": 64.0,
+        "confidence": 62.5,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -328,10 +378,10 @@
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-10-24T16:49:13.299250",
+      "timestamp": "2026-10-24T17:02:54.181837",
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-24T16:49:13.050494",
+        "timestamp": "2026-10-24T17:02:53.983043",
         "last_price": 158.74,
         "vwap": 166.34,
         "momentum": -12.81,
@@ -342,10 +392,10 @@
       "scores": {
         "market_score": 15,
         "news_score": 58,
-        "catalyst_score": 50,
+        "catalyst_score": 56,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 36.0
+        "alpha_score": 37.5
       },
       "news": {
         "ticker": "NBIS",
@@ -358,14 +408,23 @@
       },
       "catalyst": {
         "ticker": "NBIS",
-        "catalyst_score": 50,
-        "catalysts": []
+        "catalyst_score": 56,
+        "catalyst_signal": "NEUTRAL",
+        "catalysts": [
+          {
+            "type": "POSITIVE",
+            "catalyst": "ai",
+            "impact": 6
+          }
+        ],
+        "article_count": 8,
+        "data_quality": "LIVE"
       },
       "rating": "AVOID",
       "action": "NO TRADE",
       "decision": {
         "action": "AVOID",
-        "confidence": 64.0,
+        "confidence": 62.5,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -375,10 +434,10 @@
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-10-24T16:49:13.821618",
+      "timestamp": "2026-10-24T17:02:54.635525",
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-24T16:49:13.521400",
+        "timestamp": "2026-10-24T17:02:54.336941",
         "last_price": 211.0,
         "vwap": 216.27,
         "momentum": -4.51,
@@ -389,10 +448,10 @@
       "scores": {
         "market_score": 15,
         "news_score": 58,
-        "catalyst_score": 50,
+        "catalyst_score": 56,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 36.0
+        "alpha_score": 37.5
       },
       "news": {
         "ticker": "NVDA",
@@ -405,14 +464,23 @@
       },
       "catalyst": {
         "ticker": "NVDA",
-        "catalyst_score": 50,
-        "catalysts": []
+        "catalyst_score": 56,
+        "catalyst_signal": "NEUTRAL",
+        "catalysts": [
+          {
+            "type": "POSITIVE",
+            "catalyst": "ai",
+            "impact": 6
+          }
+        ],
+        "article_count": 10,
+        "data_quality": "LIVE"
       },
       "rating": "AVOID",
       "action": "NO TRADE",
       "decision": {
         "action": "AVOID",
-        "confidence": 64.0,
+        "confidence": 62.5,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -422,10 +490,10 @@
     },
     {
       "ticker": "OMDA",
-      "timestamp": "2026-10-24T16:49:14.322361",
+      "timestamp": "2026-10-24T17:02:55.037568",
       "market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-24T16:49:14.035308",
+        "timestamp": "2026-10-24T17:02:54.779576",
         "last_price": 18.95,
         "vwap": 19.09,
         "momentum": 1.01,
@@ -451,7 +519,10 @@
       "catalyst": {
         "ticker": "OMDA",
         "catalyst_score": 50,
-        "catalysts": []
+        "catalyst_signal": "NEUTRAL",
+        "catalysts": [],
+        "article_count": 10,
+        "data_quality": "LIVE"
       },
       "rating": "HOLD",
       "action": "NO TRADE",
@@ -467,10 +538,10 @@
     },
     {
       "ticker": "UNH",
-      "timestamp": "2026-10-24T16:49:14.778631",
+      "timestamp": "2026-10-24T17:02:55.316050",
       "market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-24T16:49:14.552413",
+        "timestamp": "2026-10-24T17:02:55.211881",
         "last_price": 418.01,
         "vwap": 417.33,
         "momentum": 13.92,
@@ -496,7 +567,10 @@
       "catalyst": {
         "ticker": "UNH",
         "catalyst_score": 50,
-        "catalysts": []
+        "catalyst_signal": "NEUTRAL",
+        "catalysts": [],
+        "article_count": 10,
+        "data_quality": "LIVE"
       },
       "rating": "HOLD",
       "action": "NO TRADE",
@@ -512,10 +586,10 @@
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-10-24T16:49:15.299009",
+      "timestamp": "2026-10-24T17:02:55.858522",
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-24T16:49:15.000846",
+        "timestamp": "2026-10-24T17:02:55.475830",
         "last_price": 194.31,
         "vwap": 202.31,
         "momentum": -15.58,
@@ -526,10 +600,10 @@
       "scores": {
         "market_score": 15,
         "news_score": 58,
-        "catalyst_score": 50,
+        "catalyst_score": 56,
         "sector_score": 50,
         "risk_score": 50,
-        "alpha_score": 36.0
+        "alpha_score": 37.5
       },
       "news": {
         "ticker": "VRT",
@@ -542,14 +616,23 @@
       },
       "catalyst": {
         "ticker": "VRT",
-        "catalyst_score": 50,
-        "catalysts": []
+        "catalyst_score": 56,
+        "catalyst_signal": "NEUTRAL",
+        "catalysts": [
+          {
+            "type": "POSITIVE",
+            "catalyst": "ai",
+            "impact": 6
+          }
+        ],
+        "article_count": 10,
+        "data_quality": "LIVE"
       },
       "rating": "AVOID",
       "action": "NO TRADE",
       "decision": {
         "action": "AVOID",
-        "confidence": 64.0,
+        "confidence": 62.5,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
