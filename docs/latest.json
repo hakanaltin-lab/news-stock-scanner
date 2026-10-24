@@ -1,13 +1,20 @@
 {
-  "generated": "2026-10-24T19:39:18.308155",
-  "scanner_version": "V6.8",
+  "generated": "2026-10-24T20:07:47.849873",
+  "scanner_version": "V6.9",
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-10-24T19:38:56.199448",
+      "timestamp": "2026-10-24T20:07:35.558934",
+      "holding": {
+        "shares": "10",
+        "avg_cost": "140.16",
+        "sector": "AI Semiconductor",
+        "theme": "AI Infrastructure",
+        "status": "HOLD"
+      },
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-24T19:38:55.061825",
+        "timestamp": "2026-10-24T20:07:34.856326",
         "last_price": 516.87,
         "vwap": 532.04,
         "momentum": -34.9,
@@ -84,8 +91,8 @@
         "data_quality": "LIVE"
       },
       "rating": "WEAK",
-      "action": "AVOID",
-      "decision": {
+      "entry_action": "AVOID",
+      "entry_decision": {
         "action": "AVOID",
         "confidence": 43.2,
         "entry_zone": null,
@@ -97,14 +104,52 @@
           "Technical setup too weak"
         ]
       },
+      "portfolio_action": "REDUCE",
+      "portfolio_management": {
+        "ticker": "AMD",
+        "action": "REDUCE",
+        "conviction": "HIGH",
+        "urgency": "MEDIUM",
+        "position_state": "LARGE_UNREALIZED_GAIN",
+        "position": {
+          "shares": 10.0,
+          "avg_cost": 140.16,
+          "current_price": 516.87,
+          "cost_basis": 1401.6,
+          "current_value": 5168.7,
+          "unrealized_pnl": 3767.1,
+          "unrealized_pnl_pct": 268.77
+        },
+        "reasons": [
+          "Alpha score is weak",
+          "Technical momentum deteriorated",
+          "Protect existing unrealized profit"
+        ],
+        "inputs": {
+          "alpha_score": 39.55,
+          "market_score": 26.8,
+          "catalyst_score": 56,
+          "sector_score": 0,
+          "risk_score": 64.7,
+          "signal": "BEARISH"
+        },
+        "data_quality": "LIVE"
+      },
       "status": "ACTIVE"
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-10-24T19:38:57.206717",
+      "timestamp": "2026-10-24T20:07:36.082899",
+      "holding": {
+        "shares": "35",
+        "avg_cost": "147.95",
+        "sector": "Networking",
+        "theme": "AI Infrastructure",
+        "status": "HOLD"
+      },
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-24T19:38:56.401330",
+        "timestamp": "2026-10-24T20:07:35.670844",
         "last_price": 172.34,
         "vwap": 178.27,
         "momentum": -8.57,
@@ -181,8 +226,8 @@
         "data_quality": "LIVE"
       },
       "rating": "CAUTIOUS",
-      "action": "AVOID",
-      "decision": {
+      "entry_action": "AVOID",
+      "entry_decision": {
         "action": "AVOID",
         "confidence": 45.9,
         "entry_zone": null,
@@ -194,14 +239,52 @@
           "Technical setup too weak"
         ]
       },
+      "portfolio_action": "REDUCE",
+      "portfolio_management": {
+        "ticker": "ANET",
+        "action": "REDUCE",
+        "conviction": "HIGH",
+        "urgency": "MEDIUM",
+        "position_state": "PROFIT",
+        "position": {
+          "shares": 35.0,
+          "avg_cost": 147.95,
+          "current_price": 172.34,
+          "cost_basis": 5178.25,
+          "current_value": 6031.9,
+          "unrealized_pnl": 853.65,
+          "unrealized_pnl_pct": 16.49
+        },
+        "reasons": [
+          "Alpha score is weak",
+          "Technical momentum deteriorated",
+          "Protect existing unrealized profit"
+        ],
+        "inputs": {
+          "alpha_score": 43.13,
+          "market_score": 29.3,
+          "catalyst_score": 56,
+          "sector_score": 14.0,
+          "risk_score": 67.1,
+          "signal": "BEARISH"
+        },
+        "data_quality": "LIVE"
+      },
       "status": "ACTIVE"
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-10-24T19:38:58.042827",
+      "timestamp": "2026-10-24T20:07:36.605566",
+      "holding": {
+        "shares": "3",
+        "avg_cost": "676.38",
+        "sector": "Semiconductor Equipment",
+        "theme": "AI",
+        "status": "HOLD"
+      },
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-24T19:38:57.448572",
+        "timestamp": "2026-10-24T20:07:36.203623",
         "last_price": 1571.19,
         "vwap": 1622.44,
         "momentum": -89.9,
@@ -270,8 +353,8 @@
         "data_quality": "LIVE"
       },
       "rating": "CAUTIOUS",
-      "action": "AVOID",
-      "decision": {
+      "entry_action": "AVOID",
+      "entry_decision": {
         "action": "AVOID",
         "confidence": 44.2,
         "entry_zone": null,
@@ -283,14 +366,52 @@
           "Technical setup too weak"
         ]
       },
+      "portfolio_action": "REDUCE",
+      "portfolio_management": {
+        "ticker": "ASML",
+        "action": "REDUCE",
+        "conviction": "HIGH",
+        "urgency": "MEDIUM",
+        "position_state": "LARGE_UNREALIZED_GAIN",
+        "position": {
+          "shares": 3.0,
+          "avg_cost": 676.38,
+          "current_price": 1571.19,
+          "cost_basis": 2029.14,
+          "current_value": 4713.57,
+          "unrealized_pnl": 2684.43,
+          "unrealized_pnl_pct": 132.29
+        },
+        "reasons": [
+          "Alpha score is weak",
+          "Technical momentum deteriorated",
+          "Protect existing unrealized profit"
+        ],
+        "inputs": {
+          "alpha_score": 40.44,
+          "market_score": 28.1,
+          "catalyst_score": 50,
+          "sector_score": 0,
+          "risk_score": 72.4,
+          "signal": "BEARISH"
+        },
+        "data_quality": "LIVE"
+      },
       "status": "ACTIVE"
     },
     {
       "ticker": "BKR",
-      "timestamp": "2026-10-24T19:38:59.151309",
+      "timestamp": "2026-10-24T20:07:37.238358",
+      "holding": {
+        "shares": "13",
+        "avg_cost": "57.80",
+        "sector": "Energy Services",
+        "theme": "Energy",
+        "status": "HOLD"
+      },
       "market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-24T19:38:58.320085",
+        "timestamp": "2026-10-24T20:07:36.784959",
         "last_price": 55.86,
         "vwap": 54.98,
         "momentum": 0.22,
@@ -373,8 +494,8 @@
         "data_quality": "LIVE"
       },
       "rating": "POSITIVE",
-      "action": "ACCUMULATE",
-      "decision": {
+      "entry_action": "ACCUMULATE",
+      "entry_decision": {
         "action": "ACCUMULATE",
         "confidence": 66.6,
         "entry_zone": {
@@ -392,14 +513,54 @@
           "Risk profile acceptable"
         ]
       },
+      "portfolio_action": "ADD",
+      "portfolio_management": {
+        "ticker": "BKR",
+        "action": "ADD",
+        "conviction": "HIGH",
+        "urgency": "MEDIUM",
+        "position_state": "NEAR_COST",
+        "position": {
+          "shares": 13.0,
+          "avg_cost": 57.8,
+          "current_price": 55.86,
+          "cost_basis": 751.4,
+          "current_value": 726.18,
+          "unrealized_pnl": -25.22,
+          "unrealized_pnl_pct": -3.36
+        },
+        "reasons": [
+          "Strong alpha profile",
+          "Bullish technical confirmation",
+          "Catalyst support present",
+          "Sector backdrop supportive",
+          "Risk profile acceptable"
+        ],
+        "inputs": {
+          "alpha_score": 68.73,
+          "market_score": 56.0,
+          "catalyst_score": 66,
+          "sector_score": 94.4,
+          "risk_score": 73.9,
+          "signal": "BULLISH"
+        },
+        "data_quality": "LIVE"
+      },
       "status": "ACTIVE"
     },
     {
       "ticker": "CCLD",
-      "timestamp": "2026-10-24T19:39:00.149238",
+      "timestamp": "2026-10-24T20:07:37.780713",
+      "holding": {
+        "shares": "490",
+        "avg_cost": "2.04",
+        "sector": "Technology",
+        "theme": "Special Situation",
+        "status": "HOLD"
+      },
       "market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-24T19:38:59.357155",
+        "timestamp": "2026-10-24T20:07:37.353260",
         "last_price": 1.76,
         "vwap": 1.78,
         "momentum": -0.07,
@@ -468,8 +629,8 @@
         "data_quality": "LIVE"
       },
       "rating": "NEUTRAL",
-      "action": "AVOID",
-      "decision": {
+      "entry_action": "AVOID",
+      "entry_decision": {
         "action": "AVOID",
         "confidence": 50.6,
         "entry_zone": null,
@@ -481,14 +642,51 @@
           "Insufficient multi-factor confirmation"
         ]
       },
+      "portfolio_action": "WATCH",
+      "portfolio_management": {
+        "ticker": "CCLD",
+        "action": "WATCH",
+        "conviction": "LOW",
+        "urgency": "LOW",
+        "position_state": "MODERATE_LOSS",
+        "position": {
+          "shares": 490.0,
+          "avg_cost": 2.04,
+          "current_price": 1.76,
+          "cost_basis": 999.6,
+          "current_value": 862.4,
+          "unrealized_pnl": -137.2,
+          "unrealized_pnl_pct": -13.73
+        },
+        "reasons": [
+          "Signals are mixed",
+          "No immediate portfolio action required"
+        ],
+        "inputs": {
+          "alpha_score": 53.63,
+          "market_score": 37.0,
+          "catalyst_score": 50,
+          "sector_score": 88.7,
+          "risk_score": 59.5,
+          "signal": "BEARISH"
+        },
+        "data_quality": "LIVE"
+      },
       "status": "ACTIVE"
     },
     {
       "ticker": "CTAS",
-      "timestamp": "2026-10-24T19:39:01.351102",
+      "timestamp": "2026-10-24T20:07:38.404309",
+      "holding": {
+        "shares": "4",
+        "avg_cost": "196.26",
+        "sector": "Business Services",
+        "theme": "Industrial",
+        "status": "HOLD"
+      },
       "market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-24T19:39:00.393859",
+        "timestamp": "2026-10-24T20:07:37.956711",
         "last_price": 224.13,
         "vwap": 219.88,
         "momentum": 12.31,
@@ -557,8 +755,8 @@
         "data_quality": "LIVE"
       },
       "rating": "POSITIVE",
-      "action": "WATCH",
-      "decision": {
+      "entry_action": "WATCH",
+      "entry_decision": {
         "action": "WATCH",
         "confidence": 67.1,
         "entry_zone": null,
@@ -571,14 +769,53 @@
           "Further confirmation required"
         ]
       },
+      "portfolio_action": "HOLD",
+      "portfolio_management": {
+        "ticker": "CTAS",
+        "action": "HOLD",
+        "conviction": "MEDIUM",
+        "urgency": "LOW",
+        "position_state": "PROFIT",
+        "position": {
+          "shares": 4.0,
+          "avg_cost": 196.26,
+          "current_price": 224.13,
+          "cost_basis": 785.04,
+          "current_value": 896.52,
+          "unrealized_pnl": 111.48,
+          "unrealized_pnl_pct": 14.2
+        },
+        "reasons": [
+          "Position remains fundamentally acceptable",
+          "Risk profile remains manageable",
+          "Catalyst confirmation not strong enough to add",
+          "Sector backdrop limits conviction"
+        ],
+        "inputs": {
+          "alpha_score": 63.9,
+          "market_score": 70.1,
+          "catalyst_score": 50,
+          "sector_score": 27.6,
+          "risk_score": 90.9,
+          "signal": "BULLISH"
+        },
+        "data_quality": "LIVE"
+      },
       "status": "ACTIVE"
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-10-24T19:39:02.359683",
+      "timestamp": "2026-10-24T20:07:38.938335",
+      "holding": {
+        "shares": "20",
+        "avg_cost": "207.68",
+        "sector": "AI Platform",
+        "theme": "AI",
+        "status": "HOLD"
+      },
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-24T19:39:01.579370",
+        "timestamp": "2026-10-24T20:07:38.522161",
         "last_price": 317.24,
         "vwap": 328.95,
         "momentum": -22.36,
@@ -655,8 +892,8 @@
         "data_quality": "LIVE"
       },
       "rating": "CAUTIOUS",
-      "action": "AVOID",
-      "decision": {
+      "entry_action": "AVOID",
+      "entry_decision": {
         "action": "AVOID",
         "confidence": 45.5,
         "entry_zone": null,
@@ -668,14 +905,52 @@
           "Technical setup too weak"
         ]
       },
+      "portfolio_action": "REDUCE",
+      "portfolio_management": {
+        "ticker": "GOOG",
+        "action": "REDUCE",
+        "conviction": "HIGH",
+        "urgency": "MEDIUM",
+        "position_state": "LARGE_UNREALIZED_GAIN",
+        "position": {
+          "shares": 20.0,
+          "avg_cost": 207.68,
+          "current_price": 317.24,
+          "cost_basis": 4153.6,
+          "current_value": 6344.8,
+          "unrealized_pnl": 2191.2,
+          "unrealized_pnl_pct": 52.75
+        },
+        "reasons": [
+          "Alpha score is weak",
+          "Technical momentum deteriorated",
+          "Protect existing unrealized profit"
+        ],
+        "inputs": {
+          "alpha_score": 42.23,
+          "market_score": 24.5,
+          "catalyst_score": 56,
+          "sector_score": 7.9,
+          "risk_score": 73.9,
+          "signal": "BEARISH"
+        },
+        "data_quality": "LIVE"
+      },
       "status": "ACTIVE"
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-10-24T19:39:03.325502",
+      "timestamp": "2026-10-24T20:07:39.752175",
+      "holding": {
+        "shares": "44",
+        "avg_cost": "171.81",
+        "sector": "AI Cloud",
+        "theme": "AI Infrastructure",
+        "status": "HOLD"
+      },
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-24T19:39:02.636341",
+        "timestamp": "2026-10-24T20:07:39.052348",
         "last_price": 158.74,
         "vwap": 166.34,
         "momentum": -12.81,
@@ -752,8 +1027,8 @@
         "data_quality": "LIVE"
       },
       "rating": "WEAK",
-      "action": "AVOID",
-      "decision": {
+      "entry_action": "AVOID",
+      "entry_decision": {
         "action": "AVOID",
         "confidence": 39.7,
         "entry_zone": null,
@@ -765,14 +1040,52 @@
           "Technical setup too weak"
         ]
       },
+      "portfolio_action": "EXIT",
+      "portfolio_management": {
+        "ticker": "NBIS",
+        "action": "EXIT",
+        "conviction": "HIGH",
+        "urgency": "HIGH",
+        "position_state": "MODERATE_LOSS",
+        "position": {
+          "shares": 44.0,
+          "avg_cost": 171.81,
+          "current_price": 158.74,
+          "cost_basis": 7559.64,
+          "current_value": 6984.56,
+          "unrealized_pnl": -575.08,
+          "unrealized_pnl_pct": -7.61
+        },
+        "reasons": [
+          "Alpha score is very weak",
+          "Technical structure is severely weak",
+          "Position is below cost basis"
+        ],
+        "inputs": {
+          "alpha_score": 36.91,
+          "market_score": 19.7,
+          "catalyst_score": 56,
+          "sector_score": 7.9,
+          "risk_score": 59.3,
+          "signal": "BEARISH"
+        },
+        "data_quality": "LIVE"
+      },
       "status": "ACTIVE"
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-10-24T19:39:04.039980",
+      "timestamp": "2026-10-24T20:07:40.123220",
+      "holding": {
+        "shares": "24",
+        "avg_cost": "160.96",
+        "sector": "AI GPU",
+        "theme": "AI",
+        "status": "HOLD"
+      },
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-24T19:39:03.540026",
+        "timestamp": "2026-10-24T20:07:39.889119",
         "last_price": 211.0,
         "vwap": 216.27,
         "momentum": -4.51,
@@ -849,8 +1162,8 @@
         "data_quality": "LIVE"
       },
       "rating": "CAUTIOUS",
-      "action": "AVOID",
-      "decision": {
+      "entry_action": "AVOID",
+      "entry_decision": {
         "action": "AVOID",
         "confidence": 52.2,
         "entry_zone": null,
@@ -862,14 +1175,51 @@
           "Insufficient multi-factor confirmation"
         ]
       },
+      "portfolio_action": "REDUCE",
+      "portfolio_management": {
+        "ticker": "NVDA",
+        "action": "REDUCE",
+        "conviction": "MEDIUM",
+        "urgency": "MEDIUM",
+        "position_state": "LARGE_UNREALIZED_GAIN",
+        "position": {
+          "shares": 24.0,
+          "avg_cost": 160.96,
+          "current_price": 211.0,
+          "cost_basis": 3863.04,
+          "current_value": 5064.0,
+          "unrealized_pnl": 1200.96,
+          "unrealized_pnl_pct": 31.09
+        },
+        "reasons": [
+          "Sector backdrop is very weak",
+          "Technical confirmation is insufficient"
+        ],
+        "inputs": {
+          "alpha_score": 47.84,
+          "market_score": 38.2,
+          "catalyst_score": 56,
+          "sector_score": 0,
+          "risk_score": 81.9,
+          "signal": "BEARISH"
+        },
+        "data_quality": "LIVE"
+      },
       "status": "ACTIVE"
     },
     {
       "ticker": "OMDA",
-      "timestamp": "2026-10-24T19:39:04.955812",
+      "timestamp": "2026-10-24T20:07:40.568539",
+      "holding": {
+        "shares": "10",
+        "avg_cost": "20.45",
+        "sector": "Healthcare",
+        "theme": "Healthcare",
+        "status": "HOLD"
+      },
       "market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-24T19:39:04.316458",
+        "timestamp": "2026-10-24T20:07:40.287368",
         "last_price": 18.95,
         "vwap": 19.09,
         "momentum": 1.01,
@@ -938,8 +1288,8 @@
         "data_quality": "LIVE"
       },
       "rating": "POSITIVE",
-      "action": "WATCH",
-      "decision": {
+      "entry_action": "WATCH",
+      "entry_decision": {
         "action": "WATCH",
         "confidence": 63.1,
         "entry_zone": null,
@@ -952,14 +1302,52 @@
           "Further confirmation required"
         ]
       },
+      "portfolio_action": "HOLD",
+      "portfolio_management": {
+        "ticker": "OMDA",
+        "action": "HOLD",
+        "conviction": "MEDIUM",
+        "urgency": "LOW",
+        "position_state": "MODERATE_LOSS",
+        "position": {
+          "shares": 10.0,
+          "avg_cost": 20.45,
+          "current_price": 18.95,
+          "cost_basis": 204.5,
+          "current_value": 189.5,
+          "unrealized_pnl": -15.0,
+          "unrealized_pnl_pct": -7.33
+        },
+        "reasons": [
+          "Position remains fundamentally acceptable",
+          "Risk profile remains manageable",
+          "Catalyst confirmation not strong enough to add"
+        ],
+        "inputs": {
+          "alpha_score": 65.19,
+          "market_score": 61.9,
+          "catalyst_score": 50,
+          "sector_score": 88.7,
+          "risk_score": 70.9,
+          "signal": "NEUTRAL"
+        },
+        "data_quality": "LIVE"
+      },
       "status": "ACTIVE"
     },
     {
       "ticker": "UNH",
-      "timestamp": "2026-10-24T19:39:05.781233",
+      "timestamp": "2026-10-24T20:07:41.049138",
+      "holding": {
+        "shares": "2",
+        "avg_cost": "369.93",
+        "sector": "Health Insurance",
+        "theme": "Healthcare",
+        "status": "HOLD"
+      },
       "market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-24T19:39:05.206443",
+        "timestamp": "2026-10-24T20:07:40.698489",
         "last_price": 418.01,
         "vwap": 417.33,
         "momentum": 13.92,
@@ -1028,8 +1416,8 @@
         "data_quality": "LIVE"
       },
       "rating": "POSITIVE",
-      "action": "WATCH",
-      "decision": {
+      "entry_action": "WATCH",
+      "entry_decision": {
         "action": "WATCH",
         "confidence": 67.1,
         "entry_zone": null,
@@ -1042,14 +1430,52 @@
           "Further confirmation required"
         ]
       },
+      "portfolio_action": "HOLD",
+      "portfolio_management": {
+        "ticker": "UNH",
+        "action": "HOLD",
+        "conviction": "MEDIUM",
+        "urgency": "LOW",
+        "position_state": "PROFIT",
+        "position": {
+          "shares": 2.0,
+          "avg_cost": 369.93,
+          "current_price": 418.01,
+          "cost_basis": 739.86,
+          "current_value": 836.02,
+          "unrealized_pnl": 96.16,
+          "unrealized_pnl_pct": 13.0
+        },
+        "reasons": [
+          "Position remains fundamentally acceptable",
+          "Risk profile remains manageable",
+          "Catalyst confirmation not strong enough to add"
+        ],
+        "inputs": {
+          "alpha_score": 68.75,
+          "market_score": 57.4,
+          "catalyst_score": 50,
+          "sector_score": 88.7,
+          "risk_score": 91.4,
+          "signal": "BULLISH"
+        },
+        "data_quality": "LIVE"
+      },
       "status": "ACTIVE"
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-10-24T19:39:06.732583",
+      "timestamp": "2026-10-24T20:07:41.433699",
+      "holding": {
+        "shares": "11",
+        "avg_cost": "316.20",
+        "sector": "Data Center Power",
+        "theme": "AI Infrastructure",
+        "status": "HOLD"
+      },
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-24T19:39:06.156955",
+        "timestamp": "2026-10-24T20:07:41.173789",
         "last_price": 194.31,
         "vwap": 202.31,
         "momentum": -15.58,
@@ -1126,8 +1552,8 @@
         "data_quality": "LIVE"
       },
       "rating": "WEAK",
-      "action": "AVOID",
-      "decision": {
+      "entry_action": "AVOID",
+      "entry_decision": {
         "action": "AVOID",
         "confidence": 39.6,
         "entry_zone": null,
@@ -1138,6 +1564,37 @@
         "reasons": [
           "Technical setup too weak"
         ]
+      },
+      "portfolio_action": "EXIT",
+      "portfolio_management": {
+        "ticker": "VRT",
+        "action": "EXIT",
+        "conviction": "HIGH",
+        "urgency": "HIGH",
+        "position_state": "LARGE_LOSS",
+        "position": {
+          "shares": 11.0,
+          "avg_cost": 316.2,
+          "current_price": 194.31,
+          "cost_basis": 3478.2,
+          "current_value": 2137.41,
+          "unrealized_pnl": -1340.79,
+          "unrealized_pnl_pct": -38.55
+        },
+        "reasons": [
+          "Alpha score is very weak",
+          "Technical structure is severely weak",
+          "Position is below cost basis"
+        ],
+        "inputs": {
+          "alpha_score": 38.4,
+          "market_score": 19.1,
+          "catalyst_score": 56,
+          "sector_score": 27.6,
+          "risk_score": 54.3,
+          "signal": "BEARISH"
+        },
+        "data_quality": "LIVE"
       },
       "status": "ACTIVE"
     }
@@ -1445,7 +1902,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-24T19:39:13.455297",
+          "timestamp": "2026-10-24T20:07:45.338365",
           "last_price": 150.81,
           "vwap": 147.0,
           "momentum": 4.55,
@@ -1584,7 +2041,7 @@
         },
         "market": {
           "ticker": "ADBE",
-          "timestamp": "2026-10-24T19:39:16.620976",
+          "timestamp": "2026-10-24T20:07:46.754461",
           "last_price": 263.83,
           "vwap": 259.75,
           "momentum": 19.01,
@@ -1725,7 +2182,7 @@
         },
         "market": {
           "ticker": "NOW",
-          "timestamp": "2026-10-24T19:39:11.208220",
+          "timestamp": "2026-10-24T20:07:43.898934",
           "last_price": 158.99,
           "vwap": 152.64,
           "momentum": 16.73,
@@ -1861,7 +2318,7 @@
         },
         "market": {
           "ticker": "CVX",
-          "timestamp": "2026-10-24T19:39:15.154844",
+          "timestamp": "2026-10-24T20:07:46.103467",
           "last_price": 233.2,
           "vwap": 226.84,
           "momentum": 8.38,
@@ -1981,7 +2438,7 @@
         },
         "market": {
           "ticker": "ISRG",
-          "timestamp": "2026-10-24T19:39:14.394473",
+          "timestamp": "2026-10-24T20:07:45.646488",
           "last_price": 452.29,
           "vwap": 436.53,
           "momentum": 25.56,
@@ -2101,7 +2558,7 @@
         },
         "market": {
           "ticker": "XOM",
-          "timestamp": "2026-10-24T19:39:15.908190",
+          "timestamp": "2026-10-24T20:07:46.436103",
           "last_price": 183.21,
           "vwap": 178.61,
           "momentum": 4.2,
@@ -2221,7 +2678,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-24T19:39:12.403558",
+          "timestamp": "2026-10-24T20:07:44.601250",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
@@ -2365,7 +2822,7 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-10-24T19:39:17.281709",
+          "timestamp": "2026-10-24T20:07:47.184877",
           "last_price": 407.94,
           "vwap": 408.1,
           "momentum": 6.03,
@@ -2495,7 +2952,7 @@
         },
         "market": {
           "ticker": "NOW",
-          "timestamp": "2026-10-24T19:39:11.208220",
+          "timestamp": "2026-10-24T20:07:43.898934",
           "last_price": 158.99,
           "vwap": 152.64,
           "momentum": 16.73,
@@ -2631,7 +3088,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-24T19:39:12.403558",
+          "timestamp": "2026-10-24T20:07:44.601250",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
@@ -2777,7 +3234,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-24T19:39:13.455297",
+          "timestamp": "2026-10-24T20:07:45.338365",
           "last_price": 150.81,
           "vwap": 147.0,
           "momentum": 4.55,
@@ -2916,7 +3373,7 @@
         },
         "market": {
           "ticker": "ADBE",
-          "timestamp": "2026-10-24T19:39:16.620976",
+          "timestamp": "2026-10-24T20:07:46.754461",
           "last_price": 263.83,
           "vwap": 259.75,
           "momentum": 19.01,
@@ -3055,7 +3512,7 @@
         },
         "market": {
           "ticker": "NOW",
-          "timestamp": "2026-10-24T19:39:11.208220",
+          "timestamp": "2026-10-24T20:07:43.898934",
           "last_price": 158.99,
           "vwap": 152.64,
           "momentum": 16.73,
@@ -3191,7 +3648,7 @@
         },
         "market": {
           "ticker": "CVX",
-          "timestamp": "2026-10-24T19:39:15.154844",
+          "timestamp": "2026-10-24T20:07:46.103467",
           "last_price": 233.2,
           "vwap": 226.84,
           "momentum": 8.38,
@@ -3311,7 +3768,7 @@
         },
         "market": {
           "ticker": "ISRG",
-          "timestamp": "2026-10-24T19:39:14.394473",
+          "timestamp": "2026-10-24T20:07:45.646488",
           "last_price": 452.29,
           "vwap": 436.53,
           "momentum": 25.56,
@@ -3431,7 +3888,7 @@
         },
         "market": {
           "ticker": "XOM",
-          "timestamp": "2026-10-24T19:39:15.908190",
+          "timestamp": "2026-10-24T20:07:46.436103",
           "last_price": 183.21,
           "vwap": 178.61,
           "momentum": 4.2,
@@ -3551,7 +4008,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-24T19:39:12.403558",
+          "timestamp": "2026-10-24T20:07:44.601250",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
@@ -3695,7 +4152,7 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-10-24T19:39:17.281709",
+          "timestamp": "2026-10-24T20:07:47.184877",
           "last_price": 407.94,
           "vwap": 408.1,
           "momentum": 6.03,
