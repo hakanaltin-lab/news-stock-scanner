@@ -10,14 +10,179 @@
     "industry": "Semiconductors"
   },
   {
+    "ticker": "AVGO",
+    "sector": "Technology",
+    "industry": "Semiconductors"
+  },
+  {
+    "ticker": "MU",
+    "sector": "Technology",
+    "industry": "Semiconductors"
+  },
+  {
+    "ticker": "QCOM",
+    "sector": "Technology",
+    "industry": "Semiconductors"
+  },
+  {
+    "ticker": "AMAT",
+    "sector": "Technology",
+    "industry": "Semiconductor Equipment"
+  },
+  {
+    "ticker": "LRCX",
+    "sector": "Technology",
+    "industry": "Semiconductor Equipment"
+  },
+  {
+    "ticker": "KLAC",
+    "sector": "Technology",
+    "industry": "Semiconductor Equipment"
+  },
+  {
+    "ticker": "ANET",
+    "sector": "Technology",
+    "industry": "Networking"
+  },
+  {
+    "ticker": "PANW",
+    "sector": "Technology",
+    "industry": "Cybersecurity"
+  },
+  {
+    "ticker": "CRWD",
+    "sector": "Technology",
+    "industry": "Cybersecurity"
+  },
+  {
+    "ticker": "PLTR",
+    "sector": "Technology",
+    "industry": "Software"
+  },
+  {
+    "ticker": "ORCL",
+    "sector": "Technology",
+    "industry": "Software"
+  },
+  {
+    "ticker": "CRM",
+    "sector": "Technology",
+    "industry": "Software"
+  },
+  {
+    "ticker": "NOW",
+    "sector": "Technology",
+    "industry": "Software"
+  },
+  {
+    "ticker": "ADBE",
+    "sector": "Technology",
+    "industry": "Software"
+  },
+  {
+    "ticker": "MSFT",
+    "sector": "Technology",
+    "industry": "Software"
+  },
+  {
+    "ticker": "AAPL",
+    "sector": "Technology",
+    "industry": "Consumer Electronics"
+  },
+  {
+    "ticker": "GOOG",
+    "sector": "Communication Services",
+    "industry": "Internet"
+  },
+  {
+    "ticker": "META",
+    "sector": "Communication Services",
+    "industry": "Internet"
+  },
+  {
+    "ticker": "NFLX",
+    "sector": "Communication Services",
+    "industry": "Entertainment"
+  },
+  {
+    "ticker": "AMZN",
+    "sector": "Consumer Cyclical",
+    "industry": "Internet Retail"
+  },
+  {
+    "ticker": "TSLA",
+    "sector": "Consumer Cyclical",
+    "industry": "Auto Manufacturers"
+  },
+  {
+    "ticker": "UBER",
+    "sector": "Technology",
+    "industry": "Software"
+  },
+  {
+    "ticker": "BKNG",
+    "sector": "Consumer Cyclical",
+    "industry": "Travel Services"
+  },
+  {
+    "ticker": "COST",
+    "sector": "Consumer Defensive",
+    "industry": "Discount Stores"
+  },
+  {
+    "ticker": "WMT",
+    "sector": "Consumer Defensive",
+    "industry": "Discount Stores"
+  },
+  {
+    "ticker": "HD",
+    "sector": "Consumer Cyclical",
+    "industry": "Home Improvement"
+  },
+  {
+    "ticker": "MCD",
+    "sector": "Consumer Cyclical",
+    "industry": "Restaurants"
+  },
+  {
     "ticker": "LLY",
     "sector": "Healthcare",
     "industry": "Pharmaceuticals"
   },
   {
-    "ticker": "XOM",
-    "sector": "Energy",
-    "industry": "Oil & Gas"
+    "ticker": "UNH",
+    "sector": "Healthcare",
+    "industry": "Healthcare Plans"
+  },
+  {
+    "ticker": "ABBV",
+    "sector": "Healthcare",
+    "industry": "Drug Manufacturers"
+  },
+  {
+    "ticker": "MRK",
+    "sector": "Healthcare",
+    "industry": "Drug Manufacturers"
+  },
+  {
+    "ticker": "AMGN",
+    "sector": "Healthcare",
+    "industry": "Biotechnology"
+  },
+  {
+    "ticker": "GILD",
+    "sector": "Healthcare",
+    "industry": "Biotechnology"
+  },
+  {
+    "ticker": "ISRG",
+    "sector": "Healthcare",
+    "industry": "Medical Devices"
+  },
+  {
+    "ticker": "BSX",
+    "sector": "Healthcare",
+    "industry": "Medical Devices"
   },
   {
     "ticker": "JPM",
@@ -25,9 +190,79 @@
     "industry": "Banking"
   },
   {
+    "ticker": "BAC",
+    "sector": "Financials",
+    "industry": "Banking"
+  },
+  {
+    "ticker": "GS",
+    "sector": "Financials",
+    "industry": "Capital Markets"
+  },
+  {
+    "ticker": "MS",
+    "sector": "Financials",
+    "industry": "Capital Markets"
+  },
+  {
+    "ticker": "V",
+    "sector": "Financials",
+    "industry": "Credit Services"
+  },
+  {
+    "ticker": "MA",
+    "sector": "Financials",
+    "industry": "Credit Services"
+  },
+  {
+    "ticker": "XOM",
+    "sector": "Energy",
+    "industry": "Oil & Gas"
+  },
+  {
+    "ticker": "CVX",
+    "sector": "Energy",
+    "industry": "Oil & Gas"
+  },
+  {
+    "ticker": "COP",
+    "sector": "Energy",
+    "industry": "Oil & Gas"
+  },
+  {
+    "ticker": "BKR",
+    "sector": "Energy",
+    "industry": "Oil & Gas Equipment"
+  },
+  {
+    "ticker": "SLB",
+    "sector": "Energy",
+    "industry": "Oil & Gas Equipment"
+  },
+  {
     "ticker": "CAT",
     "sector": "Industrials",
     "industry": "Machinery"
+  },
+  {
+    "ticker": "GE",
+    "sector": "Industrials",
+    "industry": "Aerospace"
+  },
+  {
+    "ticker": "RTX",
+    "sector": "Industrials",
+    "industry": "Aerospace & Defense"
+  },
+  {
+    "ticker": "LMT",
+    "sector": "Industrials",
+    "industry": "Aerospace & Defense"
+  },
+  {
+    "ticker": "ETN",
+    "sector": "Industrials",
+    "industry": "Electrical Equipment"
   },
   {
     "ticker": "VRT",
@@ -35,8 +270,33 @@
     "industry": "Data Center Infrastructure"
   },
   {
-    "ticker": "ANET",
-    "sector": "Technology",
-    "industry": "Networking"
+    "ticker": "URI",
+    "sector": "Industrials",
+    "industry": "Rental & Leasing"
+  },
+  {
+    "ticker": "DE",
+    "sector": "Industrials",
+    "industry": "Farm Machinery"
+  },
+  {
+    "ticker": "NEE",
+    "sector": "Utilities",
+    "industry": "Utilities"
+  },
+  {
+    "ticker": "CEG",
+    "sector": "Utilities",
+    "industry": "Utilities"
+  },
+  {
+    "ticker": "VST",
+    "sector": "Utilities",
+    "industry": "Utilities"
+  },
+  {
+    "ticker": "LIN",
+    "sector": "Basic Materials",
+    "industry": "Specialty Chemicals"
   }
 ]
