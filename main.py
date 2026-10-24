@@ -1,5 +1,5 @@
 """
-V6.6 Global Market Intelligence Scanner
+V6.7 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -23,7 +23,9 @@ Alpha Intelligence Engine
         |
 Decision Engine
         |
-Opportunity Scanner
+Opportunity Fast Scanner
+        |
+Opportunity Deep Analysis
         |
 JSON Report
 """
@@ -48,6 +50,7 @@ from engines.scoring_engine import (
 
 
 from engines.news_engine import (
+    fetch_live_news,
     analyze_news
 )
 
@@ -80,6 +83,11 @@ from engines.decision_engine import (
 
 from engines.opportunity_scanner_engine import (
     scan_opportunities
+)
+
+
+from engines.opportunity_deep_analysis_engine import (
+    analyze_opportunity_candidates
 )
 
 
@@ -178,12 +186,21 @@ def run_scanner():
 
 
         # =================================================
-        # NEWS INTELLIGENCE
+        # NEWS + CATALYST INTELLIGENCE
+        # Fetch news once and reuse it
         # =================================================
 
-        news_result = analyze_news(
-            ticker
+        news_items = fetch_live_news(
+            ticker,
+            count=10
         )
+
+
+        news_result = analyze_news(
+            ticker,
+            news_items=news_items
+        )
+
 
         news_score = news_result.get(
             "news_score",
@@ -191,13 +208,11 @@ def run_scanner():
         )
 
 
-        # =================================================
-        # CATALYST INTELLIGENCE
-        # =================================================
-
         catalyst_result = analyze_catalyst(
-            ticker
+            ticker,
+            news_items=news_items
         )
+
 
         catalyst_score = catalyst_result.get(
             "catalyst_score",
@@ -212,6 +227,7 @@ def run_scanner():
         sector_result = analyze_sector(
             ticker
         )
+
 
         sector_score = sector_result.get(
             "sector_score",
@@ -228,6 +244,7 @@ def run_scanner():
             prices,
             volumes
         )
+
 
         risk_score = risk_result.get(
             "risk_score",
@@ -346,7 +363,7 @@ def run_scanner():
 
 
     # =====================================================
-    # 2. MARKET OPPORTUNITY SCANNER
+    # 2. MARKET OPPORTUNITY FAST SCANNER
     # =====================================================
 
     opportunity_scan = (
@@ -357,7 +374,19 @@ def run_scanner():
 
 
     # =====================================================
-    # 3. FINAL OUTPUT
+    # 3. OPPORTUNITY DEEP ANALYSIS
+    # =====================================================
+
+    opportunity_analysis = (
+        analyze_opportunity_candidates(
+            opportunity_scan,
+            max_candidates=8
+        )
+    )
+
+
+    # =====================================================
+    # 4. FINAL OUTPUT
     # =====================================================
 
     output = {
@@ -366,13 +395,16 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V6.6",
+        "V6.7",
 
         "portfolio":
         results,
 
         "opportunity_scan":
-        opportunity_scan
+        opportunity_scan,
+
+        "opportunity_analysis":
+        opportunity_analysis
 
     }
 
@@ -397,7 +429,7 @@ def run_scanner():
 
 
     print(
-        "V6.6 Scanner completed successfully"
+        "V6.7 Scanner completed successfully"
     )
 
 
