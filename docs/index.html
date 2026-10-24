@@ -51,7 +51,7 @@ margin-bottom:22px;
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
 gap:14px;
 margin-bottom:20px;
 }
@@ -109,6 +109,10 @@ border-left:5px solid #f97316;
 
 .cyan{
 border-left:5px solid #06b6d4;
+}
+
+.teal{
+border-left:5px solid #14b8a6;
 }
 
 .title{
@@ -222,6 +226,21 @@ background:#1e293b;
 color:#cbd5e1;
 }
 
+.allocate{
+background:#14532d;
+color:#86efac;
+}
+
+.waitentry{
+background:#713f12;
+color:#fde68a;
+}
+
+.cashlimit{
+background:#7c2d12;
+color:#fed7aa;
+}
+
 .neutral{
 background:#1e293b;
 color:#cbd5e1;
@@ -285,7 +304,7 @@ AURORA Market Intelligence
 </h1>
 
 <div class="subtitle">
-Portfolio Management + Position Sizing + US Market Opportunity Radar
+Portfolio Management + Position Sizing + Capital Allocation + US Market Opportunity Radar
 </div>
 
 <div
@@ -301,6 +320,7 @@ Loading latest scan...
 <!-- ================================================= -->
 
 <div class="grid">
+
 
 <div class="stat">
 
@@ -385,12 +405,76 @@ id="portfolio-alerts"
 <div class="stat">
 
 <div class="stat-label">
-Projected Net Cash
+Rebalancing Cash
 </div>
 
 <div
 class="stat-value"
 id="net-cash"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+New Allocation
+</div>
+
+<div
+class="stat-value"
+id="new-allocation"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Cash After Allocation
+</div>
+
+<div
+class="stat-value"
+id="cash-after-allocation"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Cash Weight
+</div>
+
+<div
+class="stat-value"
+id="cash-weight"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Cash Reserve
+</div>
+
+<div
+class="stat-value"
+id="reserve-status"
 >
 -
 </div>
@@ -428,6 +512,7 @@ id="blocked-count"
 </div>
 
 </div>
+
 
 </div>
 
@@ -612,6 +697,60 @@ Loading rebalancing plan...
 <tr>
 <td colspan="9" class="loading">
 Loading position sizing...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- V7.2 CAPITAL ALLOCATION -->
+<!-- ================================================= -->
+
+<div class="card teal">
+
+<div class="title">
+💰 V7.2 CAPITAL ALLOCATION
+</div>
+
+<div
+id="allocation-summary"
+class="section-note"
+>
+Loading capital allocation...
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Ticker</th>
+<th>Action</th>
+<th>Status</th>
+<th>Price</th>
+<th>Shares</th>
+<th>Allocated Value</th>
+<th>Target Weight</th>
+<th>Projected Weight</th>
+<th>Entry Zone</th>
+<th>Stop</th>
+<th>Target</th>
+<th>R/R</th>
+<th>Reason</th>
+</tr>
+
+</thead>
+
+<tbody id="allocation-table">
+
+<tr>
+<td colspan="13" class="loading">
+Loading capital allocation plan...
 </td>
 </tr>
 
@@ -921,6 +1060,27 @@ return "notrade";
 }
 
 
+function allocationStatusClass(
+status
+){
+
+if(status === "ALLOCATE"){
+return "allocate";
+}
+
+if(status === "WAIT_FOR_ENTRY"){
+return "waitentry";
+}
+
+if(status === "CASH_LIMIT"){
+return "cashlimit";
+}
+
+return "notrade";
+
+}
+
+
 function portfolioPriority(
 action
 ){
@@ -992,6 +1152,29 @@ decision.entry_zone.high
 }
 
 
+function entryZoneText(
+entryZone
+){
+
+if(!entryZone){
+return "-";
+}
+
+return (
+formatPrice(
+entryZone.low
+)
++
+" – "
++
+formatPrice(
+entryZone.high
+)
+);
+
+}
+
+
 async function loadAurora(){
 
 try{
@@ -1030,6 +1213,16 @@ data.portfolio_rebalancing
 
 const rebalancePlan =
 rebalancing.rebalancing_plan
+|| [];
+
+
+const capital =
+data.capital_allocation
+|| {};
+
+
+const allocationPlan =
+capital.allocation_plan
 || [];
 
 
@@ -1098,6 +1291,41 @@ document.getElementById(
 formatPrice(
 rebalancing.estimated_net_cash_generated
 );
+
+
+document.getElementById(
+"new-allocation"
+).textContent =
+formatPrice(
+capital.new_opportunity_allocation
+);
+
+
+document.getElementById(
+"cash-after-allocation"
+).textContent =
+formatPrice(
+capital.projected_cash_after_allocations
+);
+
+
+document.getElementById(
+"cash-weight"
+).textContent =
+
+formatNumber(
+capital.projected_cash_weight_pct,
+2
+)
++
+"%";
+
+
+document.getElementById(
+"reserve-status"
+).textContent =
+capital.cash_reserve_status
+|| "-";
 
 
 document.getElementById(
@@ -1641,6 +1869,180 @@ ${formatNumber(item.target_weight_pct,2)}%
 
 <td>
 ${formatNumber(item.projected_weight_pct,2)}%
+</td>
+
+<td>
+${item.reason || "-"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =============================================== */
+/* V7.2 CAPITAL ALLOCATION */
+/* =============================================== */
+
+
+const allocationTable =
+document.getElementById(
+"allocation-table"
+);
+
+
+allocationTable.innerHTML =
+"";
+
+
+document.getElementById(
+"allocation-summary"
+).textContent =
+
+"Generated cash: "
++
+formatPrice(
+capital.generated_cash_available
+)
++
+" | Minimum reserve: "
++
+formatPrice(
+capital.minimum_cash_reserve_value
+)
++
+" ("
++
+formatNumber(
+capital.minimum_cash_reserve_pct,
+0
+)
++
+"%)"
++
+" | New opportunity allocation: "
++
+formatPrice(
+capital.new_opportunity_allocation
+)
++
+" | Cash after allocation: "
++
+formatPrice(
+capital.projected_cash_after_allocations
+)
++
+" ("
++
+formatNumber(
+capital.projected_cash_weight_pct,
+2
+)
++
+"%)"
++
+" | Reserve status: "
++
+(
+capital.cash_reserve_status
+||
+"-"
+);
+
+
+if(
+allocationPlan.length === 0
+){
+
+allocationTable.innerHTML = `
+
+<tr>
+
+<td colspan="13">
+
+No capital allocation plan available.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+allocationPlan.forEach(
+item => {
+
+
+allocationTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.ticker}</b>
+</td>
+
+<td>
+
+<span class="badge ${opportunityActionClass(item.action)}">
+
+${item.action || "-"}
+
+</span>
+
+</td>
+
+<td>
+
+<span class="badge ${allocationStatusClass(item.allocation_status)}">
+
+${item.allocation_status || "-"}
+
+</span>
+
+</td>
+
+<td>
+${formatPrice(item.price)}
+</td>
+
+<td>
+${formatNumber(item.suggested_shares,0)}
+</td>
+
+<td>
+${formatPrice(item.allocated_value)}
+</td>
+
+<td>
+${formatNumber(item.target_weight_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.projected_weight_pct,2)}%
+</td>
+
+<td>
+${entryZoneText(item.entry_zone)}
+</td>
+
+<td>
+${formatPrice(item.stop_loss)}
+</td>
+
+<td>
+${formatPrice(item.target_price)}
+</td>
+
+<td>
+${formatNumber(item.risk_reward,2)}
 </td>
 
 <td>
