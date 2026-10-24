@@ -1,5 +1,5 @@
 """
-V6.9 Global Market Intelligence Scanner
+V7.0 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -24,6 +24,8 @@ Alpha Intelligence Engine
 New Entry Decision Engine
         |
 Portfolio Management Engine
+        |
+Position Sizing & Rebalancing Engine
         |
 Opportunity Fast Scanner
         |
@@ -87,6 +89,11 @@ from engines.decision_engine import (
 
 from engines.portfolio_management_engine import (
     evaluate_portfolio_position
+)
+
+
+from engines.position_sizing_engine import (
+    build_rebalancing_plan
 )
 
 
@@ -218,7 +225,6 @@ def run_scanner():
 
         # =================================================
         # NEWS + CATALYST INTELLIGENCE
-        # Fetch once and reuse
         # =================================================
 
         news_items = fetch_live_news(
@@ -302,7 +308,6 @@ def run_scanner():
 
         # =================================================
         # NEW ENTRY DECISION
-        # Kept for analytical transparency
         # =================================================
 
         entry_decision = generate_decision(
@@ -315,8 +320,7 @@ def run_scanner():
 
 
         # =================================================
-        # V6.9 PORTFOLIO MANAGEMENT
-        # Existing-position decision
+        # PORTFOLIO MANAGEMENT
         # =================================================
 
         portfolio_management = (
@@ -447,7 +451,18 @@ def run_scanner():
 
 
     # =====================================================
-    # 2. MARKET OPPORTUNITY FAST SCANNER
+    # 2. V7.0 POSITION SIZING & REBALANCING
+    # =====================================================
+
+    portfolio_rebalancing = (
+        build_rebalancing_plan(
+            results
+        )
+    )
+
+
+    # =====================================================
+    # 3. MARKET OPPORTUNITY FAST SCANNER
     # =====================================================
 
     opportunity_scan = (
@@ -458,7 +473,7 @@ def run_scanner():
 
 
     # =====================================================
-    # 3. OPPORTUNITY DEEP ANALYSIS + SAFETY GATE
+    # 4. OPPORTUNITY DEEP ANALYSIS + SAFETY GATE
     # =====================================================
 
     opportunity_analysis = (
@@ -470,7 +485,7 @@ def run_scanner():
 
 
     # =====================================================
-    # 4. FINAL OUTPUT
+    # 5. FINAL OUTPUT
     # =====================================================
 
     output = {
@@ -479,10 +494,13 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V6.9",
+        "V7.0",
 
         "portfolio":
         results,
+
+        "portfolio_rebalancing":
+        portfolio_rebalancing,
 
         "opportunity_scan":
         opportunity_scan,
@@ -512,7 +530,7 @@ def run_scanner():
 
 
     print(
-        "V6.9 Scanner completed successfully"
+        "V7.0 Scanner completed successfully"
     )
 
 
