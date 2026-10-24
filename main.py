@@ -1,5 +1,5 @@
 """
-V6.0 Global Market Intelligence Scanner
+V6.2 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -15,13 +15,14 @@ News Intelligence Engine
         |
 Catalyst Engine
         |
+Risk Intelligence Engine
+        |
 Alpha Intelligence Engine
         |
 Decision Engine
         |
 JSON Report
 """
-
 
 import os
 import json
@@ -52,6 +53,11 @@ from engines.catalyst_engine import (
 )
 
 
+from engines.risk_engine import (
+    calculate_live_risk
+)
+
+
 from engines.alpha_intelligence_engine import (
     calculate_alpha_score,
     generate_rating,
@@ -64,11 +70,9 @@ from engines.decision_engine import (
 )
 
 
-
 PORTFOLIO_FILE = "data/portfolio.csv"
 
 OUTPUT_FILE = "docs/latest.json"
-
 
 
 def load_portfolio():
@@ -77,7 +81,6 @@ def load_portfolio():
 
     if not os.path.exists(PORTFOLIO_FILE):
         return portfolio
-
 
     with open(
         PORTFOLIO_FILE,
@@ -90,11 +93,7 @@ def load_portfolio():
         for row in reader:
             portfolio.append(row)
 
-
     return portfolio
-
-
-
 
 
 def run_scanner():
@@ -103,25 +102,38 @@ def run_scanner():
 
     results = []
 
-
     for stock in portfolio:
-
 
         ticker = stock.get(
             "ticker",
             "UNKNOWN"
         )
 
+        # =================================================
+        # 1. LIVE MARKET DATA
+        # =================================================
 
-        live_data = get_live_market_data(ticker)
+        live_data = get_live_market_data(
+            ticker
+        )
 
-        prices = live_data.get("prices", [])
-        volumes = live_data.get("volumes", [])
+        prices = live_data.get(
+            "prices",
+            []
+        )
+
+        volumes = live_data.get(
+            "volumes",
+            []
+        )
 
         if not prices or not volumes:
             continue
 
 
+        # =================================================
+        # 2. MARKET SNAPSHOT
+        # =================================================
 
         snapshot = build_market_snapshot(
             ticker,
@@ -130,11 +142,9 @@ def run_scanner():
         )
 
 
-
         signal = get_market_signal(
             snapshot
         )
-
 
 
         market_score = calculate_market_score(
@@ -142,6 +152,9 @@ def run_scanner():
         )
 
 
+        # =================================================
+        # 3. NEWS INTELLIGENCE
+        # =================================================
 
         news_result = analyze_news(
             ticker
@@ -153,6 +166,9 @@ def run_scanner():
         )
 
 
+        # =================================================
+        # 4. CATALYST INTELLIGENCE
+        # =================================================
 
         catalyst_result = analyze_catalyst(
             ticker
@@ -164,12 +180,33 @@ def run_scanner():
         )
 
 
+        # =================================================
+        # 5. SECTOR INTELLIGENCE
+        # Temporary neutral score
+        # =================================================
 
         sector_score = 50
 
-        risk_score = 50
+
+        # =================================================
+        # 6. DYNAMIC RISK INTELLIGENCE
+        # =================================================
+
+        risk_result = calculate_live_risk(
+            ticker,
+            prices,
+            volumes
+        )
+
+        risk_score = risk_result.get(
+            "risk_score",
+            50
+        )
 
 
+        # =================================================
+        # 7. ALPHA INTELLIGENCE
+        # =================================================
 
         alpha_score = calculate_alpha_score(
             market_score,
@@ -179,6 +216,9 @@ def run_scanner():
         )
 
 
+        # =================================================
+        # 8. DECISION ENGINE
+        # =================================================
 
         decision = generate_decision(
             alpha_score,
@@ -191,115 +231,94 @@ def run_scanner():
         )
 
 
+        # =================================================
+        # 9. STOCK RESULT
+        # =================================================
 
         result = {
-
 
             "ticker":
             ticker,
 
-
             "timestamp":
             datetime.utcnow().isoformat(),
-
 
             "market":
             snapshot,
 
-
             "signal":
             signal,
 
-
-
             "scores": {
-
 
                 "market_score":
                 market_score,
 
-
                 "news_score":
                 news_score,
-
 
                 "catalyst_score":
                 catalyst_score,
 
-
                 "sector_score":
                 sector_score,
 
-
                 "risk_score":
                 risk_score,
-
 
                 "alpha_score":
                 alpha_score
 
             },
 
-
             "news":
             news_result,
-
 
             "catalyst":
             catalyst_result,
 
-
+            "risk":
+            risk_result,
 
             "rating":
             generate_rating(
                 alpha_score
             ),
 
-
-
             "action":
             generate_action(
                 alpha_score
             ),
 
-
-
             "decision":
             decision,
-
-
 
             "status":
             "ACTIVE"
 
         }
 
-
-
         results.append(
             result
         )
 
 
-
+    # =====================================================
+    # 10. FINAL PORTFOLIO OUTPUT
+    # =====================================================
 
     output = {
-
 
         "generated":
         datetime.utcnow().isoformat(),
 
-
         "scanner_version":
-        "V6.0",
-
+        "V6.2",
 
         "portfolio":
         results
 
     }
-
-
 
 
     os.makedirs(
@@ -308,13 +327,11 @@ def run_scanner():
     )
 
 
-
     with open(
         OUTPUT_FILE,
         "w",
         encoding="utf-8"
     ) as file:
-
 
         json.dump(
             output,
@@ -323,13 +340,9 @@ def run_scanner():
         )
 
 
-
     print(
-        "V6.0 Scanner completed successfully"
+        "V6.2 Scanner completed successfully"
     )
-
-
-
 
 
 if __name__ == "__main__":
