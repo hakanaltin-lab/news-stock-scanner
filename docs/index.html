@@ -5,234 +5,497 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
 
 <title>
-AI CIO Trading Dashboard V8.2.1
+AURORA Market Intelligence Dashboard
 </title>
 
 
 <style>
 
-body{
+*{
+box-sizing:border-box;
+}
 
+body{
 background:#080d18;
 color:#e6edf3;
 font-family:Arial,Helvetica,sans-serif;
 margin:0;
-padding:25px;
-
+padding:22px;
 }
 
+.container{
+max-width:1450px;
+margin:auto;
+}
 
 h1{
-
 font-size:30px;
-margin-bottom:5px;
-
+margin:0 0 6px 0;
 }
-
 
 .subtitle{
-
 color:#94a3b8;
-margin-bottom:25px;
-
+margin-bottom:8px;
 }
 
+.generated{
+color:#64748b;
+font-size:13px;
+margin-bottom:22px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:14px;
+margin-bottom:20px;
+}
+
+.stat{
+background:#111827;
+border:1px solid #334155;
+border-radius:14px;
+padding:18px;
+}
+
+.stat-label{
+color:#94a3b8;
+font-size:13px;
+margin-bottom:8px;
+}
+
+.stat-value{
+font-size:24px;
+font-weight:bold;
+}
 
 .card{
-
 background:#111827;
 border:1px solid #334155;
 border-radius:14px;
 padding:20px;
 margin-bottom:20px;
-
+overflow-x:auto;
 }
-
 
 .green{
-
 border-left:5px solid #22c55e;
-
 }
-
 
 .blue{
-
 border-left:5px solid #3b82f6;
-
 }
-
 
 .yellow{
-
 border-left:5px solid #eab308;
-
 }
-
 
 .red{
-
 border-left:5px solid #ef4444;
-
 }
 
+.purple{
+border-left:5px solid #a855f7;
+}
 
 .title{
-
-font-size:22px;
+font-size:21px;
 font-weight:bold;
 margin-bottom:15px;
-
 }
 
-
-.row{
-
-display:flex;
-justify-content:space-between;
-padding:10px 0;
-border-bottom:1px solid #1f2937;
-
+.small{
+font-size:12px;
+color:#94a3b8;
 }
-
-
-.badge{
-
-background:#1e293b;
-padding:6px 12px;
-border-radius:20px;
-
-}
-
 
 table{
-
 width:100%;
 border-collapse:collapse;
-
+min-width:800px;
 }
 
+th{
+color:#94a3b8;
+font-size:12px;
+text-transform:uppercase;
+letter-spacing:.4px;
+}
 
-th,td{
-
+th,
+td{
 padding:12px;
-border-bottom:1px solid #334155;
+border-bottom:1px solid #253043;
 text-align:left;
-
+white-space:nowrap;
 }
 
+tbody tr:hover{
+background:#172033;
+}
+
+.badge{
+display:inline-block;
+padding:5px 10px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+}
+
+.buy{
+background:#14532d;
+color:#86efac;
+}
+
+.accumulate{
+background:#064e3b;
+color:#6ee7b7;
+}
+
+.watch{
+background:#713f12;
+color:#fde68a;
+}
+
+.avoid{
+background:#7f1d1d;
+color:#fecaca;
+}
+
+.neutral{
+background:#1e293b;
+color:#cbd5e1;
+}
+
+.blocked{
+background:#7c2d12;
+color:#fed7aa;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+gap:15px;
+padding:10px 0;
+border-bottom:1px solid #253043;
+}
 
 .loading{
-
 color:#94a3b8;
+}
+
+.error{
+color:#fca5a5;
+}
+
+@media(max-width:700px){
+
+body{
+padding:12px;
+}
+
+h1{
+font-size:24px;
+}
+
+.card{
+padding:14px;
+}
+
+.stat-value{
+font-size:20px;
+}
 
 }
 
-
 </style>
-
 
 </head>
 
 
 <body>
 
+<div class="container">
+
 
 <h1>
-Global Market → AI CIO Trading Dashboard V8.2.1
+AURORA Market Intelligence
 </h1>
 
-
 <div class="subtitle">
+Portfolio Management + US Market Opportunity Radar
+</div>
 
-Autonomous Portfolio Intelligence & Live CIO Decision System
+<div
+id="generated"
+class="generated"
+>
+Loading latest scan...
+</div>
+
+
+<!-- ================================================= -->
+<!-- SUMMARY -->
+<!-- ================================================= -->
+
+<div class="grid">
+
+<div class="stat">
+<div class="stat-label">Scanner Version</div>
+<div
+class="stat-value"
+id="scanner-version"
+>
+-
+</div>
+</div>
+
+<div class="stat">
+<div class="stat-label">Stocks Scanned</div>
+<div
+class="stat-value"
+id="stocks-scanned"
+>
+-
+</div>
+</div>
+
+<div class="stat">
+<div class="stat-label">Actionable Opportunities</div>
+<div
+class="stat-value"
+id="actionable-count"
+>
+-
+</div>
+</div>
+
+<div class="stat">
+<div class="stat-label">Safety Blocked</div>
+<div
+class="stat-value"
+id="blocked-count"
+>
+-
+</div>
+</div>
 
 </div>
 
 
+<!-- ================================================= -->
+<!-- NEW OPPORTUNITIES -->
+<!-- ================================================= -->
 
 <div class="card green">
 
-
 <div class="title">
-System Status
+🚀 Top New Opportunities
 </div>
 
+<table>
 
-<div class="row">
+<thead>
 
-V6.6 Trading Orchestrator
+<tr>
+<th>Ticker</th>
+<th>Action</th>
+<th>Price</th>
+<th>Alpha</th>
+<th>Confidence</th>
+<th>Entry Zone</th>
+<th>Stop</th>
+<th>Target</th>
+<th>Sector</th>
+</tr>
 
-<span class="badge">
-ACTIVE
-</span>
+</thead>
 
-</div>
+<tbody id="opportunity-table">
 
+<tr>
+<td
+colspan="9"
+class="loading"
+>
+Loading opportunities...
+</td>
+</tr>
 
-<div class="row">
+</tbody>
 
-V6.7 Portfolio Risk Controller
-
-<span class="badge">
-CONNECTED
-</span>
-
-</div>
-
-
-<div class="row">
-
-V8.0 Autonomous CIO Brain
-
-<span class="badge">
-ACTIVE
-</span>
-
-</div>
-
-
-<div class="row">
-
-V8.2 Live CIO Connector
-
-<span class="badge">
-CONNECTED
-</span>
+</table>
 
 </div>
 
 
-</div>
+<!-- ================================================= -->
+<!-- SAFETY BLOCKED -->
+<!-- ================================================= -->
 
-
-
-<div class="card blue">
-
-
-<div class="title">
-🧠 Autonomous CIO Brain
-</div>
-
-
-<div id="market-regime">
-
-Loading CIO Market Regime...
-
-</div>
-
-
-</div>
 <div class="card yellow">
 
 <div class="title">
-CIO Final Decision Panel
+🛡️ Safety Gate — Blocked / Pullback Required
 </div>
 
+<table>
+
+<thead>
+
+<tr>
+<th>Ticker</th>
+<th>Base Action</th>
+<th>Final Action</th>
+<th>Alpha</th>
+<th>Sector Score</th>
+<th>Extension</th>
+<th>Reason</th>
+</tr>
+
+</thead>
+
+<tbody id="safety-table">
+
+<tr>
+<td
+colspan="7"
+class="loading"
+>
+Loading Safety Gate...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- PORTFOLIO -->
+<!-- ================================================= -->
+
+<div class="card blue">
+
+<div class="title">
+💼 Current Portfolio Actions
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Ticker</th>
+<th>Price</th>
+<th>Signal</th>
+<th>Alpha</th>
+<th>Action</th>
+<th>Confidence</th>
+<th>Market</th>
+<th>Sector</th>
+<th>Risk</th>
+</tr>
+
+</thead>
+
+<tbody id="portfolio-table">
+
+<tr>
+<td
+colspan="9"
+class="loading"
+>
+Loading portfolio...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- FAST RADAR -->
+<!-- ================================================= -->
+
+<div class="card purple">
+
+<div class="title">
+📡 Fast Market Radar — Top 15
+</div>
+
+<div
+id="benchmark"
+class="small"
+style="margin-bottom:12px;"
+>
+Loading benchmark...
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Rank</th>
+<th>Ticker</th>
+<th>Score</th>
+<th>Signal</th>
+<th>5D</th>
+<th>20D</th>
+<th>RS vs SPY</th>
+<th>Volume</th>
+<th>SMA20 Extension</th>
+</tr>
+
+</thead>
+
+<tbody id="radar-table">
+
+<tr>
+<td
+colspan="9"
+class="loading"
+>
+Loading radar...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- CIO LEGACY -->
+<!-- ================================================= -->
+
+<div class="card">
+
+<div class="title">
+🧠 CIO Legacy Layer
+</div>
+
+<div
+id="cio-status"
+class="small"
+style="margin-bottom:12px;"
+>
+Loading CIO layer...
+</div>
 
 <table>
 
@@ -248,357 +511,696 @@ CIO Final Decision Panel
 
 </thead>
 
-
 <tbody id="cio-table">
 
-
 <tr>
-
-<td colspan="5" class="loading">
-
-Loading CIO decisions...
-
+<td
+colspan="5"
+class="loading"
+>
+Loading CIO data...
 </td>
-
 </tr>
-
 
 </tbody>
 
-
 </table>
 
-
-</div>
-
-
-
-
-
-<div class="card blue">
-
-
-<div class="title">
-Portfolio Intelligence
-</div>
-
-
-<div class="row">
-
-Recommended Cash
-
-<span class="badge" id="cash">
-
-Loading...
-
-</span>
-
-</div>
-
-
-
-<div class="row">
-
-Portfolio Risk
-
-<span class="badge" id="risk">
-
-Loading...
-
-</span>
-
-</div>
-
-
-
-<div class="row">
-
-Drawdown Protection
-
-<span class="badge" id="drawdown">
-
-Loading...
-
-</span>
-
-</div>
-
-
-
-<div class="row">
-
-Kill Switch
-
-<span class="badge" id="killswitch">
-
-Loading...
-
-</span>
-
 </div>
 
 
 </div>
 
 
-
-
-
-<div class="card">
-
-
-<div class="title">
-
-Execution Layer
-
-</div>
-
-
-
-<div class="row">
-
-Signal Generation
-
-<span class="badge" id="signal">
-
-Loading...
-
-</span>
-
-</div>
-
-
-
-<div class="row">
-
-Risk Approval
-
-<span class="badge" id="approval">
-
-Loading...
-
-</span>
-
-</div>
-
-
-
-<div class="row">
-
-Broker Connection
-
-<span class="badge" id="broker">
-
-Loading...
-
-</span>
-
-</div>
-
-
-
-<div class="row">
-
-Live Trading
-
-<span class="badge" id="live">
-
-Loading...
-
-</span>
-
-</div>
-
-
-
-</div>
 <script>
 
-async function loadCIOData(){
+
+function formatNumber(
+value,
+digits=1
+){
+
+if(
+value === null
+||
+value === undefined
+||
+Number.isNaN(Number(value))
+){
+
+return "-";
+
+}
+
+return Number(
+value
+).toFixed(
+digits
+);
+
+}
+
+
+function formatPrice(
+value
+){
+
+if(
+value === null
+||
+value === undefined
+){
+
+return "-";
+
+}
+
+return "$" +
+Number(
+value
+).toFixed(
+2
+);
+
+}
+
+
+function actionClass(
+action
+){
+
+if(action === "BUY"){
+return "buy";
+}
+
+if(action === "ACCUMULATE"){
+return "accumulate";
+}
+
+if(action === "WATCH"){
+return "watch";
+}
+
+if(action === "AVOID"){
+return "avoid";
+}
+
+return "neutral";
+
+}
+
+
+function actionPriority(
+action
+){
+
+const priorities = {
+
+"BUY":4,
+"ACCUMULATE":3,
+"WATCH":2,
+"AVOID":1
+
+};
+
+return priorities[
+action
+] || 0;
+
+}
+
+
+function entryText(
+decision
+){
+
+if(
+!decision
+||
+!decision.entry_zone
+){
+
+return "-";
+
+}
+
+return (
+formatPrice(
+decision.entry_zone.low
+)
++
+" – "
++
+formatPrice(
+decision.entry_zone.high
+)
+);
+
+}
+
+
+async function loadAurora(){
 
 try{
 
 
 const response = await fetch(
-"cio_output.json"
+"latest.json?ts="
++
+Date.now()
 );
 
 
 const data = await response.json();
 
 
+const scan =
+data.opportunity_scan
+|| {};
 
-//
-// Market Regime
-//
 
-if(data.market_regime){
+const analysis =
+data.opportunity_analysis
+|| {};
 
 
 document.getElementById(
-"market-regime"
-).innerHTML =
+"scanner-version"
+).textContent =
+data.scanner_version
+|| "-";
 
 
-"Market Regime: <b>" +
+document.getElementById(
+"stocks-scanned"
+).textContent =
+scan.scanned
+?? "-";
 
-data.market_regime.status +
 
-"</b> | Confidence: " +
+document.getElementById(
+"actionable-count"
+).textContent =
+analysis.actionable_count
+?? "-";
 
-data.market_regime.confidence +
 
-"%";
+document.getElementById(
+"blocked-count"
+).textContent =
+analysis.safety_blocked_count
+?? "-";
 
+
+if(data.generated){
+
+const generatedDate =
+new Date(
+data.generated + "Z"
+);
+
+document.getElementById(
+"generated"
+).textContent =
+
+"Last scan: "
++
+generatedDate.toLocaleString();
 
 }
 
 
+/* =============================================== */
+/* TOP OPPORTUNITIES */
+/* =============================================== */
 
-//
-// CIO Decisions
-//
-
-const table =
+const opportunityTable =
 document.getElementById(
-"cio-table"
+"opportunity-table"
 );
 
 
-table.innerHTML="";
+opportunityTable.innerHTML =
+"";
 
 
-
-if(data.cio_decisions){
-
-
-data.cio_decisions.forEach(
-(item)=>{
+const actionable =
+analysis.top_actionable
+|| [];
 
 
-table.innerHTML += `
+const watchlist =
+analysis.watchlist
+|| [];
+
+
+const opportunities = [
+...actionable,
+...watchlist
+];
+
+
+if(
+opportunities.length === 0
+){
+
+opportunityTable.innerHTML = `
 
 <tr>
 
-<td>
-${item.ticker}
+<td colspan="9">
+
+No qualified opportunities in the latest scan.
+
 </td>
-
-
-<td>
-${item.cio_score}
-</td>
-
-
-<td>
-${item.decision}
-</td>
-
-
-<td>
-${item.recommended_weight}%
-</td>
-
-
-<td>
-${item.risk_status}
-</td>
-
 
 </tr>
 
 `;
 
+}
+
+else{
+
+
+opportunities.forEach(
+item => {
+
+
+const decision =
+item.decision
+|| {};
+
+
+const scores =
+item.scores
+|| {};
+
+
+const market =
+item.market
+|| {};
+
+
+opportunityTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.ticker}</b>
+</td>
+
+<td>
+
+<span class="badge ${actionClass(item.action)}">
+
+${item.action || "-"}
+
+</span>
+
+</td>
+
+<td>
+${formatPrice(market.last_price)}
+</td>
+
+<td>
+${formatNumber(scores.alpha_score,2)}
+</td>
+
+<td>
+${formatNumber(decision.confidence,1)}%
+</td>
+
+<td>
+${entryText(decision)}
+</td>
+
+<td>
+${formatPrice(decision.stop_loss)}
+</td>
+
+<td>
+${formatPrice(decision.target_price)}
+</td>
+
+<td>
+${item.sector || "-"}
+</td>
+
+</tr>
+
+`;
 
 });
-
 
 }
 
 
+/* =============================================== */
+/* SAFETY GATE */
+/* =============================================== */
 
-//
-// Portfolio
-//
+const safetyTable =
+document.getElementById(
+"safety-table"
+);
 
-if(data.portfolio){
+
+safetyTable.innerHTML =
+"";
+
+
+const blocked =
+analysis.safety_blocked
+|| [];
+
+
+if(
+blocked.length === 0
+){
+
+safetyTable.innerHTML = `
+
+<tr>
+
+<td colspan="7">
+
+No opportunities blocked by Safety Gate.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+blocked.forEach(
+item => {
+
+
+const base =
+item.base_decision
+|| {};
+
+
+const decision =
+item.decision
+|| {};
+
+
+const scores =
+item.scores
+|| {};
+
+
+const fast =
+item.fast_scan
+|| {};
+
+
+const safety =
+decision.safety_gate
+|| {};
+
+
+const reasons =
+(
+safety.reasons
+|| []
+).join(
+", "
+);
+
+
+safetyTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.ticker}</b>
+</td>
+
+<td>
+${base.action || "-"}
+</td>
+
+<td>
+
+<span class="badge blocked">
+
+${item.action || "-"}
+
+</span>
+
+</td>
+
+<td>
+${formatNumber(scores.alpha_score,2)}
+</td>
+
+<td>
+${formatNumber(scores.sector_score,1)}
+</td>
+
+<td>
+${formatNumber(fast.overextension_pct,2)}%
+</td>
+
+<td>
+${reasons || "-"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =============================================== */
+/* PORTFOLIO */
+/* =============================================== */
+
+const portfolioTable =
+document.getElementById(
+"portfolio-table"
+);
+
+
+portfolioTable.innerHTML =
+"";
+
+
+const portfolio =
+data.portfolio
+|| [];
+
+
+portfolio.sort(
+(a,b)=>
+actionPriority(
+b.action
+)
+-
+actionPriority(
+a.action
+)
+);
+
+
+if(
+portfolio.length === 0
+){
+
+portfolioTable.innerHTML = `
+
+<tr>
+
+<td colspan="9">
+
+No portfolio data available.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+portfolio.forEach(
+item => {
+
+
+const scores =
+item.scores
+|| {};
+
+
+const decision =
+item.decision
+|| {};
+
+
+const market =
+item.market
+|| {};
+
+
+portfolioTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.ticker}</b>
+</td>
+
+<td>
+${formatPrice(market.last_price)}
+</td>
+
+<td>
+${item.signal || "-"}
+</td>
+
+<td>
+${formatNumber(scores.alpha_score,2)}
+</td>
+
+<td>
+
+<span class="badge ${actionClass(item.action)}">
+
+${item.action || "-"}
+
+</span>
+
+</td>
+
+<td>
+${formatNumber(decision.confidence,1)}%
+</td>
+
+<td>
+${formatNumber(scores.market_score,1)}
+</td>
+
+<td>
+${formatNumber(scores.sector_score,1)}
+</td>
+
+<td>
+${formatNumber(scores.risk_score,1)}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =============================================== */
+/* FAST RADAR */
+/* =============================================== */
+
+const radarTable =
+document.getElementById(
+"radar-table"
+);
+
+
+radarTable.innerHTML =
+"";
 
 
 document.getElementById(
-"cash"
-).innerHTML =
+"benchmark"
+).textContent =
 
-data.portfolio.recommended_cash
+"Benchmark: "
++
+(
+scan.benchmark
+|| "SPY"
+)
++
+" | 20D return: "
++
+formatNumber(
+scan.benchmark_return_20d_pct,
+2
+)
 +
 "%";
 
 
-document.getElementById(
-"risk"
-).innerHTML =
-
-data.portfolio.portfolio_risk;
+const radar =
+scan.opportunities
+|| [];
 
 
-document.getElementById(
-"drawdown"
-).innerHTML =
-
-data.portfolio.drawdown_status;
+radar.forEach(
+(item,index)=>{
 
 
-document.getElementById(
-"killswitch"
-).innerHTML =
+radarTable.innerHTML += `
 
-data.portfolio.kill_switch;
+<tr>
 
+<td>
+${index + 1}
+</td>
 
-}
+<td>
+<b>${item.ticker}</b>
+</td>
 
+<td>
+${formatNumber(item.opportunity_score,1)}
+</td>
 
+<td>
+${item.opportunity_signal || "-"}
+</td>
 
-//
-// Execution
-//
+<td>
+${formatNumber(item.return_5d_pct,2)}%
+</td>
 
-if(data.execution){
+<td>
+${formatNumber(item.return_20d_pct,2)}%
+</td>
 
+<td>
+${formatNumber(item.relative_strength_20d,2)}%
+</td>
 
-document.getElementById(
-"signal"
-).innerHTML =
+<td>
+${formatNumber(item.volume_ratio,2)}x
+</td>
 
-data.execution.signal_generation;
+<td>
+${formatNumber(item.overextension_pct,2)}%
+</td>
 
+</tr>
 
+`;
 
-document.getElementById(
-"approval"
-).innerHTML =
-
-data.execution.risk_approval;
-
-
-
-document.getElementById(
-"broker"
-).innerHTML =
-
-data.execution.broker_connection;
-
-
-
-document.getElementById(
-"live"
-).innerHTML =
-
-data.execution.live_trading;
-
-
-
-}
-
+});
 
 
 }
@@ -606,27 +1208,140 @@ data.execution.live_trading;
 catch(error){
 
 
-console.log(
-"CIO data loading error",
+console.error(
+"AURORA data loading error:",
 error
 );
 
 
 document.getElementById(
-"market-regime"
+"generated"
 ).innerHTML =
 
-"CIO data connection pending";
+'<span class="error">Unable to load latest.json</span>';
 
 
 }
 
+}
+
+
+async function loadCIO(){
+
+try{
+
+
+const response = await fetch(
+"cio_output.json?ts="
++
+Date.now()
+);
+
+
+const data = await response.json();
+
+
+const cioTable =
+document.getElementById(
+"cio-table"
+);
+
+
+cioTable.innerHTML =
+"";
+
+
+document.getElementById(
+"cio-status"
+).textContent =
+
+(data.engine || "CIO")
++
+" | Source timestamp: "
++
+(data.timestamp || "-");
+
+
+const decisions =
+data.cio_decisions
+|| [];
+
+
+if(
+decisions.length === 0
+){
+
+cioTable.innerHTML = `
+
+<tr>
+
+<td colspan="5">
+No CIO data available.
+</td>
+
+</tr>
+
+`;
+
+return;
 
 }
 
 
+decisions.forEach(
+item=>{
 
-loadCIOData();
+
+cioTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.ticker}</b>
+</td>
+
+<td>
+${item.cio_score ?? "-"}
+</td>
+
+<td>
+${item.decision || "-"}
+</td>
+
+<td>
+${item.recommended_weight ?? "-"}%
+</td>
+
+<td>
+${item.risk_status || "-"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+}
+
+catch(error){
+
+
+document.getElementById(
+"cio-status"
+).textContent =
+"CIO legacy data unavailable";
+
+
+}
+
+}
+
+
+loadAurora();
+
+loadCIO();
 
 
 </script>
