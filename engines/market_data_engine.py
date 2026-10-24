@@ -1,12 +1,13 @@
 """
-V5.8 Market Data Intelligence Engine
+V6.4 Market Data Intelligence Engine
 
-Functions:
-- Live market data layer
-- Price intelligence
-- VWAP calculation
-- Momentum analysis
-- Market snapshot generation
+Purpose:
+- Retrieve recent market data
+- Calculate VWAP
+- Calculate absolute and percentage momentum
+- Calculate distance from VWAP
+- Measure relative volume
+- Build normalized market snapshot
 """
 
 from datetime import datetime
@@ -15,9 +16,6 @@ import yfinance as yf
 
 
 def calculate_vwap(prices, volumes):
-    """
-    Calculate Volume Weighted Average Price
-    """
 
     if not prices or not volumes:
         return 0
@@ -29,7 +27,10 @@ def calculate_vwap(prices, volumes):
 
     weighted_sum = sum(
         price * volume
-        for price, volume in zip(prices, volumes)
+        for price, volume in zip(
+            prices,
+            volumes
+        )
     )
 
     return round(
@@ -39,9 +40,6 @@ def calculate_vwap(prices, volumes):
 
 
 def calculate_momentum(prices):
-    """
-    Basic momentum calculation
-    """
 
     if len(prices) < 2:
         return 0
@@ -52,23 +50,101 @@ def calculate_momentum(prices):
     )
 
 
+def calculate_momentum_pct(prices):
+
+    if len(prices) < 2:
+        return 0
+
+    start_price = prices[0]
+
+    end_price = prices[-1]
+
+    if not start_price:
+        return 0
+
+    return round(
+        (
+            (end_price / start_price)
+            - 1
+        ) * 100,
+        2
+    )
+
+
+def calculate_vwap_distance_pct(
+    price,
+    vwap
+):
+
+    if not price or not vwap:
+        return 0
+
+    return round(
+        (
+            (price / vwap)
+            - 1
+        ) * 100,
+        2
+    )
+
+
+def calculate_volume_ratio(volumes):
+
+    if not volumes or len(volumes) < 4:
+        return 1.0
+
+    recent_window = max(
+        4,
+        len(volumes) // 5
+    )
+
+    recent_window = min(
+        26,
+        recent_window
+    )
+
+    recent_volumes = volumes[
+        -recent_window:
+    ]
+
+    historical_volumes = volumes[
+        :-recent_window
+    ]
+
+    if not historical_volumes:
+        return 1.0
+
+    recent_average = (
+        sum(recent_volumes)
+        / len(recent_volumes)
+    )
+
+    historical_average = (
+        sum(historical_volumes)
+        / len(historical_volumes)
+    )
+
+    if historical_average <= 0:
+        return 1.0
+
+    ratio = (
+        recent_average
+        / historical_average
+    )
+
+    return round(
+        min(ratio, 5.0),
+        2
+    )
+
+
 def get_live_market_data(ticker):
-    """
-    Retrieve recent market data from Yahoo Finance.
-
-    Returns:
-    - Latest OHLCV data
-    - Price history
-    - Volume history
-
-    Future expansion:
-    - IBKR API
-    - Real-time broker feed
-    """
 
     try:
 
-        stock = yf.Ticker(ticker)
+        stock = yf.Ticker(
+            ticker
+        )
 
         data = stock.history(
             period="5d",
@@ -85,7 +161,10 @@ def get_live_market_data(ticker):
             }
 
         clean_data = data.dropna(
-            subset=["Close", "Volume"]
+            subset=[
+                "Close",
+                "Volume"
+            ]
         )
 
         if clean_data.empty:
@@ -100,59 +179,73 @@ def get_live_market_data(ticker):
         latest = clean_data.iloc[-1]
 
         prices = [
-            round(float(price), 2)
-            for price in clean_data["Close"].tolist()
+            round(
+                float(price),
+                2
+            )
+            for price
+            in clean_data["Close"].tolist()
         ]
 
         volumes = [
             int(volume)
-            for volume in clean_data["Volume"].tolist()
+            for volume
+            in clean_data["Volume"].tolist()
         ]
 
         return {
 
-            "ticker": ticker,
+            "ticker":
+            ticker,
 
             "last_price":
-                round(
-                    float(latest["Close"]),
-                    2
+            round(
+                float(
+                    latest["Close"]
                 ),
+                2
+            ),
 
             "volume":
-                int(
-                    latest["Volume"]
-                ),
+            int(
+                latest["Volume"]
+            ),
 
             "high":
-                round(
-                    float(latest["High"]),
-                    2
+            round(
+                float(
+                    latest["High"]
                 ),
+                2
+            ),
 
             "low":
-                round(
-                    float(latest["Low"]),
-                    2
+            round(
+                float(
+                    latest["Low"]
                 ),
+                2
+            ),
 
             "open":
-                round(
-                    float(latest["Open"]),
-                    2
+            round(
+                float(
+                    latest["Open"]
                 ),
+                2
+            ),
 
             "prices":
-                prices,
+            prices,
 
             "volumes":
-                volumes,
+            volumes,
 
             "data_points":
-                len(prices),
+            len(prices),
 
             "data_quality":
-                "LIVE"
+            "LIVE"
 
         }
 
@@ -160,110 +253,130 @@ def get_live_market_data(ticker):
 
         return {
 
-            "ticker": ticker,
+            "ticker":
+            ticker,
 
-            "prices": [],
+            "prices":
+            [],
 
-            "volumes": [],
+            "volumes":
+            [],
 
             "error":
-                str(e),
+            str(e),
 
             "data_quality":
-                "ERROR"
+            "ERROR"
 
         }
 
 
 def build_market_snapshot(
-        ticker,
-        prices,
-        volumes
+    ticker,
+    prices,
+    volumes
 ):
 
-    """
-    Creates market intelligence snapshot
-    """
+    last_price = (
+        prices[-1]
+        if prices
+        else None
+    )
 
+    vwap = calculate_vwap(
+        prices,
+        volumes
+    )
+
+    momentum = calculate_momentum(
+        prices
+    )
+
+    momentum_pct = calculate_momentum_pct(
+        prices
+    )
+
+    vwap_distance_pct = (
+        calculate_vwap_distance_pct(
+            last_price,
+            vwap
+        )
+    )
+
+    volume_ratio = calculate_volume_ratio(
+        volumes
+    )
 
     snapshot = {
 
-
         "ticker":
-            ticker,
-
+        ticker,
 
         "timestamp":
-            datetime.utcnow().isoformat(),
-
+        datetime.utcnow().isoformat(),
 
         "last_price":
-            prices[-1]
-            if prices
-            else None,
-
+        last_price,
 
         "vwap":
-            calculate_vwap(
-                prices,
-                volumes
-            ),
-
+        vwap,
 
         "momentum":
-            calculate_momentum(
-                prices
-            ),
+        momentum,
 
+        "momentum_pct":
+        momentum_pct,
+
+        "vwap_distance_pct":
+        vwap_distance_pct,
 
         "volume":
-            sum(volumes),
+        sum(volumes),
 
+        "volume_ratio":
+        volume_ratio,
+
+        "data_points":
+        len(prices),
 
         "data_quality":
-            "LIVE"
+        "LIVE"
 
     }
-
 
     return snapshot
 
 
-
 def get_market_signal(snapshot):
 
-    """
-    Basic market interpretation layer
-    """
-
-
-    momentum = snapshot.get(
-        "momentum",
+    momentum_pct = snapshot.get(
+        "momentum_pct",
         0
     )
-
 
     price = snapshot.get(
         "last_price",
         0
     )
 
-
     vwap = snapshot.get(
         "vwap",
         0
     )
 
-
-    if price > vwap and momentum > 0:
+    if (
+        price > vwap
+        and momentum_pct > 0
+    ):
 
         return "BULLISH"
 
-
-    elif price < vwap and momentum < 0:
+    elif (
+        price < vwap
+        and momentum_pct < 0
+    ):
 
         return "BEARISH"
-
 
     else:
 
