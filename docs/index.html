@@ -304,7 +304,7 @@ AURORA Market Intelligence
 </h1>
 
 <div class="subtitle">
-Market Regime + Earnings/Event Risk + Portfolio Management + Position Sizing + Capital Allocation + Final Portfolio Projection + US Market Opportunity Radar
+Market Regime + Earnings/Event Risk + Correlation/Factor Risk + Portfolio Management + Capital Allocation + Final Portfolio Projection + US Market Opportunity Radar
 </div>
 
 <div
@@ -635,6 +635,70 @@ Portfolio Event Alerts
 <div
 class="stat-value"
 id="portfolio-event-alert-count"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Hidden Risk
+</div>
+
+<div
+class="stat-value"
+id="hidden-risk-level"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Avg Correlation
+</div>
+
+<div
+class="stat-value"
+id="avg-correlation"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+AI Complex
+</div>
+
+<div
+class="stat-value"
+id="ai-complex-weight"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Dominant Factor
+</div>
+
+<div
+class="stat-value"
+id="dominant-factor"
 >
 -
 </div>
@@ -1026,6 +1090,117 @@ Loading final portfolio projection...
 <tr>
 <td colspan="8" class="loading">
 Loading final portfolio...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- V7.6 CORRELATION & FACTOR RISK -->
+<!-- ================================================= -->
+
+<div class="card red">
+
+<div class="title">
+🧬 V7.6 PORTFOLIO CORRELATION & FACTOR RISK
+</div>
+
+<div
+id="correlation-risk-summary"
+class="section-note"
+>
+Loading portfolio correlation and factor risk...
+</div>
+
+<div class="section-note">
+Top correlated pairs
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Pair</th>
+<th>Correlation</th>
+<th>Combined Weight</th>
+<th>Risk</th>
+</tr>
+
+</thead>
+
+<tbody id="correlation-pairs-table">
+
+<tr>
+<td colspan="4" class="loading">
+Loading correlation pairs...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<div class="section-note">
+Factor sensitivity
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Factor</th>
+<th>Proxy</th>
+<th>Beta</th>
+<th>Correlation</th>
+<th>Observations</th>
+</tr>
+
+</thead>
+
+<tbody id="factor-risk-table">
+
+<tr>
+<td colspan="5" class="loading">
+Loading factor sensitivity...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<div class="section-note">
+High-correlation clusters
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Tickers</th>
+<th>Positions</th>
+<th>Portfolio Weight</th>
+<th>Limit</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody id="correlation-cluster-table">
+
+<tr>
+<td colspan="5" class="loading">
+Loading correlation clusters...
 </td>
 </tr>
 
@@ -1558,6 +1733,26 @@ finalProjection.final_positions
 || [];
 
 
+const correlationRisk =
+data.portfolio_correlation_factor_risk
+|| {};
+
+
+const factorSensitivity =
+correlationRisk.factor_sensitivity
+|| {};
+
+
+const correlatedPairs =
+correlationRisk.top_correlated_pairs
+|| [];
+
+
+const correlationClusters =
+correlationRisk.correlation_clusters
+|| [];
+
+
 /* =============================================== */
 /* SUMMARY */
 /* =============================================== */
@@ -1730,6 +1925,44 @@ document.getElementById(
 ).textContent =
 eventRisk.portfolio_alert_count
 ?? "-";
+
+
+document.getElementById(
+"hidden-risk-level"
+).textContent =
+correlationRisk.hidden_risk_level
+|| "-";
+
+
+document.getElementById(
+"avg-correlation"
+).textContent =
+formatNumber(
+correlationRisk.weighted_average_correlation,
+2
+);
+
+
+document.getElementById(
+"ai-complex-weight"
+).textContent =
+formatNumber(
+correlationRisk.ai_complex_weight_pct,
+2
+)
++
+"%";
+
+
+document.getElementById(
+"dominant-factor"
+).textContent =
+(
+correlationRisk.dominant_factor
+||
+{}
+).factor
+|| "-";
 
 
 if(data.generated){
@@ -2952,6 +3185,337 @@ ${item.trade_action || "-"}
 }
 
 
+/* =============================================== */
+/* V7.6 CORRELATION & FACTOR RISK */
+/* =============================================== */
+
+
+const dominantFactor =
+correlationRisk.dominant_factor
+|| {};
+
+
+const coverage =
+correlationRisk.data_coverage
+|| {};
+
+
+document.getElementById(
+"correlation-risk-summary"
+).textContent =
+
+"Hidden risk: "
++
+(
+correlationRisk.hidden_risk_level
+||
+"-"
+)
++
+" | Score: "
++
+formatNumber(
+correlationRisk.hidden_risk_score,
+1
+)
++
+" | Recommendation: "
++
+(
+correlationRisk.recommendation
+||
+"-"
+)
++
+" | Avg correlation: "
++
+formatNumber(
+correlationRisk.weighted_average_correlation,
+3
+)
++
+" | High-corr pairs: "
++
+(
+correlationRisk.high_correlation_pair_count
+?? 0
+)
++
+" | Largest cluster: "
++
+formatNumber(
+correlationRisk.largest_cluster_weight_pct,
+2
+)
++
+"%"
++
+" | AI complex: "
++
+formatNumber(
+correlationRisk.ai_complex_weight_pct,
+2
+)
++
+"%"
++
+" | Dominant factor: "
++
+(
+dominantFactor.factor
+||
+"-"
+)
++
+" (corr "
++
+formatNumber(
+dominantFactor.correlation,
+3
+)
++
+", beta "
++
+formatNumber(
+dominantFactor.beta,
+2
+)
++
+")"
++
+" | Data coverage: "
++
+formatNumber(
+coverage.coverage_pct,
+1
+)
++
+"%";
+
+
+const correlationPairsTable =
+document.getElementById(
+"correlation-pairs-table"
+);
+
+
+correlationPairsTable.innerHTML =
+"";
+
+
+if(
+correlatedPairs.length === 0
+){
+
+correlationPairsTable.innerHTML = `
+
+<tr>
+
+<td colspan="4">
+
+No valid correlation pairs available.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+correlatedPairs.slice(
+0,
+10
+).forEach(
+item => {
+
+
+correlationPairsTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.ticker_a} / ${item.ticker_b}</b>
+</td>
+
+<td>
+${formatNumber(item.correlation,3)}
+</td>
+
+<td>
+${formatNumber(item.combined_portfolio_weight_pct,2)}%
+</td>
+
+<td>
+${item.risk_level || "-"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+const factorRiskTable =
+document.getElementById(
+"factor-risk-table"
+);
+
+
+factorRiskTable.innerHTML =
+"";
+
+
+const factorNames =
+Object.keys(
+factorSensitivity
+);
+
+
+if(
+factorNames.length === 0
+){
+
+factorRiskTable.innerHTML = `
+
+<tr>
+
+<td colspan="5">
+
+No factor sensitivity data available.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+factorNames.forEach(
+factor => {
+
+
+const item =
+factorSensitivity[
+factor
+]
+|| {};
+
+
+factorRiskTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${factor}</b>
+</td>
+
+<td>
+${item.proxy || "-"}
+</td>
+
+<td>
+${formatNumber(item.beta,3)}
+</td>
+
+<td>
+${formatNumber(item.correlation,3)}
+</td>
+
+<td>
+${item.observations ?? "-"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+const clusterTable =
+document.getElementById(
+"correlation-cluster-table"
+);
+
+
+clusterTable.innerHTML =
+"";
+
+
+if(
+correlationClusters.length === 0
+){
+
+clusterTable.innerHTML = `
+
+<tr>
+
+<td colspan="5">
+
+No high-correlation cluster above the 0.75 threshold.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+correlationClusters.forEach(
+item => {
+
+
+clusterTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${(item.tickers || []).join(", ")}</b>
+</td>
+
+<td>
+${item.position_count ?? "-"}
+</td>
+
+<td>
+${formatNumber(item.portfolio_weight_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.limit_pct,0)}%
+</td>
+
+<td>
+${item.status || "-"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =============================================== */
 /* =============================================== */
 /* V7.3 FINAL THEME EXPOSURE */
 /* =============================================== */
