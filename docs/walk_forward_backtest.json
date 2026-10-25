@@ -4,7 +4,7 @@
   "portfolio_signature": "ec19f05aec2acca5",
   "cache_status": "FRESH",
   "status": "COMPLETE",
-  "generated": "2026-10-25T07:54:10.846005+00:00",
+  "generated": "2026-10-25T07:56:03.774152+00:00",
   "market_date": "2026-10-23",
   "validation_scope": "CURRENT_PORTFOLIO_STRATEGIC_PRICE_RISK_LAYER",
   "start_date": "2022-10-25",
@@ -40,7 +40,7 @@
   },
   "performance": {
     "starting_value": 100000.0,
-    "ending_value": 289740.82,
+    "ending_value": 289740.8,
     "total_return_pct": 189.74,
     "cagr_pct": 30.68,
     "annualized_volatility_pct": 17.94,
@@ -65,4 +65,1629 @@
     "events": [
       {
         "ticker": "BKR",
-        "decision_date": 
+        "decision_date": "2025-10-28",
+        "execution_date": "2025-10-29",
+        "action": "HOLD",
+        "previous_action": "WATCH",
+        "trend_score": 92.0,
+        "risk_score": 53.0,
+        "return_6m_pct": 34.78827974304244,
+        "relative_strength_6m_pct": 10.130760369965607,
+        "evaluation_date": "2025-11-25",
+        "stock_return_20d_pct": 3.77,
+        "spy_return_20d_pct": -1.75,
+        "decision_alpha_20d_pct": 5.52,
+        "hit": true
+      },
+      {
+        "ticker": "CTAS",
+        "decision_date": "2025-10-28",
+        "execution_date": "2025-10-29",
+        "action": "REDUCE",
+        "previous_action": "WATCH",
+        "trend_score": 0,
+        "risk_score": 57.6,
+        "return_6m_pct": -8.905721741176198,
+        "relative_strength_6m_pct": -33.56324111425303,
+        "evaluation_date": "2025-11-25",
+        "stock_return_20d_pct": -3.04,
+        "spy_return_20d_pct": -1.75,
+        "decision_alpha_20d_pct": 1.29,
+        "hit": true
+      },
+      {
+        "ticker": "NBIS",
+        "decision_date": "2025-10-28",
+        "execution_date": "2025-10-29",
+        "action": "WATCH",
+        "previous_action": null,
+        "trend_score": 100,
+        "risk_score": 10.0,
+        "return_6m_pct": 410.6035151491121,
+        "relative_strength_6m_pct": 385.9459957760353,
+        "evaluation_date": "2025-11-25",
+        "stock_return_20d_pct": -27.05,
+        "spy_return_20d_pct": -1.75,
+        "decision_alpha_20d_pct": -25.29,
+        "hit": false
+      },
+      {
+        "ticker": "UNH",
+        "decision_date": "2025-11-11",
+        "execution_date": "2025-11-12",
+        "action": "WATCH",
+        "previous_action": "EXIT",
+        "trend_score": 46.0,
+        "risk_score": 30.3,
+        "return_6m_pct": 6.575573478387398,
+        "relative_strength_6m_pct": -10.478194460048009,
+        "evaluation_date": "2025-12-10",
+        "stock_return_20d_pct": 0.96,
+        "spy_return_20d_pct": 0.67,
+        "decision_alpha_20d_pct": 0.29,
+        "hit": true
+      },
+      {
+        "ticker": "NVDA",
+        "decision_date": "2025-11-18",
+        "execution_date": "2025-11-19",
+        "action": "WATCH",
+        "previous_action": "HOLD",
+        "trend_score": 80.0,
+        "risk_score": 40.4,
+        "return_6m_pct": 34.97751456388043,
+        "relative_strength_6m_pct": 22.998622356693748,
+        "evaluation_date": "2025-12-17",
+        "stock_return_20d_pct": -5.74,
+        "spy_return_20d_pct": 1.71,
+        "decision_alpha_20d_pct": -7.46,
+        "hit": false
+      },
+      {
+        "ticker": "UNH",
+        "decision_date": "2025-11-18",
+        "execution_date": "2025-11-19",
+        "action": "EXIT",
+        "previous_action": "WATCH",
+        "trend_score": 18.0,
+        "risk_score": 28.7,
+        "return_6m_pct": -1.1759407802704125,
+        "relative_strength_6m_pct": -13.154832987457098,
+        "evaluation_date": "2025-12-17",
+        "stock_return_20d_pct": 6.47,
+        "spy_return_20d_pct": 1.71,
+        "decision_alpha_20d_pct": -4.75,
+        "hit": false
+      },
+      {
+        "ticker": "UNH",
+        "decision_date": "2025-11-25",
+        "execution_date": "2025-11-26",
+        "action": "WATCH",
+        "previous_action": "EXIT",
+        "trend_score": 46.0,
+        "risk_score": 28.4,
+        "return_6m_pct": 10.921892812108203,
+        "relative_strength_6m_pct": -4.589060870692331,
+        "evaluation_date": "2025-12-24",
+        "stock_return_20d_pct": 1.07,
+        "spy_return_20d_pct": 2.58,
+        "decision_alpha_20d_pct": -1.5,
+        "hit": false
+      },
+      {
+        "ticker": "BKR",
+        "decision_date": "2025-12-17",
+        "execution_date": "2025-12-18",
+        "action": "WATCH",
+        "previous_action": "HOLD",
+        "trend_score": 57.0,
+        "risk_score": 49.8,
+        "return_6m_pct": 17.356765143966,
+        "relative_strength_6m_pct": 4.332568831675919,
+        "evaluation_date": "2026-01-16",
+        "stock_return_20d_pct": 14.26,
+        "spy_return_20d_pct": 3.32,
+        "decision_alpha_20d_pct": 10.94,
+        "hit": true
+      },
+      {
+        "ticker": "BKR",
+        "decision_date": "2026-01-02",
+        "execution_date": "2026-01-05",
+        "action": "HOLD",
+        "previous_action": "WATCH",
+        "trend_score": 70.0,
+        "risk_score": 49.4,
+        "return_6m_pct": 20.116756234147193,
+        "relative_strength_6m_pct": 10.242396927485963,
+        "evaluation_date": "2026-02-02",
+        "stock_return_20d_pct": 19.75,
+        "spy_return_20d_pct": 1.79,
+        "decision_alpha_20d_pct": 17.96,
+        "hit": true
+      },
+      {
+        "ticker": "ASML",
+        "decision_date": "2026-01-16",
+        "execution_date": "2026-01-20",
+        "action": "HOLD",
+        "previous_action": "WATCH",
+        "trend_score": 100,
+        "risk_score": 45.0,
+        "return_6m_pct": 85.7432036647579,
+        "relative_strength_6m_pct": 74.90045191573856,
+        "evaluation_date": "2026-02-17",
+        "stock_return_20d_pct": 4.64,
+        "spy_return_20d_pct": -1.27,
+        "decision_alpha_20d_pct": 5.92,
+        "hit": true
+      },
+      {
+        "ticker": "CTAS",
+        "decision_date": "2026-01-16",
+        "execution_date": "2026-01-20",
+        "action": "WATCH",
+        "previous_action": "REDUCE",
+        "trend_score": 53.0,
+        "risk_score": 57.0,
+        "return_6m_pct": -11.558011335751118,
+        "relative_strength_6m_pct": -22.40076308477046,
+        "evaluation_date": "2026-02-17",
+        "stock_return_20d_pct": -0.03,
+        "spy_return_20d_pct": -1.27,
+        "decision_alpha_20d_pct": 1.25,
+        "hit": true
+      },
+      {
+        "ticker": "ASML",
+        "decision_date": "2026-01-26",
+        "execution_date": "2026-01-27",
+        "action": "WATCH",
+        "previous_action": "HOLD",
+        "trend_score": 100,
+        "risk_score": 44.8,
+        "return_6m_pct": 99.57102685446712,
+        "relative_strength_6m_pct": 90.21564116974807,
+        "evaluation_date": "2026-02-24",
+        "stock_return_20d_pct": 6.11,
+        "spy_return_20d_pct": -0.78,
+        "decision_alpha_20d_pct": 6.89,
+        "hit": true
+      },
+      {
+        "ticker": "CTAS",
+        "decision_date": "2026-01-26",
+        "execution_date": "2026-01-27",
+        "action": "REDUCE",
+        "previous_action": "WATCH",
+        "trend_score": 35.0,
+        "risk_score": 57.0,
+        "return_6m_pct": -12.88632250684949,
+        "relative_strength_6m_pct": -22.24170819156854,
+        "evaluation_date": "2026-02-24",
+        "stock_return_20d_pct": 2.64,
+        "spy_return_20d_pct": -0.78,
+        "decision_alpha_20d_pct": -3.42,
+        "hit": false
+      },
+      {
+        "ticker": "CTAS",
+        "decision_date": "2026-02-02",
+        "execution_date": "2026-02-03",
+        "action": "WATCH",
+        "previous_action": "REDUCE",
+        "trend_score": 43.0,
+        "risk_score": 57.0,
+        "return_6m_pct": -13.427495884086616,
+        "relative_strength_6m_pct": -25.92163126657411,
+        "evaluation_date": "2026-03-03",
+        "stock_return_20d_pct": 5.82,
+        "spy_return_20d_pct": -2.17,
+        "decision_alpha_20d_pct": 7.98,
+        "hit": true
+      },
+      {
+        "ticker": "CCLD",
+        "decision_date": "2026-02-09",
+        "execution_date": "2026-02-10",
+        "action": "EXIT",
+        "previous_action": "WATCH",
+        "trend_score": 0,
+        "risk_score": 14.9,
+        "return_6m_pct": -14.766354690379824,
+        "relative_strength_6m_pct": -24.30059275360087,
+        "evaluation_date": "2026-03-10",
+        "stock_return_20d_pct": 17.98,
+        "spy_return_20d_pct": -2.42,
+        "decision_alpha_20d_pct": -20.4,
+        "hit": false
+      },
+      {
+        "ticker": "ASML",
+        "decision_date": "2026-02-17",
+        "execution_date": "2026-02-18",
+        "action": "HOLD",
+        "previous_action": "WATCH",
+        "trend_score": 100,
+        "risk_score": 45.2,
+        "return_6m_pct": 91.89594886019292,
+        "relative_strength_6m_pct": 85.16238647319543,
+        "evaluation_date": "2026-03-17",
+        "stock_return_20d_pct": -2.16,
+        "spy_return_20d_pct": -1.77,
+        "decision_alpha_20d_pct": -0.39,
+        "hit": false
+      },
+      {
+        "ticker": "UNH",
+        "decision_date": "2026-02-17",
+        "execution_date": "2026-02-18",
+        "action": "EXIT",
+        "previous_action": "WATCH",
+        "trend_score": 0,
+        "risk_score": 11.9,
+        "return_6m_pct": -3.6644307872087056,
+        "relative_strength_6m_pct": -10.3979931742062,
+        "evaluation_date": "2026-03-17",
+        "stock_return_20d_pct": 0.25,
+        "spy_return_20d_pct": -1.77,
+        "decision_alpha_20d_pct": -2.01,
+        "hit": false
+      },
+      {
+        "ticker": "ANET",
+        "decision_date": "2026-03-03",
+        "execution_date": "2026-03-04",
+        "action": "EXIT",
+        "previous_action": "WATCH",
+        "trend_score": 10.0,
+        "risk_score": 14.1,
+        "return_6m_pct": -8.751376280165445,
+        "relative_strength_6m_pct": -14.825633657005042,
+        "evaluation_date": "2026-03-31",
+        "stock_return_20d_pct": -1.46,
+        "spy_return_20d_pct": -4.15,
+        "decision_alpha_20d_pct": -2.69,
+        "hit": false
+      },
+      {
+        "ticker": "ANET",
+        "decision_date": "2026-03-10",
+        "execution_date": "2026-03-11",
+        "action": "WATCH",
+        "previous_action": "EXIT",
+        "trend_score": 73.0,
+        "risk_score": 13.0,
+        "return_6m_pct": -0.2785511070278579,
+        "relative_strength_6m_pct": -5.246557064374846,
+        "evaluation_date": "2026-04-08",
+        "stock_return_20d_pct": 3.9,
+        "spy_return_20d_pct": 0.1,
+        "decision_alpha_20d_pct": 3.8,
+        "hit": true
+      },
+      {
+        "ticker": "ASML",
+        "decision_date": "2026-03-10",
+        "execution_date": "2026-03-11",
+        "action": "WATCH",
+        "previous_action": "HOLD",
+        "trend_score": 100,
+        "risk_score": 38.8,
+        "return_6m_pct": 74.27721917426129,
+        "relative_strength_6m_pct": 69.3092132169143,
+        "evaluation_date": "2026-04-08",
+        "stock_return_20d_pct": 2.72,
+        "spy_return_20d_pct": 0.1,
+        "decision_alpha_20d_pct": 2.62,
+        "hit": true
+      },
+      {
+        "ticker": "BKR",
+        "decision_date": "2026-03-17",
+        "execution_date": "2026-03-18",
+        "action": "WATCH",
+        "previous_action": "HOLD",
+        "trend_score": 88.0,
+        "risk_score": 44.2,
+        "return_6m_pct": 24.21534232754283,
+        "relative_strength_6m_pct": 22.13831545673548,
+        "evaluation_date": "2026-04-15",
+        "stock_return_20d_pct": 5.39,
+        "spy_return_20d_pct": 4.63,
+        "decision_alpha_20d_pct": 0.76,
+        "hit": true
+      },
+      {
+        "ticker": "CCLD",
+        "decision_date": "2026-03-17",
+        "execution_date": "2026-03-18",
+        "action": "WATCH",
+        "previous_action": "EXIT",
+        "trend_score": 73.0,
+        "risk_score": 10.0,
+        "return_6m_pct": -0.5509702125222393,
+        "relative_strength_6m_pct": -2.627997083329592,
+        "evaluation_date": "2026-04-15",
+        "stock_return_20d_pct": -16.07,
+        "spy_return_20d_pct": 4.63,
+        "decision_alpha_20d_pct": -20.7,
+        "hit": false
+      },
+      {
+        "ticker": "CTAS",
+        "decision_date": "2026-03-24",
+        "execution_date": "2026-03-25",
+        "action": "REDUCE",
+        "previous_action": "WATCH",
+        "trend_score": 0,
+        "risk_score": 63.9,
+        "return_6m_pct": -11.659862565861756,
+        "relative_strength_6m_pct": -10.169117999396404,
+        "evaluation_date": "2026-04-22",
+        "stock_return_20d_pct": -1.95,
+        "spy_return_20d_pct": 8.88,
+        "decision_alpha_20d_pct": 10.83,
+        "hit": true
+      },
+      {
+        "ticker": "GOOG",
+        "decision_date": "2026-03-24",
+        "execution_date": "2026-03-25",
+        "action": "WATCH",
+        "previous_action": "HOLD",
+        "trend_score": 57.0,
+        "risk_score": 61.1,
+        "return_6m_pct": 14.517786372598529,
+        "relative_strength_6m_pct": 16.00853093906388,
+        "evaluation_date": "2026-04-22",
+        "stock_return_20d_pct": 16.78,
+        "spy_return_20d_pct": 8.88,
+        "decision_alpha_20d_pct": 7.9,
+        "hit": true
+      },
+      {
+        "ticker": "ANET",
+        "decision_date": "2026-03-31",
+        "execution_date": "2026-04-01",
+        "action": "EXIT",
+        "previous_action": "WATCH",
+        "trend_score": 10.0,
+        "risk_score": 12.3,
+        "return_6m_pct": -14.3614403565131,
+        "relative_strength_6m_pct": -12.909388411822087,
+        "evaluation_date": "2026-04-29",
+        "stock_return_20d_pct": 37.38,
+        "spy_return_20d_pct": 9.42,
+        "decision_alpha_20d_pct": -27.97,
+        "hit": false
+      },
+      {
+        "ticker": "ANET",
+        "decision_date": "2026-04-08",
+        "execution_date": "2026-04-09",
+        "action": "WATCH",
+        "previous_action": "EXIT",
+        "trend_score": 73.0,
+        "risk_score": 12.3,
+        "return_6m_pct": -2.9632058031981656,
+        "relative_strength_6m_pct": -4.19147521667912,
+        "evaluation_date": "2026-05-06",
+        "stock_return_20d_pct": 1.37,
+        "spy_return_20d_pct": 8.55,
+        "decision_alpha_20d_pct": -7.18,
+        "hit": false
+      },
+      {
+        "ticker": "BKR",
+        "decision_date": "2026-04-08",
+        "execution_date": "2026-04-09",
+        "action": "HOLD",
+        "previous_action": "WATCH",
+        "trend_score": 100,
+        "risk_score": 47.1,
+        "return_6m_pct": 29.787017547044915,
+        "relative_strength_6m_pct": 28.55874813356396,
+        "evaluation_date": "2026-05-06",
+        "stock_return_20d_pct": 5.91,
+        "spy_return_20d_pct": 8.55,
+        "decision_alpha_20d_pct": -2.64,
+        "hit": false
+      },
+      {
+        "ticker": "GOOG",
+        "decision_date": "2026-04-08",
+        "execution_date": "2026-04-09",
+        "action": "HOLD",
+        "previous_action": "WATCH",
+        "trend_score": 100,
+        "risk_score": 46.3,
+        "return_6m_pct": 25.31002049751454,
+        "relative_strength_6m_pct": 24.081751084033584,
+        "evaluation_date": "2026-05-06",
+        "stock_return_20d_pct": 25.54,
+        "spy_return_20d_pct": 8.55,
+        "decision_alpha_20d_pct": 16.99,
+        "hit": true
+      },
+      {
+        "ticker": "CTAS",
+        "decision_date": "2026-04-15",
+        "execution_date": "2026-04-16",
+        "action": "WATCH",
+        "previous_action": "REDUCE",
+        "trend_score": 0,
+        "risk_score": 48.3,
+        "return_6m_pct": -5.666485105327723,
+        "relative_strength_6m_pct": -11.832863497959845,
+        "evaluation_date": "2026-05-13",
+        "stock_return_20d_pct": -7.32,
+        "spy_return_20d_pct": 6.05,
+        "decision_alpha_20d_pct": -13.37,
+        "hit": false
+      },
+      {
+        "ticker": "UNH",
+        "decision_date": "2026-04-15",
+        "execution_date": "2026-04-16",
+        "action": "WATCH",
+        "previous_action": "EXIT",
+        "trend_score": 45.0,
+        "risk_score": 10.0,
+        "return_6m_pct": -11.163943437953339,
+        "relative_strength_6m_pct": -17.33032183058546,
+        "evaluation_date": "2026-05-13",
+        "stock_return_20d_pct": 27.74,
+        "spy_return_20d_pct": 6.05,
+        "decision_alpha_20d_pct": 21.68,
+        "hit": true
+      },
+      {
+        "ticker": "CTAS",
+        "decision_date": "2026-04-22",
+        "execution_date": "2026-04-23",
+        "action": "REDUCE",
+        "previous_action": "WATCH",
+        "trend_score": 0,
+        "risk_score": 48.3,
+        "return_6m_pct": -8.75996789502802,
+        "relative_strength_6m_pct": -15.30839928844414,
+        "evaluation_date": "2026-05-20",
+        "stock_return_20d_pct": -1.62,
+        "spy_return_20d_pct": 4.22,
+        "decision_alpha_20d_pct": 5.85,
+        "hit": true
+      },
+      {
+        "ticker": "CCLD",
+        "decision_date": "2026-04-29",
+        "execution_date": "2026-04-30",
+        "action": "EXIT",
+        "previous_action": "WATCH",
+        "trend_score": 41.0,
+        "risk_score": 10.0,
+        "return_6m_pct": -4.5016035758188355,
+        "relative_strength_6m_pct": -8.936804716706593,
+        "evaluation_date": "2026-05-28",
+        "stock_return_20d_pct": -21.89,
+        "spy_return_20d_pct": 6.05,
+        "decision_alpha_20d_pct": 27.93,
+        "hit": true
+      },
+      {
+        "ticker": "CTAS",
+        "decision_date": "2026-04-29",
+        "execution_date": "2026-04-30",
+        "action": "WATCH",
+        "previous_action": "REDUCE",
+        "trend_score": 0,
+        "risk_score": 48.1,
+        "return_6m_pct": -7.373014037709935,
+        "relative_strength_6m_pct": -11.808215178597692,
+        "evaluation_date": "2026-05-28",
+        "stock_return_20d_pct": -0.24,
+        "spy_return_20d_pct": 6.05,
+        "decision_alpha_20d_pct": -6.29,
+        "hit": false
+      },
+      {
+        "ticker": "GOOG",
+        "decision_date": "2026-05-06",
+        "execution_date": "2026-05-07",
+        "action": "WATCH",
+        "previous_action": "HOLD",
+        "trend_score": 100,
+        "risk_score": 39.9,
+        "return_6m_pct": 39.263805266619876,
+        "relative_strength_6m_pct": 31.263629396314663,
+        "evaluation_date": "2026-06-04",
+        "stock_return_20d_pct": -6.55,
+        "spy_return_20d_pct": 3.17,
+        "decision_alpha_20d_pct": -9.72,
+        "hit": false
+      },
+      {
+        "ticker": "CTAS",
+        "decision_date": "2026-05-13",
+        "execution_date": "2026-05-14",
+        "action": "REDUCE",
+        "previous_action": "WATCH",
+        "trend_score": 0,
+        "risk_score": 45.8,
+        "return_6m_pct": -11.298421389972846,
+        "relative_strength_6m_pct": -20.851230318312922,
+        "evaluation_date": "2026-06-11",
+        "stock_return_20d_pct": 11.51,
+        "spy_return_20d_pct": -0.61,
+        "decision_alpha_20d_pct": -12.12,
+        "hit": false
+      },
+      {
+        "ticker": "NVDA",
+        "decision_date": "2026-05-13",
+        "execution_date": "2026-05-14",
+        "action": "HOLD",
+        "previous_action": "WATCH",
+        "trend_score": 100,
+        "risk_score": 45.5,
+        "return_6m_pct": 13.466358654295462,
+        "relative_strength_6m_pct": 3.913549725955388,
+        "evaluation_date": "2026-06-11",
+        "stock_return_20d_pct": -9.18,
+        "spy_return_20d_pct": -0.61,
+        "decision_alpha_20d_pct": -8.56,
+        "hit": false
+      },
+      {
+        "ticker": "CTAS",
+        "decision_date": "2026-05-20",
+        "execution_date": "2026-05-21",
+        "action": "WATCH",
+        "previous_action": "REDUCE",
+        "trend_score": 0,
+        "risk_score": 44.2,
+        "return_6m_pct": -6.279309804719557,
+        "relative_strength_6m_pct": -18.267321959387118,
+        "evaluation_date": "2026-06-18",
+        "stock_return_20d_pct": -0.3,
+        "spy_return_20d_pct": 1.0,
+        "decision_alpha_20d_pct": -1.3,
+        "hit": false
+      },
+      {
+        "ticker": "NVDA",
+        "decision_date": "2026-05-20",
+        "execution_date": "2026-05-21",
+        "action": "WATCH",
+        "previous_action": "HOLD",
+        "trend_score": 100,
+        "risk_score": 43.4,
+        "return_6m_pct": 19.771978060935623,
+        "relative_strength_6m_pct": 7.7839659062680635,
+        "evaluation_date": "2026-06-18",
+        "stock_return_20d_pct": -5.61,
+        "spy_return_20d_pct": 1.0,
+        "decision_alpha_20d_pct": -6.61,
+        "hit": false
+      },
+      {
+        "ticker": "NVDA",
+        "decision_date": "2026-05-28",
+        "execution_date": "2026-05-29",
+        "action": "HOLD",
+        "previous_action": "WATCH",
+        "trend_score": 100,
+        "risk_score": 46.1,
+        "return_6m_pct": 17.378002952994898,
+        "relative_strength_6m_pct": 3.8947313566670907,
+        "evaluation_date": "2026-06-26",
+        "stock_return_20d_pct": -10.03,
+        "spy_return_20d_pct": -3.14,
+        "decision_alpha_20d_pct": -6.89,
+        "hit": false
+      },
+      {
+        "ticker": "NVDA",
+        "decision_date": "2026-06-04",
+        "execution_date": "2026-06-05",
+        "action": "WATCH",
+        "previous_action": "HOLD",
+        "trend_score": 100,
+        "risk_score": 44.1,
+        "return_6m_pct": 20.654078785785824,
+        "relative_strength_6m_pct": 8.934730419418658,
+        "evaluation_date": "2026-07-06",
+        "stock_return_20d_pct": -10.57,
+        "spy_return_20d_pct": -0.51,
+        "decision_alpha_20d_pct": -10.06,
+        "hit": false
+      },
+      {
+        "ticker": "OMDA",
+        "decision_date": "2026-06-11",
+        "execution_date": "2026-06-12",
+        "action": "WATCH",
+        "previous_action": null,
+        "trend_score": 90.0,
+        "risk_score": 10.0,
+        "return_6m_pct": 13.290734660742398,
+        "relative_strength_6m_pct": 4.6644624731035265,
+        "evaluation_date": "2026-07-13",
+        "stock_return_20d_pct": 32.54,
+        "spy_return_20d_pct": 1.81,
+        "decision_alpha_20d_pct": 30.74,
+        "hit": true
+      },
+      {
+        "ticker": "BKR",
+        "decision_date": "2026-06-18",
+        "execution_date": "2026-06-22",
+        "action": "WATCH",
+        "previous_action": "HOLD",
+        "trend_score": 57.0,
+        "risk_score": 47.3,
+        "return_6m_pct": 30.66725686183249,
+        "relative_strength_6m_pct": 19.758449984554826,
+        "evaluation_date": "2026-07-20",
+        "stock_return_20d_pct": -5.58,
+        "spy_return_20d_pct": -0.62,
+        "decision_alpha_20d_pct": -4.96,
+        "hit": false
+      },
+      {
+        "ticker": "CTAS",
+        "decision_date": "2026-06-18",
+        "execution_date": "2026-06-22",
+        "action": "REDUCE",
+        "previous_action": "WATCH",
+        "trend_score": 0,
+        "risk_score": 42.6,
+        "return_6m_pct": -8.480666345152732,
+        "relative_strength_6m_pct": -19.389473222430397,
+        "evaluation_date": "2026-07-20",
+        "stock_return_20d_pct": 18.12,
+        "spy_return_20d_pct": -0.62,
+        "decision_alpha_20d_pct": -18.74,
+        "hit": false
+      },
+      {
+        "ticker": "CTAS",
+        "decision_date": "2026-07-06",
+        "execution_date": "2026-07-07",
+        "action": "WATCH",
+        "previous_action": "REDUCE",
+        "trend_score": 22.0,
+        "risk_score": 43.1,
+        "return_6m_pct": -4.750516945249872,
+        "relative_strength_6m_pct": -15.507284858042125,
+        "evaluation_date": "2026-08-03",
+        "stock_return_20d_pct": 14.46,
+        "spy_return_20d_pct": 0.85,
+        "decision_alpha_20d_pct": 13.61,
+        "hit": true
+      },
+      {
+        "ticker": "UNH",
+        "decision_date": "2026-08-03",
+        "execution_date": "2026-08-04",
+        "action": "HOLD",
+        "previous_action": "WATCH",
+        "trend_score": 100,
+        "risk_score": 53.3,
+        "return_6m_pct": 46.7186726531795,
+        "relative_strength_6m_pct": 36.64215370825361,
+        "evaluation_date": "2026-08-31",
+        "stock_return_20d_pct": -6.25,
+        "spy_return_20d_pct": 1.24,
+        "decision_alpha_20d_pct": -7.49,
+        "hit": false
+      },
+      {
+        "ticker": "CCLD",
+        "decision_date": "2026-08-17",
+        "execution_date": "2026-08-18",
+        "action": "WATCH",
+        "previous_action": "EXIT",
+        "trend_score": 45.0,
+        "risk_score": 10.0,
+        "return_6m_pct": 6.465521538087615,
+        "relative_strength_6m_pct": -7.473038763629613,
+        "evaluation_date": "2026-09-15",
+        "stock_return_20d_pct": -17.0,
+        "spy_return_20d_pct": -1.98,
+        "decision_alpha_20d_pct": -15.03,
+        "hit": false
+      },
+      {
+        "ticker": "CCLD",
+        "decision_date": "2026-08-31",
+        "execution_date": "2026-09-01",
+        "action": "EXIT",
+        "previous_action": "WATCH",
+        "trend_score": 0,
+        "risk_score": 10.0,
+        "return_6m_pct": -4.858304558206039,
+        "relative_strength_6m_pct": -17.20514882349451,
+        "evaluation_date": "2026-09-29",
+        "stock_return_20d_pct": -11.49,
+        "spy_return_20d_pct": -0.12,
+        "decision_alpha_20d_pct": 11.37,
+        "hit": true
+      },
+      {
+        "ticker": "UNH",
+        "decision_date": "2026-09-15",
+        "execution_date": "2026-09-16",
+        "action": "WATCH",
+        "previous_action": "HOLD",
+        "trend_score": 57.0,
+        "risk_score": 52.4,
+        "return_6m_pct": 33.24640236117644,
+        "relative_strength_6m_pct": 19.4376142618395,
+        "evaluation_date": "2026-10-13",
+        "stock_return_20d_pct": 0.49,
+        "spy_return_20d_pct": 2.98,
+        "decision_alpha_20d_pct": -2.49,
+        "hit": false
+      },
+      {
+        "ticker": "VRT",
+        "decision_date": "2026-09-15",
+        "execution_date": "2026-09-16",
+        "action": "EXIT",
+        "previous_action": "WATCH",
+        "trend_score": 10.0,
+        "risk_score": 10.0,
+        "return_6m_pct": -11.319700320890302,
+        "relative_strength_6m_pct": -25.128488420227246,
+        "evaluation_date": "2026-10-13",
+        "stock_return_20d_pct": 1.14,
+        "spy_return_20d_pct": 2.98,
+        "decision_alpha_20d_pct": 1.84,
+        "hit": true
+      },
+      {
+        "ticker": "BKR",
+        "decision_date": "2026-09-22",
+        "execution_date": "2026-09-23",
+        "action": "EXIT",
+        "previous_action": "WATCH",
+        "trend_score": 10.0,
+        "risk_score": 34.8,
+        "return_6m_pct": -7.78373581794728,
+        "relative_strength_6m_pct": -26.386356052429505,
+        "evaluation_date": "2026-10-20",
+        "stock_return_20d_pct": -2.81,
+        "spy_return_20d_pct": -0.56,
+        "decision_alpha_20d_pct": 2.25,
+        "hit": true
+      }
+    ]
+  },
+  "walk_forward_folds": [
+    {
+      "fold": 1,
+      "start_date": "2022-10-25",
+      "end_date": "2023-04-27",
+      "trading_sessions": 126,
+      "strategy_return_pct": 3.39,
+      "spy_return_pct": 8.04,
+      "excess_return_pct": -4.66,
+      "max_drawdown_pct": 5.38,
+      "out_of_sample": true
+    },
+    {
+      "fold": 2,
+      "start_date": "2023-04-27",
+      "end_date": "2023-10-26",
+      "trading_sessions": 126,
+      "strategy_return_pct": 15.64,
+      "spy_return_pct": 0.76,
+      "excess_return_pct": 14.89,
+      "max_drawdown_pct": 6.09,
+      "out_of_sample": true
+    },
+    {
+      "fold": 3,
+      "start_date": "2023-10-26",
+      "end_date": "2024-04-29",
+      "trading_sessions": 126,
+      "strategy_return_pct": 35.36,
+      "spy_return_pct": 24.52,
+      "excess_return_pct": 10.84,
+      "max_drawdown_pct": 6.93,
+      "out_of_sample": true
+    },
+    {
+      "fold": 4,
+      "start_date": "2024-04-29",
+      "end_date": "2024-10-28",
+      "trading_sessions": 126,
+      "strategy_return_pct": 23.53,
+      "spy_return_pct": 14.59,
+      "excess_return_pct": 8.94,
+      "max_drawdown_pct": 9.14,
+      "out_of_sample": true
+    },
+    {
+      "fold": 5,
+      "start_date": "2024-10-28",
+      "end_date": "2025-05-01",
+      "trading_sessions": 126,
+      "strategy_return_pct": -7.04,
+      "spy_return_pct": -3.24,
+      "excess_return_pct": -3.81,
+      "max_drawdown_pct": 16.85,
+      "out_of_sample": true
+    },
+    {
+      "fold": 6,
+      "start_date": "2025-05-01",
+      "end_date": "2025-10-30",
+      "trading_sessions": 126,
+      "strategy_return_pct": 29.12,
+      "spy_return_pct": 22.43,
+      "excess_return_pct": 6.7,
+      "max_drawdown_pct": 3.47,
+      "out_of_sample": true
+    },
+    {
+      "fold": 7,
+      "start_date": "2025-10-30",
+      "end_date": "2026-05-04",
+      "trading_sessions": 126,
+      "strategy_return_pct": 14.67,
+      "spy_return_pct": 6.22,
+      "excess_return_pct": 8.46,
+      "max_drawdown_pct": 9.31,
+      "out_of_sample": true
+    },
+    {
+      "fold": 8,
+      "start_date": "2026-05-04",
+      "end_date": "2026-10-23",
+      "trading_sessions": 120,
+      "strategy_return_pct": 5.3,
+      "spy_return_pct": 6.38,
+      "excess_return_pct": -1.08,
+      "max_drawdown_pct": 8.64,
+      "out_of_sample": true
+    }
+  ],
+  "rebalance_count": 200,
+  "signal_change_count": 231,
+  "latest_replay_actions": {
+    "AMD": "WATCH",
+    "ANET": "WATCH",
+    "ASML": "WATCH",
+    "BKR": "WATCH",
+    "CCLD": "EXIT",
+    "CTAS": "HOLD",
+    "GOOG": "WATCH",
+    "NVDA": "WATCH",
+    "UNH": "HOLD",
+    "VRT": "EXIT",
+    "NBIS": "WATCH",
+    "OMDA": "WATCH"
+  },
+  "data_coverage": {
+    "AMD": {
+      "available": true,
+      "observations": 1255,
+      "first_date": "2021-10-25",
+      "last_date": "2026-10-23"
+    },
+    "ANET": {
+      "available": true,
+      "observations": 1255,
+      "first_date": "2021-10-25",
+      "last_date": "2026-10-23"
+    },
+    "ASML": {
+      "available": true,
+      "observations": 1255,
+      "first_date": "2021-10-25",
+      "last_date": "2026-10-23"
+    },
+    "BKR": {
+      "available": true,
+      "observations": 1255,
+      "first_date": "2021-10-25",
+      "last_date": "2026-10-23"
+    },
+    "CCLD": {
+      "available": true,
+      "observations": 1255,
+      "first_date": "2021-10-25",
+      "last_date": "2026-10-23"
+    },
+    "CTAS": {
+      "available": true,
+      "observations": 1255,
+      "first_date": "2021-10-25",
+      "last_date": "2026-10-23"
+    },
+    "GOOG": {
+      "available": true,
+      "observations": 1255,
+      "first_date": "2021-10-25",
+      "last_date": "2026-10-23"
+    },
+    "NBIS": {
+      "available": true,
+      "observations": 504,
+      "first_date": "2024-10-21",
+      "last_date": "2026-10-23"
+    },
+    "NVDA": {
+      "available": true,
+      "observations": 1255,
+      "first_date": "2021-10-25",
+      "last_date": "2026-10-23"
+    },
+    "OMDA": {
+      "available": true,
+      "observations": 348,
+      "first_date": "2025-06-06",
+      "last_date": "2026-10-23"
+    },
+    "UNH": {
+      "available": true,
+      "observations": 1255,
+      "first_date": "2021-10-25",
+      "last_date": "2026-10-23"
+    },
+    "VRT": {
+      "available": true,
+      "observations": 1255,
+      "first_date": "2021-10-25",
+      "last_date": "2026-10-23"
+    }
+  },
+  "equity_curve_sample": [
+    {
+      "date": "2022-10-25",
+      "strategy_value": 100000.0,
+      "spy_value": 100000.0
+    },
+    {
+      "date": "2022-11-04",
+      "strategy_value": 99250.36,
+      "spy_value": 97773.56
+    },
+    {
+      "date": "2022-11-16",
+      "strategy_value": 99005.01,
+      "spy_value": 102735.63
+    },
+    {
+      "date": "2022-11-29",
+      "strategy_value": 99093.52,
+      "spy_value": 102678.48
+    },
+    {
+      "date": "2022-12-09",
+      "strategy_value": 99574.74,
+      "spy_value": 102171.87
+    },
+    {
+      "date": "2022-12-21",
+      "strategy_value": 98436.71,
+      "spy_value": 100801.1
+    },
+    {
+      "date": "2023-01-04",
+      "strategy_value": 97084.68,
+      "spy_value": 100156.46
+    },
+    {
+      "date": "2023-01-17",
+      "strategy_value": 99507.8,
+      "spy_value": 103812.87
+    },
+    {
+      "date": "2023-01-27",
+      "strategy_value": 100886.32,
+      "spy_value": 105877.29
+    },
+    {
+      "date": "2023-02-08",
+      "strategy_value": 103349.7,
+      "spy_value": 107174.39
+    },
+    {
+      "date": "2023-02-21",
+      "strategy_value": 100955.81,
+      "spy_value": 104157.37
+    },
+    {
+      "date": "2023-03-03",
+      "strategy_value": 102671.35,
+      "spy_value": 105488.42
+    },
+    {
+      "date": "2023-03-15",
+      "strategy_value": 100089.61,
+      "spy_value": 101597.1
+    },
+    {
+      "date": "2023-03-27",
+      "strategy_value": 102968.35,
+      "spy_value": 103873.74
+    },
+    {
+      "date": "2023-04-06",
+      "strategy_value": 103744.51,
+      "spy_value": 107200.92
+    },
+    {
+      "date": "2023-04-19",
+      "strategy_value": 103305.38,
+      "spy_value": 108497.74
+    },
+    {
+      "date": "2023-05-01",
+      "strategy_value": 104643.28,
+      "spy_value": 108856.66
+    },
+    {
+      "date": "2023-05-11",
+      "strategy_value": 105042.58,
+      "spy_value": 107971.17
+    },
+    {
+      "date": "2023-05-23",
+      "strategy_value": 107684.28,
+      "spy_value": 108484.64
+    },
+    {
+      "date": "2023-06-05",
+      "strategy_value": 115101.96,
+      "spy_value": 111893.05
+    },
+    {
+      "date": "2023-06-15",
+      "strategy_value": 117511.56,
+      "spy_value": 115953.8
+    },
+    {
+      "date": "2023-06-28",
+      "strategy_value": 115331.9,
+      "spy_value": 114751.55
+    },
+    {
+      "date": "2023-07-11",
+      "strategy_value": 116741.0,
+      "spy_value": 116347.69
+    },
+    {
+      "date": "2023-07-21",
+      "strategy_value": 119620.07,
+      "spy_value": 118903.64
+    },
+    {
+      "date": "2023-08-02",
+      "strategy_value": 123275.66,
+      "spy_value": 118364.58
+    },
+    {
+      "date": "2023-08-14",
+      "strategy_value": 123545.9,
+      "spy_value": 117833.39
+    },
+    {
+      "date": "2023-08-24",
+      "strategy_value": 122601.43,
+      "spy_value": 114883.02
+    },
+    {
+      "date": "2023-09-06",
+      "strategy_value": 126508.7,
+      "spy_value": 117336.43
+    },
+    {
+      "date": "2023-09-18",
+      "strategy_value": 124320.45,
+      "spy_value": 117066.83
+    },
+    {
+      "date": "2023-09-28",
+      "strategy_value": 122872.81,
+      "spy_value": 113079.55
+    },
+    {
+      "date": "2023-10-10",
+      "strategy_value": 126528.5,
+      "spy_value": 114668.13
+    },
+    {
+      "date": "2023-10-20",
+      "strategy_value": 122743.95,
+      "spy_value": 111145.28
+    },
+    {
+      "date": "2023-11-01",
+      "strategy_value": 125756.29,
+      "spy_value": 111533.19
+    },
+    {
+      "date": "2023-11-13",
+      "strategy_value": 130591.88,
+      "spy_value": 116159.07
+    },
+    {
+      "date": "2023-11-24",
+      "strategy_value": 132815.28,
+      "spy_value": 120146.36
+    },
+    {
+      "date": "2023-12-06",
+      "strategy_value": 130795.9,
+      "spy_value": 120003.88
+    },
+    {
+      "date": "2023-12-18",
+      "strategy_value": 137082.31,
+      "spy_value": 125050.28
+    },
+    {
+      "date": "2023-12-29",
+      "strategy_value": 139211.64,
+      "spy_value": 125935.21
+    },
+    {
+      "date": "2024-01-11",
+      "strategy_value": 140691.27,
+      "spy_value": 126210.78
+    },
+    {
+      "date": "2024-01-24",
+      "strategy_value": 146970.34,
+      "spy_value": 128605.97
+    },
+    {
+      "date": "2024-02-05",
+      "strategy_value": 150983.58,
+      "spy_value": 130503.01
+    },
+    {
+      "date": "2024-02-15",
+      "strategy_value": 152797.63,
+      "spy_value": 133009.48
+    },
+    {
+      "date": "2024-02-28",
+      "strategy_value": 154341.42,
+      "spy_value": 134135.53
+    },
+    {
+      "date": "2024-03-11",
+      "strategy_value": 157814.98,
+      "spy_value": 135465.59
+    },
+    {
+      "date": "2024-03-21",
+      "strategy_value": 164249.78,
+      "spy_value": 138788.78
+    },
+    {
+      "date": "2024-04-03",
+      "strategy_value": 165175.22,
+      "spy_value": 138047.26
+    },
+    {
+      "date": "2024-04-15",
+      "strategy_value": 158908.43,
+      "spy_value": 134071.25
+    },
+    {
+      "date": "2024-04-25",
+      "strategy_value": 158759.75,
+      "spy_value": 133816.1
+    },
+    {
+      "date": "2024-05-07",
+      "strategy_value": 162873.73,
+      "spy_value": 137443.95
+    },
+    {
+      "date": "2024-05-17",
+      "strategy_value": 184861.9,
+      "spy_value": 140715.67
+    },
+    {
+      "date": "2024-05-30",
+      "strategy_value": 185413.2,
+      "spy_value": 138897.76
+    },
+    {
+      "date": "2024-06-11",
+      "strategy_value": 186463.28,
+      "spy_value": 142709.02
+    },
+    {
+      "date": "2024-06-24",
+      "strategy_value": 185368.1,
+      "spy_value": 144713.22
+    },
+    {
+      "date": "2024-07-05",
+      "strategy_value": 193012.67,
+      "spy_value": 147886.17
+    },
+    {
+      "date": "2024-07-17",
+      "strategy_value": 188475.89,
+      "spy_value": 148499.44
+    },
+    {
+      "date": "2024-07-29",
+      "strategy_value": 187729.59,
+      "spy_value": 145251.85
+    },
+    {
+      "date": "2024-08-08",
+      "strategy_value": 182709.02,
+      "spy_value": 141489.61
+    },
+    {
+      "date": "2024-08-20",
+      "strategy_value": 192243.51,
+      "spy_value": 148968.68
+    },
+    {
+      "date": "2024-08-30",
+      "strategy_value": 193257.94,
+      "spy_value": 150296.52
+    },
+    {
+      "date": "2024-09-12",
+      "strategy_value": 190156.28,
+      "spy_value": 149072.67
+    },
+    {
+      "date": "2024-09-24",
+      "strategy_value": 194650.89,
+      "spy_value": 152795.51
+    },
+    {
+      "date": "2024-10-04",
+      "strategy_value": 198227.79,
+      "spy_value": 153244.83
+    },
+    {
+      "date": "2024-10-16",
+      "strategy_value": 200336.34,
+      "spy_value": 155737.49
+    },
+    {
+      "date": "2024-10-28",
+      "strategy_value": 199917.5,
+      "spy_value": 155344.36
+    },
+    {
+      "date": "2024-11-07",
+      "strategy_value": 210561.49,
+      "spy_value": 159297.3
+    },
+    {
+      "date": "2024-11-19",
+      "strategy_value": 211646.95,
+      "spy_value": 157877.1
+    },
+    {
+      "date": "2024-12-02",
+      "strategy_value": 218051.92,
+      "spy_value": 161442.27
+    },
+    {
+      "date": "2024-12-12",
+      "strategy_value": 212383.5,
+      "spy_value": 161629.47
+    },
+    {
+      "date": "2024-12-24",
+      "strategy_value": 213299.23,
+      "spy_value": 161360.35
+    },
+    {
+      "date": "2025-01-07",
+      "strategy_value": 214123.39,
+      "spy_value": 157960.31
+    },
+    {
+      "date": "2025-01-21",
+      "strategy_value": 219346.14,
+      "spy_value": 161829.96
+    },
+    {
+      "date": "2025-01-31",
+      "strategy_value": 215609.65,
+      "spy_value": 161499.89
+    },
+    {
+      "date": "2025-02-12",
+      "strategy_value": 217576.76,
+      "spy_value": 161913.15
+    },
+    {
+      "date": "2025-02-25",
+      "strategy_value": 204003.37,
+      "spy_value": 159465.79
+    },
+    {
+      "date": "2025-03-07",
+      "strategy_value": 192216.55,
+      "spy_value": 154549.55
+    },
+    {
+      "date": "2025-03-19",
+      "strategy_value": 192989.39,
+      "spy_value": 152190.74
+    },
+    {
+      "date": "2025-03-31",
+      "strategy_value": 191807.05,
+      "spy_value": 150565.28
+    },
+    {
+      "date": "2025-04-10",
+      "strategy_value": 190096.72,
+      "spy_value": 141195.82
+    },
+    {
+      "date": "2025-04-23",
+      "strategy_value": 185598.95,
+      "spy_value": 144113.5
+    },
+    {
+      "date": "2025-05-05",
+      "strategy_value": 186036.78,
+      "spy_value": 151674.21
+    },
+    {
+      "date": "2025-05-15",
+      "strategy_value": 187586.54,
+      "spy_value": 158928.06
+    },
+    {
+      "date": "2025-05-28",
+      "strategy_value": 187844.65,
+      "spy_value": 158193.26
+    },
+    {
+      "date": "2025-06-09",
+      "strategy_value": 189586.07,
+      "spy_value": 161409.7
+    },
+    {
+      "date": "2025-06-20",
+      "strategy_value": 189122.08,
+      "spy_value": 160429.12
+    },
+    {
+      "date": "2025-07-02",
+      "strategy_value": 192532.45,
+      "spy_value": 167493.87
+    },
+    {
+      "date": "2025-07-15",
+      "strategy_value": 197253.92,
+      "spy_value": 167950.09
+    },
+    {
+      "date": "2025-07-25",
+      "strategy_value": 202556.14,
+      "spy_value": 171988.62
+    },
+    {
+      "date": "2025-08-06",
+      "strategy_value": 205160.66,
+      "spy_value": 170822.42
+    },
+    {
+      "date": "2025-08-18",
+      "strategy_value": 205654.78,
+      "spy_value": 173662.33
+    },
+    {
+      "date": "2025-08-28",
+      "strategy_value": 211969.19,
+      "spy_value": 175179.49
+    },
+    {
+      "date": "2025-09-10",
+      "strategy_value": 214963.64,
+      "spy_value": 176067.67
+    },
+    {
+      "date": "2025-09-22",
+      "strategy_value": 222144.04,
+      "spy_value": 180516.2
+    },
+    {
+      "date": "2025-10-02",
+      "strategy_value": 224208.09,
+      "spy_value": 181160.43
+    },
+    {
+      "date": "2025-10-14",
+      "strategy_value": 225425.53,
+      "spy_value": 179268.22
+    },
+    {
+      "date": "2025-10-24",
+      "strategy_value": 234982.54,
+      "spy_value": 183334.21
+    },
+    {
+      "date": "2025-11-05",
+      "strategy_value": 235133.33,
+      "spy_value": 183423.54
+    },
+    {
+      "date": "2025-11-17",
+      "strategy_value": 225158.53,
+      "spy_value": 180199.47
+    },
+    {
+      "date": "2025-11-28",
+      "strategy_value": 229666.41,
+      "spy_value": 184996.33
+    },
+    {
+      "date": "2025-12-10",
+      "strategy_value": 231942.34,
+      "spy_value": 186127.89
+    },
+    {
+      "date": "2025-12-22",
+      "strategy_value": 227135.23,
+      "spy_value": 185933.94
+    },
+    {
+      "date": "2026-01-05",
+      "strategy_value": 233055.79,
+      "spy_value": 186718.59
+    },
+    {
+      "date": "2026-01-15",
+      "strategy_value": 237978.39,
+      "spy_value": 187945.8
+    },
+    {
+      "date": "2026-01-28",
+      "strategy_value": 245449.6,
+      "spy_value": 188809.16
+    },
+    {
+      "date": "2026-02-09",
+      "strategy_value": 237642.75,
+      "spy_value": 188410.07
+    },
+    {
+      "date": "2026-02-20",
+      "strategy_value": 242359.25,
+      "spy_value": 187182.86
+    },
+    {
+      "date": "2026-03-04",
+      "strategy_value": 240478.75,
+      "spy_value": 186015.39
+    },
+    {
+      "date": "2026-03-16",
+      "strategy_value": 242634.99,
+      "spy_value": 181644.2
+    },
+    {
+      "date": "2026-03-26",
+      "strategy_value": 235811.94,
+      "spy_value": 175622.73
+    },
+    {
+      "date": "2026-04-08",
+      "strategy_value": 244367.55,
+      "spy_value": 184040.53
+    },
+    {
+      "date": "2026-04-20",
+      "strategy_value": 260846.9,
+      "spy_value": 192945.65
+    },
+    {
+      "date": "2026-04-30",
+      "strategy_value": 272568.9,
+      "spy_value": 195651.79
+    },
+    {
+      "date": "2026-05-12",
+      "strategy_value": 284063.58,
+      "spy_value": 200966.02
+    },
+    {
+      "date": "2026-05-22",
+      "strategy_value": 289038.71,
+      "spy_value": 202996.98
+    },
+    {
+      "date": "2026-06-04",
+      "strategy_value": 299541.94,
+      "spy_value": 206114.18
+    },
+    {
+      "date": "2026-06-16",
+      "strategy_value": 295660.51,
+      "spy_value": 204273.81
+    },
+    {
+      "date": "2026-06-29",
+      "strategy_value": 298621.41,
+      "spy_value": 202253.46
+    },
+    {
+      "date": "2026-07-10",
+      "strategy_value": 303773.32,
+      "spy_value": 206061.07
+    },
+    {
+      "date": "2026-07-22",
+      "strategy_value": 301593.26,
+      "spy_value": 204003.04
+    },
+    {
+      "date": "2026-08-03",
+      "strategy_value": 297874.37,
+      "spy_value": 206803.49
+    },
+    {
+      "date": "2026-08-13",
+      "strategy_value": 312025.02,
+      "spy_value": 212319.75
+    },
+    {
+      "date": "2026-08-25",
+      "strategy_value": 301674.19,
+      "spy_value": 209052.55
+    },
+    {
+      "date": "2026-09-04",
+      "strategy_value": 303068.21,
+      "spy_value": 210220.78
+    },
+    {
+      "date": "2026-09-17",
+      "strategy_value": 295450.0,
+      "spy_value": 208149.11
+    },
+    {
+      "date": "2026-09-29",
+      "strategy_value": 302327.48,
+      "spy_value": 209103.79
+    },
+    {
+      "date": "2026-10-09",
+      "strategy_value": 306189.46,
+      "spy_value": 213035.77
+    },
+    {
+      "date": "2026-10-21",
+      "strategy_value": 296587.13,
+      "spy_value": 211536.32
+    },
+    {
+      "date": "2026-10-23",
+      "strategy_value": 289740.8,
+      "spy_value": 207946.35
+    }
+  ],
+  "limitations": [
+    "Historical news, catalyst and sector snapshots were not archived consistently and are intentionally excluded.",
+    "The universe is today's portfolio, creating survivorship and selection bias.",
+    "This validates the reconstructable strategic price/risk overlay, not the entire live AURORA decision stack.",
+    "Taxes are excluded. Trading friction is modeled using the explicit commission and slippage assumptions above.",
+    "No parameter optimization is performed inside the test window; sequential folds are fixed-rule out-of-sample replay."
+  ],
+  "interpretation": "Use this result as evidence about the V7.9 strategic price/risk layer. Do not use it as proof that the full AURORA system is profitable until point-in-time fundamental/news data and broker execution are also validated."
+}
