@@ -1,0 +1,252 @@
+{
+  "engine": "V7.8 Recommendation Performance Journal",
+  "generated": "2026-10-25T07:37:52.630965+00:00",
+  "total_signals": 107,
+  "bootstrap_signals_added": 97,
+  "new_signals_added": 10,
+  "oldest_signal_date": "2026-10-23",
+  "newest_signal_date": "2026-10-25",
+  "model_versions": [
+    "V6.7",
+    "V6.8",
+    "V6.9",
+    "V7.0",
+    "V7.1",
+    "V7.2",
+    "V7.3",
+    "V7.4",
+    "V7.5",
+    "V7.6",
+    "V7.7",
+    "V7.8"
+  ],
+  "horizons": {
+    "5d": {
+      "evaluated": 0,
+      "pending": 107,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "20d": {
+      "evaluated": 0,
+      "pending": 107,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "60d": {
+      "evaluated": 0,
+      "pending": 107,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    }
+  },
+  "by_action_20d": {
+    "BUY": {
+      "evaluated": 0,
+      "pending": 15,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "REDUCE": {
+      "evaluated": 0,
+      "pending": 50,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "ADD": {
+      "evaluated": 0,
+      "pending": 10,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "ACCUMULATE": {
+      "evaluated": 0,
+      "pending": 12,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "EXIT": {
+      "evaluated": 0,
+      "pending": 20,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    }
+  },
+  "by_model_version_20d": {
+    "V7.4": {
+      "evaluated": 0,
+      "pending": 10,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "V7.5": {
+      "evaluated": 0,
+      "pending": 11,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "V7.6": {
+      "evaluated": 0,
+      "pending": 10,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "V7.7": {
+      "evaluated": 0,
+      "pending": 10,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "V7.8": {
+      "evaluated": 0,
+      "pending": 10,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "V6.7": {
+      "evaluated": 0,
+      "pending": 4,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "V6.8": {
+      "evaluated": 0,
+      "pending": 2,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "V6.9": {
+      "evaluated": 0,
+      "pending": 10,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "V7.0": {
+      "evaluated": 0,
+      "pending": 10,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "V7.1": {
+      "evaluated": 0,
+      "pending": 10,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "V7.2": {
+      "evaluated": 0,
+      "pending": 10,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "V7.3": {
+      "evaluated": 0,
+      "pending": 10,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    }
+  },
+  "methodology": {
+    "long_actions": [
+      "ADD",
+      "BUY",
+      "ACCUMULATE"
+    ],
+    "defensive_actions": [
+      "REDUCE",
+      "EXIT"
+    ],
+    "benchmark": "SPY",
+    "horizons_trading_sessions": {
+      "5d": 5,
+      "20d": 20,
+      "60d": 60
+    },
+    "benchmark_hit_definition": "LONG: stock outperforms SPY. DEFENSIVE: stock underperforms SPY.",
+    "excludes": [
+      "transaction costs",
+      "slippage",
+      "taxes"
+    ]
+  }
+}

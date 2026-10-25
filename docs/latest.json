@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-25T07:19:57.665287",
-  "scanner_version": "V7.7",
+  "generated": "2026-10-25T07:37:51.328967",
+  "scanner_version": "V7.8",
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-10-25T07:19:37.113008",
+      "timestamp": "2026-10-25T07:37:32.318589",
       "holding": {
         "shares": "10",
         "avg_cost": "140.16",
@@ -14,7 +14,7 @@
       },
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-25T07:19:36.462762",
+        "timestamp": "2026-10-25T07:37:31.700400",
         "last_price": 516.87,
         "vwap": 532.04,
         "momentum": -34.9,
@@ -139,7 +139,7 @@
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-10-25T07:19:37.706700",
+      "timestamp": "2026-10-25T07:37:32.815020",
       "holding": {
         "shares": "35",
         "avg_cost": "147.95",
@@ -149,7 +149,7 @@
       },
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-25T07:19:37.229053",
+        "timestamp": "2026-10-25T07:37:32.433934",
         "last_price": 172.34,
         "vwap": 178.27,
         "momentum": -8.57,
@@ -274,7 +274,7 @@
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-10-25T07:19:38.175122",
+      "timestamp": "2026-10-25T07:37:33.307774",
       "holding": {
         "shares": "3",
         "avg_cost": "676.38",
@@ -284,7 +284,7 @@
       },
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-25T07:19:37.841450",
+        "timestamp": "2026-10-25T07:37:32.970630",
         "last_price": 1571.19,
         "vwap": 1622.44,
         "momentum": -89.9,
@@ -401,7 +401,7 @@
     },
     {
       "ticker": "BKR",
-      "timestamp": "2026-10-25T07:19:38.802593",
+      "timestamp": "2026-10-25T07:37:33.831323",
       "holding": {
         "shares": "13",
         "avg_cost": "57.80",
@@ -411,7 +411,7 @@
       },
       "market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-25T07:19:38.315112",
+        "timestamp": "2026-10-25T07:37:33.443732",
         "last_price": 55.86,
         "vwap": 54.98,
         "momentum": 0.22,
@@ -550,7 +550,7 @@
     },
     {
       "ticker": "CCLD",
-      "timestamp": "2026-10-25T07:19:39.471857",
+      "timestamp": "2026-10-25T07:37:34.325284",
       "holding": {
         "shares": "490",
         "avg_cost": "2.04",
@@ -560,7 +560,7 @@
       },
       "market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-25T07:19:38.914450",
+        "timestamp": "2026-10-25T07:37:33.956852",
         "last_price": 1.76,
         "vwap": 1.78,
         "momentum": -0.07,
@@ -676,7 +676,7 @@
     },
     {
       "ticker": "CTAS",
-      "timestamp": "2026-10-25T07:19:40.245467",
+      "timestamp": "2026-10-25T07:37:34.862121",
       "holding": {
         "shares": "4",
         "avg_cost": "196.26",
@@ -686,7 +686,7 @@
       },
       "market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-25T07:19:39.605038",
+        "timestamp": "2026-10-25T07:37:34.467845",
         "last_price": 224.13,
         "vwap": 219.88,
         "momentum": 12.31,
@@ -805,7 +805,7 @@
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-10-25T07:19:40.726129",
+      "timestamp": "2026-10-25T07:37:35.346635",
       "holding": {
         "shares": "20",
         "avg_cost": "207.68",
@@ -815,7 +815,7 @@
       },
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-25T07:19:40.366592",
+        "timestamp": "2026-10-25T07:37:34.984535",
         "last_price": 317.24,
         "vwap": 328.95,
         "momentum": -22.36,
@@ -940,7 +940,7 @@
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-10-25T07:19:41.187187",
+      "timestamp": "2026-10-25T07:37:35.724810",
       "holding": {
         "shares": "44",
         "avg_cost": "171.81",
@@ -950,7 +950,7 @@
       },
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-25T07:19:40.839784",
+        "timestamp": "2026-10-25T07:37:35.463899",
         "last_price": 158.74,
         "vwap": 166.34,
         "momentum": -12.81,
@@ -1075,7 +1075,7 @@
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-10-25T07:19:41.641063",
+      "timestamp": "2026-10-25T07:37:36.102846",
       "holding": {
         "shares": "24",
         "avg_cost": "160.96",
@@ -1085,7 +1085,7 @@
       },
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-25T07:19:41.315859",
+        "timestamp": "2026-10-25T07:37:35.862258",
         "last_price": 211.0,
         "vwap": 216.27,
         "momentum": -4.51,
@@ -1099,29 +1099,35 @@
       "signal": "BEARISH",
       "scores": {
         "market_score": 38.2,
-        "news_score": 58,
-        "catalyst_score": 56,
+        "news_score": 66,
+        "catalyst_score": 62,
         "sector_score": 0,
         "risk_score": 81.9,
-        "alpha_score": 47.84
+        "alpha_score": 49.34
       },
       "news": {
         "ticker": "NVDA",
-        "news_score": 58,
+        "news_score": 66,
         "events": [
-          "ai"
+          "ai",
+          "artificial intelligence"
         ],
         "article_count": 10,
         "data_quality": "LIVE"
       },
       "catalyst": {
         "ticker": "NVDA",
-        "catalyst_score": 56,
+        "catalyst_score": 62,
         "catalyst_signal": "NEUTRAL",
         "catalysts": [
           {
             "type": "POSITIVE",
             "catalyst": "ai",
+            "impact": 6
+          },
+          {
+            "type": "POSITIVE",
+            "catalyst": "artificial intelligence",
             "impact": 6
           }
         ],
@@ -1165,7 +1171,7 @@
       "entry_action": "AVOID",
       "entry_decision": {
         "action": "AVOID",
-        "confidence": 52.2,
+        "confidence": 53.9,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -1196,9 +1202,9 @@
           "Technical confirmation is insufficient"
         ],
         "inputs": {
-          "alpha_score": 47.84,
+          "alpha_score": 49.34,
           "market_score": 38.2,
-          "catalyst_score": 56,
+          "catalyst_score": 62,
           "sector_score": 0,
           "risk_score": 81.9,
           "signal": "BEARISH"
@@ -1209,7 +1215,7 @@
     },
     {
       "ticker": "OMDA",
-      "timestamp": "2026-10-25T07:19:42.284290",
+      "timestamp": "2026-10-25T07:37:36.538420",
       "holding": {
         "shares": "10",
         "avg_cost": "20.45",
@@ -1219,7 +1225,7 @@
       },
       "market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-25T07:19:41.757688",
+        "timestamp": "2026-10-25T07:37:36.217538",
         "last_price": 18.95,
         "vwap": 19.09,
         "momentum": 1.01,
@@ -1337,7 +1343,7 @@
     },
     {
       "ticker": "UNH",
-      "timestamp": "2026-10-25T07:19:42.771851",
+      "timestamp": "2026-10-25T07:37:37.025469",
       "holding": {
         "shares": "2",
         "avg_cost": "369.93",
@@ -1347,7 +1353,7 @@
       },
       "market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-25T07:19:42.421099",
+        "timestamp": "2026-10-25T07:37:36.692001",
         "last_price": 418.01,
         "vwap": 417.33,
         "momentum": 13.92,
@@ -1465,7 +1471,7 @@
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-10-25T07:19:43.298870",
+      "timestamp": "2026-10-25T07:37:37.415520",
       "holding": {
         "shares": "11",
         "avg_cost": "316.20",
@@ -1475,7 +1481,7 @@
       },
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-25T07:19:42.901911",
+        "timestamp": "2026-10-25T07:37:37.144654",
         "last_price": 194.31,
         "vwap": 202.31,
         "momentum": -15.58,
@@ -2183,7 +2189,7 @@
         },
         "market": {
           "ticker": "ADBE",
-          "timestamp": "2026-10-25T07:19:48.377617",
+          "timestamp": "2026-10-25T07:37:42.249204",
           "last_price": 263.83,
           "vwap": 259.75,
           "momentum": 19.01,
@@ -2328,7 +2334,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-25T07:19:46.876623",
+          "timestamp": "2026-10-25T07:37:40.989648",
           "last_price": 150.81,
           "vwap": 147.0,
           "momentum": 4.55,
@@ -2469,7 +2475,7 @@
         },
         "market": {
           "ticker": "NOW",
-          "timestamp": "2026-10-25T07:19:45.709849",
+          "timestamp": "2026-10-25T07:37:39.942768",
           "last_price": 158.99,
           "vwap": 152.64,
           "momentum": 16.73,
@@ -2589,7 +2595,7 @@
         },
         "market": {
           "ticker": "CVX",
-          "timestamp": "2026-10-25T07:19:47.661752",
+          "timestamp": "2026-10-25T07:37:41.640842",
           "last_price": 233.2,
           "vwap": 226.84,
           "momentum": 8.38,
@@ -2709,7 +2715,7 @@
         },
         "market": {
           "ticker": "ISRG",
-          "timestamp": "2026-10-25T07:19:47.190357",
+          "timestamp": "2026-10-25T07:37:41.294905",
           "last_price": 452.29,
           "vwap": 436.53,
           "momentum": 25.56,
@@ -2829,7 +2835,7 @@
         },
         "market": {
           "ticker": "XOM",
-          "timestamp": "2026-10-25T07:19:48.079907",
+          "timestamp": "2026-10-25T07:37:41.963940",
           "last_price": 183.21,
           "vwap": 178.61,
           "momentum": 4.2,
@@ -2949,7 +2955,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-25T07:19:46.334042",
+          "timestamp": "2026-10-25T07:37:40.494541",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
@@ -3093,7 +3099,7 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-10-25T07:19:48.740141",
+          "timestamp": "2026-10-25T07:37:42.545941",
           "last_price": 407.94,
           "vwap": 408.1,
           "momentum": 6.03,
@@ -3223,7 +3229,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-25T07:19:46.334042",
+          "timestamp": "2026-10-25T07:37:40.494541",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
@@ -3369,7 +3375,7 @@
         },
         "market": {
           "ticker": "ADBE",
-          "timestamp": "2026-10-25T07:19:48.377617",
+          "timestamp": "2026-10-25T07:37:42.249204",
           "last_price": 263.83,
           "vwap": 259.75,
           "momentum": 19.01,
@@ -3514,7 +3520,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-25T07:19:46.876623",
+          "timestamp": "2026-10-25T07:37:40.989648",
           "last_price": 150.81,
           "vwap": 147.0,
           "momentum": 4.55,
@@ -3653,7 +3659,7 @@
         },
         "market": {
           "ticker": "NOW",
-          "timestamp": "2026-10-25T07:19:45.709849",
+          "timestamp": "2026-10-25T07:37:39.942768",
           "last_price": 158.99,
           "vwap": 152.64,
           "momentum": 16.73,
@@ -3773,7 +3779,7 @@
         },
         "market": {
           "ticker": "CVX",
-          "timestamp": "2026-10-25T07:19:47.661752",
+          "timestamp": "2026-10-25T07:37:41.640842",
           "last_price": 233.2,
           "vwap": 226.84,
           "momentum": 8.38,
@@ -3893,7 +3899,7 @@
         },
         "market": {
           "ticker": "ISRG",
-          "timestamp": "2026-10-25T07:19:47.190357",
+          "timestamp": "2026-10-25T07:37:41.294905",
           "last_price": 452.29,
           "vwap": 436.53,
           "momentum": 25.56,
@@ -4013,7 +4019,7 @@
         },
         "market": {
           "ticker": "XOM",
-          "timestamp": "2026-10-25T07:19:48.079907",
+          "timestamp": "2026-10-25T07:37:41.963940",
           "last_price": 183.21,
           "vwap": 178.61,
           "momentum": 4.2,
@@ -4133,7 +4139,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-25T07:19:46.334042",
+          "timestamp": "2026-10-25T07:37:40.494541",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
@@ -4277,7 +4283,7 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-10-25T07:19:48.740141",
+          "timestamp": "2026-10-25T07:37:42.545941",
           "last_price": 407.94,
           "vwap": 408.1,
           "momentum": 6.03,
@@ -4394,7 +4400,7 @@
   },
   "market_regime": {
     "engine": "V7.4 Market Regime Engine",
-    "timestamp": "2026-10-25T07:19:49.736928+00:00",
+    "timestamp": "2026-10-25T07:37:43.413673+00:00",
     "market_date": "2026-10-23",
     "regime": "NORMAL",
     "regime_score": 45.0,
@@ -4484,7 +4490,7 @@
   },
   "event_risk": {
     "engine": "V7.5 Earnings & Event Risk Engine",
-    "generated": "2026-10-25T07:19:56.275762+00:00",
+    "generated": "2026-10-25T07:37:50.015114+00:00",
     "reference_date": "2026-10-25",
     "macro_event_risk": {
       "reference_date": "2026-10-25",
@@ -5459,7 +5465,7 @@
   },
   "correlation_allocation_gate": {
     "engine": "V7.7 Correlation-Aware Capital Allocation Gate",
-    "timestamp": "2026-10-25T07:19:57.615348+00:00",
+    "timestamp": "2026-10-25T07:37:51.279051+00:00",
     "existing_position_count": 10,
     "actionable_candidate_count": 2,
     "portfolio_factor_profile": {
@@ -5966,7 +5972,7 @@
   },
   "portfolio_correlation_factor_risk": {
     "engine": "V7.6 Portfolio Correlation & Factor Risk Engine",
-    "timestamp": "2026-10-25T07:19:57.665135+00:00",
+    "timestamp": "2026-10-25T07:37:51.328867+00:00",
     "position_count": 12,
     "data_coverage": {
       "positions_with_market_history": 12,
@@ -6188,5 +6194,257 @@
     "hidden_risk_level": "MODERATE",
     "recommendation": "MONITOR",
     "note": "This layer measures hidden diversification risk using historical co-movement and factor proxies. It is diagnostic only and does not automatically liquidate or resize positions."
+  },
+  "recommendation_performance": {
+    "engine": "V7.8 Recommendation Performance Journal",
+    "generated": "2026-10-25T07:37:52.630965+00:00",
+    "total_signals": 107,
+    "bootstrap_signals_added": 97,
+    "new_signals_added": 10,
+    "oldest_signal_date": "2026-10-23",
+    "newest_signal_date": "2026-10-25",
+    "model_versions": [
+      "V6.7",
+      "V6.8",
+      "V6.9",
+      "V7.0",
+      "V7.1",
+      "V7.2",
+      "V7.3",
+      "V7.4",
+      "V7.5",
+      "V7.6",
+      "V7.7",
+      "V7.8"
+    ],
+    "horizons": {
+      "5d": {
+        "evaluated": 0,
+        "pending": 107,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "20d": {
+        "evaluated": 0,
+        "pending": 107,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "60d": {
+        "evaluated": 0,
+        "pending": 107,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      }
+    },
+    "by_action_20d": {
+      "BUY": {
+        "evaluated": 0,
+        "pending": 15,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "REDUCE": {
+        "evaluated": 0,
+        "pending": 50,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "ADD": {
+        "evaluated": 0,
+        "pending": 10,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "ACCUMULATE": {
+        "evaluated": 0,
+        "pending": 12,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "EXIT": {
+        "evaluated": 0,
+        "pending": 20,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      }
+    },
+    "by_model_version_20d": {
+      "V7.4": {
+        "evaluated": 0,
+        "pending": 10,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "V7.5": {
+        "evaluated": 0,
+        "pending": 11,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "V7.6": {
+        "evaluated": 0,
+        "pending": 10,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "V7.7": {
+        "evaluated": 0,
+        "pending": 10,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "V7.8": {
+        "evaluated": 0,
+        "pending": 10,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "V6.7": {
+        "evaluated": 0,
+        "pending": 4,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "V6.8": {
+        "evaluated": 0,
+        "pending": 2,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "V6.9": {
+        "evaluated": 0,
+        "pending": 10,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "V7.0": {
+        "evaluated": 0,
+        "pending": 10,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "V7.1": {
+        "evaluated": 0,
+        "pending": 10,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "V7.2": {
+        "evaluated": 0,
+        "pending": 10,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "V7.3": {
+        "evaluated": 0,
+        "pending": 10,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      }
+    },
+    "methodology": {
+      "long_actions": [
+        "ADD",
+        "BUY",
+        "ACCUMULATE"
+      ],
+      "defensive_actions": [
+        "REDUCE",
+        "EXIT"
+      ],
+      "benchmark": "SPY",
+      "horizons_trading_sessions": {
+        "5d": 5,
+        "20d": 20,
+        "60d": 60
+      },
+      "benchmark_hit_definition": "LONG: stock outperforms SPY. DEFENSIVE: stock underperforms SPY.",
+      "excludes": [
+        "transaction costs",
+        "slippage",
+        "taxes"
+      ]
+    }
   }
 }
