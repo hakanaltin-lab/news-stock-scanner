@@ -2,6 +2,16 @@ name: Auto News Stock Scanner
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "main.py"
+      - "engines/**"
+      - "data/portfolio.csv"
+      - "data/us_universe.json"
+      - "requirements.txt"
+      - ".github/workflows/auto_scanner.yml"
   schedule:
     - cron: "7,37 6-21 * * 1-5"
 
