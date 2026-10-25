@@ -1,5 +1,5 @@
 """
-V7.4 Global Market Intelligence Scanner
+V7.5 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -35,7 +35,9 @@ Opportunity Safety Gate
         |
 Market Regime Engine
         |
-Regime-Aware Capital Allocation Engine
+Earnings & Event Risk Engine
+        |
+Regime + Event-Aware Capital Allocation Engine
         |
 Final Portfolio Projection Engine
         |
@@ -115,6 +117,11 @@ from engines.opportunity_deep_analysis_engine import (
 
 from engines.market_regime_engine import (
     analyze_market_regime
+)
+
+
+from engines.event_risk_engine import (
+    build_event_risk_summary
 )
 
 
@@ -515,20 +522,33 @@ def run_scanner():
 
 
     # =====================================================
-    # 6. V7.4 REGIME-AWARE CAPITAL ALLOCATION
+    # 6. V7.5 EARNINGS & EVENT RISK
+    # =====================================================
+
+    event_risk = (
+        build_event_risk_summary(
+            results,
+            opportunity_analysis
+        )
+    )
+
+
+    # =====================================================
+    # 7. V7.5 REGIME + EVENT-AWARE CAPITAL ALLOCATION
     # =====================================================
 
     capital_allocation = (
         build_capital_allocation_plan(
             portfolio_rebalancing,
             opportunity_analysis,
-            market_regime_result=market_regime
+            market_regime_result=market_regime,
+            event_risk_result=event_risk
         )
     )
 
 
     # =====================================================
-    # 7. V7.3 FINAL PORTFOLIO PROJECTION
+    # 8. V7.3 FINAL PORTFOLIO PROJECTION
     # =====================================================
 
     final_portfolio_projection = (
@@ -541,7 +561,7 @@ def run_scanner():
 
 
     # =====================================================
-    # 8. FINAL OUTPUT
+    # 9. FINAL OUTPUT
     # =====================================================
 
     output = {
@@ -550,7 +570,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V7.4",
+        "V7.5",
 
         "portfolio":
         results,
@@ -566,6 +586,9 @@ def run_scanner():
 
         "market_regime":
         market_regime,
+
+        "event_risk":
+        event_risk,
 
         "capital_allocation":
         capital_allocation,
@@ -595,7 +618,7 @@ def run_scanner():
 
 
     print(
-        "V7.4 Scanner completed successfully"
+        "V7.5 Scanner completed successfully"
     )
 
 
