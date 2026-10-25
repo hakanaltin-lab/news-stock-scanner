@@ -192,6 +192,11 @@ from engines.historical_evidence_recovery_engine import (
 )
 
 
+from engines.pit_universe_validation_engine import (
+    run_pit_universe_validation
+)
+
+
 from engines.fundamental_thesis_engine import (
     analyze_fundamental_thesis,
     review_price_action_with_thesis
@@ -937,6 +942,30 @@ def run_scanner():
 
 
     # =====================================================
+    # 16. V8.6 POINT-IN-TIME NEUTRAL UNIVERSE VALIDATION
+    # =====================================================
+
+    try:
+        pit_universe_validation = (
+            run_pit_universe_validation()
+        )
+
+    except Exception as error:
+        pit_universe_validation = {
+            "engine":
+            "V8.6 Point-in-Time Neutral Universe Validation",
+
+            "status":
+            "ERROR",
+
+            "error":
+            str(
+                error
+            )
+        }
+
+
+    # =====================================================
     # 15. BASE OUTPUT
     # =====================================================
 
@@ -946,7 +975,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V8.5.2",
+        "V8.6",
 
         "decision_architecture": {
             "portfolio_horizon":
@@ -1009,6 +1038,9 @@ def run_scanner():
 
         "historical_evidence_recovery":
         historical_evidence_recovery,
+
+        "pit_universe_validation":
+        pit_universe_validation,
 
         "thesis_exit_shadow":
         thesis_exit_shadow,
@@ -1220,7 +1252,7 @@ def run_scanner():
 
 
     print(
-        "V8.5.2 Scanner completed successfully"
+        "V8.6 Scanner completed successfully"
     )
 
 
