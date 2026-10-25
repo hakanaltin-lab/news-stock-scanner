@@ -1,9 +1,11 @@
 {
+  "signature": "V8.5.1",
   "date": "2026-10-25",
   "snapshots": {
     "AMD": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:55:03.561427+00:00",
+      "fundamental_signature": "V8.5.1",
+      "timestamp": "2026-10-25T08:56:38.418207+00:00",
       "ticker": "AMD",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -57,7 +59,8 @@
     },
     "ANET": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:55:04.392091+00:00",
+      "fundamental_signature": "V8.5.1",
+      "timestamp": "2026-10-25T08:56:39.063822+00:00",
       "ticker": "ANET",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -91,7 +94,7 @@
         "current_ratio": 2.957
       },
       "valuation": {
-        "forward_pe": 33.040947,
+        "forward_pe": 33.006023,
         "peg_ratio": 1.29
       },
       "analyst_revision_context": {
@@ -111,7 +114,8 @@
     },
     "ASML": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:55:05.060204+00:00",
+      "fundamental_signature": "V8.5.1",
+      "timestamp": "2026-10-25T08:56:39.627514+00:00",
       "ticker": "ASML",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -165,7 +169,8 @@
     },
     "BKR": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:55:05.924415+00:00",
+      "fundamental_signature": "V8.5.1",
+      "timestamp": "2026-10-25T08:56:40.454556+00:00",
       "ticker": "BKR",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -221,7 +226,8 @@
     },
     "CCLD": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:55:06.622347+00:00",
+      "fundamental_signature": "V8.5.1",
+      "timestamp": "2026-10-25T08:56:41.286975+00:00",
       "ticker": "CCLD",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -277,7 +283,8 @@
     },
     "CTAS": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:55:07.358386+00:00",
+      "fundamental_signature": "V8.5.1",
+      "timestamp": "2026-10-25T08:56:41.973908+00:00",
       "ticker": "CTAS",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -316,7 +323,7 @@
       },
       "analyst_revision_context": {
         "target_mean_price": 218.3125,
-        "analyst_upside_pct": -2.58,
+        "analyst_upside_pct": -2.6,
         "recommendation_mean": 2.2,
         "analyst_count": 16.0,
         "eps_revisions": {
@@ -331,7 +338,8 @@
     },
     "GOOG": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:55:08.008789+00:00",
+      "fundamental_signature": "V8.5.1",
+      "timestamp": "2026-10-25T08:56:42.762726+00:00",
       "ticker": "GOOG",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -385,14 +393,15 @@
     },
     "NBIS": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:55:08.537489+00:00",
+      "fundamental_signature": "V8.5.1",
+      "timestamp": "2026-10-25T08:56:43.288760+00:00",
       "ticker": "NBIS",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
       "point_in_time_historical": false,
       "data_quality": "GOOD",
       "coverage_ratio": 1.0,
-      "thesis_score": 54.7,
+      "thesis_score": 52.3,
       "thesis_health": "MIXED",
       "hard_break_count": 0,
       "hard_breaks": [],
@@ -401,7 +410,7 @@
         "profitability": 41.6,
         "cash_flow": 31.7,
         "balance_sheet": 73.5,
-        "valuation": 58.3,
+        "valuation": 35.0,
         "revisions": 79.2
       },
       "fundamentals": {
@@ -412,7 +421,7 @@
         "return_on_equity_pct": 0.6,
         "free_cash_flow": -9614650368.0,
         "operating_cash_flow": 5257999872.0,
-        "fcf_yield_pct": -23.86,
+        "fcf_yield_pct": -22.28,
         "total_cash": 8042100224.0,
         "total_debt": 10195300352.0,
         "debt_to_equity": 98.596,
@@ -439,7 +448,8 @@
     },
     "NVDA": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:55:09.252740+00:00",
+      "fundamental_signature": "V8.5.1",
+      "timestamp": "2026-10-25T08:56:43.886456+00:00",
       "ticker": "NVDA",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -493,7 +503,8 @@
     },
     "OMDA": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:55:09.771640+00:00",
+      "fundamental_signature": "V8.5.1",
+      "timestamp": "2026-10-25T08:56:44.372544+00:00",
       "ticker": "OMDA",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -547,7 +558,8 @@
     },
     "UNH": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:55:10.334378+00:00",
+      "fundamental_signature": "V8.5.1",
+      "timestamp": "2026-10-25T08:56:44.908530+00:00",
       "ticker": "UNH",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -601,7 +613,8 @@
     },
     "VRT": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:55:10.864880+00:00",
+      "fundamental_signature": "V8.5.1",
+      "timestamp": "2026-10-25T08:56:45.487182+00:00",
       "ticker": "VRT",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
