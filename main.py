@@ -177,6 +177,11 @@ from engines.shadow_policy_monitor_engine import (
 )
 
 
+from engines.regime_failure_attribution_engine import (
+    run_regime_failure_attribution
+)
+
+
 from engines.ibkr_gateway_connector import (
     get_ibkr_read_only_snapshot
 )
@@ -857,7 +862,41 @@ def run_scanner():
 
 
     # =====================================================
-    # 13. V8.2 SHADOW POLICY MONITOR
+    # 13. V8.4.6 REGIME FAILURE ATTRIBUTION
+    # =====================================================
+
+    try:
+        regime_failure_attribution = (
+            run_regime_failure_attribution(
+                portfolio,
+                walk_forward_backtest,
+                strategic_policy_calibration
+            )
+        )
+
+    except Exception as error:
+        regime_failure_attribution = {
+            "engine":
+            "V8.4.6 Regime Failure Attribution & Shadow Calibration",
+
+            "status":
+            "ERROR",
+
+            "live_policy_changed":
+            False,
+
+            "live_execution_authorized":
+            False,
+
+            "error":
+            str(
+                error
+            )
+        }
+
+
+    # =====================================================
+    # 14. V8.2 SHADOW POLICY MONITOR
     # =====================================================
 
     try:
@@ -1026,6 +1065,9 @@ def run_scanner():
 
         "strategic_policy_calibration":
         strategic_policy_calibration,
+
+        "regime_failure_attribution":
+        regime_failure_attribution,
 
         "shadow_policy_monitor":
         shadow_policy_monitor,
