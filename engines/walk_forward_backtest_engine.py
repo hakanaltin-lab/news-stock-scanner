@@ -52,7 +52,7 @@ ENGINE_VERSION = (
     "V8.0 Historical Replay & Walk-Forward Backtest Engine"
 )
 
-BACKTEST_SIGNATURE = "V8.4.4"
+BACKTEST_SIGNATURE = "V8.4.5"
 
 OUTPUT_FILE = "docs/walk_forward_backtest.json"
 
@@ -83,6 +83,18 @@ SIGNAL_EVALUATION_SESSIONS = 20
 ROLLING_OOS_LOOKBACK_SESSIONS = 126
 
 ROLLING_OOS_REBALANCE_SESSIONS = 21
+
+ROBUSTNESS_BOOTSTRAP_ITERATIONS = 2000
+
+ROBUSTNESS_BOOTSTRAP_BLOCK_SESSIONS = 21
+
+ROBUSTNESS_TIME_BLOCK_SESSIONS = 126
+
+REGIME_TREND_LOOKBACK_SESSIONS = 63
+
+REGIME_SHORT_VOL_SESSIONS = 21
+
+REGIME_LONG_VOL_SESSIONS = 126
 
 
 def portfolio_signature(tickers):
@@ -3288,6 +3300,1001 @@ def build_rolling_oos_exposure_attribution(
         "LOW"
     )
 
+    # V8.4.5 statistical robustness & regime validation.
+    # All comparisons remain paired against the already rolling,
+    # past-only volatility-matched benchmark from V8.4.4.
+    def annualized_return_from_daily_returns(return_series):
+        clean = (
+            return_series
+            .replace(
+                [np.inf, -np.inf],
+                np.nan
+            )
+            .dropna()
+        )
+
+        if clean.empty:
+            return None
+
+        gross = 1.0 + clean.to_numpy(dtype=float)
+
+        if np.any(gross <= 0):
+            return None
+
+        return (
+            math.exp(
+                safe_float(
+                    np.log(gross).mean(),
+                    0.0
+                )
+                *
+                252
+            )
+            -
+            1.0
+        ) * 100
+
+    def total_return_from_daily_returns(return_series):
+        clean = (
+            return_series
+            .replace(
+                [np.inf, -np.inf],
+                np.nan
+            )
+            .dropna()
+        )
+
+        if clean.empty:
+            return None
+
+        return (
+            safe_float(
+                (
+                    1.0
+                    +
+                    clean
+                ).prod(),
+                1.0
+            )
+            -
+            1.0
+        ) * 100
+
+    def sharpe_from_daily_returns(return_series):
+        clean = (
+            return_series
+            .replace(
+                [np.inf, -np.inf],
+                np.nan
+            )
+            .dropna()
+        )
+
+        if len(clean) < 2:
+            return None
+
+        std = safe_float(
+            clean.std(),
+            0.0
+        )
+
+        if std <= 0:
+            return None
+
+        return (
+            safe_float(
+                clean.mean(),
+                0.0
+            )
+            /
+            std
+            *
+            math.sqrt(252)
+        )
+
+    def summarize_paired_slice(
+        aurora_returns,
+        benchmark_returns
+    ):
+        pair = pd.concat(
+            [
+                aurora_returns.rename("aurora"),
+                benchmark_returns.rename("benchmark")
+            ],
+            axis=1,
+            join="inner"
+        ).replace(
+            [np.inf, -np.inf],
+            np.nan
+        ).dropna()
+
+        if pair.empty:
+            return {
+                "sessions": 0
+            }
+
+        aurora_total = total_return_from_daily_returns(
+            pair["aurora"]
+        )
+
+        benchmark_total = total_return_from_daily_returns(
+            pair["benchmark"]
+        )
+
+        aurora_ann = annualized_return_from_daily_returns(
+            pair["aurora"]
+        )
+
+        benchmark_ann = annualized_return_from_daily_returns(
+            pair["benchmark"]
+        )
+
+        aurora_sharpe = sharpe_from_daily_returns(
+            pair["aurora"]
+        )
+
+        benchmark_sharpe = sharpe_from_daily_returns(
+            pair["benchmark"]
+        )
+
+        active = (
+            pair["aurora"]
+            -
+            pair["benchmark"]
+        )
+
+        relative_wealth = (
+            (
+                1.0
+                +
+                pair["aurora"]
+            ).prod()
+            /
+            (
+                1.0
+                +
+                pair["benchmark"]
+            ).prod()
+            -
+            1.0
+        ) * 100
+
+        return {
+            "sessions":
+            len(pair),
+
+            "start_date":
+            str(
+                pair.index[0].date()
+            ),
+
+            "end_date":
+            str(
+                pair.index[-1].date()
+            ),
+
+            "aurora_total_return_pct":
+            round(
+                safe_float(
+                    aurora_total,
+                    0.0
+                ),
+                2
+            ),
+
+            "benchmark_total_return_pct":
+            round(
+                safe_float(
+                    benchmark_total,
+                    0.0
+                ),
+                2
+            ),
+
+            "relative_wealth_advantage_pct":
+            round(
+                safe_float(
+                    relative_wealth,
+                    0.0
+                ),
+                2
+            ),
+
+            "aurora_annualized_return_pct":
+            (
+                round(
+                    aurora_ann,
+                    2
+                )
+                if aurora_ann is not None
+                else None
+            ),
+
+            "benchmark_annualized_return_pct":
+            (
+                round(
+                    benchmark_ann,
+                    2
+                )
+                if benchmark_ann is not None
+                else None
+            ),
+
+            "annualized_return_advantage_pct_points":
+            (
+                round(
+                    aurora_ann
+                    -
+                    benchmark_ann,
+                    2
+                )
+                if (
+                    aurora_ann is not None
+                    and benchmark_ann is not None
+                )
+                else None
+            ),
+
+            "aurora_sharpe":
+            (
+                round(
+                    aurora_sharpe,
+                    3
+                )
+                if aurora_sharpe is not None
+                else None
+            ),
+
+            "benchmark_sharpe":
+            (
+                round(
+                    benchmark_sharpe,
+                    3
+                )
+                if benchmark_sharpe is not None
+                else None
+            ),
+
+            "sharpe_advantage":
+            (
+                round(
+                    aurora_sharpe
+                    -
+                    benchmark_sharpe,
+                    3
+                )
+                if (
+                    aurora_sharpe is not None
+                    and benchmark_sharpe is not None
+                )
+                else None
+            ),
+
+            "positive_active_day_rate_pct":
+            round(
+                safe_float(
+                    (
+                        active
+                        >
+                        0
+                    ).mean(),
+                    0.0
+                )
+                *
+                100,
+                1
+            )
+        }
+
+    robustness_pair = pd.concat(
+        [
+            strategy_oos_returns.rename("aurora"),
+            vol_matched_returns.rename("benchmark")
+        ],
+        axis=1,
+        join="inner"
+    ).replace(
+        [np.inf, -np.inf],
+        np.nan
+    ).dropna()
+
+    bootstrap = {
+        "status":
+        "INSUFFICIENT_DATA"
+    }
+
+    if len(robustness_pair) >= ROBUSTNESS_BOOTSTRAP_BLOCK_SESSIONS * 4:
+        aurora_values = robustness_pair[
+            "aurora"
+        ].to_numpy(
+            dtype=float
+        )
+
+        benchmark_values = robustness_pair[
+            "benchmark"
+        ].to_numpy(
+            dtype=float
+        )
+
+        sample_size = len(
+            robustness_pair
+        )
+
+        block_length = min(
+            ROBUSTNESS_BOOTSTRAP_BLOCK_SESSIONS,
+            sample_size
+        )
+
+        block_count = int(
+            math.ceil(
+                sample_size
+                /
+                block_length
+            )
+        )
+
+        rng = np.random.default_rng(
+            8445
+        )
+
+        starts = rng.integers(
+            0,
+            sample_size,
+            size=(
+                ROBUSTNESS_BOOTSTRAP_ITERATIONS,
+                block_count
+            )
+        )
+
+        offsets = np.arange(
+            block_length
+        )
+
+        bootstrap_indices = (
+            starts[
+                :,
+                :,
+                None
+            ]
+            +
+            offsets[
+                None,
+                None,
+                :
+            ]
+        ) % sample_size
+
+        bootstrap_indices = (
+            bootstrap_indices
+            .reshape(
+                ROBUSTNESS_BOOTSTRAP_ITERATIONS,
+                -1
+            )[
+                :,
+                :sample_size
+            ]
+        )
+
+        aurora_samples = aurora_values[
+            bootstrap_indices
+        ]
+
+        benchmark_samples = benchmark_values[
+            bootstrap_indices
+        ]
+
+        aurora_log = np.log1p(
+            aurora_samples
+        )
+
+        benchmark_log = np.log1p(
+            benchmark_samples
+        )
+
+        aurora_cagr_samples = (
+            np.exp(
+                aurora_log.mean(
+                    axis=1
+                )
+                *
+                252
+            )
+            -
+            1.0
+        ) * 100
+
+        benchmark_cagr_samples = (
+            np.exp(
+                benchmark_log.mean(
+                    axis=1
+                )
+                *
+                252
+            )
+            -
+            1.0
+        ) * 100
+
+        cagr_advantage_samples = (
+            aurora_cagr_samples
+            -
+            benchmark_cagr_samples
+        )
+
+        aurora_std_samples = (
+            aurora_samples.std(
+                axis=1,
+                ddof=1
+            )
+        )
+
+        benchmark_std_samples = (
+            benchmark_samples.std(
+                axis=1,
+                ddof=1
+            )
+        )
+
+        aurora_sharpe_samples = np.divide(
+            aurora_samples.mean(
+                axis=1
+            ),
+            aurora_std_samples,
+            out=np.zeros_like(
+                aurora_std_samples
+            ),
+            where=aurora_std_samples > 0
+        ) * math.sqrt(252)
+
+        benchmark_sharpe_samples = np.divide(
+            benchmark_samples.mean(
+                axis=1
+            ),
+            benchmark_std_samples,
+            out=np.zeros_like(
+                benchmark_std_samples
+            ),
+            where=benchmark_std_samples > 0
+        ) * math.sqrt(252)
+
+        sharpe_advantage_samples = (
+            aurora_sharpe_samples
+            -
+            benchmark_sharpe_samples
+        )
+
+        cagr_ci = np.quantile(
+            cagr_advantage_samples,
+            [
+                0.025,
+                0.975
+            ]
+        )
+
+        sharpe_ci = np.quantile(
+            sharpe_advantage_samples,
+            [
+                0.025,
+                0.975
+            ]
+        )
+
+        bootstrap = {
+            "status":
+            "COMPLETE",
+
+            "iterations":
+            ROBUSTNESS_BOOTSTRAP_ITERATIONS,
+
+            "block_sessions":
+            block_length,
+
+            "random_seed":
+            8445,
+
+            "observed_cagr_advantage_pct_points":
+            vol_cagr_advantage,
+
+            "cagr_advantage_ci_95_pct_points": {
+                "lower":
+                round(
+                    safe_float(
+                        cagr_ci[0],
+                        0.0
+                    ),
+                    2
+                ),
+
+                "upper":
+                round(
+                    safe_float(
+                        cagr_ci[1],
+                        0.0
+                    ),
+                    2
+                )
+            },
+
+            "probability_cagr_advantage_positive_pct":
+            round(
+                safe_float(
+                    (
+                        cagr_advantage_samples
+                        >
+                        0
+                    ).mean(),
+                    0.0
+                )
+                *
+                100,
+                1
+            ),
+
+            "observed_sharpe_advantage":
+            vol_sharpe_advantage,
+
+            "sharpe_advantage_ci_95": {
+                "lower":
+                round(
+                    safe_float(
+                        sharpe_ci[0],
+                        0.0
+                    ),
+                    3
+                ),
+
+                "upper":
+                round(
+                    safe_float(
+                        sharpe_ci[1],
+                        0.0
+                    ),
+                    3
+                )
+            },
+
+            "probability_sharpe_advantage_positive_pct":
+            round(
+                safe_float(
+                    (
+                        sharpe_advantage_samples
+                        >
+                        0
+                    ).mean(),
+                    0.0
+                )
+                *
+                100,
+                1
+            ),
+
+            "methodology_note":
+            (
+                "Paired circular moving-block bootstrap of AURORA and the "
+                "rolling volatility-matched control. Blocks preserve short-"
+                "horizon serial dependence better than IID resampling."
+            )
+        }
+
+    time_blocks = []
+
+    for block_start in range(
+        0,
+        len(robustness_pair),
+        ROBUSTNESS_TIME_BLOCK_SESSIONS
+    ):
+        block = robustness_pair.iloc[
+            block_start:
+            block_start
+            +
+            ROBUSTNESS_TIME_BLOCK_SESSIONS
+        ]
+
+        if len(block) < 40:
+            continue
+
+        summary = summarize_paired_slice(
+            block["aurora"],
+            block["benchmark"]
+        )
+
+        summary[
+            "block"
+        ] = (
+            len(time_blocks)
+            +
+            1
+        )
+
+        summary[
+            "full_block"
+        ] = (
+            len(block)
+            ==
+            ROBUSTNESS_TIME_BLOCK_SESSIONS
+        )
+
+        time_blocks.append(
+            summary
+        )
+
+    positive_time_blocks = sum(
+        1
+        for block in time_blocks
+        if safe_float(
+            block.get(
+                "annualized_return_advantage_pct_points"
+            ),
+            0.0
+        )
+        >
+        0
+    )
+
+    time_block_positive_rate = (
+        round(
+            positive_time_blocks
+            /
+            len(time_blocks)
+            *
+            100,
+            1
+        )
+        if time_blocks
+        else None
+    )
+
+    spy_daily_returns = (
+        spy_equity
+        .pct_change()
+        .replace(
+            [np.inf, -np.inf],
+            np.nan
+        )
+    )
+
+    trailing_trend = (
+        spy_equity
+        .pct_change(
+            REGIME_TREND_LOOKBACK_SESSIONS
+        )
+        .shift(
+            1
+        )
+        .reindex(
+            robustness_pair.index
+        )
+    )
+
+    trailing_short_vol = (
+        spy_daily_returns
+        .rolling(
+            REGIME_SHORT_VOL_SESSIONS,
+            min_periods=max(
+                10,
+                REGIME_SHORT_VOL_SESSIONS // 2
+            )
+        )
+        .std()
+        .shift(
+            1
+        )
+        .reindex(
+            robustness_pair.index
+        )
+        *
+        math.sqrt(252)
+    )
+
+    trailing_long_vol = (
+        spy_daily_returns
+        .rolling(
+            REGIME_LONG_VOL_SESSIONS,
+            min_periods=max(
+                40,
+                REGIME_LONG_VOL_SESSIONS // 2
+            )
+        )
+        .std()
+        .shift(
+            1
+        )
+        .reindex(
+            robustness_pair.index
+        )
+        *
+        math.sqrt(252)
+    )
+
+    regime_masks = {
+        "RISK_ON":
+        trailing_trend
+        >=
+        0,
+
+        "RISK_OFF":
+        trailing_trend
+        <
+        0,
+
+        "HIGH_VOL":
+        trailing_short_vol
+        >
+        trailing_long_vol,
+
+        "LOWER_VOL":
+        trailing_short_vol
+        <=
+        trailing_long_vol
+    }
+
+    regime_results = {}
+
+    eligible_regime_count = 0
+    positive_regime_count = 0
+
+    for regime_name, regime_mask in (
+        regime_masks.items()
+    ):
+        dates = regime_mask[
+            regime_mask.fillna(
+                False
+            )
+        ].index
+
+        regime_summary = summarize_paired_slice(
+            robustness_pair.loc[
+                robustness_pair.index.intersection(
+                    dates
+                ),
+                "aurora"
+            ],
+            robustness_pair.loc[
+                robustness_pair.index.intersection(
+                    dates
+                ),
+                "benchmark"
+            ]
+        )
+
+        eligible = (
+            safe_float(
+                regime_summary.get(
+                    "sessions"
+                ),
+                0
+            )
+            >=
+            40
+        )
+
+        regime_summary[
+            "eligible_for_verdict"
+        ] = eligible
+
+        regime_results[
+            regime_name
+        ] = regime_summary
+
+        if eligible:
+            eligible_regime_count += 1
+
+            if (
+                safe_float(
+                    regime_summary.get(
+                        "annualized_return_advantage_pct_points"
+                    ),
+                    0.0
+                )
+                >
+                0
+            ):
+                positive_regime_count += 1
+
+    regime_positive_rate = (
+        round(
+            positive_regime_count
+            /
+            eligible_regime_count
+            *
+            100,
+            1
+        )
+        if eligible_regime_count
+        else None
+    )
+
+    bootstrap_cagr_probability = safe_float(
+        bootstrap.get(
+            "probability_cagr_advantage_positive_pct"
+        ),
+        0.0
+    )
+
+    bootstrap_cagr_ci_lower = safe_float(
+        (
+            bootstrap.get(
+                "cagr_advantage_ci_95_pct_points",
+                {}
+            )
+            or
+            {}
+        ).get(
+            "lower"
+        ),
+        0.0
+    )
+
+    time_block_support = safe_float(
+        time_block_positive_rate,
+        0.0
+    )
+
+    regime_support = safe_float(
+        regime_positive_rate,
+        0.0
+    )
+
+    if (
+        bootstrap.get(
+            "status"
+        )
+        ==
+        "COMPLETE"
+        and
+        bootstrap_cagr_ci_lower
+        >
+        0
+        and
+        bootstrap_cagr_probability
+        >=
+        95
+        and
+        time_block_support
+        >=
+        60
+        and
+        regime_support
+        >=
+        75
+    ):
+        robustness_verdict = (
+            "OOS_ROBUST_SUPPORTIVE"
+        )
+
+    elif (
+        bootstrap_cagr_probability
+        >=
+        80
+        and
+        time_block_support
+        >=
+        50
+        and
+        regime_support
+        >=
+        50
+    ):
+        robustness_verdict = (
+            "OOS_SUPPORTIVE_WITH_CAVEATS"
+        )
+
+    elif (
+        bootstrap_cagr_probability
+        >=
+        50
+    ):
+        robustness_verdict = (
+            "OOS_MIXED_ROBUSTNESS"
+        )
+
+    else:
+        robustness_verdict = (
+            "OOS_NOT_ROBUST"
+        )
+
+    robustness_validation = {
+        "version":
+        "V8.4.5",
+
+        "status":
+        "COMPLETE",
+
+        "verdict":
+        robustness_verdict,
+
+        "benchmark":
+        "ROLLING_VOLATILITY_MATCHED_EQUAL_WEIGHT_CASH",
+
+        "calibration_gate":
+        "RESEARCH_ONLY",
+
+        "live_execution_authorized":
+        False,
+
+        "oos_sessions":
+        len(
+            robustness_pair
+        ),
+
+        "bootstrap":
+        bootstrap,
+
+        "time_block_stability": {
+            "block_sessions":
+            ROBUSTNESS_TIME_BLOCK_SESSIONS,
+
+            "evaluated_blocks":
+            len(
+                time_blocks
+            ),
+
+            "positive_blocks":
+            positive_time_blocks,
+
+            "positive_block_rate_pct":
+            time_block_positive_rate,
+
+            "blocks":
+            time_blocks
+        },
+
+        "regime_stability": {
+            "classification_is_past_only":
+            True,
+
+            "trend_rule":
+            (
+                "RISK_ON when prior-session SPY 63-session return >= 0; "
+                "otherwise RISK_OFF."
+            ),
+
+            "volatility_rule":
+            (
+                "HIGH_VOL when prior-session SPY 21-session annualized "
+                "volatility exceeds its 126-session annualized volatility; "
+                "otherwise LOWER_VOL."
+            ),
+
+            "minimum_sessions_for_verdict":
+            40,
+
+            "eligible_regimes":
+            eligible_regime_count,
+
+            "positive_regimes":
+            positive_regime_count,
+
+            "positive_regime_rate_pct":
+            regime_positive_rate,
+
+            "regimes":
+            regime_results
+        },
+
+        "maximum_evidence_grade":
+        "MODERATE",
+
+        "limitations": [
+            (
+                "Current-holdings universe creates survivorship and selection "
+                "bias."
+            ),
+            (
+                "Bootstrap confidence is conditional on this reconstructed "
+                "sample and is not an independent live-trading p-value."
+            ),
+            (
+                "Rolling cash/exposure changes in the benchmark do not incur "
+                "an additional transaction-cost layer."
+            ),
+            (
+                "Full historical news, catalyst, fundamental and broker "
+                "execution states are not reconstructed."
+            )
+        ]
+    }
+
     return {
         "version":
         "V8.4.4",
@@ -3435,6 +4442,9 @@ def build_rolling_oos_exposure_attribution(
             "is charged for monthly cash/exposure changes. This is favorable "
             "to the benchmark and therefore conservative for AURORA."
         ),
+
+        "robustness_validation":
+        robustness_validation,
 
         "scope_note":
         (
@@ -4438,6 +5448,24 @@ def run_walk_forward_backtest(
             "rolling_oos_exposure_rebalance_sessions":
             ROLLING_OOS_REBALANCE_SESSIONS,
 
+            "robustness_bootstrap_iterations":
+            ROBUSTNESS_BOOTSTRAP_ITERATIONS,
+
+            "robustness_bootstrap_block_sessions":
+            ROBUSTNESS_BOOTSTRAP_BLOCK_SESSIONS,
+
+            "robustness_time_block_sessions":
+            ROBUSTNESS_TIME_BLOCK_SESSIONS,
+
+            "regime_trend_lookback_sessions":
+            REGIME_TREND_LOOKBACK_SESSIONS,
+
+            "regime_short_vol_sessions":
+            REGIME_SHORT_VOL_SESSIONS,
+
+            "regime_long_vol_sessions":
+            REGIME_LONG_VOL_SESSIONS,
+
             "minimum_warmup_sessions":
             MIN_WARMUP_SESSIONS,
 
@@ -4497,6 +5525,19 @@ def run_walk_forward_backtest(
 
         "rolling_oos_exposure_attribution":
         rolling_oos_attribution,
+
+        "oos_statistical_robustness":
+        (
+            rolling_oos_attribution.get(
+                "robustness_validation",
+                {}
+            )
+            if isinstance(
+                rolling_oos_attribution,
+                dict
+            )
+            else {}
+        ),
 
         "overlay_alpha_vs_equal_weight_control":
         overlay_alpha_vs_control,
