@@ -1,5 +1,5 @@
 """
-V7.9 Global Market Intelligence Scanner
+V8.0 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -159,6 +159,11 @@ from engines.portfolio_correlation_factor_risk_engine import (
 
 from engines.recommendation_performance_engine import (
     update_recommendation_performance
+)
+
+
+from engines.walk_forward_backtest_engine import (
+    run_walk_forward_backtest
 )
 
 
@@ -671,7 +676,33 @@ def run_scanner():
 
 
     # =====================================================
-    # 11. BASE OUTPUT
+    # 11. V8.0 HISTORICAL REPLAY & WALK-FORWARD BACKTEST
+    # =====================================================
+
+    try:
+        walk_forward_backtest = (
+            run_walk_forward_backtest(
+                portfolio
+            )
+        )
+
+    except Exception as error:
+        walk_forward_backtest = {
+            "engine":
+            "V8.0 Historical Replay & Walk-Forward Backtest Engine",
+
+            "status":
+            "ERROR",
+
+            "error":
+            str(
+                error
+            )
+        }
+
+
+    # =====================================================
+    # 12. BASE OUTPUT
     # =====================================================
 
     output = {
@@ -680,7 +711,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V7.9",
+        "V8.0",
 
         "decision_architecture": {
             "portfolio_horizon":
@@ -724,12 +755,15 @@ def run_scanner():
         final_portfolio_projection,
 
         "portfolio_correlation_factor_risk":
-        portfolio_correlation_factor_risk
+        portfolio_correlation_factor_risk,
+
+        "walk_forward_backtest":
+        walk_forward_backtest
     }
 
 
     # =====================================================
-    # 12. V7.8 RECOMMENDATION PERFORMANCE JOURNAL
+    # 13. V7.8 RECOMMENDATION PERFORMANCE JOURNAL
     # =====================================================
 
     recommendation_performance = (
@@ -764,7 +798,7 @@ def run_scanner():
 
 
     print(
-        "V7.9 Scanner completed successfully"
+        "V8.0 Scanner completed successfully"
     )
 
 
