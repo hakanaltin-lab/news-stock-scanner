@@ -2,7 +2,7 @@
   "engine": "Simple Factor Challenger Holdout v1.0",
   "validation_signature": "SFC-HOLDOUT-1.0",
   "status": "COMPLETE",
-  "generated": "2026-10-25T13:24:56.252113+00:00",
+  "generated": "2026-10-25T13:31:09.459845+00:00",
   "preregistration": "docs/research/simple_factor_challenger_preregistration_v1.md",
   "preregistration_frozen_before_test": true,
   "primary_holdout_period": {
@@ -150,8 +150,8 @@
       "mode": "CHALLENGER_TOP12",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 466717.94,
-        "total_return_pct": 367.19,
+        "ending_value": 466717.63,
+        "total_return_pct": 367.18,
         "cagr_pct": 16.7,
         "annualized_volatility_pct": 23.18,
         "sharpe_ratio": 0.783,
@@ -162,7 +162,7 @@
         "spy_total_return_pct": 351.15,
         "spy_cagr_pct": 16.29,
         "cagr_alpha_vs_spy_pct": 0.41,
-        "total_trading_costs": 27788.11,
+        "total_trading_costs": 27788.1,
         "trading_cost_pct_of_starting_capital": 27.788,
         "annualized_turnover_x": 27.83,
         "trading_days": 2516,
@@ -1126,7 +1126,7 @@
             {
               "ticker": "DVN",
               "challenger_score": 98.8864,
-              "return_12m_pct": 166.52,
+              "return_12m_pct": 166.53,
               "relative_strength_6m_pct": 41.51
             },
             {
@@ -2389,7 +2389,7 @@
       "months": 118,
       "observations": 45943,
       "average_spearman": 0.0015,
-      "average_60d_q5_minus_q1_excess_return_pct": -0.056
+      "average_60d_q5_minus_q1_excess_return_pct": -0.039
     }
   },
   "nasdaq100": {
@@ -2426,7 +2426,7 @@
       "mode": "CHALLENGER_TOP12",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 1272008.81,
+        "ending_value": 1272008.67,
         "total_return_pct": 1173.28,
         "cagr_pct": 29.02,
         "annualized_volatility_pct": 25.19,
@@ -3775,7 +3775,7 @@
       "mode": "PIT_EQUAL_WEIGHT",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 671797.83,
+        "ending_value": 671797.88,
         "total_return_pct": 572.47,
         "cagr_pct": 21.03,
         "annualized_volatility_pct": 18.81,
