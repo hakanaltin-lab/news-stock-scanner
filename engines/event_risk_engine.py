@@ -52,6 +52,13 @@ HIGH_IMPACT_BLS_KEYWORDS = {
 }
 
 
+def safe_float(value, default=0.0):
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
 def safe_int(value, default=None):
     try:
         return int(value)
@@ -1029,11 +1036,32 @@ def build_event_risk_summary(
                     )
                 },
                 "combined": {
-                    "risk_level": "UNKNOWN",
-                    "dominant_risk_source": "ERROR",
-                    "new_entry_policy": "ALLOW",
-                    "position_size_multiplier": 1.0,
+                    "risk_level":
+                    macro_result.get(
+                        "risk_level",
+                        "UNKNOWN"
+                    ),
+
+                    "dominant_risk_source":
+                    "MACRO_FALLBACK",
+
+                    "new_entry_policy":
+                    macro_result.get(
+                        "new_entry_policy",
+                        "ALLOW"
+                    ),
+
+                    "position_size_multiplier":
+                    macro_result.get(
+                        "position_size_multiplier",
+                        1.0
+                    ),
+
                     "reasons": [
+                        (
+                            "Earnings-date lookup failed; "
+                            "macro event policy retained"
+                        ),
                         str(error)
                     ]
                 }
