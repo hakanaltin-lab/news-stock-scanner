@@ -304,7 +304,7 @@ AURORA Market Intelligence
 </h1>
 
 <div class="subtitle">
-Performance Journal + Market Regime + Earnings/Event Risk + Correlation Gate + Correlation/Factor Risk + Portfolio Management + Capital Allocation + Final Portfolio Projection + US Market Opportunity Radar
+Performance Journal + Multi-Horizon Decisions + Market Regime + Earnings/Event Risk + Correlation Gate + Correlation/Factor Risk + Capital Allocation + Final Portfolio Projection + US Market Opportunity Radar
 </div>
 
 <div
@@ -1471,6 +1471,30 @@ Loading final theme exposure...
 
 
 <!-- ================================================= -->
+<!-- V7.9 MULTI-HORIZON DECISION ARCHITECTURE -->
+<!-- ================================================= -->
+
+<div class="card teal">
+
+<div class="title">
+🧭 V7.9 MULTI-HORIZON DECISION ARCHITECTURE
+</div>
+
+<div
+id="decision-architecture-summary"
+class="section-note"
+>
+Loading strategic / tactical architecture...
+</div>
+
+<div class="section-note">
+Strategic daily 3M–12M evidence controls portfolio ADD / HOLD / WATCH / REDUCE / EXIT. Intraday 15-minute evidence controls entry timing only and cannot directly trigger REDUCE / EXIT.
+</div>
+
+</div>
+
+
+<!-- ================================================= -->
 <!-- CURRENT PORTFOLIO -->
 <!-- ================================================= -->
 
@@ -1481,7 +1505,7 @@ Loading final theme exposure...
 </div>
 
 <div class="section-note">
-Existing-position decisions: ADD / HOLD / WATCH / REDUCE / EXIT. Rebalancing quantities are shown separately above.
+Existing-position actions are strategic. Tactical 15-minute evidence only answers whether now is a good time to add. Rebalancing quantities are shown separately above.
 </div>
 
 <table>
@@ -1495,12 +1519,15 @@ Existing-position decisions: ADD / HOLD / WATCH / REDUCE / EXIT. Rebalancing qua
 <th>Price</th>
 <th>P&L</th>
 <th>P&L %</th>
-<th>Action</th>
+<th>Strategic Action</th>
 <th>Conviction</th>
-<th>Urgency</th>
-<th>Alpha</th>
-<th>Market</th>
-<th>Risk</th>
+<th>Strategic Score</th>
+<th>Strategic Trend</th>
+<th>3M</th>
+<th>6M</th>
+<th>RS 6M vs SPY</th>
+<th>Above SMA200</th>
+<th>Tactical Timing</th>
 </tr>
 
 </thead>
@@ -1508,7 +1535,7 @@ Existing-position decisions: ADD / HOLD / WATCH / REDUCE / EXIT. Rebalancing qua
 <tbody id="portfolio-table">
 
 <tr>
-<td colspan="12" class="loading">
+<td colspan="15" class="loading">
 Loading portfolio...
 </td>
 </tr>
@@ -1885,6 +1912,11 @@ data.opportunity_analysis
 const portfolio =
 data.portfolio
 || [];
+
+
+const decisionArchitecture =
+data.decision_architecture
+|| {};
 
 
 const rebalancing =
@@ -2301,6 +2333,35 @@ document.getElementById(
 generatedDate.toLocaleString();
 
 }
+
+
+document.getElementById(
+"decision-architecture-summary"
+).textContent =
+
+"Portfolio horizon: "
++
+(
+decisionArchitecture.portfolio_horizon
+||
+"-"
+)
++
+" | Entry timing: "
++
+(
+decisionArchitecture.entry_timing_horizon
+||
+"-"
+)
++
+" | "
++
+(
+decisionArchitecture.principle
+||
+""
+);
 
 
 /* =============================================== */
@@ -4430,7 +4491,7 @@ portfolioTable.innerHTML = `
 
 <tr>
 
-<td colspan="12">
+<td colspan="15">
 
 No portfolio data available.
 
@@ -4461,6 +4522,21 @@ management.position
 
 const scores =
 item.scores
+|| {};
+
+
+const strategic =
+item.strategic_market
+|| {};
+
+
+const strategicMetrics =
+strategic.metrics
+|| {};
+
+
+const tactical =
+item.tactical_timing
 || {};
 
 
@@ -4517,19 +4593,31 @@ ${management.conviction || "-"}
 </td>
 
 <td>
-${management.urgency || "-"}
+${formatNumber(management.strategic_composite_score,1)}
 </td>
 
 <td>
-${formatNumber(scores.alpha_score,2)}
+${strategic.strategic_signal || "-"}
 </td>
 
 <td>
-${formatNumber(scores.market_score,1)}
+${formatNumber(strategicMetrics.return_3m_pct,2)}%
 </td>
 
 <td>
-${formatNumber(scores.risk_score,1)}
+${formatNumber(strategicMetrics.return_6m_pct,2)}%
+</td>
+
+<td>
+${formatNumber(strategicMetrics.relative_strength_6m_pct,2)}%
+</td>
+
+<td>
+${strategicMetrics.above_sma200 === true ? "YES" : strategicMetrics.above_sma200 === false ? "NO" : "-"}
+</td>
+
+<td>
+${tactical.status || "-"}
 </td>
 
 </tr>
