@@ -1723,13 +1723,13 @@ Loading broker position sync...
 
 
 <!-- ================================================= -->
-<!-- V8.4.7 FRESH FORWARD SHADOW PROMOTION GATE -->
+<!-- V8.4.8 INDEPENDENT-COHORT FRESH PROMOTION GATE -->
 <!-- ================================================= -->
 
 <div class="card orange">
 
 <div class="title">
-🚦 V8.4.7 FRESH FORWARD SHADOW PROMOTION GATE
+🚦 V8.4.8 INDEPENDENT-COHORT FRESH PROMOTION GATE
 </div>
 
 <div id="fresh-promotion-summary" class="section-note">
@@ -1744,13 +1744,13 @@ Loading maturity progress...
 <thead>
 <tr>
 <th>Horizon</th>
-<th>Evaluated</th>
-<th>Pending</th>
-<th>Unique Signal Dates</th>
-<th>Hit Rate</th>
+<th>Raw Evaluated</th>
+<th>Raw Pending</th>
+<th>Independent Cohorts</th>
+<th>Cohort Hit Rate</th>
 <th>90% Wilson LB</th>
-<th>Avg Shadow Alpha</th>
-<th>Median Alpha</th>
+<th>Avg Cohort Alpha</th>
+<th>Median Cohort Alpha</th>
 </tr>
 </thead>
 <tbody id="fresh-promotion-evidence-table">
@@ -1785,7 +1785,7 @@ Loading promotion checks...
 </table>
 
 <div class="section-note">
-Fresh evidence only. Even REVIEW_ELIGIBLE requires a separate manual policy review; live execution remains blocked.
+Fresh evidence only. Same-day tickers are clustered into one cohort and overlapping 20D/60D windows cannot increase gate N. Even REVIEW_ELIGIBLE requires a separate manual policy review; live execution remains blocked.
 </div>
 
 </div>
@@ -6071,7 +6071,7 @@ ${item.matched === true ? "YES" : "NO"}
 
 
 /* =============================================== */
-/* V8.4.7 FRESH FORWARD SHADOW PROMOTION GATE */
+/* V8.4.8 INDEPENDENT-COHORT FRESH PROMOTION GATE */
 /* =============================================== */
 
 const freshPromotionEvidence =
@@ -6093,7 +6093,7 @@ freshForwardPromotionGate.maturity_progress
 document.getElementById(
 "fresh-promotion-summary"
 ).textContent =
-"V8.4.7 | "
+"V8.4.8 | "
 +
 (freshForwardPromotionGate.status || "PENDING")
 +
@@ -6120,21 +6120,15 @@ document.getElementById(
 document.getElementById(
 "fresh-promotion-progress"
 ).textContent =
-"Still needed | 20D evaluated: "
+"Still needed | 20D independent cohorts: "
 +
-(freshMaturity["20d_evaluated_needed"] ?? "-")
+(freshMaturity["20d_independent_cohorts_needed"] ?? "-")
 +
-" | 60D evaluated: "
+" | 60D independent cohorts: "
 +
-(freshMaturity["60d_evaluated_needed"] ?? "-")
+(freshMaturity["60d_independent_cohorts_needed"] ?? "-")
 +
-" | 20D unique signal dates: "
-+
-(freshMaturity["20d_unique_signal_dates_needed"] ?? "-")
-+
-" | 60D unique signal dates: "
-+
-(freshMaturity["60d_unique_signal_dates_needed"] ?? "-");
+" | Evidence unit: non-overlapping forward time cohorts, not ticker records.";
 
 const freshPromotionEvidenceTable =
 document.getElementById(
@@ -6158,13 +6152,13 @@ entry[1]
 freshPromotionEvidenceTable.innerHTML += `
 <tr>
 <td><b>${entry[0]}</b></td>
-<td>${row.evaluated ?? 0}</td>
-<td>${row.pending ?? 0}</td>
-<td>${row.unique_signal_dates ?? 0}</td>
-<td>${row.hit_rate_pct == null ? "-" : formatNumber(row.hit_rate_pct,1) + "%"}</td>
+<td>${row.raw_evaluated_records ?? 0}</td>
+<td>${row.raw_pending_records ?? 0}</td>
+<td>${row.independent_cohorts ?? 0}</td>
+<td>${row.independent_hit_rate_pct == null ? "-" : formatNumber(row.independent_hit_rate_pct,1) + "%"}</td>
 <td>${row.wilson_lower_bound_90_pct == null ? "-" : formatNumber(row.wilson_lower_bound_90_pct,1) + "%"}</td>
-<td>${row.average_shadow_relative_alpha_pct == null ? "-" : formatNumber(row.average_shadow_relative_alpha_pct,3) + "%"}</td>
-<td>${row.median_shadow_relative_alpha_pct == null ? "-" : formatNumber(row.median_shadow_relative_alpha_pct,3) + "%"}</td>
+<td>${row.average_cohort_shadow_alpha_pct == null ? "-" : formatNumber(row.average_cohort_shadow_alpha_pct,3) + "%"}</td>
+<td>${row.median_cohort_shadow_alpha_pct == null ? "-" : formatNumber(row.median_cohort_shadow_alpha_pct,3) + "%"}</td>
 </tr>
 `;
 
