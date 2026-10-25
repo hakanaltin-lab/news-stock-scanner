@@ -1723,6 +1723,75 @@ Loading broker position sync...
 
 
 <!-- ================================================= -->
+<!-- V8.4.7 FRESH FORWARD SHADOW PROMOTION GATE -->
+<!-- ================================================= -->
+
+<div class="card orange">
+
+<div class="title">
+🚦 V8.4.7 FRESH FORWARD SHADOW PROMOTION GATE
+</div>
+
+<div id="fresh-promotion-summary" class="section-note">
+Loading fresh forward promotion gate...
+</div>
+
+<div id="fresh-promotion-progress" class="section-note">
+Loading maturity progress...
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Horizon</th>
+<th>Evaluated</th>
+<th>Pending</th>
+<th>Unique Signal Dates</th>
+<th>Hit Rate</th>
+<th>90% Wilson LB</th>
+<th>Avg Shadow Alpha</th>
+<th>Median Alpha</th>
+</tr>
+</thead>
+<tbody id="fresh-promotion-evidence-table">
+<tr>
+<td colspan="8" class="loading">
+Loading fresh forward evidence...
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="section-note">
+Promotion gate checks
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Requirement</th>
+<th>Actual</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="fresh-promotion-check-table">
+<tr>
+<td colspan="4" class="loading">
+Loading promotion checks...
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="section-note">
+Fresh evidence only. Even REVIEW_ELIGIBLE requires a separate manual policy review; live execution remains blocked.
+</div>
+
+</div>
+
+
+<!-- ================================================= -->
 <!-- V8.2 SHADOW POLICY MONITOR -->
 <!-- ================================================= -->
 
@@ -3340,6 +3409,11 @@ policyCalibration.policy_selection_counts
 
 const regimeFailureAttribution =
 data.regime_failure_attribution
+|| {};
+
+
+const freshForwardPromotionGate =
+data.fresh_forward_promotion_gate
 || {};
 
 
@@ -5995,6 +6069,160 @@ ${item.matched === true ? "YES" : "NO"}
 
 }
 
+
+/* =============================================== */
+/* V8.4.7 FRESH FORWARD SHADOW PROMOTION GATE */
+/* =============================================== */
+
+const freshPromotionEvidence =
+freshForwardPromotionGate.fresh_evidence
+|| {};
+
+const freshPromotionChecks =
+freshForwardPromotionGate.fresh_gate_checks
+|| {};
+
+const freshHistoricalGuardrails =
+freshForwardPromotionGate.historical_guardrails
+|| {};
+
+const freshMaturity =
+freshForwardPromotionGate.maturity_progress
+|| {};
+
+document.getElementById(
+"fresh-promotion-summary"
+).textContent =
+"V8.4.7 | "
++
+(freshForwardPromotionGate.status || "PENDING")
++
+" | Verdict: "
++
+(freshForwardPromotionGate.verdict || "PROMOTION_BLOCKED")
++
+" | Candidate: "
++
+(freshForwardPromotionGate.candidate_policy || "-")
++
+" | Fresh-only: "
++
+(freshForwardPromotionGate.fresh_forward_only === true ? "YES" : "NO")
++
+" | Auto live promotion: "
++
+(freshForwardPromotionGate.automatic_live_promotion === true ? "ENABLED" : "DISABLED")
++
+" | LIVE: "
++
+(freshForwardPromotionGate.live_execution_authorized === true ? "AUTHORIZED" : "BLOCKED");
+
+document.getElementById(
+"fresh-promotion-progress"
+).textContent =
+"Still needed | 20D evaluated: "
++
+(freshMaturity["20d_evaluated_needed"] ?? "-")
++
+" | 60D evaluated: "
++
+(freshMaturity["60d_evaluated_needed"] ?? "-")
++
+" | 20D unique signal dates: "
++
+(freshMaturity["20d_unique_signal_dates_needed"] ?? "-")
++
+" | 60D unique signal dates: "
++
+(freshMaturity["60d_unique_signal_dates_needed"] ?? "-");
+
+const freshPromotionEvidenceTable =
+document.getElementById(
+"fresh-promotion-evidence-table"
+);
+
+freshPromotionEvidenceTable.innerHTML = "";
+
+[
+["20D", "20d"],
+["60D", "60d"]
+].forEach(
+entry => {
+
+const row =
+freshPromotionEvidence[
+entry[1]
+]
+|| {};
+
+freshPromotionEvidenceTable.innerHTML += `
+<tr>
+<td><b>${entry[0]}</b></td>
+<td>${row.evaluated ?? 0}</td>
+<td>${row.pending ?? 0}</td>
+<td>${row.unique_signal_dates ?? 0}</td>
+<td>${row.hit_rate_pct == null ? "-" : formatNumber(row.hit_rate_pct,1) + "%"}</td>
+<td>${row.wilson_lower_bound_90_pct == null ? "-" : formatNumber(row.wilson_lower_bound_90_pct,1) + "%"}</td>
+<td>${row.average_shadow_relative_alpha_pct == null ? "-" : formatNumber(row.average_shadow_relative_alpha_pct,3) + "%"}</td>
+<td>${row.median_shadow_relative_alpha_pct == null ? "-" : formatNumber(row.median_shadow_relative_alpha_pct,3) + "%"}</td>
+</tr>
+`;
+
+});
+
+const freshPromotionCheckTable =
+document.getElementById(
+"fresh-promotion-check-table"
+);
+
+freshPromotionCheckTable.innerHTML = "";
+
+function addFreshGateRows(
+prefix,
+checks
+){
+
+Object.keys(
+checks
+|| {}
+).forEach(
+key => {
+
+const row =
+checks[
+key
+]
+|| {};
+
+freshPromotionCheckTable.innerHTML += `
+<tr>
+<td><b>${prefix} — ${key}</b></td>
+<td>${row.required ?? "-"}</td>
+<td>${row.actual == null ? "-" : row.actual}</td>
+<td>${row.passed === true ? "PASS" : "WAIT / FAIL"}</td>
+</tr>
+`;
+
+});
+
+}
+
+addFreshGateRows(
+"20D",
+freshPromotionChecks["20d"]
+|| {}
+);
+
+addFreshGateRows(
+"60D",
+freshPromotionChecks["60d"]
+|| {}
+);
+
+addFreshGateRows(
+"HIST",
+freshHistoricalGuardrails
+);
 
 /* =============================================== */
 /* =============================================== */
