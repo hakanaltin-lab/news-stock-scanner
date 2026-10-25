@@ -57,7 +57,7 @@ jobs:
 
           TODAY="$(date -u +%F)"
           DAILY="data/evidence_archive/$TODAY.json"
-          LATEST="data/evidence_archive/latest.json"
+          LATEST="data/evidence_archive/latest_summary.json"
 
           if [ ! -f "$DAILY" ] || [ ! -f "$LATEST" ]; then
             echo "Archive output missing"
@@ -72,5 +72,10 @@ jobs:
           fi
 
           git commit -m "Archive daily forward evidence $TODAY"
+
+          # Fundamental analysis maintains a local daily cache. It is not part
+          # of the evidence archive commit and must not block the rebase.
+          git reset --hard HEAD
+
           git pull --rebase origin main
           git push origin HEAD:main
