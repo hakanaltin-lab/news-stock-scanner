@@ -972,6 +972,133 @@ id="shadow-hit-20d"
 
 </div>
 
+<div class="stat">
+
+<div class="stat-label">
+IBKR Readiness
+</div>
+
+<div
+class="stat-value"
+id="ibkr-readiness"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+IBKR Connection
+</div>
+
+<div
+class="stat-value"
+id="ibkr-connection"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+LIVE Execution
+</div>
+
+<div
+class="stat-value"
+id="ibkr-live-status"
+>
+BLOCKED
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- V8.3 IBKR PAPER READ-ONLY READINESS -->
+<!-- ================================================= -->
+
+<div class="card red">
+
+<div class="title">
+🔌 V8.3 IBKR PAPER READ-ONLY READINESS
+</div>
+
+<div
+id="ibkr-readiness-summary"
+class="section-note"
+>
+Loading IBKR readiness...
+</div>
+
+<div class="section-note">
+Safety milestone only. LIVE execution and paper order submission remain blocked.
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Check</th>
+<th>Required</th>
+<th>Passed</th>
+<th>Detail</th>
+</tr>
+
+</thead>
+
+<tbody id="ibkr-readiness-table">
+
+<tr>
+<td colspan="4" class="loading">
+Loading IBKR readiness checks...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<div class="section-note">
+AURORA CSV vs broker position diagnostic
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Ticker</th>
+<th>AURORA Shares</th>
+<th>Broker Shares</th>
+<th>Difference</th>
+<th>Matched</th>
+</tr>
+
+</thead>
+
+<tbody id="ibkr-position-sync-table">
+
+<tr>
+<td colspan="5" class="loading">
+Loading broker position sync...
+</td>
+</tr>
+
+</tbody>
+
+</table>
 
 </div>
 
@@ -2607,6 +2734,31 @@ shadowPolicyMonitor.performance
 || {};
 
 
+const ibkrSnapshot =
+data.ibkr_paper_snapshot
+|| {};
+
+
+const ibkrReadiness =
+data.ibkr_paper_readiness
+|| {};
+
+
+const ibkrChecks =
+ibkrReadiness.checks
+|| [];
+
+
+const ibkrPositionSync =
+ibkrReadiness.position_sync
+|| {};
+
+
+const ibkrPositionRows =
+ibkrPositionSync.rows
+|| [];
+
+
 /* =============================================== */
 /* SUMMARY */
 /* =============================================== */
@@ -3068,6 +3220,33 @@ shadow20.shadow_hit_rate_pct,
 "%";
 
 
+document.getElementById(
+"ibkr-readiness"
+).textContent =
+ibkrReadiness.readiness
+|| "-";
+
+
+document.getElementById(
+"ibkr-connection"
+).textContent =
+ibkrSnapshot.connection_status
+||
+ibkrSnapshot.status
+||
+"-";
+
+
+document.getElementById(
+"ibkr-live-status"
+).textContent =
+ibkrReadiness.live_execution_allowed === true
+?
+"ENABLED"
+:
+"BLOCKED";
+
+
 if(data.generated){
 
 const generatedDate =
@@ -3115,6 +3294,226 @@ decisionArchitecture.principle
 );
 
 
+/* =============================================== */
+/* V8.3 IBKR PAPER READ-ONLY READINESS */
+/* =============================================== */
+
+
+const ibkrReadinessTable =
+document.getElementById(
+"ibkr-readiness-table"
+);
+
+
+const ibkrPositionSyncTable =
+document.getElementById(
+"ibkr-position-sync-table"
+);
+
+
+ibkrReadinessTable.innerHTML =
+"";
+
+
+ibkrPositionSyncTable.innerHTML =
+"";
+
+
+const ibkrAccountMetrics =
+ibkrReadiness.account_metrics
+|| {};
+
+
+document.getElementById(
+"ibkr-readiness-summary"
+).textContent =
+
+"Snapshot status: "
++
+(
+ibkrSnapshot.status
+||
+"-"
+)
++
+" | Readiness: "
++
+(
+ibkrReadiness.readiness
+||
+"-"
+)
++
+" | Mode: "
++
+(
+(
+ibkrSnapshot.config
+||
+{}
+).mode
+||
+"-"
+)
++
+" | Official API available: "
++
+(
+ibkrSnapshot.official_ibapi_available === true
+?
+"YES"
+:
+"NO"
+)
++
+" | LIVE execution: "
++
+(
+ibkrReadiness.live_execution_allowed === true
+?
+"ENABLED"
+:
+"BLOCKED"
+)
++
+" | Paper orders: "
++
+(
+ibkrReadiness.paper_order_submission_allowed === true
+?
+"ENABLED"
+:
+"BLOCKED"
+)
++
+" | Net liquidation: "
++
+(
+ibkrAccountMetrics.net_liquidation === null
+||
+ibkrAccountMetrics.net_liquidation === undefined
+?
+"-"
+:
+formatPrice(
+ibkrAccountMetrics.net_liquidation
+)
+);
+
+
+if(
+ibkrChecks.length === 0
+){
+
+ibkrReadinessTable.innerHTML = `
+
+<tr>
+
+<td colspan="4">
+No IBKR readiness checks available.
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+ibkrChecks.forEach(
+item => {
+
+
+ibkrReadinessTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.check || "-"}</b>
+</td>
+
+<td>
+${item.required === true ? "YES" : "NO"}
+</td>
+
+<td>
+${item.passed === true ? "PASS" : "FAIL"}
+</td>
+
+<td>
+${item.detail || "-"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+if(
+ibkrPositionRows.length === 0
+){
+
+ibkrPositionSyncTable.innerHTML = `
+
+<tr>
+
+<td colspan="5">
+No broker position comparison available yet.
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+ibkrPositionRows.forEach(
+item => {
+
+
+ibkrPositionSyncTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.ticker || "-"}</b>
+</td>
+
+<td>
+${formatNumber(item.aurora_shares,2)}
+</td>
+
+<td>
+${formatNumber(item.broker_shares,2)}
+</td>
+
+<td>
+${formatNumber(item.difference,2)}
+</td>
+
+<td>
+${item.matched === true ? "YES" : "NO"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =============================================== */
 /* =============================================== */
 /* V8.2 SHADOW POLICY MONITOR */
 /* =============================================== */
