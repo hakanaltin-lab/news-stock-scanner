@@ -304,7 +304,7 @@ AURORA Market Intelligence
 </h1>
 
 <div class="subtitle">
-Market Regime + Earnings/Event Risk + Correlation/Factor Risk + Portfolio Management + Capital Allocation + Final Portfolio Projection + US Market Opportunity Radar
+Market Regime + Earnings/Event Risk + Correlation Gate + Correlation/Factor Risk + Portfolio Management + Capital Allocation + Final Portfolio Projection + US Market Opportunity Radar
 </div>
 
 <div
@@ -705,6 +705,21 @@ id="dominant-factor"
 
 </div>
 
+<div class="stat">
+
+<div class="stat-label">
+Correlation Gate Alerts
+</div>
+
+<div
+class="stat-value"
+id="correlation-gate-alerts"
+>
+-
+</div>
+
+</div>
+
 
 </div>
 
@@ -998,13 +1013,64 @@ Loading position sizing...
 
 
 <!-- ================================================= -->
-<!-- V7.5 REGIME + EVENT-AWARE CAPITAL ALLOCATION -->
+<!-- V7.7 CORRELATION-AWARE ALLOCATION GATE -->
+<!-- ================================================= -->
+
+<div class="card yellow">
+
+<div class="title">
+🧠 V7.7 CORRELATION-AWARE ALLOCATION GATE
+</div>
+
+<div
+id="correlation-gate-summary"
+class="section-note"
+>
+Loading correlation gate...
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Ticker</th>
+<th>Policy</th>
+<th>Risk</th>
+<th>Size Multiplier</th>
+<th>Portfolio Corr</th>
+<th>Max Pair</th>
+<th>Pair Ticker</th>
+<th>Projected Cluster</th>
+<th>Dominant Factor</th>
+<th>Reason</th>
+</tr>
+
+</thead>
+
+<tbody id="correlation-gate-table">
+
+<tr>
+<td colspan="10" class="loading">
+Loading correlation gate...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- V7.7 REGIME + EVENT + CORRELATION-AWARE CAPITAL ALLOCATION -->
 <!-- ================================================= -->
 
 <div class="card teal">
 
 <div class="title">
-💰 V7.5 REGIME + EVENT-AWARE CAPITAL ALLOCATION
+💰 V7.7 REGIME + EVENT + CORRELATION-AWARE CAPITAL ALLOCATION
 </div>
 
 <div
@@ -1538,6 +1604,10 @@ if(status === "EVENT_BLOCK"){
 return "blocked";
 }
 
+if(status === "CORRELATION_BLOCK"){
+return "blocked";
+}
+
 return "notrade";
 
 }
@@ -1680,6 +1750,16 @@ rebalancing.rebalancing_plan
 
 const capital =
 data.capital_allocation
+|| {};
+
+
+const correlationGate =
+data.correlation_allocation_gate
+|| {};
+
+
+const correlationCandidateRisk =
+correlationGate.candidate_risk
 || {};
 
 
@@ -2833,7 +2913,181 @@ ${item.reason || "-"}
 
 
 /* =============================================== */
-/* V7.2 CAPITAL ALLOCATION */
+/* V7.7 CORRELATION-AWARE ALLOCATION GATE */
+/* =============================================== */
+
+
+const correlationGateTable =
+document.getElementById(
+"correlation-gate-table"
+);
+
+
+correlationGateTable.innerHTML =
+"";
+
+
+const gateCandidates =
+Object.values(
+correlationCandidateRisk
+);
+
+
+const gateDominantFactor =
+correlationGate.portfolio_dominant_factor
+|| {};
+
+
+document.getElementById(
+"correlation-gate-summary"
+).textContent =
+
+"Portfolio dominant factor: "
++
+(
+gateDominantFactor.factor
+||
+"-"
+)
++
+" | Blocked: "
++
+(
+correlationGate.blocked_count
+?? 0
+)
++
+" | Reduced: "
++
+(
+correlationGate.reduced_count
+?? 0
+)
++
+" | Cluster block limit: "
++
+formatNumber(
+(
+correlationGate.policy
+||
+{}
+).cluster_block_limit_pct,
+0
+)
++
+"%"
++
+" | High-correlation threshold: "
++
+formatNumber(
+(
+correlationGate.policy
+||
+{}
+).high_correlation_threshold,
+2
+);
+
+
+if(
+gateCandidates.length === 0
+){
+
+correlationGateTable.innerHTML = `
+
+<tr>
+
+<td colspan="10">
+
+No actionable candidates were evaluated by the correlation gate.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+gateCandidates.forEach(
+item => {
+
+
+const reasons =
+(
+item.reasons
+||
+[]
+).join(
+"; "
+);
+
+
+const dominant =
+item.dominant_factor
+|| {};
+
+
+correlationGateTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.ticker || "-"}</b>
+</td>
+
+<td>
+<span class="badge ${item.policy === "BLOCK" ? "blocked" : item.policy === "REDUCE_SIZE" ? "warning" : "allocate"}">
+${item.policy || "-"}
+</span>
+</td>
+
+<td>
+${item.risk_level || "-"}
+</td>
+
+<td>
+${formatNumber(item.size_multiplier,2)}x
+</td>
+
+<td>
+${formatNumber(item.candidate_portfolio_correlation,3)}
+</td>
+
+<td>
+${formatNumber(item.max_pair_correlation,3)}
+</td>
+
+<td>
+${item.max_pair_ticker || "-"}
+</td>
+
+<td>
+${formatNumber(item.projected_cluster_weight_pct,2)}%
+</td>
+
+<td>
+${dominant.factor || "-"}
+</td>
+
+<td>
+${reasons || "-"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =============================================== */
+/* V7.7 CAPITAL ALLOCATION */
 /* =============================================== */
 
 
@@ -2859,6 +3113,20 @@ capital.market_regime
 marketRegime.regime
 ||
 "-"
+)
++
+" | Correlation blocks/reductions: "
++
+(
+capital.correlation_blocked_count
+?? 0
+)
++
+"/"
++
+(
+capital.correlation_reduced_count
+?? 0
 )
 +
 " | Event alerts: "
