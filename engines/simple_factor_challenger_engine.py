@@ -473,6 +473,80 @@ def download_price_frame(
                 ticker
             ] = series
 
+    missing_after_download_retries = [
+        ticker
+        for ticker in tickers
+        if ticker not in close_data
+    ]
+
+    # Alternate Yahoo retrieval path. yfinance multi/download can return
+    # "no timezone" or "data doesn't exist" for some otherwise valid symbols.
+    # Ticker.history(period="max") uses a different request path and may
+    # recover those histories without changing the pre-registered strategy.
+    for ticker in missing_after_download_retries:
+        try:
+            history = yf.Ticker(
+                ticker
+            ).history(
+                period="max",
+                interval="1d",
+                auto_adjust=True,
+                actions=False
+            )
+
+        except Exception:
+            continue
+
+        if (
+            history is None
+            or
+            history.empty
+            or
+            "Close"
+            not in history.columns
+        ):
+            continue
+
+        try:
+            series = (
+                history[
+                    "Close"
+                ]
+                .dropna()
+                .astype(
+                    float
+                )
+            )
+
+            if getattr(
+                series.index,
+                "tz",
+                None
+            ) is not None:
+                series.index = (
+                    series.index
+                    .tz_localize(
+                        None
+                    )
+                )
+
+            series = series.loc[
+                pd.Timestamp(
+                    DOWNLOAD_START
+                ):
+                pd.Timestamp(
+                    DOWNLOAD_END
+                )
+            ]
+
+        except Exception:
+            continue
+
+        if not series.empty:
+            close_data[
+                ticker
+            ] = series
+
     if not close_data:
         return pd.DataFrame()
 
