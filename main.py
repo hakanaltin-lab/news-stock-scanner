@@ -1,5 +1,5 @@
 """
-V7.8 Global Market Intelligence Scanner
+V7.9 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -98,6 +98,11 @@ from engines.alpha_intelligence_engine import (
 
 from engines.decision_engine import (
     generate_decision
+)
+
+
+from engines.strategic_market_engine import (
+    analyze_strategic_market
 )
 
 
@@ -370,7 +375,18 @@ def run_scanner():
 
 
         # =================================================
-        # PORTFOLIO MANAGEMENT
+        # V7.9 STRATEGIC POSITION INTELLIGENCE
+        # =================================================
+
+        strategic_market = (
+            analyze_strategic_market(
+                ticker
+            )
+        )
+
+
+        # =================================================
+        # V7.9 MULTI-HORIZON PORTFOLIO MANAGEMENT
         # =================================================
 
         portfolio_management = (
@@ -379,12 +395,11 @@ def run_scanner():
                 shares=shares,
                 avg_cost=avg_cost,
                 current_price=current_price,
-                alpha_score=alpha_score,
-                market_score=market_score,
+                strategic_result=strategic_market,
                 catalyst_score=catalyst_score,
                 sector_score=sector_score,
-                risk_score=risk_score,
-                signal=signal
+                tactical_decision=entry_decision,
+                tactical_signal=signal
             )
         )
 
@@ -436,6 +451,12 @@ def run_scanner():
             "market":
             snapshot,
 
+            "tactical_market":
+            snapshot,
+
+            "strategic_market":
+            strategic_market,
+
             "signal":
             signal,
 
@@ -457,7 +478,22 @@ def run_scanner():
                 risk_score,
 
                 "alpha_score":
-                alpha_score
+                alpha_score,
+
+                "strategic_trend_score":
+                strategic_market.get(
+                    "strategic_trend_score"
+                ),
+
+                "strategic_risk_score":
+                strategic_market.get(
+                    "strategic_risk_score"
+                ),
+
+                "strategic_composite_score":
+                portfolio_management.get(
+                    "strategic_composite_score"
+                )
             },
 
             "news":
@@ -483,6 +519,22 @@ def run_scanner():
 
             "entry_decision":
             entry_decision,
+
+            "tactical_timing": {
+                "action":
+                entry_decision.get(
+                    "action",
+                    "AVOID"
+                ),
+
+                "signal":
+                signal,
+
+                "status":
+                portfolio_management.get(
+                    "tactical_add_status"
+                )
+            },
 
             "portfolio_action":
             portfolio_action,
@@ -628,7 +680,21 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V7.8",
+        "V7.9",
+
+        "decision_architecture": {
+            "portfolio_horizon":
+            "STRATEGIC_DAILY_3M_12M",
+
+            "entry_timing_horizon":
+            "TACTICAL_15M_5D",
+
+            "principle":
+            (
+                "Strategic evidence controls ADD/HOLD/WATCH/REDUCE/EXIT; "
+                "intraday evidence controls entry timing only."
+            )
+        },
 
         "portfolio":
         results,
@@ -698,7 +764,7 @@ def run_scanner():
 
 
     print(
-        "V7.8 Scanner completed successfully"
+        "V7.9 Scanner completed successfully"
     )
 
 
