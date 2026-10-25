@@ -1437,7 +1437,14 @@ Loading action evidence...
 
 
 <div class="section-note">
-Cash-mix benchmark test
+Cash-mix / exposure-matched benchmark test — AURORA, 100% EW, 75/25, 65/35 and risk-matched controls shown together.
+</div>
+
+<div
+id="cashmix-benchmark-summary"
+class="section-note"
+>
+Loading exposure test...
 </div>
 
 <table>
@@ -4786,11 +4793,85 @@ item[1]
 );
 
 
-Object.keys(
-cashMixControls
-).forEach(
-key => {
+function cashMixRow(
+label,
+investedText,
+cashText,
+perf,
+auroraCagrAdvantage,
+auroraSharpeAdvantage
+){
 
+cashMixBenchmarkTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${label}</b>
+</td>
+
+<td>
+${investedText}
+</td>
+
+<td>
+${cashText}
+</td>
+
+<td>
+${perf.cagr_pct === null || perf.cagr_pct === undefined ? "-" : formatNumber(perf.cagr_pct,2) + "%"}
+</td>
+
+<td>
+${perf.sharpe_ratio === null || perf.sharpe_ratio === undefined ? "-" : formatNumber(perf.sharpe_ratio,3)}
+</td>
+
+<td>
+${perf.max_drawdown_pct === null || perf.max_drawdown_pct === undefined ? "-" : formatNumber(perf.max_drawdown_pct,2) + "%"}
+</td>
+
+<td>
+${auroraCagrAdvantage === null || auroraCagrAdvantage === undefined ? "-" : formatNumber(auroraCagrAdvantage,2) + "%"}
+</td>
+
+<td>
+${auroraSharpeAdvantage === null || auroraSharpeAdvantage === undefined ? "-" : formatNumber(auroraSharpeAdvantage,3)}
+</td>
+
+</tr>
+
+`;
+
+}
+
+
+cashMixRow(
+"AURORA Strategic Overlay",
+"Dynamic",
+"Dynamic",
+backtestPerformance,
+0,
+0
+);
+
+
+cashMixRow(
+"100% Equal Weight / 0% Cash",
+"100.0%",
+"0.0%",
+equalWeightControlPerformance,
+overlayAlphaVsControl.cagr_alpha_pct,
+overlayAlphaVsControl.sharpe_improvement
+);
+
+
+[
+"equal_weight_75_25",
+"equal_weight_65_35",
+"volatility_matched_equal_weight",
+"drawdown_matched_equal_weight"
+].forEach(
+key => {
 
 const item =
 cashMixControls[
@@ -4798,53 +4879,82 @@ key
 ]
 || {};
 
-
 const perf =
 item.performance
 || {};
 
-
-cashMixBenchmarkTable.innerHTML += `
-
-<tr>
-
-<td>
-<b>${item.label || key}</b>
-</td>
-
-<td>
-${formatNumber((item.invested_weight ?? 0) * 100,1)}%
-</td>
-
-<td>
-${formatNumber((item.cash_weight ?? 0) * 100,1)}%
-</td>
-
-<td>
-${formatNumber(perf.cagr_pct,2)}%
-</td>
-
-<td>
-${formatNumber(perf.sharpe_ratio,3)}
-</td>
-
-<td>
-${formatNumber(perf.max_drawdown_pct,2)}%
-</td>
-
-<td>
-${formatNumber(item.aurora_cagr_advantage_pct,2)}%
-</td>
-
-<td>
-${formatNumber(item.aurora_sharpe_advantage,3)}
-</td>
-
-</tr>
-
-`;
+cashMixRow(
+item.label || key,
+formatNumber((item.invested_weight ?? 0) * 100,1) + "%",
+formatNumber((item.cash_weight ?? 0) * 100,1) + "%",
+perf,
+item.aurora_cagr_advantage_pct,
+item.aurora_sharpe_advantage
+);
 
 });
+
+
+const volatilityMatched =
+cashMixControls.volatility_matched_equal_weight
+|| {};
+
+const volatilityMatchedPerformance =
+volatilityMatched.performance
+|| {};
+
+
+document.getElementById(
+"cashmix-benchmark-summary"
+).textContent =
+
+"Exposure test | AURORA CAGR "
++
+(
+backtestPerformance.cagr_pct == null
+?
+"-"
+:
+formatNumber(backtestPerformance.cagr_pct,2) + "%"
+)
++
+" vs volatility-matched EW "
++
+(
+volatilityMatchedPerformance.cagr_pct == null
+?
+"-"
+:
+formatNumber(volatilityMatchedPerformance.cagr_pct,2) + "%"
+)
++
+" | Sharpe "
++
+formatNumber(backtestPerformance.sharpe_ratio,3)
++
+" vs "
++
+formatNumber(volatilityMatchedPerformance.sharpe_ratio,3)
++
+" | Max DD "
++
+(
+backtestPerformance.max_drawdown_pct == null
+?
+"-"
+:
+formatNumber(backtestPerformance.max_drawdown_pct,2) + "%"
+)
++
+" vs "
++
+(
+volatilityMatchedPerformance.max_drawdown_pct == null
+?
+"-"
+:
+formatNumber(volatilityMatchedPerformance.max_drawdown_pct,2) + "%"
+);
 
 
 /* =============================================== */
