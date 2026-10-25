@@ -1447,6 +1447,14 @@ class="section-note"
 Loading exposure test...
 </div>
 
+<div id="exposure-attribution-verdict" class="section-note">
+Loading V8.4.3 attribution verdict...
+</div>
+
+<div id="exposure-attribution-metrics" class="section-note">
+Research-only diagnostic.
+</div>
+
 <table>
 
 <thead>
@@ -4956,6 +4964,37 @@ volatilityMatchedPerformance.max_drawdown_pct == null
 formatNumber(volatilityMatchedPerformance.max_drawdown_pct,2) + "%"
 );
 
+
+const attribution =
+walkForwardBacktest.exposure_attribution_verdict
+|| {};
+
+document.getElementById(
+"exposure-attribution-verdict"
+).textContent =
+"V8.4.3 | " +
+(attribution.status || "PENDING") +
+" | " + (attribution.verdict || "UNDETERMINED") +
+" | Calibration: " + (attribution.calibration_gate || "RESEARCH_ONLY");
+
+const fmtAttr = (value, digits=2) =>
+value == null ? "-" : formatNumber(value,digits);
+
+document.getElementById(
+"exposure-attribution-metrics"
+).textContent =
+"Vol-matched CAGR advantage: " +
+fmtAttr(attribution.vol_matched_cagr_advantage_pct) + " pp" +
+" | Vol-matched Sharpe advantage: " +
+fmtAttr(attribution.vol_matched_sharpe_advantage,3) +
+" | Vol-matched drawdown advantage: " +
+fmtAttr(attribution.vol_matched_drawdown_advantage_pct) + " pp" +
+" | DD-matched CAGR advantage: " +
+fmtAttr(attribution.dd_matched_cagr_advantage_pct) + " pp" +
+" | Exposure proxy share of DD reduction: " +
+(attribution.exposure_proxy_share_of_drawdown_reduction_pct == null
+? "-" : fmtAttr(attribution.exposure_proxy_share_of_drawdown_reduction_pct) + "%") +
+" | Hindsight-fitted research diagnostic; not causal or OOS proof.";
 
 /* =============================================== */
 /* =============================================== */
