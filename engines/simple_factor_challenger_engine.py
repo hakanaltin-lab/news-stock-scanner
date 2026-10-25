@@ -65,7 +65,7 @@ SOURCE_FILES = {
 TEST_START = "2012-01-01"
 TEST_END = "2021-12-31"
 
-DOWNLOAD_START = "2010-12-01"
+DOWNLOAD_START = "2009-12-01"
 DOWNLOAD_END = "2022-01-10"
 
 TOP_N = 12
@@ -73,6 +73,7 @@ MIN_WARMUP_SESSIONS = 252
 TRADING_FRICTION_BPS = 10.0
 STARTING_CAPITAL = 100000.0
 BATCH_SIZE = 60
+RETRY_BATCH_SIZE = 10
 REQUEST_TIMEOUT_SECONDS = 45
 
 MIN_REBALANCE_OBSERVATIONS = 100
@@ -366,6 +367,111 @@ def download_price_frame(
                 close_data[
                     ticker
                 ] = series
+
+    # Data-quality recovery pass. The strategy specification is unchanged;
+    # this only retries symbols that Yahoo may miss in large multi-ticker calls.
+    missing_after_primary = [
+        ticker
+        for ticker in tickers
+        if ticker not in close_data
+    ]
+
+    for start in range(
+        0,
+        len(
+            missing_after_primary
+        ),
+        RETRY_BATCH_SIZE
+    ):
+        batch = missing_after_primary[
+            start:
+            start
+            +
+            RETRY_BATCH_SIZE
+        ]
+
+        if not batch:
+            continue
+
+        try:
+            data = yf.download(
+                tickers=batch,
+                start=DOWNLOAD_START,
+                end=DOWNLOAD_END,
+                interval="1d",
+                auto_adjust=True,
+                progress=False,
+                threads=False,
+                group_by="ticker"
+            )
+
+        except Exception:
+            continue
+
+        if (
+            data is None
+            or
+            data.empty
+        ):
+            continue
+
+        for ticker in batch:
+            if ticker in close_data:
+                continue
+
+            series = extract_close_series(
+                data,
+                ticker,
+                len(
+                    batch
+                )
+            )
+
+            if series is not None:
+                close_data[
+                    ticker
+                ] = series
+
+    missing_after_batch_retry = [
+        ticker
+        for ticker in tickers
+        if ticker not in close_data
+    ]
+
+    # Final single-symbol retry helps distinguish genuine historical-data
+    # absence from batch/API extraction failures.
+    for ticker in missing_after_batch_retry:
+        try:
+            data = yf.download(
+                tickers=ticker,
+                start=DOWNLOAD_START,
+                end=DOWNLOAD_END,
+                interval="1d",
+                auto_adjust=True,
+                progress=False,
+                threads=False
+            )
+
+        except Exception:
+            continue
+
+        if (
+            data is None
+            or
+            data.empty
+        ):
+            continue
+
+        series = extract_close_series(
+            data,
+            ticker,
+            1
+        )
+
+        if series is not None:
+            close_data[
+                ticker
+            ] = series
 
     if not close_data:
         return pd.DataFrame()
