@@ -58,6 +58,14 @@ KAGGLE_RECOVERY_BASE_URL = (
     + "/Kaggle/Data/"
 )
 
+KAGGLE_RECOVERY_INDEX_URL = (
+    "https://raw.githubusercontent.com/"
+    + KAGGLE_RECOVERY_REPOSITORY
+    + "/"
+    + KAGGLE_RECOVERY_COMMIT
+    + "/index.txt"
+)
+
 SOURCE_BASE_URL = (
     "https://raw.githubusercontent.com/"
     + SOURCE_REPOSITORY
@@ -317,8 +325,28 @@ def extract_close_series(
         return None
 
 
+def fetch_kaggle_recovery_index():
+    try:
+        response = requests.get(
+            KAGGLE_RECOVERY_INDEX_URL,
+            timeout=REQUEST_TIMEOUT_SECONDS
+        )
+
+        response.raise_for_status()
+
+        return set(
+            line.strip().lower()
+            for line in response.text.splitlines()
+            if line.strip()
+        )
+
+    except Exception:
+        return set()
+
+
 def fetch_kaggle_recovery_series(
-    ticker
+    ticker,
+    available_files=None
 ):
     """
     Recover old adjusted daily closes from the public Kaggle/Stooq mirror.
@@ -335,118 +363,125 @@ def fetch_kaggle_recovery_series(
         "_"
     )
 
-    for folder in [
-        "Stocks",
-        "ETFs"
-    ]:
-        url = (
-            KAGGLE_RECOVERY_BASE_URL
-            +
-            folder
-            +
-            "/"
-            +
-            normalized
-            +
-            ".us.txt"
+    filename = (
+        normalized
+        +
+        ".us.txt"
+    )
+
+    if (
+        available_files
+        and
+        filename
+        not in available_files
+    ):
+        return None
+
+    url = (
+        KAGGLE_RECOVERY_BASE_URL
+        +
+        "Stocks/"
+        +
+        filename
+    )
+
+    try:
+        response = requests.get(
+            url,
+            timeout=REQUEST_TIMEOUT_SECONDS
         )
 
-        try:
-            response = requests.get(
-                url,
-                timeout=REQUEST_TIMEOUT_SECONDS
+    except Exception:
+        return None
+
+    if (
+        response.status_code
+        !=
+        200
+        or
+        not response.text.strip()
+    ):
+        return None
+
+    try:
+        frame = pd.read_csv(
+            io.StringIO(
+                response.text
             )
+        )
 
-        except Exception:
-            continue
+    except Exception:
+        return None
 
-        if (
-            response.status_code
-            !=
-            200
-            or
-            not response.text.strip()
-        ):
-            continue
+    if (
+        frame.empty
+        or
+        "Date"
+        not in frame.columns
+        or
+        "Close"
+        not in frame.columns
+    ):
+        return None
 
-        try:
-            frame = pd.read_csv(
-                io.StringIO(
-                    response.text
-                )
-            )
-
-        except Exception:
-            continue
-
-        if (
-            frame.empty
-            or
+    try:
+        frame[
             "Date"
-            not in frame.columns
-            or
-            "Close"
-            not in frame.columns
-        ):
-            continue
-
-        try:
+        ] = pd.to_datetime(
             frame[
                 "Date"
-            ] = pd.to_datetime(
-                frame[
-                    "Date"
-                ],
-                errors="coerce"
-            )
+            ],
+            errors="coerce"
+        )
 
+        frame[
+            "Close"
+        ] = pd.to_numeric(
             frame[
                 "Close"
-            ] = pd.to_numeric(
-                frame[
-                    "Close"
-                ],
-                errors="coerce"
-            )
+            ],
+            errors="coerce"
+        )
 
-            series = (
-                frame
-                .dropna(
-                    subset=[
-                        "Date",
-                        "Close"
-                    ]
-                )
-                .set_index(
-                    "Date"
-                )[
+        series = (
+            frame
+            .dropna(
+                subset=[
+                    "Date",
                     "Close"
                 ]
-                .astype(
-                    float
-                )
-                .sort_index()
             )
-
-            series = series.loc[
-                pd.Timestamp(
-                    DOWNLOAD_START
-                ):
-                pd.Timestamp(
-                    min(
-                        DOWNLOAD_END,
-                        KAGGLE_RECOVERY_LAST_DATE
-                    )
-                )
+            .set_index(
+                "Date"
+            )[
+                "Close"
             ]
+            .astype(
+                float
+            )
+            .sort_index()
+        )
 
-        except Exception:
-            continue
+        series = series.loc[
+            pd.Timestamp(
+                DOWNLOAD_START
+            ):
+            pd.Timestamp(
+                min(
+                    DOWNLOAD_END,
+                    KAGGLE_RECOVERY_LAST_DATE
+                )
+            )
+        ]
 
-        if not series.empty:
-            return series
+    except Exception:
+        return None
 
-    return None
+    return (
+        series
+        if not series.empty
+        else None
+    )
 
 
 def download_price_frame(
@@ -728,9 +763,14 @@ def download_price_frame(
         if ticker not in close_data
     ]
 
+    kaggle_available_files = (
+        fetch_kaggle_recovery_index()
+    )
+
     for ticker in missing_after_yahoo:
         series = fetch_kaggle_recovery_series(
-            ticker
+            ticker,
+            available_files=kaggle_available_files
         )
 
         if series is None:
@@ -2657,6 +2697,13 @@ def run_simple_factor_challenger():
 
             "fallback_last_date":
             KAGGLE_RECOVERY_LAST_DATE,
+
+            "fallback_indexed_files":
+            len(
+                kaggle_available_files
+            )
+            if 'kaggle_available_files' in locals()
+            else 0,
 
             "source_counts":
             close_frame.attrs.get(
