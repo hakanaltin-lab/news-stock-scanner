@@ -198,6 +198,11 @@ from engines.fundamental_thesis_engine import (
 )
 
 
+from engines.thesis_exit_shadow_engine import (
+    build_thesis_exit_shadow_journal
+)
+
+
 PORTFOLIO_FILE = "data/portfolio.csv"
 
 OUTPUT_FILE = "docs/latest.json"
@@ -878,7 +883,37 @@ def run_scanner():
 
 
     # =====================================================
-    # 14. V8.4 HISTORICAL EVIDENCE RECOVERY
+    # 14. V8.5.2 THESIS-AWARE EXIT SHADOW JOURNAL
+    # =====================================================
+
+    try:
+        thesis_exit_shadow = (
+            build_thesis_exit_shadow_journal(
+                results,
+                market_regime_result=market_regime
+            )
+        )
+
+    except Exception as error:
+        thesis_exit_shadow = {
+            "engine":
+            "V8.5.2 Thesis-Aware Exit Shadow Journal",
+
+            "status":
+            "ERROR",
+
+            "live_actions_changed":
+            False,
+
+            "error":
+            str(
+                error
+            )
+        }
+
+
+    # =====================================================
+    # 15. V8.4 HISTORICAL EVIDENCE RECOVERY
     # =====================================================
 
     try:
@@ -911,7 +946,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V8.5",
+        "V8.5.2",
 
         "decision_architecture": {
             "portfolio_horizon":
@@ -974,6 +1009,9 @@ def run_scanner():
 
         "historical_evidence_recovery":
         historical_evidence_recovery,
+
+        "thesis_exit_shadow":
+        thesis_exit_shadow,
 
         "fundamental_thesis_summary": {
             "strong":
@@ -1147,7 +1185,7 @@ def run_scanner():
 
 
     # =====================================================
-    # 16. V7.8 RECOMMENDATION PERFORMANCE JOURNAL
+    # 17. V7.8 RECOMMENDATION PERFORMANCE JOURNAL
     # =====================================================
 
     recommendation_performance = (
@@ -1182,7 +1220,7 @@ def run_scanner():
 
 
     print(
-        "V8.5 Scanner completed successfully"
+        "V8.5.2 Scanner completed successfully"
     )
 
 
