@@ -43,7 +43,7 @@ ENGINE_VERSION = (
     "V8.1 Strategic Policy Calibration Lab"
 )
 
-CALIBRATION_SIGNATURE = "V8.1.1"
+CALIBRATION_SIGNATURE = "V8.1.2"
 
 OUTPUT_FILE = "docs/strategic_policy_calibration.json"
 
@@ -1681,15 +1681,56 @@ def promotion_verdict(
             criteria
         }
 
+    shadow_candidate = (
+        criteria[
+            "cagr_improvement_vs_default_pct"
+        ]
+        >=
+        5.0
+        and
+        criteria[
+            "sharpe_improvement_vs_default"
+        ]
+        >
+        0
+        and
+        criteria[
+            "drawdown_reduction_vs_control_pct"
+        ]
+        >=
+        5.0
+        and
+        criteria[
+            "fold_win_rate_vs_default_pct"
+        ]
+        >=
+        66.0
+    )
+
+    if shadow_candidate:
+        return {
+            "status":
+            "SHADOW_CANDIDATE",
+
+            "message":
+            (
+                "Calibrated policy is materially stronger than the live "
+                "default out-of-sample, but not yet strong enough for live "
+                "promotion. Run it in shadow mode on fresh forward data."
+            ),
+
+            "criteria":
+            criteria
+        }
+
     return {
         "status":
         "KEEP_DEFAULT",
 
         "message":
         (
-            "Calibration evidence is not strong enough to replace the live "
-            "V7.9 policy. Keep the current live policy unchanged and use "
-            "the lab result for further research."
+            "Calibration evidence is not strong enough to replace or shadow "
+            "the live V7.9 policy. Keep the current live policy unchanged."
         ),
 
         "criteria":
@@ -2324,6 +2365,19 @@ def run_strategic_policy_calibration(
 
         "most_selected_policy":
         most_selected_policy,
+
+        "shadow_candidate_policy":
+        (
+            most_selected_policy
+            if verdict.get(
+                "status"
+            )
+            in [
+                "SHADOW_CANDIDATE",
+                "PROMOTE_CANDIDATE"
+            ]
+            else None
+        ),
 
         "out_of_sample": {
             "fold_count":
