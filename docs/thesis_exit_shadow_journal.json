@@ -1,0 +1,199 @@
+{
+  "engine": "V8.5.2 Thesis-Aware Exit Shadow Journal",
+  "updated_at": "2026-10-25T09:21:51.601367+00:00",
+  "record_count": 4,
+  "records": [
+    {
+      "id": "da3f2bf32e5981b2",
+      "signal_date": "2026-10-23",
+      "recorded_at": "2026-10-25T09:21:51.444623+00:00",
+      "ticker": "BKR",
+      "base_action": "REDUCE",
+      "thesis_shadow_action": "REDUCE",
+      "review_status": "CONFIRMED_PARTIAL",
+      "thesis_health": "DETERIORATING",
+      "fundamental_score": null,
+      "live_exposure": 0.5,
+      "shadow_exposure": 0.5,
+      "exposure_difference": 0.0,
+      "signal_price": 55.86,
+      "spy_entry_price": 759.97,
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "446e70f1b98d97f0",
+      "signal_date": "2026-10-23",
+      "recorded_at": "2026-10-25T09:21:51.444642+00:00",
+      "ticker": "CCLD",
+      "base_action": "EXIT",
+      "thesis_shadow_action": "REDUCE",
+      "review_status": "CONFIRMED_PARTIAL",
+      "thesis_health": "DETERIORATING",
+      "fundamental_score": null,
+      "live_exposure": 0.0,
+      "shadow_exposure": 0.5,
+      "exposure_difference": 0.5,
+      "signal_price": 1.76,
+      "spy_entry_price": 759.97,
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "7fc84da5dfee760e",
+      "signal_date": "2026-10-23",
+      "recorded_at": "2026-10-25T09:21:51.444657+00:00",
+      "ticker": "GOOG",
+      "base_action": "REDUCE",
+      "thesis_shadow_action": "HOLD",
+      "review_status": "CONTRADICTED",
+      "thesis_health": "STRONG",
+      "fundamental_score": null,
+      "live_exposure": 0.5,
+      "shadow_exposure": 1.0,
+      "exposure_difference": 0.5,
+      "signal_price": 317.24,
+      "spy_entry_price": 759.97,
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "6320b2299bd47188",
+      "signal_date": "2026-10-23",
+      "recorded_at": "2026-10-25T09:21:51.444677+00:00",
+      "ticker": "VRT",
+      "base_action": "EXIT",
+      "thesis_shadow_action": "HOLD",
+      "review_status": "CONTRADICTED",
+      "thesis_health": "STRONG",
+      "fundamental_score": null,
+      "live_exposure": 0.0,
+      "shadow_exposure": 1.0,
+      "exposure_difference": 1.0,
+      "signal_price": 194.31,
+      "spy_entry_price": 759.97,
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    }
+  ]
+}
