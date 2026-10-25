@@ -1,0 +1,76 @@
+name: Daily Forward Evidence Archive
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "engines/evidence_archive_engine.py"
+      - "scripts/run_evidence_archive.py"
+      - ".github/workflows/evidence_archive.yml"
+  schedule:
+    - cron: "30 22 * * 1-5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-forward-evidence-archive
+  cancel-in-progress: true
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Compile archive engine
+        run: |
+          python -m py_compile engines/evidence_archive_engine.py
+          python -m py_compile scripts/run_evidence_archive.py
+
+      - name: Build daily point-in-time archive
+        env:
+          PYTHONPATH: .
+        run: |
+          python scripts/run_evidence_archive.py
+
+      - name: Publish archive
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          TODAY="$(date -u +%F)"
+          DAILY="data/evidence_archive/$TODAY.json"
+          LATEST="data/evidence_archive/latest.json"
+
+          if [ ! -f "$DAILY" ] || [ ! -f "$LATEST" ]; then
+            echo "Archive output missing"
+            exit 1
+          fi
+
+          git add "$DAILY" "$LATEST"
+
+          if git diff --cached --quiet; then
+            echo "No archive changes"
+            exit 0
+          fi
+
+          git commit -m "Archive daily forward evidence $TODAY"
+          git pull --rebase origin main
+          git push origin HEAD:main
