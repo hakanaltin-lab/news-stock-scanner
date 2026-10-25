@@ -1,6 +1,6 @@
 {
-  "generated": "2026-10-25T08:08:27.442125",
-  "scanner_version": "V8.0",
+  "generated": "2026-10-25T08:13:20.882239",
+  "scanner_version": "V8.1",
   "decision_architecture": {
     "portfolio_horizon": "STRATEGIC_DAILY_3M_12M",
     "entry_timing_horizon": "TACTICAL_15M_5D",
@@ -9,7 +9,7 @@
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-10-25T08:08:07.054470",
+      "timestamp": "2026-10-25T08:10:59.259571",
       "holding": {
         "shares": "10",
         "avg_cost": "140.16",
@@ -19,7 +19,7 @@
       },
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-25T08:08:05.947011",
+        "timestamp": "2026-10-25T08:10:58.497054",
         "last_price": 516.87,
         "vwap": 532.04,
         "momentum": -34.9,
@@ -32,7 +32,7 @@
       },
       "tactical_market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-25T08:08:05.947011",
+        "timestamp": "2026-10-25T08:10:58.497054",
         "last_price": 516.87,
         "vwap": 532.04,
         "momentum": -34.9,
@@ -207,7 +207,7 @@
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-10-25T08:08:07.620462",
+      "timestamp": "2026-10-25T08:10:59.899208",
       "holding": {
         "shares": "35",
         "avg_cost": "147.95",
@@ -217,7 +217,7 @@
       },
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-25T08:08:07.169045",
+        "timestamp": "2026-10-25T08:10:59.393978",
         "last_price": 172.34,
         "vwap": 178.27,
         "momentum": -8.57,
@@ -230,7 +230,7 @@
       },
       "tactical_market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-25T08:08:07.169045",
+        "timestamp": "2026-10-25T08:10:59.393978",
         "last_price": 172.34,
         "vwap": 178.27,
         "momentum": -8.57,
@@ -405,7 +405,7 @@
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-10-25T08:08:08.100780",
+      "timestamp": "2026-10-25T08:11:00.543420",
       "holding": {
         "shares": "3",
         "avg_cost": "676.38",
@@ -415,7 +415,7 @@
       },
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-25T08:08:07.749937",
+        "timestamp": "2026-10-25T08:11:00.048725",
         "last_price": 1571.19,
         "vwap": 1622.44,
         "momentum": -89.9,
@@ -428,7 +428,7 @@
       },
       "tactical_market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-25T08:08:07.749937",
+        "timestamp": "2026-10-25T08:11:00.048725",
         "last_price": 1571.19,
         "vwap": 1622.44,
         "momentum": -89.9,
@@ -595,7 +595,7 @@
     },
     {
       "ticker": "BKR",
-      "timestamp": "2026-10-25T08:08:08.703828",
+      "timestamp": "2026-10-25T08:11:01.268601",
       "holding": {
         "shares": "13",
         "avg_cost": "57.80",
@@ -605,7 +605,7 @@
       },
       "market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-25T08:08:08.233000",
+        "timestamp": "2026-10-25T08:11:00.706802",
         "last_price": 55.86,
         "vwap": 54.98,
         "momentum": 0.22,
@@ -618,7 +618,7 @@
       },
       "tactical_market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-25T08:08:08.233000",
+        "timestamp": "2026-10-25T08:11:00.706802",
         "last_price": 55.86,
         "vwap": 54.98,
         "momentum": 0.22,
@@ -805,7 +805,7 @@
     },
     {
       "ticker": "CCLD",
-      "timestamp": "2026-10-25T08:08:09.256817",
+      "timestamp": "2026-10-25T08:11:02.045194",
       "holding": {
         "shares": "490",
         "avg_cost": "2.04",
@@ -815,7 +815,7 @@
       },
       "market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-25T08:08:08.817754",
+        "timestamp": "2026-10-25T08:11:01.398122",
         "last_price": 1.76,
         "vwap": 1.78,
         "momentum": -0.07,
@@ -828,7 +828,7 @@
       },
       "tactical_market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-25T08:08:08.817754",
+        "timestamp": "2026-10-25T08:11:01.398122",
         "last_price": 1.76,
         "vwap": 1.78,
         "momentum": -0.07,
@@ -996,7 +996,7 @@
     },
     {
       "ticker": "CTAS",
-      "timestamp": "2026-10-25T08:08:09.898851",
+      "timestamp": "2026-10-25T08:11:02.831389",
       "holding": {
         "shares": "4",
         "avg_cost": "196.26",
@@ -1006,7 +1006,7 @@
       },
       "market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-25T08:08:09.384010",
+        "timestamp": "2026-10-25T08:11:02.200232",
         "last_price": 224.13,
         "vwap": 219.88,
         "momentum": 12.31,
@@ -1019,7 +1019,7 @@
       },
       "tactical_market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-25T08:08:09.384010",
+        "timestamp": "2026-10-25T08:11:02.200232",
         "last_price": 224.13,
         "vwap": 219.88,
         "momentum": 12.31,
@@ -1187,7 +1187,7 @@
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-10-25T08:08:10.480774",
+      "timestamp": "2026-10-25T08:11:03.467250",
       "holding": {
         "shares": "20",
         "avg_cost": "207.68",
@@ -1197,7 +1197,7 @@
       },
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-25T08:08:10.012645",
+        "timestamp": "2026-10-25T08:11:02.963777",
         "last_price": 317.24,
         "vwap": 328.95,
         "momentum": -22.36,
@@ -1210,7 +1210,7 @@
       },
       "tactical_market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-25T08:08:10.012645",
+        "timestamp": "2026-10-25T08:11:02.963777",
         "last_price": 317.24,
         "vwap": 328.95,
         "momentum": -22.36,
@@ -1385,7 +1385,7 @@
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-10-25T08:08:10.866526",
+      "timestamp": "2026-10-25T08:11:03.939438",
       "holding": {
         "shares": "44",
         "avg_cost": "171.81",
@@ -1395,7 +1395,7 @@
       },
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-25T08:08:10.594008",
+        "timestamp": "2026-10-25T08:11:03.608113",
         "last_price": 158.74,
         "vwap": 166.34,
         "momentum": -12.81,
@@ -1408,7 +1408,7 @@
       },
       "tactical_market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-25T08:08:10.594008",
+        "timestamp": "2026-10-25T08:11:03.608113",
         "last_price": 158.74,
         "vwap": 166.34,
         "momentum": -12.81,
@@ -1583,7 +1583,7 @@
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-10-25T08:08:11.313093",
+      "timestamp": "2026-10-25T08:11:04.510895",
       "holding": {
         "shares": "24",
         "avg_cost": "160.96",
@@ -1593,7 +1593,7 @@
       },
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-25T08:08:10.985441",
+        "timestamp": "2026-10-25T08:11:04.093771",
         "last_price": 211.0,
         "vwap": 216.27,
         "momentum": -4.51,
@@ -1606,7 +1606,7 @@
       },
       "tactical_market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-25T08:08:10.985441",
+        "timestamp": "2026-10-25T08:11:04.093771",
         "last_price": 211.0,
         "vwap": 216.27,
         "momentum": -4.51,
@@ -1787,7 +1787,7 @@
     },
     {
       "ticker": "OMDA",
-      "timestamp": "2026-10-25T08:08:11.744467",
+      "timestamp": "2026-10-25T08:11:05.142127",
       "holding": {
         "shares": "10",
         "avg_cost": "20.45",
@@ -1797,7 +1797,7 @@
       },
       "market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-25T08:08:11.417461",
+        "timestamp": "2026-10-25T08:11:04.654015",
         "last_price": 18.95,
         "vwap": 19.09,
         "momentum": 1.01,
@@ -1810,7 +1810,7 @@
       },
       "tactical_market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-25T08:08:11.417461",
+        "timestamp": "2026-10-25T08:11:04.654015",
         "last_price": 18.95,
         "vwap": 19.09,
         "momentum": 1.01,
@@ -1977,7 +1977,7 @@
     },
     {
       "ticker": "UNH",
-      "timestamp": "2026-10-25T08:08:12.343729",
+      "timestamp": "2026-10-25T08:11:05.794812",
       "holding": {
         "shares": "2",
         "avg_cost": "369.93",
@@ -1987,7 +1987,7 @@
       },
       "market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-25T08:08:11.910447",
+        "timestamp": "2026-10-25T08:11:05.302262",
         "last_price": 418.01,
         "vwap": 417.33,
         "momentum": 13.92,
@@ -2000,7 +2000,7 @@
       },
       "tactical_market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-25T08:08:11.910447",
+        "timestamp": "2026-10-25T08:11:05.302262",
         "last_price": 418.01,
         "vwap": 417.33,
         "momentum": 13.92,
@@ -2168,7 +2168,7 @@
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-10-25T08:08:12.762629",
+      "timestamp": "2026-10-25T08:11:06.453598",
       "holding": {
         "shares": "11",
         "avg_cost": "316.20",
@@ -2178,7 +2178,7 @@
       },
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-25T08:08:12.461484",
+        "timestamp": "2026-10-25T08:11:05.931386",
         "last_price": 194.31,
         "vwap": 202.31,
         "momentum": -15.58,
@@ -2191,7 +2191,7 @@
       },
       "tactical_market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-25T08:08:12.461484",
+        "timestamp": "2026-10-25T08:11:05.931386",
         "last_price": 194.31,
         "vwap": 202.31,
         "momentum": -15.58,
@@ -2957,7 +2957,7 @@
         },
         "market": {
           "ticker": "ADBE",
-          "timestamp": "2026-10-25T08:08:17.381574",
+          "timestamp": "2026-10-25T08:11:12.311309",
           "last_price": 263.83,
           "vwap": 259.75,
           "momentum": 19.01,
@@ -3102,7 +3102,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-25T08:08:16.123271",
+          "timestamp": "2026-10-25T08:11:10.922050",
           "last_price": 150.81,
           "vwap": 147.0,
           "momentum": 4.55,
@@ -3243,7 +3243,7 @@
         },
         "market": {
           "ticker": "NOW",
-          "timestamp": "2026-10-25T08:08:15.086182",
+          "timestamp": "2026-10-25T08:11:09.752521",
           "last_price": 158.99,
           "vwap": 152.64,
           "momentum": 16.73,
@@ -3363,7 +3363,7 @@
         },
         "market": {
           "ticker": "CVX",
-          "timestamp": "2026-10-25T08:08:16.783031",
+          "timestamp": "2026-10-25T08:11:11.594720",
           "last_price": 233.2,
           "vwap": 226.84,
           "momentum": 8.38,
@@ -3483,7 +3483,7 @@
         },
         "market": {
           "ticker": "ISRG",
-          "timestamp": "2026-10-25T08:08:16.449319",
+          "timestamp": "2026-10-25T08:11:11.262726",
           "last_price": 452.29,
           "vwap": 436.53,
           "momentum": 25.56,
@@ -3603,7 +3603,7 @@
         },
         "market": {
           "ticker": "XOM",
-          "timestamp": "2026-10-25T08:08:17.088080",
+          "timestamp": "2026-10-25T08:11:11.941450",
           "last_price": 183.21,
           "vwap": 178.61,
           "momentum": 4.2,
@@ -3723,7 +3723,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-25T08:08:15.696482",
+          "timestamp": "2026-10-25T08:11:10.423618",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
@@ -3867,7 +3867,7 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-10-25T08:08:17.695569",
+          "timestamp": "2026-10-25T08:11:12.655231",
           "last_price": 407.94,
           "vwap": 408.1,
           "momentum": 6.03,
@@ -3997,7 +3997,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-25T08:08:15.696482",
+          "timestamp": "2026-10-25T08:11:10.423618",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
@@ -4143,7 +4143,7 @@
         },
         "market": {
           "ticker": "ADBE",
-          "timestamp": "2026-10-25T08:08:17.381574",
+          "timestamp": "2026-10-25T08:11:12.311309",
           "last_price": 263.83,
           "vwap": 259.75,
           "momentum": 19.01,
@@ -4288,7 +4288,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-25T08:08:16.123271",
+          "timestamp": "2026-10-25T08:11:10.922050",
           "last_price": 150.81,
           "vwap": 147.0,
           "momentum": 4.55,
@@ -4427,7 +4427,7 @@
         },
         "market": {
           "ticker": "NOW",
-          "timestamp": "2026-10-25T08:08:15.086182",
+          "timestamp": "2026-10-25T08:11:09.752521",
           "last_price": 158.99,
           "vwap": 152.64,
           "momentum": 16.73,
@@ -4547,7 +4547,7 @@
         },
         "market": {
           "ticker": "CVX",
-          "timestamp": "2026-10-25T08:08:16.783031",
+          "timestamp": "2026-10-25T08:11:11.594720",
           "last_price": 233.2,
           "vwap": 226.84,
           "momentum": 8.38,
@@ -4667,7 +4667,7 @@
         },
         "market": {
           "ticker": "ISRG",
-          "timestamp": "2026-10-25T08:08:16.449319",
+          "timestamp": "2026-10-25T08:11:11.262726",
           "last_price": 452.29,
           "vwap": 436.53,
           "momentum": 25.56,
@@ -4787,7 +4787,7 @@
         },
         "market": {
           "ticker": "XOM",
-          "timestamp": "2026-10-25T08:08:17.088080",
+          "timestamp": "2026-10-25T08:11:11.941450",
           "last_price": 183.21,
           "vwap": 178.61,
           "momentum": 4.2,
@@ -4907,7 +4907,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-25T08:08:15.696482",
+          "timestamp": "2026-10-25T08:11:10.423618",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
@@ -5051,7 +5051,7 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-10-25T08:08:17.695569",
+          "timestamp": "2026-10-25T08:11:12.655231",
           "last_price": 407.94,
           "vwap": 408.1,
           "momentum": 6.03,
@@ -5168,7 +5168,7 @@
   },
   "market_regime": {
     "engine": "V7.4 Market Regime Engine",
-    "timestamp": "2026-10-25T08:08:18.672464+00:00",
+    "timestamp": "2026-10-25T08:11:13.666370+00:00",
     "market_date": "2026-10-23",
     "regime": "NORMAL",
     "regime_score": 45.0,
@@ -5258,7 +5258,7 @@
   },
   "event_risk": {
     "engine": "V7.5 Earnings & Event Risk Engine",
-    "generated": "2026-10-25T08:08:25.660894+00:00",
+    "generated": "2026-10-25T08:11:20.620143+00:00",
     "reference_date": "2026-10-25",
     "macro_event_risk": {
       "reference_date": "2026-10-25",
@@ -6233,7 +6233,7 @@
   },
   "correlation_allocation_gate": {
     "engine": "V7.7 Correlation-Aware Capital Allocation Gate",
-    "timestamp": "2026-10-25T08:08:26.939860+00:00",
+    "timestamp": "2026-10-25T08:11:21.986357+00:00",
     "existing_position_count": 10,
     "actionable_candidate_count": 2,
     "portfolio_factor_profile": {
@@ -6747,7 +6747,7 @@
   },
   "portfolio_correlation_factor_risk": {
     "engine": "V7.6 Portfolio Correlation & Factor Risk Engine",
-    "timestamp": "2026-10-25T08:08:26.988840+00:00",
+    "timestamp": "2026-10-25T08:11:22.037025+00:00",
     "position_count": 12,
     "data_coverage": {
       "positions_with_market_history": 12,
@@ -8709,12 +8709,379 @@
     ],
     "interpretation": "Use this result as evidence about the V7.9 strategic price/risk layer. Do not use it as proof that the full AURORA system is profitable until point-in-time fundamental/news data and broker execution are also validated."
   },
+  "strategic_policy_calibration": {
+    "engine": "V8.1 Strategic Policy Calibration Lab",
+    "calibration_signature": "V8.1.1",
+    "portfolio_signature": "ec19f05aec2acca5",
+    "cache_status": "FRESH",
+    "status": "COMPLETE",
+    "generated": "2026-10-25T08:13:20.881378+00:00",
+    "market_date": "2026-10-23",
+    "live_policy_status": "V7.9 DEFAULT UNCHANGED",
+    "validation_scope": "CURRENT_PORTFOLIO_STRATEGIC_PRICE_RISK_LAYER",
+    "methodology": {
+      "policy_family_size": 5,
+      "policy_family": [
+        "DEFAULT_V7_9",
+        "BALANCED_GENTLE",
+        "RETURN_FRIENDLY",
+        "MOMENTUM_FRIENDLY",
+        "RISK_AWARE_GENTLE"
+      ],
+      "training_mode": "EXPANDING_WINDOW",
+      "minimum_training_sessions": 252,
+      "oos_fold_sessions": 126,
+      "selection_constraint": "Prefer highest CAGR among predefined policies that reduce training max drawdown by at least 15% vs same-universe equal-weight control.",
+      "execution": "Prior-session data only; selected policy frozen for the entire next out-of-sample fold.",
+      "parameter_search": "SMALL_PREDECLARED_POLICY_FAMILY_ONLY",
+      "automatic_live_promotion": false
+    },
+    "policy_family": {
+      "DEFAULT_V7_9": {
+        "description": "Current live V7.9 strategic policy.",
+        "exit_trend_max": 30,
+        "exit_risk_max": 35,
+        "exit_return_6m_max": -20,
+        "exit_rs_6m_max": -15,
+        "reduce_trend_max": 40,
+        "reduce_return_6m_max": -8,
+        "reduce_rs_6m_max": -8,
+        "hold_trend_min": 65,
+        "hold_risk_min": 45,
+        "hold_return_6m_min": 0,
+        "hold_rs_6m_min": 0,
+        "hold_exposure": 1.0,
+        "watch_exposure": 0.75,
+        "reduce_exposure": 0.5,
+        "exit_exposure": 0.0
+      },
+      "BALANCED_GENTLE": {
+        "description": "Later exits and smaller de-risking steps.",
+        "exit_trend_max": 25,
+        "exit_risk_max": 30,
+        "exit_return_6m_max": -25,
+        "exit_rs_6m_max": -18,
+        "reduce_trend_max": 35,
+        "reduce_return_6m_max": -12,
+        "reduce_rs_6m_max": -10,
+        "hold_trend_min": 60,
+        "hold_risk_min": 40,
+        "hold_return_6m_min": 0,
+        "hold_rs_6m_min": 0,
+        "hold_exposure": 1.0,
+        "watch_exposure": 0.9,
+        "reduce_exposure": 0.65,
+        "exit_exposure": 0.1
+      },
+      "RETURN_FRIENDLY": {
+        "description": "Keeps more exposure during mixed trends while retaining hard risk exits.",
+        "exit_trend_max": 20,
+        "exit_risk_max": 25,
+        "exit_return_6m_max": -30,
+        "exit_rs_6m_max": -20,
+        "reduce_trend_max": 30,
+        "reduce_return_6m_max": -15,
+        "reduce_rs_6m_max": -12,
+        "hold_trend_min": 58,
+        "hold_risk_min": 35,
+        "hold_return_6m_min": 0,
+        "hold_rs_6m_min": -2,
+        "hold_exposure": 1.0,
+        "watch_exposure": 0.95,
+        "reduce_exposure": 0.75,
+        "exit_exposure": 0.2
+      },
+      "MOMENTUM_FRIENDLY": {
+        "description": "Avoids cutting positions unless long-horizon momentum is decisively broken.",
+        "exit_trend_max": 20,
+        "exit_risk_max": 22,
+        "exit_return_6m_max": -25,
+        "exit_rs_6m_max": -20,
+        "reduce_trend_max": 30,
+        "reduce_return_6m_max": -15,
+        "reduce_rs_6m_max": -15,
+        "hold_trend_min": 55,
+        "hold_risk_min": 35,
+        "hold_return_6m_min": -2,
+        "hold_rs_6m_min": -3,
+        "hold_exposure": 1.0,
+        "watch_exposure": 0.97,
+        "reduce_exposure": 0.8,
+        "exit_exposure": 0.25
+      },
+      "RISK_AWARE_GENTLE": {
+        "description": "Retains meaningful drawdown control but reduces the severity of partial exits.",
+        "exit_trend_max": 25,
+        "exit_risk_max": 28,
+        "exit_return_6m_max": -25,
+        "exit_rs_6m_max": -18,
+        "reduce_trend_max": 35,
+        "reduce_return_6m_max": -10,
+        "reduce_rs_6m_max": -10,
+        "hold_trend_min": 60,
+        "hold_risk_min": 38,
+        "hold_return_6m_min": 0,
+        "hold_rs_6m_min": 0,
+        "hold_exposure": 1.0,
+        "watch_exposure": 0.88,
+        "reduce_exposure": 0.7,
+        "exit_exposure": 0.15
+      }
+    },
+    "policy_selection_counts": {
+      "DEFAULT_V7_9": 0,
+      "BALANCED_GENTLE": 0,
+      "RETURN_FRIENDLY": 1,
+      "MOMENTUM_FRIENDLY": 5,
+      "RISK_AWARE_GENTLE": 0
+    },
+    "most_selected_policy": "MOMENTUM_FRIENDLY",
+    "out_of_sample": {
+      "fold_count": 6,
+      "calibrated_policy": {
+        "starting_value": 100000.0,
+        "ending_value": 314572.65,
+        "total_return_pct": 214.57,
+        "cagr_pct": 47.35,
+        "annualized_volatility_pct": 24.49,
+        "sharpe_ratio": 1.706,
+        "sortino_ratio": 2.353,
+        "max_drawdown_pct": 23.99,
+        "trading_days": 745,
+        "years": 2.96
+      },
+      "default_v7_9": {
+        "starting_value": 100000.0,
+        "ending_value": 233242.5,
+        "total_return_pct": 133.24,
+        "cagr_pct": 33.17,
+        "annualized_volatility_pct": 18.98,
+        "sharpe_ratio": 1.605,
+        "sortino_ratio": 2.205,
+        "max_drawdown_pct": 19.66,
+        "trading_days": 745,
+        "years": 2.96
+      },
+      "equal_weight_control": {
+        "starting_value": 100000.0,
+        "ending_value": 395512.95,
+        "total_return_pct": 295.51,
+        "cagr_pct": 59.22,
+        "annualized_volatility_pct": 29.08,
+        "sharpe_ratio": 1.746,
+        "sortino_ratio": 2.436,
+        "max_drawdown_pct": 32.09,
+        "trading_days": 745,
+        "years": 2.96
+      },
+      "folds": [
+        {
+          "fold": 1,
+          "train_start": "2022-10-25",
+          "train_end": "2023-10-25",
+          "oos_start": "2023-10-26",
+          "oos_end": "2024-04-26",
+          "selected_policy": "MOMENTUM_FRIENDLY",
+          "selection_rule": "Highest training CAGR among policies reducing max drawdown by at least 15% vs equal-weight control",
+          "selected_training_result": {
+            "policy_name": "MOMENTUM_FRIENDLY",
+            "training_cagr_pct": 30.34,
+            "training_sharpe": 1.435,
+            "training_max_drawdown_pct": 7.56,
+            "control_cagr_pct": 37.63,
+            "control_max_drawdown_pct": 12.54,
+            "drawdown_reduction_ratio": 0.397,
+            "risk_constraint_pass": true,
+            "training_score": -4.45
+          },
+          "oos_calibrated_return_pct": 46.79,
+          "oos_default_return_pct": 34.6,
+          "oos_control_return_pct": 56.49,
+          "calibrated_vs_default_pct": 12.19,
+          "calibrated_vs_control_pct": -9.7,
+          "calibrated_max_drawdown_pct": 7.94,
+          "default_max_drawdown_pct": 6.98,
+          "control_max_drawdown_pct": 7.77,
+          "calibrated_sharpe": 4.213,
+          "default_sharpe": 3.84
+        },
+        {
+          "fold": 2,
+          "train_start": "2022-10-25",
+          "train_end": "2024-04-26",
+          "oos_start": "2024-04-29",
+          "oos_end": "2024-10-25",
+          "selected_policy": "MOMENTUM_FRIENDLY",
+          "selection_rule": "Highest training CAGR among policies reducing max drawdown by at least 15% vs equal-weight control",
+          "selected_training_result": {
+            "policy_name": "MOMENTUM_FRIENDLY",
+            "training_cagr_pct": 52.25,
+            "training_sharpe": 2.249,
+            "training_max_drawdown_pct": 8.31,
+            "control_cagr_pct": 62.18,
+            "control_max_drawdown_pct": 13.75,
+            "drawdown_reduction_ratio": 0.396,
+            "risk_constraint_pass": true,
+            "training_score": -6.5
+          },
+          "oos_calibrated_return_pct": 29.25,
+          "oos_default_return_pct": 21.94,
+          "oos_control_return_pct": 32.41,
+          "calibrated_vs_default_pct": 7.31,
+          "calibrated_vs_control_pct": -3.16,
+          "calibrated_max_drawdown_pct": 12.69,
+          "default_max_drawdown_pct": 10.31,
+          "control_max_drawdown_pct": 13.12,
+          "calibrated_sharpe": 1.972,
+          "default_sharpe": 1.936
+        },
+        {
+          "fold": 3,
+          "train_start": "2022-10-25",
+          "train_end": "2024-10-25",
+          "oos_start": "2024-10-28",
+          "oos_end": "2025-04-30",
+          "selected_policy": "RETURN_FRIENDLY",
+          "selection_rule": "Highest training CAGR among policies reducing max drawdown by at least 15% vs equal-weight control",
+          "selected_training_result": {
+            "policy_name": "RETURN_FRIENDLY",
+            "training_cagr_pct": 54.76,
+            "training_sharpe": 2.133,
+            "training_max_drawdown_pct": 11.65,
+            "control_cagr_pct": 64.96,
+            "control_max_drawdown_pct": 13.75,
+            "drawdown_reduction_ratio": 0.153,
+            "risk_constraint_pass": true,
+            "training_score": -8.7
+          },
+          "oos_calibrated_return_pct": -10.84,
+          "oos_default_return_pct": -9.57,
+          "oos_control_return_pct": -11.72,
+          "calibrated_vs_default_pct": -1.27,
+          "calibrated_vs_control_pct": 0.88,
+          "calibrated_max_drawdown_pct": 23.99,
+          "default_max_drawdown_pct": 19.66,
+          "control_max_drawdown_pct": 32.09,
+          "calibrated_sharpe": -0.75,
+          "default_sharpe": -0.948
+        },
+        {
+          "fold": 4,
+          "train_start": "2022-10-25",
+          "train_end": "2025-04-30",
+          "oos_start": "2025-05-01",
+          "oos_end": "2025-10-29",
+          "selected_policy": "MOMENTUM_FRIENDLY",
+          "selection_rule": "Highest training CAGR among policies reducing max drawdown by at least 15% vs equal-weight control",
+          "selected_training_result": {
+            "policy_name": "MOMENTUM_FRIENDLY",
+            "training_cagr_pct": 37.98,
+            "training_sharpe": 1.508,
+            "training_max_drawdown_pct": 22.79,
+            "control_cagr_pct": 41.87,
+            "control_max_drawdown_pct": 32.19,
+            "drawdown_reduction_ratio": 0.292,
+            "risk_constraint_pass": true,
+            "training_score": 1.635
+          },
+          "oos_calibrated_return_pct": 45.59,
+          "oos_default_return_pct": 29.82,
+          "oos_control_return_pct": 65.38,
+          "calibrated_vs_default_pct": 15.77,
+          "calibrated_vs_control_pct": -19.79,
+          "calibrated_max_drawdown_pct": 4.33,
+          "default_max_drawdown_pct": 3.47,
+          "control_max_drawdown_pct": 4.74,
+          "calibrated_sharpe": 4.515,
+          "default_sharpe": 4.134
+        },
+        {
+          "fold": 5,
+          "train_start": "2022-10-25",
+          "train_end": "2025-10-29",
+          "oos_start": "2025-10-30",
+          "oos_end": "2026-05-01",
+          "selected_policy": "MOMENTUM_FRIENDLY",
+          "selection_rule": "Highest training CAGR among policies reducing max drawdown by at least 15% vs equal-weight control",
+          "selected_training_result": {
+            "policy_name": "MOMENTUM_FRIENDLY",
+            "training_cagr_pct": 48.37,
+            "training_sharpe": 1.886,
+            "training_max_drawdown_pct": 22.79,
+            "control_cagr_pct": 59.03,
+            "control_max_drawdown_pct": 32.19,
+            "drawdown_reduction_ratio": 0.292,
+            "risk_constraint_pass": true,
+            "training_score": -5.49
+          },
+          "oos_calibrated_return_pct": 19.32,
+          "oos_default_return_pct": 13.61,
+          "oos_control_return_pct": 27.14,
+          "calibrated_vs_default_pct": 5.71,
+          "calibrated_vs_control_pct": -7.82,
+          "calibrated_max_drawdown_pct": 11.22,
+          "default_max_drawdown_pct": 8.74,
+          "control_max_drawdown_pct": 11.47,
+          "calibrated_sharpe": 1.45,
+          "default_sharpe": 1.314
+        },
+        {
+          "fold": 6,
+          "train_start": "2022-10-25",
+          "train_end": "2026-05-01",
+          "oos_start": "2026-05-04",
+          "oos_end": "2026-10-23",
+          "selected_policy": "MOMENTUM_FRIENDLY",
+          "selection_rule": "Highest training CAGR among policies reducing max drawdown by at least 15% vs equal-weight control",
+          "selected_training_result": {
+            "policy_name": "MOMENTUM_FRIENDLY",
+            "training_cagr_pct": 47.22,
+            "training_sharpe": 1.801,
+            "training_max_drawdown_pct": 22.79,
+            "control_cagr_pct": 58.8,
+            "control_max_drawdown_pct": 32.19,
+            "drawdown_reduction_ratio": 0.292,
+            "risk_constraint_pass": true,
+            "training_score": -6.81
+          },
+          "oos_calibrated_return_pct": 7.05,
+          "oos_default_return_pct": 6.54,
+          "oos_control_return_pct": 2.83,
+          "calibrated_vs_default_pct": 0.51,
+          "calibrated_vs_control_pct": 4.22,
+          "calibrated_max_drawdown_pct": 11.45,
+          "default_max_drawdown_pct": 7.97,
+          "control_max_drawdown_pct": 14.53,
+          "calibrated_sharpe": 0.663,
+          "default_sharpe": 0.744
+        }
+      ]
+    },
+    "promotion_verdict": {
+      "status": "KEEP_DEFAULT",
+      "message": "Calibration evidence is not strong enough to replace the live V7.9 policy. Keep the current live policy unchanged and use the lab result for further research.",
+      "criteria": {
+        "cagr_improvement_vs_default_pct": 14.18,
+        "cagr_gap_vs_control_pct": -11.87,
+        "sharpe_improvement_vs_default": 0.101,
+        "drawdown_reduction_vs_control_pct": 8.1,
+        "fold_win_rate_vs_default_pct": 83.3,
+        "fold_win_rate_vs_control_pct": 33.3
+      }
+    },
+    "limitations": [
+      "The universe is the current portfolio, so survivorship and selection bias remain.",
+      "Historical news, fundamentals, events and sector-state snapshots are not reconstructed.",
+      "Only five predeclared policy families are compared to reduce data-mining risk; this is not exhaustive optimization.",
+      "A PROMOTE_CANDIDATE verdict would still require a separate live-policy review before changing V7.9 thresholds."
+    ]
+  },
   "recommendation_performance": {
     "engine": "V7.8 Recommendation Performance Journal",
-    "generated": "2026-10-25T08:08:27.844144+00:00",
-    "total_signals": 119,
+    "generated": "2026-10-25T08:13:21.489126+00:00",
+    "total_signals": 125,
     "bootstrap_signals_added": 0,
-    "new_signals_added": 0,
+    "new_signals_added": 6,
     "oldest_signal_date": "2026-10-23",
     "newest_signal_date": "2026-10-25",
     "model_versions": [
@@ -8731,12 +9098,13 @@
       "V7.7",
       "V7.8",
       "V7.9",
-      "V8.0"
+      "V8.0",
+      "V8.1"
     ],
     "horizons": {
       "5d": {
         "evaluated": 0,
-        "pending": 119,
+        "pending": 125,
         "benchmark_hit_rate_pct": null,
         "absolute_hit_rate_pct": null,
         "average_stock_return_pct": null,
@@ -8746,7 +9114,7 @@
       },
       "20d": {
         "evaluated": 0,
-        "pending": 119,
+        "pending": 125,
         "benchmark_hit_rate_pct": null,
         "absolute_hit_rate_pct": null,
         "average_stock_return_pct": null,
@@ -8756,7 +9124,7 @@
       },
       "60d": {
         "evaluated": 0,
-        "pending": 119,
+        "pending": 125,
         "benchmark_hit_rate_pct": null,
         "absolute_hit_rate_pct": null,
         "average_stock_return_pct": null,
@@ -8768,7 +9136,7 @@
     "by_action_20d": {
       "BUY": {
         "evaluated": 0,
-        "pending": 19,
+        "pending": 21,
         "benchmark_hit_rate_pct": null,
         "absolute_hit_rate_pct": null,
         "average_stock_return_pct": null,
@@ -8778,7 +9146,7 @@
       },
       "REDUCE": {
         "evaluated": 0,
-        "pending": 54,
+        "pending": 56,
         "benchmark_hit_rate_pct": null,
         "absolute_hit_rate_pct": null,
         "average_stock_return_pct": null,
@@ -8798,7 +9166,7 @@
       },
       "EXIT": {
         "evaluated": 0,
-        "pending": 24,
+        "pending": 26,
         "benchmark_hit_rate_pct": null,
         "absolute_hit_rate_pct": null,
         "average_stock_return_pct": null,
@@ -8879,6 +9247,16 @@
         "average_decision_alpha_pct": null
       },
       "V8.0": {
+        "evaluated": 0,
+        "pending": 6,
+        "benchmark_hit_rate_pct": null,
+        "absolute_hit_rate_pct": null,
+        "average_stock_return_pct": null,
+        "average_spy_return_pct": null,
+        "average_excess_return_pct": null,
+        "average_decision_alpha_pct": null
+      },
+      "V8.1": {
         "evaluated": 0,
         "pending": 6,
         "benchmark_hit_rate_pct": null,
