@@ -52,7 +52,7 @@ ENGINE_VERSION = (
     "V8.0 Historical Replay & Walk-Forward Backtest Engine"
 )
 
-BACKTEST_SIGNATURE = "V8.4.1"
+BACKTEST_SIGNATURE = "V8.4.2"
 
 OUTPUT_FILE = "docs/walk_forward_backtest.json"
 
@@ -2525,8 +2525,106 @@ def build_scaled_equal_weight_control(
         ),
 
         "performance":
-        metrics
+        metrics,
+
+        "cost_model_note":
+        (
+            "Scaled from the already net-of-friction equal-weight control "
+            "return stream; displayed trading-cost field is zero because no "
+            "second cost layer is applied."
+        )
     }
+
+
+def find_drawdown_matched_weight(
+    control_equity,
+    spy_equity,
+    target_max_drawdown_pct
+):
+    """
+    Find the constant equal-weight exposure whose max drawdown is as close as
+    possible to AURORA's max drawdown. Cash is assumed to have zero return.
+
+    The underlying control equity is already net of its modeled trading
+    friction, so the scaled return stream inherits that friction effect.
+    """
+
+    target = safe_float(
+        target_max_drawdown_pct,
+        0
+    )
+
+    if (
+        control_equity is None
+        or
+        control_equity.empty
+        or
+        target <= 0
+    ):
+        return 0.0
+
+    low = 0.0
+    high = 1.0
+
+    best_weight = 0.0
+    best_distance = float(
+        "inf"
+    )
+
+    for _ in range(
+        32
+    ):
+        mid = (
+            low
+            +
+            high
+        ) / 2
+
+        candidate = (
+            build_scaled_equal_weight_control(
+                control_equity,
+                spy_equity,
+                mid,
+                "Drawdown-Matched Equal Weight / Cash"
+            )
+        )
+
+        max_dd = safe_float(
+            (
+                candidate.get(
+                    "performance",
+                    {}
+                )
+                or
+                {}
+            ).get(
+                "max_drawdown_pct"
+            ),
+            0
+        )
+
+        distance = abs(
+            max_dd
+            -
+            target
+        )
+
+        if distance < best_distance:
+            best_distance = distance
+            best_weight = mid
+
+        if max_dd > target:
+            high = mid
+        else:
+            low = mid
+
+    return min(
+        1.0,
+        max(
+            0.0,
+            best_weight
+        )
+    )
 
 
 def enrich_folds_with_control(
@@ -3120,6 +3218,16 @@ def run_walk_forward_backtest(
         0.65
     )
 
+    drawdown_matched_weight = (
+        find_drawdown_matched_weight(
+            control_equity,
+            spy_equity,
+            strategy_metrics.get(
+                "max_drawdown_pct"
+            )
+        )
+    )
+
     risk_scaled_controls = {
         "equal_weight_75_25":
         build_scaled_equal_weight_control(
@@ -3143,6 +3251,14 @@ def run_walk_forward_backtest(
             spy_equity,
             volatility_matched_weight,
             "Volatility-Matched Equal Weight / Cash"
+        ),
+
+        "drawdown_matched_equal_weight":
+        build_scaled_equal_weight_control(
+            control_equity,
+            spy_equity,
+            drawdown_matched_weight,
+            "Drawdown-Matched Equal Weight / Cash"
         )
     }
 
