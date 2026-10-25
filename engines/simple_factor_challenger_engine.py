@@ -46,6 +46,18 @@ OUTPUT_FILE = (
 SOURCE_REPOSITORY = "thuningxu/sp500nq100"
 SOURCE_COMMIT = "1cc1de2770874293597a418b41b079e5337b260c"
 
+KAGGLE_RECOVERY_REPOSITORY = "wmhbrown121/trade-datasets"
+KAGGLE_RECOVERY_COMMIT = "c2a1af916490810bc01866deefbd509620225846"
+KAGGLE_RECOVERY_LAST_DATE = "2017-11-10"
+
+KAGGLE_RECOVERY_BASE_URL = (
+    "https://raw.githubusercontent.com/"
+    + KAGGLE_RECOVERY_REPOSITORY
+    + "/"
+    + KAGGLE_RECOVERY_COMMIT
+    + "/Kaggle/Data/"
+)
+
 SOURCE_BASE_URL = (
     "https://raw.githubusercontent.com/"
     + SOURCE_REPOSITORY
@@ -305,6 +317,138 @@ def extract_close_series(
         return None
 
 
+def fetch_kaggle_recovery_series(
+    ticker
+):
+    """
+    Recover old adjusted daily closes from the public Kaggle/Stooq mirror.
+
+    The upstream Kaggle dataset is frozen at 2017-11-10 and documents its
+    prices as adjusted for dividends and splits. It is used only when Yahoo
+    provides no usable history for the symbol.
+    """
+
+    normalized = str(
+        ticker
+    ).strip().lower().replace(
+        "-",
+        "_"
+    )
+
+    for folder in [
+        "Stocks",
+        "ETFs"
+    ]:
+        url = (
+            KAGGLE_RECOVERY_BASE_URL
+            +
+            folder
+            +
+            "/"
+            +
+            normalized
+            +
+            ".us.txt"
+        )
+
+        try:
+            response = requests.get(
+                url,
+                timeout=REQUEST_TIMEOUT_SECONDS
+            )
+
+        except Exception:
+            continue
+
+        if (
+            response.status_code
+            !=
+            200
+            or
+            not response.text.strip()
+        ):
+            continue
+
+        try:
+            frame = pd.read_csv(
+                io.StringIO(
+                    response.text
+                )
+            )
+
+        except Exception:
+            continue
+
+        if (
+            frame.empty
+            or
+            "Date"
+            not in frame.columns
+            or
+            "Close"
+            not in frame.columns
+        ):
+            continue
+
+        try:
+            frame[
+                "Date"
+            ] = pd.to_datetime(
+                frame[
+                    "Date"
+                ],
+                errors="coerce"
+            )
+
+            frame[
+                "Close"
+            ] = pd.to_numeric(
+                frame[
+                    "Close"
+                ],
+                errors="coerce"
+            )
+
+            series = (
+                frame
+                .dropna(
+                    subset=[
+                        "Date",
+                        "Close"
+                    ]
+                )
+                .set_index(
+                    "Date"
+                )[
+                    "Close"
+                ]
+                .astype(
+                    float
+                )
+                .sort_index()
+            )
+
+            series = series.loc[
+                pd.Timestamp(
+                    DOWNLOAD_START
+                ):
+                pd.Timestamp(
+                    min(
+                        DOWNLOAD_END,
+                        KAGGLE_RECOVERY_LAST_DATE
+                    )
+                )
+            ]
+
+        except Exception:
+            continue
+
+        if not series.empty:
+            return series
+
+    return None
+
+
 def download_price_frame(
     tickers
 ):
@@ -317,6 +461,8 @@ def download_price_frame(
     )
 
     close_data = {}
+
+    source_by_ticker = {}
 
     for start in range(
         0,
@@ -367,6 +513,10 @@ def download_price_frame(
                 close_data[
                     ticker
                 ] = series
+
+                source_by_ticker[
+                    ticker
+                ] = "YAHOO_DOWNLOAD"
 
     # Data-quality recovery pass. The strategy specification is unchanged;
     # this only retries symbols that Yahoo may miss in large multi-ticker calls.
@@ -431,6 +581,10 @@ def download_price_frame(
                 close_data[
                     ticker
                 ] = series
+
+                source_by_ticker[
+                    ticker
+                ] = "YAHOO_BATCH_RETRY"
 
     missing_after_batch_retry = [
         ticker
@@ -547,12 +701,62 @@ def download_price_frame(
                 ticker
             ] = series
 
+            source_by_ticker[
+                ticker
+            ] = "YAHOO_TICKER_HISTORY"
+
+    missing_after_yahoo = [
+        ticker
+        for ticker in tickers
+        if ticker not in close_data
+    ]
+
+    for ticker in missing_after_yahoo:
+        series = fetch_kaggle_recovery_series(
+            ticker
+        )
+
+        if series is None:
+            continue
+
+        close_data[
+            ticker
+        ] = series
+
+        source_by_ticker[
+            ticker
+        ] = "KAGGLE_STOOQ_2017"
+
     if not close_data:
         return pd.DataFrame()
 
-    return pd.DataFrame(
+    frame = pd.DataFrame(
         close_data
     ).sort_index()
+
+    source_counts = {}
+
+    for source in source_by_ticker.values():
+        source_counts[
+            source
+        ] = (
+            source_counts.get(
+                source,
+                0
+            )
+            +
+            1
+        )
+
+    frame.attrs[
+        "price_source_counts"
+    ] = source_counts
+
+    frame.attrs[
+        "price_source_by_ticker"
+    ] = source_by_ticker
+
+    return frame
 
 
 def first_trading_day_each_month(
@@ -2395,6 +2599,29 @@ def run_simple_factor_challenger():
 
             "trading_friction_bps":
             TRADING_FRICTION_BPS
+        },
+
+        "price_data_recovery": {
+            "primary_source":
+            "YAHOO_FINANCE_ADJUSTED",
+
+            "fallback_source":
+            "KAGGLE_STOOQ_ADJUSTED_THROUGH_2017_11_10",
+
+            "fallback_repository":
+            KAGGLE_RECOVERY_REPOSITORY,
+
+            "fallback_commit":
+            KAGGLE_RECOVERY_COMMIT,
+
+            "fallback_last_date":
+            KAGGLE_RECOVERY_LAST_DATE,
+
+            "source_counts":
+            close_frame.attrs.get(
+                "price_source_counts",
+                {}
+            )
         },
 
         "universe_counts": {
