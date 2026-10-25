@@ -1418,6 +1418,54 @@ def evaluate_all(
 
 
 def run_historical_evidence_recovery():
+    today_utc = (
+        datetime.now(
+            timezone.utc
+        ).date().isoformat()
+    )
+
+    if os.path.exists(
+        OUTPUT_FILE
+    ):
+        try:
+            with open(
+                OUTPUT_FILE,
+                "r",
+                encoding="utf-8"
+            ) as file:
+                cached = json.load(
+                    file
+                )
+
+            generated_date = (
+                str(
+                    cached.get(
+                        "generated",
+                        ""
+                    )
+                )[:10]
+            )
+
+            if (
+                cached.get(
+                    "recovery_signature"
+                )
+                ==
+                RECOVERY_SIGNATURE
+                and
+                generated_date
+                ==
+                today_utc
+            ):
+                cached[
+                    "cache_status"
+                ] = "REUSED"
+
+                return cached
+
+        except Exception:
+            pass
+
     legacy_opportunity = (
         recover_legacy_opportunity_records()
     )
@@ -1558,6 +1606,9 @@ def run_historical_evidence_recovery():
 
         "status":
         "COMPLETE",
+
+        "cache_status":
+        "FRESH",
 
         "record_count":
         len(
