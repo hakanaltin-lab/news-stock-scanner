@@ -1,9 +1,9 @@
 {
   "engine": "V7.8 Recommendation Performance Journal",
-  "generated": "2026-10-25T07:37:52.630965+00:00",
-  "total_signals": 107,
-  "bootstrap_signals_added": 97,
-  "new_signals_added": 10,
+  "generated": "2026-10-25T07:44:22.668268+00:00",
+  "total_signals": 113,
+  "bootstrap_signals_added": 0,
+  "new_signals_added": 6,
   "oldest_signal_date": "2026-10-23",
   "newest_signal_date": "2026-10-25",
   "model_versions": [
@@ -18,12 +18,13 @@
     "V7.5",
     "V7.6",
     "V7.7",
-    "V7.8"
+    "V7.8",
+    "V7.9"
   ],
   "horizons": {
     "5d": {
       "evaluated": 0,
-      "pending": 107,
+      "pending": 113,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -33,7 +34,7 @@
     },
     "20d": {
       "evaluated": 0,
-      "pending": 107,
+      "pending": 113,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -43,7 +44,7 @@
     },
     "60d": {
       "evaluated": 0,
-      "pending": 107,
+      "pending": 113,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -55,7 +56,7 @@
   "by_action_20d": {
     "BUY": {
       "evaluated": 0,
-      "pending": 15,
+      "pending": 17,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -65,7 +66,7 @@
     },
     "REDUCE": {
       "evaluated": 0,
-      "pending": 50,
+      "pending": 52,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -83,9 +84,9 @@
       "average_excess_return_pct": null,
       "average_decision_alpha_pct": null
     },
-    "ACCUMULATE": {
+    "EXIT": {
       "evaluated": 0,
-      "pending": 12,
+      "pending": 22,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -93,9 +94,9 @@
       "average_excess_return_pct": null,
       "average_decision_alpha_pct": null
     },
-    "EXIT": {
+    "ACCUMULATE": {
       "evaluated": 0,
-      "pending": 20,
+      "pending": 12,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -148,6 +149,16 @@
     "V7.8": {
       "evaluated": 0,
       "pending": 10,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "V7.9": {
+      "evaluated": 0,
+      "pending": 6,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
