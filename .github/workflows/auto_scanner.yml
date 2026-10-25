@@ -35,7 +35,7 @@ jobs:
         pip install -r requirements.txt
 
 
-    - name: Run V5 scanner
+    - name: Run V7.3 scanner
       run: |
         python main.py
 
@@ -54,6 +54,6 @@ jobs:
           exit 0
         fi
 
-        git commit -m "Update V5 portfolio intelligence report"
+        git commit -m "Update V7.3 portfolio intelligence report"
 
         git push
