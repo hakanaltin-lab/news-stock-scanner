@@ -1,7 +1,7 @@
 {
-  "engine": "V8.4.7 Fresh Forward Shadow Promotion Gate",
-  "gate_signature": "V8.4.7",
-  "generated": "2026-10-25T13:26:57.776862+00:00",
+  "engine": "V8.4.8 Independent-Cohort Fresh Forward Promotion Gate",
+  "gate_signature": "V8.4.8",
+  "generated": "2026-10-25T13:38:42.648641+00:00",
   "status": "WAITING_FOR_FRESH_EVIDENCE",
   "verdict": "PROMOTION_BLOCKED",
   "candidate_policy": "MOMENTUM_FRIENDLY",
@@ -15,45 +15,50 @@
   "paper_order_submission_authorized": false,
   "fresh_evidence": {
     "20d": {
-      "evaluated": 0,
-      "pending": 10,
-      "unique_signal_dates": 0,
-      "unique_tickers": 0,
-      "first_signal_date": null,
-      "last_signal_date": null,
-      "hits": 0,
-      "hit_rate_pct": null,
+      "raw_evaluated_records": 0,
+      "raw_pending_records": 10,
+      "raw_hit_rate_pct": null,
+      "raw_average_shadow_relative_alpha_pct": null,
+      "candidate_signal_date_cohorts": 0,
+      "independent_cohorts": 0,
+      "independent_hits": 0,
+      "independent_hit_rate_pct": null,
       "wilson_lower_bound_90_pct": null,
-      "average_shadow_relative_alpha_pct": null,
-      "median_shadow_relative_alpha_pct": null
+      "average_cohort_shadow_alpha_pct": null,
+      "median_cohort_shadow_alpha_pct": null,
+      "unique_tickers_across_independent_cohorts": 0,
+      "first_independent_signal_date": null,
+      "last_independent_signal_date": null,
+      "cohorts": [],
+      "independence_rule": "Next cohort signal date must be strictly after the prior selected cohort evaluation date."
     },
     "60d": {
-      "evaluated": 0,
-      "pending": 10,
-      "unique_signal_dates": 0,
-      "unique_tickers": 0,
-      "first_signal_date": null,
-      "last_signal_date": null,
-      "hits": 0,
-      "hit_rate_pct": null,
+      "raw_evaluated_records": 0,
+      "raw_pending_records": 10,
+      "raw_hit_rate_pct": null,
+      "raw_average_shadow_relative_alpha_pct": null,
+      "candidate_signal_date_cohorts": 0,
+      "independent_cohorts": 0,
+      "independent_hits": 0,
+      "independent_hit_rate_pct": null,
       "wilson_lower_bound_90_pct": null,
-      "average_shadow_relative_alpha_pct": null,
-      "median_shadow_relative_alpha_pct": null
+      "average_cohort_shadow_alpha_pct": null,
+      "median_cohort_shadow_alpha_pct": null,
+      "unique_tickers_across_independent_cohorts": 0,
+      "first_independent_signal_date": null,
+      "last_independent_signal_date": null,
+      "cohorts": [],
+      "independence_rule": "Next cohort signal date must be strictly after the prior selected cohort evaluation date."
     }
   },
   "fresh_gate_checks": {
     "20d": {
-      "evaluated_sample": {
-        "required": 30,
+      "independent_cohorts": {
+        "required": 6,
         "actual": 0,
         "passed": false
       },
-      "distinct_signal_dates": {
-        "required": 10,
-        "actual": 0,
-        "passed": false
-      },
-      "hit_rate_pct": {
+      "cohort_hit_rate_pct": {
         "required": 55.0,
         "actual": null,
         "passed": false
@@ -63,29 +68,24 @@
         "actual": null,
         "passed": false
       },
-      "average_shadow_relative_alpha_pct": {
+      "average_cohort_shadow_alpha_pct": {
         "required": 0.25,
         "actual": null,
         "passed": false
       },
-      "median_shadow_relative_alpha_positive": {
+      "median_cohort_shadow_alpha_positive": {
         "required": "> 0",
         "actual": null,
         "passed": false
       }
     },
     "60d": {
-      "evaluated_sample": {
-        "required": 20,
+      "independent_cohorts": {
+        "required": 6,
         "actual": 0,
         "passed": false
       },
-      "distinct_signal_dates": {
-        "required": 8,
-        "actual": 0,
-        "passed": false
-      },
-      "hit_rate_pct": {
+      "cohort_hit_rate_pct": {
         "required": 55.0,
         "actual": null,
         "passed": false
@@ -95,12 +95,12 @@
         "actual": null,
         "passed": false
       },
-      "average_shadow_relative_alpha_pct": {
+      "average_cohort_shadow_alpha_pct": {
         "required": 0.5,
         "actual": null,
         "passed": false
       },
-      "median_shadow_relative_alpha_positive": {
+      "median_cohort_shadow_alpha_positive": {
         "required": "> 0",
         "actual": null,
         "passed": false
@@ -135,23 +135,19 @@
     }
   },
   "maturity_progress": {
-    "20d_evaluated_needed": 30,
-    "60d_evaluated_needed": 20,
-    "20d_unique_signal_dates_needed": 10,
-    "60d_unique_signal_dates_needed": 8
+    "20d_independent_cohorts_needed": 6,
+    "60d_independent_cohorts_needed": 6
   },
   "thresholds": {
-    "min_20d_evaluated": 30,
-    "min_60d_evaluated": 20,
-    "min_20d_unique_signal_dates": 10,
-    "min_60d_unique_signal_dates": 8,
-    "min_20d_hit_rate_pct": 55.0,
-    "min_60d_hit_rate_pct": 55.0,
-    "min_20d_average_shadow_alpha_pct": 0.25,
-    "min_60d_average_shadow_alpha_pct": 0.5,
+    "min_20d_independent_cohorts": 6,
+    "min_60d_independent_cohorts": 6,
+    "min_20d_cohort_hit_rate_pct": 55.0,
+    "min_60d_cohort_hit_rate_pct": 55.0,
+    "min_20d_average_cohort_shadow_alpha_pct": 0.25,
+    "min_60d_average_cohort_shadow_alpha_pct": 0.5,
     "min_wilson_lower_bound_90_pct": 45.0,
     "max_historical_drawdown_penalty_pct": 5.0
   },
-  "methodology_note": "Promotion eligibility uses only fresh V8.2 journal outcomes for the current candidate. Both 20D and 60D horizons must mature, with breadth across distinct signal dates and a 90% Wilson lower-bound guardrail. Historical evidence is used only as a risk/supporting gate, never to manufacture fresh forward wins.",
+  "methodology_note": "Promotion eligibility uses only fresh V8.2 journal outcomes for the current candidate. Raw ticker records are grouped by signal date, then filtered into non-overlapping forward time cohorts. Wilson confidence is calculated on independent cohort hits, not ticker records. Historical evidence is only a risk/supporting gate and never manufactures fresh forward wins.",
   "decision_note": "Even REVIEW_ELIGIBLE does not change V7.9 automatically. It only permits a separate manual live-policy review. Broker execution remains blocked."
 }
