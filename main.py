@@ -1,5 +1,5 @@
 """
-V8.3 Global Market Intelligence Scanner
+V8.4 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -184,6 +184,11 @@ from engines.ibkr_gateway_connector import (
 
 from engines.ibkr_paper_readiness_engine import (
     evaluate_ibkr_paper_readiness
+)
+
+
+from engines.historical_evidence_recovery_engine import (
+    run_historical_evidence_recovery
 )
 
 
@@ -836,7 +841,31 @@ def run_scanner():
 
 
     # =====================================================
-    # 14. BASE OUTPUT
+    # 14. V8.4 HISTORICAL EVIDENCE RECOVERY
+    # =====================================================
+
+    try:
+        historical_evidence_recovery = (
+            run_historical_evidence_recovery()
+        )
+
+    except Exception as error:
+        historical_evidence_recovery = {
+            "engine":
+            "V8.4 Historical Evidence Recovery Engine",
+
+            "status":
+            "ERROR",
+
+            "error":
+            str(
+                error
+            )
+        }
+
+
+    # =====================================================
+    # 15. BASE OUTPUT
     # =====================================================
 
     output = {
@@ -845,7 +874,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V8.3",
+        "V8.4",
 
         "decision_architecture": {
             "portfolio_horizon":
@@ -904,12 +933,15 @@ def run_scanner():
         ibkr_paper_snapshot,
 
         "ibkr_paper_readiness":
-        ibkr_paper_readiness
+        ibkr_paper_readiness,
+
+        "historical_evidence_recovery":
+        historical_evidence_recovery
     }
 
 
     # =====================================================
-    # 15. V7.8 RECOMMENDATION PERFORMANCE JOURNAL
+    # 16. V7.8 RECOMMENDATION PERFORMANCE JOURNAL
     # =====================================================
 
     recommendation_performance = (
@@ -944,7 +976,7 @@ def run_scanner():
 
 
     print(
-        "V8.3 Scanner completed successfully"
+        "V8.4 Scanner completed successfully"
     )
 
 
