@@ -52,7 +52,7 @@ ENGINE_VERSION = (
     "V8.0 Historical Replay & Walk-Forward Backtest Engine"
 )
 
-BACKTEST_SIGNATURE = "V8.0.2"
+BACKTEST_SIGNATURE = "V8.0.3"
 
 OUTPUT_FILE = "docs/walk_forward_backtest.json"
 
@@ -2317,6 +2317,193 @@ def simulate_equal_weight_control(
     }
 
 
+def enrich_folds_with_control(
+    folds,
+    control_equity
+):
+    if (
+        not folds
+        or
+        control_equity is None
+        or
+        control_equity.empty
+    ):
+        return folds
+
+    enriched = []
+
+    for fold in folds:
+        try:
+            start_date = pd.Timestamp(
+                fold.get(
+                    "start_date"
+                )
+            )
+
+            end_date = pd.Timestamp(
+                fold.get(
+                    "end_date"
+                )
+            )
+
+            control_slice = control_equity.loc[
+                start_date:
+                end_date
+            ].dropna()
+
+            control_return = None
+
+            if len(
+                control_slice
+            ) >= 2:
+                control_return = (
+                    safe_float(
+                        control_slice.iloc[-1]
+                    )
+                    /
+                    safe_float(
+                        control_slice.iloc[0]
+                    )
+                    -
+                    1
+                ) * 100
+
+            strategy_return = safe_float(
+                fold.get(
+                    "strategy_return_pct"
+                ),
+                0
+            )
+
+            enriched.append({
+                **fold,
+
+                "equal_weight_control_return_pct":
+                (
+                    round(
+                        control_return,
+                        2
+                    )
+                    if control_return is not None
+                    else None
+                ),
+
+                "overlay_excess_vs_control_pct":
+                (
+                    round(
+                        strategy_return
+                        -
+                        control_return,
+                        2
+                    )
+                    if control_return is not None
+                    else None
+                )
+            })
+
+        except Exception:
+            enriched.append(
+                fold
+            )
+
+    return enriched
+
+
+def classify_validation_verdict(
+    overlay_alpha,
+    signal_validation
+):
+    cagr_alpha = safe_float(
+        overlay_alpha.get(
+            "cagr_alpha_pct"
+        ),
+        0
+    )
+
+    drawdown_improvement = safe_float(
+        overlay_alpha.get(
+            "max_drawdown_improvement_pct"
+        ),
+        0
+    )
+
+    sharpe_improvement = safe_float(
+        overlay_alpha.get(
+            "sharpe_improvement"
+        ),
+        0
+    )
+
+    hit_rate = safe_float(
+        signal_validation.get(
+            "hit_rate_pct"
+        ),
+        0
+    )
+
+    if (
+        cagr_alpha >= 2
+        and
+        sharpe_improvement > 0
+        and
+        hit_rate >= 52
+    ):
+        return {
+            "status":
+            "PROMISING",
+
+            "message":
+            (
+                "Strategic overlay adds return and risk-adjusted value versus "
+                "the same-universe equal-weight control."
+            )
+        }
+
+    if (
+        cagr_alpha < -5
+        and
+        drawdown_improvement > 5
+    ):
+        return {
+            "status":
+            "RISK_REDUCTION_RETURN_SACRIFICE",
+
+            "message":
+            (
+                "Strategic overlay materially reduces drawdown but sacrifices "
+                "too much return versus the same-universe control. Thresholds "
+                "should be recalibrated before relying on the overlay."
+            )
+        }
+
+    if (
+        cagr_alpha < 0
+        and
+        sharpe_improvement <= 0
+    ):
+        return {
+            "status":
+            "NOT_VALIDATED",
+
+            "message":
+            (
+                "Strategic overlay does not add return or risk-adjusted value "
+                "versus the same-universe control."
+            )
+        }
+
+    return {
+        "status":
+        "INCONCLUSIVE",
+
+        "message":
+        (
+            "Evidence is mixed. More out-of-sample history or policy "
+            "calibration is required."
+        )
+    }
+
+
 def serialize_equity_sample(
     equity_series,
     spy_equity
@@ -2758,6 +2945,40 @@ def run_walk_forward_backtest(
         )
     }
 
+    signal_validation = (
+        simulation.get(
+            "signal_validation",
+            {}
+        )
+        or
+        {}
+    )
+
+    validation_verdict = (
+        classify_validation_verdict(
+            overlay_alpha_vs_control,
+            signal_validation
+        )
+    )
+
+    walk_forward_folds = (
+        enrich_folds_with_control(
+            simulation.get(
+                "walk_forward_folds",
+                []
+            ),
+            (
+                (
+                    control_simulation
+                    or
+                    {}
+                ).get(
+                    "equity_series"
+                )
+            )
+        )
+    )
+
     result = {
         "engine":
         ENGINE_VERSION,
@@ -2872,17 +3093,14 @@ def run_walk_forward_backtest(
         "overlay_alpha_vs_equal_weight_control":
         overlay_alpha_vs_control,
 
+        "validation_verdict":
+        validation_verdict,
+
         "signal_validation":
-        simulation.get(
-            "signal_validation",
-            {}
-        ),
+        signal_validation,
 
         "walk_forward_folds":
-        simulation.get(
-            "walk_forward_folds",
-            []
-        ),
+        walk_forward_folds,
 
         "rebalance_count":
         simulation.get(
