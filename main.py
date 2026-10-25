@@ -1,5 +1,5 @@
 """
-V7.6 Global Market Intelligence Scanner
+V7.7 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -37,7 +37,9 @@ Market Regime Engine
         |
 Earnings & Event Risk Engine
         |
-Regime + Event-Aware Capital Allocation Engine
+Correlation-Aware Allocation Gate
+        |
+Regime + Event + Correlation-Aware Capital Allocation Engine
         |
 Final Portfolio Projection Engine
         |
@@ -125,6 +127,11 @@ from engines.market_regime_engine import (
 
 from engines.event_risk_engine import (
     build_event_risk_summary
+)
+
+
+from engines.correlation_allocation_gate_engine import (
+    build_correlation_allocation_gate
 )
 
 
@@ -551,11 +558,12 @@ def run_scanner():
 
 
     # =====================================================
-    # 7. V7.5 REGIME + EVENT-AWARE CAPITAL ALLOCATION
+    # 7. V7.7 CORRELATION-AWARE ALLOCATION GATE
     # =====================================================
 
-    capital_allocation = (
-        build_capital_allocation_plan(
+    correlation_allocation_gate = (
+        build_correlation_allocation_gate(
+            results,
             portfolio_rebalancing,
             opportunity_analysis,
             market_regime_result=market_regime,
@@ -565,7 +573,22 @@ def run_scanner():
 
 
     # =====================================================
-    # 8. V7.3 FINAL PORTFOLIO PROJECTION
+    # 8. V7.7 REGIME + EVENT + CORRELATION-AWARE ALLOCATION
+    # =====================================================
+
+    capital_allocation = (
+        build_capital_allocation_plan(
+            portfolio_rebalancing,
+            opportunity_analysis,
+            market_regime_result=market_regime,
+            event_risk_result=event_risk,
+            correlation_gate_result=correlation_allocation_gate
+        )
+    )
+
+
+    # =====================================================
+    # 9. V7.3 FINAL PORTFOLIO PROJECTION
     # =====================================================
 
     final_portfolio_projection = (
@@ -578,7 +601,7 @@ def run_scanner():
 
 
     # =====================================================
-    # 9. V7.6 PORTFOLIO CORRELATION & FACTOR RISK
+    # 10. V7.6 PORTFOLIO CORRELATION & FACTOR RISK
     # =====================================================
 
     portfolio_correlation_factor_risk = (
@@ -589,7 +612,7 @@ def run_scanner():
 
 
     # =====================================================
-    # 10. FINAL OUTPUT
+    # 11. FINAL OUTPUT
     # =====================================================
 
     output = {
@@ -598,7 +621,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V7.6",
+        "V7.7",
 
         "portfolio":
         results,
@@ -617,6 +640,9 @@ def run_scanner():
 
         "event_risk":
         event_risk,
+
+        "correlation_allocation_gate":
+        correlation_allocation_gate,
 
         "capital_allocation":
         capital_allocation,
@@ -649,7 +675,7 @@ def run_scanner():
 
 
     print(
-        "V7.6 Scanner completed successfully"
+        "V7.7 Scanner completed successfully"
     )
 
 
