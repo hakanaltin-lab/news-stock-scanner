@@ -304,7 +304,7 @@ AURORA Market Intelligence
 </h1>
 
 <div class="subtitle">
-Portfolio Management + Position Sizing + Capital Allocation + Final Portfolio Projection + US Market Opportunity Radar
+Market Regime + Portfolio Management + Position Sizing + Capital Allocation + Final Portfolio Projection + US Market Opportunity Radar
 </div>
 
 <div
@@ -546,6 +546,103 @@ id="reconciliation-status"
 </div>
 
 
+<div class="stat">
+
+<div class="stat-label">
+Market Regime
+</div>
+
+<div
+class="stat-value"
+id="market-regime"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Regime Score
+</div>
+
+<div
+class="stat-value"
+id="regime-score"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Regime Cash Target
+</div>
+
+<div
+class="stat-value"
+id="regime-cash-target"
+>
+-
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- V7.4 MARKET REGIME -->
+<!-- ================================================= -->
+
+<div class="card purple">
+
+<div class="title">
+🌐 V7.4 MARKET REGIME
+</div>
+
+<div
+id="regime-summary"
+class="section-note"
+>
+Loading market regime...
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Asset</th>
+<th>Last</th>
+<th>5D</th>
+<th>20D</th>
+<th>60D</th>
+<th>Above SMA50</th>
+<th>Above SMA200</th>
+<th>20D Volatility</th>
+</tr>
+
+</thead>
+
+<tbody id="regime-table">
+
+<tr>
+<td colspan="8" class="loading">
+Loading regime metrics...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
 </div>
 
 
@@ -560,7 +657,7 @@ id="reconciliation-status"
 </div>
 
 <div class="section-note">
-BUY and ACCUMULATE opportunities outside the current portfolio that passed all AURORA safety checks.
+BUY and ACCUMULATE opportunities outside the current portfolio that passed stock-level AURORA safety checks. Final market-regime-aware capital approval is shown in the allocation section.
 </div>
 
 <table>
@@ -740,13 +837,13 @@ Loading position sizing...
 
 
 <!-- ================================================= -->
-<!-- V7.2 CAPITAL ALLOCATION -->
+<!-- V7.4 REGIME-AWARE CAPITAL ALLOCATION -->
 <!-- ================================================= -->
 
 <div class="card teal">
 
 <div class="title">
-💰 V7.2 CAPITAL ALLOCATION
+💰 V7.4 REGIME-AWARE CAPITAL ALLOCATION
 </div>
 
 <div
@@ -853,7 +950,7 @@ Loading final portfolio...
 </div>
 
 <div class="section-note">
-Final exposure includes V7.1 rebalancing, V7.2 new allocations and projected cash. Concentration limit: 35% per non-cash theme.
+Final exposure includes V7.1 rebalancing, V7.4 regime-aware new allocations and projected cash. Concentration limit: 35% per non-cash theme.
 </div>
 
 <table>
@@ -1157,6 +1254,10 @@ if(status === "CASH_LIMIT"){
 return "cashlimit";
 }
 
+if(status === "REGIME_BLOCK"){
+return "blocked";
+}
+
 return "notrade";
 
 }
@@ -1307,6 +1408,21 @@ capital.allocation_plan
 || [];
 
 
+const marketRegime =
+data.market_regime
+|| {};
+
+
+const regimePolicy =
+marketRegime.policy
+|| {};
+
+
+const regimeMetrics =
+marketRegime.metrics
+|| {};
+
+
 const finalProjection =
 data.final_portfolio_projection
 || {};
@@ -1443,6 +1559,33 @@ finalProjection.reconciliation_status
 || "-";
 
 
+document.getElementById(
+"market-regime"
+).textContent =
+marketRegime.regime
+|| "-";
+
+
+document.getElementById(
+"regime-score"
+).textContent =
+formatNumber(
+marketRegime.regime_score,
+1
+);
+
+
+document.getElementById(
+"regime-cash-target"
+).textContent =
+formatNumber(
+regimePolicy.minimum_cash_reserve_pct,
+0
+)
++
+"%";
+
+
 if(data.generated){
 
 const generatedDate =
@@ -1461,6 +1604,154 @@ generatedDate.toLocaleString();
 }
 
 
+/* =============================================== */
+/* V7.4 MARKET REGIME */
+/* =============================================== */
+
+
+const regimeTable =
+document.getElementById(
+"regime-table"
+);
+
+
+regimeTable.innerHTML =
+"";
+
+
+const regimeReasons =
+(
+marketRegime.reasons
+||
+[]
+).join(
+" | "
+);
+
+
+document.getElementById(
+"regime-summary"
+).textContent =
+
+"Regime: "
++
+(
+marketRegime.regime
+||
+"-"
+)
++
+" | Score: "
++
+formatNumber(
+marketRegime.regime_score,
+1
+)
++
+" | Market date: "
++
+(
+marketRegime.market_date
+||
+"-"
+)
++
+" | Cash target: "
++
+formatNumber(
+regimePolicy.minimum_cash_reserve_pct,
+0
+)
++
+"%"
++
+" | Position multiplier: "
++
+formatNumber(
+regimePolicy.position_size_multiplier,
+2
+)
++
+"x"
++
+" | Max new position: "
++
+formatNumber(
+regimePolicy.max_new_position_weight_pct,
+1
+)
++
+"%"
++
+(
+regimeReasons
+?
+" | " + regimeReasons
+:
+""
+);
+
+
+[
+"SPY",
+"QQQ",
+"IWM",
+"VIX"
+].forEach(
+symbol => {
+
+
+const item =
+regimeMetrics[
+symbol
+]
+|| {};
+
+
+regimeTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${symbol}</b>
+</td>
+
+<td>
+${formatPrice(item.last_price)}
+</td>
+
+<td>
+${formatNumber(item.return_5d_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.return_20d_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.return_60d_pct,2)}%
+</td>
+
+<td>
+${item.above_sma50 === true ? "YES" : item.above_sma50 === false ? "NO" : "-"}
+</td>
+
+<td>
+${item.above_sma200 === true ? "YES" : item.above_sma200 === false ? "NO" : "-"}
+</td>
+
+<td>
+${formatNumber(item.realized_volatility_20d_pct,2)}%
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+/* =============================================== */
 /* =============================================== */
 /* NEW OPPORTUNITIES */
 /* =============================================== */
@@ -2008,7 +2299,17 @@ document.getElementById(
 "allocation-summary"
 ).textContent =
 
-"Generated cash: "
+"Regime: "
++
+(
+capital.market_regime
+||
+marketRegime.regime
+||
+"-"
+)
++
+" | Generated cash: "
 +
 formatPrice(
 capital.generated_cash_available
