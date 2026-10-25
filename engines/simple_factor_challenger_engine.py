@@ -813,6 +813,12 @@ def download_price_frame(
         "price_source_by_ticker"
     ] = source_by_ticker
 
+    frame.attrs[
+        "kaggle_recovery_indexed_files"
+    ] = len(
+        kaggle_available_files
+    )
+
     return frame
 
 
@@ -2699,11 +2705,10 @@ def run_simple_factor_challenger():
             KAGGLE_RECOVERY_LAST_DATE,
 
             "fallback_indexed_files":
-            len(
-                kaggle_available_files
-            )
-            if 'kaggle_available_files' in locals()
-            else 0,
+            close_frame.attrs.get(
+                "kaggle_recovery_indexed_files",
+                0
+            ),
 
             "source_counts":
             close_frame.attrs.get(
