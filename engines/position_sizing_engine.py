@@ -15,6 +15,7 @@ Important:
 """
 
 import math
+import copy
 
 
 MAX_POSITION_WEIGHT = 12.0
@@ -1137,3 +1138,467 @@ def build_rebalancing_plan(
         "rebalancing_plan":
         plans
     }
+
+
+
+def apply_event_risk_to_rebalancing(
+    rebalancing_result,
+    event_risk_result,
+    portfolio_results
+):
+    """
+    V7.5 overlay for existing-position ADD trades.
+
+    - BLOCK: cancel BUY_TO_TARGET
+    - REDUCE_SIZE: scale BUY_TO_TARGET quantity
+    - SELL actions are never blocked by scheduled event risk
+    - Recalculate projected values, theme exposure and cash
+    """
+
+    adjusted = copy.deepcopy(
+        rebalancing_result
+        or
+        {}
+    )
+
+    plans = (
+        adjusted.get(
+            "rebalancing_plan",
+            []
+        )
+        or
+        []
+    )
+
+    ticker_risk = (
+        (
+            event_risk_result
+            or
+            {}
+        ).get(
+            "ticker_risk",
+            {}
+        )
+        or
+        {}
+    )
+
+    portfolio_value = safe_float(
+        adjusted.get(
+            "portfolio_value",
+            0
+        )
+    )
+
+    for plan in plans:
+        if plan.get(
+            "trade_action"
+        ) != "BUY_TO_TARGET":
+            continue
+
+        ticker = plan.get(
+            "ticker"
+        )
+
+        risk = (
+            ticker_risk.get(
+                ticker,
+                {}
+            )
+            or
+            {}
+        )
+
+        combined = (
+            risk.get(
+                "combined",
+                {}
+            )
+            or
+            {}
+        )
+
+        event_policy = combined.get(
+            "new_entry_policy",
+            "ALLOW"
+        )
+
+        multiplier = safe_float(
+            combined.get(
+                "position_size_multiplier",
+                1.0
+            ),
+            1.0
+        )
+
+        plan[
+            "event_policy"
+        ] = event_policy
+
+        plan[
+            "event_risk_level"
+        ] = combined.get(
+            "risk_level",
+            "UNKNOWN"
+        )
+
+        plan[
+            "event_reasons"
+        ] = combined.get(
+            "reasons",
+            []
+        )
+
+        if event_policy == "BLOCK":
+            plan[
+                "trade_action"
+            ] = "EVENT_BLOCK"
+
+            plan[
+                "suggested_shares"
+            ] = 0
+
+            plan[
+                "suggested_trade_value"
+            ] = 0.0
+
+            plan[
+                "requires_cash"
+            ] = False
+
+            plan[
+                "projected_value"
+            ] = round(
+                safe_float(
+                    plan.get(
+                        "current_value",
+                        0
+                    )
+                ),
+                2
+            )
+
+            plan[
+                "projected_weight_pct"
+            ] = round(
+                safe_float(
+                    plan.get(
+                        "current_weight_pct",
+                        0
+                    )
+                ),
+                2
+            )
+
+            plan[
+                "reason"
+            ] = (
+                "Additional buy blocked by V7.5 scheduled event risk"
+            )
+
+            continue
+
+        if (
+            event_policy == "REDUCE_SIZE"
+            and
+            multiplier < 1
+        ):
+            original_shares = int(
+                safe_float(
+                    plan.get(
+                        "suggested_shares",
+                        0
+                    )
+                )
+            )
+
+            if original_shares <= 0:
+                continue
+
+            reduced_shares = math.floor(
+                original_shares
+                *
+                max(
+                    0,
+                    multiplier
+                )
+            )
+
+            current_value = safe_float(
+                plan.get(
+                    "current_value",
+                    0
+                )
+            )
+
+            original_trade_value = safe_float(
+                plan.get(
+                    "suggested_trade_value",
+                    0
+                )
+            )
+
+            implied_price = (
+                original_trade_value
+                /
+                original_shares
+                if original_shares > 0
+                else 0
+            )
+
+            if reduced_shares <= 0:
+                plan[
+                    "trade_action"
+                ] = "EVENT_BLOCK"
+
+                plan[
+                    "suggested_shares"
+                ] = 0
+
+                plan[
+                    "suggested_trade_value"
+                ] = 0.0
+
+                plan[
+                    "requires_cash"
+                ] = False
+
+                plan[
+                    "projected_value"
+                ] = round(
+                    current_value,
+                    2
+                )
+
+                plan[
+                    "projected_weight_pct"
+                ] = round(
+                    calculate_weight(
+                        current_value,
+                        portfolio_value
+                    ),
+                    2
+                )
+
+                plan[
+                    "reason"
+                ] = (
+                    "Event-risk size reduction leaves no executable whole-share add"
+                )
+
+                continue
+
+            reduced_trade_value = (
+                reduced_shares
+                *
+                implied_price
+            )
+
+            projected_value = (
+                current_value
+                +
+                reduced_trade_value
+            )
+
+            plan[
+                "suggested_shares"
+            ] = reduced_shares
+
+            plan[
+                "suggested_trade_value"
+            ] = round(
+                reduced_trade_value,
+                2
+            )
+
+            plan[
+                "projected_value"
+            ] = round(
+                projected_value,
+                2
+            )
+
+            plan[
+                "projected_weight_pct"
+            ] = round(
+                calculate_weight(
+                    projected_value,
+                    portfolio_value
+                ),
+                2
+            )
+
+            plan[
+                "reason"
+            ] = (
+                "Additional buy reduced by V7.5 scheduled event risk"
+            )
+
+    priority = {
+        "SELL_ALL": 7,
+        "SELL_PARTIAL": 6,
+        "EVENT_BLOCK": 5,
+        "MANUAL_REVIEW": 4,
+        "BUY_TO_TARGET": 3,
+        "NO_TRADE": 1
+    }
+
+    plans.sort(
+        key=lambda item:
+        priority.get(
+            item.get(
+                "trade_action"
+            ),
+            0
+        ),
+        reverse=True
+    )
+
+    total_sell_value = sum(
+        safe_float(
+            plan.get(
+                "suggested_trade_value",
+                0
+            )
+        )
+        for plan in plans
+        if plan.get(
+            "trade_action"
+        )
+        in [
+            "SELL_ALL",
+            "SELL_PARTIAL"
+        ]
+    )
+
+    total_buy_value = sum(
+        safe_float(
+            plan.get(
+                "suggested_trade_value",
+                0
+            )
+        )
+        for plan in plans
+        if plan.get(
+            "trade_action"
+        )
+        ==
+        "BUY_TO_TARGET"
+    )
+
+    adjusted[
+        "estimated_sell_proceeds"
+    ] = round(
+        total_sell_value,
+        2
+    )
+
+    adjusted[
+        "estimated_buy_requirement"
+    ] = round(
+        total_buy_value,
+        2
+    )
+
+    adjusted[
+        "estimated_net_cash_generated"
+    ] = round(
+        total_sell_value
+        -
+        total_buy_value,
+        2
+    )
+
+    plan_lookup = {
+        plan.get(
+            "ticker"
+        ):
+        plan
+        for plan in plans
+    }
+
+    projected_theme_exposure = (
+        calculate_theme_exposure(
+            portfolio_results,
+            portfolio_value,
+            plan_lookup=plan_lookup
+        )
+    )
+
+    adjusted[
+        "projected_theme_exposure"
+    ] = projected_theme_exposure
+
+    concentration_alerts = []
+
+    for theme, data in (
+        projected_theme_exposure.items()
+    ):
+        if (
+            data.get(
+                "concentration_status"
+            )
+            ==
+            "HIGH"
+        ):
+            concentration_alerts.append({
+                "theme":
+                theme,
+
+                "projected_weight_pct":
+                data.get(
+                    "weight_pct"
+                ),
+
+                "limit_pct":
+                THEME_CONCENTRATION_LIMIT,
+
+                "status":
+                "HIGH_CONCENTRATION"
+            })
+
+    adjusted[
+        "concentration_alerts"
+    ] = concentration_alerts
+
+    adjusted[
+        "event_risk_overlay"
+    ] = {
+        "engine":
+        "V7.5 Existing Position Event-Risk Overlay",
+
+        "applied":
+        True,
+
+        "blocked_add_count":
+        len([
+            plan
+            for plan in plans
+            if plan.get(
+                "trade_action"
+            )
+            ==
+            "EVENT_BLOCK"
+        ]),
+
+        "reduced_add_count":
+        len([
+            plan
+            for plan in plans
+            if (
+                plan.get(
+                    "trade_action"
+                )
+                ==
+                "BUY_TO_TARGET"
+                and
+                plan.get(
+                    "event_policy"
+                )
+                ==
+                "REDUCE_SIZE"
+            )
+        ])
+    }
+
+    return adjusted
