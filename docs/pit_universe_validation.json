@@ -1,9 +1,9 @@
 {
   "engine": "V8.6 Point-in-Time Neutral Universe Validation",
-  "validation_signature": "V8.6.1",
+  "validation_signature": "V8.6.2",
   "status": "COMPLETE",
   "cache_status": "FRESH",
-  "generated": "2026-10-25T09:44:10.163802+00:00",
+  "generated": "2026-10-25T09:53:28.606087+00:00",
   "test_period": {
     "start": "2022-06-01",
     "end": "2026-06-05"
@@ -83,7 +83,7 @@
       "mode": "TOP12_FULL",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 113557.49,
+        "ending_value": 113557.52,
         "total_return_pct": 13.67,
         "cagr_pct": 3.26,
         "annualized_volatility_pct": 13.29,
@@ -850,7 +850,7 @@
       "mode": "TOP12_RISK_OVERLAY",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 113557.49,
+        "ending_value": 113557.52,
         "total_return_pct": 13.67,
         "cagr_pct": 3.26,
         "annualized_volatility_pct": 13.29,
@@ -1997,7 +1997,154 @@
       "risk_overlay_sharpe_effect": 0.0
     },
     "ranking_verdict": "RANKING_NOT_VALIDATED",
-    "risk_overlay_verdict": "OVERLAY_RISK_RETURN_TRADEOFF"
+    "risk_overlay_verdict": "OVERLAY_RISK_RETURN_TRADEOFF",
+    "cross_sectional_diagnostics": {
+      "composite_verdict": "COMPOSITE_INCONCLUSIVE",
+      "best_60d_feature": "return_12m_pct",
+      "best_60d_top_minus_bottom_pct": 2.155,
+      "features": {
+        "neutralized_strategic_composite": {
+          "20d": {
+            "months": 48,
+            "observations": 22957,
+            "average_spearman": 0.0077,
+            "quintile_excess_return_pct": {
+              "Q1": -0.666,
+              "Q2": -0.466,
+              "Q3": -0.488,
+              "Q4": -0.077,
+              "Q5": -0.812
+            },
+            "top_minus_bottom_pct": -0.146
+          },
+          "60d": {
+            "months": 46,
+            "observations": 21970,
+            "average_spearman": 0.0097,
+            "quintile_excess_return_pct": {
+              "Q1": -1.893,
+              "Q2": -1.426,
+              "Q3": -1.002,
+              "Q4": -0.74,
+              "Q5": -1.971
+            },
+            "top_minus_bottom_pct": -0.078
+          }
+        },
+        "trend_score": {
+          "20d": {
+            "months": 48,
+            "observations": 22957,
+            "average_spearman": 0.0131,
+            "quintile_excess_return_pct": {
+              "Q1": -0.731,
+              "Q2": -0.536,
+              "Q3": -0.399,
+              "Q4": -0.432,
+              "Q5": -0.41
+            },
+            "top_minus_bottom_pct": 0.321
+          },
+          "60d": {
+            "months": 46,
+            "observations": 21970,
+            "average_spearman": 0.0134,
+            "quintile_excess_return_pct": {
+              "Q1": -2.387,
+              "Q2": -1.203,
+              "Q3": -0.926,
+              "Q4": -1.394,
+              "Q5": -1.117
+            },
+            "top_minus_bottom_pct": 1.27
+          }
+        },
+        "risk_score": {
+          "20d": {
+            "months": 48,
+            "observations": 22957,
+            "average_spearman": -0.0193,
+            "quintile_excess_return_pct": {
+              "Q1": 0.226,
+              "Q2": -0.419,
+              "Q3": -0.538,
+              "Q4": -0.904,
+              "Q5": -0.878
+            },
+            "top_minus_bottom_pct": -1.104
+          },
+          "60d": {
+            "months": 46,
+            "observations": 21970,
+            "average_spearman": -0.014,
+            "quintile_excess_return_pct": {
+              "Q1": -0.103,
+              "Q2": -1.288,
+              "Q3": -1.616,
+              "Q4": -2.173,
+              "Q5": -1.854
+            },
+            "top_minus_bottom_pct": -1.751
+          }
+        },
+        "relative_strength_6m_pct": {
+          "20d": {
+            "months": 48,
+            "observations": 22957,
+            "average_spearman": 0.0089,
+            "quintile_excess_return_pct": {
+              "Q1": -0.436,
+              "Q2": -0.714,
+              "Q3": -0.544,
+              "Q4": -0.54,
+              "Q5": -0.275
+            },
+            "top_minus_bottom_pct": 0.161
+          },
+          "60d": {
+            "months": 46,
+            "observations": 21970,
+            "average_spearman": 0.0256,
+            "quintile_excess_return_pct": {
+              "Q1": -2.141,
+              "Q2": -1.633,
+              "Q3": -1.466,
+              "Q4": -1.186,
+              "Q5": -0.602
+            },
+            "top_minus_bottom_pct": 1.539
+          }
+        },
+        "return_12m_pct": {
+          "20d": {
+            "months": 48,
+            "observations": 22957,
+            "average_spearman": 0.0399,
+            "quintile_excess_return_pct": {
+              "Q1": -0.823,
+              "Q2": -0.771,
+              "Q3": -0.527,
+              "Q4": -0.416,
+              "Q5": 0.031
+            },
+            "top_minus_bottom_pct": 0.854
+          },
+          "60d": {
+            "months": 46,
+            "observations": 21970,
+            "average_spearman": 0.0485,
+            "quintile_excess_return_pct": {
+              "Q1": -2.315,
+              "Q2": -1.957,
+              "Q3": -1.459,
+              "Q4": -1.134,
+              "Q5": -0.16
+            },
+            "top_minus_bottom_pct": 2.155
+          }
+        }
+      }
+    }
   },
   "nasdaq100": {
     "index": "Nasdaq-100",
@@ -2008,7 +2155,7 @@
       "mode": "TOP12_FULL",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 102973.15,
+        "ending_value": 102973.18,
         "total_return_pct": 3.08,
         "cagr_pct": 0.76,
         "annualized_volatility_pct": 15.48,
@@ -2020,7 +2167,7 @@
         "spy_total_return_pct": 136.3,
         "spy_cagr_pct": 24.04,
         "cagr_alpha_vs_spy_pct": -23.28,
-        "total_trading_costs": 4590.1,
+        "total_trading_costs": 4590.11,
         "trading_cost_pct_of_starting_capital": 4.59,
         "annualized_turnover_x": 11.5,
         "trading_days": 1006,
@@ -2504,7 +2651,7 @@
             },
             {
               "ticker": "MAR",
-              "score": 78.92,
+              "score": 78.9,
               "action": "HOLD"
             }
           ]
@@ -2775,7 +2922,7 @@
       "mode": "TOP12_RISK_OVERLAY",
       "performance": {
         "starting_value": 99910.42,
-        "ending_value": 103980.72,
+        "ending_value": 103980.75,
         "total_return_pct": 4.07,
         "cagr_pct": 1.01,
         "annualized_volatility_pct": 14.86,
@@ -3271,7 +3418,7 @@
             },
             {
               "ticker": "MAR",
-              "score": 78.92,
+              "score": 78.9,
               "action": "HOLD"
             }
           ]
@@ -3922,7 +4069,154 @@
       "risk_overlay_sharpe_effect": 0.016
     },
     "ranking_verdict": "RANKING_NOT_VALIDATED",
-    "risk_overlay_verdict": "OVERLAY_ADDS_VALUE"
+    "risk_overlay_verdict": "OVERLAY_ADDS_VALUE",
+    "cross_sectional_diagnostics": {
+      "composite_verdict": "COMPOSITE_INCONCLUSIVE",
+      "best_60d_feature": "relative_strength_6m_pct",
+      "best_60d_top_minus_bottom_pct": 2.659,
+      "features": {
+        "neutralized_strategic_composite": {
+          "20d": {
+            "months": 48,
+            "observations": 4641,
+            "average_spearman": 0.0196,
+            "quintile_excess_return_pct": {
+              "Q1": -0.951,
+              "Q2": -0.73,
+              "Q3": -0.401,
+              "Q4": 0.302,
+              "Q5": -1.238
+            },
+            "top_minus_bottom_pct": -0.287
+          },
+          "60d": {
+            "months": 46,
+            "observations": 4443,
+            "average_spearman": 0.0217,
+            "quintile_excess_return_pct": {
+              "Q1": -3.087,
+              "Q2": -1.649,
+              "Q3": -1.724,
+              "Q4": -0.154,
+              "Q5": -3.095
+            },
+            "top_minus_bottom_pct": -0.008
+          }
+        },
+        "trend_score": {
+          "20d": {
+            "months": 48,
+            "observations": 4641,
+            "average_spearman": 0.0219,
+            "quintile_excess_return_pct": {
+              "Q1": -1.252,
+              "Q2": -0.713,
+              "Q3": 0.059,
+              "Q4": -1.008,
+              "Q5": -0.039
+            },
+            "top_minus_bottom_pct": 1.213
+          },
+          "60d": {
+            "months": 46,
+            "observations": 4443,
+            "average_spearman": 0.0227,
+            "quintile_excess_return_pct": {
+              "Q1": -3.536,
+              "Q2": -1.718,
+              "Q3": -0.929,
+              "Q4": -2.416,
+              "Q5": -0.989
+            },
+            "top_minus_bottom_pct": 2.547
+          }
+        },
+        "risk_score": {
+          "20d": {
+            "months": 48,
+            "observations": 4641,
+            "average_spearman": -0.0105,
+            "quintile_excess_return_pct": {
+              "Q1": 0.21,
+              "Q2": -0.349,
+              "Q3": -0.35,
+              "Q4": -1.197,
+              "Q5": -1.337
+            },
+            "top_minus_bottom_pct": -1.547
+          },
+          "60d": {
+            "months": 46,
+            "observations": 4443,
+            "average_spearman": -0.0155,
+            "quintile_excess_return_pct": {
+              "Q1": -1.315,
+              "Q2": -0.297,
+              "Q3": -1.481,
+              "Q4": -3.043,
+              "Q5": -3.561
+            },
+            "top_minus_bottom_pct": -2.246
+          }
+        },
+        "relative_strength_6m_pct": {
+          "20d": {
+            "months": 48,
+            "observations": 4641,
+            "average_spearman": 0.02,
+            "quintile_excess_return_pct": {
+              "Q1": -0.99,
+              "Q2": -0.431,
+              "Q3": -0.787,
+              "Q4": -0.713,
+              "Q5": -0.034
+            },
+            "top_minus_bottom_pct": 0.956
+          },
+          "60d": {
+            "months": 46,
+            "observations": 4443,
+            "average_spearman": 0.0391,
+            "quintile_excess_return_pct": {
+              "Q1": -2.814,
+              "Q2": -2.577,
+              "Q3": -1.715,
+              "Q4": -2.334,
+              "Q5": -0.155
+            },
+            "top_minus_bottom_pct": 2.659
+          }
+        },
+        "return_12m_pct": {
+          "20d": {
+            "months": 48,
+            "observations": 4641,
+            "average_spearman": 0.0348,
+            "quintile_excess_return_pct": {
+              "Q1": -1.083,
+              "Q2": -0.469,
+              "Q3": -0.791,
+              "Q4": -0.858,
+              "Q5": 0.27
+            },
+            "top_minus_bottom_pct": 1.353
+          },
+          "60d": {
+            "months": 46,
+            "observations": 4443,
+            "average_spearman": 0.0168,
+            "quintile_excess_return_pct": {
+              "Q1": -2.429,
+              "Q2": -1.454,
+              "Q3": -2.28,
+              "Q4": -2.419,
+              "Q5": -1.025
+            },
+            "top_minus_bottom_pct": 1.404
+          }
+        }
+      }
+    }
   },
   "overall_verdict": "NEUTRAL_UNIVERSE_RANKING_NOT_VALIDATED",
   "methodology": {
