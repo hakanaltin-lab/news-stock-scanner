@@ -834,6 +834,45 @@ def build_thesis_exit_shadow_journal(
         0.05
     ]
 
+    current_review_by_ticker = {
+        row.get(
+            "ticker"
+        ):
+        row
+        for row in reviewed
+        if row.get(
+            "ticker"
+        )
+    }
+
+    for existing in records:
+        current = current_review_by_ticker.get(
+            existing.get(
+                "ticker"
+            )
+        )
+
+        if not current:
+            continue
+
+        existing[
+            "fundamental_score"
+        ] = current.get(
+            "fundamental_score"
+        )
+
+        existing[
+            "thesis_health"
+        ] = current.get(
+            "thesis_health"
+        )
+
+        existing[
+            "review_status"
+        ] = current.get(
+            "review_status"
+        )
+
     ids = set(
         record.get(
             "id"
