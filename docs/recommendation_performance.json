@@ -1,9 +1,9 @@
 {
   "engine": "V7.8 Recommendation Performance Journal",
-  "generated": "2026-10-25T08:46:29.862912+00:00",
-  "total_signals": 138,
+  "generated": "2026-10-25T08:48:49.023730+00:00",
+  "total_signals": 144,
   "bootstrap_signals_added": 0,
-  "new_signals_added": 0,
+  "new_signals_added": 6,
   "oldest_signal_date": "2026-10-23",
   "newest_signal_date": "2026-10-25",
   "model_versions": [
@@ -23,12 +23,13 @@
     "V8.0",
     "V8.1",
     "V8.2",
-    "V8.3"
+    "V8.3",
+    "V8.4"
   ],
   "horizons": {
     "5d": {
       "evaluated": 0,
-      "pending": 138,
+      "pending": 144,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -38,7 +39,7 @@
     },
     "20d": {
       "evaluated": 0,
-      "pending": 138,
+      "pending": 144,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -48,7 +49,7 @@
     },
     "60d": {
       "evaluated": 0,
-      "pending": 138,
+      "pending": 144,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -60,7 +61,7 @@
   "by_action_20d": {
     "BUY": {
       "evaluated": 0,
-      "pending": 25,
+      "pending": 27,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -70,7 +71,7 @@
     },
     "REDUCE": {
       "evaluated": 0,
-      "pending": 60,
+      "pending": 62,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -90,7 +91,7 @@
     },
     "EXIT": {
       "evaluated": 0,
-      "pending": 30,
+      "pending": 32,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -201,6 +202,16 @@
       "average_decision_alpha_pct": null
     },
     "V8.3": {
+      "evaluated": 0,
+      "pending": 6,
+      "benchmark_hit_rate_pct": null,
+      "absolute_hit_rate_pct": null,
+      "average_stock_return_pct": null,
+      "average_spy_return_pct": null,
+      "average_excess_return_pct": null,
+      "average_decision_alpha_pct": null
+    },
+    "V8.4": {
       "evaluated": 0,
       "pending": 6,
       "benchmark_hit_rate_pct": null,
