@@ -26,6 +26,7 @@ Important:
 """
 
 from datetime import datetime, timezone
+from functools import lru_cache
 import math
 
 import numpy as np
@@ -55,6 +56,7 @@ def safe_float(value, default=0.0):
         return default
 
 
+@lru_cache(maxsize=128)
 def fetch_daily_returns(ticker):
     try:
         history = yf.Ticker(
