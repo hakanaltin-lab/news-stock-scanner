@@ -11,6 +11,7 @@ Research-only. No live policy changes. No broker execution.
 """
 
 from datetime import datetime, timezone
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import csv
 import io
 import json
@@ -767,22 +768,58 @@ def download_price_frame(
         fetch_kaggle_recovery_index()
     )
 
-    for ticker in missing_after_yahoo:
-        series = fetch_kaggle_recovery_series(
-            ticker,
-            available_files=kaggle_available_files
+    recovery_candidates = [
+        ticker
+        for ticker in missing_after_yahoo
+        if (
+            str(
+                ticker
+            ).strip().lower().replace(
+                "-",
+                "_"
+            )
+            +
+            ".us.txt"
         )
+        in kaggle_available_files
+    ]
 
-        if series is None:
-            continue
-
-        close_data[
+    with ThreadPoolExecutor(
+        max_workers=12
+    ) as executor:
+        futures = {
+            executor.submit(
+                fetch_kaggle_recovery_series,
+                ticker,
+                kaggle_available_files
+            ):
             ticker
-        ] = series
+            for ticker in recovery_candidates
+        }
 
-        source_by_ticker[
-            ticker
-        ] = "KAGGLE_STOOQ_2017"
+        for future in as_completed(
+            futures
+        ):
+            ticker = futures[
+                future
+            ]
+
+            try:
+                series = future.result()
+
+            except Exception:
+                series = None
+
+            if series is None:
+                continue
+
+            close_data[
+                ticker
+            ] = series
+
+            source_by_ticker[
+                ticker
+            ] = "KAGGLE_STOOQ_2017"
 
     if not close_data:
         return pd.DataFrame()
