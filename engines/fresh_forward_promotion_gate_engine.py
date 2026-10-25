@@ -25,22 +25,18 @@ from engines.recommendation_performance_engine import (
 
 
 ENGINE_VERSION = (
-    "V8.4.7 Fresh Forward Shadow Promotion Gate"
+    "V8.4.8 Independent-Cohort Fresh Forward Promotion Gate"
 )
 
-GATE_SIGNATURE = "V8.4.7"
+GATE_SIGNATURE = "V8.4.8"
 
 JOURNAL_FILE = "docs/shadow_policy_journal.json"
 
 OUTPUT_FILE = "docs/fresh_forward_promotion_gate.json"
 
-MIN_20D_EVALUATED = 30
+MIN_20D_INDEPENDENT_COHORTS = 6
 
-MIN_60D_EVALUATED = 20
-
-MIN_20D_UNIQUE_SIGNAL_DATES = 10
-
-MIN_60D_UNIQUE_SIGNAL_DATES = 8
+MIN_60D_INDEPENDENT_COHORTS = 6
 
 MIN_20D_HIT_RATE_PCT = 55.0
 
@@ -194,12 +190,74 @@ def wilson_lower_bound_pct(
     )
 
 
+def parse_iso_date(value):
+    if not value:
+        return None
+
+    try:
+        return datetime.fromisoformat(
+            str(
+                value
+            ).replace(
+                "Z",
+                "+00:00"
+            )
+        ).date()
+
+    except Exception:
+        try:
+            return datetime.strptime(
+                str(
+                    value
+                )[:10],
+                "%Y-%m-%d"
+            ).date()
+
+        except Exception:
+            return None
+
+
+def median_value(values):
+    clean = sorted(
+        safe_float(
+            value,
+            0.0
+        )
+        for value in values
+    )
+
+    if not clean:
+        return None
+
+    middle = len(
+        clean
+    ) // 2
+
+    if len(
+        clean
+    ) % 2:
+        return clean[
+            middle
+        ]
+
+    return (
+        clean[
+            middle
+            -
+            1
+        ]
+        +
+        clean[
+            middle
+        ]
+    ) / 2.0
+
+
 def summarize_horizon(
     records,
     horizon
 ):
-    evaluated = []
-
+    evaluated_records = []
     pending = 0
 
     for record in records:
@@ -225,8 +283,13 @@ def summarize_horizon(
             )
             ==
             "EVALUATED"
+            and
+            horizon_data.get(
+                "shadow_relative_alpha_pct"
+            )
+            is not None
         ):
-            evaluated.append({
+            evaluated_records.append({
                 "record":
                 record,
 
@@ -237,20 +300,7 @@ def summarize_horizon(
         else:
             pending += 1
 
-    hits = sum(
-        1
-        for item in evaluated
-        if (
-            item[
-                "horizon"
-            ].get(
-                "shadow_hit"
-            )
-            is True
-        )
-    )
-
-    alpha_values = [
+    raw_alpha_values = [
         safe_float(
             item[
                 "horizon"
@@ -259,155 +309,325 @@ def summarize_horizon(
             ),
             0.0
         )
-        for item in evaluated
-        if (
-            item[
-                "horizon"
-            ].get(
-                "shadow_relative_alpha_pct"
-            )
-            is not None
-        )
+        for item in evaluated_records
     ]
 
-    unique_signal_dates = sorted(
-        set(
-            str(
-                item[
-                    "record"
-                ].get(
-                    "signal_date"
-                )
-            )
-            for item in evaluated
-            if item[
+    raw_hits = sum(
+        1
+        for item in evaluated_records
+        if item[
+            "horizon"
+        ].get(
+            "shadow_hit"
+        )
+        is True
+    )
+
+    by_signal_date = {}
+
+    for item in evaluated_records:
+        signal_date = str(
+            item[
                 "record"
             ].get(
                 "signal_date"
+                or
+                ""
             )
         )
-    )
 
-    unique_tickers = sorted(
-        set(
-            str(
+        if not signal_date:
+            continue
+
+        by_signal_date.setdefault(
+            signal_date,
+            []
+        ).append(
+            item
+        )
+
+    candidate_cohorts = []
+
+    for signal_date in sorted(
+        by_signal_date
+    ):
+        items = by_signal_date[
+            signal_date
+        ]
+
+        alphas = [
+            safe_float(
                 item[
+                    "horizon"
+                ].get(
+                    "shadow_relative_alpha_pct"
+                ),
+                0.0
+            )
+            for item in items
+        ]
+
+        tickers = sorted(
+            set(
+                str(
+                    item[
+                        "record"
+                    ].get(
+                        "ticker"
+                    )
+                )
+                for item in items
+                if item[
                     "record"
                 ].get(
                     "ticker"
                 )
             )
-            for item in evaluated
-            if item[
-                "record"
-            ].get(
-                "ticker"
+        )
+
+        evaluation_dates = [
+            parse_iso_date(
+                item[
+                    "horizon"
+                ].get(
+                    "evaluation_date"
+                )
+            )
+            for item in items
+        ]
+
+        evaluation_dates = [
+            item
+            for item in evaluation_dates
+            if item is not None
+        ]
+
+        signal_date_value = parse_iso_date(
+            signal_date
+        )
+
+        if (
+            signal_date_value is None
+            or
+            not evaluation_dates
+        ):
+            continue
+
+        cohort_alpha = (
+            sum(
+                alphas
+            )
+            /
+            len(
+                alphas
+            )
+            if alphas
+            else 0.0
+        )
+
+        candidate_cohorts.append({
+            "signal_date":
+            signal_date,
+
+            "signal_date_value":
+            signal_date_value,
+
+            "evaluation_date":
+            max(
+                evaluation_dates
+            ).isoformat(),
+
+            "evaluation_date_value":
+            max(
+                evaluation_dates
+            ),
+
+            "ticker_count":
+            len(
+                tickers
+            ),
+
+            "tickers":
+            tickers,
+
+            "mean_shadow_relative_alpha_pct":
+            round(
+                cohort_alpha,
+                3
+            ),
+
+            "median_shadow_relative_alpha_pct":
+            round(
+                safe_float(
+                    median_value(
+                        alphas
+                    ),
+                    0.0
+                ),
+                3
+            ),
+
+            "cohort_hit":
+            cohort_alpha
+            >
+            0
+        })
+
+    # Independence rule: after accepting a cohort, the next accepted cohort
+    # must start strictly after the previous cohort's forward evaluation date.
+    independent_cohorts = []
+
+    previous_evaluation_date = None
+
+    for cohort in candidate_cohorts:
+        signal_date_value = cohort[
+            "signal_date_value"
+        ]
+
+        if (
+            previous_evaluation_date is not None
+            and
+            signal_date_value
+            <=
+            previous_evaluation_date
+        ):
+            continue
+
+        independent_cohorts.append(
+            cohort
+        )
+
+        previous_evaluation_date = cohort[
+            "evaluation_date_value"
+        ]
+
+    independent_alpha_values = [
+        safe_float(
+            cohort.get(
+                "mean_shadow_relative_alpha_pct"
+            ),
+            0.0
+        )
+        for cohort in independent_cohorts
+    ]
+
+    independent_hits = sum(
+        1
+        for cohort in independent_cohorts
+        if cohort.get(
+            "cohort_hit"
+        )
+        is True
+    )
+
+    unique_tickers = sorted(
+        set(
+            ticker
+            for cohort in independent_cohorts
+            for ticker in cohort.get(
+                "tickers",
+                []
             )
         )
     )
 
     hit_rate = (
-        hits
+        independent_hits
         /
         len(
-            evaluated
+            independent_cohorts
         )
         *
         100
-        if evaluated
+        if independent_cohorts
         else None
     )
 
     average_alpha = (
         sum(
-            alpha_values
+            independent_alpha_values
         )
         /
         len(
-            alpha_values
+            independent_alpha_values
         )
-        if alpha_values
+        if independent_alpha_values
         else None
     )
 
-    sorted_alpha = sorted(
-        alpha_values
+    median_alpha = median_value(
+        independent_alpha_values
     )
 
-    median_alpha = None
+    serializable_cohorts = []
 
-    if sorted_alpha:
-        middle = len(
-            sorted_alpha
-        ) // 2
-
-        if (
-            len(
-                sorted_alpha
-            )
-            %
-            2
-        ):
-            median_alpha = (
-                sorted_alpha[
-                    middle
-                ]
-            )
-
-        else:
-            median_alpha = (
-                sorted_alpha[
-                    middle
-                    -
-                    1
-                ]
-                +
-                sorted_alpha[
-                    middle
-                ]
-            ) / 2.0
+    for cohort in independent_cohorts:
+        serializable_cohorts.append({
+            key:
+            value
+            for key, value in cohort.items()
+            if key
+            not in {
+                "signal_date_value",
+                "evaluation_date_value"
+            }
+        })
 
     return {
-        "evaluated":
+        "raw_evaluated_records":
         len(
-            evaluated
+            evaluated_records
         ),
 
-        "pending":
+        "raw_pending_records":
         pending,
 
-        "unique_signal_dates":
-        len(
-            unique_signal_dates
-        ),
-
-        "unique_tickers":
-        len(
-            unique_tickers
-        ),
-
-        "first_signal_date":
+        "raw_hit_rate_pct":
         (
-            unique_signal_dates[
-                0
-            ]
-            if unique_signal_dates
+            round(
+                raw_hits
+                /
+                len(
+                    evaluated_records
+                )
+                *
+                100,
+                1
+            )
+            if evaluated_records
             else None
         ),
 
-        "last_signal_date":
+        "raw_average_shadow_relative_alpha_pct":
         (
-            unique_signal_dates[
-                -1
-            ]
-            if unique_signal_dates
+            round(
+                sum(
+                    raw_alpha_values
+                )
+                /
+                len(
+                    raw_alpha_values
+                ),
+                3
+            )
+            if raw_alpha_values
             else None
         ),
 
-        "hits":
-        hits,
+        "candidate_signal_date_cohorts":
+        len(
+            candidate_cohorts
+        ),
 
-        "hit_rate_pct":
+        "independent_cohorts":
+        len(
+            independent_cohorts
+        ),
+
+        "independent_hits":
+        independent_hits,
+
+        "independent_hit_rate_pct":
         (
             round(
                 hit_rate,
@@ -419,13 +639,13 @@ def summarize_horizon(
 
         "wilson_lower_bound_90_pct":
         wilson_lower_bound_pct(
-            hits,
+            independent_hits,
             len(
-                evaluated
+                independent_cohorts
             )
         ),
 
-        "average_shadow_relative_alpha_pct":
+        "average_cohort_shadow_alpha_pct":
         (
             round(
                 average_alpha,
@@ -435,7 +655,7 @@ def summarize_horizon(
             else None
         ),
 
-        "median_shadow_relative_alpha_pct":
+        "median_cohort_shadow_alpha_pct":
         (
             round(
                 median_alpha,
@@ -443,6 +663,42 @@ def summarize_horizon(
             )
             if median_alpha is not None
             else None
+        ),
+
+        "unique_tickers_across_independent_cohorts":
+        len(
+            unique_tickers
+        ),
+
+        "first_independent_signal_date":
+        (
+            independent_cohorts[
+                0
+            ][
+                "signal_date"
+            ]
+            if independent_cohorts
+            else None
+        ),
+
+        "last_independent_signal_date":
+        (
+            independent_cohorts[
+                -1
+            ][
+                "signal_date"
+            ]
+            if independent_cohorts
+            else None
+        ),
+
+        "cohorts":
+        serializable_cohorts,
+
+        "independence_rule":
+        (
+            "Next cohort signal date must be strictly after the prior "
+            "selected cohort evaluation date."
         )
     }
 
@@ -466,68 +722,46 @@ def metric_pass(
 
 def build_horizon_checks(
     summary,
-    min_evaluated,
-    min_unique_dates,
+    min_independent_cohorts,
     min_hit_rate,
     min_avg_alpha
 ):
     return {
-        "evaluated_sample":
+        "independent_cohorts":
         {
             "required":
-            min_evaluated,
+            min_independent_cohorts,
 
             "actual":
             summary.get(
-                "evaluated"
+                "independent_cohorts"
             ),
 
             "passed":
             safe_float(
                 summary.get(
-                    "evaluated"
+                    "independent_cohorts"
                 ),
                 0.0
             )
             >=
-            min_evaluated
+            min_independent_cohorts
         },
 
-        "distinct_signal_dates":
-        {
-            "required":
-            min_unique_dates,
-
-            "actual":
-            summary.get(
-                "unique_signal_dates"
-            ),
-
-            "passed":
-            safe_float(
-                summary.get(
-                    "unique_signal_dates"
-                ),
-                0.0
-            )
-            >=
-            min_unique_dates
-        },
-
-        "hit_rate_pct":
+        "cohort_hit_rate_pct":
         {
             "required":
             min_hit_rate,
 
             "actual":
             summary.get(
-                "hit_rate_pct"
+                "independent_hit_rate_pct"
             ),
 
             "passed":
             metric_pass(
                 summary.get(
-                    "hit_rate_pct"
+                    "independent_hit_rate_pct"
                 ),
                 min_hit_rate
             )
@@ -552,40 +786,40 @@ def build_horizon_checks(
             )
         },
 
-        "average_shadow_relative_alpha_pct":
+        "average_cohort_shadow_alpha_pct":
         {
             "required":
             min_avg_alpha,
 
             "actual":
             summary.get(
-                "average_shadow_relative_alpha_pct"
+                "average_cohort_shadow_alpha_pct"
             ),
 
             "passed":
             metric_pass(
                 summary.get(
-                    "average_shadow_relative_alpha_pct"
+                    "average_cohort_shadow_alpha_pct"
                 ),
                 min_avg_alpha
             )
         },
 
-        "median_shadow_relative_alpha_positive":
+        "median_cohort_shadow_alpha_positive":
         {
             "required":
             "> 0",
 
             "actual":
             summary.get(
-                "median_shadow_relative_alpha_pct"
+                "median_cohort_shadow_alpha_pct"
             ),
 
             "passed":
             (
                 safe_float(
                     summary.get(
-                        "median_shadow_relative_alpha_pct"
+                        "median_cohort_shadow_alpha_pct"
                     ),
                     0.0
                 )
@@ -676,16 +910,14 @@ def run_fresh_forward_promotion_gate(
 
     checks_20d = build_horizon_checks(
         summary_20d,
-        MIN_20D_EVALUATED,
-        MIN_20D_UNIQUE_SIGNAL_DATES,
+        MIN_20D_INDEPENDENT_COHORTS,
         MIN_20D_HIT_RATE_PCT,
         MIN_20D_AVG_ALPHA_PCT
     )
 
     checks_60d = build_horizon_checks(
         summary_60d,
-        MIN_60D_EVALUATED,
-        MIN_60D_UNIQUE_SIGNAL_DATES,
+        MIN_60D_INDEPENDENT_COHORTS,
         MIN_60D_HIT_RATE_PCT,
         MIN_60D_AVG_ALPHA_PCT
     )
@@ -835,32 +1067,18 @@ def run_fresh_forward_promotion_gate(
 
     fresh_maturity_ready = (
         summary_20d.get(
-            "evaluated",
+            "independent_cohorts",
             0
         )
         >=
-        MIN_20D_EVALUATED
+        MIN_20D_INDEPENDENT_COHORTS
         and
         summary_60d.get(
-            "evaluated",
+            "independent_cohorts",
             0
         )
         >=
-        MIN_60D_EVALUATED
-        and
-        summary_20d.get(
-            "unique_signal_dates",
-            0
-        )
-        >=
-        MIN_20D_UNIQUE_SIGNAL_DATES
-        and
-        summary_60d.get(
-            "unique_signal_dates",
-            0
-        )
-        >=
-        MIN_60D_UNIQUE_SIGNAL_DATES
+        MIN_60D_INDEPENDENT_COHORTS
     )
 
     historical_ready = checks_pass(
@@ -918,46 +1136,24 @@ def run_fresh_forward_promotion_gate(
         )
 
     maturity = {
-        "20d_evaluated_needed":
+        "20d_independent_cohorts_needed":
         max(
             0,
-            MIN_20D_EVALUATED
+            MIN_20D_INDEPENDENT_COHORTS
             -
             summary_20d.get(
-                "evaluated",
+                "independent_cohorts",
                 0
             )
         ),
 
-        "60d_evaluated_needed":
+        "60d_independent_cohorts_needed":
         max(
             0,
-            MIN_60D_EVALUATED
+            MIN_60D_INDEPENDENT_COHORTS
             -
             summary_60d.get(
-                "evaluated",
-                0
-            )
-        ),
-
-        "20d_unique_signal_dates_needed":
-        max(
-            0,
-            MIN_20D_UNIQUE_SIGNAL_DATES
-            -
-            summary_20d.get(
-                "unique_signal_dates",
-                0
-            )
-        ),
-
-        "60d_unique_signal_dates_needed":
-        max(
-            0,
-            MIN_60D_UNIQUE_SIGNAL_DATES
-            -
-            summary_60d.get(
-                "unique_signal_dates",
+                "independent_cohorts",
                 0
             )
         )
@@ -1035,28 +1231,22 @@ def run_fresh_forward_promotion_gate(
         maturity,
 
         "thresholds": {
-            "min_20d_evaluated":
-            MIN_20D_EVALUATED,
+            "min_20d_independent_cohorts":
+            MIN_20D_INDEPENDENT_COHORTS,
 
-            "min_60d_evaluated":
-            MIN_60D_EVALUATED,
+            "min_60d_independent_cohorts":
+            MIN_60D_INDEPENDENT_COHORTS,
 
-            "min_20d_unique_signal_dates":
-            MIN_20D_UNIQUE_SIGNAL_DATES,
-
-            "min_60d_unique_signal_dates":
-            MIN_60D_UNIQUE_SIGNAL_DATES,
-
-            "min_20d_hit_rate_pct":
+            "min_20d_cohort_hit_rate_pct":
             MIN_20D_HIT_RATE_PCT,
 
-            "min_60d_hit_rate_pct":
+            "min_60d_cohort_hit_rate_pct":
             MIN_60D_HIT_RATE_PCT,
 
-            "min_20d_average_shadow_alpha_pct":
+            "min_20d_average_cohort_shadow_alpha_pct":
             MIN_20D_AVG_ALPHA_PCT,
 
-            "min_60d_average_shadow_alpha_pct":
+            "min_60d_average_cohort_shadow_alpha_pct":
             MIN_60D_AVG_ALPHA_PCT,
 
             "min_wilson_lower_bound_90_pct":
@@ -1069,10 +1259,11 @@ def run_fresh_forward_promotion_gate(
         "methodology_note":
         (
             "Promotion eligibility uses only fresh V8.2 journal outcomes for "
-            "the current candidate. Both 20D and 60D horizons must mature, "
-            "with breadth across distinct signal dates and a 90% Wilson "
-            "lower-bound guardrail. Historical evidence is used only as a "
-            "risk/supporting gate, never to manufacture fresh forward wins."
+            "the current candidate. Raw ticker records are grouped by signal "
+            "date, then filtered into non-overlapping forward time cohorts. "
+            "Wilson confidence is calculated on independent cohort hits, not "
+            "ticker records. Historical evidence is only a risk/supporting "
+            "gate and never manufactures fresh forward wins."
         ),
 
         "decision_note":
