@@ -450,7 +450,8 @@ def fetch_kaggle_recovery_series(
 
 
 def download_price_frame(
-    tickers
+    tickers,
+    history_retry_allowlist=None
 ):
     tickers = sorted(
         set(
@@ -458,6 +459,12 @@ def download_price_frame(
             for ticker in tickers
             if ticker
         )
+    )
+
+    history_retry_allowlist = set(
+        history_retry_allowlist
+        or
+        []
     )
 
     close_data = {}
@@ -634,7 +641,13 @@ def download_price_frame(
     missing_after_download_retries = [
         ticker
         for ticker in tickers
-        if ticker not in close_data
+        if (
+            ticker
+            not in close_data
+            and
+            ticker
+            in history_retry_allowlist
+        )
     ]
 
     # Alternate Yahoo retrieval path. yfinance multi/download can return
@@ -2408,8 +2421,32 @@ def run_simple_factor_challenger():
         )
     )
 
+    history_retry_allowlist = sorted(
+        set(
+            membership_on(
+                sp500_history,
+                pd.Timestamp(
+                    TEST_END
+                )
+            )
+            +
+            membership_on(
+                nasdaq_history,
+                pd.Timestamp(
+                    TEST_END
+                )
+            )
+            +
+            [
+                "SPY",
+                "QQQ"
+            ]
+        )
+    )
+
     close_frame = download_price_frame(
-        requested
+        requested,
+        history_retry_allowlist=history_retry_allowlist
     )
 
     if (
@@ -2625,6 +2662,11 @@ def run_simple_factor_challenger():
             close_frame.attrs.get(
                 "price_source_counts",
                 {}
+            ),
+
+            "ticker_history_retry_allowlist_count":
+            len(
+                history_retry_allowlist
             )
         },
 
