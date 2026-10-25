@@ -1,5 +1,5 @@
 """
-V8.4 Global Market Intelligence Scanner
+V8.5 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -189,6 +189,12 @@ from engines.ibkr_paper_readiness_engine import (
 
 from engines.historical_evidence_recovery_engine import (
     run_historical_evidence_recovery
+)
+
+
+from engines.fundamental_thesis_engine import (
+    analyze_fundamental_thesis,
+    review_price_action_with_thesis
 )
 
 
@@ -470,6 +476,18 @@ def run_scanner():
 
 
         # =================================================
+        # V8.5 FUNDAMENTAL THESIS & VALUATION
+        # =================================================
+
+        fundamental_thesis = (
+            analyze_fundamental_thesis(
+                ticker,
+                current_price=current_price
+            )
+        )
+
+
+        # =================================================
         # V7.9 MULTI-HORIZON PORTFOLIO MANAGEMENT
         # =================================================
 
@@ -492,6 +510,14 @@ def run_scanner():
             portfolio_management.get(
                 "action",
                 "WATCH"
+            )
+        )
+
+
+        thesis_confirmation = (
+            review_price_action_with_thesis(
+                portfolio_action,
+                fundamental_thesis
             )
         )
 
@@ -541,6 +567,12 @@ def run_scanner():
             "strategic_market":
             strategic_market,
 
+            "fundamental_thesis":
+            fundamental_thesis,
+
+            "thesis_confirmation":
+            thesis_confirmation,
+
             "signal":
             signal,
 
@@ -577,6 +609,11 @@ def run_scanner():
                 "strategic_composite_score":
                 portfolio_management.get(
                     "strategic_composite_score"
+                ),
+
+                "fundamental_thesis_score":
+                fundamental_thesis.get(
+                    "thesis_score"
                 )
             },
 
@@ -874,7 +911,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V8.4",
+        "V8.5",
 
         "decision_architecture": {
             "portfolio_horizon":
@@ -936,7 +973,176 @@ def run_scanner():
         ibkr_paper_readiness,
 
         "historical_evidence_recovery":
-        historical_evidence_recovery
+        historical_evidence_recovery,
+
+        "fundamental_thesis_summary": {
+            "strong":
+            sum(
+                1
+                for item in results
+                if (
+                    (
+                        item.get(
+                            "fundamental_thesis",
+                            {}
+                        )
+                        or
+                        {}
+                    ).get(
+                        "thesis_health"
+                    )
+                    ==
+                    "STRONG"
+                )
+            ),
+
+            "healthy":
+            sum(
+                1
+                for item in results
+                if (
+                    (
+                        item.get(
+                            "fundamental_thesis",
+                            {}
+                        )
+                        or
+                        {}
+                    ).get(
+                        "thesis_health"
+                    )
+                    ==
+                    "HEALTHY"
+                )
+            ),
+
+            "mixed":
+            sum(
+                1
+                for item in results
+                if (
+                    (
+                        item.get(
+                            "fundamental_thesis",
+                            {}
+                        )
+                        or
+                        {}
+                    ).get(
+                        "thesis_health"
+                    )
+                    ==
+                    "MIXED"
+                )
+            ),
+
+            "deteriorating":
+            sum(
+                1
+                for item in results
+                if (
+                    (
+                        item.get(
+                            "fundamental_thesis",
+                            {}
+                        )
+                        or
+                        {}
+                    ).get(
+                        "thesis_health"
+                    )
+                    ==
+                    "DETERIORATING"
+                )
+            ),
+
+            "broken":
+            sum(
+                1
+                for item in results
+                if (
+                    (
+                        item.get(
+                            "fundamental_thesis",
+                            {}
+                        )
+                        or
+                        {}
+                    ).get(
+                        "thesis_health"
+                    )
+                    ==
+                    "BROKEN"
+                )
+            ),
+
+            "sell_signals":
+            sum(
+                1
+                for item in results
+                if item.get(
+                    "portfolio_action"
+                )
+                in [
+                    "REDUCE",
+                    "EXIT"
+                ]
+            ),
+
+            "sell_confirmed":
+            sum(
+                1
+                for item in results
+                if (
+                    (
+                        item.get(
+                            "thesis_confirmation",
+                            {}
+                        )
+                        or
+                        {}
+                    ).get(
+                        "review_status"
+                    )
+                    in [
+                        "CONFIRMED",
+                        "CONFIRMED_PARTIAL"
+                    ]
+                )
+            ),
+
+            "sell_not_confirmed_or_contradicted":
+            sum(
+                1
+                for item in results
+                if (
+                    (
+                        item.get(
+                            "thesis_confirmation",
+                            {}
+                        )
+                        or
+                        {}
+                    ).get(
+                        "review_status"
+                    )
+                    in [
+                        "NOT_CONFIRMED",
+                        "CONTRADICTED",
+                        "INSUFFICIENT_DATA"
+                    ]
+                )
+            ),
+
+            "live_actions_changed":
+            False,
+
+            "note":
+            (
+                "V8.5 is a thesis-confirmation shadow layer. "
+                "Live portfolio actions remain unchanged."
+            )
+        }
     }
 
 
@@ -976,7 +1182,7 @@ def run_scanner():
 
 
     print(
-        "V8.4 Scanner completed successfully"
+        "V8.5 Scanner completed successfully"
     )
 
 
