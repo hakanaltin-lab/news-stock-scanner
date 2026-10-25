@@ -52,7 +52,7 @@ ENGINE_VERSION = (
     "V8.0 Historical Replay & Walk-Forward Backtest Engine"
 )
 
-BACKTEST_SIGNATURE = "V8.4.3"
+BACKTEST_SIGNATURE = "V8.4.4"
 
 OUTPUT_FILE = "docs/walk_forward_backtest.json"
 
@@ -79,6 +79,10 @@ TOTAL_TRADING_FRICTION_BPS = (
 )
 
 SIGNAL_EVALUATION_SESSIONS = 20
+
+ROLLING_OOS_LOOKBACK_SESSIONS = 126
+
+ROLLING_OOS_REBALANCE_SESSIONS = 21
 
 
 def portfolio_signature(tickers):
@@ -2627,6 +2631,805 @@ def find_drawdown_matched_weight(
     )
 
 
+
+def build_rolling_oos_exposure_attribution(
+    strategy_equity,
+    control_equity,
+    spy_equity
+):
+    """
+    V8.4.4 rolling out-of-sample exposure attribution.
+
+    At each monthly decision point:
+    - estimate AURORA/control risk using only the prior 126 sessions;
+    - freeze the resulting control/cash weight for the next 21 sessions;
+    - never use future returns to set the exposure for that test block.
+
+    Two controls are produced:
+    1) trailing-volatility-matched equal weight / cash;
+    2) trailing-drawdown-calibrated equal weight / cash.
+
+    Cash return is 0%. The source equal-weight return stream is already
+    net of its modeled trading friction. No second friction layer is added
+    when exposure changes, which is favorable to the control benchmark.
+    """
+
+    if (
+        strategy_equity is None
+        or strategy_equity.empty
+        or control_equity is None
+        or control_equity.empty
+        or spy_equity is None
+        or spy_equity.empty
+    ):
+        return {
+            "version": "V8.4.4",
+            "status": "INSUFFICIENT_DATA",
+            "verdict": "UNDETERMINED",
+            "calibration_gate": "RESEARCH_ONLY",
+            "live_execution_authorized": False
+        }
+
+    aligned = pd.concat(
+        [
+            strategy_equity.rename("aurora"),
+            control_equity.rename("equal_weight")
+        ],
+        axis=1,
+        join="inner"
+    ).dropna()
+
+    returns_frame = (
+        aligned
+        .pct_change()
+        .replace(
+            [np.inf, -np.inf],
+            np.nan
+        )
+        .dropna()
+    )
+
+    minimum_required = (
+        ROLLING_OOS_LOOKBACK_SESSIONS
+        +
+        ROLLING_OOS_REBALANCE_SESSIONS
+    )
+
+    if len(returns_frame) < minimum_required:
+        return {
+            "version": "V8.4.4",
+            "status": "INSUFFICIENT_DATA",
+            "verdict": "UNDETERMINED",
+            "available_return_sessions": len(returns_frame),
+            "minimum_required_sessions": minimum_required,
+            "calibration_gate": "RESEARCH_ONLY",
+            "live_execution_authorized": False
+        }
+
+    def max_drawdown_from_returns(return_series):
+        if return_series is None or return_series.empty:
+            return 0.0
+
+        equity = (
+            (
+                1.0
+                +
+                return_series
+            )
+            .cumprod()
+        )
+
+        running_max = equity.cummax()
+
+        drawdown = (
+            equity
+            /
+            running_max
+            -
+            1.0
+        )
+
+        return abs(
+            safe_float(
+                drawdown.min(),
+                0.0
+            )
+        ) * 100
+
+    def trailing_drawdown_matched_weight(
+        control_returns,
+        target_drawdown_pct
+    ):
+        target = max(
+            0.0,
+            safe_float(
+                target_drawdown_pct,
+                0.0
+            )
+        )
+
+        if (
+            control_returns is None
+            or control_returns.empty
+            or target <= 0
+        ):
+            return 0.0
+
+        low = 0.0
+        high = 1.0
+        best_weight = 0.0
+        best_distance = float("inf")
+
+        for _ in range(32):
+            mid = (low + high) / 2
+
+            candidate_drawdown = (
+                max_drawdown_from_returns(
+                    control_returns
+                    *
+                    mid
+                )
+            )
+
+            distance = abs(
+                candidate_drawdown
+                -
+                target
+            )
+
+            if distance < best_distance:
+                best_distance = distance
+                best_weight = mid
+
+            if candidate_drawdown > target:
+                high = mid
+            else:
+                low = mid
+
+        return min(
+            1.0,
+            max(
+                0.0,
+                best_weight
+            )
+        )
+
+    strategy_oos_parts = []
+    control_oos_parts = []
+    vol_matched_parts = []
+    dd_matched_parts = []
+    exposure_history = []
+
+    for start in range(
+        ROLLING_OOS_LOOKBACK_SESSIONS,
+        len(returns_frame),
+        ROLLING_OOS_REBALANCE_SESSIONS
+    ):
+        train = returns_frame.iloc[
+            start
+            -
+            ROLLING_OOS_LOOKBACK_SESSIONS:
+            start
+        ]
+
+        test = returns_frame.iloc[
+            start:
+            start
+            +
+            ROLLING_OOS_REBALANCE_SESSIONS
+        ]
+
+        if train.empty or test.empty:
+            continue
+
+        strategy_std = safe_float(
+            train["aurora"].std(),
+            0.0
+        )
+
+        control_std = safe_float(
+            train["equal_weight"].std(),
+            0.0
+        )
+
+        volatility_weight = (
+            min(
+                1.0,
+                max(
+                    0.0,
+                    strategy_std
+                    /
+                    control_std
+                )
+            )
+            if control_std > 0
+            else 0.0
+        )
+
+        target_training_drawdown = (
+            max_drawdown_from_returns(
+                train["aurora"]
+            )
+        )
+
+        drawdown_weight = (
+            trailing_drawdown_matched_weight(
+                train["equal_weight"],
+                target_training_drawdown
+            )
+        )
+
+        strategy_oos_parts.append(
+            test["aurora"]
+        )
+
+        control_oos_parts.append(
+            test["equal_weight"]
+        )
+
+        vol_matched_parts.append(
+            test["equal_weight"]
+            *
+            volatility_weight
+        )
+
+        dd_matched_parts.append(
+            test["equal_weight"]
+            *
+            drawdown_weight
+        )
+
+        exposure_history.append({
+            "decision_date":
+            str(
+                train.index[-1].date()
+            ),
+
+            "test_start_date":
+            str(
+                test.index[0].date()
+            ),
+
+            "test_end_date":
+            str(
+                test.index[-1].date()
+            ),
+
+            "test_sessions":
+            len(test),
+
+            "trailing_sessions":
+            len(train),
+
+            "trailing_aurora_volatility_pct":
+            round(
+                strategy_std
+                *
+                math.sqrt(252)
+                *
+                100,
+                2
+            ),
+
+            "trailing_equal_weight_volatility_pct":
+            round(
+                control_std
+                *
+                math.sqrt(252)
+                *
+                100,
+                2
+            ),
+
+            "volatility_matched_invested_weight":
+            round(
+                volatility_weight,
+                4
+            ),
+
+            "volatility_matched_cash_weight":
+            round(
+                1.0
+                -
+                volatility_weight,
+                4
+            ),
+
+            "trailing_aurora_max_drawdown_pct":
+            round(
+                target_training_drawdown,
+                2
+            ),
+
+            "drawdown_calibrated_invested_weight":
+            round(
+                drawdown_weight,
+                4
+            ),
+
+            "drawdown_calibrated_cash_weight":
+            round(
+                1.0
+                -
+                drawdown_weight,
+                4
+            )
+        })
+
+    if not strategy_oos_parts:
+        return {
+            "version": "V8.4.4",
+            "status": "INSUFFICIENT_DATA",
+            "verdict": "UNDETERMINED",
+            "calibration_gate": "RESEARCH_ONLY",
+            "live_execution_authorized": False
+        }
+
+    strategy_oos_returns = pd.concat(
+        strategy_oos_parts
+    ).sort_index()
+
+    control_oos_returns = pd.concat(
+        control_oos_parts
+    ).sort_index()
+
+    vol_matched_returns = pd.concat(
+        vol_matched_parts
+    ).sort_index()
+
+    dd_matched_returns = pd.concat(
+        dd_matched_parts
+    ).sort_index()
+
+    common_index = (
+        strategy_oos_returns.index
+        .intersection(control_oos_returns.index)
+        .intersection(vol_matched_returns.index)
+        .intersection(dd_matched_returns.index)
+    )
+
+    strategy_oos_returns = (
+        strategy_oos_returns
+        .reindex(common_index)
+        .dropna()
+    )
+
+    control_oos_returns = (
+        control_oos_returns
+        .reindex(strategy_oos_returns.index)
+        .dropna()
+    )
+
+    vol_matched_returns = (
+        vol_matched_returns
+        .reindex(strategy_oos_returns.index)
+        .dropna()
+    )
+
+    dd_matched_returns = (
+        dd_matched_returns
+        .reindex(strategy_oos_returns.index)
+        .dropna()
+    )
+
+    common_index = (
+        strategy_oos_returns.index
+        .intersection(control_oos_returns.index)
+        .intersection(vol_matched_returns.index)
+        .intersection(dd_matched_returns.index)
+    )
+
+    if len(common_index) < 2:
+        return {
+            "version": "V8.4.4",
+            "status": "INSUFFICIENT_DATA",
+            "verdict": "UNDETERMINED",
+            "calibration_gate": "RESEARCH_ONLY",
+            "live_execution_authorized": False
+        }
+
+    strategy_oos_returns = strategy_oos_returns.reindex(
+        common_index
+    )
+
+    control_oos_returns = control_oos_returns.reindex(
+        common_index
+    )
+
+    vol_matched_returns = vol_matched_returns.reindex(
+        common_index
+    )
+
+    dd_matched_returns = dd_matched_returns.reindex(
+        common_index
+    )
+
+    first_oos_date = common_index[0]
+
+    first_position = aligned.index.get_indexer(
+        [first_oos_date]
+    )[0]
+
+    if first_position <= 0:
+        return {
+            "version": "V8.4.4",
+            "status": "INSUFFICIENT_DATA",
+            "verdict": "UNDETERMINED",
+            "calibration_gate": "RESEARCH_ONLY",
+            "live_execution_authorized": False
+        }
+
+    base_date = aligned.index[
+        first_position
+        -
+        1
+    ]
+
+    def equity_from_returns(return_series):
+        compounded = (
+            (
+                1.0
+                +
+                return_series
+            )
+            .cumprod()
+            *
+            STARTING_CAPITAL
+        )
+
+        base = pd.Series(
+            [STARTING_CAPITAL],
+            index=pd.DatetimeIndex(
+                [base_date]
+            ),
+            dtype=float
+        )
+
+        return pd.concat(
+            [
+                base,
+                compounded
+            ]
+        ).sort_index()
+
+    strategy_oos_equity = equity_from_returns(
+        strategy_oos_returns
+    )
+
+    control_oos_equity = equity_from_returns(
+        control_oos_returns
+    )
+
+    vol_matched_equity = equity_from_returns(
+        vol_matched_returns
+    )
+
+    dd_matched_equity = equity_from_returns(
+        dd_matched_returns
+    )
+
+    strategy_metrics = calculate_equity_metrics(
+        strategy_oos_equity,
+        spy_equity,
+        0.0,
+        0.0,
+        STARTING_CAPITAL
+    )
+
+    control_metrics = calculate_equity_metrics(
+        control_oos_equity,
+        spy_equity,
+        0.0,
+        0.0,
+        STARTING_CAPITAL
+    )
+
+    vol_metrics = calculate_equity_metrics(
+        vol_matched_equity,
+        spy_equity,
+        0.0,
+        0.0,
+        STARTING_CAPITAL
+    )
+
+    dd_metrics = calculate_equity_metrics(
+        dd_matched_equity,
+        spy_equity,
+        0.0,
+        0.0,
+        STARTING_CAPITAL
+    )
+
+    vol_cagr_advantage = round(
+        safe_float(
+            strategy_metrics.get("cagr_pct"),
+            0.0
+        )
+        -
+        safe_float(
+            vol_metrics.get("cagr_pct"),
+            0.0
+        ),
+        2
+    )
+
+    vol_sharpe_advantage = round(
+        safe_float(
+            strategy_metrics.get("sharpe_ratio"),
+            0.0
+        )
+        -
+        safe_float(
+            vol_metrics.get("sharpe_ratio"),
+            0.0
+        ),
+        3
+    )
+
+    vol_drawdown_advantage = round(
+        safe_float(
+            vol_metrics.get("max_drawdown_pct"),
+            0.0
+        )
+        -
+        safe_float(
+            strategy_metrics.get("max_drawdown_pct"),
+            0.0
+        ),
+        2
+    )
+
+    dd_cagr_advantage = round(
+        safe_float(
+            strategy_metrics.get("cagr_pct"),
+            0.0
+        )
+        -
+        safe_float(
+            dd_metrics.get("cagr_pct"),
+            0.0
+        ),
+        2
+    )
+
+    dd_sharpe_advantage = round(
+        safe_float(
+            strategy_metrics.get("sharpe_ratio"),
+            0.0
+        )
+        -
+        safe_float(
+            dd_metrics.get("sharpe_ratio"),
+            0.0
+        ),
+        3
+    )
+
+    dd_drawdown_advantage = round(
+        safe_float(
+            dd_metrics.get("max_drawdown_pct"),
+            0.0
+        )
+        -
+        safe_float(
+            strategy_metrics.get("max_drawdown_pct"),
+            0.0
+        ),
+        2
+    )
+
+    if (
+        vol_cagr_advantage > 0
+        and vol_sharpe_advantage > 0
+        and (
+            vol_drawdown_advantage >= 0
+            or dd_cagr_advantage > 0
+        )
+    ):
+        verdict = "OOS_RISK_ADJUSTED_SUPPORTIVE"
+    elif (
+        vol_drawdown_advantage > 0
+        and vol_cagr_advantage <= 0
+    ):
+        verdict = "OOS_DRAWDOWN_ONLY_NO_RETURN_ALPHA"
+    elif (
+        vol_cagr_advantage <= 0
+        and vol_sharpe_advantage <= 0
+        and vol_drawdown_advantage <= 0
+    ):
+        verdict = "OOS_NOT_VALIDATED"
+    else:
+        verdict = "OOS_MIXED_EVIDENCE"
+
+    vol_weights = [
+        safe_float(
+            item.get(
+                "volatility_matched_invested_weight"
+            ),
+            0.0
+        )
+        for item in exposure_history
+    ]
+
+    dd_weights = [
+        safe_float(
+            item.get(
+                "drawdown_calibrated_invested_weight"
+            ),
+            0.0
+        )
+        for item in exposure_history
+    ]
+
+    evidence_strength = (
+        "MODERATE"
+        if len(common_index) >= 504
+        else
+        "LIMITED"
+        if len(common_index) >= 252
+        else
+        "LOW"
+    )
+
+    return {
+        "version":
+        "V8.4.4",
+
+        "status":
+        "COMPLETE",
+
+        "verdict":
+        verdict,
+
+        "calibration_gate":
+        "RESEARCH_ONLY",
+
+        "live_execution_authorized":
+        False,
+
+        "evidence_strength":
+        evidence_strength,
+
+        "maximum_evidence_grade":
+        "MODERATE_DUE_TO_CURRENT_HOLDINGS_SURVIVORSHIP_BIAS",
+
+        "first_scored_date":
+        str(
+            first_oos_date.date()
+        ),
+
+        "last_scored_date":
+        str(
+            common_index[-1].date()
+        ),
+
+        "oos_sessions":
+        len(common_index),
+
+        "lookback_sessions":
+        ROLLING_OOS_LOOKBACK_SESSIONS,
+
+        "rebalance_sessions":
+        ROLLING_OOS_REBALANCE_SESSIONS,
+
+        "performance": {
+            "aurora_oos":
+            strategy_metrics,
+
+            "equal_weight_100pct_oos":
+            control_metrics,
+
+            "rolling_volatility_matched_equal_weight":
+            vol_metrics,
+
+            "rolling_trailing_drawdown_matched_equal_weight":
+            dd_metrics
+        },
+
+        "comparison": {
+            "vol_matched_cagr_advantage_pct":
+            vol_cagr_advantage,
+
+            "vol_matched_sharpe_advantage":
+            vol_sharpe_advantage,
+
+            "vol_matched_drawdown_advantage_pct":
+            vol_drawdown_advantage,
+
+            "drawdown_matched_cagr_advantage_pct":
+            dd_cagr_advantage,
+
+            "drawdown_matched_sharpe_advantage":
+            dd_sharpe_advantage,
+
+            "drawdown_matched_drawdown_advantage_pct":
+            dd_drawdown_advantage
+        },
+
+        "exposure_summary": {
+            "volatility_matched_average_invested_weight":
+            round(
+                sum(vol_weights)
+                /
+                len(vol_weights),
+                4
+            )
+            if vol_weights
+            else None,
+
+            "volatility_matched_min_invested_weight":
+            round(
+                min(vol_weights),
+                4
+            )
+            if vol_weights
+            else None,
+
+            "volatility_matched_max_invested_weight":
+            round(
+                max(vol_weights),
+                4
+            )
+            if vol_weights
+            else None,
+
+            "drawdown_calibrated_average_invested_weight":
+            round(
+                sum(dd_weights)
+                /
+                len(dd_weights),
+                4
+            )
+            if dd_weights
+            else None,
+
+            "drawdown_calibrated_min_invested_weight":
+            round(
+                min(dd_weights),
+                4
+            )
+            if dd_weights
+            else None,
+
+            "drawdown_calibrated_max_invested_weight":
+            round(
+                max(dd_weights),
+                4
+            )
+            if dd_weights
+            else None
+        },
+
+        "exposure_history":
+        exposure_history,
+
+        "methodology_note":
+        (
+            "Every exposure decision is estimated only from the prior 126 "
+            "sessions and frozen for the next 21 sessions. No future return "
+            "is used to set that block's benchmark exposure."
+        ),
+
+        "cost_model_note":
+        (
+            "AURORA and the 100% equal-weight source return streams already "
+            "contain their modeled trading friction. Rolling control returns "
+            "are scaled from that net control stream, but no additional cost "
+            "is charged for monthly cash/exposure changes. This is favorable "
+            "to the benchmark and therefore conservative for AURORA."
+        ),
+
+        "scope_note":
+        (
+            "This is out-of-sample exposure attribution for the reconstructable "
+            "price/risk overlay on the current holdings universe. It does not "
+            "remove survivorship/selection bias and is not statistical proof "
+            "of full-system alpha."
+        )
+    }
+
+
+
 def enrich_folds_with_control(
     folds,
     control_equity
@@ -3452,6 +4255,16 @@ def run_walk_forward_backtest(
             )
         }
 
+    rolling_oos_attribution = (
+        build_rolling_oos_exposure_attribution(
+            simulation.get(
+                "equity_series"
+            ),
+            control_equity,
+            spy_equity
+        )
+    )
+
     # V8.4.3: descriptive exposure attribution (not causal proof).
     # Risk matching is fitted on the entire evaluation sample, so these
     # figures are in-sample diagnostics and never authorize live trading.
@@ -3602,6 +4415,12 @@ def run_walk_forward_backtest(
             "walk_forward_fold_sessions":
             WALK_FORWARD_FOLD_SESSIONS,
 
+            "rolling_oos_exposure_lookback_sessions":
+            ROLLING_OOS_LOOKBACK_SESSIONS,
+
+            "rolling_oos_exposure_rebalance_sessions":
+            ROLLING_OOS_REBALANCE_SESSIONS,
+
             "minimum_warmup_sessions":
             MIN_WARMUP_SESSIONS,
 
@@ -3658,6 +4477,9 @@ def run_walk_forward_backtest(
 
         "exposure_attribution_verdict":
         exposure_attribution,
+
+        "rolling_oos_exposure_attribution":
+        rolling_oos_attribution,
 
         "overlay_alpha_vs_equal_weight_control":
         overlay_alpha_vs_control,
