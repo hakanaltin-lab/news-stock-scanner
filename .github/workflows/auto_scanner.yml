@@ -61,7 +61,7 @@ jobs:
 
         git config user.email "github-actions@github.com"
 
-        REPORT_FILES="docs/index.html docs/latest.csv docs/latest.json docs/last_run.txt docs/recommendation_journal.json docs/recommendation_performance.json docs/walk_forward_backtest.json docs/strategic_policy_calibration.json docs/shadow_policy_journal.json docs/historical_evidence_recovery.json docs/fundamental_thesis_cache.json"
+        REPORT_FILES="docs/latest.csv docs/latest.json docs/last_run.txt docs/recommendation_journal.json docs/recommendation_performance.json docs/walk_forward_backtest.json docs/strategic_policy_calibration.json docs/shadow_policy_journal.json docs/historical_evidence_recovery.json docs/fundamental_thesis_cache.json"
 
         REPORT_TMP="$(mktemp -d)"
 
