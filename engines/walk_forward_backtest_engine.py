@@ -2710,19 +2710,34 @@ def build_rolling_oos_exposure_attribution(
         if return_series is None or return_series.empty:
             return 0.0
 
-        equity = (
+        compounded = (
             (
                 1.0
                 +
                 return_series
             )
             .cumprod()
+            .to_numpy(
+                dtype=float
+            )
         )
 
-        running_max = equity.cummax()
+        equity_values = np.concatenate(
+            (
+                np.array(
+                    [1.0],
+                    dtype=float
+                ),
+                compounded
+            )
+        )
+
+        running_max = np.maximum.accumulate(
+            equity_values
+        )
 
         drawdown = (
-            equity
+            equity_values
             /
             running_max
             -
@@ -2731,7 +2746,9 @@ def build_rolling_oos_exposure_attribution(
 
         return abs(
             safe_float(
-                drawdown.min(),
+                np.min(
+                    drawdown
+                ),
                 0.0
             )
         ) * 100
