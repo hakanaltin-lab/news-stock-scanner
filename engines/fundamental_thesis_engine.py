@@ -777,13 +777,19 @@ def analyze_fundamental_thesis(
     )
 
     try:
-        info = stock.get_info()
-        or {}
+        info = (
+            stock.get_info()
+            or
+            {}
+        )
 
     except Exception:
         try:
-            info = stock.info
-            or {}
+            info = (
+                stock.info
+                or
+                {}
+            )
 
         except Exception:
             info = {}
