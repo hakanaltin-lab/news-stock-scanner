@@ -704,8 +704,49 @@ def run_daily_evidence_archive():
 
     latest_file = os.path.join(
         ARCHIVE_DIR,
-        "latest.json"
+        "latest_summary.json"
     )
+
+    latest_summary = {
+        "engine":
+        ENGINE_VERSION,
+
+        "archive_signature":
+        ARCHIVE_SIGNATURE,
+
+        "archive_date":
+        archive_date,
+
+        "retrieved_at":
+        retrieval_time,
+
+        "status":
+        result.get(
+            "status"
+        ),
+
+        "archive_file":
+        output_file,
+
+        "universe":
+        result.get(
+            "universe"
+        ),
+
+        "coverage":
+        result.get(
+            "coverage"
+        ),
+
+        "live_decisions_changed":
+        False,
+
+        "paper_order_submission_authorized":
+        False,
+
+        "live_execution_authorized":
+        False
+    }
 
     with open(
         latest_file,
@@ -713,7 +754,7 @@ def run_daily_evidence_archive():
         encoding="utf-8"
     ) as file:
         json.dump(
-            result,
+            latest_summary,
             file,
             indent=2,
             ensure_ascii=False
