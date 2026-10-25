@@ -1272,8 +1272,33 @@ def evaluate_action_changes(
             else excess
         )
 
+        execution_date = event.get(
+            "execution_date"
+        )
+
         evaluated.append({
             **event,
+
+            "decision_date":
+            str(
+                signal_date.date()
+            ),
+
+            "execution_date":
+            (
+                str(
+                    execution_date.date()
+                )
+                if hasattr(
+                    execution_date,
+                    "date"
+                )
+                else str(
+                    execution_date
+                )
+                if execution_date is not None
+                else None
+            ),
 
             "evaluation_date":
             str(
