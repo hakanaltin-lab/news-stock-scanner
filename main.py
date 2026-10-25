@@ -1,5 +1,5 @@
 """
-V7.3 Global Market Intelligence Scanner
+V7.4 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -33,7 +33,9 @@ Opportunity Deep Analysis
         |
 Opportunity Safety Gate
         |
-Capital Allocation Engine
+Market Regime Engine
+        |
+Regime-Aware Capital Allocation Engine
         |
 Final Portfolio Projection Engine
         |
@@ -108,6 +110,11 @@ from engines.opportunity_scanner_engine import (
 
 from engines.opportunity_deep_analysis_engine import (
     analyze_opportunity_candidates
+)
+
+
+from engines.market_regime_engine import (
+    analyze_market_regime
 )
 
 
@@ -499,19 +506,29 @@ def run_scanner():
 
 
     # =====================================================
-    # 5. V7.2 CAPITAL ALLOCATION
+    # 5. V7.4 MARKET REGIME
+    # =====================================================
+
+    market_regime = (
+        analyze_market_regime()
+    )
+
+
+    # =====================================================
+    # 6. V7.4 REGIME-AWARE CAPITAL ALLOCATION
     # =====================================================
 
     capital_allocation = (
         build_capital_allocation_plan(
             portfolio_rebalancing,
-            opportunity_analysis
+            opportunity_analysis,
+            market_regime_result=market_regime
         )
     )
 
 
     # =====================================================
-    # 6. V7.3 FINAL PORTFOLIO PROJECTION
+    # 7. V7.3 FINAL PORTFOLIO PROJECTION
     # =====================================================
 
     final_portfolio_projection = (
@@ -524,7 +541,7 @@ def run_scanner():
 
 
     # =====================================================
-    # 7. FINAL OUTPUT
+    # 8. FINAL OUTPUT
     # =====================================================
 
     output = {
@@ -533,7 +550,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V7.3",
+        "V7.4",
 
         "portfolio":
         results,
@@ -546,6 +563,9 @@ def run_scanner():
 
         "opportunity_analysis":
         opportunity_analysis,
+
+        "market_regime":
+        market_regime,
 
         "capital_allocation":
         capital_allocation,
@@ -575,7 +595,7 @@ def run_scanner():
 
 
     print(
-        "V7.3 Scanner completed successfully"
+        "V7.4 Scanner completed successfully"
     )
 
 
