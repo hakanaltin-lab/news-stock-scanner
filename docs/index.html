@@ -802,7 +802,7 @@ id="backtest-cagr"
 <div class="stat">
 
 <div class="stat-label">
-CAGR Alpha vs SPY
+Overlay CAGR vs EW Control
 </div>
 
 <div
@@ -881,6 +881,7 @@ Validation scope loading...
 <tr>
 <th>Metric</th>
 <th>Strategy</th>
+<th>EW Control</th>
 <th>SPY / Reference</th>
 </tr>
 
@@ -889,7 +890,7 @@ Validation scope loading...
 <tbody id="backtest-metric-table">
 
 <tr>
-<td colspan="3" class="loading">
+<td colspan="4" class="loading">
 Loading backtest metrics...
 </td>
 </tr>
@@ -913,8 +914,10 @@ Sequential fixed-rule out-of-sample folds
 <th>End</th>
 <th>Sessions</th>
 <th>Strategy Return</th>
+<th>EW Control</th>
+<th>Overlay vs Control</th>
 <th>SPY Return</th>
-<th>Excess</th>
+<th>Strategy vs SPY</th>
 <th>Max Drawdown</th>
 </tr>
 
@@ -923,7 +926,7 @@ Sequential fixed-rule out-of-sample folds
 <tbody id="walk-forward-fold-table">
 
 <tr>
-<td colspan="8" class="loading">
+<td colspan="10" class="loading">
 Loading walk-forward folds...
 </td>
 </tr>
@@ -2187,6 +2190,26 @@ walkForwardBacktest.performance
 || {};
 
 
+const equalWeightControl =
+walkForwardBacktest.equal_weight_control
+|| {};
+
+
+const equalWeightControlPerformance =
+equalWeightControl.performance
+|| {};
+
+
+const overlayAlphaVsControl =
+walkForwardBacktest.overlay_alpha_vs_equal_weight_control
+|| {};
+
+
+const backtestVerdict =
+walkForwardBacktest.validation_verdict
+|| {};
+
+
 const backtestSignalValidation =
 walkForwardBacktest.signal_validation
 || {};
@@ -2485,6 +2508,66 @@ hitRateText(
 );
 
 
+document.getElementById(
+"backtest-cagr"
+).textContent =
+backtestPerformance.cagr_pct === null
+||
+backtestPerformance.cagr_pct === undefined
+?
+"-"
+:
+formatNumber(
+backtestPerformance.cagr_pct,
+2
+)
++
+"%";
+
+
+document.getElementById(
+"backtest-alpha"
+).textContent =
+overlayAlphaVsControl.cagr_alpha_pct === null
+||
+overlayAlphaVsControl.cagr_alpha_pct === undefined
+?
+"-"
+:
+formatNumber(
+overlayAlphaVsControl.cagr_alpha_pct,
+2
+)
++
+"%";
+
+
+document.getElementById(
+"backtest-sharpe"
+).textContent =
+formatNumber(
+backtestPerformance.sharpe_ratio,
+2
+);
+
+
+document.getElementById(
+"backtest-max-dd"
+).textContent =
+backtestPerformance.max_drawdown_pct === null
+||
+backtestPerformance.max_drawdown_pct === undefined
+?
+"-"
+:
+formatNumber(
+backtestPerformance.max_drawdown_pct,
+2
+)
++
+"%";
+
+
 if(data.generated){
 
 const generatedDate =
@@ -2579,6 +2662,14 @@ walkForwardBacktest.status
 "-"
 )
 +
+" | Verdict: "
++
+(
+backtestVerdict.status
+||
+"-"
+)
++
 " | Period: "
 +
 (
@@ -2654,6 +2745,42 @@ walkForwardBacktest.validation_scope
 "-"
 )
 +
+" | Primary control: same-universe equal-weight"
++
+" | Overlay CAGR vs control: "
++
+(
+overlayAlphaVsControl.cagr_alpha_pct === null
+||
+overlayAlphaVsControl.cagr_alpha_pct === undefined
+?
+"-"
+:
+formatNumber(
+overlayAlphaVsControl.cagr_alpha_pct,
+2
+)
++
+"%"
+)
++
+" | DD improvement: "
++
+(
+overlayAlphaVsControl.max_drawdown_improvement_pct === null
+||
+overlayAlphaVsControl.max_drawdown_improvement_pct === undefined
+?
+"-"
+:
+formatNumber(
+overlayAlphaVsControl.max_drawdown_improvement_pct,
+2
+)
++
+"%"
+)
++
 " | Friction: "
 +
 formatNumber(
@@ -2676,64 +2803,81 @@ const backtestRows = [
 [
 "CAGR",
 backtestPerformance.cagr_pct,
+equalWeightControlPerformance.cagr_pct,
 backtestPerformance.spy_cagr_pct,
 "%"
 ],
 [
 "Total Return",
 backtestPerformance.total_return_pct,
+equalWeightControlPerformance.total_return_pct,
 backtestPerformance.spy_total_return_pct,
 "%"
 ],
 [
 "Annualized Volatility",
 backtestPerformance.annualized_volatility_pct,
+equalWeightControlPerformance.annualized_volatility_pct,
 null,
 "%"
 ],
 [
 "Sharpe",
 backtestPerformance.sharpe_ratio,
+equalWeightControlPerformance.sharpe_ratio,
 null,
 ""
 ],
 [
 "Sortino",
 backtestPerformance.sortino_ratio,
+equalWeightControlPerformance.sortino_ratio,
 null,
 ""
 ],
 [
 "Max Drawdown",
 backtestPerformance.max_drawdown_pct,
+equalWeightControlPerformance.max_drawdown_pct,
 null,
 "%"
 ],
 [
 "Calmar",
 backtestPerformance.calmar_ratio,
+equalWeightControlPerformance.calmar_ratio,
 null,
 ""
 ],
 [
 "Daily Profit Factor",
 backtestPerformance.profit_factor_daily,
+equalWeightControlPerformance.profit_factor_daily,
 null,
 ""
 ],
 [
 "CAGR Alpha vs SPY",
 backtestPerformance.cagr_alpha_vs_spy_pct,
+equalWeightControlPerformance.cagr_alpha_vs_spy_pct,
 0,
+"%"
+],
+[
+"Overlay CAGR vs EW Control",
+overlayAlphaVsControl.cagr_alpha_pct,
+0,
+null,
 "%"
 ],
 [
 "20D Signal Hit Rate",
 backtestSignalValidation.hit_rate_pct,
 null,
+null,
 "%"
 ]
-];
+]
 
 
 backtestRows.forEach(
@@ -2748,12 +2892,16 @@ const strategyValue =
 row[1];
 
 
-const referenceValue =
+const controlValue =
 row[2];
 
 
-const suffix =
+const referenceValue =
 row[3];
+
+
+const suffix =
+row[4];
 
 
 backtestMetricTable.innerHTML += `
@@ -2766,6 +2914,10 @@ backtestMetricTable.innerHTML += `
 
 <td>
 ${strategyValue === null || strategyValue === undefined ? "-" : formatNumber(strategyValue,2) + suffix}
+</td>
+
+<td>
+${controlValue === null || controlValue === undefined ? "-" : formatNumber(controlValue,2) + suffix}
 </td>
 
 <td>
@@ -2787,7 +2939,7 @@ walkForwardFoldTable.innerHTML = `
 
 <tr>
 
-<td colspan="8">
+<td colspan="10">
 
 No walk-forward folds available.
 
@@ -2828,6 +2980,14 @@ ${item.trading_sessions ?? "-"}
 
 <td>
 ${formatNumber(item.strategy_return_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.equal_weight_control_return_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.overlay_excess_vs_control_pct,2)}%
 </td>
 
 <td>
