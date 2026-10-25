@@ -1489,6 +1489,69 @@ Loading rolling OOS benchmarks...
 </tbody>
 </table>
 
+<div class="section-note">
+<b>V8.4.5 OOS Statistical Robustness & Regime Validation</b>
+</div>
+
+<div id="oos-robustness-summary" class="section-note">
+Loading robustness validation...
+</div>
+
+<div id="oos-bootstrap-summary" class="section-note">
+Loading block-bootstrap evidence...
+</div>
+
+<div class="section-note">
+126-session OOS time-block stability
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Block</th>
+<th>Period</th>
+<th>Sessions</th>
+<th>AURORA Ann.</th>
+<th>Vol-Matched Ann.</th>
+<th>Return Advantage</th>
+<th>Sharpe Advantage</th>
+</tr>
+</thead>
+<tbody id="oos-time-block-table">
+<tr>
+<td colspan="7" class="loading">
+Loading OOS time blocks...
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="section-note">
+Past-only SPY regime stability
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Regime</th>
+<th>Sessions</th>
+<th>AURORA Ann.</th>
+<th>Vol-Matched Ann.</th>
+<th>Return Advantage</th>
+<th>Sharpe Advantage</th>
+<th>Active-Day Win</th>
+<th>Verdict Eligible</th>
+</tr>
+</thead>
+<tbody id="oos-regime-table">
+<tr>
+<td colspan="8" class="loading">
+Loading regime evidence...
+</td>
+</tr>
+</tbody>
+</table>
+
 <table>
 
 <thead>
@@ -5259,6 +5322,225 @@ rollingOosComparison.drawdown_matched_cagr_advantage_pct
 " pp"
 +
 " | No future returns used to set each test block's exposure.";
+
+const robustnessValidation =
+walkForwardBacktest.oos_statistical_robustness
+||
+rollingOos.robustness_validation
+|| {};
+
+const robustnessBootstrap =
+robustnessValidation.bootstrap
+|| {};
+
+const robustnessTimeBlocks =
+(
+robustnessValidation.time_block_stability
+|| {}
+).blocks
+|| [];
+
+const robustnessRegimeStability =
+robustnessValidation.regime_stability
+|| {};
+
+const robustnessRegimes =
+robustnessRegimeStability.regimes
+|| {};
+
+const bootstrapCagrCi =
+robustnessBootstrap.cagr_advantage_ci_95_pct_points
+|| {};
+
+const bootstrapSharpeCi =
+robustnessBootstrap.sharpe_advantage_ci_95
+|| {};
+
+document.getElementById(
+"oos-robustness-summary"
+).textContent =
+"V8.4.5 | "
++
+(robustnessValidation.status || "PENDING")
++
+" | Verdict: "
++
+(robustnessValidation.verdict || "UNDETERMINED")
++
+" | OOS sessions: "
++
+(robustnessValidation.oos_sessions ?? 0)
++
+" | Time-block positive: "
++
+fmtAttr(
+(
+robustnessValidation.time_block_stability
+|| {}
+).positive_block_rate_pct,
+1
+)
++
+"%"
++
+" | Regime positive: "
++
+fmtAttr(
+robustnessRegimeStability.positive_regime_rate_pct,
+1
+)
++
+"%"
++
+" | Calibration: "
++
+(robustnessValidation.calibration_gate || "RESEARCH_ONLY")
++
+" | LIVE: "
++
+(
+robustnessValidation.live_execution_authorized === true
+?
+"AUTHORIZED"
+:
+"BLOCKED"
+);
+
+document.getElementById(
+"oos-bootstrap-summary"
+).textContent =
+"Paired 21-session block bootstrap | "
++
+(robustnessBootstrap.iterations ?? 0)
++
+" iterations"
++
+" | CAGR advantage > 0: "
++
+fmtAttr(
+robustnessBootstrap.probability_cagr_advantage_positive_pct,
+1
+)
++
+"%"
++
+" | 95% CI: "
++
+fmtAttr(
+bootstrapCagrCi.lower
+)
++
+" to "
++
+fmtAttr(
+bootstrapCagrCi.upper
+)
++
+" pp"
++
+" | Sharpe advantage > 0: "
++
+fmtAttr(
+robustnessBootstrap.probability_sharpe_advantage_positive_pct,
+1
+)
++
+"%"
++
+" | Sharpe 95% CI: "
++
+fmtAttr(
+bootstrapSharpeCi.lower,
+3
+)
++
+" to "
++
+fmtAttr(
+bootstrapSharpeCi.upper,
+3
+)
++
+" | Conditional research evidence; not an independent live-trading p-value.";
+
+const oosTimeBlockTable =
+document.getElementById(
+"oos-time-block-table"
+);
+
+oosTimeBlockTable.innerHTML = "";
+
+if(
+robustnessTimeBlocks.length === 0
+){
+
+oosTimeBlockTable.innerHTML = `
+<tr>
+<td colspan="7">
+No time-block robustness evidence available yet.
+</td>
+</tr>
+`;
+
+}
+else{
+
+robustnessTimeBlocks.forEach(
+block => {
+
+oosTimeBlockTable.innerHTML += `
+<tr>
+<td><b>${block.block ?? "-"}</b></td>
+<td>${block.start_date || "-"} → ${block.end_date || "-"}</td>
+<td>${block.sessions ?? 0}</td>
+<td>${block.aurora_annualized_return_pct == null ? "-" : formatNumber(block.aurora_annualized_return_pct,2) + "%"}</td>
+<td>${block.benchmark_annualized_return_pct == null ? "-" : formatNumber(block.benchmark_annualized_return_pct,2) + "%"}</td>
+<td>${block.annualized_return_advantage_pct_points == null ? "-" : formatNumber(block.annualized_return_advantage_pct_points,2) + " pp"}</td>
+<td>${block.sharpe_advantage == null ? "-" : formatNumber(block.sharpe_advantage,3)}</td>
+</tr>
+`;
+
+});
+
+}
+
+const oosRegimeTable =
+document.getElementById(
+"oos-regime-table"
+);
+
+oosRegimeTable.innerHTML = "";
+
+const regimeOrder = [
+"RISK_ON",
+"RISK_OFF",
+"HIGH_VOL",
+"LOWER_VOL"
+];
+
+regimeOrder.forEach(
+regimeName => {
+
+const regime =
+robustnessRegimes[
+regimeName
+]
+|| {};
+
+oosRegimeTable.innerHTML += `
+<tr>
+<td><b>${regimeName}</b></td>
+<td>${regime.sessions ?? 0}</td>
+<td>${regime.aurora_annualized_return_pct == null ? "-" : formatNumber(regime.aurora_annualized_return_pct,2) + "%"}</td>
+<td>${regime.benchmark_annualized_return_pct == null ? "-" : formatNumber(regime.benchmark_annualized_return_pct,2) + "%"}</td>
+<td>${regime.annualized_return_advantage_pct_points == null ? "-" : formatNumber(regime.annualized_return_advantage_pct_points,2) + " pp"}</td>
+<td>${regime.sharpe_advantage == null ? "-" : formatNumber(regime.sharpe_advantage,3)}</td>
+<td>${regime.positive_active_day_rate_pct == null ? "-" : formatNumber(regime.positive_active_day_rate_pct,1) + "%"}</td>
+<td>${regime.eligible_for_verdict === true ? "YES" : "NO"}</td>
+</tr>
+`;
+
+});
 
 /* =============================================== */
 /* =============================================== */
