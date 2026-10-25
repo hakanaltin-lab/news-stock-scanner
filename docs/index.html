@@ -1066,6 +1066,88 @@ id="cashmix-cagr"
 
 </div>
 
+<div class="stat">
+
+<div class="stat-label">
+Healthy/Strong Thesis
+</div>
+
+<div class="stat-value" id="thesis-healthy-count">
+-
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-label">
+Sell Thesis Confirmed
+</div>
+
+<div class="stat-value" id="sell-thesis-confirmed">
+-
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-label">
+Sell Not Confirmed
+</div>
+
+<div class="stat-value" id="sell-thesis-not-confirmed">
+-
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- V8.5 FUNDAMENTAL THESIS & VALUATION -->
+<!-- ================================================= -->
+
+<div class="card green">
+
+<div class="title">
+🧠 V8.5 FUNDAMENTAL THESIS & VALUATION
+</div>
+
+<div id="fundamental-thesis-summary" class="section-note">
+Loading thesis confirmation...
+</div>
+
+<div class="section-note">
+Confirmation-only layer. Live portfolio actions are unchanged; price-driven REDUCE / EXIT is reviewed against business-thesis health.
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Ticker</th>
+<th>Live Action</th>
+<th>Thesis Score</th>
+<th>Health</th>
+<th>Data</th>
+<th>Revenue Growth</th>
+<th>Earnings Growth</th>
+<th>FCF Yield</th>
+<th>Forward P/E</th>
+<th>Revision Score</th>
+<th>Sell Review</th>
+<th>Shadow Action</th>
+</tr>
+</thead>
+
+<tbody id="fundamental-thesis-table">
+<tr>
+<td colspan="12" class="loading">Loading fundamental thesis...</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -2928,6 +3010,11 @@ walkForwardBacktest.risk_scaled_equal_weight_controls
 || {};
 
 
+const fundamentalThesisSummary =
+data.fundamental_thesis_summary
+|| {};
+
+
 /* =============================================== */
 /* SUMMARY */
 /* =============================================== */
@@ -3461,6 +3548,150 @@ decisionArchitecture.principle
 ||
 ""
 );
+
+
+document.getElementById(
+"historical-oldest-date"
+).textContent =
+historicalEvidence.oldest_signal_date
+|| "-";
+
+
+const defensive20Summary =
+historicalDefensive["20d"]
+|| {};
+
+
+document.getElementById(
+"defensive-hit-20d"
+).textContent =
+defensive20Summary.benchmark_hit_rate_pct == null
+?
+"-"
+:
+formatNumber(defensive20Summary.benchmark_hit_rate_pct,1) + "%";
+
+
+const cashMix6535Summary =
+(
+cashMixControls.equal_weight_65_35
+||
+{}
+).performance
+||
+{};
+
+
+document.getElementById(
+"cashmix-cagr"
+).textContent =
+cashMix6535Summary.cagr_pct == null
+?
+"-"
+:
+formatNumber(cashMix6535Summary.cagr_pct,2) + "%";
+
+
+document.getElementById(
+"thesis-healthy-count"
+).textContent =
+(fundamentalThesisSummary.strong ?? 0)
++
+(fundamentalThesisSummary.healthy ?? 0);
+
+
+document.getElementById(
+"sell-thesis-confirmed"
+).textContent =
+fundamentalThesisSummary.sell_confirmed
+?? "-";
+
+
+document.getElementById(
+"sell-thesis-not-confirmed"
+).textContent =
+fundamentalThesisSummary.sell_not_confirmed_or_contradicted
+?? "-";
+
+
+/* =============================================== */
+/* V8.5 FUNDAMENTAL THESIS & VALUATION */
+/* =============================================== */
+
+
+const fundamentalThesisTable =
+document.getElementById("fundamental-thesis-table");
+
+
+fundamentalThesisTable.innerHTML = "";
+
+
+document.getElementById(
+"fundamental-thesis-summary"
+).textContent =
+"Strong: "
++
+(fundamentalThesisSummary.strong ?? 0)
++
+" | Healthy: "
++
+(fundamentalThesisSummary.healthy ?? 0)
++
+" | Mixed: "
++
+(fundamentalThesisSummary.mixed ?? 0)
++
+" | Deteriorating: "
++
+(fundamentalThesisSummary.deteriorating ?? 0)
++
+" | Broken: "
++
+(fundamentalThesisSummary.broken ?? 0)
++
+" | Price-driven sells: "
++
+(fundamentalThesisSummary.sell_signals ?? 0)
++
+" | Fundamentally confirmed: "
++
+(fundamentalThesisSummary.sell_confirmed ?? 0)
++
+" | Not confirmed / contradicted / insufficient: "
++
+(fundamentalThesisSummary.sell_not_confirmed_or_contradicted ?? 0)
++
+" | Live actions changed: "
++
+(fundamentalThesisSummary.live_actions_changed === true ? "YES" : "NO");
+
+
+portfolio.forEach(item => {
+
+const thesis = item.fundamental_thesis || {};
+const fundamentals = thesis.fundamentals || {};
+const valuation = thesis.valuation || {};
+const components = thesis.component_scores || {};
+const review = item.thesis_confirmation || {};
+
+fundamentalThesisTable.innerHTML += `
+<tr>
+<td><b>${item.ticker || "-"}</b></td>
+<td>${item.portfolio_action || "-"}</td>
+<td>${thesis.thesis_score == null ? "-" : formatNumber(thesis.thesis_score,1)}</td>
+<td>${thesis.thesis_health || "-"}</td>
+<td>${thesis.data_quality || "-"}</td>
+<td>${fundamentals.revenue_growth_pct == null ? "-" : formatNumber(fundamentals.revenue_growth_pct,1) + "%"}</td>
+<td>${fundamentals.earnings_growth_pct == null ? "-" : formatNumber(fundamentals.earnings_growth_pct,1) + "%"}</td>
+<td>${fundamentals.fcf_yield_pct == null ? "-" : formatNumber(fundamentals.fcf_yield_pct,2) + "%"}</td>
+<td>${valuation.forward_pe == null ? "-" : formatNumber(valuation.forward_pe,1)}</td>
+<td>${components.revisions == null ? "-" : formatNumber(components.revisions,1)}</td>
+<td>${review.review_status || "-"}</td>
+<td><b>${review.thesis_shadow_action || "-"}</b></td>
+</tr>
+`;
+
+});
 
 
 /* =============================================== */
