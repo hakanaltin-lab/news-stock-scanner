@@ -304,7 +304,7 @@ AURORA Market Intelligence
 </h1>
 
 <div class="subtitle">
-Market Regime + Portfolio Management + Position Sizing + Capital Allocation + Final Portfolio Projection + US Market Opportunity Radar
+Market Regime + Earnings/Event Risk + Portfolio Management + Position Sizing + Capital Allocation + Final Portfolio Projection + US Market Opportunity Radar
 </div>
 
 <div
@@ -594,6 +594,54 @@ id="regime-cash-target"
 </div>
 
 
+<div class="stat">
+
+<div class="stat-label">
+Macro Event Risk
+</div>
+
+<div
+class="stat-value"
+id="macro-event-risk"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+New Entry Event Alerts
+</div>
+
+<div
+class="stat-value"
+id="event-alert-count"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Portfolio Event Alerts
+</div>
+
+<div
+class="stat-value"
+id="portfolio-event-alert-count"
+>
+-
+</div>
+
+</div>
+
+
 </div>
 
 
@@ -636,6 +684,55 @@ Loading market regime...
 <tr>
 <td colspan="8" class="loading">
 Loading regime metrics...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- V7.5 EARNINGS & EVENT RISK -->
+<!-- ================================================= -->
+
+<div class="card orange">
+
+<div class="title">
+📅 V7.5 EARNINGS & EVENT RISK
+</div>
+
+<div
+id="event-risk-summary"
+class="section-note"
+>
+Loading earnings and event risk...
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Ticker</th>
+<th>Base Action</th>
+<th>Event Policy</th>
+<th>Risk</th>
+<th>Size Multiplier</th>
+<th>Next Earnings</th>
+<th>Days</th>
+<th>Reason</th>
+</tr>
+
+</thead>
+
+<tbody id="event-risk-table">
+
+<tr>
+<td colspan="8" class="loading">
+Loading event-risk controls...
 </td>
 </tr>
 
@@ -837,13 +934,13 @@ Loading position sizing...
 
 
 <!-- ================================================= -->
-<!-- V7.4 REGIME-AWARE CAPITAL ALLOCATION -->
+<!-- V7.5 REGIME + EVENT-AWARE CAPITAL ALLOCATION -->
 <!-- ================================================= -->
 
 <div class="card teal">
 
 <div class="title">
-💰 V7.4 REGIME-AWARE CAPITAL ALLOCATION
+💰 V7.5 REGIME + EVENT-AWARE CAPITAL ALLOCATION
 </div>
 
 <div
@@ -1258,6 +1355,10 @@ if(status === "REGIME_BLOCK"){
 return "blocked";
 }
 
+if(status === "EVENT_BLOCK"){
+return "blocked";
+}
+
 return "notrade";
 
 }
@@ -1411,6 +1512,26 @@ capital.allocation_plan
 const marketRegime =
 data.market_regime
 || {};
+
+
+const eventRisk =
+data.event_risk
+|| {};
+
+
+const macroEventRisk =
+eventRisk.macro_event_risk
+|| {};
+
+
+const eventAlerts =
+eventRisk.actionable_alerts
+|| [];
+
+
+const portfolioEventAlerts =
+eventRisk.portfolio_alerts
+|| [];
 
 
 const regimePolicy =
@@ -1586,6 +1707,27 @@ regimePolicy.minimum_cash_reserve_pct,
 "%";
 
 
+document.getElementById(
+"macro-event-risk"
+).textContent =
+macroEventRisk.risk_level
+|| "-";
+
+
+document.getElementById(
+"event-alert-count"
+).textContent =
+eventRisk.actionable_alert_count
+?? "-";
+
+
+document.getElementById(
+"portfolio-event-alert-count"
+).textContent =
+eventRisk.portfolio_alert_count
+?? "-";
+
+
 if(data.generated){
 
 const generatedDate =
@@ -1749,6 +1891,179 @@ ${formatNumber(item.realized_volatility_20d_pct,2)}%
 `;
 
 });
+
+
+/* =============================================== */
+/* =============================================== */
+/* V7.5 EARNINGS & EVENT RISK */
+/* =============================================== */
+
+
+const eventRiskTable =
+document.getElementById(
+"event-risk-table"
+);
+
+
+eventRiskTable.innerHTML =
+"";
+
+
+const nearestMacro =
+macroEventRisk.nearest_event
+|| {};
+
+
+const macroName =
+nearestMacro.name
+||
+nearestMacro.event_type
+||
+"No confirmed near-term macro event";
+
+
+const macroDays =
+nearestMacro.days_until_event;
+
+
+document.getElementById(
+"event-risk-summary"
+).textContent =
+
+"Macro risk: "
++
+(
+macroEventRisk.risk_level
+||
+"-"
+)
++
+" | Nearest: "
++
+macroName
++
+(
+macroDays !== null
+&&
+macroDays !== undefined
+?
+" in " + macroDays + " day(s)"
+:
+""
+)
++
+" | Macro policy: "
++
+(
+macroEventRisk.new_entry_policy
+||
+"-"
+)
++
+" | Macro size multiplier: "
++
+formatNumber(
+macroEventRisk.position_size_multiplier,
+2
+)
++
+"x"
++
+" | Existing positions affected: "
++
+(
+eventRisk.portfolio_alert_count
+?? 0
+);
+
+
+if(
+eventAlerts.length === 0
+){
+
+eventRiskTable.innerHTML = `
+
+<tr>
+
+<td colspan="8">
+
+No actionable new-entry event restriction in the latest scan.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+eventAlerts.forEach(
+item => {
+
+
+const earnings =
+item.earnings
+|| {};
+
+
+const reasons =
+(
+item.reasons
+||
+[]
+).join(
+"; "
+);
+
+
+eventRiskTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.ticker || "-"}</b>
+</td>
+
+<td>
+${item.base_action || "-"}
+</td>
+
+<td>
+<span class="badge ${item.event_policy === "BLOCK" ? "blocked" : "warning"}">
+${item.event_policy || "-"}
+</span>
+</td>
+
+<td>
+${item.risk_level || "-"}
+</td>
+
+<td>
+${formatNumber(item.size_multiplier,2)}x
+</td>
+
+<td>
+${earnings.next_earnings_date || "UNKNOWN"}
+</td>
+
+<td>
+${earnings.days_until_earnings ?? "-"}
+</td>
+
+<td>
+${reasons || "-"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
 
 
 /* =============================================== */
@@ -2307,6 +2622,13 @@ capital.market_regime
 marketRegime.regime
 ||
 "-"
+)
++
+" | Event alerts: "
++
+(
+capital.actionable_event_alert_count
+?? 0
 )
 +
 " | Generated cash: "
