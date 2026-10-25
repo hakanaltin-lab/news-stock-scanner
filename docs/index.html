@@ -1552,6 +1552,64 @@ Loading regime evidence...
 </tbody>
 </table>
 
+<div class="section-note">
+<b>V8.4.6 Regime Failure Attribution & Shadow Calibration</b>
+</div>
+
+<div id="regime-failure-summary" class="section-note">
+Loading regime failure attribution...
+</div>
+
+<div id="regime-failure-diagnostic" class="section-note">
+Loading shadow repair diagnostic...
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Regime</th>
+<th>Sessions</th>
+<th>Default Ann.</th>
+<th>Historical Shadow Ann.</th>
+<th>Shadow Return Repair</th>
+<th>Sharpe Repair</th>
+<th>DD Repair</th>
+</tr>
+</thead>
+<tbody id="regime-repair-table">
+<tr>
+<td colspan="7" class="loading">
+Loading regime repair evidence...
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="section-note">
+20-session exposure-divergence attribution
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Event Group</th>
+<th>Records</th>
+<th>Evaluated</th>
+<th>Shadow Hit</th>
+<th>Avg Shadow Alpha</th>
+<th>Avg Exposure Δ</th>
+<th>More Exposure</th>
+</tr>
+</thead>
+<tbody id="regime-failure-event-table">
+<tr>
+<td colspan="7" class="loading">
+Loading action attribution...
+</td>
+</tr>
+</tbody>
+</table>
+
 <table>
 
 <thead>
@@ -3277,6 +3335,11 @@ calibrationVerdict.criteria
 
 const calibrationSelectionCounts =
 policyCalibration.policy_selection_counts
+|| {};
+
+
+const regimeFailureAttribution =
+data.regime_failure_attribution
 || {};
 
 
@@ -5537,6 +5600,177 @@ oosRegimeTable.innerHTML += `
 <td>${regime.sharpe_advantage == null ? "-" : formatNumber(regime.sharpe_advantage,3)}</td>
 <td>${regime.positive_active_day_rate_pct == null ? "-" : formatNumber(regime.positive_active_day_rate_pct,1) + "%"}</td>
 <td>${regime.eligible_for_verdict === true ? "YES" : "NO"}</td>
+</tr>
+`;
+
+});
+
+const regimeRepair =
+regimeFailureAttribution.regime_repair
+|| {};
+
+const regimeFailureDiagnostic =
+regimeFailureAttribution.diagnostic_interpretation
+|| {};
+
+const regimeDivergence =
+regimeFailureAttribution.divergence_attribution
+|| {};
+
+const regimeDivergenceOverall =
+regimeDivergence.overall
+|| {};
+
+document.getElementById(
+"regime-failure-summary"
+).textContent =
+"V8.4.6 | "
++
+(regimeFailureAttribution.status || "PENDING")
++
+" | Failure mode: "
++
+(regimeFailureAttribution.primary_failure_mode || "UNDETERMINED")
++
+" | Shadow verdict: "
++
+(regimeFailureAttribution.shadow_verdict || "-")
++
+" | Current candidate: "
++
+(regimeFailureAttribution.current_shadow_candidate || "-")
++
+" | Weak regimes repaired: "
++
+(regimeFailureAttribution.failing_regimes_repaired ?? 0)
++
+"/"
++
+(regimeFailureAttribution.failing_regimes_total ?? 2)
++
+" | Live policy changed: "
++
+(regimeFailureAttribution.live_policy_changed === true ? "YES" : "NO")
++
+" | LIVE: "
++
+(regimeFailureAttribution.live_execution_authorized === true ? "AUTHORIZED" : "BLOCKED");
+
+document.getElementById(
+"regime-failure-diagnostic"
+).textContent =
+"RISK_OFF shadow repair: "
++
+fmtAttr(
+regimeFailureDiagnostic.risk_off_shadow_return_repair_pct_points
+)
++
+" pp"
++
+" | HIGH_VOL shadow repair: "
++
+fmtAttr(
+regimeFailureDiagnostic.high_vol_shadow_return_repair_pct_points
+)
++
+" pp"
++
+" | Default REDUCE/EXIT → shadow-more-exposure 20D avg alpha: "
++
+fmtAttr(
+regimeFailureDiagnostic.default_reduce_exit_more_exposure_avg_shadow_alpha_20d_pct,
+3
+)
++
+"%"
++
+" | RISK_OFF defensive alpha: "
++
+fmtAttr(
+regimeFailureDiagnostic.risk_off_defensive_avg_shadow_alpha_20d_pct,
+3
+)
++
+"%"
++
+" | HIGH_VOL defensive alpha: "
++
+fmtAttr(
+regimeFailureDiagnostic.high_vol_defensive_avg_shadow_alpha_20d_pct,
+3
+)
++
+"%"
++
+" | Diagnostic only; no threshold change.";
+
+const regimeRepairTable =
+document.getElementById(
+"regime-repair-table"
+);
+
+regimeRepairTable.innerHTML = "";
+
+[
+"RISK_ON",
+"RISK_OFF",
+"HIGH_VOL",
+"LOWER_VOL"
+].forEach(
+name => {
+
+const row =
+regimeRepair[
+name
+]
+|| {};
+
+regimeRepairTable.innerHTML += `
+<tr>
+<td><b>${name}</b></td>
+<td>${row.sessions ?? 0}</td>
+<td>${row.default_annualized_return_pct == null ? "-" : formatNumber(row.default_annualized_return_pct,2) + "%"}</td>
+<td>${row.shadow_annualized_return_pct == null ? "-" : formatNumber(row.shadow_annualized_return_pct,2) + "%"}</td>
+<td>${row.shadow_return_advantage_pct_points == null ? "-" : formatNumber(row.shadow_return_advantage_pct_points,2) + " pp"}</td>
+<td>${row.shadow_sharpe_advantage == null ? "-" : formatNumber(row.shadow_sharpe_advantage,3)}</td>
+<td>${row.shadow_drawdown_advantage_pct == null ? "-" : formatNumber(row.shadow_drawdown_advantage_pct,2) + " pp"}</td>
+</tr>
+`;
+
+});
+
+const regimeFailureEventTable =
+document.getElementById(
+"regime-failure-event-table"
+);
+
+regimeFailureEventTable.innerHTML = "";
+
+[
+["ALL DIVERGENCES", "ALL_DIVERGENCES"],
+["RISK_OFF", "RISK_OFF"],
+["HIGH_VOL", "HIGH_VOL"],
+["DEFAULT REDUCE/EXIT → MORE EXPOSURE", "DEFAULT_REDUCE_EXIT_MORE_EXPOSURE"],
+["RISK_OFF DEFENSIVE → MORE EXPOSURE", "RISK_OFF_DEFAULT_REDUCE_EXIT_MORE_EXPOSURE"],
+["HIGH_VOL DEFENSIVE → MORE EXPOSURE", "HIGH_VOL_DEFAULT_REDUCE_EXIT_MORE_EXPOSURE"]
+].forEach(
+entry => {
+
+const row =
+regimeDivergenceOverall[
+entry[1]
+]
+|| {};
+
+regimeFailureEventTable.innerHTML += `
+<tr>
+<td><b>${entry[0]}</b></td>
+<td>${row.records ?? 0}</td>
+<td>${row.evaluated ?? 0}</td>
+<td>${row.shadow_hit_rate_pct == null ? "-" : formatNumber(row.shadow_hit_rate_pct,1) + "%"}</td>
+<td>${row.average_shadow_relative_alpha_20d_pct == null ? "-" : formatNumber(row.average_shadow_relative_alpha_20d_pct,3) + "%"}</td>
+<td>${row.average_exposure_difference == null ? "-" : formatNumber(row.average_exposure_difference,3)}</td>
+<td>${row.more_exposure_records ?? 0}</td>
 </tr>
 `;
 
