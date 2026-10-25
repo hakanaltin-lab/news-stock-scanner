@@ -921,10 +921,22 @@ def monthly_feature_diagnostic(
         ]
     )
 
+    feature_rank = (
+        feature_series.rank(
+            method="average"
+        )
+    )
+
+    return_rank = (
+        return_series.rank(
+            method="average"
+        )
+    )
+
     spearman = safe_float(
-        feature_series.corr(
-            return_series,
-            method="spearman"
+        feature_rank.corr(
+            return_rank,
+            method="pearson"
         ),
         None
     )
