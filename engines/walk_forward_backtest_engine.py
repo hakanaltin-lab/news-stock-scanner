@@ -52,7 +52,7 @@ ENGINE_VERSION = (
     "V8.0 Historical Replay & Walk-Forward Backtest Engine"
 )
 
-BACKTEST_SIGNATURE = "V8.0.3"
+BACKTEST_SIGNATURE = "V8.4.1"
 
 OUTPUT_FILE = "docs/walk_forward_backtest.json"
 
@@ -1365,6 +1365,107 @@ def evaluate_action_changes(
         )
     )
 
+    def summarize_events(
+        items
+    ):
+        if not items:
+            return {
+                "evaluated":
+                0,
+
+                "hit_rate_pct":
+                None,
+
+                "average_decision_alpha_20d_pct":
+                None
+            }
+
+        item_hits = sum(
+            1
+            for item in items
+            if item.get(
+                "hit"
+            )
+        )
+
+        item_alpha = (
+            sum(
+                safe_float(
+                    item.get(
+                        "decision_alpha_20d_pct"
+                    )
+                )
+                for item in items
+            )
+            /
+            len(
+                items
+            )
+        )
+
+        return {
+            "evaluated":
+            len(
+                items
+            ),
+
+            "hit_rate_pct":
+            round(
+                item_hits
+                /
+                len(
+                    items
+                )
+                *
+                100,
+                1
+            ),
+
+            "average_decision_alpha_20d_pct":
+            round(
+                item_alpha,
+                2
+            )
+        }
+
+    actions = sorted(
+        set(
+            item.get(
+                "action"
+            )
+            for item in evaluated
+            if item.get(
+                "action"
+            )
+        )
+    )
+
+    by_action = {
+        action:
+        summarize_events([
+            item
+            for item in evaluated
+            if item.get(
+                "action"
+            )
+            ==
+            action
+        ])
+        for action in actions
+    }
+
+    defensive_events = [
+        item
+        for item in evaluated
+        if item.get(
+            "action"
+        )
+        in [
+            "REDUCE",
+            "EXIT"
+        ]
+    ]
+
     return {
         "evaluated_signal_changes":
         len(
@@ -1387,6 +1488,14 @@ def evaluate_action_changes(
         round(
             avg_alpha,
             2
+        ),
+
+        "by_action":
+        by_action,
+
+        "defensive_reduce_exit":
+        summarize_events(
+            defensive_events
         ),
 
         "events":
@@ -2317,6 +2426,109 @@ def simulate_equal_weight_control(
     }
 
 
+def build_scaled_equal_weight_control(
+    control_equity,
+    spy_equity,
+    invested_weight,
+    label
+):
+    if (
+        control_equity is None
+        or
+        control_equity.empty
+        or
+        spy_equity is None
+        or
+        spy_equity.empty
+    ):
+        return {
+            "label":
+            label,
+
+            "invested_weight":
+            invested_weight,
+
+            "cash_weight":
+            round(
+                1
+                -
+                invested_weight,
+                4
+            ),
+
+            "performance":
+            {}
+        }
+
+    invested_weight = min(
+        1.0,
+        max(
+            0.0,
+            safe_float(
+                invested_weight,
+                0.0
+            )
+        )
+    )
+
+    control_returns = (
+        control_equity
+        .pct_change()
+        .fillna(
+            0.0
+        )
+    )
+
+    scaled_returns = (
+        control_returns
+        *
+        invested_weight
+    )
+
+    scaled_equity = (
+        (
+            1
+            +
+            scaled_returns
+        )
+        .cumprod()
+        *
+        STARTING_CAPITAL
+    )
+
+    metrics = calculate_equity_metrics(
+        scaled_equity,
+        spy_equity.reindex(
+            scaled_equity.index
+        ),
+        0.0,
+        0.0,
+        STARTING_CAPITAL
+    )
+
+    return {
+        "label":
+        label,
+
+        "invested_weight":
+        round(
+            invested_weight,
+            4
+        ),
+
+        "cash_weight":
+        round(
+            1
+            -
+            invested_weight,
+            4
+        ),
+
+        "performance":
+        metrics
+    }
+
+
 def enrich_folds_with_control(
     folds,
     control_equity
@@ -2863,6 +3075,77 @@ def run_walk_forward_backtest(
         {}
     )
 
+    control_equity = (
+        (
+            control_simulation
+            or
+            {}
+        ).get(
+            "equity_series"
+        )
+    )
+
+    spy_equity = simulation.get(
+        "spy_equity"
+    )
+
+    strategy_vol = safe_float(
+        strategy_metrics.get(
+            "annualized_volatility_pct"
+        ),
+        0
+    )
+
+    control_vol = safe_float(
+        control_metrics.get(
+            "annualized_volatility_pct"
+        ),
+        0
+    )
+
+    volatility_matched_weight = (
+        min(
+            1.0,
+            max(
+                0.0,
+                strategy_vol
+                /
+                control_vol
+            )
+        )
+        if control_vol
+        >
+        0
+        else
+        0.65
+    )
+
+    risk_scaled_controls = {
+        "equal_weight_75_25":
+        build_scaled_equal_weight_control(
+            control_equity,
+            spy_equity,
+            0.75,
+            "75% Equal Weight / 25% Cash"
+        ),
+
+        "equal_weight_65_35":
+        build_scaled_equal_weight_control(
+            control_equity,
+            spy_equity,
+            0.65,
+            "65% Equal Weight / 35% Cash"
+        ),
+
+        "volatility_matched_equal_weight":
+        build_scaled_equal_weight_control(
+            control_equity,
+            spy_equity,
+            volatility_matched_weight,
+            "Volatility-Matched Equal Weight / Cash"
+        )
+    }
+
     strategy_cagr = safe_float(
         strategy_metrics.get(
             "cagr_pct"
@@ -2979,6 +3262,80 @@ def run_walk_forward_backtest(
         )
     )
 
+    risk_scaled_comparison = {}
+
+    for key, item in (
+        risk_scaled_controls.items()
+    ):
+        metrics = (
+            item.get(
+                "performance",
+                {}
+            )
+            or
+            {}
+        )
+
+        risk_scaled_comparison[
+            key
+        ] = {
+            **item,
+
+            "aurora_cagr_advantage_pct":
+            round(
+                safe_float(
+                    strategy_metrics.get(
+                        "cagr_pct"
+                    ),
+                    0
+                )
+                -
+                safe_float(
+                    metrics.get(
+                        "cagr_pct"
+                    ),
+                    0
+                ),
+                2
+            ),
+
+            "aurora_sharpe_advantage":
+            round(
+                safe_float(
+                    strategy_metrics.get(
+                        "sharpe_ratio"
+                    ),
+                    0
+                )
+                -
+                safe_float(
+                    metrics.get(
+                        "sharpe_ratio"
+                    ),
+                    0
+                ),
+                3
+            ),
+
+            "aurora_drawdown_advantage_pct":
+            round(
+                safe_float(
+                    metrics.get(
+                        "max_drawdown_pct"
+                    ),
+                    0
+                )
+                -
+                safe_float(
+                    strategy_metrics.get(
+                        "max_drawdown_pct"
+                    ),
+                    0
+                ),
+                2
+            )
+        }
+
     result = {
         "engine":
         ENGINE_VERSION,
@@ -3089,6 +3446,9 @@ def run_walk_forward_backtest(
                 0
             )
         },
+
+        "risk_scaled_equal_weight_controls":
+        risk_scaled_comparison,
 
         "overlay_alpha_vs_equal_weight_control":
         overlay_alpha_vs_control,
