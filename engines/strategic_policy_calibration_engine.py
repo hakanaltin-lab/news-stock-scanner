@@ -1826,14 +1826,16 @@ def run_strategic_policy_calibration(
         if date_value >= start_date
     ]
 
-    if len(
-        spy_dates
-    )
-    <
-    (
-        TRAINING_SESSIONS_MIN
-        +
-        80
+    if (
+        len(
+            spy_dates
+        )
+        <
+        (
+            TRAINING_SESSIONS_MIN
+            +
+            80
+        )
     ):
         result = {
             "engine":
