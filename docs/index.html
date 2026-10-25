@@ -1455,6 +1455,40 @@ Loading V8.4.3 attribution verdict...
 Research-only diagnostic.
 </div>
 
+<div class="section-note">
+<b>V8.4.4 Rolling Out-of-Sample Exposure Attribution</b>
+</div>
+
+<div id="rolling-oos-attribution-summary" class="section-note">
+Loading rolling OOS attribution...
+</div>
+
+<div id="rolling-oos-attribution-methodology" class="section-note">
+126-session trailing calibration → next 21 sessions, research only.
+</div>
+
+<table>
+<thead>
+<tr>
+<th>OOS Benchmark</th>
+<th>Avg Invested</th>
+<th>CAGR</th>
+<th>Sharpe</th>
+<th>Max Drawdown</th>
+<th>AURORA CAGR Advantage</th>
+<th>AURORA Sharpe Advantage</th>
+<th>AURORA DD Advantage</th>
+</tr>
+</thead>
+<tbody id="rolling-oos-attribution-table">
+<tr>
+<td colspan="8" class="loading">
+Loading rolling OOS benchmarks...
+</td>
+</tr>
+</tbody>
+</table>
+
 <table>
 
 <thead>
@@ -4995,6 +5029,236 @@ fmtAttr(attribution.dd_matched_cagr_advantage_pct) + " pp" +
 (attribution.exposure_proxy_share_of_drawdown_reduction_pct == null
 ? "-" : fmtAttr(attribution.exposure_proxy_share_of_drawdown_reduction_pct) + "%") +
 " | Hindsight-fitted research diagnostic; not causal or OOS proof.";
+
+const rollingOos =
+walkForwardBacktest.rolling_oos_exposure_attribution
+|| {};
+
+const rollingOosPerformance =
+rollingOos.performance
+|| {};
+
+const rollingOosComparison =
+rollingOos.comparison
+|| {};
+
+const rollingOosExposure =
+rollingOos.exposure_summary
+|| {};
+
+const rollingOosTable =
+document.getElementById(
+"rolling-oos-attribution-table"
+);
+
+rollingOosTable.innerHTML = "";
+
+const rollingAurora =
+rollingOosPerformance.aurora_oos
+|| {};
+
+function rollingOosRow(
+label,
+investedText,
+perf
+){
+
+const cagrAdvantage =
+(
+rollingAurora.cagr_pct == null
+||
+perf.cagr_pct == null
+)
+?
+null
+:
+rollingAurora.cagr_pct
+-
+perf.cagr_pct;
+
+const sharpeAdvantage =
+(
+rollingAurora.sharpe_ratio == null
+||
+perf.sharpe_ratio == null
+)
+?
+null
+:
+rollingAurora.sharpe_ratio
+-
+perf.sharpe_ratio;
+
+const drawdownAdvantage =
+(
+rollingAurora.max_drawdown_pct == null
+||
+perf.max_drawdown_pct == null
+)
+?
+null
+:
+perf.max_drawdown_pct
+-
+rollingAurora.max_drawdown_pct;
+
+rollingOosTable.innerHTML += `
+
+<tr>
+<td><b>${label}</b></td>
+<td>${investedText}</td>
+<td>${perf.cagr_pct == null ? "-" : formatNumber(perf.cagr_pct,2) + "%"}</td>
+<td>${perf.sharpe_ratio == null ? "-" : formatNumber(perf.sharpe_ratio,3)}</td>
+<td>${perf.max_drawdown_pct == null ? "-" : formatNumber(perf.max_drawdown_pct,2) + "%"}</td>
+<td>${cagrAdvantage == null ? "-" : formatNumber(cagrAdvantage,2) + " pp"}</td>
+<td>${sharpeAdvantage == null ? "-" : formatNumber(sharpeAdvantage,3)}</td>
+<td>${drawdownAdvantage == null ? "-" : formatNumber(drawdownAdvantage,2) + " pp"}</td>
+</tr>
+
+`;
+
+}
+
+if(
+rollingOos.status === "COMPLETE"
+){
+
+rollingOosRow(
+"AURORA OOS",
+"Dynamic",
+rollingAurora
+);
+
+rollingOosRow(
+"100% Equal Weight OOS",
+"100.0%",
+rollingOosPerformance.equal_weight_100pct_oos
+|| {}
+);
+
+rollingOosRow(
+"Rolling Volatility-Matched EW / Cash",
+rollingOosExposure.volatility_matched_average_invested_weight == null
+?
+"-"
+:
+formatNumber(
+rollingOosExposure.volatility_matched_average_invested_weight * 100,
+1
+) + "%",
+rollingOosPerformance.rolling_volatility_matched_equal_weight
+|| {}
+);
+
+rollingOosRow(
+"Rolling Trailing-DD-Matched EW / Cash",
+rollingOosExposure.drawdown_calibrated_average_invested_weight == null
+?
+"-"
+:
+formatNumber(
+rollingOosExposure.drawdown_calibrated_average_invested_weight * 100,
+1
+) + "%",
+rollingOosPerformance.rolling_trailing_drawdown_matched_equal_weight
+|| {}
+);
+
+}
+else{
+
+rollingOosTable.innerHTML = `
+
+<tr>
+<td colspan="8">
+Rolling OOS attribution not yet available.
+</td>
+</tr>
+
+`;
+
+}
+
+document.getElementById(
+"rolling-oos-attribution-summary"
+).textContent =
+"V8.4.4 | "
++
+(rollingOos.status || "PENDING")
++
+" | Verdict: "
++
+(rollingOos.verdict || "UNDETERMINED")
++
+" | Evidence: "
++
+(rollingOos.evidence_strength || "-")
++
+" | OOS: "
++
+(rollingOos.first_scored_date || "-")
++
+" → "
++
+(rollingOos.last_scored_date || "-")
++
+" | Sessions: "
++
+(rollingOos.oos_sessions ?? 0)
++
+" | Calibration: "
++
+(rollingOos.calibration_gate || "RESEARCH_ONLY")
++
+" | LIVE: "
++
+(rollingOos.live_execution_authorized === true ? "AUTHORIZED" : "BLOCKED");
+
+document.getElementById(
+"rolling-oos-attribution-methodology"
+).textContent =
+"Past-only calibration: "
++
+(rollingOos.lookback_sessions ?? 126)
++
+" sessions → next "
++
+(rollingOos.rebalance_sessions ?? 21)
++
+" sessions"
++
+" | Vol CAGR advantage: "
++
+fmtAttr(
+rollingOosComparison.vol_matched_cagr_advantage_pct
+)
++
+" pp"
++
+" | Vol Sharpe advantage: "
++
+fmtAttr(
+rollingOosComparison.vol_matched_sharpe_advantage,
+3
+)
++
+" | Vol DD advantage: "
++
+fmtAttr(
+rollingOosComparison.vol_matched_drawdown_advantage_pct
+)
++
+" pp"
++
+" | Trailing-DD CAGR advantage: "
++
+fmtAttr(
+rollingOosComparison.drawdown_matched_cagr_advantage_pct
+)
++
+" pp"
++
+" | No future returns used to set each test block's exposure.";
 
 /* =============================================== */
 /* =============================================== */
