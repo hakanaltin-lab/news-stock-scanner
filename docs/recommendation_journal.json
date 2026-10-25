@@ -6063,6 +6063,67 @@
       }
     },
     {
+      "id": "1d33936e098a79d3",
+      "signal_date": "2026-10-23",
+      "generated_at": "2026-10-25T09:23:25.960797",
+      "model_version": "V8.5.2",
+      "source": "NEW_ENTRY",
+      "ticker": "COP",
+      "action": "ACCUMULATE",
+      "direction": "LONG",
+      "signal_price": 150.81,
+      "benchmark": "SPY",
+      "benchmark_entry_price": 759.97,
+      "scores": {
+        "alpha_score": 74.9,
+        "risk_score": 88.6,
+        "confidence": 73.2
+      },
+      "origin_commit": "CURRENT_RUN",
+      "evaluation_basis": "signal_price_to_future_daily_close",
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        }
+      }
+    },
+    {
       "id": "d375262bb816f385",
       "signal_date": "2026-10-23",
       "generated_at": "2026-10-25T09:21:51.603275",
@@ -9952,6 +10013,6 @@
       }
     }
   ],
-  "updated_at": "2026-10-25T09:21:51.992494+00:00",
-  "record_count": 157
+  "updated_at": "2026-10-25T09:23:26.371238+00:00",
+  "record_count": 158
 }
