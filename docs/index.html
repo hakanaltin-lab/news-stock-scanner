@@ -925,6 +925,138 @@ id="candidate-vs-default"
 
 </div>
 
+<div class="stat">
+
+<div class="stat-label">
+Shadow Candidate
+</div>
+
+<div
+class="stat-value"
+id="shadow-candidate-policy"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Shadow Divergences
+</div>
+
+<div
+class="stat-value"
+id="shadow-divergence-count"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+20D Shadow Hit
+</div>
+
+<div
+class="stat-value"
+id="shadow-hit-20d"
+>
+-
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- V8.2 SHADOW POLICY MONITOR -->
+<!-- ================================================= -->
+
+<div class="card teal">
+
+<div class="title">
+👥 V8.2 SHADOW POLICY MONITOR
+</div>
+
+<div
+id="shadow-summary"
+class="section-note"
+>
+Loading shadow policy monitor...
+</div>
+
+<div class="section-note">
+Research-only parallel policy. It does not change live portfolio actions, rebalancing, capital allocation or broker execution.
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Ticker</th>
+<th>Live Action</th>
+<th>Live Exposure</th>
+<th>Shadow Action</th>
+<th>Shadow Exposure</th>
+<th>Exposure Difference</th>
+<th>6M Return</th>
+<th>RS 6M vs SPY</th>
+<th>Divergence</th>
+</tr>
+
+</thead>
+
+<tbody id="shadow-comparison-table">
+
+<tr>
+<td colspan="9" class="loading">
+Loading live vs shadow comparisons...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<div class="section-note">
+Fresh forward evidence
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Horizon</th>
+<th>Evaluated</th>
+<th>Pending</th>
+<th>Shadow Hit Rate</th>
+<th>Avg Shadow Relative Alpha</th>
+</tr>
+
+</thead>
+
+<tbody id="shadow-performance-table">
+
+<tr>
+<td colspan="5" class="loading">
+Loading shadow performance...
+</td>
+</tr>
+
+</tbody>
+
+</table>
 
 </div>
 
@@ -2460,6 +2592,21 @@ policyCalibration.policy_selection_counts
 || {};
 
 
+const shadowPolicyMonitor =
+data.shadow_policy_monitor
+|| {};
+
+
+const shadowComparisons =
+shadowPolicyMonitor.current_comparisons
+|| [];
+
+
+const shadowPerformance =
+shadowPolicyMonitor.performance
+|| {};
+
+
 /* =============================================== */
 /* SUMMARY */
 /* =============================================== */
@@ -2808,6 +2955,119 @@ backtestPerformance.max_drawdown_pct,
 "%";
 
 
+document.getElementById(
+"calibration-verdict"
+).textContent =
+calibrationVerdict.status
+|| "-";
+
+
+document.getElementById(
+"calibrated-oos-cagr"
+).textContent =
+calibratedOos.cagr_pct === null
+||
+calibratedOos.cagr_pct === undefined
+?
+"-"
+:
+formatNumber(
+calibratedOos.cagr_pct,
+2
+)
++
+"%";
+
+
+document.getElementById(
+"default-oos-cagr"
+).textContent =
+defaultOos.cagr_pct === null
+||
+defaultOos.cagr_pct === undefined
+?
+"-"
+:
+formatNumber(
+defaultOos.cagr_pct,
+2
+)
++
+"%";
+
+
+document.getElementById(
+"control-oos-cagr"
+).textContent =
+controlOos.cagr_pct === null
+||
+controlOos.cagr_pct === undefined
+?
+"-"
+:
+formatNumber(
+controlOos.cagr_pct,
+2
+)
++
+"%";
+
+
+document.getElementById(
+"candidate-vs-default"
+).textContent =
+calibrationCriteria.cagr_improvement_vs_default_pct === null
+||
+calibrationCriteria.cagr_improvement_vs_default_pct === undefined
+?
+"-"
+:
+formatNumber(
+calibrationCriteria.cagr_improvement_vs_default_pct,
+2
+)
++
+"%";
+
+
+document.getElementById(
+"shadow-candidate-policy"
+).textContent =
+shadowPolicyMonitor.candidate_policy
+|| "-";
+
+
+document.getElementById(
+"shadow-divergence-count"
+).textContent =
+shadowPolicyMonitor.divergence_count
+?? "-";
+
+
+const shadow20 =
+shadowPerformance[
+"20d"
+]
+|| {};
+
+
+document.getElementById(
+"shadow-hit-20d"
+).textContent =
+shadow20.shadow_hit_rate_pct === null
+||
+shadow20.shadow_hit_rate_pct === undefined
+?
+"-"
+:
+formatNumber(
+shadow20.shadow_hit_rate_pct,
+1
+)
++
+"%";
+
+
 if(data.generated){
 
 const generatedDate =
@@ -2855,6 +3115,211 @@ decisionArchitecture.principle
 );
 
 
+/* =============================================== */
+/* V8.2 SHADOW POLICY MONITOR */
+/* =============================================== */
+
+
+const shadowComparisonTable =
+document.getElementById(
+"shadow-comparison-table"
+);
+
+
+const shadowPerformanceTable =
+document.getElementById(
+"shadow-performance-table"
+);
+
+
+shadowComparisonTable.innerHTML =
+"";
+
+
+shadowPerformanceTable.innerHTML =
+"";
+
+
+document.getElementById(
+"shadow-summary"
+).textContent =
+
+"Status: "
++
+(
+shadowPolicyMonitor.status
+||
+"-"
+)
++
+" | Candidate: "
++
+(
+shadowPolicyMonitor.candidate_policy
+||
+"-"
+)
++
+" | Live policy: "
++
+(
+shadowPolicyMonitor.live_policy
+||
+"V7.9 DEFAULT"
+)
++
+" | Live policy changed: "
++
+(
+shadowPolicyMonitor.live_policy_changed === true
+?
+"YES"
+:
+"NO"
+)
++
+" | Current divergences: "
++
+(
+shadowPolicyMonitor.divergence_count
+?? 0
+)
++
+" | Journal records: "
++
+(
+shadowPolicyMonitor.journal_record_count
+?? 0
+)
++
+" | New records: "
++
+(
+shadowPolicyMonitor.journal_records_added
+?? 0
+);
+
+
+if(
+shadowComparisons.length === 0
+){
+
+shadowComparisonTable.innerHTML = `
+
+<tr>
+
+<td colspan="9">
+No shadow comparisons available.
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+shadowComparisons.forEach(
+item => {
+
+
+shadowComparisonTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.ticker || "-"}</b>
+</td>
+
+<td>
+${item.live_action || "-"}
+</td>
+
+<td>
+${formatNumber(item.live_exposure,2)}x
+</td>
+
+<td>
+${item.shadow_action || "-"}
+</td>
+
+<td>
+${formatNumber(item.shadow_exposure,2)}x
+</td>
+
+<td>
+${formatNumber(item.exposure_difference,2)}x
+</td>
+
+<td>
+${formatNumber(item.return_6m_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.relative_strength_6m_pct,2)}%
+</td>
+
+<td>
+${item.divergence === true ? "YES" : "NO"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+[
+"20d",
+"60d"
+].forEach(
+horizon => {
+
+
+const item =
+shadowPerformance[
+horizon
+]
+|| {};
+
+
+shadowPerformanceTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${horizon.toUpperCase()}</b>
+</td>
+
+<td>
+${item.evaluated ?? 0}
+</td>
+
+<td>
+${item.pending ?? 0}
+</td>
+
+<td>
+${item.shadow_hit_rate_pct === null || item.shadow_hit_rate_pct === undefined ? "-" : formatNumber(item.shadow_hit_rate_pct,1) + "%"}
+</td>
+
+<td>
+${item.average_shadow_relative_alpha_pct === null || item.average_shadow_relative_alpha_pct === undefined ? "-" : formatNumber(item.average_shadow_relative_alpha_pct,2) + "%"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+/* =============================================== */
 /* =============================================== */
 /* V8.1 STRATEGIC POLICY CALIBRATION LAB */
 /* =============================================== */
