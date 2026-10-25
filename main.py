@@ -1,5 +1,5 @@
 """
-V8.2 Global Market Intelligence Scanner
+V8.3 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -177,6 +177,16 @@ from engines.shadow_policy_monitor_engine import (
 )
 
 
+from engines.ibkr_gateway_connector import (
+    get_ibkr_read_only_snapshot
+)
+
+
+from engines.ibkr_paper_readiness_engine import (
+    evaluate_ibkr_paper_readiness
+)
+
+
 PORTFOLIO_FILE = "data/portfolio.csv"
 
 OUTPUT_FILE = "docs/latest.json"
@@ -217,6 +227,60 @@ def run_scanner():
     # =====================================================
 
     portfolio = load_portfolio()
+
+
+    # =====================================================
+    # 0. V8.3 IBKR PAPER READ-ONLY BROKER READINESS
+    # =====================================================
+
+    try:
+        ibkr_paper_snapshot = (
+            get_ibkr_read_only_snapshot()
+        )
+
+        ibkr_paper_readiness = (
+            evaluate_ibkr_paper_readiness(
+                ibkr_paper_snapshot,
+                portfolio
+            )
+        )
+
+    except Exception as error:
+        ibkr_paper_snapshot = {
+            "engine":
+            "V8.3 IBKR Gateway Connector",
+
+            "status":
+            "ERROR",
+
+            "live_trading_allowed":
+            False,
+
+            "error":
+            str(
+                error
+            )
+        }
+
+        ibkr_paper_readiness = {
+            "engine":
+            "V8.3 IBKR Paper Readiness Safety Gate",
+
+            "readiness":
+            "NOT_READY",
+
+            "live_execution_allowed":
+            False,
+
+            "paper_order_submission_allowed":
+            False,
+
+            "error":
+            str(
+                error
+            )
+        }
+
 
     results = []
 
@@ -781,7 +845,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V8.2",
+        "V8.3",
 
         "decision_architecture": {
             "portfolio_horizon":
@@ -834,7 +898,13 @@ def run_scanner():
         strategic_policy_calibration,
 
         "shadow_policy_monitor":
-        shadow_policy_monitor
+        shadow_policy_monitor,
+
+        "ibkr_paper_snapshot":
+        ibkr_paper_snapshot,
+
+        "ibkr_paper_readiness":
+        ibkr_paper_readiness
     }
 
 
@@ -874,7 +944,7 @@ def run_scanner():
 
 
     print(
-        "V8.2 Scanner completed successfully"
+        "V8.3 Scanner completed successfully"
     )
 
 
