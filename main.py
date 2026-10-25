@@ -1,5 +1,5 @@
 """
-V8.1 Global Market Intelligence Scanner
+V8.2 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -169,6 +169,11 @@ from engines.walk_forward_backtest_engine import (
 
 from engines.strategic_policy_calibration_engine import (
     run_strategic_policy_calibration
+)
+
+
+from engines.shadow_policy_monitor_engine import (
+    build_shadow_policy_monitor
 )
 
 
@@ -736,7 +741,38 @@ def run_scanner():
 
 
     # =====================================================
-    # 13. BASE OUTPUT
+    # 13. V8.2 SHADOW POLICY MONITOR
+    # =====================================================
+
+    try:
+        shadow_policy_monitor = (
+            build_shadow_policy_monitor(
+                results,
+                strategic_policy_calibration,
+                market_regime_result=market_regime
+            )
+        )
+
+    except Exception as error:
+        shadow_policy_monitor = {
+            "engine":
+            "V8.2 Shadow Policy Monitor",
+
+            "status":
+            "ERROR",
+
+            "live_policy_changed":
+            False,
+
+            "error":
+            str(
+                error
+            )
+        }
+
+
+    # =====================================================
+    # 14. BASE OUTPUT
     # =====================================================
 
     output = {
@@ -745,7 +781,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V8.1",
+        "V8.2",
 
         "decision_architecture": {
             "portfolio_horizon":
@@ -795,12 +831,15 @@ def run_scanner():
         walk_forward_backtest,
 
         "strategic_policy_calibration":
-        strategic_policy_calibration
+        strategic_policy_calibration,
+
+        "shadow_policy_monitor":
+        shadow_policy_monitor
     }
 
 
     # =====================================================
-    # 14. V7.8 RECOMMENDATION PERFORMANCE JOURNAL
+    # 15. V7.8 RECOMMENDATION PERFORMANCE JOURNAL
     # =====================================================
 
     recommendation_performance = (
@@ -835,7 +874,7 @@ def run_scanner():
 
 
     print(
-        "V8.1 Scanner completed successfully"
+        "V8.2 Scanner completed successfully"
     )
 
 
