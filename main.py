@@ -1,5 +1,5 @@
 """
-V7.2 Global Market Intelligence Scanner
+V7.3 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -34,6 +34,8 @@ Opportunity Deep Analysis
 Opportunity Safety Gate
         |
 Capital Allocation Engine
+        |
+Final Portfolio Projection Engine
         |
 JSON Report
 """
@@ -111,6 +113,11 @@ from engines.opportunity_deep_analysis_engine import (
 
 from engines.capital_allocation_engine import (
     build_capital_allocation_plan
+)
+
+
+from engines.final_portfolio_projection_engine import (
+    build_final_portfolio_projection
 )
 
 
@@ -504,7 +511,20 @@ def run_scanner():
 
 
     # =====================================================
-    # 6. FINAL OUTPUT
+    # 6. V7.3 FINAL PORTFOLIO PROJECTION
+    # =====================================================
+
+    final_portfolio_projection = (
+        build_final_portfolio_projection(
+            results,
+            portfolio_rebalancing,
+            capital_allocation
+        )
+    )
+
+
+    # =====================================================
+    # 7. FINAL OUTPUT
     # =====================================================
 
     output = {
@@ -513,7 +533,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V7.2",
+        "V7.3",
 
         "portfolio":
         results,
@@ -528,7 +548,10 @@ def run_scanner():
         opportunity_analysis,
 
         "capital_allocation":
-        capital_allocation
+        capital_allocation,
+
+        "final_portfolio_projection":
+        final_portfolio_projection
     }
 
 
@@ -552,7 +575,7 @@ def run_scanner():
 
 
     print(
-        "V7.2 Scanner completed successfully"
+        "V7.3 Scanner completed successfully"
     )
 
 
