@@ -627,6 +627,10 @@ def download_price_frame(
                 ticker
             ] = series
 
+            source_by_ticker[
+                ticker
+            ] = "YAHOO_SINGLE_RETRY"
+
     missing_after_download_retries = [
         ticker
         for ticker in tickers
