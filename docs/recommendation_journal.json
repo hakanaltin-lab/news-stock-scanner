@@ -5565,7 +5565,7 @@
     {
       "id": "289dde9493077096",
       "signal_date": "2026-10-23",
-      "generated_at": "2026-10-25T08:54:33.902828",
+      "generated_at": "2026-10-25T08:55:26.489713",
       "model_version": "V8.5",
       "source": "NEW_ENTRY",
       "ticker": "ADBE",
@@ -5626,7 +5626,7 @@
     {
       "id": "426bbb80eae52104",
       "signal_date": "2026-10-23",
-      "generated_at": "2026-10-25T08:54:33.902828",
+      "generated_at": "2026-10-25T08:55:26.489713",
       "model_version": "V8.5",
       "source": "NEW_ENTRY",
       "ticker": "COP",
@@ -5687,7 +5687,7 @@
     {
       "id": "592639ddf12f3adf",
       "signal_date": "2026-10-23",
-      "generated_at": "2026-10-25T08:54:33.902828",
+      "generated_at": "2026-10-25T08:55:26.489713",
       "model_version": "V8.5",
       "source": "PORTFOLIO",
       "ticker": "BKR",
@@ -5751,7 +5751,7 @@
     {
       "id": "04f8c0d9aed36e15",
       "signal_date": "2026-10-23",
-      "generated_at": "2026-10-25T08:54:33.902828",
+      "generated_at": "2026-10-25T08:55:26.489713",
       "model_version": "V8.5",
       "source": "PORTFOLIO",
       "ticker": "CCLD",
@@ -5815,7 +5815,7 @@
     {
       "id": "afda7741329b230f",
       "signal_date": "2026-10-23",
-      "generated_at": "2026-10-25T08:54:33.902828",
+      "generated_at": "2026-10-25T08:55:26.489713",
       "model_version": "V8.5",
       "source": "PORTFOLIO",
       "ticker": "GOOG",
@@ -5879,7 +5879,7 @@
     {
       "id": "96919bde8f258c5f",
       "signal_date": "2026-10-23",
-      "generated_at": "2026-10-25T08:54:33.902828",
+      "generated_at": "2026-10-25T08:55:26.489713",
       "model_version": "V8.5",
       "source": "PORTFOLIO",
       "ticker": "VRT",
@@ -9513,6 +9513,6 @@
       }
     }
   ],
-  "updated_at": "2026-10-25T08:54:34.521447+00:00",
+  "updated_at": "2026-10-25T08:55:27.107139+00:00",
   "record_count": 150
 }

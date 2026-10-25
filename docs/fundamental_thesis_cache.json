@@ -3,7 +3,7 @@
   "snapshots": {
     "AMD": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:54:03.307891+00:00",
+      "timestamp": "2026-10-25T08:55:03.561427+00:00",
       "ticker": "AMD",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -57,7 +57,7 @@
     },
     "ANET": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:54:04.441589+00:00",
+      "timestamp": "2026-10-25T08:55:04.392091+00:00",
       "ticker": "ANET",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -111,7 +111,7 @@
     },
     "ASML": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:54:05.389408+00:00",
+      "timestamp": "2026-10-25T08:55:05.060204+00:00",
       "ticker": "ASML",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -165,7 +165,7 @@
     },
     "BKR": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:54:06.861050+00:00",
+      "timestamp": "2026-10-25T08:55:05.924415+00:00",
       "ticker": "BKR",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -221,7 +221,7 @@
     },
     "CCLD": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:54:08.121862+00:00",
+      "timestamp": "2026-10-25T08:55:06.622347+00:00",
       "ticker": "CCLD",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -277,7 +277,7 @@
     },
     "CTAS": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:54:09.259184+00:00",
+      "timestamp": "2026-10-25T08:55:07.358386+00:00",
       "ticker": "CTAS",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -331,7 +331,7 @@
     },
     "GOOG": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:54:10.243683+00:00",
+      "timestamp": "2026-10-25T08:55:08.008789+00:00",
       "ticker": "GOOG",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -385,7 +385,7 @@
     },
     "NBIS": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:54:11.023990+00:00",
+      "timestamp": "2026-10-25T08:55:08.537489+00:00",
       "ticker": "NBIS",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -439,7 +439,7 @@
     },
     "NVDA": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:54:11.838352+00:00",
+      "timestamp": "2026-10-25T08:55:09.252740+00:00",
       "ticker": "NVDA",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -493,7 +493,7 @@
     },
     "OMDA": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:54:12.699212+00:00",
+      "timestamp": "2026-10-25T08:55:09.771640+00:00",
       "ticker": "OMDA",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -547,7 +547,7 @@
     },
     "UNH": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:54:13.611014+00:00",
+      "timestamp": "2026-10-25T08:55:10.334378+00:00",
       "ticker": "UNH",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -601,7 +601,7 @@
     },
     "VRT": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
-      "timestamp": "2026-10-25T08:54:14.490610+00:00",
+      "timestamp": "2026-10-25T08:55:10.864880+00:00",
       "ticker": "VRT",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
