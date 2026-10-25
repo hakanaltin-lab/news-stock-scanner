@@ -15,7 +15,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: simple-factor-challenger-holdout
+  group: simple-factor-challenger-holdout-v2
   cancel-in-progress: true
 
 jobs:
