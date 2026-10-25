@@ -1236,6 +1236,38 @@ Loading point-in-time validation...
 Pinned source: thuningxu/sp500nq100 at commit 1cc1de2. Test period ends before the pinned source commit date. Historical fundamentals/news are not included.
 </div>
 
+
+<div class="section-note">
+Cross-sectional score diagnostics: positive Q5–Q1 spread means the highest-score quintile beat the lowest-score quintile.
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Universe</th>
+<th>Feature</th>
+<th>20D Spearman</th>
+<th>20D Q5-Q1</th>
+<th>60D Spearman</th>
+<th>60D Q5-Q1</th>
+</tr>
+
+</thead>
+
+<tbody id="pit-diagnostic-table">
+
+<tr>
+<td colspan="6" class="loading">
+Loading cross-sectional diagnostics...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
 </div>
 
 
@@ -4179,6 +4211,130 @@ pitValidationTable.innerHTML = `
 <tr>
 <td colspan="12">
 No completed point-in-time universe result available.
+</td>
+</tr>
+
+`;
+
+}
+
+
+const pitDiagnosticTable =
+document.getElementById(
+"pit-diagnostic-table"
+);
+
+
+pitDiagnosticTable.innerHTML =
+"";
+
+
+[
+[
+"S&P 500",
+pitSp500
+],
+[
+"Nasdaq-100",
+pitNasdaq
+]
+].forEach(
+entry => {
+
+
+const universeLabel =
+entry[0];
+
+
+const universeData =
+entry[1]
+|| {};
+
+
+const diagnostic =
+universeData.cross_sectional_diagnostics
+|| {};
+
+
+const features =
+diagnostic.features
+|| {};
+
+
+Object.keys(
+features
+).forEach(
+featureName => {
+
+
+const item =
+features[
+featureName
+]
+|| {};
+
+
+const h20 =
+item[
+"20d"
+]
+|| {};
+
+
+const h60 =
+item[
+"60d"
+]
+|| {};
+
+
+pitDiagnosticTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${universeLabel}</b>
+</td>
+
+<td>
+${featureName}
+</td>
+
+<td>
+${h20.average_spearman === null || h20.average_spearman === undefined ? "-" : formatNumber(h20.average_spearman,4)}
+</td>
+
+<td>
+${h20.top_minus_bottom_pct === null || h20.top_minus_bottom_pct === undefined ? "-" : formatNumber(h20.top_minus_bottom_pct,2) + "%"}
+</td>
+
+<td>
+${h60.average_spearman === null || h60.average_spearman === undefined ? "-" : formatNumber(h60.average_spearman,4)}
+</td>
+
+<td>
+${h60.top_minus_bottom_pct === null || h60.top_minus_bottom_pct === undefined ? "-" : formatNumber(h60.top_minus_bottom_pct,2) + "%"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+});
+
+
+if(
+pitDiagnosticTable.innerHTML === ""
+){
+
+pitDiagnosticTable.innerHTML = `
+
+<tr>
+<td colspan="6">
+No cross-sectional diagnostic result available.
 </td>
 </tr>
 
