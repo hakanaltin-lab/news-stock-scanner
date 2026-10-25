@@ -783,6 +783,154 @@ id="hit-rate-60d"
 
 </div>
 
+<div class="stat">
+
+<div class="stat-label">
+Backtest CAGR
+</div>
+
+<div
+class="stat-value"
+id="backtest-cagr"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+CAGR Alpha vs SPY
+</div>
+
+<div
+class="stat-value"
+id="backtest-alpha"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Backtest Sharpe
+</div>
+
+<div
+class="stat-value"
+id="backtest-sharpe"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Backtest Max DD
+</div>
+
+<div
+class="stat-value"
+id="backtest-max-dd"
+>
+-
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- V8.0 HISTORICAL REPLAY & WALK-FORWARD BACKTEST -->
+<!-- ================================================= -->
+
+<div class="card purple">
+
+<div class="title">
+🧪 V8.0 HISTORICAL REPLAY & WALK-FORWARD BACKTEST
+</div>
+
+<div
+id="backtest-summary"
+class="section-note"
+>
+Loading historical replay...
+</div>
+
+<div
+id="backtest-scope"
+class="section-note"
+>
+Validation scope loading...
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Metric</th>
+<th>Strategy</th>
+<th>SPY / Reference</th>
+</tr>
+
+</thead>
+
+<tbody id="backtest-metric-table">
+
+<tr>
+<td colspan="3" class="loading">
+Loading backtest metrics...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<div class="section-note">
+Sequential fixed-rule out-of-sample folds
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Fold</th>
+<th>Start</th>
+<th>End</th>
+<th>Sessions</th>
+<th>Strategy Return</th>
+<th>SPY Return</th>
+<th>Excess</th>
+<th>Max Drawdown</th>
+</tr>
+
+</thead>
+
+<tbody id="walk-forward-fold-table">
+
+<tr>
+<td colspan="8" class="loading">
+Loading walk-forward folds...
+</td>
+</tr>
+
+</tbody>
+
+</table>
 
 </div>
 
@@ -2029,6 +2177,26 @@ recommendationPerformance.by_action_20d
 || {};
 
 
+const walkForwardBacktest =
+data.walk_forward_backtest
+|| {};
+
+
+const backtestPerformance =
+walkForwardBacktest.performance
+|| {};
+
+
+const backtestSignalValidation =
+walkForwardBacktest.signal_validation
+|| {};
+
+
+const walkForwardFolds =
+walkForwardBacktest.walk_forward_folds
+|| [];
+
+
 /* =============================================== */
 /* SUMMARY */
 /* =============================================== */
@@ -2364,6 +2532,326 @@ decisionArchitecture.principle
 );
 
 
+/* =============================================== */
+/* V8.0 HISTORICAL REPLAY & WALK-FORWARD BACKTEST */
+/* =============================================== */
+
+
+const backtestMetricTable =
+document.getElementById(
+"backtest-metric-table"
+);
+
+
+const walkForwardFoldTable =
+document.getElementById(
+"walk-forward-fold-table"
+);
+
+
+backtestMetricTable.innerHTML =
+"";
+
+
+walkForwardFoldTable.innerHTML =
+"";
+
+
+const backtestMethod =
+walkForwardBacktest.methodology
+|| {};
+
+
+const backtestLimitations =
+walkForwardBacktest.limitations
+|| [];
+
+
+document.getElementById(
+"backtest-summary"
+).textContent =
+
+"Status: "
++
+(
+walkForwardBacktest.status
+||
+"-"
+)
++
+" | Period: "
++
+(
+walkForwardBacktest.start_date
+||
+"-"
+)
++
+" → "
++
+(
+walkForwardBacktest.end_date
+||
+"-"
+)
++
+" | Rebalances: "
++
+(
+walkForwardBacktest.rebalance_count
+?? 0
+)
++
+" | Signal changes: "
++
+(
+walkForwardBacktest.signal_change_count
+?? 0
+)
++
+" | 20D signal hit rate: "
++
+(
+backtestSignalValidation.hit_rate_pct === null
+||
+backtestSignalValidation.hit_rate_pct === undefined
+?
+"-"
+:
+formatNumber(
+backtestSignalValidation.hit_rate_pct,
+1
+)
++
+"%"
+)
++
+" | Annualized turnover: "
++
+formatNumber(
+backtestPerformance.annualized_turnover_x,
+2
+)
++
+"x"
++
+" | Trading costs: "
++
+formatPrice(
+backtestPerformance.total_trading_costs
+);
+
+
+document.getElementById(
+"backtest-scope"
+).textContent =
+
+"Scope: "
++
+(
+walkForwardBacktest.validation_scope
+||
+"-"
+)
++
+" | Friction: "
++
+formatNumber(
+backtestMethod.total_friction_bps,
+0
+)
++
+" bps per traded notional"
++
+(
+backtestLimitations.length
+?
+" | Caveat: " + backtestLimitations[0]
+:
+""
+);
+
+
+const backtestRows = [
+[
+"CAGR",
+backtestPerformance.cagr_pct,
+backtestPerformance.spy_cagr_pct,
+"%"
+],
+[
+"Total Return",
+backtestPerformance.total_return_pct,
+backtestPerformance.spy_total_return_pct,
+"%"
+],
+[
+"Annualized Volatility",
+backtestPerformance.annualized_volatility_pct,
+null,
+"%"
+],
+[
+"Sharpe",
+backtestPerformance.sharpe_ratio,
+null,
+""
+],
+[
+"Sortino",
+backtestPerformance.sortino_ratio,
+null,
+""
+],
+[
+"Max Drawdown",
+backtestPerformance.max_drawdown_pct,
+null,
+"%"
+],
+[
+"Calmar",
+backtestPerformance.calmar_ratio,
+null,
+""
+],
+[
+"Daily Profit Factor",
+backtestPerformance.profit_factor_daily,
+null,
+""
+],
+[
+"CAGR Alpha vs SPY",
+backtestPerformance.cagr_alpha_vs_spy_pct,
+0,
+"%"
+],
+[
+"20D Signal Hit Rate",
+backtestSignalValidation.hit_rate_pct,
+null,
+"%"
+]
+];
+
+
+backtestRows.forEach(
+row => {
+
+
+const metric =
+row[0];
+
+
+const strategyValue =
+row[1];
+
+
+const referenceValue =
+row[2];
+
+
+const suffix =
+row[3];
+
+
+backtestMetricTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${metric}</b>
+</td>
+
+<td>
+${strategyValue === null || strategyValue === undefined ? "-" : formatNumber(strategyValue,2) + suffix}
+</td>
+
+<td>
+${referenceValue === null || referenceValue === undefined ? "-" : formatNumber(referenceValue,2) + suffix}
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+if(
+walkForwardFolds.length === 0
+){
+
+walkForwardFoldTable.innerHTML = `
+
+<tr>
+
+<td colspan="8">
+
+No walk-forward folds available.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+walkForwardFolds.forEach(
+item => {
+
+
+walkForwardFoldTable.innerHTML += `
+
+<tr>
+
+<td>
+${item.fold ?? "-"}
+</td>
+
+<td>
+${item.start_date || "-"}
+</td>
+
+<td>
+${item.end_date || "-"}
+</td>
+
+<td>
+${item.trading_sessions ?? "-"}
+</td>
+
+<td>
+${formatNumber(item.strategy_return_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.spy_return_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.excess_return_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.max_drawdown_pct,2)}%
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =============================================== */
 /* =============================================== */
 /* V7.8 RECOMMENDATION PERFORMANCE JOURNAL */
 /* =============================================== */
