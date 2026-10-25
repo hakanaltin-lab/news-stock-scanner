@@ -1,5 +1,5 @@
 """
-V7.5 Global Market Intelligence Scanner
+V7.6 Global Market Intelligence Scanner
 
 Controller Layer
 
@@ -40,6 +40,8 @@ Earnings & Event Risk Engine
 Regime + Event-Aware Capital Allocation Engine
         |
 Final Portfolio Projection Engine
+        |
+Portfolio Correlation & Factor Risk Engine
         |
 JSON Report
 """
@@ -133,6 +135,11 @@ from engines.capital_allocation_engine import (
 
 from engines.final_portfolio_projection_engine import (
     build_final_portfolio_projection
+)
+
+
+from engines.portfolio_correlation_factor_risk_engine import (
+    analyze_portfolio_correlation_factor_risk
 )
 
 
@@ -571,7 +578,18 @@ def run_scanner():
 
 
     # =====================================================
-    # 9. FINAL OUTPUT
+    # 9. V7.6 PORTFOLIO CORRELATION & FACTOR RISK
+    # =====================================================
+
+    portfolio_correlation_factor_risk = (
+        analyze_portfolio_correlation_factor_risk(
+            final_portfolio_projection
+        )
+    )
+
+
+    # =====================================================
+    # 10. FINAL OUTPUT
     # =====================================================
 
     output = {
@@ -580,7 +598,7 @@ def run_scanner():
         datetime.utcnow().isoformat(),
 
         "scanner_version":
-        "V7.5",
+        "V7.6",
 
         "portfolio":
         results,
@@ -604,7 +622,10 @@ def run_scanner():
         capital_allocation,
 
         "final_portfolio_projection":
-        final_portfolio_projection
+        final_portfolio_projection,
+
+        "portfolio_correlation_factor_risk":
+        portfolio_correlation_factor_risk
     }
 
 
@@ -628,7 +649,7 @@ def run_scanner():
 
 
     print(
-        "V7.5 Scanner completed successfully"
+        "V7.6 Scanner completed successfully"
     )
 
 
