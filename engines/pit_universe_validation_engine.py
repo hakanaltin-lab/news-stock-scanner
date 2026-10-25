@@ -207,11 +207,13 @@ def membership_on(
     selected = None
 
     for row in history:
-        if row[
-            "date"
-        ]
-        <=
-        date_value:
+        if (
+            row[
+                "date"
+            ]
+            <=
+            date_value
+        ):
             selected = row[
                 "tickers"
             ]
