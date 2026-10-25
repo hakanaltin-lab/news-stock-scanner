@@ -49,7 +49,7 @@ jobs:
         pip install -r requirements.txt
 
 
-    - name: Run V8.3 scanner
+    - name: Run V8.4 scanner
       run: |
         python main.py
 
@@ -61,14 +61,14 @@ jobs:
 
         git config user.email "github-actions@github.com"
 
-        git add docs/index.html docs/latest.csv docs/latest.json docs/last_run.txt docs/recommendation_journal.json docs/recommendation_performance.json docs/walk_forward_backtest.json docs/strategic_policy_calibration.json docs/shadow_policy_journal.json
+        git add docs/index.html docs/latest.csv docs/latest.json docs/last_run.txt docs/recommendation_journal.json docs/recommendation_performance.json docs/walk_forward_backtest.json docs/strategic_policy_calibration.json docs/shadow_policy_journal.json docs/historical_evidence_recovery.json
 
         if git diff --cached --quiet; then
           echo "No report changes"
           exit 0
         fi
 
-        git commit -m "Update V8.3 portfolio intelligence report"
+        git commit -m "Update V8.4 portfolio intelligence report"
 
         git pull --rebase origin main
 
