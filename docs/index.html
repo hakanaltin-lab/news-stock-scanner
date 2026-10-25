@@ -1019,6 +1019,140 @@ BLOCKED
 
 </div>
 
+<div class="stat">
+
+<div class="stat-label">
+Historical Evidence Since
+</div>
+
+<div
+class="stat-value"
+id="historical-oldest-date"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+REDUCE+EXIT 20D Hit
+</div>
+
+<div
+class="stat-value"
+id="defensive-hit-20d"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+65/35 EW CAGR
+</div>
+
+<div
+class="stat-value"
+id="cashmix-cagr"
+>
+-
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- V8.4 HISTORICAL EVIDENCE RECOVERY -->
+<!-- ================================================= -->
+
+<div class="card purple">
+
+<div class="title">
+🧾 V8.4 HISTORICAL EVIDENCE RECOVERY
+</div>
+
+<div
+id="historical-evidence-summary"
+class="section-note"
+>
+Loading recovered evidence...
+</div>
+
+<div class="section-note">
+Legacy opportunity scores, legacy portfolio alerts and modern BUY/ADD/REDUCE/EXIT are intentionally kept as separate cohorts.
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Action / Cohort</th>
+<th>5D Evaluated</th>
+<th>5D Hit</th>
+<th>20D Evaluated</th>
+<th>20D Hit</th>
+<th>20D Avg Alpha</th>
+<th>60D Evaluated</th>
+<th>60D Hit</th>
+</tr>
+
+</thead>
+
+<tbody id="historical-action-table">
+
+<tr>
+<td colspan="8" class="loading">
+Loading action evidence...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<div class="section-note">
+Cash-mix benchmark test
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Benchmark</th>
+<th>Invested</th>
+<th>Cash</th>
+<th>CAGR</th>
+<th>Sharpe</th>
+<th>Max Drawdown</th>
+<th>AURORA CAGR Advantage</th>
+<th>AURORA Sharpe Advantage</th>
+</tr>
+
+</thead>
+
+<tbody id="cashmix-benchmark-table">
+
+<tr>
+<td colspan="8" class="loading">
+Loading cash-mix benchmarks...
+</td>
+</tr>
+
+</tbody>
+
+</table>
 
 </div>
 
@@ -2759,6 +2893,41 @@ ibkrPositionSync.rows
 || [];
 
 
+const historicalEvidence =
+data.historical_evidence_recovery
+|| {};
+
+
+const historicalPrimaryEvidence =
+historicalEvidence.primary_evidence
+|| {};
+
+
+const historicalByAction =
+historicalPrimaryEvidence.modern_by_action
+|| {};
+
+
+const historicalDefensive =
+historicalPrimaryEvidence.modern_defensive_reduce_exit
+|| {};
+
+
+const legacyOpportunityEvidence =
+historicalPrimaryEvidence.legacy_opportunity_top10_ge75
+|| {};
+
+
+const legacyDefensiveEvidence =
+historicalPrimaryEvidence.legacy_defensive_alerts
+|| {};
+
+
+const cashMixControls =
+walkForwardBacktest.risk_scaled_equal_weight_controls
+|| {};
+
+
 /* =============================================== */
 /* SUMMARY */
 /* =============================================== */
@@ -3294,6 +3463,230 @@ decisionArchitecture.principle
 );
 
 
+/* =============================================== */
+/* V8.4 HISTORICAL EVIDENCE RECOVERY */
+/* =============================================== */
+
+
+const historicalActionTable =
+document.getElementById(
+"historical-action-table"
+);
+
+
+const cashMixBenchmarkTable =
+document.getElementById(
+"cashmix-benchmark-table"
+);
+
+
+historicalActionTable.innerHTML =
+"";
+
+
+cashMixBenchmarkTable.innerHTML =
+"";
+
+
+document.getElementById(
+"historical-evidence-summary"
+).textContent =
+
+"Status: "
++
+(
+historicalEvidence.status
+||
+"-"
+)
++
+" | Cache: "
++
+(
+historicalEvidence.cache_status
+||
+"-"
+)
++
+" | Evidence: "
++
+(
+historicalEvidence.oldest_signal_date
+||
+"-"
+)
++
+" → "
++
+(
+historicalEvidence.newest_signal_date
+||
+"-"
+)
++
+" | Records: "
++
+(
+historicalEvidence.directional_record_count
+?? 0
+)
++
+" | FOUNDATION snapshots excluded: "
++
+(
+(
+(
+historicalEvidence.recovery_coverage
+||
+{}
+).modern_json
+||
+{}
+).excluded_foundation_snapshots
+?? 0
+);
+
+
+function evidenceRow(
+label,
+block
+){
+
+const h5 =
+block["5d"]
+|| {};
+
+const h20 =
+block["20d"]
+|| {};
+
+const h60 =
+block["60d"]
+|| {};
+
+historicalActionTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${label}</b>
+</td>
+
+<td>
+${h5.evaluated ?? 0}
+</td>
+
+<td>
+${h5.benchmark_hit_rate_pct === null || h5.benchmark_hit_rate_pct === undefined ? "-" : formatNumber(h5.benchmark_hit_rate_pct,1) + "%"}
+</td>
+
+<td>
+${h20.evaluated ?? 0}
+</td>
+
+<td>
+${h20.benchmark_hit_rate_pct === null || h20.benchmark_hit_rate_pct === undefined ? "-" : formatNumber(h20.benchmark_hit_rate_pct,1) + "%"}
+</td>
+
+<td>
+${h20.average_decision_alpha_pct === null || h20.average_decision_alpha_pct === undefined ? "-" : formatNumber(h20.average_decision_alpha_pct,2) + "%"}
+</td>
+
+<td>
+${h60.evaluated ?? 0}
+</td>
+
+<td>
+${h60.benchmark_hit_rate_pct === null || h60.benchmark_hit_rate_pct === undefined ? "-" : formatNumber(h60.benchmark_hit_rate_pct,1) + "%"}
+</td>
+
+</tr>
+
+`;
+
+}
+
+
+[
+["MODERN REDUCE+EXIT", historicalDefensive],
+["MODERN REDUCE", historicalByAction.REDUCE || {}],
+["MODERN EXIT", historicalByAction.EXIT || {}],
+["MODERN ADD", historicalByAction.ADD || {}],
+["MODERN BUY", historicalByAction.BUY || {}],
+["MODERN ACCUMULATE", historicalByAction.ACCUMULATE || {}],
+["LEGACY TOP10 SCORE>=75", legacyOpportunityEvidence],
+["LEGACY DEFENSIVE ALERT", legacyDefensiveEvidence]
+].forEach(
+item =>
+evidenceRow(
+item[0],
+item[1]
+)
+);
+
+
+Object.keys(
+cashMixControls
+).forEach(
+key => {
+
+
+const item =
+cashMixControls[
+key
+]
+|| {};
+
+
+const perf =
+item.performance
+|| {};
+
+
+cashMixBenchmarkTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.label || key}</b>
+</td>
+
+<td>
+${formatNumber((item.invested_weight ?? 0) * 100,1)}%
+</td>
+
+<td>
+${formatNumber((item.cash_weight ?? 0) * 100,1)}%
+</td>
+
+<td>
+${formatNumber(perf.cagr_pct,2)}%
+</td>
+
+<td>
+${formatNumber(perf.sharpe_ratio,3)}
+</td>
+
+<td>
+${formatNumber(perf.max_drawdown_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.aurora_cagr_advantage_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.aurora_sharpe_advantage,3)}
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+/* =============================================== */
 /* =============================================== */
 /* V8.3 IBKR PAPER READ-ONLY READINESS */
 /* =============================================== */
