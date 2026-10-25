@@ -177,6 +177,11 @@ from engines.shadow_policy_monitor_engine import (
 )
 
 
+from engines.fresh_forward_promotion_gate_engine import (
+    run_fresh_forward_promotion_gate
+)
+
+
 from engines.regime_failure_attribution_engine import (
     run_regime_failure_attribution
 )
@@ -927,6 +932,50 @@ def run_scanner():
 
 
     # =====================================================
+    # 15. V8.4.7 FRESH FORWARD SHADOW PROMOTION GATE
+    # =====================================================
+
+    try:
+        fresh_forward_promotion_gate = (
+            run_fresh_forward_promotion_gate(
+                strategic_policy_calibration,
+                shadow_policy_monitor,
+                walk_forward_backtest,
+                regime_failure_attribution
+            )
+        )
+
+    except Exception as error:
+        fresh_forward_promotion_gate = {
+            "engine":
+            "V8.4.7 Fresh Forward Shadow Promotion Gate",
+
+            "status":
+            "ERROR",
+
+            "verdict":
+            "PROMOTION_BLOCKED",
+
+            "automatic_live_promotion":
+            False,
+
+            "live_policy_changed":
+            False,
+
+            "live_execution_authorized":
+            False,
+
+            "paper_order_submission_authorized":
+            False,
+
+            "error":
+            str(
+                error
+            )
+        }
+
+
+    # =====================================================
     # 14. V8.5.2 THESIS-AWARE EXIT SHADOW JOURNAL
     # =====================================================
 
@@ -1071,6 +1120,9 @@ def run_scanner():
 
         "shadow_policy_monitor":
         shadow_policy_monitor,
+
+        "fresh_forward_promotion_gate":
+        fresh_forward_promotion_gate,
 
         "ibkr_paper_snapshot":
         ibkr_paper_snapshot,
