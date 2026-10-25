@@ -1,0 +1,69 @@
+name: Simple Factor Challenger Holdout
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "engines/simple_factor_challenger_engine.py"
+      - "scripts/run_simple_factor_challenger.py"
+      - "docs/research/simple_factor_challenger_preregistration_v1.md"
+      - ".github/workflows/simple_factor_challenger.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: simple-factor-challenger-holdout
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Compile challenger
+        run: |
+          python -m py_compile engines/simple_factor_challenger_engine.py
+          python -m py_compile scripts/run_simple_factor_challenger.py
+
+      - name: Run pre-registered holdout test
+        run: |
+          python scripts/run_simple_factor_challenger.py
+
+      - name: Publish challenger result
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          if [ ! -f docs/simple_factor_challenger_validation.json ]; then
+            echo "Missing challenger output"
+            exit 1
+          fi
+
+          git add docs/simple_factor_challenger_validation.json
+
+          if git diff --cached --quiet; then
+            echo "No challenger report changes"
+            exit 0
+          fi
+
+          git commit -m "Publish simple factor challenger holdout result"
+          git pull --rebase origin main
+          git push origin HEAD:main
