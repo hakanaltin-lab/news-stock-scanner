@@ -1,10 +1,10 @@
 {
   "engine": "V8.1 Strategic Policy Calibration Lab",
-  "calibration_signature": "V8.1.1",
+  "calibration_signature": "V8.1.2",
   "portfolio_signature": "ec19f05aec2acca5",
   "cache_status": "FRESH",
   "status": "COMPLETE",
-  "generated": "2026-10-25T08:13:20.881378+00:00",
+  "generated": "2026-10-25T08:18:51.376185+00:00",
   "market_date": "2026-10-23",
   "live_policy_status": "V7.9 DEFAULT UNCHANGED",
   "validation_scope": "CURRENT_PORTFOLIO_STRATEGIC_PRICE_RISK_LAYER",
@@ -125,11 +125,12 @@
     "RISK_AWARE_GENTLE": 0
   },
   "most_selected_policy": "MOMENTUM_FRIENDLY",
+  "shadow_candidate_policy": "MOMENTUM_FRIENDLY",
   "out_of_sample": {
     "fold_count": 6,
     "calibrated_policy": {
       "starting_value": 100000.0,
-      "ending_value": 314572.65,
+      "ending_value": 314572.69,
       "total_return_pct": 214.57,
       "cagr_pct": 47.35,
       "annualized_volatility_pct": 24.49,
@@ -141,7 +142,7 @@
     },
     "default_v7_9": {
       "starting_value": 100000.0,
-      "ending_value": 233242.5,
+      "ending_value": 233242.53,
       "total_return_pct": 133.24,
       "cagr_pct": 33.17,
       "annualized_volatility_pct": 18.98,
@@ -153,7 +154,7 @@
     },
     "equal_weight_control": {
       "starting_value": 100000.0,
-      "ending_value": 395512.95,
+      "ending_value": 395513.0,
       "total_return_pct": 295.51,
       "cagr_pct": 59.22,
       "annualized_volatility_pct": 29.08,
@@ -347,8 +348,8 @@
     ]
   },
   "promotion_verdict": {
-    "status": "KEEP_DEFAULT",
-    "message": "Calibration evidence is not strong enough to replace the live V7.9 policy. Keep the current live policy unchanged and use the lab result for further research.",
+    "status": "SHADOW_CANDIDATE",
+    "message": "Calibrated policy is materially stronger than the live default out-of-sample, but not yet strong enough for live promotion. Run it in shadow mode on fresh forward data.",
     "criteria": {
       "cagr_improvement_vs_default_pct": 14.18,
       "cagr_gap_vs_control_pct": -11.87,
