@@ -30,6 +30,8 @@ ENGINE_VERSION = (
     "V8.5 Fundamental Thesis & Valuation Engine"
 )
 
+FUNDAMENTAL_SIGNATURE = "V8.5.1"
+
 CACHE_FILE = (
     "docs/fundamental_thesis_cache.json"
 )
@@ -347,7 +349,12 @@ def score_valuation(
     values = []
 
     if forward_pe is not None:
-        if forward_pe <= 12:
+        if forward_pe <= 0:
+            values.append(
+                20.0
+            )
+
+        elif forward_pe <= 12:
             values.append(
                 90.0
             )
@@ -373,7 +380,12 @@ def score_valuation(
             )
 
     if peg_ratio is not None:
-        if peg_ratio <= 1:
+        if peg_ratio <= 0:
+            values.append(
+                25.0
+            )
+
+        elif peg_ratio <= 1:
             values.append(
                 85.0
             )
@@ -651,6 +663,9 @@ def load_cache():
         CACHE_FILE
     ):
         return {
+            "signature":
+            FUNDAMENTAL_SIGNATURE,
+
             "date":
             None,
 
@@ -676,6 +691,24 @@ def load_cache():
                 "Invalid cache"
             )
 
+        if (
+            data.get(
+                "signature"
+            )
+            !=
+            FUNDAMENTAL_SIGNATURE
+        ):
+            return {
+                "signature":
+                FUNDAMENTAL_SIGNATURE,
+
+                "date":
+                None,
+
+                "snapshots":
+                {}
+            }
+
         if not isinstance(
             data.get(
                 "snapshots"
@@ -690,6 +723,9 @@ def load_cache():
 
     except Exception:
         return {
+            "signature":
+            FUNDAMENTAL_SIGNATURE,
+
             "date":
             None,
 
@@ -1138,6 +1174,9 @@ def analyze_fundamental_thesis(
         "engine":
         ENGINE_VERSION,
 
+        "fundamental_signature":
+        FUNDAMENTAL_SIGNATURE,
+
         "timestamp":
         datetime.now(
             timezone.utc
@@ -1307,6 +1346,9 @@ def analyze_fundamental_thesis(
         "date"
     ) != today:
         cache = {
+            "signature":
+            FUNDAMENTAL_SIGNATURE,
+
             "date":
             today,
 
