@@ -52,7 +52,7 @@ ENGINE_VERSION = (
     "V8.0 Historical Replay & Walk-Forward Backtest Engine"
 )
 
-BACKTEST_SIGNATURE = "V8.0.1"
+BACKTEST_SIGNATURE = "V8.0.2"
 
 OUTPUT_FILE = "docs/walk_forward_backtest.json"
 
@@ -1983,6 +1983,340 @@ def simulate_strategy(
     }
 
 
+def simulate_equal_weight_control(
+    close_frame,
+    tickers,
+    start_date
+):
+    """
+    Same-universe control portfolio.
+
+    Uses the exact same:
+    - current ticker universe
+    - historical eligibility rules
+    - weekly rebalance timing
+    - next-session execution convention
+    - commission/slippage assumptions
+
+    Difference:
+    - no strategic de-risking overlay
+    - 100% equal-weight across eligible names
+
+    This isolates whether the strategic overlay itself adds value beyond
+    simply owning the selected current portfolio names.
+    """
+
+    spy = close_frame[
+        "SPY"
+    ].dropna()
+
+    trading_dates = [
+        date_value
+        for date_value in spy.index
+        if date_value >= start_date
+    ]
+
+    if len(
+        trading_dates
+    ) < 50:
+        return None
+
+    capital = STARTING_CAPITAL
+
+    cash = STARTING_CAPITAL
+
+    shares = {
+        ticker:
+        0.0
+        for ticker in tickers
+    }
+
+    total_trading_costs = 0.0
+
+    turnover_notional = 0.0
+
+    equity_points = {}
+
+    rebalance_count = 0
+
+    for index, date_value in enumerate(
+        trading_dates
+    ):
+        prices_today = {}
+
+        for ticker in tickers:
+            if ticker not in close_frame.columns:
+                continue
+
+            try:
+                series = close_frame[
+                    ticker
+                ].loc[
+                    :date_value
+                ].dropna()
+
+                if series.empty:
+                    continue
+
+                price = safe_float(
+                    series.iloc[-1],
+                    None
+                )
+
+                if (
+                    price is not None
+                    and
+                    price > 0
+                ):
+                    prices_today[
+                        ticker
+                    ] = price
+
+            except Exception:
+                continue
+
+        position_value = sum(
+            shares.get(
+                ticker,
+                0
+            )
+            *
+            prices_today.get(
+                ticker,
+                0
+            )
+            for ticker in tickers
+        )
+
+        capital = (
+            cash
+            +
+            position_value
+        )
+
+        should_rebalance = (
+            index > 0
+            and
+            index
+            %
+            REBALANCE_EVERY_SESSIONS
+            ==
+            0
+        )
+
+        if should_rebalance:
+            decision_date = trading_dates[
+                index - 1
+            ]
+
+            eligible = (
+                eligible_tickers_at_date(
+                    close_frame,
+                    tickers,
+                    decision_date
+                )
+            )
+
+            if eligible:
+                rebalance_count += 1
+
+                base_weight = (
+                    1.0
+                    /
+                    len(
+                        eligible
+                    )
+                )
+
+                target_weights = {
+                    ticker:
+                    base_weight
+                    for ticker in eligible
+                }
+
+                pre_trade_value = capital
+
+                target_values = {
+                    ticker:
+                    pre_trade_value
+                    *
+                    weight
+                    for ticker, weight in (
+                        target_weights.items()
+                    )
+                }
+
+                traded_notional = 0.0
+
+                for ticker in tickers:
+                    price = prices_today.get(
+                        ticker
+                    )
+
+                    if (
+                        price is None
+                        or
+                        price <= 0
+                    ):
+                        continue
+
+                    current_value = (
+                        shares.get(
+                            ticker,
+                            0
+                        )
+                        *
+                        price
+                    )
+
+                    target_value = target_values.get(
+                        ticker,
+                        0.0
+                    )
+
+                    traded_notional += abs(
+                        target_value
+                        -
+                        current_value
+                    )
+
+                trading_cost = (
+                    traded_notional
+                    *
+                    TOTAL_TRADING_FRICTION_BPS
+                    /
+                    10000
+                )
+
+                post_cost_value = max(
+                    0,
+                    pre_trade_value
+                    -
+                    trading_cost
+                )
+
+                new_shares = {
+                    ticker:
+                    0.0
+                    for ticker in tickers
+                }
+
+                invested_value = 0.0
+
+                for ticker, weight in (
+                    target_weights.items()
+                ):
+                    price = prices_today.get(
+                        ticker
+                    )
+
+                    if (
+                        price is None
+                        or
+                        price <= 0
+                    ):
+                        continue
+
+                    target_value = (
+                        post_cost_value
+                        *
+                        weight
+                    )
+
+                    new_shares[
+                        ticker
+                    ] = (
+                        target_value
+                        /
+                        price
+                    )
+
+                    invested_value += (
+                        target_value
+                    )
+
+                shares = new_shares
+
+                cash = max(
+                    0,
+                    post_cost_value
+                    -
+                    invested_value
+                )
+
+                total_trading_costs += (
+                    trading_cost
+                )
+
+                turnover_notional += (
+                    traded_notional
+                )
+
+                capital = post_cost_value
+
+        position_value = sum(
+            shares.get(
+                ticker,
+                0
+            )
+            *
+            prices_today.get(
+                ticker,
+                0
+            )
+            for ticker in tickers
+        )
+
+        capital = (
+            cash
+            +
+            position_value
+        )
+
+        equity_points[
+            date_value
+        ] = capital
+
+    equity_series = pd.Series(
+        equity_points
+    ).sort_index()
+
+    spy_start = safe_float(
+        spy.loc[
+            trading_dates[0]
+        ]
+    )
+
+    spy_equity = (
+        spy.reindex(
+            equity_series.index
+        )
+        /
+        spy_start
+        *
+        STARTING_CAPITAL
+    )
+
+    metrics = calculate_equity_metrics(
+        equity_series,
+        spy_equity,
+        total_trading_costs,
+        turnover_notional,
+        STARTING_CAPITAL
+    )
+
+    return {
+        "equity_series":
+        equity_series,
+
+        "metrics":
+        metrics,
+
+        "rebalance_count":
+        rebalance_count
+    }
+
+
 def serialize_equity_sample(
     equity_series,
     spy_equity
@@ -2218,6 +2552,14 @@ def run_walk_forward_backtest(
         start_date
     )
 
+    control_simulation = (
+        simulate_equal_weight_control(
+            close_frame,
+            tickers,
+            start_date
+        )
+    )
+
     if simulation is None:
         result = {
             "engine":
@@ -2312,6 +2654,110 @@ def run_walk_forward_backtest(
         )
     )
 
+    strategy_metrics = (
+        simulation.get(
+            "metrics",
+            {}
+        )
+        or
+        {}
+    )
+
+    control_metrics = (
+        (
+            control_simulation
+            or
+            {}
+        ).get(
+            "metrics",
+            {}
+        )
+        or
+        {}
+    )
+
+    strategy_cagr = safe_float(
+        strategy_metrics.get(
+            "cagr_pct"
+        ),
+        0
+    )
+
+    control_cagr = safe_float(
+        control_metrics.get(
+            "cagr_pct"
+        ),
+        0
+    )
+
+    strategy_total_return = safe_float(
+        strategy_metrics.get(
+            "total_return_pct"
+        ),
+        0
+    )
+
+    control_total_return = safe_float(
+        control_metrics.get(
+            "total_return_pct"
+        ),
+        0
+    )
+
+    overlay_alpha_vs_control = {
+        "cagr_alpha_pct":
+        round(
+            strategy_cagr
+            -
+            control_cagr,
+            2
+        ),
+
+        "total_return_difference_pct":
+        round(
+            strategy_total_return
+            -
+            control_total_return,
+            2
+        ),
+
+        "max_drawdown_improvement_pct":
+        round(
+            safe_float(
+                control_metrics.get(
+                    "max_drawdown_pct"
+                ),
+                0
+            )
+            -
+            safe_float(
+                strategy_metrics.get(
+                    "max_drawdown_pct"
+                ),
+                0
+            ),
+            2
+        ),
+
+        "sharpe_improvement":
+        round(
+            safe_float(
+                strategy_metrics.get(
+                    "sharpe_ratio"
+                ),
+                0
+            )
+            -
+            safe_float(
+                control_metrics.get(
+                    "sharpe_ratio"
+                ),
+                0
+            ),
+            3
+        )
+    }
+
     result = {
         "engine":
         ENGINE_VERSION,
@@ -2399,10 +2845,32 @@ def run_walk_forward_backtest(
         },
 
         "performance":
-        simulation.get(
-            "metrics",
-            {}
-        ),
+        strategy_metrics,
+
+        "equal_weight_control": {
+            "description":
+            (
+                "Same current portfolio names, same historical eligibility, "
+                "same weekly rebalance timing and same trading friction, "
+                "but without the strategic de-risking overlay."
+            ),
+
+            "performance":
+            control_metrics,
+
+            "rebalance_count":
+            (
+                control_simulation
+                or
+                {}
+            ).get(
+                "rebalance_count",
+                0
+            )
+        },
+
+        "overlay_alpha_vs_equal_weight_control":
+        overlay_alpha_vs_control,
 
         "signal_validation":
         simulation.get(
@@ -2447,7 +2915,9 @@ def run_walk_forward_backtest(
             ),
             (
                 "The universe is today's portfolio, creating survivorship "
-                "and selection bias."
+                "and selection bias. The equal-weight control uses the same "
+                "biased universe so overlay-vs-control is more informative "
+                "than strategy-vs-SPY for isolating the risk overlay."
             ),
             (
                 "This validates the reconstructable strategic price/risk "
