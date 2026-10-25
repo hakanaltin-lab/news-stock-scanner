@@ -101,7 +101,8 @@ from engines.portfolio_management_engine import (
 
 
 from engines.position_sizing_engine import (
-    build_rebalancing_plan
+    build_rebalancing_plan,
+    apply_event_risk_to_rebalancing
 )
 
 
@@ -529,6 +530,15 @@ def run_scanner():
         build_event_risk_summary(
             results,
             opportunity_analysis
+        )
+    )
+
+
+    portfolio_rebalancing = (
+        apply_event_risk_to_rebalancing(
+            portfolio_rebalancing,
+            event_risk,
+            results
         )
     )
 
