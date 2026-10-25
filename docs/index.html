@@ -304,7 +304,7 @@ AURORA Market Intelligence
 </h1>
 
 <div class="subtitle">
-Portfolio Management + Position Sizing + Capital Allocation + US Market Opportunity Radar
+Portfolio Management + Position Sizing + Capital Allocation + Final Portfolio Projection + US Market Opportunity Radar
 </div>
 
 <div
@@ -485,7 +485,7 @@ id="reserve-status"
 <div class="stat">
 
 <div class="stat-label">
-Theme Alerts After Plan
+Final Theme Alerts
 </div>
 
 <div
@@ -507,6 +507,38 @@ Wait for Pullback
 <div
 class="stat-value"
 id="blocked-count"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Final Positions
+</div>
+
+<div
+class="stat-value"
+id="final-position-count"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Reconciliation
+</div>
+
+<div
+class="stat-value"
+id="reconciliation-status"
 >
 -
 </div>
@@ -762,17 +794,66 @@ Loading capital allocation plan...
 
 
 <!-- ================================================= -->
-<!-- THEME EXPOSURE -->
+<!-- V7.3 FINAL PORTFOLIO PROJECTION -->
+<!-- ================================================= -->
+
+<div class="card green">
+
+<div class="title">
+🧩 V7.3 FINAL PORTFOLIO PROJECTION
+</div>
+
+<div
+id="final-summary"
+class="section-note"
+>
+Loading final portfolio projection...
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Ticker</th>
+<th>Source</th>
+<th>Final Shares</th>
+<th>Price</th>
+<th>Final Value</th>
+<th>Final Weight</th>
+<th>Theme</th>
+<th>Trade</th>
+</tr>
+
+</thead>
+
+<tbody id="final-portfolio-table">
+
+<tr>
+<td colspan="8" class="loading">
+Loading final portfolio...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- V7.3 FINAL THEME EXPOSURE -->
 <!-- ================================================= -->
 
 <div class="card cyan">
 
 <div class="title">
-🧭 THEME CONCENTRATION — CURRENT → PROJECTED
+🧭 V7.3 FINAL THEME EXPOSURE — CURRENT → FINAL
 </div>
 
 <div class="section-note">
-Shows how the V7.1 rebalancing plan changes portfolio concentration. Limit: 35% per theme.
+Final exposure includes V7.1 rebalancing, V7.2 new allocations and projected cash. Concentration limit: 35% per non-cash theme.
 </div>
 
 <table>
@@ -783,9 +864,9 @@ Shows how the V7.1 rebalancing plan changes portfolio concentration. Limit: 35% 
 <th>Theme</th>
 <th>Current Value</th>
 <th>Current Weight</th>
-<th>Projected Value</th>
-<th>Projected Weight</th>
-<th>Status After Plan</th>
+<th>Final Value</th>
+<th>Final Weight</th>
+<th>Status</th>
 </tr>
 
 </thead>
@@ -794,7 +875,7 @@ Shows how the V7.1 rebalancing plan changes portfolio concentration. Limit: 35% 
 
 <tr>
 <td colspan="6" class="loading">
-Loading theme exposure...
+Loading final theme exposure...
 </td>
 </tr>
 
@@ -1226,6 +1307,16 @@ capital.allocation_plan
 || [];
 
 
+const finalProjection =
+data.final_portfolio_projection
+|| {};
+
+
+const finalPositions =
+finalProjection.final_positions
+|| [];
+
+
 /* =============================================== */
 /* SUMMARY */
 /* =============================================== */
@@ -1332,10 +1423,24 @@ document.getElementById(
 "theme-alerts"
 ).textContent =
 (
-rebalancing.concentration_alerts
+finalProjection.concentration_alerts
 ||
 []
 ).length;
+
+
+document.getElementById(
+"final-position-count"
+).textContent =
+finalProjection.final_position_count
+?? "-";
+
+
+document.getElementById(
+"reconciliation-status"
+).textContent =
+finalProjection.reconciliation_status
+|| "-";
 
 
 if(data.generated){
@@ -2059,7 +2164,169 @@ ${item.reason || "-"}
 
 
 /* =============================================== */
-/* THEME CONCENTRATION */
+/* V7.3 FINAL PORTFOLIO PROJECTION */
+/* =============================================== */
+
+
+const finalPortfolioTable =
+document.getElementById(
+"final-portfolio-table"
+);
+
+
+finalPortfolioTable.innerHTML =
+"";
+
+
+document.getElementById(
+"final-summary"
+).textContent =
+
+"Projected value: "
++
+formatPrice(
+finalProjection.final_projected_value
+)
++
+" | Invested: "
++
+formatPrice(
+finalProjection.invested_value
+)
++
+" ("
++
+formatNumber(
+finalProjection.invested_weight_pct,
+2
+)
++
+"%)"
++
+" | Cash: "
++
+formatPrice(
+finalProjection.cash_value
+)
++
+" ("
++
+formatNumber(
+finalProjection.cash_weight_pct,
+2
+)
++
+"%)"
++
+" | Total weight: "
++
+formatNumber(
+finalProjection.total_weight_pct,
+2
+)
++
+"%"
++
+" | Reconciliation: "
++
+(
+finalProjection.reconciliation_status
+||
+"-"
+)
++
+" | Difference: "
++
+formatPrice(
+finalProjection.reconciliation_difference
+);
+
+
+if(
+finalPositions.length === 0
+){
+
+finalPortfolioTable.innerHTML = `
+
+<tr>
+
+<td colspan="8">
+
+No final portfolio projection available.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+finalPositions.forEach(
+item => {
+
+
+const sharesText =
+item.source === "CASH"
+?
+"-"
+:
+formatNumber(
+item.final_shares,
+0
+);
+
+
+finalPortfolioTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.ticker}</b>
+</td>
+
+<td>
+${item.source || "-"}
+</td>
+
+<td>
+${sharesText}
+</td>
+
+<td>
+${item.source === "CASH" ? "-" : formatPrice(item.price)}
+</td>
+
+<td>
+${formatPrice(item.final_value)}
+</td>
+
+<td>
+${formatNumber(item.final_weight_pct,2)}%
+</td>
+
+<td>
+${item.theme || "-"}
+</td>
+
+<td>
+${item.trade_action || "-"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =============================================== */
+/* V7.3 FINAL THEME EXPOSURE */
 /* =============================================== */
 
 
@@ -2078,8 +2345,8 @@ rebalancing.current_theme_exposure
 || {};
 
 
-const projectedThemes =
-rebalancing.projected_theme_exposure
+const finalThemes =
+finalProjection.final_theme_exposure
 || {};
 
 
@@ -2091,7 +2358,7 @@ new Set(
 currentThemes
 ),
 ...Object.keys(
-projectedThemes
+finalThemes
 )
 ]
 )
@@ -2101,13 +2368,13 @@ projectedThemes
 themeNames.sort(
 (a,b)=>
 (
-currentThemes[b]?.weight_pct
+finalThemes[b]?.weight_pct
 ||
 0
 )
 -
 (
-currentThemes[a]?.weight_pct
+finalThemes[a]?.weight_pct
 ||
 0
 )
@@ -2124,7 +2391,7 @@ themeTable.innerHTML = `
 
 <td colspan="6">
 
-No theme exposure data available.
+No final theme exposure data available.
 
 </td>
 
@@ -2148,17 +2415,31 @@ theme
 || {};
 
 
-const projected =
-projectedThemes[
+const finalTheme =
+finalThemes[
 theme
 ]
 || {};
 
 
-const status =
-projected.concentration_status
-||
+let status =
 "NORMAL";
+
+
+if(theme === "Cash"){
+status = "RESERVE";
+}
+else if(
+Number(
+finalTheme.weight_pct
+||
+0
+)
+>
+35
+){
+status = "HIGH";
+}
 
 
 const statusClass =
@@ -2186,11 +2467,11 @@ ${formatNumber(current.weight_pct,2)}%
 </td>
 
 <td>
-${formatPrice(projected.value)}
+${formatPrice(finalTheme.value)}
 </td>
 
 <td>
-${formatNumber(projected.weight_pct,2)}%
+${formatNumber(finalTheme.weight_pct,2)}%
 </td>
 
 <td class="${statusClass}">
