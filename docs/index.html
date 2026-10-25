@@ -304,7 +304,7 @@ AURORA Market Intelligence
 </h1>
 
 <div class="subtitle">
-Market Regime + Earnings/Event Risk + Correlation Gate + Correlation/Factor Risk + Portfolio Management + Capital Allocation + Final Portfolio Projection + US Market Opportunity Radar
+Performance Journal + Market Regime + Earnings/Event Risk + Correlation Gate + Correlation/Factor Risk + Portfolio Management + Capital Allocation + Final Portfolio Projection + US Market Opportunity Radar
 </div>
 
 <div
@@ -720,6 +720,155 @@ id="correlation-gate-alerts"
 
 </div>
 
+<div class="stat">
+
+<div class="stat-label">
+Tracked Signals
+</div>
+
+<div
+class="stat-value"
+id="tracked-signals"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+5D Benchmark Hit
+</div>
+
+<div
+class="stat-value"
+id="hit-rate-5d"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+20D Benchmark Hit
+</div>
+
+<div
+class="stat-value"
+id="hit-rate-20d"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+60D Benchmark Hit
+</div>
+
+<div
+class="stat-value"
+id="hit-rate-60d"
+>
+-
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- V7.8 RECOMMENDATION PERFORMANCE JOURNAL -->
+<!-- ================================================= -->
+
+<div class="card blue">
+
+<div class="title">
+📈 V7.8 RECOMMENDATION PERFORMANCE JOURNAL
+</div>
+
+<div
+id="performance-summary"
+class="section-note"
+>
+Loading recommendation performance...
+</div>
+
+<div class="section-note">
+5 / 20 / 60 trading-session validation versus SPY
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Horizon</th>
+<th>Evaluated</th>
+<th>Pending</th>
+<th>Benchmark Hit</th>
+<th>Absolute Hit</th>
+<th>Avg Stock Return</th>
+<th>Avg SPY Return</th>
+<th>Avg Excess</th>
+<th>Avg Decision Alpha</th>
+</tr>
+
+</thead>
+
+<tbody id="performance-horizon-table">
+
+<tr>
+<td colspan="9" class="loading">
+Loading performance horizons...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<div class="section-note">
+20-session results by recommendation action
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Action</th>
+<th>Evaluated</th>
+<th>Pending</th>
+<th>Benchmark Hit</th>
+<th>Absolute Hit</th>
+<th>Avg Decision Alpha</th>
+</tr>
+
+</thead>
+
+<tbody id="performance-action-table">
+
+<tr>
+<td colspan="6" class="loading">
+Loading action performance...
+</td>
+</tr>
+
+</tbody>
+
+</table>
 
 </div>
 
@@ -1833,6 +1982,21 @@ correlationRisk.correlation_clusters
 || [];
 
 
+const recommendationPerformance =
+data.recommendation_performance
+|| {};
+
+
+const performanceHorizons =
+recommendationPerformance.horizons
+|| {};
+
+
+const performanceByAction =
+recommendationPerformance.by_action_20d
+|| {};
+
+
 /* =============================================== */
 /* SUMMARY */
 /* =============================================== */
@@ -2045,6 +2209,82 @@ correlationRisk.dominant_factor
 || "-";
 
 
+document.getElementById(
+"correlation-gate-alerts"
+).textContent =
+(
+correlationGate.blocked_count
+?? 0
+)
++
+(
+correlationGate.reduced_count
+?? 0
+);
+
+
+document.getElementById(
+"tracked-signals"
+).textContent =
+recommendationPerformance.total_signals
+?? "-";
+
+
+function hitRateText(
+horizon
+){
+
+const value =
+(
+performanceHorizons[
+horizon
+]
+||
+{}
+).benchmark_hit_rate_pct;
+
+return (
+value === null
+||
+value === undefined
+)
+?
+"-"
+:
+formatNumber(
+value,
+1
+)
++
+"%";
+
+}
+
+
+document.getElementById(
+"hit-rate-5d"
+).textContent =
+hitRateText(
+"5d"
+);
+
+
+document.getElementById(
+"hit-rate-20d"
+).textContent =
+hitRateText(
+"20d"
+);
+
+
+document.getElementById(
+"hit-rate-60d"
+).textContent =
+hitRateText(
+"60d"
+);
+
+
 if(data.generated){
 
 const generatedDate =
@@ -2063,6 +2303,215 @@ generatedDate.toLocaleString();
 }
 
 
+/* =============================================== */
+/* V7.8 RECOMMENDATION PERFORMANCE JOURNAL */
+/* =============================================== */
+
+
+const performanceHorizonTable =
+document.getElementById(
+"performance-horizon-table"
+);
+
+
+performanceHorizonTable.innerHTML =
+"";
+
+
+document.getElementById(
+"performance-summary"
+).textContent =
+
+"Tracked signals: "
++
+(
+recommendationPerformance.total_signals
+?? 0
+)
++
+" | History: "
++
+(
+recommendationPerformance.oldest_signal_date
+||
+"-"
+)
++
+" → "
++
+(
+recommendationPerformance.newest_signal_date
+||
+"-"
+)
++
+" | Bootstrap added: "
++
+(
+recommendationPerformance.bootstrap_signals_added
+?? 0
+)
++
+" | New today: "
++
+(
+recommendationPerformance.new_signals_added
+?? 0
+)
++
+" | Benchmark: SPY";
+
+
+[
+"5d",
+"20d",
+"60d"
+].forEach(
+horizonName => {
+
+
+const item =
+performanceHorizons[
+horizonName
+]
+|| {};
+
+
+performanceHorizonTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${horizonName.toUpperCase()}</b>
+</td>
+
+<td>
+${item.evaluated ?? 0}
+</td>
+
+<td>
+${item.pending ?? 0}
+</td>
+
+<td>
+${item.benchmark_hit_rate_pct === null || item.benchmark_hit_rate_pct === undefined ? "-" : formatNumber(item.benchmark_hit_rate_pct,1) + "%"}
+</td>
+
+<td>
+${item.absolute_hit_rate_pct === null || item.absolute_hit_rate_pct === undefined ? "-" : formatNumber(item.absolute_hit_rate_pct,1) + "%"}
+</td>
+
+<td>
+${item.average_stock_return_pct === null || item.average_stock_return_pct === undefined ? "-" : formatNumber(item.average_stock_return_pct,2) + "%"}
+</td>
+
+<td>
+${item.average_spy_return_pct === null || item.average_spy_return_pct === undefined ? "-" : formatNumber(item.average_spy_return_pct,2) + "%"}
+</td>
+
+<td>
+${item.average_excess_return_pct === null || item.average_excess_return_pct === undefined ? "-" : formatNumber(item.average_excess_return_pct,2) + "%"}
+</td>
+
+<td>
+${item.average_decision_alpha_pct === null || item.average_decision_alpha_pct === undefined ? "-" : formatNumber(item.average_decision_alpha_pct,2) + "%"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+const performanceActionTable =
+document.getElementById(
+"performance-action-table"
+);
+
+
+performanceActionTable.innerHTML =
+"";
+
+
+const actionNames =
+Object.keys(
+performanceByAction
+);
+
+
+if(
+actionNames.length === 0
+){
+
+performanceActionTable.innerHTML = `
+
+<tr>
+
+<td colspan="6">
+
+No recommendation performance records available yet.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+actionNames.sort().forEach(
+action => {
+
+
+const item =
+performanceByAction[
+action
+]
+|| {};
+
+
+performanceActionTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${action}</b>
+</td>
+
+<td>
+${item.evaluated ?? 0}
+</td>
+
+<td>
+${item.pending ?? 0}
+</td>
+
+<td>
+${item.benchmark_hit_rate_pct === null || item.benchmark_hit_rate_pct === undefined ? "-" : formatNumber(item.benchmark_hit_rate_pct,1) + "%"}
+</td>
+
+<td>
+${item.absolute_hit_rate_pct === null || item.absolute_hit_rate_pct === undefined ? "-" : formatNumber(item.absolute_hit_rate_pct,1) + "%"}
+</td>
+
+<td>
+${item.average_decision_alpha_pct === null || item.average_decision_alpha_pct === undefined ? "-" : formatNumber(item.average_decision_alpha_pct,2) + "%"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =============================================== */
 /* =============================================== */
 /* V7.4 MARKET REGIME */
 /* =============================================== */
