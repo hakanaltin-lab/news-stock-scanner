@@ -846,6 +846,201 @@ id="backtest-max-dd"
 
 </div>
 
+<div class="stat">
+
+<div class="stat-label">
+Calibration Verdict
+</div>
+
+<div
+class="stat-value"
+id="calibration-verdict"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Calibrated OOS CAGR
+</div>
+
+<div
+class="stat-value"
+id="calibrated-oos-cagr"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Default OOS CAGR
+</div>
+
+<div
+class="stat-value"
+id="default-oos-cagr"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+EW Control OOS CAGR
+</div>
+
+<div
+class="stat-value"
+id="control-oos-cagr"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Candidate vs Default
+</div>
+
+<div
+class="stat-value"
+id="candidate-vs-default"
+>
+-
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- V8.1 STRATEGIC POLICY CALIBRATION LAB -->
+<!-- ================================================= -->
+
+<div class="card orange">
+
+<div class="title">
+🧭 V8.1 STRATEGIC POLICY CALIBRATION LAB
+</div>
+
+<div
+id="calibration-summary"
+class="section-note"
+>
+Loading policy calibration...
+</div>
+
+<div
+id="calibration-methodology"
+class="section-note"
+>
+Loading calibration methodology...
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Metric</th>
+<th>Calibrated</th>
+<th>Default V7.9</th>
+<th>EW Control</th>
+</tr>
+
+</thead>
+
+<tbody id="calibration-metric-table">
+
+<tr>
+<td colspan="4" class="loading">
+Loading calibrated out-of-sample metrics...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<div class="section-note">
+Policy selection frequency across out-of-sample folds
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Policy</th>
+<th>Times Selected</th>
+</tr>
+
+</thead>
+
+<tbody id="calibration-policy-table">
+
+<tr>
+<td colspan="2" class="loading">
+Loading policy selections...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<div class="section-note">
+Frozen-policy out-of-sample folds
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Fold</th>
+<th>Training Window</th>
+<th>OOS Window</th>
+<th>Selected Policy</th>
+<th>Calibrated Return</th>
+<th>Default Return</th>
+<th>EW Control</th>
+<th>Vs Default</th>
+<th>Vs Control</th>
+<th>Calibrated DD</th>
+</tr>
+
+</thead>
+
+<tbody id="calibration-fold-table">
+
+<tr>
+<td colspan="10" class="loading">
+Loading calibration folds...
+</td>
+</tr>
+
+</tbody>
+
+</table>
 
 </div>
 
@@ -2220,6 +2415,51 @@ walkForwardBacktest.walk_forward_folds
 || [];
 
 
+const policyCalibration =
+data.strategic_policy_calibration
+|| {};
+
+
+const calibrationOos =
+policyCalibration.out_of_sample
+|| {};
+
+
+const calibratedOos =
+calibrationOos.calibrated_policy
+|| {};
+
+
+const defaultOos =
+calibrationOos.default_v7_9
+|| {};
+
+
+const controlOos =
+calibrationOos.equal_weight_control
+|| {};
+
+
+const calibrationFolds =
+calibrationOos.folds
+|| [];
+
+
+const calibrationVerdict =
+policyCalibration.promotion_verdict
+|| {};
+
+
+const calibrationCriteria =
+calibrationVerdict.criteria
+|| {};
+
+
+const calibrationSelectionCounts =
+policyCalibration.policy_selection_counts
+|| {};
+
+
 /* =============================================== */
 /* SUMMARY */
 /* =============================================== */
@@ -2615,6 +2855,403 @@ decisionArchitecture.principle
 );
 
 
+/* =============================================== */
+/* V8.1 STRATEGIC POLICY CALIBRATION LAB */
+/* =============================================== */
+
+
+const calibrationMetricTable =
+document.getElementById(
+"calibration-metric-table"
+);
+
+
+const calibrationPolicyTable =
+document.getElementById(
+"calibration-policy-table"
+);
+
+
+const calibrationFoldTable =
+document.getElementById(
+"calibration-fold-table"
+);
+
+
+calibrationMetricTable.innerHTML =
+"";
+
+
+calibrationPolicyTable.innerHTML =
+"";
+
+
+calibrationFoldTable.innerHTML =
+"";
+
+
+const calibrationMethod =
+policyCalibration.methodology
+|| {};
+
+
+document.getElementById(
+"calibration-summary"
+).textContent =
+
+"Status: "
++
+(
+policyCalibration.status
+||
+"-"
+)
++
+" | Verdict: "
++
+(
+calibrationVerdict.status
+||
+"-"
+)
++
+" | Live policy: "
++
+(
+policyCalibration.live_policy_status
+||
+"-"
+)
++
+" | OOS folds: "
++
+(
+calibrationOos.fold_count
+?? 0
+)
++
+" | Most selected policy: "
++
+(
+policyCalibration.most_selected_policy
+||
+"-"
+)
++
+" | Candidate CAGR improvement vs default: "
++
+(
+calibrationCriteria.cagr_improvement_vs_default_pct === null
+||
+calibrationCriteria.cagr_improvement_vs_default_pct === undefined
+?
+"-"
+:
+formatNumber(
+calibrationCriteria.cagr_improvement_vs_default_pct,
+2
+)
++
+"%"
+)
++
+" | Fold win rate vs default: "
++
+(
+calibrationCriteria.fold_win_rate_vs_default_pct === null
+||
+calibrationCriteria.fold_win_rate_vs_default_pct === undefined
+?
+"-"
+:
+formatNumber(
+calibrationCriteria.fold_win_rate_vs_default_pct,
+1
+)
++
+"%"
+);
+
+
+document.getElementById(
+"calibration-methodology"
+).textContent =
+
+"Training: "
++
+(
+calibrationMethod.training_mode
+||
+"-"
+)
++
+" | Minimum training sessions: "
++
+(
+calibrationMethod.minimum_training_sessions
+?? "-"
+)
++
+" | OOS fold: "
++
+(
+calibrationMethod.oos_fold_sessions
+?? "-"
+)
++
+" sessions"
++
+" | Policy family: "
++
+(
+calibrationMethod.policy_family_size
+?? "-"
+)
++
+" predefined policies"
++
+" | Auto-promotion: "
++
+(
+calibrationMethod.automatic_live_promotion === true
+?
+"YES"
+:
+"NO"
+)
++
+" | Selection rule: "
++
+(
+calibrationMethod.selection_constraint
+||
+"-"
+);
+
+
+const calibrationRows = [
+[
+"CAGR",
+calibratedOos.cagr_pct,
+defaultOos.cagr_pct,
+controlOos.cagr_pct,
+"%"
+],
+[
+"Total Return",
+calibratedOos.total_return_pct,
+defaultOos.total_return_pct,
+controlOos.total_return_pct,
+"%"
+],
+[
+"Annualized Volatility",
+calibratedOos.annualized_volatility_pct,
+defaultOos.annualized_volatility_pct,
+controlOos.annualized_volatility_pct,
+"%"
+],
+[
+"Sharpe",
+calibratedOos.sharpe_ratio,
+defaultOos.sharpe_ratio,
+controlOos.sharpe_ratio,
+""
+],
+[
+"Sortino",
+calibratedOos.sortino_ratio,
+defaultOos.sortino_ratio,
+controlOos.sortino_ratio,
+""
+],
+[
+"Max Drawdown",
+calibratedOos.max_drawdown_pct,
+defaultOos.max_drawdown_pct,
+controlOos.max_drawdown_pct,
+"%"
+]
+];
+
+
+calibrationRows.forEach(
+row => {
+
+
+calibrationMetricTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${row[0]}</b>
+</td>
+
+<td>
+${row[1] === null || row[1] === undefined ? "-" : formatNumber(row[1],2) + row[4]}
+</td>
+
+<td>
+${row[2] === null || row[2] === undefined ? "-" : formatNumber(row[2],2) + row[4]}
+</td>
+
+<td>
+${row[3] === null || row[3] === undefined ? "-" : formatNumber(row[3],2) + row[4]}
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+const calibrationPolicyNames =
+Object.keys(
+calibrationSelectionCounts
+);
+
+
+if(
+calibrationPolicyNames.length === 0
+){
+
+calibrationPolicyTable.innerHTML = `
+
+<tr>
+
+<td colspan="2">
+No policy-selection data available.
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+calibrationPolicyNames
+.sort(
+(a,b)=>
+(
+calibrationSelectionCounts[b]
+||
+0
+)
+-
+(
+calibrationSelectionCounts[a]
+||
+0
+)
+)
+.forEach(
+name => {
+
+
+calibrationPolicyTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${name}</b>
+</td>
+
+<td>
+${calibrationSelectionCounts[name] ?? 0}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+if(
+calibrationFolds.length === 0
+){
+
+calibrationFoldTable.innerHTML = `
+
+<tr>
+
+<td colspan="10">
+No calibration folds available.
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+calibrationFolds.forEach(
+item => {
+
+
+calibrationFoldTable.innerHTML += `
+
+<tr>
+
+<td>
+${item.fold ?? "-"}
+</td>
+
+<td>
+${item.train_start || "-"} → ${item.train_end || "-"}
+</td>
+
+<td>
+${item.oos_start || "-"} → ${item.oos_end || "-"}
+</td>
+
+<td>
+<b>${item.selected_policy || "-"}</b>
+</td>
+
+<td>
+${formatNumber(item.oos_calibrated_return_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.oos_default_return_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.oos_control_return_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.calibrated_vs_default_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.calibrated_vs_control_pct,2)}%
+</td>
+
+<td>
+${formatNumber(item.calibrated_max_drawdown_pct,2)}%
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =============================================== */
 /* =============================================== */
 /* V8.0 HISTORICAL REPLAY & WALK-FORWARD BACKTEST */
 /* =============================================== */
