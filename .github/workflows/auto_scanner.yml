@@ -70,4 +70,6 @@ jobs:
 
         git commit -m "Update V8.0 portfolio intelligence report"
 
+        git pull --rebase origin main
+
         git push
