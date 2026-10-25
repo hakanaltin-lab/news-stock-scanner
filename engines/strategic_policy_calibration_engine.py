@@ -1908,12 +1908,14 @@ def run_strategic_policy_calibration(
         )
 
         if (
-            oos_end_index
-            -
-            oos_start_index
-        )
-        <
-        40:
+            (
+                oos_end_index
+                -
+                oos_start_index
+            )
+            <
+            40
+        ):
             break
 
         train_start = spy_dates[
