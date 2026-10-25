@@ -1,10 +1,10 @@
 {
   "engine": "V8.0 Historical Replay & Walk-Forward Backtest Engine",
-  "backtest_signature": "V8.0.3",
+  "backtest_signature": "V8.4.1",
   "portfolio_signature": "ec19f05aec2acca5",
   "cache_status": "FRESH",
   "status": "COMPLETE",
-  "generated": "2026-10-25T07:59:11.395851+00:00",
+  "generated": "2026-10-25T08:46:27.668030+00:00",
   "market_date": "2026-10-23",
   "validation_scope": "CURRENT_PORTFOLIO_STRATEGIC_PRICE_RISK_LAYER",
   "start_date": "2022-10-25",
@@ -40,7 +40,7 @@
   },
   "performance": {
     "starting_value": 100000.0,
-    "ending_value": 289740.81,
+    "ending_value": 289740.8,
     "total_return_pct": 189.74,
     "cagr_pct": 30.68,
     "annualized_volatility_pct": 17.94,
@@ -62,7 +62,7 @@
     "description": "Same current portfolio names, same historical eligibility, same weekly rebalance timing and same trading friction, but without the strategic de-risking overlay.",
     "performance": {
       "starting_value": 100000.0,
-      "ending_value": 510886.37,
+      "ending_value": 510886.35,
       "total_return_pct": 410.89,
       "cagr_pct": 50.71,
       "annualized_volatility_pct": 28.17,
@@ -82,6 +82,92 @@
     },
     "rebalance_count": 200
   },
+  "risk_scaled_equal_weight_controls": {
+    "equal_weight_75_25": {
+      "label": "75% Equal Weight / 25% Cash",
+      "invested_weight": 0.75,
+      "cash_weight": 0.25,
+      "performance": {
+        "starting_value": 100000.0,
+        "ending_value": 350040.03,
+        "total_return_pct": 250.04,
+        "cagr_pct": 37.04,
+        "annualized_volatility_pct": 21.13,
+        "sharpe_ratio": 1.598,
+        "sortino_ratio": 2.338,
+        "max_drawdown_pct": 25.01,
+        "calmar_ratio": 1.481,
+        "profit_factor_daily": 1.316,
+        "spy_total_return_pct": 107.95,
+        "spy_cagr_pct": 20.22,
+        "cagr_alpha_vs_spy_pct": 16.82,
+        "total_trading_costs": 0.0,
+        "trading_cost_pct_of_starting_capital": 0.0,
+        "annualized_turnover_x": 0.0,
+        "trading_days": 1002,
+        "years": 3.98
+      },
+      "aurora_cagr_advantage_pct": -6.36,
+      "aurora_sharpe_advantage": -0.016,
+      "aurora_drawdown_advantage_pct": 8.16
+    },
+    "equal_weight_65_35": {
+      "label": "65% Equal Weight / 35% Cash",
+      "invested_weight": 0.65,
+      "cash_weight": 0.35,
+      "performance": {
+        "starting_value": 100000.0,
+        "ending_value": 299251.32,
+        "total_return_pct": 199.25,
+        "cagr_pct": 31.74,
+        "annualized_volatility_pct": 18.31,
+        "sharpe_ratio": 1.598,
+        "sortino_ratio": 2.338,
+        "max_drawdown_pct": 21.98,
+        "calmar_ratio": 1.444,
+        "profit_factor_daily": 1.316,
+        "spy_total_return_pct": 107.95,
+        "spy_cagr_pct": 20.22,
+        "cagr_alpha_vs_spy_pct": 11.52,
+        "total_trading_costs": 0.0,
+        "trading_cost_pct_of_starting_capital": 0.0,
+        "annualized_turnover_x": 0.0,
+        "trading_days": 1002,
+        "years": 3.98
+      },
+      "aurora_cagr_advantage_pct": -1.06,
+      "aurora_sharpe_advantage": -0.016,
+      "aurora_drawdown_advantage_pct": 5.13
+    },
+    "volatility_matched_equal_weight": {
+      "label": "Volatility-Matched Equal Weight / Cash",
+      "invested_weight": 0.6368,
+      "cash_weight": 0.3632,
+      "performance": {
+        "starting_value": 100000.0,
+        "ending_value": 293075.62,
+        "total_return_pct": 193.08,
+        "cagr_pct": 31.05,
+        "annualized_volatility_pct": 17.94,
+        "sharpe_ratio": 1.598,
+        "sortino_ratio": 2.338,
+        "max_drawdown_pct": 21.57,
+        "calmar_ratio": 1.439,
+        "profit_factor_daily": 1.316,
+        "spy_total_return_pct": 107.95,
+        "spy_cagr_pct": 20.22,
+        "cagr_alpha_vs_spy_pct": 10.84,
+        "total_trading_costs": 0.0,
+        "trading_cost_pct_of_starting_capital": 0.0,
+        "annualized_turnover_x": 0.0,
+        "trading_days": 1002,
+        "years": 3.98
+      },
+      "aurora_cagr_advantage_pct": -0.37,
+      "aurora_sharpe_advantage": -0.016,
+      "aurora_drawdown_advantage_pct": 4.72
+    }
+  },
   "overlay_alpha_vs_equal_weight_control": {
     "cagr_alpha_pct": -20.03,
     "total_return_difference_pct": -221.15,
@@ -96,6 +182,33 @@
     "evaluated_signal_changes": 226,
     "hit_rate_pct": 49.6,
     "average_decision_alpha_20d_pct": 0.28,
+    "by_action": {
+      "EXIT": {
+        "evaluated": 45,
+        "hit_rate_pct": 44.4,
+        "average_decision_alpha_20d_pct": -0.42
+      },
+      "HOLD": {
+        "evaluated": 48,
+        "hit_rate_pct": 50.0,
+        "average_decision_alpha_20d_pct": 1.58
+      },
+      "REDUCE": {
+        "evaluated": 21,
+        "hit_rate_pct": 47.6,
+        "average_decision_alpha_20d_pct": -1.39
+      },
+      "WATCH": {
+        "evaluated": 112,
+        "hit_rate_pct": 51.8,
+        "average_decision_alpha_20d_pct": 0.32
+      }
+    },
+    "defensive_reduce_exit": {
+      "evaluated": 66,
+      "hit_rate_pct": 45.5,
+      "average_decision_alpha_20d_pct": -0.73
+    },
     "events": [
       {
         "ticker": "BKR",
@@ -105,8 +218,8 @@
         "previous_action": "WATCH",
         "trend_score": 92.0,
         "risk_score": 53.0,
-        "return_6m_pct": 34.78830536157928,
-        "relative_strength_6m_pct": 10.130785988502453,
+        "return_6m_pct": 34.78827974304244,
+        "relative_strength_6m_pct": 10.1307631299943,
         "evaluation_date": "2025-11-25",
         "stock_return_20d_pct": 3.77,
         "spy_return_20d_pct": -1.75,
@@ -121,8 +234,8 @@
         "previous_action": "WATCH",
         "trend_score": 0,
         "risk_score": 57.6,
-        "return_6m_pct": -8.905721741176198,
-        "relative_strength_6m_pct": -33.56324111425303,
+        "return_6m_pct": -8.905707612491288,
+        "relative_strength_6m_pct": -33.56322422553943,
         "evaluation_date": "2025-11-25",
         "stock_return_20d_pct": -3.04,
         "spy_return_20d_pct": -1.75,
@@ -138,7 +251,7 @@
         "trend_score": 100,
         "risk_score": 10.0,
         "return_6m_pct": 410.6035151491121,
-        "relative_strength_6m_pct": 385.9459957760353,
+        "relative_strength_6m_pct": 385.945998536064,
         "evaluation_date": "2025-11-25",
         "stock_return_20d_pct": -27.05,
         "spy_return_20d_pct": -1.75,
@@ -153,8 +266,8 @@
         "previous_action": "EXIT",
         "trend_score": 46.0,
         "risk_score": 30.3,
-        "return_6m_pct": 6.575573478387398,
-        "relative_strength_6m_pct": -10.478183886880842,
+        "return_6m_pct": 6.5755626107975695,
+        "relative_strength_6m_pct": -10.478194754470671,
         "evaluation_date": "2025-12-10",
         "stock_return_20d_pct": 0.96,
         "spy_return_20d_pct": 0.67,
@@ -169,8 +282,8 @@
         "previous_action": "HOLD",
         "trend_score": 80.0,
         "risk_score": 40.4,
-        "return_6m_pct": 34.97754529446109,
-        "relative_strength_6m_pct": 22.998651833565553,
+        "return_6m_pct": 34.97752992916902,
+        "relative_strength_6m_pct": 22.998637721982337,
         "evaluation_date": "2025-12-17",
         "stock_return_20d_pct": -5.74,
         "spy_return_20d_pct": 1.71,
@@ -185,8 +298,8 @@
         "previous_action": "WATCH",
         "trend_score": 18.0,
         "risk_score": 28.7,
-        "return_6m_pct": -1.175921149094461,
-        "relative_strength_6m_pct": -13.154814609989995,
+        "return_6m_pct": -1.175940664162256,
+        "relative_strength_6m_pct": -13.154832871348942,
         "evaluation_date": "2025-12-17",
         "stock_return_20d_pct": 6.47,
         "spy_return_20d_pct": 1.71,
@@ -201,8 +314,8 @@
         "previous_action": "EXIT",
         "trend_score": 46.0,
         "risk_score": 28.4,
-        "return_6m_pct": 10.921903463093209,
-        "relative_strength_6m_pct": -4.589072971537345,
+        "return_6m_pct": 10.92190462638365,
+        "relative_strength_6m_pct": -4.589061251089776,
         "evaluation_date": "2025-12-24",
         "stock_return_20d_pct": 1.07,
         "spy_return_20d_pct": 2.58,
@@ -217,8 +330,8 @@
         "previous_action": "HOLD",
         "trend_score": 57.0,
         "risk_score": 49.8,
-        "return_6m_pct": 17.35677687007402,
-        "relative_strength_6m_pct": 4.332571524847674,
+        "return_6m_pct": 17.356766878227358,
+        "relative_strength_6m_pct": 4.332583656784728,
         "evaluation_date": "2026-01-16",
         "stock_return_20d_pct": 14.26,
         "spy_return_20d_pct": 3.32,
@@ -233,8 +346,8 @@
         "previous_action": "WATCH",
         "trend_score": 70.0,
         "risk_score": 49.4,
-        "return_6m_pct": 20.116766059631843,
-        "relative_strength_6m_pct": 10.242406752970613,
+        "return_6m_pct": 20.116754257578595,
+        "relative_strength_6m_pct": 10.242394950917365,
         "evaluation_date": "2026-02-02",
         "stock_return_20d_pct": 19.75,
         "spy_return_20d_pct": 1.79,
@@ -249,8 +362,8 @@
         "previous_action": "WATCH",
         "trend_score": 100,
         "risk_score": 45.0,
-        "return_6m_pct": 85.7432036647579,
-        "relative_strength_6m_pct": 74.90043113158245,
+        "return_6m_pct": 85.74321923894087,
+        "relative_strength_6m_pct": 74.9004576322651,
         "evaluation_date": "2026-02-17",
         "stock_return_20d_pct": 4.64,
         "spy_return_20d_pct": -1.27,
@@ -265,8 +378,8 @@
         "previous_action": "REDUCE",
         "trend_score": 53.0,
         "risk_score": 57.0,
-        "return_6m_pct": -11.558011335751118,
-        "relative_strength_6m_pct": -22.400783868926567,
+        "return_6m_pct": -11.558031406874147,
+        "relative_strength_6m_pct": -22.40079301354991,
         "evaluation_date": "2026-02-17",
         "stock_return_20d_pct": -0.03,
         "spy_return_20d_pct": -1.27,
@@ -282,7 +395,7 @@
         "trend_score": 100,
         "risk_score": 44.8,
         "return_6m_pct": 99.57102689161546,
-        "relative_strength_6m_pct": 90.21563058809646,
+        "relative_strength_6m_pct": 90.21564120689641,
         "evaluation_date": "2026-02-24",
         "stock_return_20d_pct": 6.11,
         "spy_return_20d_pct": -0.78,
@@ -297,8 +410,8 @@
         "previous_action": "WATCH",
         "trend_score": 35.0,
         "risk_score": 57.0,
-        "return_6m_pct": -12.88632250684949,
-        "relative_strength_6m_pct": -22.241718810368496,
+        "return_6m_pct": -12.886321616657547,
+        "relative_strength_6m_pct": -22.2417073013766,
         "evaluation_date": "2026-02-24",
         "stock_return_20d_pct": 2.64,
         "spy_return_20d_pct": -0.78,
@@ -314,7 +427,7 @@
         "trend_score": 43.0,
         "risk_score": 57.0,
         "return_6m_pct": -13.427489848005603,
-        "relative_strength_6m_pct": -25.921626473730985,
+        "relative_strength_6m_pct": -25.92163642430251,
         "evaluation_date": "2026-03-03",
         "stock_return_20d_pct": 5.82,
         "spy_return_20d_pct": -2.17,
@@ -330,7 +443,7 @@
         "trend_score": 0,
         "risk_score": 14.9,
         "return_6m_pct": -14.766354690379824,
-        "relative_strength_6m_pct": -24.30057148394328,
+        "relative_strength_6m_pct": -24.3005830444624,
         "evaluation_date": "2026-03-10",
         "stock_return_20d_pct": 17.98,
         "spy_return_20d_pct": -2.42,
@@ -361,8 +474,8 @@
         "previous_action": "WATCH",
         "trend_score": 0,
         "risk_score": 11.9,
-        "return_6m_pct": -3.6644204165499517,
-        "relative_strength_6m_pct": -10.397993065636113,
+        "return_6m_pct": -3.6644307872087056,
+        "relative_strength_6m_pct": -10.398003436294868,
         "evaluation_date": "2026-03-17",
         "stock_return_20d_pct": 0.25,
         "spy_return_20d_pct": -1.77,
@@ -394,7 +507,7 @@
         "trend_score": 73.0,
         "risk_score": 13.0,
         "return_6m_pct": -0.2785511070278579,
-        "relative_strength_6m_pct": -5.2465470558797245,
+        "relative_strength_6m_pct": -5.246567072871899,
         "evaluation_date": "2026-04-08",
         "stock_return_20d_pct": 3.9,
         "spy_return_20d_pct": 0.1,
@@ -409,8 +522,8 @@
         "previous_action": "HOLD",
         "trend_score": 100,
         "risk_score": 38.8,
-        "return_6m_pct": 74.27721917426129,
-        "relative_strength_6m_pct": 69.30922322540943,
+        "return_6m_pct": 74.27720572735585,
+        "relative_strength_6m_pct": 69.3091897615118,
         "evaluation_date": "2026-04-08",
         "stock_return_20d_pct": 2.72,
         "spy_return_20d_pct": 0.1,
@@ -458,7 +571,7 @@
         "trend_score": 0,
         "risk_score": 63.9,
         "return_6m_pct": -11.659862565861756,
-        "relative_strength_6m_pct": -10.169117999396404,
+        "relative_strength_6m_pct": -10.16912711311928,
         "evaluation_date": "2026-04-22",
         "stock_return_20d_pct": -1.95,
         "spy_return_20d_pct": 8.88,
@@ -474,7 +587,7 @@
         "trend_score": 57.0,
         "risk_score": 61.1,
         "return_6m_pct": 14.51777427308707,
-        "relative_strength_6m_pct": 16.008518839552423,
+        "relative_strength_6m_pct": 16.008509725829548,
         "evaluation_date": "2026-04-22",
         "stock_return_20d_pct": 16.78,
         "spy_return_20d_pct": 8.88,
@@ -490,7 +603,7 @@
         "trend_score": 10.0,
         "risk_score": 12.3,
         "return_6m_pct": -14.3614403565131,
-        "relative_strength_6m_pct": -12.909397572535298,
+        "relative_strength_6m_pct": -12.90937911613147,
         "evaluation_date": "2026-04-29",
         "stock_return_20d_pct": 37.38,
         "spy_return_20d_pct": 9.42,
@@ -506,7 +619,7 @@
         "trend_score": 73.0,
         "risk_score": 12.3,
         "return_6m_pct": -2.9632058031981656,
-        "relative_strength_6m_pct": -4.191484515440525,
+        "relative_strength_6m_pct": -4.19147521667912,
         "evaluation_date": "2026-05-06",
         "stock_return_20d_pct": 1.37,
         "spy_return_20d_pct": 8.55,
@@ -521,8 +634,8 @@
         "previous_action": "WATCH",
         "trend_score": 100,
         "risk_score": 47.1,
-        "return_6m_pct": 29.787007301736203,
-        "relative_strength_6m_pct": 28.558728589493846,
+        "return_6m_pct": 29.787027792355246,
+        "relative_strength_6m_pct": 28.558758378874295,
         "evaluation_date": "2026-05-06",
         "stock_return_20d_pct": 5.91,
         "spy_return_20d_pct": 8.55,
@@ -538,7 +651,7 @@
         "trend_score": 100,
         "risk_score": 46.3,
         "return_6m_pct": 25.31002049751454,
-        "relative_strength_6m_pct": 24.08174178527218,
+        "relative_strength_6m_pct": 24.081751084033584,
         "evaluation_date": "2026-05-06",
         "stock_return_20d_pct": 25.54,
         "spy_return_20d_pct": 8.55,
@@ -585,8 +698,8 @@
         "previous_action": "WATCH",
         "trend_score": 0,
         "risk_score": 48.3,
-        "return_6m_pct": -8.759960583579074,
-        "relative_strength_6m_pct": -15.30840176898306,
+        "return_6m_pct": -8.75996789502802,
+        "relative_strength_6m_pct": -15.308409080432005,
         "evaluation_date": "2026-05-20",
         "stock_return_20d_pct": -1.62,
         "spy_return_20d_pct": 4.22,
@@ -617,8 +730,8 @@
         "previous_action": "REDUCE",
         "trend_score": 0,
         "risk_score": 48.1,
-        "return_6m_pct": -7.373006471529142,
-        "relative_strength_6m_pct": -11.808207612416899,
+        "return_6m_pct": -7.373014037709935,
+        "relative_strength_6m_pct": -11.808215178597692,
         "evaluation_date": "2026-05-28",
         "stock_return_20d_pct": -0.24,
         "spy_return_20d_pct": 6.05,
@@ -634,7 +747,7 @@
         "trend_score": 100,
         "risk_score": 39.9,
         "return_6m_pct": 39.263820264117165,
-        "relative_strength_6m_pct": 31.263634643285453,
+        "relative_strength_6m_pct": 31.26364439381195,
         "evaluation_date": "2026-06-04",
         "stock_return_20d_pct": -6.55,
         "spy_return_20d_pct": 3.17,
@@ -649,8 +762,8 @@
         "previous_action": "WATCH",
         "trend_score": 0,
         "risk_score": 45.8,
-        "return_6m_pct": -11.298428769662838,
-        "relative_strength_6m_pct": -20.851257534563082,
+        "return_6m_pct": -11.298429709656354,
+        "relative_strength_6m_pct": -20.851248556275625,
         "evaluation_date": "2026-06-11",
         "stock_return_20d_pct": 11.51,
         "spy_return_20d_pct": -0.61,
@@ -666,7 +779,7 @@
         "trend_score": 100,
         "risk_score": 45.5,
         "return_6m_pct": 13.466358654295462,
-        "relative_strength_6m_pct": 3.9135298893952175,
+        "relative_strength_6m_pct": 3.913539807676191,
         "evaluation_date": "2026-06-11",
         "stock_return_20d_pct": -9.18,
         "spy_return_20d_pct": -0.61,
@@ -681,8 +794,8 @@
         "previous_action": "REDUCE",
         "trend_score": 0,
         "risk_score": 44.2,
-        "return_6m_pct": -6.279301963054252,
-        "relative_strength_6m_pct": -18.26732449666152,
+        "return_6m_pct": -6.279309804719557,
+        "relative_strength_6m_pct": -18.267332338326824,
         "evaluation_date": "2026-06-18",
         "stock_return_20d_pct": -0.3,
         "spy_return_20d_pct": 1.0,
@@ -713,8 +826,8 @@
         "previous_action": "WATCH",
         "trend_score": 100,
         "risk_score": 46.1,
-        "return_6m_pct": 17.37798328345763,
-        "relative_strength_6m_pct": 3.894711687129824,
+        "return_6m_pct": 17.377993118225433,
+        "relative_strength_6m_pct": 3.894721521897626,
         "evaluation_date": "2026-06-26",
         "stock_return_20d_pct": -10.03,
         "spy_return_20d_pct": -3.14,
@@ -746,7 +859,7 @@
         "trend_score": 90.0,
         "risk_score": 10.0,
         "return_6m_pct": 13.290734660742398,
-        "relative_strength_6m_pct": 4.6644722844622954,
+        "relative_strength_6m_pct": 4.6644624731035265,
         "evaluation_date": "2026-07-13",
         "stock_return_20d_pct": 32.54,
         "spy_return_20d_pct": 1.81,
@@ -761,8 +874,8 @@
         "previous_action": "HOLD",
         "trend_score": 57.0,
         "risk_score": 47.3,
-        "return_6m_pct": 30.66725686183249,
-        "relative_strength_6m_pct": 19.758449984554826,
+        "return_6m_pct": 30.667268053665396,
+        "relative_strength_6m_pct": 19.75846117638773,
         "evaluation_date": "2026-07-20",
         "stock_return_20d_pct": -5.58,
         "spy_return_20d_pct": -0.62,
@@ -777,8 +890,8 @@
         "previous_action": "WATCH",
         "trend_score": 0,
         "risk_score": 42.6,
-        "return_6m_pct": -8.480658845217981,
-        "relative_strength_6m_pct": -19.389465722495647,
+        "return_6m_pct": -8.48065134528202,
+        "relative_strength_6m_pct": -19.389458222559686,
         "evaluation_date": "2026-07-20",
         "stock_return_20d_pct": 18.12,
         "spy_return_20d_pct": -0.62,
@@ -1104,92 +1217,92 @@
     {
       "date": "2022-11-04",
       "strategy_value": 99250.36,
-      "spy_value": 97773.55
+      "spy_value": 97773.59
     },
     {
       "date": "2022-11-16",
       "strategy_value": 99005.01,
-      "spy_value": 102735.63
+      "spy_value": 102735.64
     },
     {
       "date": "2022-11-29",
       "strategy_value": 99093.52,
-      "spy_value": 102678.47
+      "spy_value": 102678.5
     },
     {
       "date": "2022-12-09",
-      "strategy_value": 99574.73,
-      "spy_value": 102171.84
+      "strategy_value": 99574.74,
+      "spy_value": 102171.89
     },
     {
       "date": "2022-12-21",
       "strategy_value": 98436.7,
-      "spy_value": 100801.08
+      "spy_value": 100801.11
     },
     {
       "date": "2023-01-04",
-      "strategy_value": 97084.68,
-      "spy_value": 100156.44
+      "strategy_value": 97084.67,
+      "spy_value": 100156.48
     },
     {
       "date": "2023-01-17",
-      "strategy_value": 99507.79,
-      "spy_value": 103812.87
+      "strategy_value": 99507.8,
+      "spy_value": 103812.91
     },
     {
       "date": "2023-01-27",
-      "strategy_value": 100886.32,
-      "spy_value": 105877.27
+      "strategy_value": 100886.31,
+      "spy_value": 105877.3
     },
     {
       "date": "2023-02-08",
       "strategy_value": 103349.69,
-      "spy_value": 107174.37
+      "spy_value": 107174.4
     },
     {
       "date": "2023-02-21",
       "strategy_value": 100955.8,
-      "spy_value": 104157.36
+      "spy_value": 104157.39
     },
     {
       "date": "2023-03-03",
       "strategy_value": 102671.34,
-      "spy_value": 105488.41
+      "spy_value": 105488.43
     },
     {
       "date": "2023-03-15",
-      "strategy_value": 100089.61,
-      "spy_value": 101597.07
+      "strategy_value": 100089.6,
+      "spy_value": 101597.12
     },
     {
       "date": "2023-03-27",
       "strategy_value": 102968.35,
-      "spy_value": 103873.74
+      "spy_value": 103873.76
     },
     {
       "date": "2023-04-06",
       "strategy_value": 103744.5,
-      "spy_value": 107200.93
+      "spy_value": 107200.92
     },
     {
       "date": "2023-04-19",
       "strategy_value": 103305.38,
-      "spy_value": 108497.74
+      "spy_value": 108497.76
     },
     {
       "date": "2023-05-01",
       "strategy_value": 104643.28,
-      "spy_value": 108856.66
+      "spy_value": 108856.68
     },
     {
       "date": "2023-05-11",
       "strategy_value": 105042.57,
-      "spy_value": 107971.14
+      "spy_value": 107971.17
     },
     {
       "date": "2023-05-23",
       "strategy_value": 107684.27,
-      "spy_value": 108484.64
+      "spy_value": 108484.66
     },
     {
       "date": "2023-06-05",
@@ -1199,537 +1312,537 @@
     {
       "date": "2023-06-15",
       "strategy_value": 117511.55,
-      "spy_value": 115953.78
+      "spy_value": 115953.81
     },
     {
       "date": "2023-06-28",
-      "strategy_value": 115331.89,
-      "spy_value": 114751.54
+      "strategy_value": 115331.9,
+      "spy_value": 114751.56
     },
     {
       "date": "2023-07-11",
       "strategy_value": 116740.99,
-      "spy_value": 116347.67
+      "spy_value": 116347.73
     },
     {
       "date": "2023-07-21",
       "strategy_value": 119620.06,
-      "spy_value": 118903.62
+      "spy_value": 118903.64
     },
     {
       "date": "2023-08-02",
-      "strategy_value": 123275.66,
-      "spy_value": 118364.56
+      "strategy_value": 123275.65,
+      "spy_value": 118364.59
     },
     {
       "date": "2023-08-14",
       "strategy_value": 123545.89,
-      "spy_value": 117833.38
+      "spy_value": 117833.41
     },
     {
       "date": "2023-08-24",
-      "strategy_value": 122601.43,
-      "spy_value": 114883.04
+      "strategy_value": 122601.42,
+      "spy_value": 114883.05
     },
     {
       "date": "2023-09-06",
-      "strategy_value": 126508.7,
-      "spy_value": 117336.41
+      "strategy_value": 126508.69,
+      "spy_value": 117336.43
     },
     {
       "date": "2023-09-18",
       "strategy_value": 124320.45,
-      "spy_value": 117066.83
+      "spy_value": 117066.86
     },
     {
       "date": "2023-09-28",
       "strategy_value": 122872.8,
-      "spy_value": 113079.54
+      "spy_value": 113079.57
     },
     {
       "date": "2023-10-10",
-      "strategy_value": 126528.5,
-      "spy_value": 114668.12
+      "strategy_value": 126528.49,
+      "spy_value": 114668.15
     },
     {
       "date": "2023-10-20",
       "strategy_value": 122743.94,
-      "spy_value": 111145.28
+      "spy_value": 111145.3
     },
     {
       "date": "2023-11-01",
       "strategy_value": 125756.28,
-      "spy_value": 111533.18
+      "spy_value": 111533.2
     },
     {
       "date": "2023-11-13",
-      "strategy_value": 130591.87,
-      "spy_value": 116159.08
+      "strategy_value": 130591.88,
+      "spy_value": 116159.1
     },
     {
       "date": "2023-11-24",
-      "strategy_value": 132815.27,
-      "spy_value": 120146.35
+      "strategy_value": 132815.28,
+      "spy_value": 120146.38
     },
     {
       "date": "2023-12-06",
       "strategy_value": 130795.89,
-      "spy_value": 120003.86
+      "spy_value": 120003.89
     },
     {
       "date": "2023-12-18",
-      "strategy_value": 137082.29,
-      "spy_value": 125050.25
+      "strategy_value": 137082.3,
+      "spy_value": 125050.29
     },
     {
       "date": "2023-12-29",
-      "strategy_value": 139211.63,
-      "spy_value": 125935.19
+      "strategy_value": 139211.64,
+      "spy_value": 125935.25
     },
     {
       "date": "2024-01-11",
-      "strategy_value": 140691.26,
-      "spy_value": 126210.75
+      "strategy_value": 140691.27,
+      "spy_value": 126210.78
     },
     {
       "date": "2024-01-24",
       "strategy_value": 146970.34,
-      "spy_value": 128605.94
+      "spy_value": 128605.98
     },
     {
       "date": "2024-02-05",
-      "strategy_value": 150983.56,
-      "spy_value": 130503.01
+      "strategy_value": 150983.57,
+      "spy_value": 130503.04
     },
     {
       "date": "2024-02-15",
       "strategy_value": 152797.63,
-      "spy_value": 133009.48
+      "spy_value": 133009.51
     },
     {
       "date": "2024-02-28",
       "strategy_value": 154341.41,
-      "spy_value": 134135.54
+      "spy_value": 134135.55
     },
     {
       "date": "2024-03-11",
-      "strategy_value": 157814.97,
-      "spy_value": 135465.59
+      "strategy_value": 157814.98,
+      "spy_value": 135465.63
     },
     {
       "date": "2024-03-21",
       "strategy_value": 164249.78,
-      "spy_value": 138788.76
+      "spy_value": 138788.8
     },
     {
       "date": "2024-04-03",
       "strategy_value": 165175.21,
-      "spy_value": 138047.24
+      "spy_value": 138047.3
     },
     {
       "date": "2024-04-15",
       "strategy_value": 158908.42,
-      "spy_value": 134071.24
+      "spy_value": 134071.27
     },
     {
       "date": "2024-04-25",
-      "strategy_value": 158759.74,
-      "spy_value": 133816.09
+      "strategy_value": 158759.75,
+      "spy_value": 133816.11
     },
     {
       "date": "2024-05-07",
-      "strategy_value": 162873.72,
-      "spy_value": 137443.91
+      "strategy_value": 162873.73,
+      "spy_value": 137443.97
     },
     {
       "date": "2024-05-17",
       "strategy_value": 184861.89,
-      "spy_value": 140715.64
+      "spy_value": 140715.69
     },
     {
       "date": "2024-05-30",
-      "strategy_value": 185413.19,
-      "spy_value": 138897.75
+      "strategy_value": 185413.2,
+      "spy_value": 138897.77
     },
     {
       "date": "2024-06-11",
       "strategy_value": 186463.27,
-      "spy_value": 142708.96
+      "spy_value": 142709.02
     },
     {
       "date": "2024-06-24",
-      "strategy_value": 185368.08,
-      "spy_value": 144713.19
+      "strategy_value": 185368.09,
+      "spy_value": 144713.24
     },
     {
       "date": "2024-07-05",
       "strategy_value": 193012.66,
-      "spy_value": 147886.16
+      "spy_value": 147886.19
     },
     {
       "date": "2024-07-17",
       "strategy_value": 188475.89,
-      "spy_value": 148499.39
+      "spy_value": 148499.45
     },
     {
       "date": "2024-07-29",
       "strategy_value": 187729.58,
-      "spy_value": 145251.79
+      "spy_value": 145251.81
     },
     {
       "date": "2024-08-08",
       "strategy_value": 182709.01,
-      "spy_value": 141489.59
+      "spy_value": 141489.62
     },
     {
       "date": "2024-08-20",
       "strategy_value": 192243.49,
-      "spy_value": 148968.7
+      "spy_value": 148968.72
     },
     {
       "date": "2024-08-30",
       "strategy_value": 193257.93,
-      "spy_value": 150296.52
+      "spy_value": 150296.56
     },
     {
       "date": "2024-09-12",
-      "strategy_value": 190156.27,
-      "spy_value": 149072.68
+      "strategy_value": 190156.28,
+      "spy_value": 149072.71
     },
     {
       "date": "2024-09-24",
       "strategy_value": 194650.89,
-      "spy_value": 152795.53
+      "spy_value": 152795.54
     },
     {
       "date": "2024-10-04",
-      "strategy_value": 198227.78,
-      "spy_value": 153244.83
+      "strategy_value": 198227.79,
+      "spy_value": 153244.87
     },
     {
       "date": "2024-10-16",
-      "strategy_value": 200336.33,
-      "spy_value": 155737.48
+      "strategy_value": 200336.34,
+      "spy_value": 155737.5
     },
     {
       "date": "2024-10-28",
-      "strategy_value": 199917.49,
-      "spy_value": 155344.33
+      "strategy_value": 199917.5,
+      "spy_value": 155344.38
     },
     {
       "date": "2024-11-07",
-      "strategy_value": 210561.48,
-      "spy_value": 159297.28
+      "strategy_value": 210561.49,
+      "spy_value": 159297.34
     },
     {
       "date": "2024-11-19",
-      "strategy_value": 211646.94,
-      "spy_value": 157877.07
+      "strategy_value": 211646.95,
+      "spy_value": 157877.13
     },
     {
       "date": "2024-12-02",
-      "strategy_value": 218051.91,
-      "spy_value": 161442.24
+      "strategy_value": 218051.92,
+      "spy_value": 161442.28
     },
     {
       "date": "2024-12-12",
-      "strategy_value": 212383.49,
-      "spy_value": 161629.45
+      "strategy_value": 212383.5,
+      "spy_value": 161629.5
     },
     {
       "date": "2024-12-24",
-      "strategy_value": 213299.22,
-      "spy_value": 161360.34
+      "strategy_value": 213299.23,
+      "spy_value": 161360.36
     },
     {
       "date": "2025-01-07",
       "strategy_value": 214123.38,
-      "spy_value": 157960.31
+      "spy_value": 157960.35
     },
     {
       "date": "2025-01-21",
-      "strategy_value": 219346.13,
-      "spy_value": 161829.95
+      "strategy_value": 219346.14,
+      "spy_value": 161829.97
     },
     {
       "date": "2025-01-31",
       "strategy_value": 215609.64,
-      "spy_value": 161499.87
+      "spy_value": 161499.91
     },
     {
       "date": "2025-02-12",
-      "strategy_value": 217576.75,
-      "spy_value": 161913.13
+      "strategy_value": 217576.76,
+      "spy_value": 161913.19
     },
     {
       "date": "2025-02-25",
       "strategy_value": 204003.37,
-      "spy_value": 159465.74
+      "spy_value": 159465.8
     },
     {
       "date": "2025-03-07",
       "strategy_value": 192216.54,
-      "spy_value": 154549.54
+      "spy_value": 154549.58
     },
     {
       "date": "2025-03-19",
       "strategy_value": 192989.39,
-      "spy_value": 152190.73
+      "spy_value": 152190.77
     },
     {
       "date": "2025-03-31",
       "strategy_value": 191807.04,
-      "spy_value": 150565.27
+      "spy_value": 150565.32
     },
     {
       "date": "2025-04-10",
-      "strategy_value": 190096.72,
-      "spy_value": 141195.82
+      "strategy_value": 190096.71,
+      "spy_value": 141195.84
     },
     {
       "date": "2025-04-23",
-      "strategy_value": 185598.94,
+      "strategy_value": 185598.93,
       "spy_value": 144113.52
     },
     {
       "date": "2025-05-05",
-      "strategy_value": 186036.78,
-      "spy_value": 151674.21
+      "strategy_value": 186036.77,
+      "spy_value": 151674.23
     },
     {
       "date": "2025-05-15",
-      "strategy_value": 187586.54,
-      "spy_value": 158928.08
+      "strategy_value": 187586.53,
+      "spy_value": 158928.1
     },
     {
       "date": "2025-05-28",
-      "strategy_value": 187844.66,
-      "spy_value": 158193.23
+      "strategy_value": 187844.65,
+      "spy_value": 158193.27
     },
     {
       "date": "2025-06-09",
-      "strategy_value": 189586.08,
-      "spy_value": 161409.69
+      "strategy_value": 189586.07,
+      "spy_value": 161409.75
     },
     {
       "date": "2025-06-20",
-      "strategy_value": 189122.08,
-      "spy_value": 160429.12
+      "strategy_value": 189122.07,
+      "spy_value": 160429.18
     },
     {
       "date": "2025-07-02",
-      "strategy_value": 192532.45,
-      "spy_value": 167493.86
+      "strategy_value": 192532.44,
+      "spy_value": 167493.92
     },
     {
       "date": "2025-07-15",
-      "strategy_value": 197253.93,
-      "spy_value": 167950.07
+      "strategy_value": 197253.92,
+      "spy_value": 167950.15
     },
     {
       "date": "2025-07-25",
-      "strategy_value": 202556.16,
-      "spy_value": 171988.59
+      "strategy_value": 202556.14,
+      "spy_value": 171988.65
     },
     {
       "date": "2025-08-06",
-      "strategy_value": 205160.66,
-      "spy_value": 170822.41
+      "strategy_value": 205160.65,
+      "spy_value": 170822.44
     },
     {
       "date": "2025-08-18",
-      "strategy_value": 205654.79,
-      "spy_value": 173662.35
+      "strategy_value": 205654.77,
+      "spy_value": 173662.38
     },
     {
       "date": "2025-08-28",
-      "strategy_value": 211969.19,
-      "spy_value": 175179.46
+      "strategy_value": 211969.18,
+      "spy_value": 175179.52
     },
     {
       "date": "2025-09-10",
-      "strategy_value": 214963.65,
-      "spy_value": 176067.65
+      "strategy_value": 214963.64,
+      "spy_value": 176067.66
     },
     {
       "date": "2025-09-22",
-      "strategy_value": 222144.05,
-      "spy_value": 180516.19
+      "strategy_value": 222144.03,
+      "spy_value": 180516.21
     },
     {
       "date": "2025-10-02",
-      "strategy_value": 224208.09,
-      "spy_value": 181160.42
+      "strategy_value": 224208.08,
+      "spy_value": 181160.46
     },
     {
       "date": "2025-10-14",
-      "strategy_value": 225425.53,
-      "spy_value": 179268.23
+      "strategy_value": 225425.52,
+      "spy_value": 179268.27
     },
     {
       "date": "2025-10-24",
-      "strategy_value": 234982.55,
-      "spy_value": 183334.2
+      "strategy_value": 234982.54,
+      "spy_value": 183334.24
     },
     {
       "date": "2025-11-05",
-      "strategy_value": 235133.33,
-      "spy_value": 183423.53
+      "strategy_value": 235133.32,
+      "spy_value": 183423.59
     },
     {
       "date": "2025-11-17",
-      "strategy_value": 225158.53,
-      "spy_value": 180199.44
+      "strategy_value": 225158.52,
+      "spy_value": 180199.49
     },
     {
       "date": "2025-11-28",
-      "strategy_value": 229666.42,
-      "spy_value": 184996.32
+      "strategy_value": 229666.41,
+      "spy_value": 184996.36
     },
     {
       "date": "2025-12-10",
-      "strategy_value": 231942.34,
-      "spy_value": 186127.87
+      "strategy_value": 231942.33,
+      "spy_value": 186127.9
     },
     {
       "date": "2025-12-22",
-      "strategy_value": 227135.23,
-      "spy_value": 185933.95
+      "strategy_value": 227135.22,
+      "spy_value": 185933.98
     },
     {
       "date": "2026-01-05",
       "strategy_value": 233055.79,
-      "spy_value": 186718.58
+      "spy_value": 186718.62
     },
     {
       "date": "2026-01-15",
-      "strategy_value": 237978.39,
-      "spy_value": 187945.76
+      "strategy_value": 237978.38,
+      "spy_value": 187945.81
     },
     {
       "date": "2026-01-28",
-      "strategy_value": 245449.6,
-      "spy_value": 188809.16
+      "strategy_value": 245449.59,
+      "spy_value": 188809.2
     },
     {
       "date": "2026-02-09",
-      "strategy_value": 237642.75,
-      "spy_value": 188410.06
+      "strategy_value": 237642.74,
+      "spy_value": 188410.09
     },
     {
       "date": "2026-02-20",
-      "strategy_value": 242359.25,
-      "spy_value": 187182.84
+      "strategy_value": 242359.24,
+      "spy_value": 187182.9
     },
     {
       "date": "2026-03-04",
       "strategy_value": 240478.75,
-      "spy_value": 186015.39
+      "spy_value": 186015.44
     },
     {
       "date": "2026-03-16",
-      "strategy_value": 242634.99,
-      "spy_value": 181644.17
+      "strategy_value": 242634.98,
+      "spy_value": 181644.21
     },
     {
       "date": "2026-03-26",
       "strategy_value": 235811.94,
-      "spy_value": 175622.71
+      "spy_value": 175622.74
     },
     {
       "date": "2026-04-08",
-      "strategy_value": 244367.56,
-      "spy_value": 184040.52
+      "strategy_value": 244367.55,
+      "spy_value": 184040.57
     },
     {
       "date": "2026-04-20",
-      "strategy_value": 260846.91,
-      "spy_value": 192945.64
+      "strategy_value": 260846.9,
+      "spy_value": 192945.69
     },
     {
       "date": "2026-04-30",
-      "strategy_value": 272568.9,
-      "spy_value": 195651.77
+      "strategy_value": 272568.89,
+      "spy_value": 195651.82
     },
     {
       "date": "2026-05-12",
       "strategy_value": 284063.58,
-      "spy_value": 200966.0
+      "spy_value": 200966.05
     },
     {
       "date": "2026-05-22",
-      "strategy_value": 289038.71,
-      "spy_value": 202996.96
+      "strategy_value": 289038.7,
+      "spy_value": 202997.01
     },
     {
       "date": "2026-06-04",
-      "strategy_value": 299541.95,
-      "spy_value": 206114.16
+      "strategy_value": 299541.94,
+      "spy_value": 206114.21
     },
     {
       "date": "2026-06-16",
-      "strategy_value": 295660.51,
-      "spy_value": 204273.79
+      "strategy_value": 295660.5,
+      "spy_value": 204273.85
     },
     {
       "date": "2026-06-29",
-      "strategy_value": 298621.41,
-      "spy_value": 202253.44
+      "strategy_value": 298621.4,
+      "spy_value": 202253.49
     },
     {
       "date": "2026-07-10",
-      "strategy_value": 303773.32,
-      "spy_value": 206061.05
+      "strategy_value": 303773.31,
+      "spy_value": 206061.11
     },
     {
       "date": "2026-07-22",
-      "strategy_value": 301593.26,
-      "spy_value": 204003.03
+      "strategy_value": 301593.25,
+      "spy_value": 204003.08
     },
     {
       "date": "2026-08-03",
-      "strategy_value": 297874.37,
-      "spy_value": 206803.47
+      "strategy_value": 297874.36,
+      "spy_value": 206803.52
     },
     {
       "date": "2026-08-13",
-      "strategy_value": 312025.02,
-      "spy_value": 212319.73
+      "strategy_value": 312025.01,
+      "spy_value": 212319.78
     },
     {
       "date": "2026-08-25",
-      "strategy_value": 301674.19,
-      "spy_value": 209052.54
+      "strategy_value": 301674.18,
+      "spy_value": 209052.59
     },
     {
       "date": "2026-09-04",
-      "strategy_value": 303068.21,
-      "spy_value": 210220.77
+      "strategy_value": 303068.2,
+      "spy_value": 210220.82
     },
     {
       "date": "2026-09-17",
-      "strategy_value": 295450.0,
-      "spy_value": 208149.09
+      "strategy_value": 295449.99,
+      "spy_value": 208149.15
     },
     {
       "date": "2026-09-29",
-      "strategy_value": 302327.48,
-      "spy_value": 209103.77
+      "strategy_value": 302327.47,
+      "spy_value": 209103.83
     },
     {
       "date": "2026-10-09",
-      "strategy_value": 306189.46,
-      "spy_value": 213035.75
+      "strategy_value": 306189.45,
+      "spy_value": 213035.81
     },
     {
       "date": "2026-10-21",
-      "strategy_value": 296587.14,
-      "spy_value": 211536.3
+      "strategy_value": 296587.13,
+      "spy_value": 211536.35
     },
     {
       "date": "2026-10-23",
-      "strategy_value": 289740.81,
-      "spy_value": 207946.33
+      "strategy_value": 289740.8,
+      "spy_value": 207946.38
     }
   ],
   "limitations": [
