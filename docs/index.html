@@ -2813,6 +2813,7 @@ Existing-position actions are strategic. Tactical 15-minute evidence only answer
 <th>P&L</th>
 <th>P&L %</th>
 <th>Strategic Action</th>
+<th>Operational Status</th>
 <th>Conviction</th>
 <th>Strategic Score</th>
 <th>Strategic Trend</th>
@@ -2828,7 +2829,7 @@ Existing-position actions are strategic. Tactical 15-minute evidence only answer
 <tbody id="portfolio-table">
 
 <tr>
-<td colspan="15" class="loading">
+<td colspan="16" class="loading">
 Loading portfolio...
 </td>
 </tr>
@@ -9345,7 +9346,7 @@ portfolioTable.innerHTML = `
 
 <tr>
 
-<td colspan="15">
+<td colspan="16">
 
 No portfolio data available.
 
@@ -9394,6 +9395,22 @@ item.tactical_timing
 || {};
 
 
+const thesisReview =
+item.thesis_confirmation
+|| {};
+
+
+const thesisContradictedSell =
+[
+"REDUCE",
+"EXIT"
+].includes(
+item.portfolio_action
+)
+&&
+thesisReview.review_status === "CONTRADICTED";
+
+
 const pnl =
 position.unrealized_pnl
 ?? 0;
@@ -9440,6 +9457,15 @@ ${item.portfolio_action || "-"}
 
 </span>
 
+</td>
+
+<td>
+${thesisContradictedSell
+?
+'<span class="badge watch">MANUAL REVIEW</span><br><small>Thesis CONTRADICTED — base signal retained</small>'
+:
+'<span class="positive">NORMAL REVIEW</span>'
+}
 </td>
 
 <td>
