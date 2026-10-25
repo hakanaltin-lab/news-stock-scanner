@@ -44,6 +44,8 @@ jobs:
           python -m py_compile scripts/run_simple_factor_challenger.py
 
       - name: Run pre-registered holdout test
+        env:
+          PYTHONPATH: .
         run: |
           python scripts/run_simple_factor_challenger.py
 
