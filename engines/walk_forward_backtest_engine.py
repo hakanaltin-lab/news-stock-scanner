@@ -52,7 +52,7 @@ ENGINE_VERSION = (
     "V8.0 Historical Replay & Walk-Forward Backtest Engine"
 )
 
-BACKTEST_SIGNATURE = "V8.4.2"
+BACKTEST_SIGNATURE = "V8.4.3"
 
 OUTPUT_FILE = "docs/walk_forward_backtest.json"
 
@@ -3452,6 +3452,96 @@ def run_walk_forward_backtest(
             )
         }
 
+    # V8.4.3: descriptive exposure attribution (not causal proof).
+    # Risk matching is fitted on the entire evaluation sample, so these
+    # figures are in-sample diagnostics and never authorize live trading.
+    vol_control = risk_scaled_comparison.get(
+        "volatility_matched_equal_weight", {}
+    )
+    dd_control = risk_scaled_comparison.get(
+        "drawdown_matched_equal_weight", {}
+    )
+    vol_perf = vol_control.get("performance", {}) or {}
+    dd_perf = dd_control.get("performance", {}) or {}
+
+    required = (
+        "cagr_pct", "sharpe_ratio", "max_drawdown_pct",
+        "annualized_volatility_pct"
+    )
+    valid = all(
+        isinstance(block.get(field), (int, float))
+        and math.isfinite(float(block[field]))
+        for block in (strategy_metrics, control_metrics, vol_perf, dd_perf)
+        for field in required
+    )
+    if valid:
+        vol_cagr_delta = round(
+            strategy_metrics["cagr_pct"] - vol_perf["cagr_pct"], 2
+        )
+        vol_sharpe_delta = round(
+            strategy_metrics["sharpe_ratio"] - vol_perf["sharpe_ratio"], 3
+        )
+        vol_dd_advantage = round(
+            vol_perf["max_drawdown_pct"] -
+            strategy_metrics["max_drawdown_pct"], 2
+        )
+        dd_cagr_advantage = round(
+            strategy_metrics["cagr_pct"] - dd_perf["cagr_pct"], 2
+        )
+        raw_dd_reduction = (
+            control_metrics["max_drawdown_pct"] -
+            strategy_metrics["max_drawdown_pct"]
+        )
+        exposure_dd_reduction = (
+            control_metrics["max_drawdown_pct"] -
+            vol_perf["max_drawdown_pct"]
+        )
+        cash_explained_share = (
+            round(exposure_dd_reduction / raw_dd_reduction * 100, 2)
+            if raw_dd_reduction > 0 else None
+        )
+        if vol_cagr_delta > 0 and vol_sharpe_delta > 0:
+            verdict = "RISK_ADJUSTED_OUTPERFORMANCE_CANDIDATE"
+        elif vol_dd_advantage > 0 and dd_cagr_advantage > 0:
+            verdict = "DRAWDOWN_PATH_ADVANTAGE_NO_VOL_ALPHA"
+        elif vol_dd_advantage > 0:
+            verdict = "DRAWDOWN_ADVANTAGE_WITH_RETURN_TRADEOFF"
+        else:
+            verdict = "EXPOSURE_DOMINATED_NO_PROVEN_ALPHA"
+
+        exposure_attribution = {
+            "version": "V8.4.3",
+            "status": "COMPLETE",
+            "verdict": verdict,
+            "vol_matched_cagr_advantage_pct": vol_cagr_delta,
+            "vol_matched_sharpe_advantage": vol_sharpe_delta,
+            "vol_matched_drawdown_advantage_pct": vol_dd_advantage,
+            "dd_matched_cagr_advantage_pct": dd_cagr_advantage,
+            "drawdown_reduction_from_full_ew_pct_points":
+                round(raw_dd_reduction, 2),
+            "drawdown_reduction_by_vol_scaled_control_pct_points":
+                round(exposure_dd_reduction, 2),
+            "exposure_proxy_share_of_drawdown_reduction_pct":
+                cash_explained_share,
+            "exposure_proxy_note":
+                "Descriptive proxy only; drawdown is nonlinear and this "
+                "ratio is not a causal decomposition.",
+            "calibration_gate": "RESEARCH_ONLY",
+            "live_execution_authorized": False,
+            "methodology_note":
+                "Full-sample volatility/drawdown-matched cash allocations "
+                "use contemporaneous strategy risk. They are hindsight-fit "
+                "diagnostics, not independent out-of-sample benchmarks."
+        }
+    else:
+        exposure_attribution = {
+            "version": "V8.4.3",
+            "status": "INSUFFICIENT_DATA",
+            "verdict": "UNDETERMINED",
+            "calibration_gate": "RESEARCH_ONLY",
+            "live_execution_authorized": False
+        }
+
     result = {
         "engine":
         ENGINE_VERSION,
@@ -3565,6 +3655,9 @@ def run_walk_forward_backtest(
 
         "risk_scaled_equal_weight_controls":
         risk_scaled_comparison,
+
+        "exposure_attribution_verdict":
+        exposure_attribution,
 
         "overlay_alpha_vs_equal_weight_control":
         overlay_alpha_vs_control,
