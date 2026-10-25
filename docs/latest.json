@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-24T20:57:55.291930",
-  "scanner_version": "V7.2",
+  "generated": "2026-10-25T06:32:43.791939",
+  "scanner_version": "V7.3",
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-10-24T20:57:44.159976",
+      "timestamp": "2026-10-25T06:32:32.021144",
       "holding": {
         "shares": "10",
         "avg_cost": "140.16",
@@ -14,7 +14,7 @@
       },
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-24T20:57:43.487776",
+        "timestamp": "2026-10-25T06:32:31.319957",
         "last_price": 516.87,
         "vwap": 532.04,
         "momentum": -34.9,
@@ -139,7 +139,7 @@
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-10-24T20:57:44.655654",
+      "timestamp": "2026-10-25T06:32:32.650928",
       "holding": {
         "shares": "35",
         "avg_cost": "147.95",
@@ -149,7 +149,7 @@
       },
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-24T20:57:44.271667",
+        "timestamp": "2026-10-25T06:32:32.246408",
         "last_price": 172.34,
         "vwap": 178.27,
         "momentum": -8.57,
@@ -274,7 +274,7 @@
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-10-24T20:57:45.031211",
+      "timestamp": "2026-10-25T06:32:33.015272",
       "holding": {
         "shares": "3",
         "avg_cost": "676.38",
@@ -284,7 +284,7 @@
       },
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-24T20:57:44.794195",
+        "timestamp": "2026-10-25T06:32:32.789374",
         "last_price": 1571.19,
         "vwap": 1622.44,
         "momentum": -89.9,
@@ -401,7 +401,7 @@
     },
     {
       "ticker": "BKR",
-      "timestamp": "2026-10-24T20:57:45.605425",
+      "timestamp": "2026-10-25T06:32:33.684020",
       "holding": {
         "shares": "13",
         "avg_cost": "57.80",
@@ -411,7 +411,7 @@
       },
       "market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-24T20:57:45.166604",
+        "timestamp": "2026-10-25T06:32:33.157586",
         "last_price": 55.86,
         "vwap": 54.98,
         "momentum": 0.22,
@@ -550,7 +550,7 @@
     },
     {
       "ticker": "CCLD",
-      "timestamp": "2026-10-24T20:57:46.184952",
+      "timestamp": "2026-10-25T06:32:34.398793",
       "holding": {
         "shares": "490",
         "avg_cost": "2.04",
@@ -560,7 +560,7 @@
       },
       "market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-24T20:57:45.723223",
+        "timestamp": "2026-10-25T06:32:33.835398",
         "last_price": 1.76,
         "vwap": 1.78,
         "momentum": -0.07,
@@ -676,7 +676,7 @@
     },
     {
       "ticker": "CTAS",
-      "timestamp": "2026-10-24T20:57:46.921133",
+      "timestamp": "2026-10-25T06:32:35.001317",
       "holding": {
         "shares": "4",
         "avg_cost": "196.26",
@@ -686,7 +686,7 @@
       },
       "market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-24T20:57:46.415625",
+        "timestamp": "2026-10-25T06:32:34.545448",
         "last_price": 224.13,
         "vwap": 219.88,
         "momentum": 12.31,
@@ -805,7 +805,7 @@
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-10-24T20:57:47.450341",
+      "timestamp": "2026-10-25T06:32:35.473020",
       "holding": {
         "shares": "20",
         "avg_cost": "207.68",
@@ -815,7 +815,7 @@
       },
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-24T20:57:47.039135",
+        "timestamp": "2026-10-25T06:32:35.120580",
         "last_price": 317.24,
         "vwap": 328.95,
         "momentum": -22.36,
@@ -940,7 +940,7 @@
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-10-24T20:57:47.802824",
+      "timestamp": "2026-10-25T06:32:35.975022",
       "holding": {
         "shares": "44",
         "avg_cost": "171.81",
@@ -950,7 +950,7 @@
       },
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-24T20:57:47.568148",
+        "timestamp": "2026-10-25T06:32:35.588278",
         "last_price": 158.74,
         "vwap": 166.34,
         "momentum": -12.81,
@@ -1075,7 +1075,7 @@
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-10-24T20:57:48.215400",
+      "timestamp": "2026-10-25T06:32:36.568095",
       "holding": {
         "shares": "24",
         "avg_cost": "160.96",
@@ -1085,7 +1085,7 @@
       },
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-24T20:57:47.939403",
+        "timestamp": "2026-10-25T06:32:36.101014",
         "last_price": 211.0,
         "vwap": 216.27,
         "momentum": -4.51,
@@ -1209,7 +1209,7 @@
     },
     {
       "ticker": "OMDA",
-      "timestamp": "2026-10-24T20:57:48.677493",
+      "timestamp": "2026-10-25T06:32:37.033038",
       "holding": {
         "shares": "10",
         "avg_cost": "20.45",
@@ -1219,7 +1219,7 @@
       },
       "market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-24T20:57:48.394804",
+        "timestamp": "2026-10-25T06:32:36.679915",
         "last_price": 18.95,
         "vwap": 19.09,
         "momentum": 1.01,
@@ -1337,7 +1337,7 @@
     },
     {
       "ticker": "UNH",
-      "timestamp": "2026-10-24T20:57:49.123898",
+      "timestamp": "2026-10-25T06:32:37.490779",
       "holding": {
         "shares": "2",
         "avg_cost": "369.93",
@@ -1347,7 +1347,7 @@
       },
       "market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-24T20:57:48.876742",
+        "timestamp": "2026-10-25T06:32:37.170147",
         "last_price": 418.01,
         "vwap": 417.33,
         "momentum": 13.92,
@@ -1465,7 +1465,7 @@
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-10-24T20:57:49.696386",
+      "timestamp": "2026-10-25T06:32:38.010280",
       "holding": {
         "shares": "11",
         "avg_cost": "316.20",
@@ -1475,7 +1475,7 @@
       },
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-24T20:57:49.455163",
+        "timestamp": "2026-10-25T06:32:37.608617",
         "last_price": 194.31,
         "vwap": 202.31,
         "momentum": -15.58,
@@ -2153,8 +2153,153 @@
     "deep_analyzed": 8,
     "actionable_count": 2,
     "watch_count": 6,
-    "safety_blocked_count": 2,
+    "safety_blocked_count": 1,
     "top_actionable": [
+      {
+        "ticker": "ADBE",
+        "sector": "Technology",
+        "industry": "Software",
+        "fast_scan": {
+          "opportunity_score": 78.8,
+          "opportunity_signal": "HIGH_POTENTIAL",
+          "return_5d_pct": 7.59,
+          "return_20d_pct": 12.04,
+          "return_60d_pct": 6.42,
+          "relative_strength_20d": 13.52,
+          "volume_ratio": 0.92,
+          "overextension_pct": 8.09
+        },
+        "market": {
+          "ticker": "ADBE",
+          "timestamp": "2026-10-25T06:32:42.875247",
+          "last_price": 263.83,
+          "vwap": 259.75,
+          "momentum": 19.01,
+          "momentum_pct": 7.76,
+          "vwap_distance_pct": 1.57,
+          "volume": 16400335,
+          "volume_ratio": 0.71,
+          "data_points": 130,
+          "data_quality": "LIVE"
+        },
+        "market_signal": "BULLISH",
+        "scores": {
+          "market_score": 72.7,
+          "news_score": 65,
+          "catalyst_score": 63,
+          "sector_score": 87.0,
+          "risk_score": 85.5,
+          "alpha_score": 75.62
+        },
+        "news": {
+          "ticker": "ADBE",
+          "news_score": 65,
+          "events": [
+            "ai",
+            "partnership"
+          ],
+          "article_count": 10,
+          "data_quality": "LIVE"
+        },
+        "catalyst": {
+          "ticker": "ADBE",
+          "catalyst_score": 63,
+          "catalyst_signal": "NEUTRAL",
+          "catalysts": [
+            {
+              "type": "POSITIVE",
+              "catalyst": "partnership",
+              "impact": 7
+            },
+            {
+              "type": "POSITIVE",
+              "catalyst": "ai",
+              "impact": 6
+            }
+          ],
+          "article_count": 10,
+          "data_quality": "LIVE"
+        },
+        "sector_analysis": {
+          "ticker": "ADBE",
+          "sector": "Technology",
+          "industry": "Software - Application",
+          "sector_etf": "IGV",
+          "sector_score": 87.0,
+          "sector_signal": "STRONG",
+          "metrics": {
+            "sector_momentum_20d": 4.32,
+            "sector_momentum_5d": 5.99,
+            "market_momentum_20d": -1.48,
+            "relative_strength": 5.8,
+            "volatility_pct": 2.11,
+            "trend_above_sma20": true
+          },
+          "data_quality": "LIVE"
+        },
+        "risk": {
+          "ticker": "ADBE",
+          "risk_score": 85.5,
+          "risk_signal": "LOW_RISK",
+          "volatility_pct": 0.44,
+          "max_drawdown_pct": 3.09,
+          "trend_pct": 7.76,
+          "average_dollar_volume": 32769319.17,
+          "components": {
+            "volatility_score": 88.9,
+            "drawdown_score": 75.3,
+            "liquidity_score": 90,
+            "downside_momentum_score": 100
+          },
+          "data_quality": "LIVE"
+        },
+        "rating": "STRONG",
+        "action": "BUY",
+        "base_decision": {
+          "action": "BUY",
+          "confidence": 74.6,
+          "entry_zone": {
+            "low": 258.55,
+            "high": 266.47
+          },
+          "stop_loss": 245.36,
+          "target_price": 311.32,
+          "risk_reward": 2.57,
+          "setup_quality": "HIGH_CONVICTION",
+          "reasons": [
+            "Strong alpha score",
+            "Strong technical confirmation",
+            "Positive catalyst confirmation",
+            "Acceptable risk profile"
+          ]
+        },
+        "decision": {
+          "action": "BUY",
+          "confidence": 74.6,
+          "entry_zone": {
+            "low": 258.55,
+            "high": 266.47
+          },
+          "stop_loss": 245.36,
+          "target_price": 311.32,
+          "risk_reward": 2.57,
+          "setup_quality": "HIGH_CONVICTION",
+          "reasons": [
+            "Strong alpha score",
+            "Strong technical confirmation",
+            "Positive catalyst confirmation",
+            "Acceptable risk profile"
+          ],
+          "safety_gate": {
+            "triggered": false,
+            "original_action": "BUY",
+            "final_action": "BUY",
+            "reasons": []
+          }
+        },
+        "status": "ANALYZED",
+        "data_quality": "LIVE"
+      },
       {
         "ticker": "COP",
         "sector": "Energy",
@@ -2171,7 +2316,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-24T20:57:53.117566",
+          "timestamp": "2026-10-25T06:32:41.366511",
           "last_price": 150.81,
           "vwap": 147.0,
           "momentum": 4.55,
@@ -2293,145 +2438,6 @@
         },
         "status": "ANALYZED",
         "data_quality": "LIVE"
-      },
-      {
-        "ticker": "ADBE",
-        "sector": "Technology",
-        "industry": "Software",
-        "fast_scan": {
-          "opportunity_score": 78.8,
-          "opportunity_signal": "HIGH_POTENTIAL",
-          "return_5d_pct": 7.59,
-          "return_20d_pct": 12.04,
-          "return_60d_pct": 6.42,
-          "relative_strength_20d": 13.52,
-          "volume_ratio": 0.92,
-          "overextension_pct": 8.09
-        },
-        "market": {
-          "ticker": "ADBE",
-          "timestamp": "2026-10-24T20:57:54.381859",
-          "last_price": 263.83,
-          "vwap": 259.75,
-          "momentum": 19.01,
-          "momentum_pct": 7.76,
-          "vwap_distance_pct": 1.57,
-          "volume": 16400335,
-          "volume_ratio": 0.71,
-          "data_points": 130,
-          "data_quality": "LIVE"
-        },
-        "market_signal": "BULLISH",
-        "scores": {
-          "market_score": 72.7,
-          "news_score": 57,
-          "catalyst_score": 57,
-          "sector_score": 87.0,
-          "risk_score": 85.5,
-          "alpha_score": 74.12
-        },
-        "news": {
-          "ticker": "ADBE",
-          "news_score": 57,
-          "events": [
-            "partnership"
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "catalyst": {
-          "ticker": "ADBE",
-          "catalyst_score": 57,
-          "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "POSITIVE",
-              "catalyst": "partnership",
-              "impact": 7
-            }
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "sector_analysis": {
-          "ticker": "ADBE",
-          "sector": "Technology",
-          "industry": "Software - Application",
-          "sector_etf": "IGV",
-          "sector_score": 87.0,
-          "sector_signal": "STRONG",
-          "metrics": {
-            "sector_momentum_20d": 4.32,
-            "sector_momentum_5d": 5.99,
-            "market_momentum_20d": -1.48,
-            "relative_strength": 5.8,
-            "volatility_pct": 2.11,
-            "trend_above_sma20": true
-          },
-          "data_quality": "LIVE"
-        },
-        "risk": {
-          "ticker": "ADBE",
-          "risk_score": 85.5,
-          "risk_signal": "LOW_RISK",
-          "volatility_pct": 0.44,
-          "max_drawdown_pct": 3.09,
-          "trend_pct": 7.76,
-          "average_dollar_volume": 32769319.17,
-          "components": {
-            "volatility_score": 88.9,
-            "drawdown_score": 75.3,
-            "liquidity_score": 90,
-            "downside_momentum_score": 100
-          },
-          "data_quality": "LIVE"
-        },
-        "rating": "STRONG",
-        "action": "ACCUMULATE",
-        "base_decision": {
-          "action": "ACCUMULATE",
-          "confidence": 73.0,
-          "entry_zone": {
-            "low": 253.28,
-            "high": 263.83
-          },
-          "stop_loss": 240.09,
-          "target_price": 303.4,
-          "risk_reward": 1.67,
-          "setup_quality": "POSITIVE",
-          "reasons": [
-            "Positive alpha score",
-            "Technical confirmation present",
-            "Catalyst confirmation present",
-            "Risk profile acceptable"
-          ]
-        },
-        "decision": {
-          "action": "ACCUMULATE",
-          "confidence": 73.0,
-          "entry_zone": {
-            "low": 253.28,
-            "high": 263.83
-          },
-          "stop_loss": 240.09,
-          "target_price": 303.4,
-          "risk_reward": 1.67,
-          "setup_quality": "POSITIVE",
-          "reasons": [
-            "Positive alpha score",
-            "Technical confirmation present",
-            "Catalyst confirmation present",
-            "Risk profile acceptable"
-          ],
-          "safety_gate": {
-            "triggered": false,
-            "original_action": "ACCUMULATE",
-            "final_action": "ACCUMULATE",
-            "reasons": []
-          }
-        },
-        "status": "ANALYZED",
-        "data_quality": "LIVE"
       }
     ],
     "watchlist": [
@@ -2451,7 +2457,7 @@
         },
         "market": {
           "ticker": "NOW",
-          "timestamp": "2026-10-24T20:57:52.127147",
+          "timestamp": "2026-10-25T06:32:40.347250",
           "last_price": 158.99,
           "vwap": 152.64,
           "momentum": 16.73,
@@ -2465,33 +2471,25 @@
         "market_signal": "BULLISH",
         "scores": {
           "market_score": 87.1,
-          "news_score": 58,
-          "catalyst_score": 56,
+          "news_score": 50,
+          "catalyst_score": 50,
           "sector_score": 87.0,
           "risk_score": 91.0,
-          "alpha_score": 80.28
+          "alpha_score": 78.78
         },
         "news": {
           "ticker": "NOW",
-          "news_score": 58,
-          "events": [
-            "ai"
-          ],
-          "article_count": 3,
+          "news_score": 50,
+          "events": [],
+          "article_count": 1,
           "data_quality": "LIVE"
         },
         "catalyst": {
           "ticker": "NOW",
-          "catalyst_score": 56,
+          "catalyst_score": 50,
           "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "POSITIVE",
-              "catalyst": "ai",
-              "impact": 6
-            }
-          ],
-          "article_count": 3,
+          "catalysts": [],
+          "article_count": 1,
           "data_quality": "LIVE"
         },
         "sector_analysis": {
@@ -2527,45 +2525,37 @@
           },
           "data_quality": "LIVE"
         },
-        "rating": "EXCEPTIONAL",
+        "rating": "STRONG",
         "action": "WATCH",
         "base_decision": {
-          "action": "ACCUMULATE",
-          "confidence": 79.6,
-          "entry_zone": {
-            "low": 152.63,
-            "high": 158.99
-          },
-          "stop_loss": 144.68,
-          "target_price": 182.84,
-          "risk_reward": 1.67,
-          "setup_quality": "POSITIVE",
-          "reasons": [
-            "Positive alpha score",
-            "Technical confirmation present",
-            "Catalyst confirmation present",
-            "Risk profile acceptable"
-          ]
-        },
-        "decision": {
           "action": "WATCH",
-          "confidence": 79.6,
+          "confidence": 78.0,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
           "risk_reward": null,
-          "setup_quality": "WAIT_FOR_PULLBACK",
+          "setup_quality": "DEVELOPING",
           "reasons": [
-            "Price is overextended versus SMA20",
-            "New entry blocked by V6.8 Safety Gate"
+            "Setup has potential",
+            "Further confirmation required"
+          ]
+        },
+        "decision": {
+          "action": "WATCH",
+          "confidence": 78.0,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
+          "reasons": [
+            "Setup has potential",
+            "Further confirmation required"
           ],
           "safety_gate": {
-            "triggered": true,
-            "original_action": "ACCUMULATE",
-            "final_action": "WATCH",
-            "reasons": [
-              "Price is overextended versus SMA20"
-            ]
+            "triggered": false,
+            "original_action": "WATCH",
+            "reasons": []
           }
         },
         "status": "ANALYZED",
@@ -2587,7 +2577,7 @@
         },
         "market": {
           "ticker": "CVX",
-          "timestamp": "2026-10-24T20:57:53.710550",
+          "timestamp": "2026-10-25T06:32:42.086058",
           "last_price": 233.2,
           "vwap": 226.84,
           "momentum": 8.38,
@@ -2707,7 +2697,7 @@
         },
         "market": {
           "ticker": "ISRG",
-          "timestamp": "2026-10-24T20:57:53.415868",
+          "timestamp": "2026-10-25T06:32:41.778042",
           "last_price": 452.29,
           "vwap": 436.53,
           "momentum": 25.56,
@@ -2827,7 +2817,7 @@
         },
         "market": {
           "ticker": "XOM",
-          "timestamp": "2026-10-24T20:57:54.077406",
+          "timestamp": "2026-10-25T06:32:42.586215",
           "last_price": 183.21,
           "vwap": 178.61,
           "momentum": 4.2,
@@ -2947,7 +2937,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-24T20:57:52.659028",
+          "timestamp": "2026-10-25T06:32:40.896197",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
@@ -3091,7 +3081,7 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-10-24T20:57:54.759979",
+          "timestamp": "2026-10-25T06:32:43.264559",
           "last_price": 407.94,
           "vwap": 408.1,
           "momentum": 6.03,
@@ -3206,142 +3196,6 @@
     ],
     "safety_blocked": [
       {
-        "ticker": "NOW",
-        "sector": "Technology",
-        "industry": "Software",
-        "fast_scan": {
-          "opportunity_score": 87.9,
-          "opportunity_signal": "HIGH_POTENTIAL",
-          "return_5d_pct": 11.97,
-          "return_20d_pct": 17.21,
-          "return_60d_pct": 44.42,
-          "relative_strength_20d": 18.69,
-          "volume_ratio": 1.15,
-          "overextension_pct": 12.2
-        },
-        "market": {
-          "ticker": "NOW",
-          "timestamp": "2026-10-24T20:57:52.127147",
-          "last_price": 158.99,
-          "vwap": 152.64,
-          "momentum": 16.73,
-          "momentum_pct": 11.76,
-          "vwap_distance_pct": 4.16,
-          "volume": 54298696,
-          "volume_ratio": 0.92,
-          "data_points": 130,
-          "data_quality": "LIVE"
-        },
-        "market_signal": "BULLISH",
-        "scores": {
-          "market_score": 87.1,
-          "news_score": 58,
-          "catalyst_score": 56,
-          "sector_score": 87.0,
-          "risk_score": 91.0,
-          "alpha_score": 80.28
-        },
-        "news": {
-          "ticker": "NOW",
-          "news_score": 58,
-          "events": [
-            "ai"
-          ],
-          "article_count": 3,
-          "data_quality": "LIVE"
-        },
-        "catalyst": {
-          "ticker": "NOW",
-          "catalyst_score": 56,
-          "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "POSITIVE",
-              "catalyst": "ai",
-              "impact": 6
-            }
-          ],
-          "article_count": 3,
-          "data_quality": "LIVE"
-        },
-        "sector_analysis": {
-          "ticker": "NOW",
-          "sector": "Technology",
-          "industry": "Software - Application",
-          "sector_etf": "IGV",
-          "sector_score": 87.0,
-          "sector_signal": "STRONG",
-          "metrics": {
-            "sector_momentum_20d": 4.32,
-            "sector_momentum_5d": 5.99,
-            "market_momentum_20d": -1.48,
-            "relative_strength": 5.8,
-            "volatility_pct": 2.11,
-            "trend_above_sma20": true
-          },
-          "data_quality": "LIVE"
-        },
-        "risk": {
-          "ticker": "NOW",
-          "risk_score": 91.0,
-          "risk_signal": "LOW_RISK",
-          "volatility_pct": 0.45,
-          "max_drawdown_pct": 1.79,
-          "trend_pct": 11.76,
-          "average_dollar_volume": 63753641.8,
-          "components": {
-            "volatility_score": 88.7,
-            "drawdown_score": 85.7,
-            "liquidity_score": 100,
-            "downside_momentum_score": 100
-          },
-          "data_quality": "LIVE"
-        },
-        "rating": "EXCEPTIONAL",
-        "action": "WATCH",
-        "base_decision": {
-          "action": "ACCUMULATE",
-          "confidence": 79.6,
-          "entry_zone": {
-            "low": 152.63,
-            "high": 158.99
-          },
-          "stop_loss": 144.68,
-          "target_price": 182.84,
-          "risk_reward": 1.67,
-          "setup_quality": "POSITIVE",
-          "reasons": [
-            "Positive alpha score",
-            "Technical confirmation present",
-            "Catalyst confirmation present",
-            "Risk profile acceptable"
-          ]
-        },
-        "decision": {
-          "action": "WATCH",
-          "confidence": 79.6,
-          "entry_zone": null,
-          "stop_loss": null,
-          "target_price": null,
-          "risk_reward": null,
-          "setup_quality": "WAIT_FOR_PULLBACK",
-          "reasons": [
-            "Price is overextended versus SMA20",
-            "New entry blocked by V6.8 Safety Gate"
-          ],
-          "safety_gate": {
-            "triggered": true,
-            "original_action": "ACCUMULATE",
-            "final_action": "WATCH",
-            "reasons": [
-              "Price is overextended versus SMA20"
-            ]
-          }
-        },
-        "status": "ANALYZED",
-        "data_quality": "LIVE"
-      },
-      {
         "ticker": "LMT",
         "sector": "Industrials",
         "industry": "Aerospace & Defense",
@@ -3357,7 +3211,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-24T20:57:52.659028",
+          "timestamp": "2026-10-25T06:32:40.896197",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
@@ -3488,6 +3342,151 @@
     ],
     "all_analyzed": [
       {
+        "ticker": "ADBE",
+        "sector": "Technology",
+        "industry": "Software",
+        "fast_scan": {
+          "opportunity_score": 78.8,
+          "opportunity_signal": "HIGH_POTENTIAL",
+          "return_5d_pct": 7.59,
+          "return_20d_pct": 12.04,
+          "return_60d_pct": 6.42,
+          "relative_strength_20d": 13.52,
+          "volume_ratio": 0.92,
+          "overextension_pct": 8.09
+        },
+        "market": {
+          "ticker": "ADBE",
+          "timestamp": "2026-10-25T06:32:42.875247",
+          "last_price": 263.83,
+          "vwap": 259.75,
+          "momentum": 19.01,
+          "momentum_pct": 7.76,
+          "vwap_distance_pct": 1.57,
+          "volume": 16400335,
+          "volume_ratio": 0.71,
+          "data_points": 130,
+          "data_quality": "LIVE"
+        },
+        "market_signal": "BULLISH",
+        "scores": {
+          "market_score": 72.7,
+          "news_score": 65,
+          "catalyst_score": 63,
+          "sector_score": 87.0,
+          "risk_score": 85.5,
+          "alpha_score": 75.62
+        },
+        "news": {
+          "ticker": "ADBE",
+          "news_score": 65,
+          "events": [
+            "ai",
+            "partnership"
+          ],
+          "article_count": 10,
+          "data_quality": "LIVE"
+        },
+        "catalyst": {
+          "ticker": "ADBE",
+          "catalyst_score": 63,
+          "catalyst_signal": "NEUTRAL",
+          "catalysts": [
+            {
+              "type": "POSITIVE",
+              "catalyst": "partnership",
+              "impact": 7
+            },
+            {
+              "type": "POSITIVE",
+              "catalyst": "ai",
+              "impact": 6
+            }
+          ],
+          "article_count": 10,
+          "data_quality": "LIVE"
+        },
+        "sector_analysis": {
+          "ticker": "ADBE",
+          "sector": "Technology",
+          "industry": "Software - Application",
+          "sector_etf": "IGV",
+          "sector_score": 87.0,
+          "sector_signal": "STRONG",
+          "metrics": {
+            "sector_momentum_20d": 4.32,
+            "sector_momentum_5d": 5.99,
+            "market_momentum_20d": -1.48,
+            "relative_strength": 5.8,
+            "volatility_pct": 2.11,
+            "trend_above_sma20": true
+          },
+          "data_quality": "LIVE"
+        },
+        "risk": {
+          "ticker": "ADBE",
+          "risk_score": 85.5,
+          "risk_signal": "LOW_RISK",
+          "volatility_pct": 0.44,
+          "max_drawdown_pct": 3.09,
+          "trend_pct": 7.76,
+          "average_dollar_volume": 32769319.17,
+          "components": {
+            "volatility_score": 88.9,
+            "drawdown_score": 75.3,
+            "liquidity_score": 90,
+            "downside_momentum_score": 100
+          },
+          "data_quality": "LIVE"
+        },
+        "rating": "STRONG",
+        "action": "BUY",
+        "base_decision": {
+          "action": "BUY",
+          "confidence": 74.6,
+          "entry_zone": {
+            "low": 258.55,
+            "high": 266.47
+          },
+          "stop_loss": 245.36,
+          "target_price": 311.32,
+          "risk_reward": 2.57,
+          "setup_quality": "HIGH_CONVICTION",
+          "reasons": [
+            "Strong alpha score",
+            "Strong technical confirmation",
+            "Positive catalyst confirmation",
+            "Acceptable risk profile"
+          ]
+        },
+        "decision": {
+          "action": "BUY",
+          "confidence": 74.6,
+          "entry_zone": {
+            "low": 258.55,
+            "high": 266.47
+          },
+          "stop_loss": 245.36,
+          "target_price": 311.32,
+          "risk_reward": 2.57,
+          "setup_quality": "HIGH_CONVICTION",
+          "reasons": [
+            "Strong alpha score",
+            "Strong technical confirmation",
+            "Positive catalyst confirmation",
+            "Acceptable risk profile"
+          ],
+          "safety_gate": {
+            "triggered": false,
+            "original_action": "BUY",
+            "final_action": "BUY",
+            "reasons": []
+          }
+        },
+        "status": "ANALYZED",
+        "data_quality": "LIVE"
+      },
+      {
         "ticker": "COP",
         "sector": "Energy",
         "industry": "Oil & Gas",
@@ -3503,7 +3502,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-24T20:57:53.117566",
+          "timestamp": "2026-10-25T06:32:41.366511",
           "last_price": 150.81,
           "vwap": 147.0,
           "momentum": 4.55,
@@ -3627,145 +3626,6 @@
         "data_quality": "LIVE"
       },
       {
-        "ticker": "ADBE",
-        "sector": "Technology",
-        "industry": "Software",
-        "fast_scan": {
-          "opportunity_score": 78.8,
-          "opportunity_signal": "HIGH_POTENTIAL",
-          "return_5d_pct": 7.59,
-          "return_20d_pct": 12.04,
-          "return_60d_pct": 6.42,
-          "relative_strength_20d": 13.52,
-          "volume_ratio": 0.92,
-          "overextension_pct": 8.09
-        },
-        "market": {
-          "ticker": "ADBE",
-          "timestamp": "2026-10-24T20:57:54.381859",
-          "last_price": 263.83,
-          "vwap": 259.75,
-          "momentum": 19.01,
-          "momentum_pct": 7.76,
-          "vwap_distance_pct": 1.57,
-          "volume": 16400335,
-          "volume_ratio": 0.71,
-          "data_points": 130,
-          "data_quality": "LIVE"
-        },
-        "market_signal": "BULLISH",
-        "scores": {
-          "market_score": 72.7,
-          "news_score": 57,
-          "catalyst_score": 57,
-          "sector_score": 87.0,
-          "risk_score": 85.5,
-          "alpha_score": 74.12
-        },
-        "news": {
-          "ticker": "ADBE",
-          "news_score": 57,
-          "events": [
-            "partnership"
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "catalyst": {
-          "ticker": "ADBE",
-          "catalyst_score": 57,
-          "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "POSITIVE",
-              "catalyst": "partnership",
-              "impact": 7
-            }
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "sector_analysis": {
-          "ticker": "ADBE",
-          "sector": "Technology",
-          "industry": "Software - Application",
-          "sector_etf": "IGV",
-          "sector_score": 87.0,
-          "sector_signal": "STRONG",
-          "metrics": {
-            "sector_momentum_20d": 4.32,
-            "sector_momentum_5d": 5.99,
-            "market_momentum_20d": -1.48,
-            "relative_strength": 5.8,
-            "volatility_pct": 2.11,
-            "trend_above_sma20": true
-          },
-          "data_quality": "LIVE"
-        },
-        "risk": {
-          "ticker": "ADBE",
-          "risk_score": 85.5,
-          "risk_signal": "LOW_RISK",
-          "volatility_pct": 0.44,
-          "max_drawdown_pct": 3.09,
-          "trend_pct": 7.76,
-          "average_dollar_volume": 32769319.17,
-          "components": {
-            "volatility_score": 88.9,
-            "drawdown_score": 75.3,
-            "liquidity_score": 90,
-            "downside_momentum_score": 100
-          },
-          "data_quality": "LIVE"
-        },
-        "rating": "STRONG",
-        "action": "ACCUMULATE",
-        "base_decision": {
-          "action": "ACCUMULATE",
-          "confidence": 73.0,
-          "entry_zone": {
-            "low": 253.28,
-            "high": 263.83
-          },
-          "stop_loss": 240.09,
-          "target_price": 303.4,
-          "risk_reward": 1.67,
-          "setup_quality": "POSITIVE",
-          "reasons": [
-            "Positive alpha score",
-            "Technical confirmation present",
-            "Catalyst confirmation present",
-            "Risk profile acceptable"
-          ]
-        },
-        "decision": {
-          "action": "ACCUMULATE",
-          "confidence": 73.0,
-          "entry_zone": {
-            "low": 253.28,
-            "high": 263.83
-          },
-          "stop_loss": 240.09,
-          "target_price": 303.4,
-          "risk_reward": 1.67,
-          "setup_quality": "POSITIVE",
-          "reasons": [
-            "Positive alpha score",
-            "Technical confirmation present",
-            "Catalyst confirmation present",
-            "Risk profile acceptable"
-          ],
-          "safety_gate": {
-            "triggered": false,
-            "original_action": "ACCUMULATE",
-            "final_action": "ACCUMULATE",
-            "reasons": []
-          }
-        },
-        "status": "ANALYZED",
-        "data_quality": "LIVE"
-      },
-      {
         "ticker": "NOW",
         "sector": "Technology",
         "industry": "Software",
@@ -3781,7 +3641,7 @@
         },
         "market": {
           "ticker": "NOW",
-          "timestamp": "2026-10-24T20:57:52.127147",
+          "timestamp": "2026-10-25T06:32:40.347250",
           "last_price": 158.99,
           "vwap": 152.64,
           "momentum": 16.73,
@@ -3795,33 +3655,25 @@
         "market_signal": "BULLISH",
         "scores": {
           "market_score": 87.1,
-          "news_score": 58,
-          "catalyst_score": 56,
+          "news_score": 50,
+          "catalyst_score": 50,
           "sector_score": 87.0,
           "risk_score": 91.0,
-          "alpha_score": 80.28
+          "alpha_score": 78.78
         },
         "news": {
           "ticker": "NOW",
-          "news_score": 58,
-          "events": [
-            "ai"
-          ],
-          "article_count": 3,
+          "news_score": 50,
+          "events": [],
+          "article_count": 1,
           "data_quality": "LIVE"
         },
         "catalyst": {
           "ticker": "NOW",
-          "catalyst_score": 56,
+          "catalyst_score": 50,
           "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "POSITIVE",
-              "catalyst": "ai",
-              "impact": 6
-            }
-          ],
-          "article_count": 3,
+          "catalysts": [],
+          "article_count": 1,
           "data_quality": "LIVE"
         },
         "sector_analysis": {
@@ -3857,45 +3709,37 @@
           },
           "data_quality": "LIVE"
         },
-        "rating": "EXCEPTIONAL",
+        "rating": "STRONG",
         "action": "WATCH",
         "base_decision": {
-          "action": "ACCUMULATE",
-          "confidence": 79.6,
-          "entry_zone": {
-            "low": 152.63,
-            "high": 158.99
-          },
-          "stop_loss": 144.68,
-          "target_price": 182.84,
-          "risk_reward": 1.67,
-          "setup_quality": "POSITIVE",
-          "reasons": [
-            "Positive alpha score",
-            "Technical confirmation present",
-            "Catalyst confirmation present",
-            "Risk profile acceptable"
-          ]
-        },
-        "decision": {
           "action": "WATCH",
-          "confidence": 79.6,
+          "confidence": 78.0,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
           "risk_reward": null,
-          "setup_quality": "WAIT_FOR_PULLBACK",
+          "setup_quality": "DEVELOPING",
           "reasons": [
-            "Price is overextended versus SMA20",
-            "New entry blocked by V6.8 Safety Gate"
+            "Setup has potential",
+            "Further confirmation required"
+          ]
+        },
+        "decision": {
+          "action": "WATCH",
+          "confidence": 78.0,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
+          "reasons": [
+            "Setup has potential",
+            "Further confirmation required"
           ],
           "safety_gate": {
-            "triggered": true,
-            "original_action": "ACCUMULATE",
-            "final_action": "WATCH",
-            "reasons": [
-              "Price is overextended versus SMA20"
-            ]
+            "triggered": false,
+            "original_action": "WATCH",
+            "reasons": []
           }
         },
         "status": "ANALYZED",
@@ -3917,7 +3761,7 @@
         },
         "market": {
           "ticker": "CVX",
-          "timestamp": "2026-10-24T20:57:53.710550",
+          "timestamp": "2026-10-25T06:32:42.086058",
           "last_price": 233.2,
           "vwap": 226.84,
           "momentum": 8.38,
@@ -4037,7 +3881,7 @@
         },
         "market": {
           "ticker": "ISRG",
-          "timestamp": "2026-10-24T20:57:53.415868",
+          "timestamp": "2026-10-25T06:32:41.778042",
           "last_price": 452.29,
           "vwap": 436.53,
           "momentum": 25.56,
@@ -4157,7 +4001,7 @@
         },
         "market": {
           "ticker": "XOM",
-          "timestamp": "2026-10-24T20:57:54.077406",
+          "timestamp": "2026-10-25T06:32:42.586215",
           "last_price": 183.21,
           "vwap": 178.61,
           "momentum": 4.2,
@@ -4277,7 +4121,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-24T20:57:52.659028",
+          "timestamp": "2026-10-25T06:32:40.896197",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
@@ -4421,7 +4265,7 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-10-24T20:57:54.759979",
+          "timestamp": "2026-10-25T06:32:43.264559",
           "last_price": 407.94,
           "vwap": 408.1,
           "momentum": 6.03,
@@ -4543,13 +4387,36 @@
     "minimum_cash_reserve_pct": 20.0,
     "minimum_cash_reserve_value": 7991.11,
     "initial_deployable_cash": 5857.44,
-    "new_opportunity_allocation": 3543.51,
-    "projected_cash_after_allocations": 10305.04,
-    "projected_cash_weight_pct": 25.79,
+    "new_opportunity_allocation": 3807.34,
+    "projected_cash_after_allocations": 10041.21,
+    "projected_cash_weight_pct": 25.13,
     "reserve_target_weight_pct": 20.0,
     "cash_reserve_status": "PASS",
     "max_new_position_weight_pct": 5.0,
     "allocation_plan": [
+      {
+        "ticker": "ADBE",
+        "action": "BUY",
+        "sector": "Technology",
+        "price": 263.83,
+        "alpha_score": 75.62,
+        "confidence": 74.6,
+        "risk_score": 85.5,
+        "target_weight_pct": 5.0,
+        "target_value": 1997.78,
+        "suggested_shares": 7,
+        "allocated_value": 1846.81,
+        "projected_weight_pct": 4.62,
+        "allocation_status": "ALLOCATE",
+        "reason": "Actionable opportunity inside entry zone and within capital limits",
+        "entry_zone": {
+          "low": 258.55,
+          "high": 266.47
+        },
+        "stop_loss": 245.36,
+        "target_price": 311.32,
+        "risk_reward": 2.57
+      },
       {
         "ticker": "COP",
         "action": "BUY",
@@ -4572,31 +4439,260 @@
         "stop_loss": 140.25,
         "target_price": 177.96,
         "risk_reward": 2.57
-      },
-      {
-        "ticker": "ADBE",
-        "action": "ACCUMULATE",
-        "sector": "Technology",
-        "price": 263.83,
-        "alpha_score": 74.12,
-        "confidence": 73.0,
-        "risk_score": 85.5,
-        "target_weight_pct": 4.0,
-        "target_value": 1598.22,
-        "suggested_shares": 6,
-        "allocated_value": 1582.98,
-        "projected_weight_pct": 3.96,
-        "allocation_status": "ALLOCATE",
-        "reason": "Actionable opportunity inside entry zone and within capital limits",
-        "entry_zone": {
-          "low": 253.28,
-          "high": 263.83
-        },
-        "stop_loss": 240.09,
-        "target_price": 303.4,
-        "risk_reward": 1.67
       }
     ],
     "note": "Cash calculations use only cash generated by the rebalancing plan. Existing brokerage cash is not included."
+  },
+  "final_portfolio_projection": {
+    "engine": "V7.3 Final Portfolio Projection Engine",
+    "portfolio_value": 39955.56,
+    "final_projected_value": 39955.56,
+    "invested_value": 29914.35,
+    "invested_weight_pct": 74.87,
+    "cash_value": 10041.21,
+    "cash_weight_pct": 25.13,
+    "final_position_count": 12,
+    "new_position_count": 2,
+    "largest_position": {
+      "ticker": "ASML",
+      "weight_pct": 11.8,
+      "value": 4713.57
+    },
+    "total_weight_pct": 99.99,
+    "reconciliation_difference": -0.0,
+    "reconciliation_status": "PASS",
+    "final_theme_exposure": {
+      "AI Infrastructure": {
+        "value": 8098.78,
+        "weight_pct": 20.27
+      },
+      "AI": {
+        "value": 13268.69,
+        "weight_pct": 33.21
+      },
+      "Energy": {
+        "value": 3915.63,
+        "weight_pct": 9.8
+      },
+      "Special Situation": {
+        "value": 862.4,
+        "weight_pct": 2.16
+      },
+      "Industrial": {
+        "value": 896.52,
+        "weight_pct": 2.24
+      },
+      "Healthcare": {
+        "value": 1025.52,
+        "weight_pct": 2.57
+      },
+      "Technology": {
+        "value": 1846.81,
+        "weight_pct": 4.62
+      },
+      "Cash": {
+        "value": 10041.21,
+        "weight_pct": 25.13
+      }
+    },
+    "concentration_alerts": [],
+    "final_positions": [
+      {
+        "ticker": "CASH",
+        "source": "CASH",
+        "sector": "Cash",
+        "theme": "Cash",
+        "current_shares": 0,
+        "final_shares": 0,
+        "price": 1.0,
+        "current_value": 0.0,
+        "final_value": 10041.21,
+        "value_change": 10041.21,
+        "final_weight_pct": 25.13,
+        "portfolio_action": "RESERVE",
+        "trade_action": "HOLD_CASH"
+      },
+      {
+        "ticker": "ASML",
+        "source": "EXISTING",
+        "sector": "Technology",
+        "theme": "AI",
+        "current_shares": 3.0,
+        "final_shares": 3.0,
+        "price": 1571.19,
+        "current_value": 4713.57,
+        "final_value": 4713.57,
+        "value_change": 0.0,
+        "final_weight_pct": 11.8,
+        "portfolio_action": "REDUCE",
+        "trade_action": "MANUAL_REVIEW"
+      },
+      {
+        "ticker": "NVDA",
+        "source": "EXISTING",
+        "sector": "Technology",
+        "theme": "AI",
+        "current_shares": 24.0,
+        "final_shares": 21.0,
+        "price": 211.0,
+        "current_value": 5064.0,
+        "final_value": 4431.0,
+        "value_change": -633.0,
+        "final_weight_pct": 11.09,
+        "portfolio_action": "REDUCE",
+        "trade_action": "SELL_PARTIAL"
+      },
+      {
+        "ticker": "AMD",
+        "source": "EXISTING",
+        "sector": "Technology",
+        "theme": "AI Infrastructure",
+        "current_shares": 10.0,
+        "final_shares": 8.0,
+        "price": 516.87,
+        "current_value": 5168.7,
+        "final_value": 4134.96,
+        "value_change": -1033.74,
+        "final_weight_pct": 10.35,
+        "portfolio_action": "REDUCE",
+        "trade_action": "SELL_PARTIAL"
+      },
+      {
+        "ticker": "GOOG",
+        "source": "EXISTING",
+        "sector": "Communication Services",
+        "theme": "AI",
+        "current_shares": 20.0,
+        "final_shares": 13.0,
+        "price": 317.24,
+        "current_value": 6344.8,
+        "final_value": 4124.12,
+        "value_change": -2220.68,
+        "final_weight_pct": 10.32,
+        "portfolio_action": "REDUCE",
+        "trade_action": "SELL_PARTIAL"
+      },
+      {
+        "ticker": "ANET",
+        "source": "EXISTING",
+        "sector": "Technology",
+        "theme": "AI Infrastructure",
+        "current_shares": 35.0,
+        "final_shares": 23.0,
+        "price": 172.34,
+        "current_value": 6031.9,
+        "final_value": 3963.82,
+        "value_change": -2068.08,
+        "final_weight_pct": 9.92,
+        "portfolio_action": "REDUCE",
+        "trade_action": "SELL_PARTIAL"
+      },
+      {
+        "ticker": "COP",
+        "source": "NEW_ALLOCATION",
+        "sector": "Energy",
+        "theme": "Energy",
+        "current_shares": 0,
+        "final_shares": 13.0,
+        "price": 150.81,
+        "current_value": 0.0,
+        "final_value": 1960.53,
+        "value_change": 1960.53,
+        "final_weight_pct": 4.91,
+        "portfolio_action": "BUY",
+        "trade_action": "NEW_POSITION"
+      },
+      {
+        "ticker": "BKR",
+        "source": "EXISTING",
+        "sector": "Energy",
+        "theme": "Energy",
+        "current_shares": 13.0,
+        "final_shares": 35.0,
+        "price": 55.86,
+        "current_value": 726.18,
+        "final_value": 1955.1,
+        "value_change": 1228.92,
+        "final_weight_pct": 4.89,
+        "portfolio_action": "ADD",
+        "trade_action": "BUY_TO_TARGET"
+      },
+      {
+        "ticker": "ADBE",
+        "source": "NEW_ALLOCATION",
+        "sector": "Technology",
+        "theme": "Technology",
+        "current_shares": 0,
+        "final_shares": 7.0,
+        "price": 263.83,
+        "current_value": 0.0,
+        "final_value": 1846.81,
+        "value_change": 1846.81,
+        "final_weight_pct": 4.62,
+        "portfolio_action": "BUY",
+        "trade_action": "NEW_POSITION"
+      },
+      {
+        "ticker": "CTAS",
+        "source": "EXISTING",
+        "sector": "Industrials",
+        "theme": "Industrial",
+        "current_shares": 4.0,
+        "final_shares": 4.0,
+        "price": 224.13,
+        "current_value": 896.52,
+        "final_value": 896.52,
+        "value_change": 0.0,
+        "final_weight_pct": 2.24,
+        "portfolio_action": "HOLD",
+        "trade_action": "NO_TRADE"
+      },
+      {
+        "ticker": "CCLD",
+        "source": "EXISTING",
+        "sector": "Healthcare",
+        "theme": "Special Situation",
+        "current_shares": 490.0,
+        "final_shares": 490.0,
+        "price": 1.76,
+        "current_value": 862.4,
+        "final_value": 862.4,
+        "value_change": 0.0,
+        "final_weight_pct": 2.16,
+        "portfolio_action": "WATCH",
+        "trade_action": "NO_TRADE"
+      },
+      {
+        "ticker": "UNH",
+        "source": "EXISTING",
+        "sector": "Healthcare",
+        "theme": "Healthcare",
+        "current_shares": 2.0,
+        "final_shares": 2.0,
+        "price": 418.01,
+        "current_value": 836.02,
+        "final_value": 836.02,
+        "value_change": 0.0,
+        "final_weight_pct": 2.09,
+        "portfolio_action": "HOLD",
+        "trade_action": "NO_TRADE"
+      },
+      {
+        "ticker": "OMDA",
+        "source": "EXISTING",
+        "sector": "Healthcare",
+        "theme": "Healthcare",
+        "current_shares": 10.0,
+        "final_shares": 10.0,
+        "price": 18.95,
+        "current_value": 189.5,
+        "final_value": 189.5,
+        "value_change": 0.0,
+        "final_weight_pct": 0.47,
+        "portfolio_action": "HOLD",
+        "trade_action": "NO_TRADE"
+      }
+    ],
+    "note": "Projection combines modeled V7.1 rebalancing, V7.2 new allocations and cash generated by those modeled trades. Existing brokerage cash is not included."
   }
 }
