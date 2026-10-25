@@ -48,7 +48,7 @@ ENGINE_VERSION = (
     "V8.6 Point-in-Time Neutral Universe Validation"
 )
 
-VALIDATION_SIGNATURE = "V8.6.1"
+VALIDATION_SIGNATURE = "V8.6.2"
 
 OUTPUT_FILE = (
     "docs/pit_universe_validation.json"
@@ -95,6 +95,9 @@ TRADING_FRICTION_BPS = 10.0
 BATCH_SIZE = 60
 
 REQUEST_TIMEOUT_SECONDS = 30
+
+
+_STATE_CACHE = {}
 
 
 def normalize_symbol(
@@ -572,7 +575,29 @@ def eligible_state(
     decision_date,
     close_frame
 ):
+    cache_key = (
+        ticker,
+        str(
+            decision_date.date()
+            if hasattr(
+                decision_date,
+                "date"
+            )
+            else
+            decision_date
+        )
+    )
+
+    if cache_key in _STATE_CACHE:
+        return _STATE_CACHE[
+            cache_key
+        ]
+
     if ticker not in close_frame.columns:
+        _STATE_CACHE[
+            cache_key
+        ] = None
+
         return None
 
     history = close_frame[
@@ -629,7 +654,7 @@ def eligible_state(
         0.10
     )
 
-    return {
+    result = {
         **state,
 
         "neutralized_strategic_composite":
@@ -643,6 +668,12 @@ def eligible_state(
             state
         )
     }
+
+    _STATE_CACHE[
+        cache_key
+    ] = result
+
+    return result
 
 
 def score_point_in_time_universe(
@@ -685,6 +716,695 @@ def score_point_in_time_universe(
     )
 
     return rows
+
+
+def forward_trading_date(
+    trading_index,
+    execution_date,
+    sessions
+):
+    dates = list(
+        trading_index
+    )
+
+    try:
+        position = dates.index(
+            execution_date
+        )
+    except ValueError:
+        return None
+
+    target = (
+        position
+        +
+        sessions
+    )
+
+    if target >= len(
+        dates
+    ):
+        return None
+
+    return dates[
+        target
+    ]
+
+
+def monthly_feature_diagnostic(
+    scored_rows,
+    close_frame,
+    benchmark_ticker,
+    execution_date,
+    future_date,
+    feature
+):
+    benchmark_entry = exact_price(
+        close_frame,
+        benchmark_ticker,
+        execution_date
+    )
+
+    benchmark_future = exact_price(
+        close_frame,
+        benchmark_ticker,
+        future_date
+    )
+
+    if (
+        benchmark_entry is None
+        or
+        benchmark_future is None
+    ):
+        return None
+
+    benchmark_return = (
+        benchmark_future
+        /
+        benchmark_entry
+        -
+        1
+    ) * 100
+
+    observations = []
+
+    for row in scored_rows:
+        ticker = row.get(
+            "ticker"
+        )
+
+        feature_value = safe_float(
+            row.get(
+                feature
+            ),
+            None
+        )
+
+        if (
+            not ticker
+            or
+            feature_value is None
+        ):
+            continue
+
+        entry_price = exact_price(
+            close_frame,
+            ticker,
+            execution_date
+        )
+
+        future_price = exact_price(
+            close_frame,
+            ticker,
+            future_date
+        )
+
+        if (
+            entry_price is None
+            or
+            future_price is None
+        ):
+            continue
+
+        stock_return = (
+            future_price
+            /
+            entry_price
+            -
+            1
+        ) * 100
+
+        observations.append({
+            "ticker":
+            ticker,
+
+            "feature":
+            feature_value,
+
+            "excess_return":
+            stock_return
+            -
+            benchmark_return
+        })
+
+    if len(
+        observations
+    ) < 25:
+        return None
+
+    observations.sort(
+        key=lambda item:
+        item[
+            "feature"
+        ]
+    )
+
+    quintiles = {
+        1:
+        [],
+
+        2:
+        [],
+
+        3:
+        [],
+
+        4:
+        [],
+
+        5:
+        []
+    }
+
+    count = len(
+        observations
+    )
+
+    for index, item in enumerate(
+        observations
+    ):
+        quintile = min(
+            5,
+            int(
+                index
+                *
+                5
+                /
+                count
+            )
+            +
+            1
+        )
+
+        quintiles[
+            quintile
+        ].append(
+            item[
+                "excess_return"
+            ]
+        )
+
+    feature_series = pd.Series(
+        [
+            item[
+                "feature"
+            ]
+            for item in observations
+        ]
+    )
+
+    return_series = pd.Series(
+        [
+            item[
+                "excess_return"
+            ]
+            for item in observations
+        ]
+    )
+
+    spearman = safe_float(
+        feature_series.corr(
+            return_series,
+            method="spearman"
+        ),
+        None
+    )
+
+    quintile_means = {}
+
+    for quintile, values in (
+        quintiles.items()
+    ):
+        quintile_means[
+            f"Q{quintile}"
+        ] = (
+            sum(
+                values
+            )
+            /
+            len(
+                values
+            )
+            if values
+            else None
+        )
+
+    q1 = quintile_means.get(
+        "Q1"
+    )
+
+    q5 = quintile_means.get(
+        "Q5"
+    )
+
+    spread = (
+        q5
+        -
+        q1
+        if (
+            q5 is not None
+            and
+            q1 is not None
+        )
+        else None
+    )
+
+    return {
+        "observation_count":
+        count,
+
+        "spearman":
+        spearman,
+
+        "quintile_excess_return_pct":
+        quintile_means,
+
+        "top_minus_bottom_pct":
+        spread
+    }
+
+
+def aggregate_feature_diagnostics(
+    monthly_rows
+):
+    if not monthly_rows:
+        return {
+            "months":
+            0,
+
+            "observations":
+            0,
+
+            "average_spearman":
+            None,
+
+            "quintile_excess_return_pct":
+            {},
+
+            "top_minus_bottom_pct":
+            None
+        }
+
+    observation_count = sum(
+        item.get(
+            "observation_count",
+            0
+        )
+        for item in monthly_rows
+    )
+
+    spearman_values = [
+        safe_float(
+            item.get(
+                "spearman"
+            ),
+            None
+        )
+        for item in monthly_rows
+    ]
+
+    spearman_values = [
+        item
+        for item in spearman_values
+        if item is not None
+        and
+        not pd.isna(
+            item
+        )
+    ]
+
+    quintile_values = {
+        "Q1":
+        [],
+
+        "Q2":
+        [],
+
+        "Q3":
+        [],
+
+        "Q4":
+        [],
+
+        "Q5":
+        []
+    }
+
+    for item in monthly_rows:
+        block = (
+            item.get(
+                "quintile_excess_return_pct",
+                {}
+            )
+            or
+            {}
+        )
+
+        for key in quintile_values:
+            value = safe_float(
+                block.get(
+                    key
+                ),
+                None
+            )
+
+            if value is not None:
+                quintile_values[
+                    key
+                ].append(
+                    value
+                )
+
+    quintile_means = {}
+
+    for key, values in (
+        quintile_values.items()
+    ):
+        quintile_means[
+            key
+        ] = (
+            round(
+                sum(
+                    values
+                )
+                /
+                len(
+                    values
+                ),
+                3
+            )
+            if values
+            else None
+        )
+
+    q1 = quintile_means.get(
+        "Q1"
+    )
+
+    q5 = quintile_means.get(
+        "Q5"
+    )
+
+    return {
+        "months":
+        len(
+            monthly_rows
+        ),
+
+        "observations":
+        observation_count,
+
+        "average_spearman":
+        (
+            round(
+                sum(
+                    spearman_values
+                )
+                /
+                len(
+                    spearman_values
+                ),
+                4
+            )
+            if spearman_values
+            else None
+        ),
+
+        "quintile_excess_return_pct":
+        quintile_means,
+
+        "top_minus_bottom_pct":
+        (
+            round(
+                q5
+                -
+                q1,
+                3
+            )
+            if (
+                q5 is not None
+                and
+                q1 is not None
+            )
+            else None
+        )
+    }
+
+
+def cross_sectional_diagnostics(
+    history,
+    close_frame,
+    benchmark_ticker
+):
+    benchmark = close_frame[
+        benchmark_ticker
+    ].dropna()
+
+    execution_dates = (
+        first_trading_day_each_month(
+            benchmark.index
+        )
+    )
+
+    features = [
+        "neutralized_strategic_composite",
+        "trend_score",
+        "risk_score",
+        "relative_strength_6m_pct",
+        "return_12m_pct"
+    ]
+
+    horizons = {
+        "20d":
+        20,
+
+        "60d":
+        60
+    }
+
+    collected = {
+        feature:
+        {
+            horizon:
+            []
+            for horizon in horizons
+        }
+        for feature in features
+    }
+
+    for execution_date in execution_dates:
+        decision_date = previous_trading_date(
+            benchmark.index,
+            execution_date
+        )
+
+        if decision_date is None:
+            continue
+
+        members = membership_on(
+            history,
+            decision_date
+        )
+
+        scored = score_point_in_time_universe(
+            members,
+            decision_date,
+            close_frame
+        )
+
+        if len(
+            scored
+        ) < 25:
+            continue
+
+        for horizon_name, sessions in (
+            horizons.items()
+        ):
+            future_date = forward_trading_date(
+                benchmark.index,
+                execution_date,
+                sessions
+            )
+
+            if future_date is None:
+                continue
+
+            for feature in features:
+                item = monthly_feature_diagnostic(
+                    scored,
+                    close_frame,
+                    benchmark_ticker,
+                    execution_date,
+                    future_date,
+                    feature
+                )
+
+                if item is not None:
+                    collected[
+                        feature
+                    ][
+                        horizon_name
+                    ].append(
+                        item
+                    )
+
+    result = {}
+
+    for feature in features:
+        result[
+            feature
+        ] = {}
+
+        for horizon_name in horizons:
+            result[
+                feature
+            ][
+                horizon_name
+            ] = (
+                aggregate_feature_diagnostics(
+                    collected[
+                        feature
+                    ][
+                        horizon_name
+                    ]
+                )
+            )
+
+    composite_20 = (
+        result.get(
+            "neutralized_strategic_composite",
+            {}
+        ).get(
+            "20d",
+            {}
+        )
+        or
+        {}
+    )
+
+    composite_60 = (
+        result.get(
+            "neutralized_strategic_composite",
+            {}
+        ).get(
+            "60d",
+            {}
+        )
+        or
+        {}
+    )
+
+    spread_20 = safe_float(
+        composite_20.get(
+            "top_minus_bottom_pct"
+        ),
+        0
+    )
+
+    spread_60 = safe_float(
+        composite_60.get(
+            "top_minus_bottom_pct"
+        ),
+        0
+    )
+
+    spearman_20 = safe_float(
+        composite_20.get(
+            "average_spearman"
+        ),
+        0
+    )
+
+    spearman_60 = safe_float(
+        composite_60.get(
+            "average_spearman"
+        ),
+        0
+    )
+
+    if (
+        spread_20 > 0
+        and
+        spread_60 > 0
+        and
+        spearman_20 > 0
+        and
+        spearman_60 > 0
+    ):
+        composite_verdict = (
+            "COMPOSITE_PREDICTIVE"
+        )
+
+    elif (
+        spread_20 < 0
+        and
+        spread_60 < 0
+        and
+        spearman_20 <= 0
+        and
+        spearman_60 <= 0
+    ):
+        composite_verdict = (
+            "COMPOSITE_ANTI_PREDICTIVE"
+        )
+
+    else:
+        composite_verdict = (
+            "COMPOSITE_INCONCLUSIVE"
+        )
+
+    best_60d_feature = None
+
+    best_60d_spread = None
+
+    for feature in features:
+        spread = safe_float(
+            (
+                result.get(
+                    feature,
+                    {}
+                ).get(
+                    "60d",
+                    {}
+                )
+                or
+                {}
+            ).get(
+                "top_minus_bottom_pct"
+            ),
+            None
+        )
+
+        if spread is None:
+            continue
+
+        if (
+            best_60d_spread is None
+            or
+            spread > best_60d_spread
+        ):
+            best_60d_spread = spread
+            best_60d_feature = feature
+
+    return {
+        "composite_verdict":
+        composite_verdict,
+
+        "best_60d_feature":
+        best_60d_feature,
+
+        "best_60d_top_minus_bottom_pct":
+        (
+            round(
+                best_60d_spread,
+                3
+            )
+            if best_60d_spread is not None
+            else None
+        ),
+
+        "features":
+        result
+    }
 
 
 def target_weights(
@@ -1393,6 +2113,14 @@ def validate_index(
             "OVERLAY_RISK_RETURN_TRADEOFF"
         )
 
+    cross_sectional = (
+        cross_sectional_diagnostics(
+            history,
+            close_frame,
+            benchmark_ticker
+        )
+    )
+
     return {
         "index":
         index_name,
@@ -1475,7 +2203,10 @@ def validate_index(
         ranking_verdict,
 
         "risk_overlay_verdict":
-        overlay_verdict
+        overlay_verdict,
+
+        "cross_sectional_diagnostics":
+        cross_sectional
     }
 
 
@@ -1549,6 +2280,8 @@ def save_result(
 def run_pit_universe_validation(
     force=False
 ):
+    _STATE_CACHE.clear()
+
     if not force:
         cached = load_cached_result()
 
