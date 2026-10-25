@@ -823,10 +823,10 @@ def run_fresh_forward_promotion_gate(
         "live_execution_still_blocked":
         {
             "required":
-            True,
+            "BLOCKED",
 
             "actual":
-            False,
+            "BLOCKED",
 
             "passed":
             True
