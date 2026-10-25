@@ -61,15 +61,49 @@ jobs:
 
         git config user.email "github-actions@github.com"
 
-        git add docs/index.html docs/latest.csv docs/latest.json docs/last_run.txt docs/recommendation_journal.json docs/recommendation_performance.json docs/walk_forward_backtest.json docs/strategic_policy_calibration.json docs/shadow_policy_journal.json docs/historical_evidence_recovery.json
+        REPORT_FILES="docs/index.html docs/latest.csv docs/latest.json docs/last_run.txt docs/recommendation_journal.json docs/recommendation_performance.json docs/walk_forward_backtest.json docs/strategic_policy_calibration.json docs/shadow_policy_journal.json docs/historical_evidence_recovery.json"
 
-        if git diff --cached --quiet; then
-          echo "No report changes"
-          exit 0
-        fi
+        REPORT_TMP="$(mktemp -d)"
 
-        git commit -m "Update V8.4 portfolio intelligence report"
+        for file in $REPORT_FILES; do
+          if [ -f "$file" ]; then
+            mkdir -p "$REPORT_TMP/$(dirname "$file")"
+            cp "$file" "$REPORT_TMP/$file"
+          fi
+        done
 
-        git pull --rebase origin main
+        for attempt in 1 2 3; do
 
-        git push
+          echo "Report publish attempt $attempt"
+
+          git fetch origin main
+
+          git reset --hard origin/main
+
+          for file in $REPORT_FILES; do
+            if [ -f "$REPORT_TMP/$file" ]; then
+              mkdir -p "$(dirname "$file")"
+              cp "$REPORT_TMP/$file" "$file"
+            fi
+          done
+
+          git add $REPORT_FILES
+
+          if git diff --cached --quiet; then
+            echo "No report changes"
+            exit 0
+          fi
+
+          git commit -m "Update V8.4 portfolio intelligence report"
+
+          if git push origin HEAD:main; then
+            echo "Report published successfully"
+            exit 0
+          fi
+
+          echo "Push raced with another update; retrying on latest main"
+
+        done
+
+        echo "Failed to publish reports after 3 attempts"
+        exit 1
