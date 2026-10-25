@@ -687,7 +687,7 @@ def build_thesis_exit_shadow_journal(
 
             "fundamental_score":
             thesis.get(
-                "fundamental_score"
+                "thesis_score"
             ),
 
             "live_exposure":
@@ -723,6 +723,12 @@ def build_thesis_exit_shadow_journal(
             signal_price is None
             or
             signal_price <= 0
+            or
+            abs(
+                exposure_difference
+            )
+            <
+            0.05
         ):
             continue
 
@@ -762,7 +768,7 @@ def build_thesis_exit_shadow_journal(
 
             "fundamental_score":
             thesis.get(
-                "fundamental_score"
+                "thesis_score"
             ),
 
             "live_exposure":
@@ -806,14 +812,27 @@ def build_thesis_exit_shadow_journal(
 
     journal = load_journal()
 
-    records = (
-        journal.get(
-            "records",
+    records = [
+        record
+        for record in (
+            journal.get(
+                "records",
+                []
+            )
+            or
             []
         )
-        or
-        []
-    )
+        if abs(
+            safe_float(
+                record.get(
+                    "exposure_difference"
+                ),
+                0
+            )
+        )
+        >=
+        0.05
+    ]
 
     ids = set(
         record.get(
@@ -825,12 +844,63 @@ def build_thesis_exit_shadow_journal(
         )
     )
 
+    latest_state_by_ticker = {}
+
+    for existing in records:
+        ticker = existing.get(
+            "ticker"
+        )
+
+        if not ticker:
+            continue
+
+        latest_state_by_ticker[
+            ticker
+        ] = (
+            existing.get(
+                "base_action"
+            ),
+            existing.get(
+                "thesis_shadow_action"
+            ),
+            existing.get(
+                "review_status"
+            )
+        )
+
     added = 0
 
     for record in new_records:
         if record.get(
             "id"
         ) in ids:
+            continue
+
+        ticker = record.get(
+            "ticker"
+        )
+
+        state = (
+            record.get(
+                "base_action"
+            ),
+            record.get(
+                "thesis_shadow_action"
+            ),
+            record.get(
+                "review_status"
+            )
+        )
+
+        if (
+            ticker
+            and
+            latest_state_by_ticker.get(
+                ticker
+            )
+            ==
+            state
+        ):
             continue
 
         ids.add(
@@ -843,7 +913,13 @@ def build_thesis_exit_shadow_journal(
             record
         )
 
+        if ticker:
+            latest_state_by_ticker[
+                ticker
+            ] = state
+
         added += 1
+
 
     tickers = [
         record.get(
