@@ -1127,6 +1127,114 @@ Thesis Exit Divergences
 
 </div>
 
+<div class="stat">
+
+<div class="stat-label">
+PIT Universe Verdict
+</div>
+
+<div
+class="stat-value"
+id="pit-verdict"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+S&P PIT Rank Alpha
+</div>
+
+<div
+class="stat-value"
+id="pit-sp500-alpha"
+>
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Nasdaq PIT Rank Alpha
+</div>
+
+<div
+class="stat-value"
+id="pit-nasdaq-alpha"
+>
+-
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- V8.6 POINT-IN-TIME NEUTRAL UNIVERSE VALIDATION -->
+<!-- ================================================= -->
+
+<div class="card blue">
+
+<div class="title">
+🌍 V8.6 POINT-IN-TIME NEUTRAL UNIVERSE VALIDATION
+</div>
+
+<div
+id="pit-validation-summary"
+class="section-note"
+>
+Loading point-in-time validation...
+</div>
+
+<div class="section-note">
+Historical index membership is fixed to the decision date. This validation does not project today's winners backward in time.
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Universe</th>
+<th>Top-12 CAGR</th>
+<th>Risk Overlay CAGR</th>
+<th>PIT EW CAGR</th>
+<th>Benchmark CAGR</th>
+<th>Rank Alpha vs PIT EW</th>
+<th>Rank Sharpe Advantage</th>
+<th>Overlay CAGR Effect</th>
+<th>Overlay DD Improvement</th>
+<th>Coverage Avg / Min</th>
+<th>Ranking Verdict</th>
+<th>Overlay Verdict</th>
+</tr>
+
+</thead>
+
+<tbody id="pit-validation-table">
+
+<tr>
+<td colspan="12" class="loading">
+Loading point-in-time validation...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+<div class="section-note">
+Pinned source: thuningxu/sp500nq100 at commit 1cc1de2. Test period ends before the pinned source commit date. Historical fundamentals/news are not included.
+</div>
 
 </div>
 
@@ -3123,6 +3231,21 @@ thesisExitShadow.performance
 || {};
 
 
+const pitValidation =
+data.pit_universe_validation
+|| {};
+
+
+const pitSp500 =
+pitValidation.sp500
+|| {};
+
+
+const pitNasdaq =
+pitValidation.nasdaq100
+|| {};
+
+
 /* =============================================== */
 /* SUMMARY */
 /* =============================================== */
@@ -3753,6 +3876,318 @@ thesisExit20.shadow_hit_rate_pct,
 "%";
 
 
+document.getElementById(
+"pit-verdict"
+).textContent =
+pitValidation.overall_verdict
+|| "-";
+
+
+document.getElementById(
+"pit-sp500-alpha"
+).textContent =
+(
+(
+pitSp500.comparison
+||
+{}
+).ranking_cagr_alpha_vs_pit_equal_weight_pct
+) === null
+||
+(
+(
+pitSp500.comparison
+||
+{}
+).ranking_cagr_alpha_vs_pit_equal_weight_pct
+) === undefined
+?
+"-"
+:
+formatNumber(
+(
+pitSp500.comparison
+||
+{}
+).ranking_cagr_alpha_vs_pit_equal_weight_pct,
+2
+)
++
+"%";
+
+
+document.getElementById(
+"pit-nasdaq-alpha"
+).textContent =
+(
+(
+pitNasdaq.comparison
+||
+{}
+).ranking_cagr_alpha_vs_pit_equal_weight_pct
+) === null
+||
+(
+(
+pitNasdaq.comparison
+||
+{}
+).ranking_cagr_alpha_vs_pit_equal_weight_pct
+) === undefined
+?
+"-"
+:
+formatNumber(
+(
+pitNasdaq.comparison
+||
+{}
+).ranking_cagr_alpha_vs_pit_equal_weight_pct,
+2
+)
++
+"%";
+
+
+/* =============================================== */
+/* V8.6 POINT-IN-TIME NEUTRAL UNIVERSE VALIDATION */
+/* =============================================== */
+
+
+const pitValidationTable =
+document.getElementById(
+"pit-validation-table"
+);
+
+
+pitValidationTable.innerHTML =
+"";
+
+
+const pitSource =
+pitValidation.source
+|| {};
+
+
+const pitCounts =
+pitValidation.universe_counts
+|| {};
+
+
+document.getElementById(
+"pit-validation-summary"
+).textContent =
+
+"Status: "
++
+(
+pitValidation.status
+||
+"-"
+)
++
+" | Verdict: "
++
+(
+pitValidation.overall_verdict
+||
+"-"
+)
++
+" | Test: "
++
+(
+(
+pitValidation.test_period
+||
+{}
+).start
+||
+"-"
+)
++
+" → "
++
+(
+(
+pitValidation.test_period
+||
+{}
+).end
+||
+"-"
+)
++
+" | Source commit: "
++
+(
+pitSource.commit
+?
+pitSource.commit.slice(
+0,
+8
+)
+:
+"-"
+)
++
+" | Requested prices: "
++
+(
+pitCounts.requested_unique_price_tickers
+?? "-"
+)
++
+" | Downloaded: "
++
+(
+pitCounts.downloaded_price_tickers
+?? "-"
+)
++
+" | Missing: "
++
+(
+pitCounts.missing_price_tickers
+?? "-"
+);
+
+
+[
+pitSp500,
+pitNasdaq
+].forEach(
+item => {
+
+
+if(
+!item
+||
+item.status !== "COMPLETE"
+){
+
+return;
+
+}
+
+
+const ranked =
+item.ranked_top12_full
+|| {};
+
+
+const overlay =
+item.ranked_top12_risk_overlay
+|| {};
+
+
+const control =
+item.pit_equal_weight_control
+|| {};
+
+
+const rankedPerf =
+ranked.performance
+|| {};
+
+
+const overlayPerf =
+overlay.performance
+|| {};
+
+
+const controlPerf =
+control.performance
+|| {};
+
+
+const comparison =
+item.comparison
+|| {};
+
+
+const coverage =
+ranked.coverage
+|| {};
+
+
+pitValidationTable.innerHTML += `
+
+<tr>
+
+<td>
+<b>${item.index || "-"}</b>
+</td>
+
+<td>
+${formatNumber(rankedPerf.cagr_pct,2)}%
+</td>
+
+<td>
+${formatNumber(overlayPerf.cagr_pct,2)}%
+</td>
+
+<td>
+${formatNumber(controlPerf.cagr_pct,2)}%
+</td>
+
+<td>
+${formatNumber(rankedPerf.spy_cagr_pct,2)}%
+</td>
+
+<td>
+${formatNumber(comparison.ranking_cagr_alpha_vs_pit_equal_weight_pct,2)}%
+</td>
+
+<td>
+${formatNumber(comparison.ranking_sharpe_advantage,3)}
+</td>
+
+<td>
+${formatNumber(comparison.risk_overlay_cagr_effect_vs_full_pct,2)}%
+</td>
+
+<td>
+${formatNumber(comparison.risk_overlay_drawdown_improvement_pct,2)}%
+</td>
+
+<td>
+${formatNumber(coverage.average_coverage_pct,1)}% / ${formatNumber(coverage.minimum_coverage_pct,1)}%
+</td>
+
+<td>
+<b>${item.ranking_verdict || "-"}</b>
+</td>
+
+<td>
+${item.risk_overlay_verdict || "-"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+if(
+pitValidationTable.innerHTML === ""
+){
+
+pitValidationTable.innerHTML = `
+
+<tr>
+<td colspan="12">
+No completed point-in-time universe result available.
+</td>
+</tr>
+
+`;
+
+}
+
+
+/* =============================================== */
 /* =============================================== */
 /* V8.5 FUNDAMENTAL THESIS & VALUATION */
 /* =============================================== */
