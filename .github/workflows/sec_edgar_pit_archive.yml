@@ -1,0 +1,66 @@
+name: SEC EDGAR PIT Fundamental Archive
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 23 * * 1-5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sec-edgar-pit-fundamental-archive
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Compile SEC PIT foundation
+        run: |
+          python -m py_compile engines/sec_edgar_point_in_time_engine.py
+          python -m py_compile scripts/run_sec_edgar_pit_archive.py
+
+      - name: Build SEC PIT archive
+        env:
+          PYTHONPATH: .
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: |
+          python scripts/run_sec_edgar_pit_archive.py
+
+      - name: Publish SEC PIT evidence
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          if [ ! -d data/sec_edgar_pit ]; then
+            echo "SEC archive disabled or no output generated"
+            exit 0
+          fi
+
+          git add data/sec_edgar_pit
+
+          if git diff --cached --quiet; then
+            echo "No SEC PIT evidence changes"
+            exit 0
+          fi
+
+          git commit -m "Update SEC EDGAR point-in-time evidence"
+          git pull --rebase origin main
+          git push origin HEAD:main
