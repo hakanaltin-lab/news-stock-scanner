@@ -14,13 +14,52 @@ from engines.sec_edgar_point_in_time_engine import (
 
 UNIVERSE_FILE = "data/us_universe.json"
 PORTFOLIO_FILE = "data/portfolio.csv"
+CURRENT_INDEX_UNIVERSE_FILE = "data/current_index_universe/latest.json"
 OUTPUT_DIR = "data/sec_edgar_pit/facts"
 SUMMARY_FILE = "data/sec_edgar_pit/latest_summary.json"
 
 
 def load_current_evidence_universe():
     tickers = set()
+    source = "CORE_65_FALLBACK"
 
+    try:
+        with open(
+            CURRENT_INDEX_UNIVERSE_FILE,
+            "r",
+            encoding="utf-8"
+        ) as file:
+            current_index = json.load(
+                file
+            )
+
+        union = (
+            current_index.get(
+                "union",
+                []
+            )
+            or
+            []
+        )
+
+        for item in union:
+            ticker = normalize_ticker(
+                item
+            )
+
+            if ticker:
+                tickers.add(
+                    ticker
+                )
+
+        if tickers:
+            source = "CURRENT_SP500_NASDAQ100_UNION"
+
+    except Exception:
+        pass
+
+    # Always include current AURORA portfolio / scanner names even when they
+    # fall outside the two benchmark universes.
     try:
         with open(
             UNIVERSE_FILE,
@@ -79,8 +118,11 @@ def load_current_evidence_universe():
     except Exception:
         pass
 
-    return sorted(
-        tickers
+    return (
+        sorted(
+            tickers
+        ),
+        source
     )
 
 
@@ -178,7 +220,10 @@ def main():
         client
     )
 
-    tickers = load_current_evidence_universe()
+    (
+        tickers,
+        universe_source
+    ) = load_current_evidence_universe()
 
     results = []
     changed_files = 0
@@ -287,9 +332,12 @@ def main():
 
         "scope":
         (
-            "Current evidence universe only; full PIT S&P500 + Nasdaq100 "
-            "expansion is the next milestone."
+            "Current S&P500 + Nasdaq100 union when the forward universe "
+            "snapshot is available, plus AURORA scanner/portfolio names."
         ),
+
+        "universe_source":
+        universe_source,
 
         "ticker_count":
         len(
