@@ -21,6 +21,7 @@ from engines.ibkr_paper_readiness_engine import (
 
 
 PORTFOLIO_FILE = "data/portfolio.csv"
+RUNTIME_OUTPUT_FILE = "runtime/ibkr_paper_read_only/latest.json"
 
 
 def load_portfolio():
@@ -59,14 +60,67 @@ def main():
         )
     )
 
+    result = {
+        "snapshot":
+        snapshot,
+
+        "readiness":
+        readiness
+    }
+
+    os.makedirs(
+        os.path.dirname(
+            RUNTIME_OUTPUT_FILE
+        ),
+        exist_ok=True
+    )
+
+    with open(
+        RUNTIME_OUTPUT_FILE,
+        "w",
+        encoding="utf-8"
+    ) as file:
+        json.dump(
+            result,
+            file,
+            indent=2
+        )
+
     print(
         json.dumps(
             {
-                "snapshot":
-                snapshot,
+                "snapshot_status":
+                snapshot.get(
+                    "status"
+                ),
+
+                "connection_status":
+                snapshot.get(
+                    "connection_status"
+                ),
 
                 "readiness":
-                readiness
+                readiness.get(
+                    "readiness"
+                ),
+
+                "required_failure_count":
+                readiness.get(
+                    "required_failure_count"
+                ),
+
+                "runtime_output":
+                RUNTIME_OUTPUT_FILE,
+
+                "paper_order_submission_allowed":
+                readiness.get(
+                    "paper_order_submission_allowed"
+                ),
+
+                "live_execution_allowed":
+                readiness.get(
+                    "live_execution_allowed"
+                )
             },
             indent=2
         )
