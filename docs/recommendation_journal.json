@@ -10450,8 +10450,386 @@
           "absolute_hit": null
         }
       }
+    },
+    {
+      "id": "f77a3f088b09666a",
+      "signal_date": "2026-10-26",
+      "generated_at": "2026-10-26T14:36:22.262759",
+      "model_version": "V8.6",
+      "source": "NEW_ENTRY",
+      "ticker": "COP",
+      "action": "ACCUMULATE",
+      "direction": "LONG",
+      "signal_price": 150.51,
+      "benchmark": "SPY",
+      "benchmark_entry_price": 764.22,
+      "scores": {
+        "alpha_score": 74.06,
+        "risk_score": 88.7,
+        "confidence": 72.2
+      },
+      "origin_commit": "CURRENT_RUN",
+      "evaluation_basis": "signal_price_to_future_daily_close",
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        }
+      }
+    },
+    {
+      "id": "7928ea5c0e3a416f",
+      "signal_date": "2026-10-26",
+      "generated_at": "2026-10-26T14:36:22.262759",
+      "model_version": "V8.6",
+      "source": "NEW_ENTRY",
+      "ticker": "TSLA",
+      "action": "ACCUMULATE",
+      "direction": "LONG",
+      "signal_price": 393.5,
+      "benchmark": "SPY",
+      "benchmark_entry_price": 764.22,
+      "scores": {
+        "alpha_score": 74.34,
+        "risk_score": 79.1,
+        "confidence": 73.3
+      },
+      "origin_commit": "CURRENT_RUN",
+      "evaluation_basis": "signal_price_to_future_daily_close",
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        }
+      }
+    },
+    {
+      "id": "d5323eff6fb721f0",
+      "signal_date": "2026-10-26",
+      "generated_at": "2026-10-26T14:36:22.262759",
+      "model_version": "V8.6",
+      "source": "PORTFOLIO",
+      "ticker": "BKR",
+      "action": "REDUCE",
+      "direction": "DEFENSIVE",
+      "signal_price": 55.97,
+      "benchmark": "SPY",
+      "benchmark_entry_price": 764.22,
+      "scores": {
+        "alpha_score": 69.57,
+        "market_score": 58.1,
+        "news_score": 68,
+        "catalyst_score": 66,
+        "sector_score": 95.4,
+        "risk_score": 73.7
+      },
+      "origin_commit": "CURRENT_RUN",
+      "evaluation_basis": "signal_price_to_future_daily_close",
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        }
+      }
+    },
+    {
+      "id": "7b9230a2782eed55",
+      "signal_date": "2026-10-26",
+      "generated_at": "2026-10-26T14:36:22.262759",
+      "model_version": "V8.6",
+      "source": "PORTFOLIO",
+      "ticker": "CCLD",
+      "action": "EXIT",
+      "direction": "DEFENSIVE",
+      "signal_price": 1.73,
+      "benchmark": "SPY",
+      "benchmark_entry_price": 764.22,
+      "scores": {
+        "alpha_score": 50.96,
+        "market_score": 29.8,
+        "news_score": 50,
+        "catalyst_score": 50,
+        "sector_score": 88.7,
+        "risk_score": 58.9
+      },
+      "origin_commit": "CURRENT_RUN",
+      "evaluation_basis": "signal_price_to_future_daily_close",
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        }
+      }
+    },
+    {
+      "id": "39fe0523643fad53",
+      "signal_date": "2026-10-26",
+      "generated_at": "2026-10-26T14:36:22.262759",
+      "model_version": "V8.6",
+      "source": "PORTFOLIO",
+      "ticker": "GOOG",
+      "action": "REDUCE",
+      "direction": "DEFENSIVE",
+      "signal_price": 316.5,
+      "benchmark": "SPY",
+      "benchmark_entry_price": 764.22,
+      "scores": {
+        "alpha_score": 42.32,
+        "market_score": 26.4,
+        "news_score": 58,
+        "catalyst_score": 56,
+        "sector_score": 5.7,
+        "risk_score": 72.9
+      },
+      "origin_commit": "CURRENT_RUN",
+      "evaluation_basis": "signal_price_to_future_daily_close",
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        }
+      }
+    },
+    {
+      "id": "b808019e9db2f35e",
+      "signal_date": "2026-10-26",
+      "generated_at": "2026-10-26T14:36:22.262759",
+      "model_version": "V8.6",
+      "source": "PORTFOLIO",
+      "ticker": "VRT",
+      "action": "EXIT",
+      "direction": "DEFENSIVE",
+      "signal_price": 196.54,
+      "benchmark": "SPY",
+      "benchmark_entry_price": 764.22,
+      "scores": {
+        "alpha_score": 48.47,
+        "market_score": 40.7,
+        "news_score": 58,
+        "catalyst_score": 56,
+        "sector_score": 35.7,
+        "risk_score": 59.5
+      },
+      "origin_commit": "CURRENT_RUN",
+      "evaluation_basis": "signal_price_to_future_daily_close",
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        }
+      }
     }
   ],
-  "updated_at": "2026-10-26T12:43:28.033279+00:00",
-  "record_count": 165
+  "updated_at": "2026-10-26T14:36:23.188346+00:00",
+  "record_count": 171
 }
