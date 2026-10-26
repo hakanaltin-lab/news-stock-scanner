@@ -102,6 +102,50 @@ MIN_AVERAGE_COVERAGE_PCT = 85.0
 MIN_MONTHLY_COVERAGE_PCT = 75.0
 
 
+DATA_RECOVERY_ADDENDUM = (
+    "docs/research/simple_factor_challenger_data_recovery_addendum_v1_1.md"
+)
+
+HISTORICAL_PRICE_CONTINUITY_ALIASES = {
+    "NLOK": {
+        "source_ticker": "SYMC",
+        "valid_through": "2019-11-04",
+        "reason": (
+            "Symantec changed corporate name/ticker to NortonLifeLock/NLOK "
+            "effective 2019-11-05; PIT membership source carries NLOK "
+            "backward in some pre-2017 snapshots."
+        )
+    },
+
+    "RIMM": {
+        "source_ticker": "BB",
+        "valid_through": "2013-02-03",
+        "reason": (
+            "Research In Motion RIMM changed Nasdaq ticker to BBRY effective "
+            "2013-02-04; BB source lineage is used only for pre-change prices."
+        )
+    },
+
+    "KFT": {
+        "source_ticker": "MDLZ",
+        "valid_through": "2012-10-01",
+        "reason": (
+            "KFT to MDLZ ticker continuity is documented by the pinned PIT "
+            "membership source."
+        )
+    },
+
+    "HANS": {
+        "source_ticker": "MNST",
+        "valid_through": "2012-01-08",
+        "reason": (
+            "Hansen Natural HANS changed ticker to Monster Beverage MNST "
+            "effective 2012-01-09."
+        )
+    }
+}
+
+
 def normalize_symbol(value):
     value = str(
         value
@@ -485,6 +529,117 @@ def fetch_kaggle_recovery_series(
     )
 
 
+def recover_documented_continuity_aliases(
+    tickers,
+    close_data,
+    source_by_ticker,
+    kaggle_available_files
+):
+    applied = []
+
+    for target_ticker, mapping in (
+        HISTORICAL_PRICE_CONTINUITY_ALIASES.items()
+    ):
+        if (
+            target_ticker
+            not in tickers
+            or
+            target_ticker
+            in close_data
+        ):
+            continue
+
+        source_ticker = mapping[
+            "source_ticker"
+        ]
+
+        series = fetch_kaggle_recovery_series(
+            source_ticker,
+            kaggle_available_files
+        )
+
+        if (
+            series is None
+            or
+            series.empty
+        ):
+            continue
+
+        try:
+            valid_through = pd.Timestamp(
+                mapping[
+                    "valid_through"
+                ]
+            )
+
+            recovered = (
+                series.loc[
+                    :valid_through
+                ]
+                .dropna()
+                .astype(
+                    float
+                )
+            )
+
+        except Exception:
+            continue
+
+        if recovered.empty:
+            continue
+
+        close_data[
+            target_ticker
+        ] = recovered
+
+        source_by_ticker[
+            target_ticker
+        ] = (
+            "DOCUMENTED_CONTINUITY_ALIAS:"
+            +
+            source_ticker
+        )
+
+        applied.append({
+            "target_ticker":
+            target_ticker,
+
+            "source_ticker":
+            source_ticker,
+
+            "valid_through":
+            mapping[
+                "valid_through"
+            ],
+
+            "observations":
+            len(
+                recovered
+            ),
+
+            "first_date":
+            str(
+                recovered.index[
+                    0
+                ].date()
+            ),
+
+            "last_date":
+            str(
+                recovered.index[
+                    -1
+                ].date()
+            ),
+
+            "reason":
+            mapping[
+                "reason"
+            ]
+        })
+
+    return applied
+
+
 def download_price_frame(
     tickers,
     history_retry_allowlist=None
@@ -821,6 +976,15 @@ def download_price_frame(
                 ticker
             ] = "KAGGLE_STOOQ_2017"
 
+    continuity_aliases_applied = (
+        recover_documented_continuity_aliases(
+            tickers,
+            close_data,
+            source_by_ticker,
+            kaggle_available_files
+        )
+    )
+
     if not close_data:
         return pd.DataFrame()
 
@@ -855,6 +1019,10 @@ def download_price_frame(
     ] = len(
         kaggle_available_files
     )
+
+    frame.attrs[
+        "continuity_aliases_applied"
+    ] = continuity_aliases_applied
 
     return frame
 
@@ -2756,6 +2924,15 @@ def run_simple_factor_challenger():
             "ticker_history_retry_allowlist_count":
             len(
                 history_retry_allowlist
+            ),
+
+            "data_recovery_addendum":
+            DATA_RECOVERY_ADDENDUM,
+
+            "continuity_aliases_applied":
+            close_frame.attrs.get(
+                "continuity_aliases_applied",
+                []
             )
         },
 
