@@ -30,6 +30,10 @@ SEC_COMPANYFACTS_URL = (
     "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik10}.json"
 )
 
+SEC_SUBMISSIONS_URL = (
+    "https://data.sec.gov/submissions/CIK{cik10}.json"
+)
+
 DEFAULT_TIMEOUT_SECONDS = 30
 MIN_REQUEST_INTERVAL_SECONDS = 0.22
 
@@ -44,7 +48,7 @@ ALLOWED_FORMS = {
     "40-F/A"
 }
 
-METRIC_CONCEPTS = {
+US_GAAP_METRIC_CONCEPTS = {
     "revenue": [
         "RevenueFromContractWithCustomerExcludingAssessedTax",
         "Revenues",
@@ -101,6 +105,77 @@ METRIC_CONCEPTS = {
         "LongTermDebtCurrent"
     ]
 }
+
+
+IFRS_METRIC_CONCEPTS = {
+    "revenue": [
+        "Revenue",
+        "RevenueFromContractsWithCustomers"
+    ],
+
+    "operating_income": [
+        "ProfitLossFromOperatingActivities"
+    ],
+
+    "net_income": [
+        "ProfitLoss"
+    ],
+
+    "eps_diluted": [
+        "DilutedEarningsLossPerShare"
+    ],
+
+    "operating_cash_flow": [
+        "CashFlowsFromUsedInOperatingActivities"
+    ],
+
+    "capex": [
+        "PurchaseOfPropertyPlantAndEquipment"
+    ],
+
+    "cash": [
+        "CashAndCashEquivalents"
+    ],
+
+    "total_assets": [
+        "Assets"
+    ],
+
+    "total_liabilities": [
+        "Liabilities"
+    ],
+
+    "stockholders_equity": [
+        "Equity"
+    ],
+
+    "long_term_debt": [
+        "NoncurrentBorrowings"
+    ],
+
+    "current_debt": [
+        "CurrentBorrowings"
+    ]
+}
+
+
+METRIC_CONCEPTS_BY_NAMESPACE = {
+    "us-gaap":
+    US_GAAP_METRIC_CONCEPTS,
+
+    "ifrs-full":
+    IFRS_METRIC_CONCEPTS
+}
+
+
+CANONICAL_METRICS = sorted(
+    set(
+        metric
+        for concepts in METRIC_CONCEPTS_BY_NAMESPACE.values()
+        for metric in concepts
+    )
+)
+
 
 UNIT_PREFERENCES = {
     "eps_diluted": [
@@ -321,10 +396,123 @@ def unit_priority(
     return ordered
 
 
+def normalize_accession(
+    value
+):
+    return str(
+        value
+        or
+        ""
+    ).strip()
+
+
+def build_acceptance_map(
+    submissions_payload
+):
+    recent = (
+        (
+            (
+                submissions_payload
+                or
+                {}
+            ).get(
+                "filings",
+                {}
+            )
+            or
+            {}
+        ).get(
+            "recent",
+            {}
+        )
+        or
+        {}
+    )
+
+    accessions = recent.get(
+        "accessionNumber",
+        []
+    ) or []
+
+    acceptance_values = recent.get(
+        "acceptanceDateTime",
+        []
+    ) or []
+
+    filed_values = recent.get(
+        "filingDate",
+        []
+    ) or []
+
+    form_values = recent.get(
+        "form",
+        []
+    ) or []
+
+    result = {}
+
+    for index, accession in enumerate(
+        accessions
+    ):
+        key = normalize_accession(
+            accession
+        )
+
+        if not key:
+            continue
+
+        result[
+            key
+        ] = {
+            "accepted_at":
+            (
+                acceptance_values[
+                    index
+                ]
+                if index
+                <
+                len(
+                    acceptance_values
+                )
+                else None
+            ),
+
+            "filing_date":
+            (
+                filed_values[
+                    index
+                ]
+                if index
+                <
+                len(
+                    filed_values
+                )
+                else None
+            ),
+
+            "form":
+            (
+                form_values[
+                    index
+                ]
+                if index
+                <
+                len(
+                    form_values
+                )
+                else None
+            )
+        }
+
+    return result
+
+
 def normalize_metric_facts(
     metric,
+    namespace,
     concept,
-    concept_data
+    concept_data,
+    acceptance_map=None
 ):
     units = (
         (
@@ -389,9 +577,31 @@ def normalize_metric_facts(
             if value is None:
                 continue
 
+            accession = normalize_accession(
+                fact.get(
+                    "accn"
+                )
+            )
+
+            acceptance_metadata = (
+                (
+                    acceptance_map
+                    or
+                    {}
+                ).get(
+                    accession,
+                    {}
+                )
+                or
+                {}
+            )
+
             rows.append({
                 "metric":
                 metric,
+
+                "namespace":
+                namespace,
 
                 "concept":
                 concept,
@@ -432,8 +642,11 @@ def normalize_metric_facts(
                 ),
 
                 "accession":
-                fact.get(
-                    "accn"
+                accession,
+
+                "accepted_at":
+                acceptance_metadata.get(
+                    "accepted_at"
                 ),
 
                 "frame":
@@ -455,6 +668,9 @@ def dedupe_facts(
         key = (
             row.get(
                 "metric"
+            ),
+            row.get(
+                "namespace"
             ),
             row.get(
                 "concept"
@@ -534,7 +750,8 @@ def dedupe_facts(
 def normalize_companyfacts(
     ticker,
     cik_value,
-    payload
+    payload,
+    acceptance_map=None
 ):
     facts_root = (
         (
@@ -549,52 +766,61 @@ def normalize_companyfacts(
         {}
     )
 
-    us_gaap = (
-        facts_root.get(
-            "us-gaap",
-            {}
-        )
-        or
-        {}
-    )
-
     all_rows = []
     matched_concepts = {}
 
-    for metric, concepts in (
-        METRIC_CONCEPTS.items()
+    for namespace, metric_map in (
+        METRIC_CONCEPTS_BY_NAMESPACE.items()
     ):
-        metric_rows = []
-
-        for concept in concepts:
-            concept_data = us_gaap.get(
-                concept
+        namespace_facts = (
+            facts_root.get(
+                namespace,
+                {}
             )
+            or
+            {}
+        )
 
-            if not concept_data:
-                continue
+        for metric, concepts in (
+            metric_map.items()
+        ):
+            metric_rows = []
 
-            rows = normalize_metric_facts(
-                metric,
-                concept,
-                concept_data
-            )
-
-            if rows:
-                metric_rows.extend(
-                    rows
-                )
-
-                matched_concepts.setdefault(
-                    metric,
-                    []
-                ).append(
+            for concept in concepts:
+                concept_data = namespace_facts.get(
                     concept
                 )
 
-        all_rows.extend(
-            metric_rows
-        )
+                if not concept_data:
+                    continue
+
+                rows = normalize_metric_facts(
+                    metric,
+                    namespace,
+                    concept,
+                    concept_data,
+                    acceptance_map=acceptance_map
+                )
+
+                if rows:
+                    metric_rows.extend(
+                        rows
+                    )
+
+                    matched_concepts.setdefault(
+                        metric,
+                        []
+                    ).append(
+                        namespace
+                        +
+                        ":"
+                        +
+                        concept
+                    )
+
+            all_rows.extend(
+                metric_rows
+            )
 
     normalized = dedupe_facts(
         all_rows
@@ -654,14 +880,20 @@ def normalize_companyfacts(
         "source":
         "SEC_EDGAR_COMPANYFACTS",
 
+        "taxonomies_supported":
+        sorted(
+            METRIC_CONCEPTS_BY_NAMESPACE
+        ),
+
         "point_in_time":
         True,
 
         "availability_rule":
         (
             "available_date = SEC filed date + 1 calendar day; conservative "
-            "guard against same-day look-ahead when historical acceptance "
-            "timestamp is not present in Company Facts."
+            "guard against same-day look-ahead. Exact recent acceptance "
+            "timestamps from SEC submissions metadata are stored for audit "
+            "but do not make the daily as-of date earlier."
         ),
 
         "matched_concepts":
@@ -727,6 +959,25 @@ def fetch_ticker_facts(
             []
         }
 
+    acceptance_map = {}
+    submissions_status = "NOT_REQUESTED"
+
+    try:
+        submissions_payload = client.get_json(
+            SEC_SUBMISSIONS_URL.format(
+                cik10=cik_value
+            )
+        )
+
+        acceptance_map = build_acceptance_map(
+            submissions_payload
+        )
+
+        submissions_status = "COMPLETE"
+
+    except Exception:
+        submissions_status = "UNAVAILABLE"
+
     payload = client.get_json(
         SEC_COMPANYFACTS_URL.format(
             cik10=cik_value
@@ -736,8 +987,21 @@ def fetch_ticker_facts(
     result = normalize_companyfacts(
         normalized,
         cik_value,
-        payload
+        payload,
+        acceptance_map=acceptance_map
     )
+
+    result[
+        "submissions_metadata"
+    ] = {
+        "status":
+        submissions_status,
+
+        "recent_acceptance_count":
+        len(
+            acceptance_map
+        )
+    }
 
     result[
         "status"
@@ -834,7 +1098,7 @@ def build_snapshot_as_of(
 ):
     snapshot = {}
 
-    for metric in METRIC_CONCEPTS:
+    for metric in CANONICAL_METRICS:
         fact = latest_metric_as_of(
             ticker_record,
             metric,
