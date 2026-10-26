@@ -3,7 +3,7 @@
   "validation_signature": "V8.6.2",
   "status": "COMPLETE",
   "cache_status": "FRESH",
-  "generated": "2026-10-26T06:03:25.074622+00:00",
+  "generated": "2026-10-26T06:15:12.584001+00:00",
   "test_period": {
     "start": "2022-06-01",
     "end": "2026-06-05"
@@ -2168,7 +2168,7 @@
         "spy_total_return_pct": 136.3,
         "spy_cagr_pct": 24.04,
         "cagr_alpha_vs_spy_pct": -23.28,
-        "total_trading_costs": 4590.11,
+        "total_trading_costs": 4590.1,
         "trading_cost_pct_of_starting_capital": 4.59,
         "annualized_turnover_x": 11.5,
         "trading_days": 1006,
