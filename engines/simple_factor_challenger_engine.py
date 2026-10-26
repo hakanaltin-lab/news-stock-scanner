@@ -1317,8 +1317,27 @@ def rank_universe(
     decision_date,
     execution_date,
     close_frame,
-    benchmark_ticker
+    benchmark_ticker,
+    ranking_cache=None
 ):
+    cache_key = (
+        str(
+            decision_date.date()
+        ),
+        str(
+            execution_date.date()
+        )
+    )
+
+    if (
+        ranking_cache is not None
+        and
+        cache_key in ranking_cache
+    ):
+        return ranking_cache[
+            cache_key
+        ]
+
     rows = []
 
     for ticker in members:
@@ -1344,6 +1363,11 @@ def rank_universe(
         )
 
     if not rows:
+        if ranking_cache is not None:
+            ranking_cache[
+                cache_key
+            ] = []
+
         return []
 
     momentum_percentiles = percentile_scores(
@@ -1439,6 +1463,11 @@ def rank_universe(
             )
         )
     )
+
+    if ranking_cache is not None:
+        ranking_cache[
+            cache_key
+        ] = rows
 
     return rows
 
@@ -1541,7 +1570,8 @@ def simulate_mode(
     history,
     close_frame,
     benchmark_ticker,
-    mode
+    mode,
+    ranking_cache=None
 ):
     benchmark = (
         close_frame[
@@ -1634,7 +1664,8 @@ def simulate_mode(
                     decision_date,
                     date_value,
                     close_frame,
-                    benchmark_ticker
+                    benchmark_ticker,
+                    ranking_cache=ranking_cache
                 )
 
                 coverage_pct = (
@@ -2027,7 +2058,8 @@ def forward_trading_date(
 def cross_sectional_diagnostics(
     history,
     close_frame,
-    benchmark_ticker
+    benchmark_ticker,
+    ranking_cache=None
 ):
     benchmark = (
         close_frame[
@@ -2085,7 +2117,8 @@ def cross_sectional_diagnostics(
             decision_date,
             execution_date,
             close_frame,
-            benchmark_ticker
+            benchmark_ticker,
+            ranking_cache=ranking_cache
         )
 
         if len(
@@ -2503,18 +2536,22 @@ def evaluate_index(
     close_frame,
     benchmark_ticker
 ):
+    ranking_cache = {}
+
     challenger = simulate_mode(
         history,
         close_frame,
         benchmark_ticker,
-        "CHALLENGER_TOP12"
+        "CHALLENGER_TOP12",
+        ranking_cache=ranking_cache
     )
 
     control = simulate_mode(
         history,
         close_frame,
         benchmark_ticker,
-        "PIT_EQUAL_WEIGHT"
+        "PIT_EQUAL_WEIGHT",
+        ranking_cache=ranking_cache
     )
 
     if (
@@ -2653,7 +2690,8 @@ def evaluate_index(
         cross_sectional_diagnostics(
             history,
             close_frame,
-            benchmark_ticker
+            benchmark_ticker,
+            ranking_cache=ranking_cache
         )
     }
 
