@@ -1,0 +1,6 @@
+# AURORA local runtime / credentials
+runtime/
+.env
+.env.*
+__pycache__/
+*.pyc
