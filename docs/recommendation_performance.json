@@ -1,9 +1,9 @@
 {
   "engine": "V7.8 Recommendation Performance Journal",
-  "generated": "2026-10-26T14:53:01.941115+00:00",
-  "total_signals": 171,
+  "generated": "2026-10-26T16:27:23.796379+00:00",
+  "total_signals": 173,
   "bootstrap_signals_added": 0,
-  "new_signals_added": 0,
+  "new_signals_added": 2,
   "oldest_signal_date": "2026-10-23",
   "newest_signal_date": "2026-10-26",
   "model_versions": [
@@ -32,7 +32,7 @@
   "horizons": {
     "5d": {
       "evaluated": 0,
-      "pending": 171,
+      "pending": 173,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -42,7 +42,7 @@
     },
     "20d": {
       "evaluated": 0,
-      "pending": 171,
+      "pending": 173,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -52,7 +52,7 @@
     },
     "60d": {
       "evaluated": 0,
-      "pending": 171,
+      "pending": 173,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -64,7 +64,7 @@
   "by_action_20d": {
     "BUY": {
       "evaluated": 0,
-      "pending": 33,
+      "pending": 34,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -104,7 +104,7 @@
     },
     "ACCUMULATE": {
       "evaluated": 0,
-      "pending": 18,
+      "pending": 19,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -246,7 +246,7 @@
     },
     "V8.6": {
       "evaluated": 0,
-      "pending": 13,
+      "pending": 15,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,

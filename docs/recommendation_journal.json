@@ -10574,6 +10574,128 @@
       }
     },
     {
+      "id": "ad4471a5bf994fe1",
+      "signal_date": "2026-10-26",
+      "generated_at": "2026-10-26T16:27:23.044457",
+      "model_version": "V8.6",
+      "source": "NEW_ENTRY",
+      "ticker": "TSLA",
+      "action": "BUY",
+      "direction": "LONG",
+      "signal_price": 394.58,
+      "benchmark": "SPY",
+      "benchmark_entry_price": 765.63,
+      "scores": {
+        "alpha_score": 77.58,
+        "risk_score": 79.3,
+        "confidence": 77.1
+      },
+      "origin_commit": "CURRENT_RUN",
+      "evaluation_basis": "signal_price_to_future_daily_close",
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        }
+      }
+    },
+    {
+      "id": "f73e3607cd7e43a2",
+      "signal_date": "2026-10-26",
+      "generated_at": "2026-10-26T16:27:23.044457",
+      "model_version": "V8.6",
+      "source": "NEW_ENTRY",
+      "ticker": "XOM",
+      "action": "ACCUMULATE",
+      "direction": "LONG",
+      "signal_price": 183.75,
+      "benchmark": "SPY",
+      "benchmark_entry_price": 765.63,
+      "scores": {
+        "alpha_score": 74.14,
+        "risk_score": 91.5,
+        "confidence": 72.3
+      },
+      "origin_commit": "CURRENT_RUN",
+      "evaluation_basis": "signal_price_to_future_daily_close",
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        }
+      }
+    },
+    {
       "id": "d5323eff6fb721f0",
       "signal_date": "2026-10-26",
       "generated_at": "2026-10-26T14:36:22.262759",
@@ -10830,6 +10952,6 @@
       }
     }
   ],
-  "updated_at": "2026-10-26T14:53:01.941411+00:00",
-  "record_count": 171
+  "updated_at": "2026-10-26T16:27:23.796671+00:00",
+  "record_count": 173
 }
