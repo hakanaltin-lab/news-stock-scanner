@@ -117,6 +117,11 @@ from engines.position_sizing_engine import (
 )
 
 
+from engines.turnover_guardrail_engine import (
+    apply_operational_turnover_guardrail
+)
+
+
 from engines.opportunity_scanner_engine import (
     scan_opportunities
 )
@@ -752,6 +757,18 @@ def run_scanner():
         apply_event_risk_to_rebalancing(
             portfolio_rebalancing,
             event_risk,
+            results
+        )
+    )
+
+
+    # =====================================================
+    # 6B. V8.9 OPERATIONAL TURNOVER GUARDRAIL
+    # =====================================================
+
+    portfolio_rebalancing = (
+        apply_operational_turnover_guardrail(
+            portfolio_rebalancing,
             results
         )
     )
