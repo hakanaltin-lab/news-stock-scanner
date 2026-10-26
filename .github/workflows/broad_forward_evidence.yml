@@ -1,0 +1,75 @@
+name: Broad Forward Evidence Archive
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "engines/broad_forward_evidence_archive_engine.py"
+      - "scripts/run_broad_forward_evidence_archive.py"
+      - ".github/workflows/broad_forward_evidence.yml"
+  schedule:
+    - cron: "5 22 * * 1-5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: broad-forward-evidence-archive
+  cancel-in-progress: true
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Compile broad archive
+        run: |
+          python -m py_compile engines/broad_forward_evidence_archive_engine.py
+          python -m py_compile scripts/run_broad_forward_evidence_archive.py
+
+      - name: Build broad forward evidence
+        env:
+          PYTHONPATH: .
+        run: |
+          python scripts/run_broad_forward_evidence_archive.py
+
+      - name: Publish broad archive
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          TODAY="$(date -u +%F)"
+          DAILY="data/broad_evidence_archive/$TODAY.json"
+          LATEST="data/broad_evidence_archive/latest_summary.json"
+
+          test -f "$DAILY"
+          test -f "$LATEST"
+
+          git add "$DAILY" "$LATEST"
+
+          if git diff --cached --quiet; then
+            echo "No broad evidence changes"
+            exit 0
+          fi
+
+          git commit -m "Archive broad forward evidence $TODAY"
+          git reset --hard HEAD
+          git pull --rebase origin main
+          git push origin HEAD:main
