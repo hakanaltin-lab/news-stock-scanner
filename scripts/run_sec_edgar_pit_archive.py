@@ -1,8 +1,10 @@
 import csv
+from datetime import datetime, timezone
 import json
 import os
 
 from engines.sec_edgar_point_in_time_engine import (
+    CANONICAL_METRICS,
     ENGINE_VERSION,
     SIGNATURE,
     SECClient,
@@ -183,6 +185,316 @@ def write_if_changed(
     return True
 
 
+def percentage(
+    numerator,
+    denominator
+):
+    if not denominator:
+        return 0.0
+
+    return round(
+        numerator
+        /
+        denominator
+        *
+        100.0,
+        2
+    )
+
+
+def build_quality_summary(
+    results
+):
+    ticker_count = len(
+        results
+    )
+
+    cik_mapped_count = sum(
+        1
+        for result in results
+        if result.get(
+            "cik"
+        )
+    )
+
+    fact_ticker_count = sum(
+        1
+        for result in results
+        if result.get(
+            "fact_count",
+            0
+        )
+        >
+        0
+    )
+
+    exact_acceptance_ticker_count = sum(
+        1
+        for result in results
+        if result.get(
+            "exact_acceptance_fact_count",
+            0
+        )
+        >
+        0
+    )
+
+    total_fact_count = sum(
+        result.get(
+            "fact_count",
+            0
+        )
+        or
+        0
+        for result in results
+    )
+
+    exact_acceptance_fact_count = sum(
+        result.get(
+            "exact_acceptance_fact_count",
+            0
+        )
+        or
+        0
+        for result in results
+    )
+
+    amendment_fact_count = sum(
+        result.get(
+            "amendment_fact_count",
+            0
+        )
+        or
+        0
+        for result in results
+    )
+
+    metric_ticker_counts = {
+        metric:
+        0
+        for metric in CANONICAL_METRICS
+    }
+
+    taxonomy_ticker_counts = {}
+    taxonomy_fact_counts = {}
+    historical_files_loaded = 0
+    historical_files_failed = 0
+    submissions_status_counts = {}
+
+    for result in results:
+        present_metrics = (
+            (
+                result.get(
+                    "metric_coverage",
+                    {}
+                )
+                or
+                {}
+            ).get(
+                "present_metrics",
+                []
+            )
+            or
+            []
+        )
+
+        for metric in set(
+            present_metrics
+        ):
+            metric_ticker_counts[
+                metric
+            ] = (
+                metric_ticker_counts.get(
+                    metric,
+                    0
+                )
+                +
+                1
+            )
+
+        ticker_taxonomies = (
+            result.get(
+                "taxonomy_fact_counts",
+                {}
+            )
+            or
+            {}
+        )
+
+        for namespace, fact_count in (
+            ticker_taxonomies.items()
+        ):
+            taxonomy_ticker_counts[
+                namespace
+            ] = (
+                taxonomy_ticker_counts.get(
+                    namespace,
+                    0
+                )
+                +
+                1
+            )
+
+            taxonomy_fact_counts[
+                namespace
+            ] = (
+                taxonomy_fact_counts.get(
+                    namespace,
+                    0
+                )
+                +
+                (
+                    fact_count
+                    or
+                    0
+                )
+            )
+
+        submissions = (
+            result.get(
+                "submissions_metadata",
+                {}
+            )
+            or
+            {}
+        )
+
+        submissions_status = submissions.get(
+            "status",
+            "NOT_AVAILABLE"
+        ) or "NOT_AVAILABLE"
+
+        submissions_status_counts[
+            submissions_status
+        ] = (
+            submissions_status_counts.get(
+                submissions_status,
+                0
+            )
+            +
+            1
+        )
+
+        historical_files_loaded += (
+            submissions.get(
+                "historical_files_loaded",
+                0
+            )
+            or
+            0
+        )
+
+        historical_files_failed += (
+            submissions.get(
+                "historical_files_failed",
+                0
+            )
+            or
+            0
+        )
+
+    metric_coverage_pct = {
+        metric:
+        percentage(
+            count,
+            ticker_count
+        )
+        for metric, count in sorted(
+            metric_ticker_counts.items()
+        )
+    }
+
+    return {
+        "measurement_status":
+        "OBSERVATION_ONLY_NO_ALPHA_GATE",
+
+        "ticker_count":
+        ticker_count,
+
+        "cik_mapped_count":
+        cik_mapped_count,
+
+        "cik_coverage_pct":
+        percentage(
+            cik_mapped_count,
+            ticker_count
+        ),
+
+        "fact_ticker_count":
+        fact_ticker_count,
+
+        "fact_ticker_coverage_pct":
+        percentage(
+            fact_ticker_count,
+            ticker_count
+        ),
+
+        "metric_ticker_counts":
+        dict(
+            sorted(
+                metric_ticker_counts.items()
+            )
+        ),
+
+        "metric_ticker_coverage_pct":
+        metric_coverage_pct,
+
+        "taxonomy_ticker_counts":
+        dict(
+            sorted(
+                taxonomy_ticker_counts.items()
+            )
+        ),
+
+        "taxonomy_fact_counts":
+        dict(
+            sorted(
+                taxonomy_fact_counts.items()
+            )
+        ),
+
+        "total_fact_count":
+        total_fact_count,
+
+        "exact_acceptance_ticker_count":
+        exact_acceptance_ticker_count,
+
+        "exact_acceptance_fact_count":
+        exact_acceptance_fact_count,
+
+        "exact_acceptance_fact_coverage_pct":
+        percentage(
+            exact_acceptance_fact_count,
+            total_fact_count
+        ),
+
+        "amendment_fact_count":
+        amendment_fact_count,
+
+        "historical_submission_files_loaded":
+        historical_files_loaded,
+
+        "historical_submission_files_failed":
+        historical_files_failed,
+
+        "submissions_status_counts":
+        dict(
+            sorted(
+                submissions_status_counts.items()
+            )
+        ),
+
+        "automatic_alpha_use_authorized":
+        False,
+
+        "next_gate":
+        (
+            "Review observed coverage and concept continuity before freezing "
+            "a separate pre-registered fundamental research protocol."
+        )
+    }
+
+
 def main():
     user_agent = os.getenv(
         "SEC_USER_AGENT",
@@ -210,7 +522,9 @@ def main():
             indent=2)
         )
 
-        return 0
+        # Fail closed so GitHub Actions cannot report a false-successful SEC
+        # archive when the required fair-access identity is absent.
+        return 2
 
     client = SECClient(
         user_agent=user_agent
@@ -237,6 +551,15 @@ def main():
             )
 
         except Exception as error:
+            ticker_mapping = (
+                ticker_map.get(
+                    ticker,
+                    {}
+                )
+                or
+                {}
+            )
+
             result = {
                 "engine":
                 ENGINE_VERSION,
@@ -246,6 +569,11 @@ def main():
 
                 "ticker":
                 ticker,
+
+                "cik":
+                ticker_mapping.get(
+                    "cik"
+                ),
 
                 "status":
                 "ERROR",
@@ -299,7 +627,61 @@ def main():
             "latest_available_date":
             result.get(
                 "latest_available_date"
-            )
+            ),
+
+            "cik":
+            result.get(
+                "cik"
+            ),
+
+            "metric_coverage":
+            result.get(
+                "metric_coverage",
+                {}
+            ),
+
+            "taxonomy_fact_counts":
+            result.get(
+                "taxonomy_fact_counts",
+                {}
+            ),
+
+            "exact_acceptance_fact_count":
+            result.get(
+                "exact_acceptance_fact_count",
+                0
+            ),
+
+            "amendment_fact_count":
+            result.get(
+                "amendment_fact_count",
+                0
+            ),
+
+            "submissions_metadata":
+            {
+                key:
+                (
+                    result.get(
+                        "submissions_metadata",
+                        {}
+                    )
+                    or
+                    {}
+                ).get(
+                    key
+                )
+                for key in [
+                    "status",
+                    "historical_cutoff_date",
+                    "recent_acceptance_count",
+                    "historical_acceptance_count",
+                    "total_acceptance_count",
+                    "historical_files_discovered",
+                    "historical_files_loaded",
+                    "historical_files_failed"
+                ]
+            }
         })
 
     status_counts = {}
@@ -330,6 +712,11 @@ def main():
         "status":
         "COMPLETE",
 
+        "generated_at":
+        datetime.now(
+            timezone.utc
+        ).isoformat(),
+
         "scope":
         (
             "Current S&P500 + Nasdaq100 union when the forward universe "
@@ -349,6 +736,11 @@ def main():
 
         "status_counts":
         status_counts,
+
+        "quality_summary":
+        build_quality_summary(
+            results
+        ),
 
         "records":
         results,

@@ -8,6 +8,8 @@ on:
     paths:
       - "engines/sec_edgar_point_in_time_engine.py"
       - "scripts/run_sec_edgar_pit_archive.py"
+      - "scripts/test_sec_edgar_pit_engine.py"
+      - "docs/SEC_EDGAR_PIT_SETUP.md"
       - ".github/workflows/sec_edgar_pit_archive.yml"
   schedule:
     - cron: "15 23 * * 1-5"
@@ -50,6 +52,15 @@ jobs:
           PYTHONPATH: .
         run: |
           python scripts/test_sec_edgar_pit_engine.py
+
+      - name: Require SEC fair-access identity
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: |
+          if [ -z "$SEC_USER_AGENT" ]; then
+            echo "::error::Missing repository secret SEC_USER_AGENT. See docs/SEC_EDGAR_PIT_SETUP.md."
+            exit 1
+          fi
 
       - name: Build SEC PIT archive
         env:

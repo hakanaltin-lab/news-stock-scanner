@@ -14,7 +14,8 @@ SEC fair-access requirements:
 - Requests are throttled below the SEC 10 requests/second ceiling.
 """
 
-from datetime import date, datetime, timedelta, timezone
+from collections import Counter
+from datetime import date, timedelta
 import json
 import os
 import time
@@ -22,8 +23,8 @@ import time
 import requests
 
 
-ENGINE_VERSION = "V8.8 SEC EDGAR Point-in-Time Fundamental Foundation"
-SIGNATURE = "V8.8.0"
+ENGINE_VERSION = "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation"
+SIGNATURE = "V8.8.3"
 
 SEC_TICKER_MAP_URL = "https://www.sec.gov/files/company_tickers.json"
 SEC_COMPANYFACTS_URL = (
@@ -33,6 +34,15 @@ SEC_COMPANYFACTS_URL = (
 SEC_SUBMISSIONS_URL = (
     "https://data.sec.gov/submissions/CIK{cik10}.json"
 )
+
+SEC_SUBMISSIONS_FILE_URL = (
+    "https://data.sec.gov/submissions/{name}"
+)
+
+# XBRL reporting became mandatory in phases beginning in 2009. Historical
+# submission shards ending before this date cannot enrich Company Facts data
+# and are intentionally skipped to keep SEC traffic bounded.
+HISTORICAL_SUBMISSIONS_CUTOFF_DATE = "2009-01-01"
 
 DEFAULT_TIMEOUT_SECONDS = 30
 MIN_REQUEST_INTERVAL_SECONDS = 0.22
@@ -409,13 +419,15 @@ def normalize_accession(
 def build_acceptance_map(
     submissions_payload
 ):
+    payload = submissions_payload or {}
+
+    # The primary CIK payload nests its compact columnar arrays under
+    # filings.recent. Historical shard files expose the same arrays at their
+    # root. Supporting both shapes is necessary for exact acceptance metadata
+    # across the full XBRL history.
     recent = (
         (
-            (
-                submissions_payload
-                or
-                {}
-            ).get(
+            payload.get(
                 "filings",
                 {}
             )
@@ -426,8 +438,19 @@ def build_acceptance_map(
             {}
         )
         or
-        {}
+        payload.get(
+            "recent",
+            {}
+        )
+        or
+        payload
     )
+
+    if not isinstance(
+        recent,
+        dict
+    ):
+        return {}
 
     accessions = recent.get(
         "accessionNumber",
@@ -505,6 +528,243 @@ def build_acceptance_map(
         }
 
     return result
+
+
+def historical_submission_files(
+    submissions_payload,
+    cutoff_date=HISTORICAL_SUBMISSIONS_CUTOFF_DATE
+):
+    files = (
+        (
+            (
+                submissions_payload
+                or
+                {}
+            ).get(
+                "filings",
+                {}
+            )
+            or
+            {}
+        ).get(
+            "files",
+            []
+        )
+        or
+        []
+    )
+
+    eligible = []
+
+    for item in files:
+        if not isinstance(
+            item,
+            dict
+        ):
+            continue
+
+        name = str(
+            item.get(
+                "name",
+                ""
+            )
+        ).strip()
+
+        filing_to = str(
+            item.get(
+                "filingTo",
+                ""
+            )
+        )[:10]
+
+        # SEC-provided names are expected to be simple JSON filenames. Reject
+        # path-like values defensively before using them in a request URL.
+        if (
+            not name
+            or
+            not name.endswith(
+                ".json"
+            )
+            or
+            "/"
+            in
+            name
+            or
+            "\\"
+            in
+            name
+        ):
+            continue
+
+        if (
+            filing_to
+            and
+            filing_to
+            <
+            cutoff_date
+        ):
+            continue
+
+        eligible.append({
+            "name":
+            name,
+
+            "filing_from":
+            item.get(
+                "filingFrom"
+            ),
+
+            "filing_to":
+            item.get(
+                "filingTo"
+            )
+        })
+
+    eligible.sort(
+        key=lambda item: (
+            str(
+                item.get(
+                    "filing_from",
+                    ""
+                )
+            ),
+            item.get(
+                "name",
+                ""
+            )
+        )
+    )
+
+    return eligible
+
+
+def load_acceptance_metadata(
+    client,
+    cik_value,
+    cutoff_date=HISTORICAL_SUBMISSIONS_CUTOFF_DATE
+):
+    submissions_payload = client.get_json(
+        SEC_SUBMISSIONS_URL.format(
+            cik10=cik10(
+                cik_value
+            )
+        )
+    )
+
+    acceptance_map = build_acceptance_map(
+        submissions_payload
+    )
+
+    recent_acceptance_count = len(
+        acceptance_map
+    )
+
+    historical_files = historical_submission_files(
+        submissions_payload,
+        cutoff_date=cutoff_date
+    )
+
+    loaded_files = []
+    failed_files = []
+    historical_acceptance_count = 0
+
+    for descriptor in historical_files:
+        name = descriptor.get(
+            "name"
+        )
+
+        try:
+            historical_payload = client.get_json(
+                SEC_SUBMISSIONS_FILE_URL.format(
+                    name=name
+                )
+            )
+
+            historical_map = build_acceptance_map(
+                historical_payload
+            )
+
+            added = 0
+
+            for accession, metadata in (
+                historical_map.items()
+            ):
+                if accession in acceptance_map:
+                    continue
+
+                acceptance_map[
+                    accession
+                ] = metadata
+                added += 1
+
+            historical_acceptance_count += added
+
+            loaded_files.append({
+                **descriptor,
+                "acceptance_count":
+                len(
+                    historical_map
+                ),
+                "added_acceptance_count":
+                added
+            })
+
+        except Exception as error:
+            failed_files.append({
+                **descriptor,
+                "error":
+                str(
+                    error
+                )
+            })
+
+    return (
+        acceptance_map,
+        {
+            "status":
+            (
+                "COMPLETE"
+                if not failed_files
+                else
+                "PARTIAL"
+            ),
+
+            "historical_cutoff_date":
+            cutoff_date,
+
+            "recent_acceptance_count":
+            recent_acceptance_count,
+
+            "historical_acceptance_count":
+            historical_acceptance_count,
+
+            "total_acceptance_count":
+            len(
+                acceptance_map
+            ),
+
+            "historical_files_discovered":
+            len(
+                historical_files
+            ),
+
+            "historical_files_loaded":
+            len(
+                loaded_files
+            ),
+
+            "historical_files_failed":
+            len(
+                failed_files
+            ),
+
+            "loaded_files":
+            loaded_files,
+
+            "failed_files":
+            failed_files
+        }
+    )
 
 
 def normalize_metric_facts(
@@ -851,6 +1111,69 @@ def normalize_companyfacts(
         default=None
     )
 
+    metric_fact_counts = dict(
+        sorted(
+            Counter(
+                row.get(
+                    "metric"
+                )
+                for row in normalized
+                if row.get(
+                    "metric"
+                )
+            ).items()
+        )
+    )
+
+    taxonomy_fact_counts = dict(
+        sorted(
+            Counter(
+                row.get(
+                    "namespace"
+                )
+                for row in normalized
+                if row.get(
+                    "namespace"
+                )
+            ).items()
+        )
+    )
+
+    exact_acceptance_fact_count = sum(
+        1
+        for row in normalized
+        if row.get(
+            "accepted_at"
+        )
+    )
+
+    amendment_fact_count = sum(
+        1
+        for row in normalized
+        if str(
+            row.get(
+                "form",
+                ""
+            )
+        ).endswith(
+            "/A"
+        )
+    )
+
+    present_metrics = sorted(
+        metric_fact_counts
+    )
+
+    missing_metrics = sorted(
+        set(
+            CANONICAL_METRICS
+        )
+        -
+        set(
+            present_metrics
+        )
+    )
+
     return {
         "engine":
         ENGINE_VERSION,
@@ -891,13 +1214,60 @@ def normalize_companyfacts(
         "availability_rule":
         (
             "available_date = SEC filed date + 1 calendar day; conservative "
-            "guard against same-day look-ahead. Exact recent acceptance "
-            "timestamps from SEC submissions metadata are stored for audit "
-            "but do not make the daily as-of date earlier."
+            "guard against same-day look-ahead. Exact current and historical "
+            "acceptance timestamps from SEC submissions metadata are stored "
+            "for audit but do not make the daily as-of date earlier."
         ),
 
         "matched_concepts":
         matched_concepts,
+
+        "metric_coverage": {
+            "canonical_metric_count":
+            len(
+                CANONICAL_METRICS
+            ),
+
+            "present_metric_count":
+            len(
+                present_metrics
+            ),
+
+            "present_metrics":
+            present_metrics,
+
+            "missing_metrics":
+            missing_metrics,
+
+            "metric_fact_counts":
+            metric_fact_counts
+        },
+
+        "taxonomy_fact_counts":
+        taxonomy_fact_counts,
+
+        "exact_acceptance_fact_count":
+        exact_acceptance_fact_count,
+
+        "exact_acceptance_coverage_pct":
+        round(
+            (
+                exact_acceptance_fact_count
+                /
+                len(
+                    normalized
+                )
+                *
+                100.0
+            ),
+            2
+        )
+        if normalized
+        else
+        0.0,
+
+        "amendment_fact_count":
+        amendment_fact_count,
 
         "fact_count":
         len(
@@ -960,23 +1330,57 @@ def fetch_ticker_facts(
         }
 
     acceptance_map = {}
-    submissions_status = "NOT_REQUESTED"
+    submissions_metadata = {
+        "status":
+        "NOT_REQUESTED",
+
+        "historical_cutoff_date":
+        HISTORICAL_SUBMISSIONS_CUTOFF_DATE,
+
+        "recent_acceptance_count":
+        0,
+
+        "historical_acceptance_count":
+        0,
+
+        "total_acceptance_count":
+        0,
+
+        "historical_files_discovered":
+        0,
+
+        "historical_files_loaded":
+        0,
+
+        "historical_files_failed":
+        0,
+
+        "loaded_files":
+        [],
+
+        "failed_files":
+        []
+    }
 
     try:
-        submissions_payload = client.get_json(
-            SEC_SUBMISSIONS_URL.format(
-                cik10=cik_value
-            )
+        (
+            acceptance_map,
+            submissions_metadata
+        ) = load_acceptance_metadata(
+            client,
+            cik_value
         )
 
-        acceptance_map = build_acceptance_map(
-            submissions_payload
+    except Exception as error:
+        submissions_metadata[
+            "status"
+        ] = "UNAVAILABLE"
+
+        submissions_metadata[
+            "error"
+        ] = str(
+            error
         )
-
-        submissions_status = "COMPLETE"
-
-    except Exception:
-        submissions_status = "UNAVAILABLE"
 
     payload = client.get_json(
         SEC_COMPANYFACTS_URL.format(
@@ -993,15 +1397,7 @@ def fetch_ticker_facts(
 
     result[
         "submissions_metadata"
-    ] = {
-        "status":
-        submissions_status,
-
-        "recent_acceptance_count":
-        len(
-            acceptance_map
-        )
-    }
+    ] = submissions_metadata
 
     result[
         "status"

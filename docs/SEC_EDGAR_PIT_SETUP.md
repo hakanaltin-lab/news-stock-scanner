@@ -1,4 +1,4 @@
-# AURORA V8.8 — SEC EDGAR Point-in-Time Fundamental Setup
+# AURORA V8.8.3 — SEC EDGAR Point-in-Time Fundamental Setup
 
 AURORA's SEC foundation uses the public SEC EDGAR data APIs for historical,
 filing-dated fundamental evidence. It does not submit filings and requires no
@@ -13,6 +13,17 @@ SEC API key.
 - Price-only research freeze remains in force.
 - SEC data must not be used in a new alpha model until a separate named,
   pre-registered fundamental research protocol is created.
+
+## Current operational status
+
+The code, synthetic no-lookahead tests, current-index scope, IFRS mappings,
+historical submission-shard enrichment and coverage telemetry are in place.
+The first real SEC archive has not yet been produced because the repository
+does not currently expose `SEC_USER_AGENT` to the workflow.
+
+The workflow now fails closed when this secret is missing. A green workflow
+therefore means that the SEC archive actually ran; a disabled no-op can no
+longer be mistaken for a successful archive.
 
 ## SEC fair-access requirement
 
@@ -92,19 +103,26 @@ Each reported fact preserves:
 - form
 - fiscal year / fiscal period
 - accession number
+- exact SEC acceptance timestamp when available
+- acceptance metadata source coverage
 - frame when supplied
+
+The engine reads both the current submissions payload and SEC-provided
+historical submission shard files ending in the XBRL era (2009 onward). This
+extends exact acceptance-time audit coverage beyond the most recent filing
+window without crawling pre-XBRL history.
 
 ## Point-in-time rule
 
-Company Facts usually provides a filing date rather than a complete historical
-acceptance timestamp for every normalized fact. To prevent same-day look-ahead,
-AURORA uses:
+Company Facts provides filing dates but not complete acceptance timestamps.
+The submissions API is used to enrich current and historical accessions with
+exact acceptance times. To remain conservative at daily model resolution,
+AURORA still uses:
 
     available_date = filed_date + 1 calendar day
 
-A future version may enrich this with exact acceptance timestamps from SEC
-submission metadata, but it must never make evidence available earlier than
-the original filing.
+The exact timestamp is retained for audit and future intraday-safe research,
+but it never makes the daily `available_date` earlier than the rule above.
 
 ## SEC endpoints
 
@@ -117,7 +135,7 @@ maximum.
 ## Next milestone after first successful archive
 
 1. Validate CIK coverage for the current S&P 500 + Nasdaq-100 union.
-2. Add IFRS concept support for relevant foreign issuers/ADRs.
-3. Add exact submission acceptance timestamps where available.
-4. Validate historical concept continuity and amended filings.
+2. Review the emitted per-metric, taxonomy and exact-acceptance coverage.
+3. Validate historical concept continuity and amended filings on real data.
+4. Freeze explicit data-quality thresholds before reading any alpha result.
 5. Only then define a new pre-registered fundamental research hypothesis.
