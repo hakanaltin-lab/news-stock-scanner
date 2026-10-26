@@ -9,13 +9,14 @@ on:
       - "engines/simple_factor_challenger_engine.py"
       - "scripts/run_simple_factor_challenger.py"
       - "docs/research/simple_factor_challenger_preregistration_v1.md"
+      - "docs/research/simple_factor_challenger_data_recovery_addendum_v1_1.md"
       - ".github/workflows/simple_factor_challenger.yml"
 
 permissions:
   contents: write
 
 concurrency:
-  group: simple-factor-challenger-holdout-v3
+  group: simple-factor-challenger-holdout-v4
   cancel-in-progress: true
 
 jobs:
