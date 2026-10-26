@@ -60,8 +60,11 @@ After the secret is added, run the workflow manually once:
 
 ## Current first milestone
 
-The first SEC archive covers the current AURORA evidence universe
-(`data/us_universe.json` plus `data/portfolio.csv`).
+The SEC archive now prefers the daily current-index snapshot
+(`data/current_index_universe/latest.json`) and therefore covers the current
+S&P 500 + Nasdaq-100 union, while always adding AURORA scanner/portfolio names
+that fall outside those indices. If the current-index snapshot is unavailable,
+it fails safely back to the smaller AURORA core universe.
 
 For each ticker it stores normalized filing-dated facts for:
 
@@ -113,8 +116,8 @@ maximum.
 
 ## Next milestone after first successful archive
 
-1. Validate CIK coverage for the current evidence universe.
-2. Extend SEC evidence scope to the current S&P 500 + Nasdaq-100 union.
-3. Add IFRS concept support for relevant foreign issuers/ADRs.
-4. Add exact submission acceptance timestamps where available.
+1. Validate CIK coverage for the current S&P 500 + Nasdaq-100 union.
+2. Add IFRS concept support for relevant foreign issuers/ADRs.
+3. Add exact submission acceptance timestamps where available.
+4. Validate historical concept continuity and amended filings.
 5. Only then define a new pre-registered fundamental research hypothesis.
