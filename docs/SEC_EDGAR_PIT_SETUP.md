@@ -124,6 +124,44 @@ AURORA still uses:
 The exact timestamp is retained for audit and future intraday-safe research,
 but it never makes the daily `available_date` earlier than the rule above.
 
+## V8.9.1 collection readiness and data quality
+
+The workflow's offline no-lookahead tests and its real data collection are
+separate checks. A missing `SEC_USER_AGENT` now exits with code 2, publishes
+`DISABLED_MISSING_SEC_USER_AGENT`, and fails the collection step. It must not be
+interpreted as a successful SEC archive. The workflow still publishes its
+blocked status so the dashboard shows the setup requirement.
+
+Readiness is published in:
+
+- `data/sec_edgar_pit/latest_summary.json`: complete per-ticker collection report.
+- `docs/sec_archive_readiness.json`: compact public dashboard status.
+- GitHub Actions job summary: collection status and usable ticker count.
+
+Reports count CIK matches, actual normalized facts, metric coverage, US-GAAP /
+IFRS namespaces, reporting units, amended facts, and exact acceptance metadata.
+Missing metrics remain explicit gaps; different units are never converted or
+combined by the coverage report. Current constituents remain a forward
+universe and must not be substituted for historical index membership.
+
+Rows with invalid dates, availability earlier than filing plus one day,
+non-finite/non-numeric values, or missing core provenance fail the quality
+check. A failed, empty or invalid fetch never replaces an existing valid fact
+file. Retained evidence does not count as successful current-run coverage.
+Bootstrap failures and runs with no usable facts exit nonzero and publish an
+explicit blocker. A usable archive with missing issuers or concepts reports
+`COMPLETE_WITH_GAPS`; `COMPLETE` requires full issuer and metric coverage.
+
+`collection_ready` means data was collected, not that a strategy is validated.
+The research-use, paper-order and LIVE-execution authorization fields remain
+false in every state. The User-Agent and contact address are never written to
+public reports or exception messages.
+
+Offline verification:
+
+    PYTHONPATH=. python scripts/test_sec_edgar_pit_engine.py
+    python -m unittest discover -s tests -p 'test_sec_archive_readiness.py' -v
+
 ## SEC endpoints
 
 - Ticker/CIK mapping: `www.sec.gov/files/company_tickers.json`
@@ -139,3 +177,8 @@ maximum.
 3. Validate historical concept continuity and amended filings on real data.
 4. Freeze explicit data-quality thresholds before reading any alpha result.
 5. Only then define a new pre-registered fundamental research hypothesis.
+
+Official sources:
+
+- [SEC data API documentation](https://www.sec.gov/search-filings/edgar-application-programming-interfaces)
+- [SEC fair-access and declared User-Agent requirements](https://www.sec.gov/search-filings/edgar-search-assistance/accessing-edgar-data)

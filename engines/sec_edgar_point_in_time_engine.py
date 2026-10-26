@@ -712,10 +712,8 @@ def load_acceptance_metadata(
         except Exception as error:
             failed_files.append({
                 **descriptor,
-                "error":
-                str(
-                    error
-                )
+                "error_type":
+                type(error).__name__
             })
 
     return (
@@ -1377,10 +1375,8 @@ def fetch_ticker_facts(
         ] = "UNAVAILABLE"
 
         submissions_metadata[
-            "error"
-        ] = str(
-            error
-        )
+            "error_type"
+        ] = type(error).__name__
 
     payload = client.get_json(
         SEC_COMPANYFACTS_URL.format(

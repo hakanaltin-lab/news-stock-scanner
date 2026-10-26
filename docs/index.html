@@ -337,6 +337,14 @@ Price-only factor research is frozen. New alpha research requires a materially n
 
 
 <!-- ================================================= -->
+<!-- SEC FUNDAMENTAL DATA READINESS -->
+<div class="card yellow">
+<div class="title">SEC FUNDAMENTAL DATA</div>
+<div class="section-note" id="sec-archive-status">Checking SEC archive status...</div>
+<div class="section-note" id="sec-archive-coverage">Coverage has not been verified.</div>
+<div class="section-note" id="sec-archive-note">Data coverage does not authorize a new strategy or broker orders.</div>
+</div>
+
 <!-- SUMMARY -->
 <!-- ================================================= -->
 
@@ -9762,7 +9770,44 @@ document.getElementById(
 }
 
 
+async function loadSecArchiveReadiness(){
+const statusElement = document.getElementById("sec-archive-status");
+const coverageElement = document.getElementById("sec-archive-coverage");
+const noteElement = document.getElementById("sec-archive-note");
+try {
+const response = await fetch("sec_archive_readiness.json?ts=" + Date.now());
+if (!response.ok) throw new Error("SEC status unavailable");
+const summary = await response.json();
+const labels = {
+COMPLETE: "ARCHIVE COLLECTED",
+COMPLETE_WITH_GAPS: "AVAILABLE WITH COVERAGE GAPS",
+DISABLED_MISSING_SEC_USER_AGENT: "SETUP REQUIRED — no SEC archive collected",
+BLOCKED_EMPTY_UNIVERSE: "BLOCKED — evidence universe is empty",
+BLOCKED_EMPTY_SEC_TICKER_MAP: "BLOCKED — SEC company mapping unavailable",
+ERROR_SEC_TICKER_MAP: "BLOCKED — SEC company mapping request failed",
+NO_USABLE_FACTS: "BLOCKED — no usable financial records in this run"
+};
+statusElement.textContent = (labels[summary.status] || "UNVERIFIED ARCHIVE STATUS")
++ " | Last check: " + (summary.updated_at || "unknown");
+const cik = summary.cik_coverage || {};
+const total = summary.ticker_count || 0;
+coverageElement.textContent = "Usable tickers this run: "
++ (summary.usable_ticker_count || 0) + "/" + total
++ " | CIK matches: " + (cik.assessed === true
+? (cik.matched_ticker_count || 0) + "/" + total : "not assessed")
++ " | Financial facts: " + (summary.valid_fact_count || 0)
++ " | Facts with exact acceptance metadata: " + (summary.acceptance_fact_count || 0);
+noteElement.textContent = summary.status === "DISABLED_MISSING_SEC_USER_AGENT"
+? "Complete SEC data-source setup before the first archive can be collected. Research use and broker orders remain blocked."
+: "Coverage describes this collection attempt; retained older records do not count as fresh success. New fundamental research still requires a separate protocol.";
+} catch (error) {
+statusElement.textContent = "UNAVAILABLE — SEC archive readiness could not be verified";
+coverageElement.textContent = "No current coverage can be confirmed. Check the SEC archive workflow.";
+}
+}
+
 loadAurora();
+loadSecArchiveReadiness();
 
 
 </script>

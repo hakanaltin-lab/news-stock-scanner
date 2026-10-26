@@ -1,0 +1,86 @@
+{
+  "acceptance_fact_count": 0,
+  "amended_fact_count": 0,
+  "attempted_ticker_count": 0,
+  "availability_rule": "SEC filed date + 1 calendar day; acceptance timestamps are audit-only",
+  "changed_fact_files": 0,
+  "cik_coverage": {
+    "assessed": false,
+    "matched_ticker_count": null,
+    "missing_tickers": [],
+    "universe_count": 520
+  },
+  "collection_ready": false,
+  "engine": "V8.9.1 SEC Archive Readiness",
+  "limitations": [
+    "Current index constituents are a forward universe, not historical membership.",
+    "Coverage is measured for this run; retained older facts are not counted as fresh success.",
+    "Missing concepts may reflect issuer reporting or taxonomy differences.",
+    "No fundamental research hypothesis or live promotion is authorized by this report."
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "metric_coverage": {
+    "capex": {
+      "ticker_count": 0,
+      "universe_count": 520
+    },
+    "cash": {
+      "ticker_count": 0,
+      "universe_count": 520
+    },
+    "current_debt": {
+      "ticker_count": 0,
+      "universe_count": 520
+    },
+    "eps_diluted": {
+      "ticker_count": 0,
+      "universe_count": 520
+    },
+    "long_term_debt": {
+      "ticker_count": 0,
+      "universe_count": 520
+    },
+    "net_income": {
+      "ticker_count": 0,
+      "universe_count": 520
+    },
+    "operating_cash_flow": {
+      "ticker_count": 0,
+      "universe_count": 520
+    },
+    "operating_income": {
+      "ticker_count": 0,
+      "universe_count": 520
+    },
+    "revenue": {
+      "ticker_count": 0,
+      "universe_count": 520
+    },
+    "stockholders_equity": {
+      "ticker_count": 0,
+      "universe_count": 520
+    },
+    "total_assets": {
+      "ticker_count": 0,
+      "universe_count": 520
+    },
+    "total_liabilities": {
+      "ticker_count": 0,
+      "universe_count": 520
+    }
+  },
+  "paper_order_submission_authorized": false,
+  "point_in_time_validation_passed": false,
+  "quality_issues": {},
+  "required_environment_variable": "SEC_USER_AGENT",
+  "research_use_authorized": false,
+  "status": "DISABLED_MISSING_SEC_USER_AGENT",
+  "status_counts": {},
+  "taxonomy_fact_counts": {},
+  "ticker_count": 520,
+  "universe_source": "CURRENT_SP500_NASDAQ100_UNION",
+  "updated_at": "2026-10-26T16:22:57.491646+00:00",
+  "usable_ticker_count": 0,
+  "valid_fact_count": 0
+}

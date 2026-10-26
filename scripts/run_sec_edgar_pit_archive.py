@@ -1,12 +1,12 @@
 import csv
-from datetime import datetime, timezone
 import json
 import os
+import tempfile
+
+from engines.sec_archive_quality_engine import build_archive_summary, inspect_sec_record
 
 from engines.sec_edgar_point_in_time_engine import (
     CANONICAL_METRICS,
-    ENGINE_VERSION,
-    SIGNATURE,
     SECClient,
     fetch_ticker_facts,
     load_sec_ticker_map,
@@ -128,61 +128,81 @@ def load_current_evidence_universe():
     )
 
 
-def canonical_json(
-    value
-):
+def canonical_json(value):
     return json.dumps(
-        value,
-        indent=2,
-        sort_keys=True,
-        ensure_ascii=False
+        value, indent=2, sort_keys=True, ensure_ascii=False, allow_nan=False
     ) + "\n"
 
 
-def write_if_changed(
-    path,
-    value
-):
-    content = canonical_json(
-        value
-    )
+def write_if_changed(path, value):
+    content = canonical_json(value)
+    try:
+        with open(path, "r", encoding="utf-8") as file:
+            if file.read() == content:
+                return False
+    except (OSError, UnicodeError):
+        pass
 
-    existing = None
-
-    if os.path.exists(
-        path
-    ):
-        try:
-            with open(
-                path,
-                "r",
-                encoding="utf-8"
-            ) as file:
-                existing = file.read()
-
-        except Exception:
-            existing = None
-
-    if existing == content:
-        return False
-
-    os.makedirs(
-        os.path.dirname(
-            path
-        ),
-        exist_ok=True
-    )
-
-    with open(
-        path,
-        "w",
-        encoding="utf-8"
-    ) as file:
-        file.write(
-            content
-        )
-
+    directory = os.path.dirname(path) or "."
+    os.makedirs(directory, exist_ok=True)
+    temporary_path = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", dir=directory, delete=False
+        ) as file:
+            temporary_path = file.name
+            file.write(content)
+        os.replace(temporary_path, path)
+    finally:
+        if temporary_path and os.path.exists(temporary_path):
+            os.unlink(temporary_path)
     return True
+
+
+def load_existing_record(path):
+    try:
+        with open(path, "r", encoding="utf-8") as file:
+            record = json.load(file)
+        return record if isinstance(record, dict) else {}
+    except (OSError, ValueError, UnicodeError):
+        return {}
+
+
+def finish_run(summary, exit_code):
+    write_if_changed(SUMMARY_FILE, summary)
+    # A compact, public-safe source-status file. Never copy the User-Agent.
+    dashboard = {
+        key: value for key, value in summary.items()
+        if key not in {"records", "unusable_tickers", "unattempted_tickers"}
+    }
+    write_if_changed("docs/sec_archive_readiness.json", dashboard)
+
+    output_path = os.getenv("GITHUB_OUTPUT")
+    if output_path:
+        with open(output_path, "a", encoding="utf-8") as file:
+            file.write("status=" + summary["status"] + "\n")
+
+    summary_path = os.getenv("GITHUB_STEP_SUMMARY")
+    if summary_path:
+        with open(summary_path, "a", encoding="utf-8") as file:
+            file.write(
+                "## SEC archive data readiness\n\n"
+                + "**Status: " + summary["status"] + "**\n\n"
+                + "Usable tickers this run: "
+                + str(summary["usable_ticker_count"]) + "/"
+                + str(summary["ticker_count"]) + ".\n\n"
+                + "Setup blockers and failed collection are not successful archives. "
+                + "Retained older facts do not count as current-run coverage.\n\n"
+                + "Fundamental research use, paper orders and LIVE execution "
+                + "remain unauthorized.\n"
+            )
+
+    if os.getenv("GITHUB_ACTIONS") == "true" and not summary["collection_ready"]:
+        print("::error::SEC archive is not data-ready: " + summary["status"])
+    elif os.getenv("GITHUB_ACTIONS") == "true" and summary["status"] == "COMPLETE_WITH_GAPS":
+        print("::warning::SEC archive completed with coverage gaps; inspect the readiness report.")
+    print(json.dumps(summary, indent=2, allow_nan=False))
+    return exit_code
 
 
 def percentage(
@@ -496,284 +516,81 @@ def build_quality_summary(
 
 
 def main():
-    user_agent = os.getenv(
-        "SEC_USER_AGENT",
-        ""
-    ).strip()
+    tickers, universe_source = load_current_evidence_universe()
+    user_agent = os.getenv("SEC_USER_AGENT", "").strip()
 
     if not user_agent:
-        print(
-            json.dumps({
-                "engine":
-                ENGINE_VERSION,
+        return finish_run(build_archive_summary(
+            tickers, universe_source, [],
+            status="DISABLED_MISSING_SEC_USER_AGENT"
+        ), 2)
 
-                "signature":
-                SIGNATURE,
+    if not tickers:
+        return finish_run(build_archive_summary(
+            tickers, universe_source, [], status="BLOCKED_EMPTY_UNIVERSE"
+        ), 1)
 
-                "status":
-                "DISABLED_MISSING_SEC_USER_AGENT",
-
-                "required_environment_variable":
-                "SEC_USER_AGENT",
-
-                "live_decisions_changed":
-                False
-            },
-            indent=2)
-        )
-
-        # Fail closed so GitHub Actions cannot report a false-successful SEC
-        # archive when the required fair-access identity is absent.
-        return 2
-
-    client = SECClient(
-        user_agent=user_agent
-    )
-
-    ticker_map = load_sec_ticker_map(
-        client
-    )
-
-    (
-        tickers,
-        universe_source
-    ) = load_current_evidence_universe()
+    # Bootstrap failures also produce a visible status, without publishing
+    # request headers, the contact address, or potentially sensitive exceptions.
+    try:
+        client = SECClient(user_agent=user_agent)
+        ticker_map = load_sec_ticker_map(client)
+        if not ticker_map:
+            return finish_run(build_archive_summary(
+                tickers, universe_source, [],
+                status="BLOCKED_EMPTY_SEC_TICKER_MAP", ticker_map={}
+            ), 1)
+    except Exception as error:
+        return finish_run(build_archive_summary(
+            tickers, universe_source, [], status="ERROR_SEC_TICKER_MAP",
+            error_type=type(error).__name__
+        ), 1)
 
     results = []
     changed_files = 0
-
     for ticker in tickers:
         try:
-            result = fetch_ticker_facts(
-                client,
-                ticker,
-                ticker_map
-            )
-
+            result = fetch_ticker_facts(client, ticker, ticker_map)
         except Exception as error:
-            ticker_mapping = (
-                ticker_map.get(
-                    ticker,
-                    {}
-                )
-                or
-                {}
-            )
-
             result = {
-                "engine":
-                ENGINE_VERSION,
-
-                "signature":
-                SIGNATURE,
-
-                "ticker":
-                ticker,
-
-                "cik":
-                ticker_mapping.get(
-                    "cik"
-                ),
-
-                "status":
-                "ERROR",
-
-                "error":
-                str(
-                    error
-                ),
-
-                "point_in_time":
-                True,
-
-                "facts":
-                []
+                "ticker": ticker,
+                "cik": (ticker_map.get(ticker) or {}).get("cik"),
+                "status": "ERROR",
+                "error_type": type(error).__name__,
+                "facts": [],
             }
 
-        output_path = os.path.join(
-            OUTPUT_DIR,
-            ticker
-            +
-            ".json"
-        )
+        row = inspect_sec_record(result)
+        output_path = os.path.join(OUTPUT_DIR, ticker + ".json")
+        previous = load_existing_record(output_path)
+        row["retained_previous_evidence"] = False
+        if row["quality_valid"]:
+            if write_if_changed(output_path, result):
+                changed_files += 1
+        else:
+            # A failed/empty/invalid fetch must never replace good evidence.
+            row["retained_previous_evidence"] = inspect_sec_record(previous)["quality_valid"]
+        if result.get("error_type"):
+            row["error_type"] = result["error_type"]
+        results.append(row)
 
-        if write_if_changed(
-            output_path,
-            result
-        ):
-            changed_files += 1
-
-        results.append({
-            "ticker":
-            ticker,
-
-            "status":
-            result.get(
-                "status"
-            ),
-
-            "fact_count":
-            result.get(
-                "fact_count",
-                0
-            ),
-
-            "accession_count":
-            result.get(
-                "accession_count",
-                0
-            ),
-
-            "latest_available_date":
-            result.get(
-                "latest_available_date"
-            ),
-
-            "cik":
-            result.get(
-                "cik"
-            ),
-
-            "metric_coverage":
-            result.get(
-                "metric_coverage",
-                {}
-            ),
-
-            "taxonomy_fact_counts":
-            result.get(
-                "taxonomy_fact_counts",
-                {}
-            ),
-
-            "exact_acceptance_fact_count":
-            result.get(
-                "exact_acceptance_fact_count",
-                0
-            ),
-
-            "amendment_fact_count":
-            result.get(
-                "amendment_fact_count",
-                0
-            ),
-
-            "submissions_metadata":
-            {
-                key:
-                (
-                    result.get(
-                        "submissions_metadata",
-                        {}
-                    )
-                    or
-                    {}
-                ).get(
-                    key
-                )
-                for key in [
-                    "status",
-                    "historical_cutoff_date",
-                    "recent_acceptance_count",
-                    "historical_acceptance_count",
-                    "total_acceptance_count",
-                    "historical_files_discovered",
-                    "historical_files_loaded",
-                    "historical_files_failed"
-                ]
-            }
-        })
-
-    status_counts = {}
-
-    for row in results:
-        status = row.get(
-            "status"
-        )
-
-        status_counts[
-            status
-        ] = (
-            status_counts.get(
-                status,
-                0
-            )
-            +
-            1
-        )
-
-    summary = {
-        "engine":
-        ENGINE_VERSION,
-
-        "signature":
-        SIGNATURE,
-
-        "status":
-        "COMPLETE",
-
-        "generated_at":
-        datetime.now(
-            timezone.utc
-        ).isoformat(),
-
-        "scope":
-        (
-            "Current S&P500 + Nasdaq100 union when the forward universe "
-            "snapshot is available, plus AURORA scanner/portfolio names."
-        ),
-
-        "universe_source":
-        universe_source,
-
-        "ticker_count":
-        len(
-            tickers
-        ),
-
-        "changed_fact_files":
-        changed_files,
-
-        "status_counts":
-        status_counts,
-
-        "quality_summary":
-        build_quality_summary(
-            results
-        ),
-
-        "records":
-        results,
-
-        "point_in_time":
-        True,
-
-        "live_decisions_changed":
-        False,
-
-        "paper_order_submission_authorized":
-        False,
-
-        "live_execution_authorized":
-        False
-    }
-
-    write_if_changed(
-        SUMMARY_FILE,
-        summary
+    summary = build_archive_summary(
+        tickers, universe_source, results, ticker_map=ticker_map,
+        changed_fact_files=changed_files
     )
-
-    print(
-        json.dumps(
-            summary,
-            indent=2
-        )
-    )
-
-    return 0
+    # Keep the earlier telemetry schema, but never count rejected candidate
+    # facts as usable data. Failed issuers still remain in the denominator.
+    quality_results = [
+        row if row["quality_valid"] else {
+            "ticker": row["ticker"], "cik": row["cik"],
+            "status": row["status"],
+            "submissions_metadata": row["submissions_metadata"],
+        }
+        for row in results
+    ]
+    summary["quality_summary"] = build_quality_summary(quality_results)
+    return finish_run(summary, 0 if summary["collection_ready"] else 1)
 
 
 if __name__ == "__main__":
-    raise SystemExit(
-        main()
-    )
+    raise SystemExit(main())
