@@ -529,6 +529,105 @@ def fetch_kaggle_recovery_series(
     )
 
 
+def fetch_yahoo_single_download_series(
+    ticker
+):
+    try:
+        data = yf.download(
+            tickers=ticker,
+            start=DOWNLOAD_START,
+            end=DOWNLOAD_END,
+            interval="1d",
+            auto_adjust=True,
+            progress=False,
+            threads=False
+        )
+
+    except Exception:
+        return None
+
+    if (
+        data is None
+        or
+        data.empty
+    ):
+        return None
+
+    return extract_close_series(
+        data,
+        ticker,
+        1
+    )
+
+
+def fetch_yahoo_history_series(
+    ticker
+):
+    try:
+        history = yf.Ticker(
+            ticker
+        ).history(
+            period="max",
+            interval="1d",
+            auto_adjust=True,
+            actions=False
+        )
+
+    except Exception:
+        return None
+
+    if (
+        history is None
+        or
+        history.empty
+        or
+        "Close"
+        not in history.columns
+    ):
+        return None
+
+    try:
+        series = (
+            history[
+                "Close"
+            ]
+            .dropna()
+            .astype(
+                float
+            )
+        )
+
+        if getattr(
+            series.index,
+            "tz",
+            None
+        ) is not None:
+            series.index = (
+                series.index
+                .tz_localize(
+                    None
+                )
+            )
+
+        series = series.loc[
+            pd.Timestamp(
+                DOWNLOAD_START
+            ):
+            pd.Timestamp(
+                DOWNLOAD_END
+            )
+        ]
+
+    except Exception:
+        return None
+
+    return (
+        series
+        if not series.empty
+        else None
+    )
+
+
 def recover_documented_continuity_aliases(
     tickers,
     close_data,
@@ -791,36 +890,36 @@ def download_price_frame(
     ]
 
     # Final single-symbol retry helps distinguish genuine historical-data
-    # absence from batch/API extraction failures.
-    for ticker in missing_after_batch_retry:
-        try:
-            data = yf.download(
-                tickers=ticker,
-                start=DOWNLOAD_START,
-                end=DOWNLOAD_END,
-                interval="1d",
-                auto_adjust=True,
-                progress=False,
-                threads=False
-            )
+    # absence from batch/API extraction failures. It is parallelized because
+    # each ticker request is independent and otherwise dominates runtime.
+    with ThreadPoolExecutor(
+        max_workers=8
+    ) as executor:
+        futures = {
+            executor.submit(
+                fetch_yahoo_single_download_series,
+                ticker
+            ):
+            ticker
+            for ticker in missing_after_batch_retry
+        }
 
-        except Exception:
-            continue
-
-        if (
-            data is None
-            or
-            data.empty
+        for future in as_completed(
+            futures
         ):
-            continue
+            ticker = futures[
+                future
+            ]
 
-        series = extract_close_series(
-            data,
-            ticker,
-            1
-        )
+            try:
+                series = future.result()
 
-        if series is not None:
+            except Exception:
+                series = None
+
+            if series is None:
+                continue
+
             close_data[
                 ticker
             ] = series
@@ -845,66 +944,34 @@ def download_price_frame(
     # "no timezone" or "data doesn't exist" for some otherwise valid symbols.
     # Ticker.history(period="max") uses a different request path and may
     # recover those histories without changing the pre-registered strategy.
-    for ticker in missing_after_download_retries:
-        try:
-            history = yf.Ticker(
+    with ThreadPoolExecutor(
+        max_workers=6
+    ) as executor:
+        futures = {
+            executor.submit(
+                fetch_yahoo_history_series,
                 ticker
-            ).history(
-                period="max",
-                interval="1d",
-                auto_adjust=True,
-                actions=False
-            )
+            ):
+            ticker
+            for ticker in missing_after_download_retries
+        }
 
-        except Exception:
-            continue
-
-        if (
-            history is None
-            or
-            history.empty
-            or
-            "Close"
-            not in history.columns
+        for future in as_completed(
+            futures
         ):
-            continue
-
-        try:
-            series = (
-                history[
-                    "Close"
-                ]
-                .dropna()
-                .astype(
-                    float
-                )
-            )
-
-            if getattr(
-                series.index,
-                "tz",
-                None
-            ) is not None:
-                series.index = (
-                    series.index
-                    .tz_localize(
-                        None
-                    )
-                )
-
-            series = series.loc[
-                pd.Timestamp(
-                    DOWNLOAD_START
-                ):
-                pd.Timestamp(
-                    DOWNLOAD_END
-                )
+            ticker = futures[
+                future
             ]
 
-        except Exception:
-            continue
+            try:
+                series = future.result()
 
-        if not series.empty:
+            except Exception:
+                series = None
+
+            if series is None:
+                continue
+
             close_data[
                 ticker
             ] = series
