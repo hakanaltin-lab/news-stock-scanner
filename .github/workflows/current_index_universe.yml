@@ -1,0 +1,74 @@
+name: Current Index Universe Snapshot
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "engines/current_index_universe_engine.py"
+      - "scripts/run_current_index_universe.py"
+      - ".github/workflows/current_index_universe.yml"
+  schedule:
+    - cron: "45 21 * * 1-5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: current-index-universe-snapshot
+  cancel-in-progress: true
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Compile universe snapshot
+        run: |
+          python -m py_compile engines/current_index_universe_engine.py
+          python -m py_compile scripts/run_current_index_universe.py
+
+      - name: Build current index universe
+        env:
+          PYTHONPATH: .
+        run: |
+          python scripts/run_current_index_universe.py
+
+      - name: Publish universe snapshot
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          TODAY="$(date -u +%F)"
+          DAILY="data/current_index_universe/$TODAY.json"
+          LATEST="data/current_index_universe/latest.json"
+
+          test -f "$DAILY"
+          test -f "$LATEST"
+
+          git add "$DAILY" "$LATEST"
+
+          if git diff --cached --quiet; then
+            echo "No current-index universe changes"
+            exit 0
+          fi
+
+          git commit -m "Archive current index universe $TODAY"
+          git pull --rebase origin main
+          git push origin HEAD:main
