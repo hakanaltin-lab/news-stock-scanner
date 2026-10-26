@@ -43,6 +43,13 @@ jobs:
         run: |
           python -m py_compile engines/sec_edgar_point_in_time_engine.py
           python -m py_compile scripts/run_sec_edgar_pit_archive.py
+          python -m py_compile scripts/test_sec_edgar_pit_engine.py
+
+      - name: Validate SEC PIT no-lookahead logic
+        env:
+          PYTHONPATH: .
+        run: |
+          python scripts/test_sec_edgar_pit_engine.py
 
       - name: Build SEC PIT archive
         env:
