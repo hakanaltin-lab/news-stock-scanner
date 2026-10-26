@@ -2,6 +2,13 @@ name: SEC EDGAR PIT Fundamental Archive
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "engines/sec_edgar_point_in_time_engine.py"
+      - "scripts/run_sec_edgar_pit_archive.py"
+      - ".github/workflows/sec_edgar_pit_archive.yml"
   schedule:
     - cron: "15 23 * * 1-5"
 
