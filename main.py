@@ -949,7 +949,7 @@ def run_scanner():
 
 
     # =====================================================
-    # 15. V8.4.7 FRESH FORWARD SHADOW PROMOTION GATE
+    # 15. V8.4.8 INDEPENDENT-COHORT FRESH FORWARD PROMOTION GATE
     # =====================================================
 
     try:
@@ -965,7 +965,7 @@ def run_scanner():
     except Exception as error:
         fresh_forward_promotion_gate = {
             "engine":
-            "V8.4.7 Fresh Forward Shadow Promotion Gate",
+            "V8.4.8 Independent-Cohort Fresh Forward Promotion Gate",
 
             "status":
             "ERROR",
