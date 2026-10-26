@@ -14,24 +14,22 @@ decisions. Its output is an evidence-universe source for SEC/news archiving.
 """
 
 from datetime import datetime, timezone
+from io import StringIO
 import json
 import os
 import re
 
+import pandas as pd
 import requests
 
 
 ENGINE_VERSION = "V8.8.1 Current Index Universe Snapshot"
 SIGNATURE = "V8.8.1"
 
-SP500_URL = (
-    "https://en.wikipedia.org/w/index.php?"
-    "title=List_of_S%26P_500_companies&action=raw"
-)
+SP500_URL = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
 
 NASDAQ100_URL = (
-    "https://en.wikipedia.org/w/index.php?"
-    "title=Nasdaq-100&action=raw"
+    "https://en.wikipedia.org/wiki/List_of_NASDAQ-100_companies"
 )
 
 USER_AGENT = (
@@ -208,129 +206,113 @@ def split_cells(
     ]
 
 
-def parse_sp500_current(
-    wikitext
+def flatten_columns(
+    frame
 ):
-    table = extract_table(
-        wikitext,
-        "constituents"
-    )
-
-    tickers = set()
-    missed = []
-
-    chunks = re.split(
-        r"(?m)^\s*\|-.*$",
-        table
-    )
-
-    for chunk in chunks:
-        chunk = chunk.strip()
-
-        if (
-            not chunk
-            or
-            chunk.startswith(
-                "{|"
-            )
-            or
-            chunk.startswith(
-                "!"
-            )
-        ):
-            continue
-
-        first = split_cells(
-            chunk
-        )[0]
-
-        match = _RE_SP_SYMBOL.search(
-            first
-        )
-
-        if match:
-            ticker = clean_ticker(
-                match.group(
-                    1
+    if isinstance(
+        frame.columns,
+        pd.MultiIndex
+    ):
+        frame.columns = [
+            " ".join(
+                str(
+                    part
                 )
-            )
+                for part in column
+                if str(
+                    part
+                )
+                not in {
+                    "",
+                    "nan"
+                }
+            ).strip()
+            for column in frame.columns
+        ]
 
-        else:
-            ticker = clean_ticker(
-                first
-            )
+    else:
+        frame.columns = [
+            str(
+                column
+            ).strip()
+            for column in frame.columns
+        ]
 
-        if re.fullmatch(
-            r"[A-Z][A-Z0-9\-]*",
-            ticker
-            or
-            ""
-        ):
-            tickers.add(
-                ticker
-            )
-
-        else:
-            missed.append(
-                first[
-                    :100
-                ]
-            )
-
-    return (
-        sorted(
-            tickers
-        ),
-        missed
-    )
+    return frame
 
 
-def parse_nasdaq100_current(
-    wikitext
+def choose_component_table(
+    html,
+    ticker_column_candidates,
+    min_rows
 ):
-    table = extract_table(
-        wikitext,
-        "constituents"
+    tables = pd.read_html(
+        StringIO(
+            html
+        )
     )
 
-    tickers = set()
+    for frame in tables:
+        frame = flatten_columns(
+            frame
+        )
 
-    for line in table.splitlines():
-        stripped = line.lstrip()
+        columns = {
+            str(
+                column
+            ).strip().lower():
+            column
+            for column in frame.columns
+        }
 
-        if (
-            not stripped.startswith(
-                "|"
-            )
-            or
-            stripped.startswith(
-                "|}"
-            )
-            or
-            stripped.strip().startswith(
-                "|-"
-            )
-            or
-            "||"
-            not in stripped
-        ):
+        selected_column = None
+
+        for candidate in ticker_column_candidates:
+            if candidate.lower() in columns:
+                selected_column = columns[
+                    candidate.lower()
+                ]
+                break
+
+        if selected_column is None:
             continue
 
-        first = (
-            stripped[
-                1:
-            ]
-            .split(
-                "||",
-                1
-            )[
-                0
-            ]
-            .strip()
+        if len(
+            frame
+        ) < min_rows:
+            continue
+
+        return (
+            frame,
+            selected_column
         )
 
+    raise ValueError(
+        "Current constituent table not found in Wikipedia HTML."
+    )
+
+
+def parse_current_table(
+    html,
+    ticker_column_candidates,
+    min_rows
+):
+    (
+        frame,
+        ticker_column
+    ) = choose_component_table(
+        html,
+        ticker_column_candidates,
+        min_rows
+    )
+
+    tickers = []
+
+    for value in frame[
+        ticker_column
+    ].tolist():
         ticker = clean_ticker(
-            first
+            value
         )
 
         if re.fullmatch(
@@ -339,12 +321,14 @@ def parse_nasdaq100_current(
             or
             ""
         ):
-            tickers.add(
+            tickers.append(
                 ticker
             )
 
     return sorted(
-        tickers
+        set(
+            tickers
+        )
     )
 
 
@@ -365,6 +349,7 @@ def fetch_text(
     return response.text
 
 
+
 def build_current_index_universe():
     retrieved_at = datetime.now(
         timezone.utc
@@ -378,16 +363,23 @@ def build_current_index_universe():
         NASDAQ100_URL
     )
 
-    (
-        sp500,
-        sp500_missed
-    ) = parse_sp500_current(
-        sp_text
+    sp500 = parse_current_table(
+        sp_text,
+        [
+            "Symbol"
+        ],
+        490
     )
 
-    nasdaq100 = parse_nasdaq100_current(
-        nq_text
+    nasdaq100 = parse_current_table(
+        nq_text,
+        [
+            "Ticker"
+        ],
+        95
     )
+
+    sp500_missed = []
 
     union = sorted(
         set(
@@ -457,8 +449,8 @@ def build_current_index_universe():
 
             "methodology_reference":
             (
-                "Structured current constituent tables; parsing approach "
-                "mirrors thuningxu/sp500nq100 build.py."
+                "Current Wikipedia component tables parsed from HTML by named "
+                "ticker columns. Historical validation remains separate."
             )
         },
 
