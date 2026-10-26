@@ -1151,6 +1151,43 @@ Thesis Exit Divergences
 <div class="stat">
 
 <div class="stat-label">
+Turnover Guardrail
+</div>
+
+<div class="stat-value" id="turnover-guardrail-status">
+-
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-label">
+Trades Suppressed
+</div>
+
+<div class="stat-value" id="turnover-suppressed-count">
+-
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-label">
+Scan Turnover Before → After
+</div>
+
+<div class="stat-value" id="turnover-before-after">
+-
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
 PIT Universe Verdict
 </div>
 
@@ -3239,6 +3276,11 @@ data.portfolio_rebalancing
 || {};
 
 
+const turnoverGuardrail =
+rebalancing.turnover_guardrail
+|| {};
+
+
 const rebalancePlan =
 rebalancing.rebalancing_plan
 || [];
@@ -3614,6 +3656,48 @@ document.getElementById(
 formatPrice(
 rebalancing.estimated_net_cash_generated
 );
+
+
+document.getElementById(
+"turnover-guardrail-status"
+).textContent =
+turnoverGuardrail.applied === true
+?
+"ACTIVE"
+:
+"-";
+
+
+document.getElementById(
+"turnover-suppressed-count"
+).textContent =
+turnoverGuardrail.suppressed_trade_count
+?? "-";
+
+
+document.getElementById(
+"turnover-before-after"
+).textContent =
+turnoverGuardrail.one_scan_turnover_pct_before == null
+?
+"-"
+:
+(
+formatNumber(
+turnoverGuardrail.one_scan_turnover_pct_before,
+2
+)
++
+"% → "
++
+formatNumber(
+turnoverGuardrail.one_scan_turnover_pct_after,
+2
+)
++
+"%"
+);
+
 
 
 document.getElementById(
