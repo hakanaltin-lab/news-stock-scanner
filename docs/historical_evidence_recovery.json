@@ -1,11 +1,11 @@
 {
   "engine": "V8.4 Historical Evidence Recovery Engine",
   "recovery_signature": "V8.4.1",
-  "generated": "2026-10-25T08:48:48.469060+00:00",
+  "generated": "2026-10-26T05:54:08.860514+00:00",
   "status": "COMPLETE",
   "cache_status": "FRESH",
-  "record_count": 133,
-  "directional_record_count": 133,
+  "record_count": 134,
+  "directional_record_count": 134,
   "oldest_signal_date": "2026-05-29",
   "newest_signal_date": "2026-10-24",
   "recovery_coverage": {
@@ -22,7 +22,7 @@
     "modern_json": {
       "scanned_dates": 81,
       "usable_dates": 2,
-      "records": 13,
+      "records": 14,
       "excluded_foundation_snapshots": 77
     }
   },
@@ -30,7 +30,7 @@
     "modern_action_changes": {
       "5d": {
         "evaluated": 0,
-        "pending": 13,
+        "pending": 14,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -38,7 +38,7 @@
       },
       "20d": {
         "evaluated": 0,
-        "pending": 13,
+        "pending": 14,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -46,7 +46,7 @@
       },
       "60d": {
         "evaluated": 0,
-        "pending": 13,
+        "pending": 14,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -57,7 +57,7 @@
       "ACCUMULATE": {
         "5d": {
           "evaluated": 0,
-          "pending": 1,
+          "pending": 2,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -65,7 +65,7 @@
         },
         "20d": {
           "evaluated": 0,
-          "pending": 1,
+          "pending": 2,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -73,7 +73,7 @@
         },
         "60d": {
           "evaluated": 0,
-          "pending": 1,
+          "pending": 2,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -214,7 +214,7 @@
     "modern_long_add_buy_accumulate": {
       "5d": {
         "evaluated": 0,
-        "pending": 4,
+        "pending": 5,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -222,7 +222,7 @@
       },
       "20d": {
         "evaluated": 0,
-        "pending": 4,
+        "pending": 5,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -230,7 +230,7 @@
       },
       "60d": {
         "evaluated": 0,
-        "pending": 4,
+        "pending": 5,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -346,7 +346,7 @@
     "MODERN_ACTION_CHANGE": {
       "5d": {
         "evaluated": 0,
-        "pending": 13,
+        "pending": 14,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -354,7 +354,7 @@
       },
       "20d": {
         "evaluated": 0,
-        "pending": 13,
+        "pending": 14,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -362,7 +362,7 @@
       },
       "60d": {
         "evaluated": 0,
-        "pending": 13,
+        "pending": 14,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -397,10 +397,10 @@
         "average_spy_return_pct": null
       }
     },
-    "V8.3": {
+    "V8.6": {
       "5d": {
         "evaluated": 0,
-        "pending": 3,
+        "pending": 4,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -408,7 +408,7 @@
       },
       "20d": {
         "evaluated": 0,
-        "pending": 3,
+        "pending": 4,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -416,7 +416,7 @@
       },
       "60d": {
         "evaluated": 0,
-        "pending": 3,
+        "pending": 4,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -6205,15 +6205,15 @@
       }
     },
     {
-      "id": "dd117a804cccb2d4",
+      "id": "e81614b9ea290d6e",
       "cohort": "MODERN_ACTION_CHANGE",
       "signal_date": "2026-10-23",
       "ticker": "ADBE",
       "action": "BUY",
       "direction": "LONG",
       "signal_price_snapshot": 263.83,
-      "origin_commit": "f673179f02cc14c0645c0484a9235877aa70f70a",
-      "model_version": "V8.3",
+      "origin_commit": "1ba571a80d6428d64c02d6086d16a14c6037e323",
+      "model_version": "V8.6",
       "legacy_label": null,
       "score": 75.62,
       "rank": null,
@@ -6253,15 +6253,15 @@
       }
     },
     {
-      "id": "7b65fb7860720d5f",
+      "id": "6414afeada868f42",
       "cohort": "MODERN_ACTION_CHANGE",
       "signal_date": "2026-10-23",
       "ticker": "BKR",
       "action": "REDUCE",
       "direction": "DEFENSIVE",
       "signal_price_snapshot": 55.86,
-      "origin_commit": "f673179f02cc14c0645c0484a9235877aa70f70a",
-      "model_version": "V8.3",
+      "origin_commit": "1ba571a80d6428d64c02d6086d16a14c6037e323",
+      "model_version": "V8.6",
       "legacy_label": null,
       "score": 68.73,
       "rank": null,
@@ -6301,19 +6301,67 @@
       }
     },
     {
-      "id": "d8ca2dc48b165564",
+      "id": "6f60a6aa585d0e91",
       "cohort": "MODERN_ACTION_CHANGE",
       "signal_date": "2026-10-23",
       "ticker": "CCLD",
       "action": "EXIT",
       "direction": "DEFENSIVE",
       "signal_price_snapshot": 1.76,
-      "origin_commit": "f673179f02cc14c0645c0484a9235877aa70f70a",
-      "model_version": "V8.3",
+      "origin_commit": "1ba571a80d6428d64c02d6086d16a14c6037e323",
+      "model_version": "V8.6",
       "legacy_label": null,
-      "score": 53.63,
+      "score": 53.66,
       "rank": null,
       "source": "PORTFOLIO",
+      "evaluation_basis": "yfinance_adjusted_close_on_signal_date_to_future_close",
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null
+        }
+      }
+    },
+    {
+      "id": "eb1454b6636cf13c",
+      "cohort": "MODERN_ACTION_CHANGE",
+      "signal_date": "2026-10-23",
+      "ticker": "COP",
+      "action": "ACCUMULATE",
+      "direction": "LONG",
+      "signal_price_snapshot": 150.81,
+      "origin_commit": "1ba571a80d6428d64c02d6086d16a14c6037e323",
+      "model_version": "V8.6",
+      "legacy_label": null,
+      "score": 74.9,
+      "rank": null,
+      "source": "NEW_ENTRY",
       "evaluation_basis": "yfinance_adjusted_close_on_signal_date_to_future_close",
       "horizons": {
         "5d": {

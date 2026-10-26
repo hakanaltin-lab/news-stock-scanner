@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-25T14:23:16.775539",
+  "generated": "2026-10-26T05:56:21.452295",
   "scanner_version": "V8.6",
   "decision_architecture": {
     "portfolio_horizon": "STRATEGIC_DAILY_3M_12M",
@@ -9,7 +9,7 @@
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-10-25T14:20:22.998554",
+      "timestamp": "2026-10-26T05:53:46.770613",
       "holding": {
         "shares": "10",
         "avg_cost": "140.16",
@@ -19,7 +19,7 @@
       },
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-25T14:20:22.210837",
+        "timestamp": "2026-10-26T05:53:46.141312",
         "last_price": 516.87,
         "vwap": 532.04,
         "momentum": -34.9,
@@ -32,7 +32,7 @@
       },
       "tactical_market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-25T14:20:22.210837",
+        "timestamp": "2026-10-26T05:53:46.141312",
         "last_price": 516.87,
         "vwap": 532.04,
         "momentum": -34.9,
@@ -74,9 +74,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-25T08:56:38.418207+00:00",
+        "timestamp": "2026-10-26T05:53:46.770151+00:00",
         "ticker": "AMD",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -270,7 +270,7 @@
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-10-25T14:20:23.612113",
+      "timestamp": "2026-10-26T05:53:47.342211",
       "holding": {
         "shares": "35",
         "avg_cost": "147.95",
@@ -280,7 +280,7 @@
       },
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-25T14:20:23.123531",
+        "timestamp": "2026-10-26T05:53:46.866090",
         "last_price": 172.34,
         "vwap": 178.27,
         "momentum": -8.57,
@@ -293,7 +293,7 @@
       },
       "tactical_market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-25T14:20:23.123531",
+        "timestamp": "2026-10-26T05:53:46.866090",
         "last_price": 172.34,
         "vwap": 178.27,
         "momentum": -8.57,
@@ -335,9 +335,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-25T08:56:39.063822+00:00",
+        "timestamp": "2026-10-26T05:53:47.341549+00:00",
         "ticker": "ANET",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -369,7 +369,7 @@
           "current_ratio": 2.957
         },
         "valuation": {
-          "forward_pe": 33.006023,
+          "forward_pe": 33.040947,
           "peg_ratio": 1.29
         },
         "analyst_revision_context": {
@@ -531,7 +531,7 @@
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-10-25T14:20:24.263834",
+      "timestamp": "2026-10-26T05:53:47.801454",
       "holding": {
         "shares": "3",
         "avg_cost": "676.38",
@@ -541,7 +541,7 @@
       },
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-25T14:20:23.799743",
+        "timestamp": "2026-10-26T05:53:47.441580",
         "last_price": 1571.19,
         "vwap": 1622.44,
         "momentum": -89.9,
@@ -554,7 +554,7 @@
       },
       "tactical_market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-25T14:20:23.799743",
+        "timestamp": "2026-10-26T05:53:47.441580",
         "last_price": 1571.19,
         "vwap": 1622.44,
         "momentum": -89.9,
@@ -596,9 +596,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-25T08:56:39.627514+00:00",
+        "timestamp": "2026-10-26T05:53:47.800828+00:00",
         "ticker": "ASML",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -634,8 +634,8 @@
           "peg_ratio": 0.89
         },
         "analyst_revision_context": {
-          "target_mean_price": 2148.9858,
-          "analyst_upside_pct": 36.77,
+          "target_mean_price": 2151.879,
+          "analyst_upside_pct": 36.96,
           "recommendation_mean": 1.36585,
           "analyst_count": 17.0,
           "eps_revisions": {
@@ -784,7 +784,7 @@
     },
     {
       "ticker": "BKR",
-      "timestamp": "2026-10-25T14:20:24.969318",
+      "timestamp": "2026-10-26T05:53:48.354265",
       "holding": {
         "shares": "13",
         "avg_cost": "57.80",
@@ -794,7 +794,7 @@
       },
       "market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-25T14:20:24.406694",
+        "timestamp": "2026-10-26T05:53:47.912578",
         "last_price": 55.86,
         "vwap": 54.98,
         "momentum": 0.22,
@@ -807,7 +807,7 @@
       },
       "tactical_market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-25T14:20:24.406694",
+        "timestamp": "2026-10-26T05:53:47.912578",
         "last_price": 55.86,
         "vwap": 54.98,
         "momentum": 0.22,
@@ -849,9 +849,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-25T08:56:40.454556+00:00",
+        "timestamp": "2026-10-26T05:53:48.353515+00:00",
         "ticker": "BKR",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -1059,7 +1059,7 @@
     },
     {
       "ticker": "CCLD",
-      "timestamp": "2026-10-25T14:20:25.678910",
+      "timestamp": "2026-10-26T05:53:48.890038",
       "holding": {
         "shares": "490",
         "avg_cost": "2.04",
@@ -1069,7 +1069,7 @@
       },
       "market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-25T14:20:25.099033",
+        "timestamp": "2026-10-26T05:53:48.449124",
         "last_price": 1.76,
         "vwap": 1.78,
         "momentum": -0.07,
@@ -1082,7 +1082,7 @@
       },
       "tactical_market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-25T14:20:25.099033",
+        "timestamp": "2026-10-26T05:53:48.449124",
         "last_price": 1.76,
         "vwap": 1.78,
         "momentum": -0.07,
@@ -1124,9 +1124,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-25T08:56:41.286975+00:00",
+        "timestamp": "2026-10-26T05:53:48.889133+00:00",
         "ticker": "CCLD",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -1315,7 +1315,7 @@
     },
     {
       "ticker": "CTAS",
-      "timestamp": "2026-10-25T14:20:26.337541",
+      "timestamp": "2026-10-26T05:53:49.433914",
       "holding": {
         "shares": "4",
         "avg_cost": "196.26",
@@ -1325,7 +1325,7 @@
       },
       "market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-25T14:20:25.820311",
+        "timestamp": "2026-10-26T05:53:48.995712",
         "last_price": 224.09,
         "vwap": 219.88,
         "momentum": 12.27,
@@ -1338,7 +1338,7 @@
       },
       "tactical_market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-25T14:20:25.820311",
+        "timestamp": "2026-10-26T05:53:48.995712",
         "last_price": 224.09,
         "vwap": 219.88,
         "momentum": 12.27,
@@ -1380,9 +1380,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-25T08:56:41.973908+00:00",
+        "timestamp": "2026-10-26T05:53:49.432960+00:00",
         "ticker": "CTAS",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -1419,7 +1419,7 @@
         },
         "analyst_revision_context": {
           "target_mean_price": 218.3125,
-          "analyst_upside_pct": -2.6,
+          "analyst_upside_pct": -2.58,
           "recommendation_mean": 2.2,
           "analyst_count": 16.0,
           "eps_revisions": {
@@ -1569,7 +1569,7 @@
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-10-25T14:20:27.012140",
+      "timestamp": "2026-10-26T05:53:49.937409",
       "holding": {
         "shares": "20",
         "avg_cost": "207.68",
@@ -1579,7 +1579,7 @@
       },
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-25T14:20:26.467993",
+        "timestamp": "2026-10-26T05:53:49.526580",
         "last_price": 317.24,
         "vwap": 328.95,
         "momentum": -22.36,
@@ -1592,7 +1592,7 @@
       },
       "tactical_market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-25T14:20:26.467993",
+        "timestamp": "2026-10-26T05:53:49.526580",
         "last_price": 317.24,
         "vwap": 328.95,
         "momentum": -22.36,
@@ -1634,9 +1634,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-25T08:56:42.762726+00:00",
+        "timestamp": "2026-10-26T05:53:49.936435+00:00",
         "ticker": "GOOG",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -1830,7 +1830,7 @@
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-10-25T14:20:27.516666",
+      "timestamp": "2026-10-26T05:53:50.329022",
       "holding": {
         "shares": "44",
         "avg_cost": "171.81",
@@ -1840,7 +1840,7 @@
       },
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-25T14:20:27.185212",
+        "timestamp": "2026-10-26T05:53:50.035127",
         "last_price": 158.74,
         "vwap": 166.34,
         "momentum": -12.81,
@@ -1853,7 +1853,7 @@
       },
       "tactical_market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-25T14:20:27.185212",
+        "timestamp": "2026-10-26T05:53:50.035127",
         "last_price": 158.74,
         "vwap": 166.34,
         "momentum": -12.81,
@@ -1895,9 +1895,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-25T08:56:43.288760+00:00",
+        "timestamp": "2026-10-26T05:53:50.327985+00:00",
         "ticker": "NBIS",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -1922,7 +1922,7 @@
           "return_on_equity_pct": 0.6,
           "free_cash_flow": -9614650368.0,
           "operating_cash_flow": 5257999872.0,
-          "fcf_yield_pct": -22.28,
+          "fcf_yield_pct": -23.86,
           "total_cash": 8042100224.0,
           "total_debt": 10195300352.0,
           "debt_to_equity": 98.596,
@@ -1973,7 +1973,7 @@
         "events": [
           "ai"
         ],
-        "article_count": 9,
+        "article_count": 8,
         "data_quality": "LIVE"
       },
       "catalyst": {
@@ -1987,7 +1987,7 @@
             "impact": 6
           }
         ],
-        "article_count": 9,
+        "article_count": 8,
         "data_quality": "LIVE"
       },
       "sector": {
@@ -2091,7 +2091,7 @@
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-10-25T14:20:28.131933",
+      "timestamp": "2026-10-26T05:53:50.737000",
       "holding": {
         "shares": "24",
         "avg_cost": "160.96",
@@ -2101,7 +2101,7 @@
       },
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-25T14:20:27.695777",
+        "timestamp": "2026-10-26T05:53:50.427703",
         "last_price": 211.0,
         "vwap": 215.88,
         "momentum": -4.51,
@@ -2114,7 +2114,7 @@
       },
       "tactical_market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-25T14:20:27.695777",
+        "timestamp": "2026-10-26T05:53:50.427703",
         "last_price": 211.0,
         "vwap": 215.88,
         "momentum": -4.51,
@@ -2156,9 +2156,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-25T08:56:43.886456+00:00",
+        "timestamp": "2026-10-26T05:53:50.735890+00:00",
         "ticker": "NVDA",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -2218,34 +2218,40 @@
       "signal": "BEARISH",
       "scores": {
         "market_score": 38.8,
-        "news_score": 58,
-        "catalyst_score": 56,
+        "news_score": 53,
+        "catalyst_score": 51,
         "sector_score": 0,
         "risk_score": 81.9,
-        "alpha_score": 48.05,
+        "alpha_score": 46.8,
         "strategic_trend_score": 63.0,
         "strategic_risk_score": 40.7,
-        "strategic_composite_score": 48.4,
+        "strategic_composite_score": 47.9,
         "fundamental_thesis_score": 85.2
       },
       "news": {
         "ticker": "NVDA",
-        "news_score": 58,
+        "news_score": 53,
         "events": [
-          "ai"
+          "ai",
+          "delay"
         ],
         "article_count": 10,
         "data_quality": "LIVE"
       },
       "catalyst": {
         "ticker": "NVDA",
-        "catalyst_score": 56,
+        "catalyst_score": 51,
         "catalyst_signal": "NEUTRAL",
         "catalysts": [
           {
             "type": "POSITIVE",
             "catalyst": "ai",
             "impact": 6
+          },
+          {
+            "type": "NEGATIVE",
+            "catalyst": "delay",
+            "impact": -5
           }
         ],
         "article_count": 10,
@@ -2288,7 +2294,7 @@
       "entry_action": "AVOID",
       "entry_decision": {
         "action": "AVOID",
-        "confidence": 52.5,
+        "confidence": 51.1,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -2320,7 +2326,7 @@
           "unrealized_pnl": 1200.96,
           "unrealized_pnl_pct": 31.09
         },
-        "strategic_composite_score": 48.4,
+        "strategic_composite_score": 47.9,
         "strategic_signal": "HEALTHY",
         "tactical_add_status": "DO_NOT_ADD_NOW",
         "reasons": [
@@ -2339,12 +2345,12 @@
           "above_sma100": false,
           "above_sma200": true,
           "sector_score": 0,
-          "catalyst_score": 56
+          "catalyst_score": 51
         },
         "tactical_inputs": {
           "signal": "BEARISH",
           "entry_action": "AVOID",
-          "confidence": 52.5
+          "confidence": 51.1
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -2352,7 +2358,7 @@
     },
     {
       "ticker": "OMDA",
-      "timestamp": "2026-10-25T14:20:28.631915",
+      "timestamp": "2026-10-26T05:53:51.136172",
       "holding": {
         "shares": "10",
         "avg_cost": "20.45",
@@ -2362,7 +2368,7 @@
       },
       "market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-25T14:20:28.252931",
+        "timestamp": "2026-10-26T05:53:50.825382",
         "last_price": 18.95,
         "vwap": 19.09,
         "momentum": 1.01,
@@ -2375,7 +2381,7 @@
       },
       "tactical_market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-25T14:20:28.252931",
+        "timestamp": "2026-10-26T05:53:50.825382",
         "last_price": 18.95,
         "vwap": 19.09,
         "momentum": 1.01,
@@ -2417,9 +2423,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-25T08:56:44.372544+00:00",
+        "timestamp": "2026-10-26T05:53:51.135006+00:00",
         "ticker": "OMDA",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -2605,7 +2611,7 @@
     },
     {
       "ticker": "UNH",
-      "timestamp": "2026-10-25T14:20:29.342192",
+      "timestamp": "2026-10-26T05:53:51.584505",
       "holding": {
         "shares": "2",
         "avg_cost": "369.93",
@@ -2615,7 +2621,7 @@
       },
       "market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-25T14:20:28.768090",
+        "timestamp": "2026-10-26T05:53:51.244636",
         "last_price": 418.01,
         "vwap": 417.39,
         "momentum": 13.92,
@@ -2628,7 +2634,7 @@
       },
       "tactical_market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-25T14:20:28.768090",
+        "timestamp": "2026-10-26T05:53:51.244636",
         "last_price": 418.01,
         "vwap": 417.39,
         "momentum": 13.92,
@@ -2670,9 +2676,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-25T08:56:44.908530+00:00",
+        "timestamp": "2026-10-26T05:53:51.583250+00:00",
         "ticker": "UNH",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -2859,7 +2865,7 @@
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-10-25T14:20:29.929722",
+      "timestamp": "2026-10-26T05:53:52.000052",
       "holding": {
         "shares": "11",
         "avg_cost": "316.20",
@@ -2869,7 +2875,7 @@
       },
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-25T14:20:29.474710",
+        "timestamp": "2026-10-26T05:53:51.677846",
         "last_price": 194.31,
         "vwap": 202.31,
         "momentum": -15.58,
@@ -2882,7 +2888,7 @@
       },
       "tactical_market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-25T14:20:29.474710",
+        "timestamp": "2026-10-26T05:53:51.677846",
         "last_price": 194.31,
         "vwap": 202.31,
         "momentum": -15.58,
@@ -2924,9 +2930,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-25T08:56:45.487182+00:00",
+        "timestamp": "2026-10-26T05:53:51.998742+00:00",
         "ticker": "VRT",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -3711,7 +3717,7 @@
         },
         "market": {
           "ticker": "ADBE",
-          "timestamp": "2026-10-25T14:20:35.935762",
+          "timestamp": "2026-10-26T05:53:56.042383",
           "last_price": 263.83,
           "vwap": 259.75,
           "momentum": 19.01,
@@ -3856,7 +3862,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-25T14:20:34.102084",
+          "timestamp": "2026-10-26T05:53:55.068588",
           "last_price": 150.81,
           "vwap": 146.85,
           "momentum": 4.55,
@@ -3997,7 +4003,7 @@
         },
         "market": {
           "ticker": "NOW",
-          "timestamp": "2026-10-25T14:20:32.674160",
+          "timestamp": "2026-10-26T05:53:54.219860",
           "last_price": 158.99,
           "vwap": 152.28,
           "momentum": 16.73,
@@ -4021,16 +4027,16 @@
           "ticker": "NOW",
           "news_score": 50,
           "events": [],
-          "article_count": 5,
-          "data_quality": "LIVE"
+          "article_count": 0,
+          "data_quality": "NO_NEWS"
         },
         "catalyst": {
           "ticker": "NOW",
           "catalyst_score": 50,
           "catalyst_signal": "NEUTRAL",
           "catalysts": [],
-          "article_count": 5,
-          "data_quality": "LIVE"
+          "article_count": 0,
+          "data_quality": "NO_NEWS"
         },
         "sector_analysis": {
           "ticker": "NOW",
@@ -4117,7 +4123,7 @@
         },
         "market": {
           "ticker": "CVX",
-          "timestamp": "2026-10-25T14:20:35.143659",
+          "timestamp": "2026-10-26T05:53:55.562525",
           "last_price": 233.2,
           "vwap": 226.88,
           "momentum": 8.38,
@@ -4237,7 +4243,7 @@
         },
         "market": {
           "ticker": "ISRG",
-          "timestamp": "2026-10-25T14:20:34.703184",
+          "timestamp": "2026-10-26T05:53:55.312942",
           "last_price": 452.29,
           "vwap": 436.53,
           "momentum": 25.56,
@@ -4357,7 +4363,7 @@
         },
         "market": {
           "ticker": "XOM",
-          "timestamp": "2026-10-25T14:20:35.606423",
+          "timestamp": "2026-10-26T05:53:55.804822",
           "last_price": 183.21,
           "vwap": 178.61,
           "momentum": 4.2,
@@ -4477,7 +4483,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-25T14:20:33.374309",
+          "timestamp": "2026-10-26T05:53:54.677104",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
@@ -4504,7 +4510,7 @@
             "contract",
             "earnings beat"
           ],
-          "article_count": 10,
+          "article_count": 9,
           "data_quality": "LIVE"
         },
         "catalyst": {
@@ -4523,7 +4529,7 @@
               "impact": 10
             }
           ],
-          "article_count": 10,
+          "article_count": 9,
           "data_quality": "LIVE"
         },
         "sector_analysis": {
@@ -4621,7 +4627,7 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-10-25T14:20:36.268927",
+          "timestamp": "2026-10-26T05:53:56.325795",
           "last_price": 407.94,
           "vwap": 408.1,
           "momentum": 6.03,
@@ -4635,32 +4641,24 @@
         "market_signal": "NEUTRAL",
         "scores": {
           "market_score": 53.6,
-          "news_score": 58,
-          "catalyst_score": 56,
+          "news_score": 50,
+          "catalyst_score": 50,
           "sector_score": 72.1,
           "risk_score": 93.4,
-          "alpha_score": 66.92
+          "alpha_score": 65.42
         },
         "news": {
           "ticker": "V",
-          "news_score": 58,
-          "events": [
-            "ai"
-          ],
+          "news_score": 50,
+          "events": [],
           "article_count": 10,
           "data_quality": "LIVE"
         },
         "catalyst": {
           "ticker": "V",
-          "catalyst_score": 56,
+          "catalyst_score": 50,
           "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "POSITIVE",
-              "catalyst": "ai",
-              "impact": 6
-            }
-          ],
+          "catalysts": [],
           "article_count": 10,
           "data_quality": "LIVE"
         },
@@ -4701,7 +4699,7 @@
         "action": "WATCH",
         "base_decision": {
           "action": "WATCH",
-          "confidence": 66.6,
+          "confidence": 64.9,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -4714,7 +4712,7 @@
         },
         "decision": {
           "action": "WATCH",
-          "confidence": 66.6,
+          "confidence": 64.9,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -4751,7 +4749,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-25T14:20:33.374309",
+          "timestamp": "2026-10-26T05:53:54.677104",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
@@ -4778,7 +4776,7 @@
             "contract",
             "earnings beat"
           ],
-          "article_count": 10,
+          "article_count": 9,
           "data_quality": "LIVE"
         },
         "catalyst": {
@@ -4797,7 +4795,7 @@
               "impact": 10
             }
           ],
-          "article_count": 10,
+          "article_count": 9,
           "data_quality": "LIVE"
         },
         "sector_analysis": {
@@ -4897,7 +4895,7 @@
         },
         "market": {
           "ticker": "ADBE",
-          "timestamp": "2026-10-25T14:20:35.935762",
+          "timestamp": "2026-10-26T05:53:56.042383",
           "last_price": 263.83,
           "vwap": 259.75,
           "momentum": 19.01,
@@ -5042,7 +5040,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-25T14:20:34.102084",
+          "timestamp": "2026-10-26T05:53:55.068588",
           "last_price": 150.81,
           "vwap": 146.85,
           "momentum": 4.55,
@@ -5181,7 +5179,7 @@
         },
         "market": {
           "ticker": "NOW",
-          "timestamp": "2026-10-25T14:20:32.674160",
+          "timestamp": "2026-10-26T05:53:54.219860",
           "last_price": 158.99,
           "vwap": 152.28,
           "momentum": 16.73,
@@ -5205,16 +5203,16 @@
           "ticker": "NOW",
           "news_score": 50,
           "events": [],
-          "article_count": 5,
-          "data_quality": "LIVE"
+          "article_count": 0,
+          "data_quality": "NO_NEWS"
         },
         "catalyst": {
           "ticker": "NOW",
           "catalyst_score": 50,
           "catalyst_signal": "NEUTRAL",
           "catalysts": [],
-          "article_count": 5,
-          "data_quality": "LIVE"
+          "article_count": 0,
+          "data_quality": "NO_NEWS"
         },
         "sector_analysis": {
           "ticker": "NOW",
@@ -5301,7 +5299,7 @@
         },
         "market": {
           "ticker": "CVX",
-          "timestamp": "2026-10-25T14:20:35.143659",
+          "timestamp": "2026-10-26T05:53:55.562525",
           "last_price": 233.2,
           "vwap": 226.88,
           "momentum": 8.38,
@@ -5421,7 +5419,7 @@
         },
         "market": {
           "ticker": "ISRG",
-          "timestamp": "2026-10-25T14:20:34.703184",
+          "timestamp": "2026-10-26T05:53:55.312942",
           "last_price": 452.29,
           "vwap": 436.53,
           "momentum": 25.56,
@@ -5541,7 +5539,7 @@
         },
         "market": {
           "ticker": "XOM",
-          "timestamp": "2026-10-25T14:20:35.606423",
+          "timestamp": "2026-10-26T05:53:55.804822",
           "last_price": 183.21,
           "vwap": 178.61,
           "momentum": 4.2,
@@ -5661,7 +5659,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-25T14:20:33.374309",
+          "timestamp": "2026-10-26T05:53:54.677104",
           "last_price": 604.38,
           "vwap": 574.34,
           "momentum": 58.99,
@@ -5688,7 +5686,7 @@
             "contract",
             "earnings beat"
           ],
-          "article_count": 10,
+          "article_count": 9,
           "data_quality": "LIVE"
         },
         "catalyst": {
@@ -5707,7 +5705,7 @@
               "impact": 10
             }
           ],
-          "article_count": 10,
+          "article_count": 9,
           "data_quality": "LIVE"
         },
         "sector_analysis": {
@@ -5805,7 +5803,7 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-10-25T14:20:36.268927",
+          "timestamp": "2026-10-26T05:53:56.325795",
           "last_price": 407.94,
           "vwap": 408.1,
           "momentum": 6.03,
@@ -5819,32 +5817,24 @@
         "market_signal": "NEUTRAL",
         "scores": {
           "market_score": 53.6,
-          "news_score": 58,
-          "catalyst_score": 56,
+          "news_score": 50,
+          "catalyst_score": 50,
           "sector_score": 72.1,
           "risk_score": 93.4,
-          "alpha_score": 66.92
+          "alpha_score": 65.42
         },
         "news": {
           "ticker": "V",
-          "news_score": 58,
-          "events": [
-            "ai"
-          ],
+          "news_score": 50,
+          "events": [],
           "article_count": 10,
           "data_quality": "LIVE"
         },
         "catalyst": {
           "ticker": "V",
-          "catalyst_score": 56,
+          "catalyst_score": 50,
           "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "POSITIVE",
-              "catalyst": "ai",
-              "impact": 6
-            }
-          ],
+          "catalysts": [],
           "article_count": 10,
           "data_quality": "LIVE"
         },
@@ -5885,7 +5875,7 @@
         "action": "WATCH",
         "base_decision": {
           "action": "WATCH",
-          "confidence": 66.6,
+          "confidence": 64.9,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -5898,7 +5888,7 @@
         },
         "decision": {
           "action": "WATCH",
-          "confidence": 66.6,
+          "confidence": 64.9,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -5922,7 +5912,7 @@
   },
   "market_regime": {
     "engine": "V7.4 Market Regime Engine",
-    "timestamp": "2026-10-25T14:20:37.210244+00:00",
+    "timestamp": "2026-10-26T05:53:57.021600+00:00",
     "market_date": "2026-10-23",
     "regime": "NORMAL",
     "regime_score": 45.0,
@@ -6012,17 +6002,17 @@
   },
   "event_risk": {
     "engine": "V7.5 Earnings & Event Risk Engine",
-    "generated": "2026-10-25T14:20:44.029484+00:00",
-    "reference_date": "2026-10-25",
+    "generated": "2026-10-26T05:54:03.383992+00:00",
+    "reference_date": "2026-10-26",
     "macro_event_risk": {
-      "reference_date": "2026-10-25",
+      "reference_date": "2026-10-26",
       "nearest_event": {
         "event_type": "FOMC",
         "name": "FOMC Rate Decision",
         "date": "2026-10-28",
         "source": "Federal Reserve",
         "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-        "days_until_event": 3,
+        "days_until_event": 2,
         "risk_level": "HIGH",
         "new_entry_policy": "REDUCE_SIZE",
         "position_size_multiplier": 0.5
@@ -6034,7 +6024,7 @@
           "date": "2026-10-28",
           "source": "Federal Reserve",
           "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-          "days_until_event": 3,
+          "days_until_event": 2,
           "risk_level": "HIGH",
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.5
@@ -6045,7 +6035,7 @@
           "date": "2026-11-06",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 12,
+          "days_until_event": 11,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -6056,7 +6046,7 @@
           "date": "2026-11-10",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 16,
+          "days_until_event": 15,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -6067,7 +6057,7 @@
           "date": "2026-11-13",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 19,
+          "days_until_event": 18,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -6078,7 +6068,7 @@
           "date": "2026-12-04",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 40,
+          "days_until_event": 39,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -6089,7 +6079,7 @@
           "date": "2026-12-09",
           "source": "Federal Reserve",
           "source_url": "https://www.federalreserve.gov/newsevents/2026-december.htm",
-          "days_until_event": 45,
+          "days_until_event": 44,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -6100,7 +6090,7 @@
           "date": "2026-12-10",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 46,
+          "days_until_event": 45,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -6111,7 +6101,7 @@
           "date": "2026-12-15",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 51,
+          "days_until_event": 50,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -6131,7 +6121,7 @@
         "earnings": {
           "ticker": "AMD",
           "next_earnings_date": "2026-11-03",
-          "days_until_earnings": 9,
+          "days_until_earnings": 8,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6142,7 +6132,7 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
@@ -6154,7 +6144,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.5,
           "reasons": [
-            "FOMC in 3 calendar days"
+            "FOMC in 2 calendar days"
           ]
         }
       },
@@ -6163,7 +6153,7 @@
         "earnings": {
           "ticker": "ANET",
           "next_earnings_date": "2026-11-03",
-          "days_until_earnings": 9,
+          "days_until_earnings": 8,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6174,7 +6164,7 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
@@ -6186,7 +6176,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.5,
           "reasons": [
-            "FOMC in 3 calendar days"
+            "FOMC in 2 calendar days"
           ]
         }
       },
@@ -6195,7 +6185,7 @@
         "earnings": {
           "ticker": "ASML",
           "next_earnings_date": "2027-01-27",
-          "days_until_earnings": 94,
+          "days_until_earnings": 93,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6206,7 +6196,7 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
@@ -6218,7 +6208,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.5,
           "reasons": [
-            "FOMC in 3 calendar days"
+            "FOMC in 2 calendar days"
           ]
         }
       },
@@ -6227,7 +6217,7 @@
         "earnings": {
           "ticker": "BKR",
           "next_earnings_date": "2026-10-27",
-          "days_until_earnings": 2,
+          "days_until_earnings": 1,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6238,7 +6228,7 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
@@ -6251,7 +6241,7 @@
           "position_size_multiplier": 0.0,
           "reasons": [
             "Earnings event is within 2 calendar days",
-            "FOMC in 3 calendar days"
+            "FOMC in 2 calendar days"
           ]
         }
       },
@@ -6260,7 +6250,7 @@
         "earnings": {
           "ticker": "CCLD",
           "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 11,
+          "days_until_earnings": 10,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6271,7 +6261,7 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
@@ -6283,7 +6273,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.5,
           "reasons": [
-            "FOMC in 3 calendar days"
+            "FOMC in 2 calendar days"
           ]
         }
       },
@@ -6292,7 +6282,7 @@
         "earnings": {
           "ticker": "CTAS",
           "next_earnings_date": "2026-12-17",
-          "days_until_earnings": 53,
+          "days_until_earnings": 52,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6303,7 +6293,7 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
@@ -6315,7 +6305,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.5,
           "reasons": [
-            "FOMC in 3 calendar days"
+            "FOMC in 2 calendar days"
           ]
         }
       },
@@ -6324,7 +6314,7 @@
         "earnings": {
           "ticker": "GOOG",
           "next_earnings_date": "2026-10-28",
-          "days_until_earnings": 3,
+          "days_until_earnings": 2,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6335,20 +6325,20 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
           }
         },
         "combined": {
-          "risk_level": "HIGH",
+          "risk_level": "CRITICAL",
           "dominant_risk_source": "EARNINGS",
-          "new_entry_policy": "REDUCE_SIZE",
-          "position_size_multiplier": 0.5,
+          "new_entry_policy": "BLOCK",
+          "position_size_multiplier": 0.0,
           "reasons": [
-            "Earnings event is within 5 calendar days",
-            "FOMC in 3 calendar days"
+            "Earnings event is within 2 calendar days",
+            "FOMC in 2 calendar days"
           ]
         }
       },
@@ -6357,7 +6347,7 @@
         "earnings": {
           "ticker": "NBIS",
           "next_earnings_date": "2026-11-10",
-          "days_until_earnings": 16,
+          "days_until_earnings": 15,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6368,7 +6358,7 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
@@ -6380,7 +6370,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.5,
           "reasons": [
-            "FOMC in 3 calendar days"
+            "FOMC in 2 calendar days"
           ]
         }
       },
@@ -6389,7 +6379,7 @@
         "earnings": {
           "ticker": "NVDA",
           "next_earnings_date": "2026-11-17",
-          "days_until_earnings": 23,
+          "days_until_earnings": 22,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6400,7 +6390,7 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
@@ -6412,7 +6402,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.5,
           "reasons": [
-            "FOMC in 3 calendar days"
+            "FOMC in 2 calendar days"
           ]
         }
       },
@@ -6421,7 +6411,7 @@
         "earnings": {
           "ticker": "OMDA",
           "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 11,
+          "days_until_earnings": 10,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6432,7 +6422,7 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
@@ -6444,7 +6434,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.5,
           "reasons": [
-            "FOMC in 3 calendar days"
+            "FOMC in 2 calendar days"
           ]
         }
       },
@@ -6453,7 +6443,7 @@
         "earnings": {
           "ticker": "UNH",
           "next_earnings_date": "2027-01-12",
-          "days_until_earnings": 79,
+          "days_until_earnings": 78,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6464,7 +6454,7 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
@@ -6476,7 +6466,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.5,
           "reasons": [
-            "FOMC in 3 calendar days"
+            "FOMC in 2 calendar days"
           ]
         }
       },
@@ -6485,7 +6475,7 @@
         "earnings": {
           "ticker": "VRT",
           "next_earnings_date": "2026-10-28",
-          "days_until_earnings": 3,
+          "days_until_earnings": 2,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6496,20 +6486,20 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
           }
         },
         "combined": {
-          "risk_level": "HIGH",
+          "risk_level": "CRITICAL",
           "dominant_risk_source": "EARNINGS",
-          "new_entry_policy": "REDUCE_SIZE",
-          "position_size_multiplier": 0.5,
+          "new_entry_policy": "BLOCK",
+          "position_size_multiplier": 0.0,
           "reasons": [
-            "Earnings event is within 5 calendar days",
-            "FOMC in 3 calendar days"
+            "Earnings event is within 2 calendar days",
+            "FOMC in 2 calendar days"
           ]
         }
       },
@@ -6518,7 +6508,7 @@
         "earnings": {
           "ticker": "ADBE",
           "next_earnings_date": "2026-12-09",
-          "days_until_earnings": 45,
+          "days_until_earnings": 44,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6529,7 +6519,7 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
@@ -6541,7 +6531,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.5,
           "reasons": [
-            "FOMC in 3 calendar days"
+            "FOMC in 2 calendar days"
           ]
         }
       },
@@ -6550,7 +6540,7 @@
         "earnings": {
           "ticker": "COP",
           "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 11,
+          "days_until_earnings": 10,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6561,7 +6551,7 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
@@ -6573,7 +6563,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.5,
           "reasons": [
-            "FOMC in 3 calendar days"
+            "FOMC in 2 calendar days"
           ]
         }
       }
@@ -6587,7 +6577,7 @@
         "earnings": {
           "ticker": "AMD",
           "next_earnings_date": "2026-11-03",
-          "days_until_earnings": 9,
+          "days_until_earnings": 8,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6598,14 +6588,14 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
           }
         },
         "reasons": [
-          "FOMC in 3 calendar days"
+          "FOMC in 2 calendar days"
         ]
       },
       {
@@ -6615,7 +6605,7 @@
         "earnings": {
           "ticker": "ANET",
           "next_earnings_date": "2026-11-03",
-          "days_until_earnings": 9,
+          "days_until_earnings": 8,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6626,14 +6616,14 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
           }
         },
         "reasons": [
-          "FOMC in 3 calendar days"
+          "FOMC in 2 calendar days"
         ]
       },
       {
@@ -6643,7 +6633,7 @@
         "earnings": {
           "ticker": "ASML",
           "next_earnings_date": "2027-01-27",
-          "days_until_earnings": 94,
+          "days_until_earnings": 93,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6654,14 +6644,14 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
           }
         },
         "reasons": [
-          "FOMC in 3 calendar days"
+          "FOMC in 2 calendar days"
         ]
       },
       {
@@ -6671,6 +6661,91 @@
         "earnings": {
           "ticker": "BKR",
           "next_earnings_date": "2026-10-27",
+          "days_until_earnings": 1,
+          "date_status": "AVAILABLE"
+        },
+        "macro": {
+          "risk_level": "HIGH",
+          "nearest_event": {
+            "event_type": "FOMC",
+            "name": "FOMC Rate Decision",
+            "date": "2026-10-28",
+            "source": "Federal Reserve",
+            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
+            "days_until_event": 2,
+            "risk_level": "HIGH",
+            "new_entry_policy": "REDUCE_SIZE",
+            "position_size_multiplier": 0.5
+          }
+        },
+        "reasons": [
+          "Earnings event is within 2 calendar days",
+          "FOMC in 2 calendar days"
+        ]
+      },
+      {
+        "ticker": "CCLD",
+        "risk_level": "HIGH",
+        "event_policy": "REDUCE_SIZE",
+        "earnings": {
+          "ticker": "CCLD",
+          "next_earnings_date": "2026-11-05",
+          "days_until_earnings": 10,
+          "date_status": "AVAILABLE"
+        },
+        "macro": {
+          "risk_level": "HIGH",
+          "nearest_event": {
+            "event_type": "FOMC",
+            "name": "FOMC Rate Decision",
+            "date": "2026-10-28",
+            "source": "Federal Reserve",
+            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
+            "days_until_event": 2,
+            "risk_level": "HIGH",
+            "new_entry_policy": "REDUCE_SIZE",
+            "position_size_multiplier": 0.5
+          }
+        },
+        "reasons": [
+          "FOMC in 2 calendar days"
+        ]
+      },
+      {
+        "ticker": "CTAS",
+        "risk_level": "HIGH",
+        "event_policy": "REDUCE_SIZE",
+        "earnings": {
+          "ticker": "CTAS",
+          "next_earnings_date": "2026-12-17",
+          "days_until_earnings": 52,
+          "date_status": "AVAILABLE"
+        },
+        "macro": {
+          "risk_level": "HIGH",
+          "nearest_event": {
+            "event_type": "FOMC",
+            "name": "FOMC Rate Decision",
+            "date": "2026-10-28",
+            "source": "Federal Reserve",
+            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
+            "days_until_event": 2,
+            "risk_level": "HIGH",
+            "new_entry_policy": "REDUCE_SIZE",
+            "position_size_multiplier": 0.5
+          }
+        },
+        "reasons": [
+          "FOMC in 2 calendar days"
+        ]
+      },
+      {
+        "ticker": "GOOG",
+        "risk_level": "CRITICAL",
+        "event_policy": "BLOCK",
+        "earnings": {
+          "ticker": "GOOG",
+          "next_earnings_date": "2026-10-28",
           "days_until_earnings": 2,
           "date_status": "AVAILABLE"
         },
@@ -6682,7 +6757,7 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
@@ -6690,92 +6765,7 @@
         },
         "reasons": [
           "Earnings event is within 2 calendar days",
-          "FOMC in 3 calendar days"
-        ]
-      },
-      {
-        "ticker": "CCLD",
-        "risk_level": "HIGH",
-        "event_policy": "REDUCE_SIZE",
-        "earnings": {
-          "ticker": "CCLD",
-          "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 11,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "HIGH",
-          "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
-            "risk_level": "HIGH",
-            "new_entry_policy": "REDUCE_SIZE",
-            "position_size_multiplier": 0.5
-          }
-        },
-        "reasons": [
-          "FOMC in 3 calendar days"
-        ]
-      },
-      {
-        "ticker": "CTAS",
-        "risk_level": "HIGH",
-        "event_policy": "REDUCE_SIZE",
-        "earnings": {
-          "ticker": "CTAS",
-          "next_earnings_date": "2026-12-17",
-          "days_until_earnings": 53,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "HIGH",
-          "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
-            "risk_level": "HIGH",
-            "new_entry_policy": "REDUCE_SIZE",
-            "position_size_multiplier": 0.5
-          }
-        },
-        "reasons": [
-          "FOMC in 3 calendar days"
-        ]
-      },
-      {
-        "ticker": "GOOG",
-        "risk_level": "HIGH",
-        "event_policy": "REDUCE_SIZE",
-        "earnings": {
-          "ticker": "GOOG",
-          "next_earnings_date": "2026-10-28",
-          "days_until_earnings": 3,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "HIGH",
-          "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
-            "risk_level": "HIGH",
-            "new_entry_policy": "REDUCE_SIZE",
-            "position_size_multiplier": 0.5
-          }
-        },
-        "reasons": [
-          "Earnings event is within 5 calendar days",
-          "FOMC in 3 calendar days"
+          "FOMC in 2 calendar days"
         ]
       },
       {
@@ -6785,7 +6775,7 @@
         "earnings": {
           "ticker": "NBIS",
           "next_earnings_date": "2026-11-10",
-          "days_until_earnings": 16,
+          "days_until_earnings": 15,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6796,14 +6786,14 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
           }
         },
         "reasons": [
-          "FOMC in 3 calendar days"
+          "FOMC in 2 calendar days"
         ]
       },
       {
@@ -6813,7 +6803,7 @@
         "earnings": {
           "ticker": "NVDA",
           "next_earnings_date": "2026-11-17",
-          "days_until_earnings": 23,
+          "days_until_earnings": 22,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6824,14 +6814,14 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
           }
         },
         "reasons": [
-          "FOMC in 3 calendar days"
+          "FOMC in 2 calendar days"
         ]
       },
       {
@@ -6841,7 +6831,7 @@
         "earnings": {
           "ticker": "OMDA",
           "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 11,
+          "days_until_earnings": 10,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6852,14 +6842,14 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
           }
         },
         "reasons": [
-          "FOMC in 3 calendar days"
+          "FOMC in 2 calendar days"
         ]
       },
       {
@@ -6869,7 +6859,7 @@
         "earnings": {
           "ticker": "UNH",
           "next_earnings_date": "2027-01-12",
-          "days_until_earnings": 79,
+          "days_until_earnings": 78,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6880,24 +6870,24 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
           }
         },
         "reasons": [
-          "FOMC in 3 calendar days"
+          "FOMC in 2 calendar days"
         ]
       },
       {
         "ticker": "VRT",
-        "risk_level": "HIGH",
-        "event_policy": "REDUCE_SIZE",
+        "risk_level": "CRITICAL",
+        "event_policy": "BLOCK",
         "earnings": {
           "ticker": "VRT",
           "next_earnings_date": "2026-10-28",
-          "days_until_earnings": 3,
+          "days_until_earnings": 2,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6908,15 +6898,15 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
           }
         },
         "reasons": [
-          "Earnings event is within 5 calendar days",
-          "FOMC in 3 calendar days"
+          "Earnings event is within 2 calendar days",
+          "FOMC in 2 calendar days"
         ]
       }
     ],
@@ -6931,7 +6921,7 @@
         "earnings": {
           "ticker": "ADBE",
           "next_earnings_date": "2026-12-09",
-          "days_until_earnings": 45,
+          "days_until_earnings": 44,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6942,14 +6932,14 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
           }
         },
         "reasons": [
-          "FOMC in 3 calendar days"
+          "FOMC in 2 calendar days"
         ]
       },
       {
@@ -6961,7 +6951,7 @@
         "earnings": {
           "ticker": "COP",
           "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 11,
+          "days_until_earnings": 10,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -6972,14 +6962,14 @@
             "date": "2026-10-28",
             "source": "Federal Reserve",
             "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 3,
+            "days_until_event": 2,
             "risk_level": "HIGH",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.5
           }
         },
         "reasons": [
-          "FOMC in 3 calendar days"
+          "FOMC in 2 calendar days"
         ]
       }
     ],
@@ -6987,7 +6977,7 @@
   },
   "correlation_allocation_gate": {
     "engine": "V7.7 Correlation-Aware Capital Allocation Gate",
-    "timestamp": "2026-10-25T14:20:45.354465+00:00",
+    "timestamp": "2026-10-26T05:54:04.407713+00:00",
     "existing_position_count": 10,
     "actionable_candidate_count": 2,
     "portfolio_factor_profile": {
@@ -7179,10 +7169,10 @@
         "event_risk_level": "HIGH",
         "event_size_multiplier": 0.5,
         "event_reasons": [
-          "FOMC in 3 calendar days"
+          "FOMC in 2 calendar days"
         ],
         "next_earnings_date": "2026-12-09",
-        "days_until_earnings": 45,
+        "days_until_earnings": 44,
         "correlation_policy": "ALLOW",
         "correlation_risk_level": "LOW",
         "correlation_size_multiplier": 1.0,
@@ -7221,10 +7211,10 @@
         "event_risk_level": "HIGH",
         "event_size_multiplier": 0.5,
         "event_reasons": [
-          "FOMC in 3 calendar days"
+          "FOMC in 2 calendar days"
         ],
         "next_earnings_date": "2026-11-05",
-        "days_until_earnings": 11,
+        "days_until_earnings": 10,
         "correlation_policy": "ALLOW",
         "correlation_risk_level": "LOW",
         "correlation_size_multiplier": 1.0,
@@ -7501,7 +7491,7 @@
   },
   "portfolio_correlation_factor_risk": {
     "engine": "V7.6 Portfolio Correlation & Factor Risk Engine",
-    "timestamp": "2026-10-25T14:20:45.405049+00:00",
+    "timestamp": "2026-10-26T05:54:04.456985+00:00",
     "position_count": 12,
     "data_coverage": {
       "positions_with_market_history": 12,
@@ -11512,7 +11502,7 @@
   },
   "shadow_policy_monitor": {
     "engine": "V8.2 Shadow Policy Monitor",
-    "timestamp": "2026-10-25T14:20:48.041723+00:00",
+    "timestamp": "2026-10-26T05:54:06.305814+00:00",
     "status": "ACTIVE_SHADOW",
     "candidate_policy": "MOMENTUM_FRIENDLY",
     "live_policy": "V7.9 DEFAULT",
@@ -11710,7 +11700,7 @@
   "fresh_forward_promotion_gate": {
     "engine": "V8.4.8 Independent-Cohort Fresh Forward Promotion Gate",
     "gate_signature": "V8.4.8",
-    "generated": "2026-10-25T14:20:48.042012+00:00",
+    "generated": "2026-10-26T05:54:06.306047+00:00",
     "status": "WAITING_FOR_FRESH_EVIDENCE",
     "verdict": "PROMOTION_BLOCKED",
     "candidate_policy": "MOMENTUM_FRIENDLY",
@@ -11862,7 +11852,7 @@
   },
   "ibkr_paper_snapshot": {
     "engine": "V8.3 IBKR Gateway Connector",
-    "timestamp": "2026-10-25T14:20:21.927612+00:00",
+    "timestamp": "2026-10-26T05:53:45.874017+00:00",
     "config": {
       "enabled": false,
       "mode": "PAPER",
@@ -11880,7 +11870,7 @@
   },
   "ibkr_paper_readiness": {
     "engine": "V8.3 IBKR Paper Readiness Safety Gate",
-    "timestamp": "2026-10-25T14:20:21.927698+00:00",
+    "timestamp": "2026-10-26T05:53:45.874102+00:00",
     "readiness": "DISABLED",
     "live_execution_allowed": false,
     "paper_order_submission_allowed": false,
@@ -12062,11 +12052,11 @@
   "historical_evidence_recovery": {
     "engine": "V8.4 Historical Evidence Recovery Engine",
     "recovery_signature": "V8.4.1",
-    "generated": "2026-10-25T08:48:48.469060+00:00",
+    "generated": "2026-10-26T05:54:08.860514+00:00",
     "status": "COMPLETE",
-    "cache_status": "REUSED",
-    "record_count": 133,
-    "directional_record_count": 133,
+    "cache_status": "FRESH",
+    "record_count": 134,
+    "directional_record_count": 134,
     "oldest_signal_date": "2026-05-29",
     "newest_signal_date": "2026-10-24",
     "recovery_coverage": {
@@ -12083,7 +12073,7 @@
       "modern_json": {
         "scanned_dates": 81,
         "usable_dates": 2,
-        "records": 13,
+        "records": 14,
         "excluded_foundation_snapshots": 77
       }
     },
@@ -12091,7 +12081,7 @@
       "modern_action_changes": {
         "5d": {
           "evaluated": 0,
-          "pending": 13,
+          "pending": 14,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12099,7 +12089,7 @@
         },
         "20d": {
           "evaluated": 0,
-          "pending": 13,
+          "pending": 14,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12107,7 +12097,7 @@
         },
         "60d": {
           "evaluated": 0,
-          "pending": 13,
+          "pending": 14,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12118,7 +12108,7 @@
         "ACCUMULATE": {
           "5d": {
             "evaluated": 0,
-            "pending": 1,
+            "pending": 2,
             "benchmark_hit_rate_pct": null,
             "average_decision_alpha_pct": null,
             "average_stock_return_pct": null,
@@ -12126,7 +12116,7 @@
           },
           "20d": {
             "evaluated": 0,
-            "pending": 1,
+            "pending": 2,
             "benchmark_hit_rate_pct": null,
             "average_decision_alpha_pct": null,
             "average_stock_return_pct": null,
@@ -12134,7 +12124,7 @@
           },
           "60d": {
             "evaluated": 0,
-            "pending": 1,
+            "pending": 2,
             "benchmark_hit_rate_pct": null,
             "average_decision_alpha_pct": null,
             "average_stock_return_pct": null,
@@ -12275,7 +12265,7 @@
       "modern_long_add_buy_accumulate": {
         "5d": {
           "evaluated": 0,
-          "pending": 4,
+          "pending": 5,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12283,7 +12273,7 @@
         },
         "20d": {
           "evaluated": 0,
-          "pending": 4,
+          "pending": 5,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12291,7 +12281,7 @@
         },
         "60d": {
           "evaluated": 0,
-          "pending": 4,
+          "pending": 5,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12407,7 +12397,7 @@
       "MODERN_ACTION_CHANGE": {
         "5d": {
           "evaluated": 0,
-          "pending": 13,
+          "pending": 14,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12415,7 +12405,7 @@
         },
         "20d": {
           "evaluated": 0,
-          "pending": 13,
+          "pending": 14,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12423,7 +12413,7 @@
         },
         "60d": {
           "evaluated": 0,
-          "pending": 13,
+          "pending": 14,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12458,10 +12448,10 @@
           "average_spy_return_pct": null
         }
       },
-      "V8.3": {
+      "V8.6": {
         "5d": {
           "evaluated": 0,
-          "pending": 3,
+          "pending": 4,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12469,7 +12459,7 @@
         },
         "20d": {
           "evaluated": 0,
-          "pending": 3,
+          "pending": 4,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12477,7 +12467,7 @@
         },
         "60d": {
           "evaluated": 0,
-          "pending": 3,
+          "pending": 4,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -18266,15 +18256,15 @@
         }
       },
       {
-        "id": "dd117a804cccb2d4",
+        "id": "e81614b9ea290d6e",
         "cohort": "MODERN_ACTION_CHANGE",
         "signal_date": "2026-10-23",
         "ticker": "ADBE",
         "action": "BUY",
         "direction": "LONG",
         "signal_price_snapshot": 263.83,
-        "origin_commit": "f673179f02cc14c0645c0484a9235877aa70f70a",
-        "model_version": "V8.3",
+        "origin_commit": "1ba571a80d6428d64c02d6086d16a14c6037e323",
+        "model_version": "V8.6",
         "legacy_label": null,
         "score": 75.62,
         "rank": null,
@@ -18314,15 +18304,15 @@
         }
       },
       {
-        "id": "7b65fb7860720d5f",
+        "id": "6414afeada868f42",
         "cohort": "MODERN_ACTION_CHANGE",
         "signal_date": "2026-10-23",
         "ticker": "BKR",
         "action": "REDUCE",
         "direction": "DEFENSIVE",
         "signal_price_snapshot": 55.86,
-        "origin_commit": "f673179f02cc14c0645c0484a9235877aa70f70a",
-        "model_version": "V8.3",
+        "origin_commit": "1ba571a80d6428d64c02d6086d16a14c6037e323",
+        "model_version": "V8.6",
         "legacy_label": null,
         "score": 68.73,
         "rank": null,
@@ -18362,19 +18352,67 @@
         }
       },
       {
-        "id": "d8ca2dc48b165564",
+        "id": "6f60a6aa585d0e91",
         "cohort": "MODERN_ACTION_CHANGE",
         "signal_date": "2026-10-23",
         "ticker": "CCLD",
         "action": "EXIT",
         "direction": "DEFENSIVE",
         "signal_price_snapshot": 1.76,
-        "origin_commit": "f673179f02cc14c0645c0484a9235877aa70f70a",
-        "model_version": "V8.3",
+        "origin_commit": "1ba571a80d6428d64c02d6086d16a14c6037e323",
+        "model_version": "V8.6",
         "legacy_label": null,
-        "score": 53.63,
+        "score": 53.66,
         "rank": null,
         "source": "PORTFOLIO",
+        "evaluation_basis": "yfinance_adjusted_close_on_signal_date_to_future_close",
+        "horizons": {
+          "5d": {
+            "target_trading_sessions": 5,
+            "status": "PENDING",
+            "evaluation_date": null,
+            "stock_return_pct": null,
+            "spy_return_pct": null,
+            "excess_return_pct": null,
+            "decision_alpha_pct": null,
+            "benchmark_hit": null
+          },
+          "20d": {
+            "target_trading_sessions": 20,
+            "status": "PENDING",
+            "evaluation_date": null,
+            "stock_return_pct": null,
+            "spy_return_pct": null,
+            "excess_return_pct": null,
+            "decision_alpha_pct": null,
+            "benchmark_hit": null
+          },
+          "60d": {
+            "target_trading_sessions": 60,
+            "status": "PENDING",
+            "evaluation_date": null,
+            "stock_return_pct": null,
+            "spy_return_pct": null,
+            "excess_return_pct": null,
+            "decision_alpha_pct": null,
+            "benchmark_hit": null
+          }
+        }
+      },
+      {
+        "id": "eb1454b6636cf13c",
+        "cohort": "MODERN_ACTION_CHANGE",
+        "signal_date": "2026-10-23",
+        "ticker": "COP",
+        "action": "ACCUMULATE",
+        "direction": "LONG",
+        "signal_price_snapshot": 150.81,
+        "origin_commit": "1ba571a80d6428d64c02d6086d16a14c6037e323",
+        "model_version": "V8.6",
+        "legacy_label": null,
+        "score": 74.9,
+        "rank": null,
+        "source": "NEW_ENTRY",
         "evaluation_basis": "yfinance_adjusted_close_on_signal_date_to_future_close",
         "horizons": {
           "5d": {
@@ -18896,7 +18934,7 @@
     "validation_signature": "V8.6.2",
     "status": "COMPLETE",
     "cache_status": "FRESH",
-    "generated": "2026-10-25T14:23:16.754166+00:00",
+    "generated": "2026-10-26T05:56:21.430428+00:00",
     "test_period": {
       "start": "2022-06-01",
       "end": "2026-06-05"
@@ -18915,8 +18953,8 @@
       "sp500_unique_members_during_test": 587,
       "nasdaq100_unique_members_during_test": 139,
       "requested_unique_price_tickers": 618,
-      "downloaded_price_tickers": 571,
-      "missing_price_tickers": 47
+      "downloaded_price_tickers": 570,
+      "missing_price_tickers": 48
     },
     "missing_price_ticker_sample": [
       "ABC",
@@ -18951,6 +18989,7 @@
       "MRO",
       "NLOK",
       "NLSN",
+      "PARA",
       "PEAK",
       "PKI",
       "PSKY",
@@ -18976,29 +19015,29 @@
         "mode": "TOP12_FULL",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 113557.5,
-          "total_return_pct": 13.67,
-          "cagr_pct": 3.26,
-          "annualized_volatility_pct": 13.29,
-          "sharpe_ratio": 0.308,
-          "sortino_ratio": 0.403,
+          "ending_value": 114901.02,
+          "total_return_pct": 15.02,
+          "cagr_pct": 3.57,
+          "annualized_volatility_pct": 13.65,
+          "sharpe_ratio": 0.325,
+          "sortino_ratio": 0.421,
           "max_drawdown_pct": 15.06,
-          "calmar_ratio": 0.217,
-          "profit_factor_daily": 1.054,
+          "calmar_ratio": 0.237,
+          "profit_factor_daily": 1.057,
           "spy_total_return_pct": 90.29,
           "spy_cagr_pct": 17.49,
-          "cagr_alpha_vs_spy_pct": -14.23,
-          "total_trading_costs": 5929.22,
-          "trading_cost_pct_of_starting_capital": 5.929,
-          "annualized_turnover_x": 14.85,
+          "cagr_alpha_vs_spy_pct": -13.92,
+          "total_trading_costs": 6090.53,
+          "trading_cost_pct_of_starting_capital": 6.091,
+          "annualized_turnover_x": 15.26,
           "trading_days": 1006,
           "years": 3.99
         },
         "rebalance_count": 49,
         "coverage": {
           "rebalance_observations": 49,
-          "average_coverage_pct": 95.15,
-          "minimum_coverage_pct": 91.27,
+          "average_coverage_pct": 94.99,
+          "minimum_coverage_pct": 91.07,
           "maximum_coverage_pct": 98.61
         },
         "coverage_history": [
@@ -19006,274 +19045,274 @@
             "execution_date": "2022-06-01",
             "decision_date": "2022-05-31",
             "pit_member_count": 504,
-            "eligible_count": 460,
-            "coverage_pct": 91.27
+            "eligible_count": 459,
+            "coverage_pct": 91.07
           },
           {
             "execution_date": "2022-07-01",
             "decision_date": "2022-06-30",
             "pit_member_count": 503,
-            "eligible_count": 462,
-            "coverage_pct": 91.85
+            "eligible_count": 461,
+            "coverage_pct": 91.65
           },
           {
             "execution_date": "2022-08-01",
             "decision_date": "2022-07-29",
             "pit_member_count": 503,
-            "eligible_count": 462,
-            "coverage_pct": 91.85
+            "eligible_count": 461,
+            "coverage_pct": 91.65
           },
           {
             "execution_date": "2022-09-01",
             "decision_date": "2022-08-31",
             "pit_member_count": 503,
-            "eligible_count": 462,
-            "coverage_pct": 91.85
+            "eligible_count": 461,
+            "coverage_pct": 91.65
           },
           {
             "execution_date": "2022-10-03",
             "decision_date": "2022-09-30",
             "pit_member_count": 503,
-            "eligible_count": 462,
-            "coverage_pct": 91.85
+            "eligible_count": 461,
+            "coverage_pct": 91.65
           },
           {
             "execution_date": "2022-11-01",
             "decision_date": "2022-10-31",
             "pit_member_count": 503,
-            "eligible_count": 465,
-            "coverage_pct": 92.45
+            "eligible_count": 464,
+            "coverage_pct": 92.25
           },
           {
             "execution_date": "2022-12-01",
             "decision_date": "2022-11-30",
             "pit_member_count": 503,
-            "eligible_count": 467,
-            "coverage_pct": 92.84
+            "eligible_count": 466,
+            "coverage_pct": 92.64
           },
           {
             "execution_date": "2023-01-03",
             "decision_date": "2022-12-30",
             "pit_member_count": 503,
-            "eligible_count": 469,
-            "coverage_pct": 93.24
+            "eligible_count": 468,
+            "coverage_pct": 93.04
           },
           {
             "execution_date": "2023-02-01",
             "decision_date": "2023-01-31",
             "pit_member_count": 503,
-            "eligible_count": 469,
-            "coverage_pct": 93.24
+            "eligible_count": 468,
+            "coverage_pct": 93.04
           },
           {
             "execution_date": "2023-03-01",
             "decision_date": "2023-02-28",
             "pit_member_count": 503,
-            "eligible_count": 469,
-            "coverage_pct": 93.24
+            "eligible_count": 468,
+            "coverage_pct": 93.04
           },
           {
             "execution_date": "2023-04-03",
             "decision_date": "2023-03-31",
             "pit_member_count": 503,
-            "eligible_count": 471,
-            "coverage_pct": 93.64
+            "eligible_count": 470,
+            "coverage_pct": 93.44
           },
           {
             "execution_date": "2023-05-01",
             "decision_date": "2023-04-28",
             "pit_member_count": 503,
-            "eligible_count": 471,
-            "coverage_pct": 93.64
+            "eligible_count": 470,
+            "coverage_pct": 93.44
           },
           {
             "execution_date": "2023-06-01",
             "decision_date": "2023-05-31",
             "pit_member_count": 503,
-            "eligible_count": 473,
-            "coverage_pct": 94.04
+            "eligible_count": 472,
+            "coverage_pct": 93.84
           },
           {
             "execution_date": "2023-07-03",
             "decision_date": "2023-06-30",
             "pit_member_count": 503,
-            "eligible_count": 473,
-            "coverage_pct": 94.04
+            "eligible_count": 472,
+            "coverage_pct": 93.84
           },
           {
             "execution_date": "2023-08-01",
             "decision_date": "2023-07-31",
             "pit_member_count": 503,
-            "eligible_count": 474,
-            "coverage_pct": 94.23
+            "eligible_count": 473,
+            "coverage_pct": 94.04
           },
           {
             "execution_date": "2023-09-01",
             "decision_date": "2023-08-31",
             "pit_member_count": 503,
-            "eligible_count": 474,
-            "coverage_pct": 94.23
+            "eligible_count": 473,
+            "coverage_pct": 94.04
           },
           {
             "execution_date": "2023-10-02",
             "decision_date": "2023-09-29",
             "pit_member_count": 503,
-            "eligible_count": 474,
-            "coverage_pct": 94.23
+            "eligible_count": 473,
+            "coverage_pct": 94.04
           },
           {
             "execution_date": "2023-11-01",
             "decision_date": "2023-10-31",
             "pit_member_count": 503,
-            "eligible_count": 475,
-            "coverage_pct": 94.43
+            "eligible_count": 474,
+            "coverage_pct": 94.23
           },
           {
             "execution_date": "2023-12-01",
             "decision_date": "2023-11-30",
             "pit_member_count": 503,
-            "eligible_count": 475,
-            "coverage_pct": 94.43
+            "eligible_count": 474,
+            "coverage_pct": 94.23
           },
           {
             "execution_date": "2024-01-02",
             "decision_date": "2023-12-29",
             "pit_member_count": 503,
-            "eligible_count": 476,
-            "coverage_pct": 94.63
+            "eligible_count": 475,
+            "coverage_pct": 94.43
           },
           {
             "execution_date": "2024-02-01",
             "decision_date": "2024-01-31",
             "pit_member_count": 503,
-            "eligible_count": 476,
-            "coverage_pct": 94.63
+            "eligible_count": 475,
+            "coverage_pct": 94.43
           },
           {
             "execution_date": "2024-03-01",
             "decision_date": "2024-02-29",
             "pit_member_count": 503,
-            "eligible_count": 476,
-            "coverage_pct": 94.63
+            "eligible_count": 475,
+            "coverage_pct": 94.43
           },
           {
             "execution_date": "2024-04-01",
             "decision_date": "2024-03-28",
             "pit_member_count": 503,
-            "eligible_count": 478,
-            "coverage_pct": 95.03
+            "eligible_count": 477,
+            "coverage_pct": 94.83
           },
           {
             "execution_date": "2024-05-01",
             "decision_date": "2024-04-30",
             "pit_member_count": 503,
-            "eligible_count": 476,
-            "coverage_pct": 94.63
+            "eligible_count": 475,
+            "coverage_pct": 94.43
           },
           {
             "execution_date": "2024-06-03",
             "decision_date": "2024-05-31",
             "pit_member_count": 503,
-            "eligible_count": 478,
-            "coverage_pct": 95.03
+            "eligible_count": 477,
+            "coverage_pct": 94.83
           },
           {
             "execution_date": "2024-07-01",
             "decision_date": "2024-06-28",
             "pit_member_count": 503,
-            "eligible_count": 479,
-            "coverage_pct": 95.23
+            "eligible_count": 478,
+            "coverage_pct": 95.03
           },
           {
             "execution_date": "2024-08-01",
             "decision_date": "2024-07-31",
             "pit_member_count": 503,
-            "eligible_count": 480,
-            "coverage_pct": 95.43
+            "eligible_count": 479,
+            "coverage_pct": 95.23
           },
           {
             "execution_date": "2024-09-03",
             "decision_date": "2024-08-30",
             "pit_member_count": 503,
-            "eligible_count": 480,
-            "coverage_pct": 95.43
+            "eligible_count": 479,
+            "coverage_pct": 95.23
           },
           {
             "execution_date": "2024-10-01",
             "decision_date": "2024-09-30",
             "pit_member_count": 504,
-            "eligible_count": 480,
-            "coverage_pct": 95.24
+            "eligible_count": 479,
+            "coverage_pct": 95.04
           },
           {
             "execution_date": "2024-11-01",
             "decision_date": "2024-10-31",
             "pit_member_count": 503,
-            "eligible_count": 480,
-            "coverage_pct": 95.43
+            "eligible_count": 479,
+            "coverage_pct": 95.23
           },
           {
             "execution_date": "2024-12-02",
             "decision_date": "2024-11-29",
             "pit_member_count": 503,
-            "eligible_count": 481,
-            "coverage_pct": 95.63
+            "eligible_count": 480,
+            "coverage_pct": 95.43
           },
           {
             "execution_date": "2025-01-02",
             "decision_date": "2024-12-31",
             "pit_member_count": 503,
-            "eligible_count": 484,
-            "coverage_pct": 96.22
+            "eligible_count": 483,
+            "coverage_pct": 96.02
           },
           {
             "execution_date": "2025-02-03",
             "decision_date": "2025-01-31",
             "pit_member_count": 503,
-            "eligible_count": 484,
-            "coverage_pct": 96.22
+            "eligible_count": 483,
+            "coverage_pct": 96.02
           },
           {
             "execution_date": "2025-03-03",
             "decision_date": "2025-02-28",
             "pit_member_count": 503,
-            "eligible_count": 484,
-            "coverage_pct": 96.22
+            "eligible_count": 483,
+            "coverage_pct": 96.02
           },
           {
             "execution_date": "2025-04-01",
             "decision_date": "2025-03-31",
             "pit_member_count": 503,
-            "eligible_count": 486,
-            "coverage_pct": 96.62
+            "eligible_count": 485,
+            "coverage_pct": 96.42
           },
           {
             "execution_date": "2025-05-01",
             "decision_date": "2025-04-30",
             "pit_member_count": 503,
-            "eligible_count": 486,
-            "coverage_pct": 96.62
+            "eligible_count": 485,
+            "coverage_pct": 96.42
           },
           {
             "execution_date": "2025-06-02",
             "decision_date": "2025-05-30",
             "pit_member_count": 503,
-            "eligible_count": 487,
-            "coverage_pct": 96.82
+            "eligible_count": 486,
+            "coverage_pct": 96.62
           },
           {
             "execution_date": "2025-07-01",
             "decision_date": "2025-06-30",
             "pit_member_count": 503,
-            "eligible_count": 487,
-            "coverage_pct": 96.82
+            "eligible_count": 486,
+            "coverage_pct": 96.62
           },
           {
             "execution_date": "2025-08-01",
             "decision_date": "2025-07-31",
             "pit_member_count": 503,
-            "eligible_count": 490,
-            "coverage_pct": 97.42
+            "eligible_count": 489,
+            "coverage_pct": 97.22
           },
           {
             "execution_date": "2025-09-02",
@@ -19743,29 +19782,29 @@
         "mode": "TOP12_RISK_OVERLAY",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 113557.5,
-          "total_return_pct": 13.67,
-          "cagr_pct": 3.26,
-          "annualized_volatility_pct": 13.29,
-          "sharpe_ratio": 0.308,
-          "sortino_ratio": 0.403,
+          "ending_value": 114901.02,
+          "total_return_pct": 15.02,
+          "cagr_pct": 3.57,
+          "annualized_volatility_pct": 13.65,
+          "sharpe_ratio": 0.325,
+          "sortino_ratio": 0.421,
           "max_drawdown_pct": 15.06,
-          "calmar_ratio": 0.217,
-          "profit_factor_daily": 1.054,
+          "calmar_ratio": 0.237,
+          "profit_factor_daily": 1.057,
           "spy_total_return_pct": 90.29,
           "spy_cagr_pct": 17.49,
-          "cagr_alpha_vs_spy_pct": -14.23,
-          "total_trading_costs": 5929.22,
-          "trading_cost_pct_of_starting_capital": 5.929,
-          "annualized_turnover_x": 14.85,
+          "cagr_alpha_vs_spy_pct": -13.92,
+          "total_trading_costs": 6090.53,
+          "trading_cost_pct_of_starting_capital": 6.091,
+          "annualized_turnover_x": 15.26,
           "trading_days": 1006,
           "years": 3.99
         },
         "rebalance_count": 49,
         "coverage": {
           "rebalance_observations": 49,
-          "average_coverage_pct": 95.15,
-          "minimum_coverage_pct": 91.27,
+          "average_coverage_pct": 94.99,
+          "minimum_coverage_pct": 91.07,
           "maximum_coverage_pct": 98.61
         },
         "coverage_history": [
@@ -19773,274 +19812,274 @@
             "execution_date": "2022-06-01",
             "decision_date": "2022-05-31",
             "pit_member_count": 504,
-            "eligible_count": 460,
-            "coverage_pct": 91.27
+            "eligible_count": 459,
+            "coverage_pct": 91.07
           },
           {
             "execution_date": "2022-07-01",
             "decision_date": "2022-06-30",
             "pit_member_count": 503,
-            "eligible_count": 462,
-            "coverage_pct": 91.85
+            "eligible_count": 461,
+            "coverage_pct": 91.65
           },
           {
             "execution_date": "2022-08-01",
             "decision_date": "2022-07-29",
             "pit_member_count": 503,
-            "eligible_count": 462,
-            "coverage_pct": 91.85
+            "eligible_count": 461,
+            "coverage_pct": 91.65
           },
           {
             "execution_date": "2022-09-01",
             "decision_date": "2022-08-31",
             "pit_member_count": 503,
-            "eligible_count": 462,
-            "coverage_pct": 91.85
+            "eligible_count": 461,
+            "coverage_pct": 91.65
           },
           {
             "execution_date": "2022-10-03",
             "decision_date": "2022-09-30",
             "pit_member_count": 503,
-            "eligible_count": 462,
-            "coverage_pct": 91.85
+            "eligible_count": 461,
+            "coverage_pct": 91.65
           },
           {
             "execution_date": "2022-11-01",
             "decision_date": "2022-10-31",
             "pit_member_count": 503,
-            "eligible_count": 465,
-            "coverage_pct": 92.45
+            "eligible_count": 464,
+            "coverage_pct": 92.25
           },
           {
             "execution_date": "2022-12-01",
             "decision_date": "2022-11-30",
             "pit_member_count": 503,
-            "eligible_count": 467,
-            "coverage_pct": 92.84
+            "eligible_count": 466,
+            "coverage_pct": 92.64
           },
           {
             "execution_date": "2023-01-03",
             "decision_date": "2022-12-30",
             "pit_member_count": 503,
-            "eligible_count": 469,
-            "coverage_pct": 93.24
+            "eligible_count": 468,
+            "coverage_pct": 93.04
           },
           {
             "execution_date": "2023-02-01",
             "decision_date": "2023-01-31",
             "pit_member_count": 503,
-            "eligible_count": 469,
-            "coverage_pct": 93.24
+            "eligible_count": 468,
+            "coverage_pct": 93.04
           },
           {
             "execution_date": "2023-03-01",
             "decision_date": "2023-02-28",
             "pit_member_count": 503,
-            "eligible_count": 469,
-            "coverage_pct": 93.24
+            "eligible_count": 468,
+            "coverage_pct": 93.04
           },
           {
             "execution_date": "2023-04-03",
             "decision_date": "2023-03-31",
             "pit_member_count": 503,
-            "eligible_count": 471,
-            "coverage_pct": 93.64
+            "eligible_count": 470,
+            "coverage_pct": 93.44
           },
           {
             "execution_date": "2023-05-01",
             "decision_date": "2023-04-28",
             "pit_member_count": 503,
-            "eligible_count": 471,
-            "coverage_pct": 93.64
+            "eligible_count": 470,
+            "coverage_pct": 93.44
           },
           {
             "execution_date": "2023-06-01",
             "decision_date": "2023-05-31",
             "pit_member_count": 503,
-            "eligible_count": 473,
-            "coverage_pct": 94.04
+            "eligible_count": 472,
+            "coverage_pct": 93.84
           },
           {
             "execution_date": "2023-07-03",
             "decision_date": "2023-06-30",
             "pit_member_count": 503,
-            "eligible_count": 473,
-            "coverage_pct": 94.04
+            "eligible_count": 472,
+            "coverage_pct": 93.84
           },
           {
             "execution_date": "2023-08-01",
             "decision_date": "2023-07-31",
             "pit_member_count": 503,
-            "eligible_count": 474,
-            "coverage_pct": 94.23
+            "eligible_count": 473,
+            "coverage_pct": 94.04
           },
           {
             "execution_date": "2023-09-01",
             "decision_date": "2023-08-31",
             "pit_member_count": 503,
-            "eligible_count": 474,
-            "coverage_pct": 94.23
+            "eligible_count": 473,
+            "coverage_pct": 94.04
           },
           {
             "execution_date": "2023-10-02",
             "decision_date": "2023-09-29",
             "pit_member_count": 503,
-            "eligible_count": 474,
-            "coverage_pct": 94.23
+            "eligible_count": 473,
+            "coverage_pct": 94.04
           },
           {
             "execution_date": "2023-11-01",
             "decision_date": "2023-10-31",
             "pit_member_count": 503,
-            "eligible_count": 475,
-            "coverage_pct": 94.43
+            "eligible_count": 474,
+            "coverage_pct": 94.23
           },
           {
             "execution_date": "2023-12-01",
             "decision_date": "2023-11-30",
             "pit_member_count": 503,
-            "eligible_count": 475,
-            "coverage_pct": 94.43
+            "eligible_count": 474,
+            "coverage_pct": 94.23
           },
           {
             "execution_date": "2024-01-02",
             "decision_date": "2023-12-29",
             "pit_member_count": 503,
-            "eligible_count": 476,
-            "coverage_pct": 94.63
+            "eligible_count": 475,
+            "coverage_pct": 94.43
           },
           {
             "execution_date": "2024-02-01",
             "decision_date": "2024-01-31",
             "pit_member_count": 503,
-            "eligible_count": 476,
-            "coverage_pct": 94.63
+            "eligible_count": 475,
+            "coverage_pct": 94.43
           },
           {
             "execution_date": "2024-03-01",
             "decision_date": "2024-02-29",
             "pit_member_count": 503,
-            "eligible_count": 476,
-            "coverage_pct": 94.63
+            "eligible_count": 475,
+            "coverage_pct": 94.43
           },
           {
             "execution_date": "2024-04-01",
             "decision_date": "2024-03-28",
             "pit_member_count": 503,
-            "eligible_count": 478,
-            "coverage_pct": 95.03
+            "eligible_count": 477,
+            "coverage_pct": 94.83
           },
           {
             "execution_date": "2024-05-01",
             "decision_date": "2024-04-30",
             "pit_member_count": 503,
-            "eligible_count": 476,
-            "coverage_pct": 94.63
+            "eligible_count": 475,
+            "coverage_pct": 94.43
           },
           {
             "execution_date": "2024-06-03",
             "decision_date": "2024-05-31",
             "pit_member_count": 503,
-            "eligible_count": 478,
-            "coverage_pct": 95.03
+            "eligible_count": 477,
+            "coverage_pct": 94.83
           },
           {
             "execution_date": "2024-07-01",
             "decision_date": "2024-06-28",
             "pit_member_count": 503,
-            "eligible_count": 479,
-            "coverage_pct": 95.23
+            "eligible_count": 478,
+            "coverage_pct": 95.03
           },
           {
             "execution_date": "2024-08-01",
             "decision_date": "2024-07-31",
             "pit_member_count": 503,
-            "eligible_count": 480,
-            "coverage_pct": 95.43
+            "eligible_count": 479,
+            "coverage_pct": 95.23
           },
           {
             "execution_date": "2024-09-03",
             "decision_date": "2024-08-30",
             "pit_member_count": 503,
-            "eligible_count": 480,
-            "coverage_pct": 95.43
+            "eligible_count": 479,
+            "coverage_pct": 95.23
           },
           {
             "execution_date": "2024-10-01",
             "decision_date": "2024-09-30",
             "pit_member_count": 504,
-            "eligible_count": 480,
-            "coverage_pct": 95.24
+            "eligible_count": 479,
+            "coverage_pct": 95.04
           },
           {
             "execution_date": "2024-11-01",
             "decision_date": "2024-10-31",
             "pit_member_count": 503,
-            "eligible_count": 480,
-            "coverage_pct": 95.43
+            "eligible_count": 479,
+            "coverage_pct": 95.23
           },
           {
             "execution_date": "2024-12-02",
             "decision_date": "2024-11-29",
             "pit_member_count": 503,
-            "eligible_count": 481,
-            "coverage_pct": 95.63
+            "eligible_count": 480,
+            "coverage_pct": 95.43
           },
           {
             "execution_date": "2025-01-02",
             "decision_date": "2024-12-31",
             "pit_member_count": 503,
-            "eligible_count": 484,
-            "coverage_pct": 96.22
+            "eligible_count": 483,
+            "coverage_pct": 96.02
           },
           {
             "execution_date": "2025-02-03",
             "decision_date": "2025-01-31",
             "pit_member_count": 503,
-            "eligible_count": 484,
-            "coverage_pct": 96.22
+            "eligible_count": 483,
+            "coverage_pct": 96.02
           },
           {
             "execution_date": "2025-03-03",
             "decision_date": "2025-02-28",
             "pit_member_count": 503,
-            "eligible_count": 484,
-            "coverage_pct": 96.22
+            "eligible_count": 483,
+            "coverage_pct": 96.02
           },
           {
             "execution_date": "2025-04-01",
             "decision_date": "2025-03-31",
             "pit_member_count": 503,
-            "eligible_count": 486,
-            "coverage_pct": 96.62
+            "eligible_count": 485,
+            "coverage_pct": 96.42
           },
           {
             "execution_date": "2025-05-01",
             "decision_date": "2025-04-30",
             "pit_member_count": 503,
-            "eligible_count": 486,
-            "coverage_pct": 96.62
+            "eligible_count": 485,
+            "coverage_pct": 96.42
           },
           {
             "execution_date": "2025-06-02",
             "decision_date": "2025-05-30",
             "pit_member_count": 503,
-            "eligible_count": 487,
-            "coverage_pct": 96.82
+            "eligible_count": 486,
+            "coverage_pct": 96.62
           },
           {
             "execution_date": "2025-07-01",
             "decision_date": "2025-06-30",
             "pit_member_count": 503,
-            "eligible_count": 487,
-            "coverage_pct": 96.82
+            "eligible_count": 486,
+            "coverage_pct": 96.62
           },
           {
             "execution_date": "2025-08-01",
             "decision_date": "2025-07-31",
             "pit_member_count": 503,
-            "eligible_count": 490,
-            "coverage_pct": 97.42
+            "eligible_count": 489,
+            "coverage_pct": 97.22
           },
           {
             "execution_date": "2025-09-02",
@@ -20510,20 +20549,20 @@
         "mode": "UNIVERSE_EQUAL_WEIGHT",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 152396.23,
-          "total_return_pct": 52.55,
-          "cagr_pct": 11.16,
-          "annualized_volatility_pct": 16.05,
-          "sharpe_ratio": 0.739,
-          "sortino_ratio": 1.081,
-          "max_drawdown_pct": 17.96,
-          "calmar_ratio": 0.621,
-          "profit_factor_daily": 1.138,
+          "ending_value": 154060.8,
+          "total_return_pct": 54.22,
+          "cagr_pct": 11.46,
+          "annualized_volatility_pct": 16.07,
+          "sharpe_ratio": 0.756,
+          "sortino_ratio": 1.105,
+          "max_drawdown_pct": 17.94,
+          "calmar_ratio": 0.639,
+          "profit_factor_daily": 1.142,
           "spy_total_return_pct": 90.29,
           "spy_cagr_pct": 17.49,
-          "cagr_alpha_vs_spy_pct": -6.33,
-          "total_trading_costs": 463.4,
-          "trading_cost_pct_of_starting_capital": 0.463,
+          "cagr_alpha_vs_spy_pct": -6.03,
+          "total_trading_costs": 464.17,
+          "trading_cost_pct_of_starting_capital": 0.464,
           "annualized_turnover_x": 1.16,
           "trading_days": 1006,
           "years": 3.99
@@ -20531,8 +20570,8 @@
         "rebalance_count": 49,
         "coverage": {
           "rebalance_observations": 49,
-          "average_coverage_pct": 95.15,
-          "minimum_coverage_pct": 91.27,
+          "average_coverage_pct": 94.99,
+          "minimum_coverage_pct": 91.07,
           "maximum_coverage_pct": 98.61
         },
         "coverage_history": [
@@ -20540,274 +20579,274 @@
             "execution_date": "2022-06-01",
             "decision_date": "2022-05-31",
             "pit_member_count": 504,
-            "eligible_count": 460,
-            "coverage_pct": 91.27
+            "eligible_count": 459,
+            "coverage_pct": 91.07
           },
           {
             "execution_date": "2022-07-01",
             "decision_date": "2022-06-30",
             "pit_member_count": 503,
-            "eligible_count": 462,
-            "coverage_pct": 91.85
+            "eligible_count": 461,
+            "coverage_pct": 91.65
           },
           {
             "execution_date": "2022-08-01",
             "decision_date": "2022-07-29",
             "pit_member_count": 503,
-            "eligible_count": 462,
-            "coverage_pct": 91.85
+            "eligible_count": 461,
+            "coverage_pct": 91.65
           },
           {
             "execution_date": "2022-09-01",
             "decision_date": "2022-08-31",
             "pit_member_count": 503,
-            "eligible_count": 462,
-            "coverage_pct": 91.85
+            "eligible_count": 461,
+            "coverage_pct": 91.65
           },
           {
             "execution_date": "2022-10-03",
             "decision_date": "2022-09-30",
             "pit_member_count": 503,
-            "eligible_count": 462,
-            "coverage_pct": 91.85
+            "eligible_count": 461,
+            "coverage_pct": 91.65
           },
           {
             "execution_date": "2022-11-01",
             "decision_date": "2022-10-31",
             "pit_member_count": 503,
-            "eligible_count": 465,
-            "coverage_pct": 92.45
+            "eligible_count": 464,
+            "coverage_pct": 92.25
           },
           {
             "execution_date": "2022-12-01",
             "decision_date": "2022-11-30",
             "pit_member_count": 503,
-            "eligible_count": 467,
-            "coverage_pct": 92.84
+            "eligible_count": 466,
+            "coverage_pct": 92.64
           },
           {
             "execution_date": "2023-01-03",
             "decision_date": "2022-12-30",
             "pit_member_count": 503,
-            "eligible_count": 469,
-            "coverage_pct": 93.24
+            "eligible_count": 468,
+            "coverage_pct": 93.04
           },
           {
             "execution_date": "2023-02-01",
             "decision_date": "2023-01-31",
             "pit_member_count": 503,
-            "eligible_count": 469,
-            "coverage_pct": 93.24
+            "eligible_count": 468,
+            "coverage_pct": 93.04
           },
           {
             "execution_date": "2023-03-01",
             "decision_date": "2023-02-28",
             "pit_member_count": 503,
-            "eligible_count": 469,
-            "coverage_pct": 93.24
+            "eligible_count": 468,
+            "coverage_pct": 93.04
           },
           {
             "execution_date": "2023-04-03",
             "decision_date": "2023-03-31",
             "pit_member_count": 503,
-            "eligible_count": 471,
-            "coverage_pct": 93.64
+            "eligible_count": 470,
+            "coverage_pct": 93.44
           },
           {
             "execution_date": "2023-05-01",
             "decision_date": "2023-04-28",
             "pit_member_count": 503,
-            "eligible_count": 471,
-            "coverage_pct": 93.64
+            "eligible_count": 470,
+            "coverage_pct": 93.44
           },
           {
             "execution_date": "2023-06-01",
             "decision_date": "2023-05-31",
             "pit_member_count": 503,
-            "eligible_count": 473,
-            "coverage_pct": 94.04
+            "eligible_count": 472,
+            "coverage_pct": 93.84
           },
           {
             "execution_date": "2023-07-03",
             "decision_date": "2023-06-30",
             "pit_member_count": 503,
-            "eligible_count": 473,
-            "coverage_pct": 94.04
+            "eligible_count": 472,
+            "coverage_pct": 93.84
           },
           {
             "execution_date": "2023-08-01",
             "decision_date": "2023-07-31",
             "pit_member_count": 503,
-            "eligible_count": 474,
-            "coverage_pct": 94.23
+            "eligible_count": 473,
+            "coverage_pct": 94.04
           },
           {
             "execution_date": "2023-09-01",
             "decision_date": "2023-08-31",
             "pit_member_count": 503,
-            "eligible_count": 474,
-            "coverage_pct": 94.23
+            "eligible_count": 473,
+            "coverage_pct": 94.04
           },
           {
             "execution_date": "2023-10-02",
             "decision_date": "2023-09-29",
             "pit_member_count": 503,
-            "eligible_count": 474,
-            "coverage_pct": 94.23
+            "eligible_count": 473,
+            "coverage_pct": 94.04
           },
           {
             "execution_date": "2023-11-01",
             "decision_date": "2023-10-31",
             "pit_member_count": 503,
-            "eligible_count": 475,
-            "coverage_pct": 94.43
+            "eligible_count": 474,
+            "coverage_pct": 94.23
           },
           {
             "execution_date": "2023-12-01",
             "decision_date": "2023-11-30",
             "pit_member_count": 503,
-            "eligible_count": 475,
-            "coverage_pct": 94.43
+            "eligible_count": 474,
+            "coverage_pct": 94.23
           },
           {
             "execution_date": "2024-01-02",
             "decision_date": "2023-12-29",
             "pit_member_count": 503,
-            "eligible_count": 476,
-            "coverage_pct": 94.63
+            "eligible_count": 475,
+            "coverage_pct": 94.43
           },
           {
             "execution_date": "2024-02-01",
             "decision_date": "2024-01-31",
             "pit_member_count": 503,
-            "eligible_count": 476,
-            "coverage_pct": 94.63
+            "eligible_count": 475,
+            "coverage_pct": 94.43
           },
           {
             "execution_date": "2024-03-01",
             "decision_date": "2024-02-29",
             "pit_member_count": 503,
-            "eligible_count": 476,
-            "coverage_pct": 94.63
+            "eligible_count": 475,
+            "coverage_pct": 94.43
           },
           {
             "execution_date": "2024-04-01",
             "decision_date": "2024-03-28",
             "pit_member_count": 503,
-            "eligible_count": 478,
-            "coverage_pct": 95.03
+            "eligible_count": 477,
+            "coverage_pct": 94.83
           },
           {
             "execution_date": "2024-05-01",
             "decision_date": "2024-04-30",
             "pit_member_count": 503,
-            "eligible_count": 476,
-            "coverage_pct": 94.63
+            "eligible_count": 475,
+            "coverage_pct": 94.43
           },
           {
             "execution_date": "2024-06-03",
             "decision_date": "2024-05-31",
             "pit_member_count": 503,
-            "eligible_count": 478,
-            "coverage_pct": 95.03
+            "eligible_count": 477,
+            "coverage_pct": 94.83
           },
           {
             "execution_date": "2024-07-01",
             "decision_date": "2024-06-28",
             "pit_member_count": 503,
-            "eligible_count": 479,
-            "coverage_pct": 95.23
+            "eligible_count": 478,
+            "coverage_pct": 95.03
           },
           {
             "execution_date": "2024-08-01",
             "decision_date": "2024-07-31",
             "pit_member_count": 503,
-            "eligible_count": 480,
-            "coverage_pct": 95.43
+            "eligible_count": 479,
+            "coverage_pct": 95.23
           },
           {
             "execution_date": "2024-09-03",
             "decision_date": "2024-08-30",
             "pit_member_count": 503,
-            "eligible_count": 480,
-            "coverage_pct": 95.43
+            "eligible_count": 479,
+            "coverage_pct": 95.23
           },
           {
             "execution_date": "2024-10-01",
             "decision_date": "2024-09-30",
             "pit_member_count": 504,
-            "eligible_count": 480,
-            "coverage_pct": 95.24
+            "eligible_count": 479,
+            "coverage_pct": 95.04
           },
           {
             "execution_date": "2024-11-01",
             "decision_date": "2024-10-31",
             "pit_member_count": 503,
-            "eligible_count": 480,
-            "coverage_pct": 95.43
+            "eligible_count": 479,
+            "coverage_pct": 95.23
           },
           {
             "execution_date": "2024-12-02",
             "decision_date": "2024-11-29",
             "pit_member_count": 503,
-            "eligible_count": 481,
-            "coverage_pct": 95.63
+            "eligible_count": 480,
+            "coverage_pct": 95.43
           },
           {
             "execution_date": "2025-01-02",
             "decision_date": "2024-12-31",
             "pit_member_count": 503,
-            "eligible_count": 484,
-            "coverage_pct": 96.22
+            "eligible_count": 483,
+            "coverage_pct": 96.02
           },
           {
             "execution_date": "2025-02-03",
             "decision_date": "2025-01-31",
             "pit_member_count": 503,
-            "eligible_count": 484,
-            "coverage_pct": 96.22
+            "eligible_count": 483,
+            "coverage_pct": 96.02
           },
           {
             "execution_date": "2025-03-03",
             "decision_date": "2025-02-28",
             "pit_member_count": 503,
-            "eligible_count": 484,
-            "coverage_pct": 96.22
+            "eligible_count": 483,
+            "coverage_pct": 96.02
           },
           {
             "execution_date": "2025-04-01",
             "decision_date": "2025-03-31",
             "pit_member_count": 503,
-            "eligible_count": 486,
-            "coverage_pct": 96.62
+            "eligible_count": 485,
+            "coverage_pct": 96.42
           },
           {
             "execution_date": "2025-05-01",
             "decision_date": "2025-04-30",
             "pit_member_count": 503,
-            "eligible_count": 486,
-            "coverage_pct": 96.62
+            "eligible_count": 485,
+            "coverage_pct": 96.42
           },
           {
             "execution_date": "2025-06-02",
             "decision_date": "2025-05-30",
             "pit_member_count": 503,
-            "eligible_count": 487,
-            "coverage_pct": 96.82
+            "eligible_count": 486,
+            "coverage_pct": 96.62
           },
           {
             "execution_date": "2025-07-01",
             "decision_date": "2025-06-30",
             "pit_member_count": 503,
-            "eligible_count": 487,
-            "coverage_pct": 96.82
+            "eligible_count": 486,
+            "coverage_pct": 96.62
           },
           {
             "execution_date": "2025-08-01",
             "decision_date": "2025-07-31",
             "pit_member_count": 503,
-            "eligible_count": 490,
-            "coverage_pct": 97.42
+            "eligible_count": 489,
+            "coverage_pct": 97.22
           },
           {
             "execution_date": "2025-09-02",
@@ -20883,7 +20922,7 @@
         "selection_samples": []
       },
       "comparison": {
-        "ranking_cagr_alpha_vs_pit_equal_weight_pct": -7.9,
+        "ranking_cagr_alpha_vs_pit_equal_weight_pct": -7.89,
         "ranking_sharpe_advantage": -0.431,
         "risk_overlay_cagr_effect_vs_full_pct": 0.0,
         "risk_overlay_drawdown_improvement_pct": 0.0,
@@ -20894,146 +20933,146 @@
       "cross_sectional_diagnostics": {
         "composite_verdict": "COMPOSITE_INCONCLUSIVE",
         "best_60d_feature": "return_12m_pct",
-        "best_60d_top_minus_bottom_pct": 2.155,
+        "best_60d_top_minus_bottom_pct": 1.935,
         "features": {
           "neutralized_strategic_composite": {
             "20d": {
               "months": 48,
-              "observations": 22957,
-              "average_spearman": 0.0077,
+              "observations": 22918,
+              "average_spearman": 0.0062,
               "quintile_excess_return_pct": {
-                "Q1": -0.666,
-                "Q2": -0.466,
-                "Q3": -0.488,
-                "Q4": -0.077,
-                "Q5": -0.812
+                "Q1": -0.577,
+                "Q2": -0.456,
+                "Q3": -0.508,
+                "Q4": -0.067,
+                "Q5": -0.794
               },
-              "top_minus_bottom_pct": -0.146
+              "top_minus_bottom_pct": -0.217
             },
             "60d": {
               "months": 46,
-              "observations": 21970,
-              "average_spearman": 0.0097,
+              "observations": 21931,
+              "average_spearman": 0.0073,
               "quintile_excess_return_pct": {
-                "Q1": -1.893,
-                "Q2": -1.426,
-                "Q3": -1.002,
-                "Q4": -0.74,
-                "Q5": -1.971
+                "Q1": -1.646,
+                "Q2": -1.429,
+                "Q3": -0.998,
+                "Q4": -0.735,
+                "Q5": -1.923
               },
-              "top_minus_bottom_pct": -0.078
+              "top_minus_bottom_pct": -0.277
             }
           },
           "trend_score": {
             "20d": {
               "months": 48,
-              "observations": 22957,
-              "average_spearman": 0.0131,
+              "observations": 22918,
+              "average_spearman": 0.0119,
               "quintile_excess_return_pct": {
-                "Q1": -0.731,
-                "Q2": -0.536,
-                "Q3": -0.399,
-                "Q4": -0.432,
-                "Q5": -0.41
+                "Q1": -0.646,
+                "Q2": -0.517,
+                "Q3": -0.404,
+                "Q4": -0.425,
+                "Q5": -0.407
               },
-              "top_minus_bottom_pct": 0.321
+              "top_minus_bottom_pct": 0.239
             },
             "60d": {
               "months": 46,
-              "observations": 21970,
-              "average_spearman": 0.0134,
+              "observations": 21931,
+              "average_spearman": 0.0112,
               "quintile_excess_return_pct": {
-                "Q1": -2.387,
-                "Q2": -1.203,
-                "Q3": -0.926,
-                "Q4": -1.394,
-                "Q5": -1.117
+                "Q1": -2.183,
+                "Q2": -1.164,
+                "Q3": -0.936,
+                "Q4": -1.331,
+                "Q5": -1.109
               },
-              "top_minus_bottom_pct": 1.27
+              "top_minus_bottom_pct": 1.074
             }
           },
           "risk_score": {
             "20d": {
               "months": 48,
-              "observations": 22957,
-              "average_spearman": -0.0193,
+              "observations": 22918,
+              "average_spearman": -0.0209,
               "quintile_excess_return_pct": {
-                "Q1": 0.226,
-                "Q2": -0.419,
-                "Q3": -0.538,
-                "Q4": -0.904,
-                "Q5": -0.878
+                "Q1": 0.319,
+                "Q2": -0.416,
+                "Q3": -0.543,
+                "Q4": -0.905,
+                "Q5": -0.859
               },
-              "top_minus_bottom_pct": -1.104
+              "top_minus_bottom_pct": -1.178
             },
             "60d": {
               "months": 46,
-              "observations": 21970,
-              "average_spearman": -0.014,
+              "observations": 21931,
+              "average_spearman": -0.0165,
               "quintile_excess_return_pct": {
-                "Q1": -0.103,
-                "Q2": -1.288,
-                "Q3": -1.616,
-                "Q4": -2.173,
-                "Q5": -1.854
+                "Q1": 0.132,
+                "Q2": -1.28,
+                "Q3": -1.64,
+                "Q4": -2.157,
+                "Q5": -1.791
               },
-              "top_minus_bottom_pct": -1.751
+              "top_minus_bottom_pct": -1.923
             }
           },
           "relative_strength_6m_pct": {
             "20d": {
               "months": 48,
-              "observations": 22957,
-              "average_spearman": 0.0089,
+              "observations": 22918,
+              "average_spearman": 0.0075,
               "quintile_excess_return_pct": {
-                "Q1": -0.436,
-                "Q2": -0.714,
-                "Q3": -0.544,
+                "Q1": -0.355,
+                "Q2": -0.686,
+                "Q3": -0.548,
                 "Q4": -0.54,
-                "Q5": -0.275
+                "Q5": -0.272
               },
-              "top_minus_bottom_pct": 0.161
+              "top_minus_bottom_pct": 0.083
             },
             "60d": {
               "months": 46,
-              "observations": 21970,
-              "average_spearman": 0.0256,
+              "observations": 21931,
+              "average_spearman": 0.023,
               "quintile_excess_return_pct": {
-                "Q1": -2.141,
-                "Q2": -1.633,
-                "Q3": -1.466,
-                "Q4": -1.186,
-                "Q5": -0.602
+                "Q1": -1.916,
+                "Q2": -1.598,
+                "Q3": -1.446,
+                "Q4": -1.177,
+                "Q5": -0.588
               },
-              "top_minus_bottom_pct": 1.539
+              "top_minus_bottom_pct": 1.328
             }
           },
           "return_12m_pct": {
             "20d": {
               "months": 48,
-              "observations": 22957,
-              "average_spearman": 0.0399,
+              "observations": 22918,
+              "average_spearman": 0.0386,
               "quintile_excess_return_pct": {
-                "Q1": -0.823,
-                "Q2": -0.771,
-                "Q3": -0.527,
+                "Q1": -0.736,
+                "Q2": -0.779,
+                "Q3": -0.499,
                 "Q4": -0.416,
                 "Q5": 0.031
               },
-              "top_minus_bottom_pct": 0.854
+              "top_minus_bottom_pct": 0.767
             },
             "60d": {
               "months": 46,
-              "observations": 21970,
-              "average_spearman": 0.0485,
+              "observations": 21931,
+              "average_spearman": 0.0461,
               "quintile_excess_return_pct": {
-                "Q1": -2.315,
-                "Q2": -1.957,
-                "Q3": -1.459,
-                "Q4": -1.134,
-                "Q5": -0.16
+                "Q1": -2.088,
+                "Q2": -1.951,
+                "Q3": -1.389,
+                "Q4": -1.14,
+                "Q5": -0.153
               },
-              "top_minus_bottom_pct": 2.155
+              "top_minus_bottom_pct": 1.935
             }
           }
         }
@@ -21048,7 +21087,7 @@
         "mode": "TOP12_FULL",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 102973.16,
+          "ending_value": 102973.18,
           "total_return_pct": 3.08,
           "cagr_pct": 0.76,
           "annualized_volatility_pct": 15.48,
@@ -21060,7 +21099,7 @@
           "spy_total_return_pct": 136.3,
           "spy_cagr_pct": 24.04,
           "cagr_alpha_vs_spy_pct": -23.28,
-          "total_trading_costs": 4590.1,
+          "total_trading_costs": 4590.11,
           "trading_cost_pct_of_starting_capital": 4.59,
           "annualized_turnover_x": 11.5,
           "trading_days": 1006,
@@ -21815,7 +21854,7 @@
         "mode": "TOP12_RISK_OVERLAY",
         "performance": {
           "starting_value": 99910.42,
-          "ending_value": 103980.74,
+          "ending_value": 103980.76,
           "total_return_pct": 4.07,
           "cagr_pct": 1.01,
           "annualized_volatility_pct": 14.86,
@@ -23129,7 +23168,7 @@
   },
   "thesis_exit_shadow": {
     "engine": "V8.5.2 Thesis-Aware Exit Shadow Journal",
-    "timestamp": "2026-10-25T14:20:48.481232+00:00",
+    "timestamp": "2026-10-26T05:54:06.760354+00:00",
     "status": "ACTIVE_SHADOW",
     "live_actions_changed": false,
     "reviewed_sell_count": 4,
@@ -23233,7 +23272,7 @@
   },
   "recommendation_performance": {
     "engine": "V7.8 Recommendation Performance Journal",
-    "generated": "2026-10-25T14:23:17.201074+00:00",
+    "generated": "2026-10-26T05:56:21.944084+00:00",
     "total_signals": 165,
     "bootstrap_signals_added": 0,
     "new_signals_added": 0,
