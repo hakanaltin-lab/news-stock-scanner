@@ -148,6 +148,9 @@ Rows with invalid dates, availability earlier than filing plus one day,
 non-finite/non-numeric values, or missing core provenance fail the quality
 check. A failed, empty or invalid fetch never replaces an existing valid fact
 file. Retained evidence does not count as successful current-run coverage.
+Each rejected issuer includes up to 20 date/provenance issue examples
+(metric, concept, accession and dates) for source review. No quality rule is
+relaxed to increase coverage.
 Bootstrap failures and runs with no usable facts exit nonzero and publish an
 explicit blocker. A usable archive with missing issuers or concepts reports
 `COMPLETE_WITH_GAPS`; `COMPLETE` requires full issuer and metric coverage.
@@ -161,6 +164,20 @@ Offline verification:
 
     PYTHONPATH=. python scripts/test_sec_edgar_pit_engine.py
     python -m unittest discover -s tests -p 'test_sec_archive_readiness.py' -v
+    python -m unittest discover -s tests -p 'test_sec_evidence_publish.py' -v
+
+## Evidence publication and recovery
+
+An Actions rerun can start from an older checkout even after newer status
+reports have been committed to `main`. Generated SEC JSON must not be rebased
+over those reports: the publisher saves its collected files, advances to the
+latest `main`, restores only the SEC evidence paths and retries a raced push
+up to three times. Concurrent changes outside those paths are preserved.
+
+The workflow uploads a run-specific evidence artifact before publishing, with
+three-day retention. A publication failure can therefore be recovered without
+repeating all SEC requests. A successful collection step alone does not mean
+the archive was durably published; inspect the publication step as well.
 
 ## SEC endpoints
 

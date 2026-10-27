@@ -260,6 +260,18 @@ class RecordQualityTests(unittest.TestCase):
         self.assertFalse(quality["quality_valid"])
         self.assertEqual(quality["quality_issues"], {"invalid_cik": 1})
 
+    def test_date_issue_retains_bounded_filing_provenance_for_review(self):
+        record = example_record()
+        record["facts"][0]["end"] = "2021-03-31"
+        record["facts"] *= 25
+        quality = inspect_sec_record(record)
+        self.assertFalse(quality["quality_valid"])
+        self.assertEqual(quality["quality_issues"], {"period_end_after_filing": 25})
+        self.assertEqual(len(quality["quality_issue_examples"]), 20)
+        self.assertEqual(quality["quality_issue_examples"][0]["end"], "2021-03-31")
+        self.assertEqual(quality["quality_issue_examples"][0]["accession"],
+                         "0000000001-20-000001")
+
 
 if __name__ == "__main__":
     unittest.main()

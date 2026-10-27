@@ -42,6 +42,7 @@ def inspect_sec_record(record):
     accepted_fact_count = 0
     amended_fact_count = 0
     valid_fact_count = 0
+    issue_examples = []
 
     if not isinstance(facts, list):
         facts = []
@@ -90,6 +91,15 @@ def inspect_sec_record(record):
 
         issues.update(row_issues)
         if row_issues:
+            if len(issue_examples) < 20:
+                issue_examples.append({
+                    "issues": sorted(row_issues),
+                    **{
+                        key: str(fact[key]) if fact.get(key) is not None else None
+                        for key in ["metric", "namespace", "concept", "accession",
+                                    "filed", "available_date", "start", "end"]
+                    },
+                })
             continue
 
         valid_fact_count += 1
@@ -126,6 +136,7 @@ def inspect_sec_record(record):
         "status": record.get("status", "UNKNOWN"),
         "quality_valid": valid,
         "quality_issues": dict(sorted(issues.items())),
+        "quality_issue_examples": issue_examples,
         "fact_count": len(facts),
         "valid_fact_count": valid_fact_count,
         "invalid_fact_count": len(facts) - valid_fact_count,

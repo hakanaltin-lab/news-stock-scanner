@@ -9,8 +9,10 @@ on:
       - "engines/sec_edgar_point_in_time_engine.py"
       - "engines/sec_archive_quality_engine.py"
       - "scripts/run_sec_edgar_pit_archive.py"
+      - "scripts/publish_sec_pit_evidence.sh"
       - "scripts/test_sec_edgar_pit_engine.py"
       - "tests/test_sec_archive_readiness.py"
+      - "tests/test_sec_evidence_publish.py"
       - "docs/SEC_EDGAR_PIT_SETUP.md"
       - ".github/workflows/sec_edgar_pit_archive.yml"
   schedule:
@@ -56,6 +58,8 @@ jobs:
         run: |
           python scripts/test_sec_edgar_pit_engine.py
           python -m unittest discover -s tests -p 'test_sec_archive_readiness.py' -v
+          python -m unittest discover -s tests -p 'test_sec_evidence_publish.py' -v
+          bash -n scripts/publish_sec_pit_evidence.sh
 
       # The runner enforces the SEC identity requirement and emits blocked
       # status before exiting, so the dashboard can publish the blocker.
@@ -67,6 +71,17 @@ jobs:
         run: |
           python scripts/run_sec_edgar_pit_archive.py
 
+      - name: Preserve SEC evidence for recovery
+        if: ${{ always() && steps.archive.outputs.status != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: sec-pit-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 3
+          if-no-files-found: error
+          path: |
+            data/sec_edgar_pit
+            docs/sec_archive_readiness.json
+
       - name: Publish SEC PIT evidence
         # Persist a truthful blocked/error status even when collection fails.
         if: ${{ always() && steps.archive.outputs.status != '' }}
@@ -74,13 +89,4 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-          git add data/sec_edgar_pit docs/sec_archive_readiness.json
-
-          if git diff --cached --quiet; then
-            echo "No SEC PIT evidence changes"
-            exit 0
-          fi
-
-          git commit -m "Update SEC EDGAR point-in-time evidence"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          bash scripts/publish_sec_pit_evidence.sh
