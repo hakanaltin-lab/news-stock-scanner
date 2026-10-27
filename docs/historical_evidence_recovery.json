@@ -1,13 +1,13 @@
 {
   "engine": "V8.4 Historical Evidence Recovery Engine",
   "recovery_signature": "V8.4.1",
-  "generated": "2026-10-26T05:54:08.860514+00:00",
+  "generated": "2026-10-27T06:45:30.587267+00:00",
   "status": "COMPLETE",
   "cache_status": "FRESH",
-  "record_count": 134,
-  "directional_record_count": 134,
+  "record_count": 136,
+  "directional_record_count": 136,
   "oldest_signal_date": "2026-05-29",
-  "newest_signal_date": "2026-10-24",
+  "newest_signal_date": "2026-10-26",
   "recovery_coverage": {
     "legacy_csv": {
       "scanned_dates": 33,
@@ -15,14 +15,14 @@
       "records": 99
     },
     "legacy_html_portfolio": {
-      "scanned_dates": 36,
+      "scanned_dates": 37,
       "usable_dates": 31,
       "records": 21
     },
     "modern_json": {
-      "scanned_dates": 81,
-      "usable_dates": 2,
-      "records": 14,
+      "scanned_dates": 82,
+      "usable_dates": 3,
+      "records": 16,
       "excluded_foundation_snapshots": 77
     }
   },
@@ -30,7 +30,7 @@
     "modern_action_changes": {
       "5d": {
         "evaluated": 0,
-        "pending": 14,
+        "pending": 16,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -38,7 +38,7 @@
       },
       "20d": {
         "evaluated": 0,
-        "pending": 14,
+        "pending": 16,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -46,7 +46,7 @@
       },
       "60d": {
         "evaluated": 0,
-        "pending": 14,
+        "pending": 16,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -57,7 +57,7 @@
       "ACCUMULATE": {
         "5d": {
           "evaluated": 0,
-          "pending": 2,
+          "pending": 3,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -65,7 +65,7 @@
         },
         "20d": {
           "evaluated": 0,
-          "pending": 2,
+          "pending": 3,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -73,7 +73,7 @@
         },
         "60d": {
           "evaluated": 0,
-          "pending": 2,
+          "pending": 3,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -109,7 +109,7 @@
       "BUY": {
         "5d": {
           "evaluated": 0,
-          "pending": 2,
+          "pending": 3,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -117,7 +117,7 @@
         },
         "20d": {
           "evaluated": 0,
-          "pending": 2,
+          "pending": 3,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -125,7 +125,7 @@
         },
         "60d": {
           "evaluated": 0,
-          "pending": 2,
+          "pending": 3,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -214,7 +214,7 @@
     "modern_long_add_buy_accumulate": {
       "5d": {
         "evaluated": 0,
-        "pending": 5,
+        "pending": 7,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -222,7 +222,7 @@
       },
       "20d": {
         "evaluated": 0,
-        "pending": 5,
+        "pending": 7,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -230,7 +230,7 @@
       },
       "60d": {
         "evaluated": 0,
-        "pending": 5,
+        "pending": 7,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -346,7 +346,7 @@
     "MODERN_ACTION_CHANGE": {
       "5d": {
         "evaluated": 0,
-        "pending": 14,
+        "pending": 16,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -354,7 +354,7 @@
       },
       "20d": {
         "evaluated": 0,
-        "pending": 14,
+        "pending": 16,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -362,7 +362,7 @@
       },
       "60d": {
         "evaluated": 0,
-        "pending": 14,
+        "pending": 16,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -400,7 +400,7 @@
     "V8.6": {
       "5d": {
         "evaluated": 0,
-        "pending": 4,
+        "pending": 6,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -408,7 +408,7 @@
       },
       "20d": {
         "evaluated": 0,
-        "pending": 4,
+        "pending": 6,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -416,7 +416,7 @@
       },
       "60d": {
         "evaluated": 0,
-        "pending": 4,
+        "pending": 6,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -6842,6 +6842,102 @@
       "score": 38.4,
       "rank": null,
       "source": "PORTFOLIO",
+      "evaluation_basis": "yfinance_adjusted_close_on_signal_date_to_future_close",
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null
+        }
+      }
+    },
+    {
+      "id": "ba6976105cce1de4",
+      "cohort": "MODERN_ACTION_CHANGE",
+      "signal_date": "2026-10-26",
+      "ticker": "TSLA",
+      "action": "BUY",
+      "direction": "LONG",
+      "signal_price_snapshot": 391.69,
+      "origin_commit": "d2d1b91e669359d661ff0580b36a54b9a3326cdc",
+      "model_version": "V8.6",
+      "legacy_label": null,
+      "score": 75.69,
+      "rank": null,
+      "source": "NEW_ENTRY",
+      "evaluation_basis": "yfinance_adjusted_close_on_signal_date_to_future_close",
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null
+        }
+      }
+    },
+    {
+      "id": "3ba243d4d83ae001",
+      "cohort": "MODERN_ACTION_CHANGE",
+      "signal_date": "2026-10-26",
+      "ticker": "XOM",
+      "action": "ACCUMULATE",
+      "direction": "LONG",
+      "signal_price_snapshot": 184.55,
+      "origin_commit": "d2d1b91e669359d661ff0580b36a54b9a3326cdc",
+      "model_version": "V8.6",
+      "legacy_label": null,
+      "score": 74.69,
+      "rank": null,
+      "source": "NEW_ENTRY",
       "evaluation_basis": "yfinance_adjusted_close_on_signal_date_to_future_close",
       "horizons": {
         "5d": {

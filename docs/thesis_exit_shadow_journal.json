@@ -1,6 +1,6 @@
 {
   "engine": "V8.5.2 Thesis-Aware Exit Shadow Journal",
-  "updated_at": "2026-10-26T23:05:59.660668+00:00",
+  "updated_at": "2026-10-27T06:45:28.172826+00:00",
   "record_count": 3,
   "records": [
     {
@@ -60,7 +60,7 @@
       "thesis_shadow_action": "HOLD",
       "review_status": "CONTRADICTED",
       "thesis_health": "STRONG",
-      "fundamental_score": 80.5,
+      "fundamental_score": 80.6,
       "live_exposure": 0.5,
       "shadow_exposure": 1.0,
       "exposure_difference": 0.5,
@@ -108,7 +108,7 @@
       "thesis_shadow_action": "HOLD",
       "review_status": "CONTRADICTED",
       "thesis_health": "STRONG",
-      "fundamental_score": 78.7,
+      "fundamental_score": 78.6,
       "live_exposure": 0.0,
       "shadow_exposure": 1.0,
       "exposure_difference": 1.0,

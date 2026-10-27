@@ -1,28 +1,28 @@
 {
   "signature": "V8.5.1",
-  "date": "2026-10-26",
+  "date": "2026-10-27",
   "snapshots": {
     "AMD": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
       "fundamental_signature": "V8.5.1",
-      "timestamp": "2026-10-26T05:53:46.770151+00:00",
+      "timestamp": "2026-10-27T06:44:59.223596+00:00",
       "ticker": "AMD",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
       "point_in_time_historical": false,
       "data_quality": "GOOD",
       "coverage_ratio": 1.0,
-      "thesis_score": 75.2,
+      "thesis_score": 75.0,
       "thesis_health": "STRONG",
       "hard_break_count": 0,
       "hard_breaks": [],
       "component_scores": {
         "growth": 100.0,
         "profitability": 60.0,
-        "cash_flow": 64.5,
+        "cash_flow": 64.4,
         "balance_sheet": 83.3,
-        "valuation": 57.8,
-        "revisions": 80.5
+        "valuation": 57.7,
+        "revisions": 79.1
       },
       "fundamentals": {
         "revenue_growth_pct": 50.1,
@@ -32,19 +32,19 @@
         "return_on_equity_pct": 10.2,
         "free_cash_flow": 8841499648.0,
         "operating_cash_flow": 10080000000.0,
-        "fcf_yield_pct": 1.05,
+        "fcf_yield_pct": 1.02,
         "total_cash": 13111000064.0,
         "total_debt": 4276000000.0,
         "debt_to_equity": 6.361,
         "current_ratio": 2.609
       },
       "valuation": {
-        "forward_pe": 32.78523,
+        "forward_pe": 33.719627,
         "peg_ratio": 0.51
       },
       "analyst_revision_context": {
         "target_mean_price": 637.608,
-        "analyst_upside_pct": 23.36,
+        "analyst_upside_pct": 19.97,
         "recommendation_mean": 1.49091,
         "analyst_count": 50.0,
         "eps_revisions": {
@@ -60,24 +60,24 @@
     "ANET": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
       "fundamental_signature": "V8.5.1",
-      "timestamp": "2026-10-26T05:53:47.341549+00:00",
+      "timestamp": "2026-10-27T06:45:00.148365+00:00",
       "ticker": "ANET",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
       "point_in_time_historical": false,
       "data_quality": "GOOD",
       "coverage_ratio": 1.0,
-      "thesis_score": 81.9,
+      "thesis_score": 81.6,
       "thesis_health": "STRONG",
       "hard_break_count": 0,
       "hard_breaks": [],
       "component_scores": {
         "growth": 92.8,
         "profitability": 90.5,
-        "cash_flow": 66.4,
+        "cash_flow": 66.3,
         "balance_sheet": 82.5,
-        "valuation": 54.8,
-        "revisions": 94.2
+        "valuation": 54.6,
+        "revisions": 92.6
       },
       "fundamentals": {
         "revenue_growth_pct": 37.7,
@@ -87,19 +87,19 @@
         "return_on_equity_pct": 31.48,
         "free_cash_flow": 3891512576.0,
         "operating_cash_flow": 5306599936.0,
-        "fcf_yield_pct": 1.79,
+        "fcf_yield_pct": 1.74,
         "total_cash": 13343299584.0,
         "total_debt": 0.0,
         "debt_to_equity": null,
         "current_ratio": 2.957
       },
       "valuation": {
-        "forward_pe": 33.040947,
+        "forward_pe": 33.93855,
         "peg_ratio": 1.29
       },
       "analyst_revision_context": {
         "target_mean_price": 243.58655,
-        "analyst_upside_pct": 41.34,
+        "analyst_upside_pct": 37.44,
         "recommendation_mean": 1.28125,
         "analyst_count": 29.0,
         "eps_revisions": {
@@ -115,14 +115,14 @@
     "ASML": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
       "fundamental_signature": "V8.5.1",
-      "timestamp": "2026-10-26T05:53:47.800828+00:00",
+      "timestamp": "2026-10-27T06:45:00.980277+00:00",
       "ticker": "ASML",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
       "point_in_time_historical": false,
       "data_quality": "GOOD",
       "coverage_ratio": 1.0,
-      "thesis_score": 83.8,
+      "thesis_score": 83.7,
       "thesis_health": "STRONG",
       "hard_break_count": 0,
       "hard_breaks": [],
@@ -131,8 +131,8 @@
         "profitability": 95.9,
         "cash_flow": 66.2,
         "balance_sheet": 76.7,
-        "valuation": 64.6,
-        "revisions": 89.6
+        "valuation": 64.5,
+        "revisions": 88.7
       },
       "fundamentals": {
         "revenue_growth_pct": 55.2,
@@ -142,19 +142,19 @@
         "return_on_equity_pct": 65.64,
         "free_cash_flow": 10374124544.0,
         "operating_cash_flow": 22725300224.0,
-        "fcf_yield_pct": 1.71,
+        "fcf_yield_pct": 1.69,
         "total_cash": 12735099904.0,
         "total_debt": 1963000064.0,
         "debt_to_equity": 8.897,
         "current_ratio": 1.487
       },
       "valuation": {
-        "forward_pe": 25.015871,
+        "forward_pe": 25.319855,
         "peg_ratio": 0.89
       },
       "analyst_revision_context": {
-        "target_mean_price": 2151.879,
-        "analyst_upside_pct": 36.96,
+        "target_mean_price": 2141.7864,
+        "analyst_upside_pct": 34.69,
         "recommendation_mean": 1.36585,
         "analyst_count": 17.0,
         "eps_revisions": {
@@ -170,7 +170,7 @@
     "BKR": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
       "fundamental_signature": "V8.5.1",
-      "timestamp": "2026-10-26T05:53:48.353515+00:00",
+      "timestamp": "2026-10-27T06:45:02.000647+00:00",
       "ticker": "BKR",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -186,10 +186,10 @@
       "component_scores": {
         "growth": 46.2,
         "profitability": 58.2,
-        "cash_flow": 82.9,
+        "cash_flow": 82.8,
         "balance_sheet": 78.3,
-        "valuation": 74.6,
-        "revisions": 64.5
+        "valuation": 74.5,
+        "revisions": 64.4
       },
       "fundamentals": {
         "revenue_growth_pct": -2.4,
@@ -199,19 +199,19 @@
         "return_on_equity_pct": 16.46,
         "free_cash_flow": 4415000064.0,
         "operating_cash_flow": 4435999744.0,
-        "fcf_yield_pct": 7.96,
+        "fcf_yield_pct": 7.94,
         "total_cash": 17024000000.0,
         "total_debt": 16252999680.0,
         "debt_to_equity": 80.925,
         "current_ratio": 2.095
       },
       "valuation": {
-        "forward_pe": 18.99354,
+        "forward_pe": 19.044542,
         "peg_ratio": 1.59
       },
       "analyst_revision_context": {
         "target_mean_price": 70.625,
-        "analyst_upside_pct": 26.43,
+        "analyst_upside_pct": 26.03,
         "recommendation_mean": 1.68,
         "analyst_count": 24.0,
         "eps_revisions": {
@@ -227,7 +227,7 @@
     "CCLD": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
       "fundamental_signature": "V8.5.1",
-      "timestamp": "2026-10-26T05:53:48.889133+00:00",
+      "timestamp": "2026-10-27T06:45:02.992070+00:00",
       "ticker": "CCLD",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -256,19 +256,19 @@
         "return_on_equity_pct": 21.75,
         "free_cash_flow": 22634500.0,
         "operating_cash_flow": 26724000.0,
-        "fcf_yield_pct": 30.09,
+        "fcf_yield_pct": 31.15,
         "total_cash": 13395000.0,
         "total_debt": 54014000.0,
         "debt_to_equity": 310.39,
         "current_ratio": 1.021
       },
       "valuation": {
-        "forward_pe": 3.8901098,
+        "forward_pe": 3.7582417,
         "peg_ratio": 0.31
       },
       "analyst_revision_context": {
         "target_mean_price": 7.33333,
-        "analyst_upside_pct": 316.67,
+        "analyst_upside_pct": 326.36,
         "recommendation_mean": null,
         "analyst_count": 3.0,
         "eps_revisions": {
@@ -284,7 +284,7 @@
     "CTAS": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
       "fundamental_signature": "V8.5.1",
-      "timestamp": "2026-10-26T05:53:49.432960+00:00",
+      "timestamp": "2026-10-27T06:45:03.950737+00:00",
       "ticker": "CTAS",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -301,7 +301,7 @@
         "cash_flow": 66.9,
         "balance_sheet": 57.0,
         "valuation": 41.9,
-        "revisions": 61.7
+        "revisions": 61.4
       },
       "fundamentals": {
         "revenue_growth_pct": 10.9,
@@ -311,19 +311,19 @@
         "return_on_equity_pct": 41.38,
         "free_cash_flow": 1743985280.0,
         "operating_cash_flow": 2434129920.0,
-        "fcf_yield_pct": 1.96,
+        "fcf_yield_pct": 1.94,
         "total_cash": 364579008.0,
         "total_debt": 2711374080.0,
         "debt_to_equity": 52.096,
         "current_ratio": 1.454
       },
       "valuation": {
-        "forward_pe": 36.374203,
+        "forward_pe": 36.67123,
         "peg_ratio": 3.51
       },
       "analyst_revision_context": {
         "target_mean_price": 218.3125,
-        "analyst_upside_pct": -2.58,
+        "analyst_upside_pct": -3.37,
         "recommendation_mean": 2.2,
         "analyst_count": 16.0,
         "eps_revisions": {
@@ -339,14 +339,14 @@
     "GOOG": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
       "fundamental_signature": "V8.5.1",
-      "timestamp": "2026-10-26T05:53:49.936435+00:00",
+      "timestamp": "2026-10-27T06:45:04.744554+00:00",
       "ticker": "GOOG",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
       "point_in_time_historical": false,
       "data_quality": "GOOD",
       "coverage_ratio": 1.0,
-      "thesis_score": 80.5,
+      "thesis_score": 80.6,
       "thesis_health": "STRONG",
       "hard_break_count": 0,
       "hard_breaks": [],
@@ -356,7 +356,7 @@
         "cash_flow": 63.2,
         "balance_sheet": 83.3,
         "valuation": 56.6,
-        "revisions": 80.1
+        "revisions": 80.6
       },
       "fundamentals": {
         "revenue_growth_pct": 24.2,
@@ -366,19 +366,19 @@
         "return_on_equity_pct": 48.68,
         "free_cash_flow": 22665000960.0,
         "operating_cash_flow": 185675005952.0,
-        "fcf_yield_pct": 0.58,
+        "fcf_yield_pct": 0.59,
         "total_cash": 242473992192.0,
         "total_debt": 120790999040.0,
         "debt_to_equity": 18.859,
         "current_ratio": 2.724
       },
       "valuation": {
-        "forward_pe": 20.65808,
+        "forward_pe": 20.45689,
         "peg_ratio": 1.11
       },
       "analyst_revision_context": {
         "target_mean_price": 422.35715,
-        "analyst_upside_pct": 33.13,
+        "analyst_upside_pct": 34.43,
         "recommendation_mean": 1.37705,
         "analyst_count": 14.0,
         "eps_revisions": {
@@ -394,7 +394,7 @@
     "NBIS": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
       "fundamental_signature": "V8.5.1",
-      "timestamp": "2026-10-26T05:53:50.327985+00:00",
+      "timestamp": "2026-10-27T06:45:05.572666+00:00",
       "ticker": "NBIS",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -421,19 +421,19 @@
         "return_on_equity_pct": 0.6,
         "free_cash_flow": -9614650368.0,
         "operating_cash_flow": 5257999872.0,
-        "fcf_yield_pct": -23.86,
+        "fcf_yield_pct": -23.07,
         "total_cash": 8042100224.0,
         "total_debt": 10195300352.0,
         "debt_to_equity": 98.596,
         "current_ratio": 4.03
       },
       "valuation": {
-        "forward_pe": -44.12104,
+        "forward_pe": -42.600677,
         "peg_ratio": 0.36
       },
       "analyst_revision_context": {
         "target_mean_price": 281.0,
-        "analyst_upside_pct": 77.02,
+        "analyst_upside_pct": 83.82,
         "recommendation_mean": 1.81818,
         "analyst_count": 20.0,
         "eps_revisions": {
@@ -449,7 +449,7 @@
     "NVDA": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
       "fundamental_signature": "V8.5.1",
-      "timestamp": "2026-10-26T05:53:50.735890+00:00",
+      "timestamp": "2026-10-27T06:45:06.215671+00:00",
       "ticker": "NVDA",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -463,9 +463,9 @@
       "component_scores": {
         "growth": 100.0,
         "profitability": 100.0,
-        "cash_flow": 63.9,
+        "cash_flow": 63.8,
         "balance_sheet": 83.3,
-        "valuation": 67.2,
+        "valuation": 67.1,
         "revisions": 88.3
       },
       "fundamentals": {
@@ -476,19 +476,19 @@
         "return_on_equity_pct": 117.21,
         "free_cash_flow": 41809874944.0,
         "operating_cash_flow": 134359998464.0,
-        "fcf_yield_pct": 0.82,
+        "fcf_yield_pct": 0.8,
         "total_cash": 62469001216.0,
         "total_debt": 38860001280.0,
         "debt_to_equity": 16.971,
         "current_ratio": 4.589
       },
       "valuation": {
-        "forward_pe": 13.255753,
+        "forward_pe": 13.572443,
         "peg_ratio": 0.26
       },
       "analyst_revision_context": {
         "target_mean_price": 328.95346,
-        "analyst_upside_pct": 55.9,
+        "analyst_upside_pct": 52.31,
         "recommendation_mean": 1.29032,
         "analyst_count": 58.0,
         "eps_revisions": {
@@ -504,7 +504,7 @@
     "OMDA": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
       "fundamental_signature": "V8.5.1",
-      "timestamp": "2026-10-26T05:53:51.135006+00:00",
+      "timestamp": "2026-10-27T06:45:07.017433+00:00",
       "ticker": "OMDA",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
@@ -520,7 +520,7 @@
         "profitability": 43.4,
         "cash_flow": 64.4,
         "balance_sheet": 82.5,
-        "valuation": 44.1,
+        "valuation": 44.0,
         "revisions": 82.2
       },
       "fundamentals": {
@@ -531,19 +531,19 @@
         "return_on_equity_pct": 1.84,
         "free_cash_flow": 11915250.0,
         "operating_cash_flow": 23685000.0,
-        "fcf_yield_pct": 1.03,
+        "fcf_yield_pct": 1.01,
         "total_cash": 221712000.0,
         "total_debt": 0.0,
         "debt_to_equity": null,
         "current_ratio": 3.907
       },
       "valuation": {
-        "forward_pe": 34.074154,
+        "forward_pe": 34.595604,
         "peg_ratio": null
       },
       "analyst_revision_context": {
         "target_mean_price": 28.41667,
-        "analyst_upside_pct": 49.96,
+        "analyst_upside_pct": 47.62,
         "recommendation_mean": 1.75,
         "analyst_count": 12.0,
         "eps_revisions": {
@@ -559,24 +559,24 @@
     "UNH": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
       "fundamental_signature": "V8.5.1",
-      "timestamp": "2026-10-26T05:53:51.583250+00:00",
+      "timestamp": "2026-10-27T06:45:07.901333+00:00",
       "ticker": "UNH",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
       "point_in_time_historical": false,
       "data_quality": "GOOD",
       "coverage_ratio": 1.0,
-      "thesis_score": 67.4,
+      "thesis_score": 67.6,
       "thesis_health": "HEALTHY",
       "hard_break_count": 0,
       "hard_breaks": [],
       "component_scores": {
         "growth": 74.7,
         "profitability": 50.9,
-        "cash_flow": 80.5,
+        "cash_flow": 80.8,
         "balance_sheet": 50.8,
-        "valuation": 78.8,
-        "revisions": 71.1
+        "valuation": 79.2,
+        "revisions": 71.8
       },
       "fundamentals": {
         "revenue_growth_pct": -0.4,
@@ -586,19 +586,19 @@
         "return_on_equity_pct": 15.77,
         "free_cash_flow": 26501249024.0,
         "operating_cash_flow": 26194999296.0,
-        "fcf_yield_pct": 7.06,
+        "fcf_yield_pct": 7.19,
         "total_cash": 28548999168.0,
         "total_debt": 74330996736.0,
         "debt_to_equity": 70.426,
         "current_ratio": 0.739
       },
       "valuation": {
-        "forward_pe": 17.963383,
+        "forward_pe": 17.637125,
         "peg_ratio": 1.07
       },
       "analyst_revision_context": {
-        "target_mean_price": 478.12,
-        "analyst_upside_pct": 14.38,
+        "target_mean_price": 476.56,
+        "analyst_upside_pct": 16.04,
         "recommendation_mean": 1.61538,
         "analyst_count": 25.0,
         "eps_revisions": {
@@ -614,23 +614,23 @@
     "VRT": {
       "engine": "V8.5 Fundamental Thesis & Valuation Engine",
       "fundamental_signature": "V8.5.1",
-      "timestamp": "2026-10-26T05:53:51.998742+00:00",
+      "timestamp": "2026-10-27T06:45:08.673527+00:00",
       "ticker": "VRT",
       "cache_status": "FRESH",
       "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
       "point_in_time_historical": false,
       "data_quality": "GOOD",
       "coverage_ratio": 1.0,
-      "thesis_score": 78.7,
+      "thesis_score": 78.6,
       "thesis_health": "STRONG",
       "hard_break_count": 0,
       "hard_breaks": [],
       "component_scores": {
         "growth": 91.9,
         "profitability": 74.8,
-        "cash_flow": 71.3,
+        "cash_flow": 71.0,
         "balance_sheet": 69.0,
-        "valuation": 69.6,
+        "valuation": 69.3,
         "revisions": 92.1
       },
       "fundamentals": {
@@ -641,19 +641,19 @@
         "return_on_equity_pct": 43.94,
         "free_cash_flow": 2696537600.0,
         "operating_cash_flow": 3354200064.0,
-        "fcf_yield_pct": 3.6,
+        "fcf_yield_pct": 3.51,
         "total_cash": 3110599936.0,
         "total_debt": 3338200064.0,
         "debt_to_equity": 70.166,
         "current_ratio": 1.379
       },
       "valuation": {
-        "forward_pe": 21.13442,
+        "forward_pe": 21.728254,
         "peg_ratio": 0.64
       },
       "analyst_revision_context": {
         "target_mean_price": 333.0,
-        "analyst_upside_pct": 71.38,
+        "analyst_upside_pct": 66.65,
         "recommendation_mean": 1.36667,
         "analyst_count": 28.0,
         "eps_revisions": {
