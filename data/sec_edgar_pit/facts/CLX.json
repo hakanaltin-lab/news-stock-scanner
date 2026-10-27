@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "The Clorox Company",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2416,
-  "fact_count": 2416,
+  "exact_acceptance_fact_count": 2406,
+  "fact_count": 2406,
   "facts": [
     {
       "accepted_at": "2009-11-03T22:13:33.000Z",
@@ -1407,23 +1407,6 @@
       "accepted_at": "2010-08-26T00:29:57.000Z",
       "accession": "0001206774-10-001891",
       "available_date": "2010-08-27",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2008-09-30",
-      "filed": "2010-08-26",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2008Q3",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-07-01",
-      "unit": "pure",
-      "value": 0.9
-    },
-    {
-      "accepted_at": "2010-08-26T00:29:57.000Z",
-      "accession": "0001206774-10-001891",
-      "available_date": "2010-08-27",
       "concept": "NetIncomeLoss",
       "end": "2008-09-30",
       "filed": "2010-08-26",
@@ -1441,23 +1424,6 @@
       "accepted_at": "2010-08-26T00:29:57.000Z",
       "accession": "0001206774-10-001891",
       "available_date": "2010-08-27",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2008-12-31",
-      "filed": "2010-08-26",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2008Q4",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-10-01",
-      "unit": "pure",
-      "value": 0.61
-    },
-    {
-      "accepted_at": "2010-08-26T00:29:57.000Z",
-      "accession": "0001206774-10-001891",
-      "available_date": "2010-08-27",
       "concept": "NetIncomeLoss",
       "end": "2008-12-31",
       "filed": "2010-08-26",
@@ -1470,23 +1436,6 @@
       "start": "2008-10-01",
       "unit": "USD",
       "value": 86000000
-    },
-    {
-      "accepted_at": "2010-08-26T00:29:57.000Z",
-      "accession": "0001206774-10-001891",
-      "available_date": "2010-08-27",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-03-31",
-      "filed": "2010-08-26",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2009Q1",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-01-01",
-      "unit": "pure",
-      "value": 1.08
     },
     {
       "accepted_at": "2010-08-26T00:29:57.000Z",
@@ -1572,40 +1521,6 @@
       "start": "2008-07-01",
       "unit": "USD/shares",
       "value": 3.79
-    },
-    {
-      "accepted_at": "2010-08-26T00:29:57.000Z",
-      "accession": "0001206774-10-001891",
-      "available_date": "2010-08-27",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2010-08-26",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2009",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-07-01",
-      "unit": "pure",
-      "value": 3.79
-    },
-    {
-      "accepted_at": "2010-08-26T00:29:57.000Z",
-      "accession": "0001206774-10-001891",
-      "available_date": "2010-08-27",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2010-08-26",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2009Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-04-01",
-      "unit": "pure",
-      "value": 1.2
     },
     {
       "accepted_at": "2010-08-26T00:29:57.000Z",
@@ -1747,23 +1662,6 @@
       "accepted_at": "2010-08-26T00:29:57.000Z",
       "accession": "0001206774-10-001891",
       "available_date": "2010-08-27",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-09-30",
-      "filed": "2010-08-26",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2009Q3",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-07-01",
-      "unit": "pure",
-      "value": 1.11
-    },
-    {
-      "accepted_at": "2010-08-26T00:29:57.000Z",
-      "accession": "0001206774-10-001891",
-      "available_date": "2010-08-27",
       "concept": "NetIncomeLoss",
       "end": "2009-09-30",
       "filed": "2010-08-26",
@@ -1781,23 +1679,6 @@
       "accepted_at": "2010-08-26T00:29:57.000Z",
       "accession": "0001206774-10-001891",
       "available_date": "2010-08-27",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-12-31",
-      "filed": "2010-08-26",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2009Q4",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-10-01",
-      "unit": "pure",
-      "value": 0.77
-    },
-    {
-      "accepted_at": "2010-08-26T00:29:57.000Z",
-      "accession": "0001206774-10-001891",
-      "available_date": "2010-08-27",
       "concept": "NetIncomeLoss",
       "end": "2009-12-31",
       "filed": "2010-08-26",
@@ -1810,23 +1691,6 @@
       "start": "2009-10-01",
       "unit": "USD",
       "value": 110000000
-    },
-    {
-      "accepted_at": "2010-08-26T00:29:57.000Z",
-      "accession": "0001206774-10-001891",
-      "available_date": "2010-08-27",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-03-31",
-      "filed": "2010-08-26",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2010Q1",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-01-01",
-      "unit": "pure",
-      "value": 1.16
     },
     {
       "accepted_at": "2010-08-26T00:29:57.000Z",
@@ -1912,40 +1776,6 @@
       "start": "2009-07-01",
       "unit": "USD/shares",
       "value": 4.24
-    },
-    {
-      "accepted_at": "2010-08-26T00:29:57.000Z",
-      "accession": "0001206774-10-001891",
-      "available_date": "2010-08-27",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-08-26",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2010",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-07-01",
-      "unit": "pure",
-      "value": 4.24
-    },
-    {
-      "accepted_at": "2010-08-26T00:29:57.000Z",
-      "accession": "0001206774-10-001891",
-      "available_date": "2010-08-27",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-08-26",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2010Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-04-01",
-      "unit": "pure",
-      "value": 1.2
     },
     {
       "accepted_at": "2010-08-26T00:29:57.000Z",
@@ -41092,8 +40922,8 @@
       "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
     ],
     "current_debt": [
-      "us-gaap:ShortTermBorrowings",
-      "us-gaap:LongTermDebtCurrent"
+      "us-gaap:LongTermDebtCurrent",
+      "us-gaap:ShortTermBorrowings"
     ],
     "eps_diluted": [
       "us-gaap:EarningsPerShareDiluted"
@@ -41130,7 +40960,7 @@
       "capex": 150,
       "cash": 330,
       "current_debt": 90,
-      "eps_diluted": 316,
+      "eps_diluted": 306,
       "long_term_debt": 149,
       "net_income": 409,
       "operating_cash_flow": 150,
@@ -41158,6 +40988,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/CLX.json",
+    "quarantined_fact_count": 10,
+    "source_fact_count": 2416,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 10
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -41192,7 +41035,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2416
+    "us-gaap": 2406
   },
   "ticker": "CLX"
 }

@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "McKESSON CORPORATION",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2687,
-  "fact_count": 2687,
+  "exact_acceptance_fact_count": 2686,
+  "fact_count": 2686,
   "facts": [
     {
       "accepted_at": "2009-07-28T20:45:15.000Z",
@@ -3663,23 +3663,6 @@
       "start": "2011-01-01",
       "unit": "USD/shares",
       "value": 1.62
-    },
-    {
-      "accepted_at": "2011-05-05T20:02:58.000Z",
-      "accession": "0000950123-11-045634",
-      "available_date": "2011-05-06",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2011-03-31",
-      "filed": "2011-05-05",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2010",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-04-01",
-      "unit": "pure",
-      "value": 4.57
     },
     {
       "accepted_at": "2011-05-05T20:02:58.000Z",
@@ -45699,8 +45682,8 @@
       "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
     ],
     "current_debt": [
-      "us-gaap:ShortTermBorrowings",
-      "us-gaap:LongTermDebtCurrent"
+      "us-gaap:LongTermDebtCurrent",
+      "us-gaap:ShortTermBorrowings"
     ],
     "eps_diluted": [
       "us-gaap:EarningsPerShareDiluted"
@@ -45737,7 +45720,7 @@
       "capex": 155,
       "cash": 367,
       "current_debt": 102,
-      "eps_diluted": 312,
+      "eps_diluted": 311,
       "long_term_debt": 56,
       "net_income": 518,
       "operating_cash_flow": 155,
@@ -45765,6 +45748,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/MCK.json",
+    "quarantined_fact_count": 1,
+    "source_fact_count": 2687,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 1
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -45799,7 +45795,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2687
+    "us-gaap": 2686
   },
   "ticker": "MCK"
 }

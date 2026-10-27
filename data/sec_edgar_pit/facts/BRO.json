@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "BROWN & BROWN, INC.",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2546,
-  "fact_count": 2546,
+  "exact_acceptance_fact_count": 2542,
+  "fact_count": 2542,
   "facts": [
     {
       "accepted_at": "2010-08-04T20:00:45.000Z",
@@ -59,40 +59,6 @@
       "start": null,
       "unit": "USD",
       "value": 189994000
-    },
-    {
-      "accepted_at": "2010-08-04T20:00:45.000Z",
-      "accession": "0001193125-10-177146",
-      "available_date": "2010-08-05",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2010-08-04",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-01-01",
-      "unit": "pure",
-      "value": 0.63
-    },
-    {
-      "accepted_at": "2010-08-04T20:00:45.000Z",
-      "accession": "0001193125-10-177146",
-      "available_date": "2010-08-05",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2010-08-04",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2009Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-04-01",
-      "unit": "pure",
-      "value": 0.29
     },
     {
       "accepted_at": "2010-08-04T20:00:45.000Z",
@@ -280,40 +246,6 @@
       "start": null,
       "unit": "USD",
       "value": 293011000
-    },
-    {
-      "accepted_at": "2010-08-04T20:00:45.000Z",
-      "accession": "0001193125-10-177146",
-      "available_date": "2010-08-05",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-08-04",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-01-01",
-      "unit": "pure",
-      "value": 0.59
-    },
-    {
-      "accepted_at": "2010-08-04T20:00:45.000Z",
-      "accession": "0001193125-10-177146",
-      "available_date": "2010-08-05",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-08-04",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2010Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-04-01",
-      "unit": "pure",
-      "value": 0.29
     },
     {
       "accepted_at": "2010-08-04T20:00:45.000Z",
@@ -43302,8 +43234,8 @@
       "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
     ],
     "current_debt": [
-      "us-gaap:ShortTermBorrowings",
-      "us-gaap:LongTermDebtCurrent"
+      "us-gaap:LongTermDebtCurrent",
+      "us-gaap:ShortTermBorrowings"
     ],
     "eps_diluted": [
       "us-gaap:EarningsPerShareDiluted"
@@ -43338,7 +43270,7 @@
       "capex": 222,
       "cash": 376,
       "current_debt": 138,
-      "eps_diluted": 318,
+      "eps_diluted": 314,
       "long_term_debt": 145,
       "net_income": 441,
       "operating_cash_flow": 99,
@@ -43366,6 +43298,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/BRO.json",
+    "quarantined_fact_count": 4,
+    "source_fact_count": 2546,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 4
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -43399,7 +43344,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2546
+    "us-gaap": 2542
   },
   "ticker": "BRO"
 }

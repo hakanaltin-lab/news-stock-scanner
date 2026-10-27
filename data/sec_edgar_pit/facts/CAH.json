@@ -1,13 +1,13 @@
 {
   "accession_count": 67,
-  "amendment_fact_count": 49,
+  "amendment_fact_count": 46,
   "availability_rule": "available_date = SEC filed date + 1 calendar day; conservative guard against same-day look-ahead. Exact current and historical acceptance timestamps from SEC submissions metadata are stored for audit but do not make the daily as-of date earlier.",
   "cik": "0000721371",
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "Cardinal Health, Inc.",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2253,
-  "fact_count": 2253,
+  "exact_acceptance_fact_count": 2250,
+  "fact_count": 2250,
   "facts": [
     {
       "accepted_at": "2009-11-09T20:58:50.000Z",
@@ -1356,23 +1356,6 @@
       "accepted_at": "2010-09-02T20:03:59.000Z",
       "accession": "0001193125-10-203886",
       "available_date": "2010-09-03",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2008-06-30",
-      "filed": "2010-09-02",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K/A",
-      "frame": "CY2008",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2007-07-01",
-      "unit": "pure",
-      "value": 3.57
-    },
-    {
-      "accepted_at": "2010-09-02T20:03:59.000Z",
-      "accession": "0001193125-10-203886",
-      "available_date": "2010-09-03",
       "concept": "NetIncomeLoss",
       "end": "2008-06-30",
       "filed": "2010-09-02",
@@ -1640,23 +1623,6 @@
       "start": "2009-04-01",
       "unit": "USD/shares",
       "value": 0.56
-    },
-    {
-      "accepted_at": "2010-09-02T20:03:59.000Z",
-      "accession": "0001193125-10-203886",
-      "available_date": "2010-09-03",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2010-09-02",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K/A",
-      "frame": "CY2009",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-07-01",
-      "unit": "pure",
-      "value": 3.18
     },
     {
       "accepted_at": "2010-09-02T20:03:59.000Z",
@@ -1980,23 +1946,6 @@
       "start": "2010-04-01",
       "unit": "USD/shares",
       "value": 0.54
-    },
-    {
-      "accepted_at": "2010-09-02T20:03:59.000Z",
-      "accession": "0001193125-10-203886",
-      "available_date": "2010-09-03",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-09-02",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K/A",
-      "frame": "CY2010",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-07-01",
-      "unit": "pure",
-      "value": 1.77
     },
     {
       "accepted_at": "2010-09-02T20:03:59.000Z",
@@ -38349,7 +38298,7 @@
     "metric_fact_counts": {
       "capex": 148,
       "cash": 302,
-      "eps_diluted": 157,
+      "eps_diluted": 154,
       "net_income": 495,
       "operating_cash_flow": 151,
       "operating_income": 223,
@@ -38376,6 +38325,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/CAH.json",
+    "quarantined_fact_count": 3,
+    "source_fact_count": 2253,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 3
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -38410,7 +38372,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2253
+    "us-gaap": 2250
   },
   "ticker": "CAH"
 }

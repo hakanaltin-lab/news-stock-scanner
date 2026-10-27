@@ -1,0 +1,107 @@
+{
+  "cik": "0000858877",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.3 SEC Unit and Period Contract",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2010-05-26T10:02:34.000Z",
+        "accession": "0001193125-10-128609",
+        "available_date": "2010-05-27",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2009-04-25",
+        "filed": "2010-05-26",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2010,
+        "form": "10-Q",
+        "frame": "CY2009Q1",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-01-25",
+        "unit": "pure",
+        "value": 0.23
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2010-09-21T11:01:32.000Z",
+        "accession": "0001193125-10-213400",
+        "available_date": "2010-09-22",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2008-07-26",
+        "filed": "2010-09-21",
+        "fiscal_period": "FY",
+        "fiscal_year": 2010,
+        "form": "10-K",
+        "frame": "CY2008",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2007-07-29",
+        "unit": "pure",
+        "value": 1.31
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2010-09-21T11:01:32.000Z",
+        "accession": "0001193125-10-213400",
+        "available_date": "2010-09-22",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2009-07-25",
+        "filed": "2010-09-21",
+        "fiscal_period": "FY",
+        "fiscal_year": 2010,
+        "form": "10-K",
+        "frame": "CY2009",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2008-07-27",
+        "unit": "pure",
+        "value": 1.05
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2010-09-21T11:01:32.000Z",
+        "accession": "0001193125-10-213400",
+        "available_date": "2010-09-22",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2010-07-31",
+        "filed": "2010-09-21",
+        "fiscal_period": "FY",
+        "fiscal_year": 2010,
+        "form": "10-K",
+        "frame": "CY2010",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-07-26",
+        "unit": "pure",
+        "value": 1.33
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "incompatible_metric_unit": 4
+  },
+  "quarantined_fact_count": 4,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 2659,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "CSCO"
+}

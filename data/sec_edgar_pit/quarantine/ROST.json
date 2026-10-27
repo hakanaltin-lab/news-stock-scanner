@@ -1,0 +1,63 @@
+{
+  "cik": "0000745732",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.3 SEC Unit and Period Contract",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2010-09-08T10:01:03.000Z",
+        "accession": "0001206774-10-001976",
+        "available_date": "2010-09-09",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2009-08-01",
+        "filed": "2010-09-08",
+        "fiscal_period": "Q2",
+        "fiscal_year": 2010,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-02-01",
+        "unit": "pure",
+        "value": 1.55
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2010-09-08T10:01:03.000Z",
+        "accession": "0001206774-10-001976",
+        "available_date": "2010-09-09",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2009-08-01",
+        "filed": "2010-09-08",
+        "fiscal_period": "Q2",
+        "fiscal_year": 2010,
+        "form": "10-Q",
+        "frame": "CY2009Q2",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-05-03",
+        "unit": "pure",
+        "value": 0.82
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "incompatible_metric_unit": 2
+  },
+  "quarantined_fact_count": 2,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 2422,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "ROST"
+}

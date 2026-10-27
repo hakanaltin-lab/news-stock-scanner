@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "EQT CORPORATION",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2745,
-  "fact_count": 2745,
+  "exact_acceptance_fact_count": 2743,
+  "fact_count": 2743,
   "facts": [
     {
       "accepted_at": "2009-07-29T20:17:22.000Z",
@@ -6570,40 +6570,6 @@
       "start": null,
       "unit": "USD",
       "value": 229944000
-    },
-    {
-      "accepted_at": "2012-07-26T20:03:32.000Z",
-      "accession": "0001104659-12-051449",
-      "available_date": "2012-07-27",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2012-06-30",
-      "filed": "2012-07-26",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2012,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2012-01-01",
-      "unit": "BillionsCubicFeet",
-      "value": 0.69
-    },
-    {
-      "accepted_at": "2012-07-26T20:03:32.000Z",
-      "accession": "0001104659-12-051449",
-      "available_date": "2012-07-27",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2012-06-30",
-      "filed": "2012-07-26",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2012,
-      "form": "10-Q",
-      "frame": "CY2012Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2012-04-01",
-      "unit": "BillionsCubicFeet",
-      "value": 0.21
     },
     {
       "accepted_at": "2012-07-26T20:03:32.000Z",
@@ -46685,8 +46651,8 @@
       "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
     ],
     "current_debt": [
-      "us-gaap:ShortTermBorrowings",
-      "us-gaap:LongTermDebtCurrent"
+      "us-gaap:LongTermDebtCurrent",
+      "us-gaap:ShortTermBorrowings"
     ],
     "eps_diluted": [
       "us-gaap:EarningsPerShareDiluted"
@@ -46725,7 +46691,7 @@
       "capex": 142,
       "cash": 333,
       "current_debt": 148,
-      "eps_diluted": 294,
+      "eps_diluted": 292,
       "long_term_debt": 118,
       "net_income": 395,
       "operating_cash_flow": 135,
@@ -46753,6 +46719,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/EQT.json",
+    "quarantined_fact_count": 2,
+    "source_fact_count": 2745,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 2
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -46788,7 +46767,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2745
+    "us-gaap": 2743
   },
   "ticker": "EQT"
 }

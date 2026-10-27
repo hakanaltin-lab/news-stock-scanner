@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "The Goldman Sachs Group, Inc.",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 1610,
-  "fact_count": 1610,
+  "exact_acceptance_fact_count": 1608,
+  "fact_count": 1608,
   "facts": [
     {
       "accepted_at": "2009-08-05T10:10:19.000Z",
@@ -1674,40 +1674,6 @@
       "start": null,
       "unit": "USD",
       "value": 884547000000
-    },
-    {
-      "accepted_at": "2011-03-01T02:34:23.000Z",
-      "accession": "0000950123-11-020067",
-      "available_date": "2011-03-02",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2008-12-31",
-      "filed": "2011-03-01",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2008Q4I",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": null,
-      "unit": "USD/shares",
-      "value": -2.15
-    },
-    {
-      "accepted_at": "2011-03-01T02:34:23.000Z",
-      "accession": "0000950123-11-020067",
-      "available_date": "2011-03-02",
-      "concept": "NetIncomeLoss",
-      "end": "2008-12-31",
-      "filed": "2011-03-01",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2008Q4I",
-      "metric": "net_income",
-      "namespace": "us-gaap",
-      "start": null,
-      "unit": "USD",
-      "value": -780000000
     },
     {
       "accepted_at": "2011-03-01T02:34:23.000Z",
@@ -27421,9 +27387,9 @@
       "capex": 120,
       "cash": 248,
       "current_debt": 44,
-      "eps_diluted": 230,
+      "eps_diluted": 229,
       "long_term_debt": 78,
-      "net_income": 269,
+      "net_income": 268,
       "operating_cash_flow": 74,
       "stockholders_equity": 186,
       "total_assets": 208,
@@ -27448,6 +27414,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/GS.json",
+    "quarantined_fact_count": 2,
+    "source_fact_count": 1610,
+    "source_quality_issues": {
+      "duration_metric_missing_start": 2
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -27726,16 +27705,16 @@
         "name": "CIK0000886982-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 16539,
+    "recent_acceptance_count": 16542,
     "status": "COMPLETE",
-    "total_acceptance_count": 91162
+    "total_acceptance_count": 91165
   },
   "taxonomies_supported": [
     "ifrs-full",
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 1610
+    "us-gaap": 1608
   },
   "ticker": "GS"
 }

@@ -1,0 +1,151 @@
+{
+  "cik": "0001031296",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.3 SEC Unit and Period Contract",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2009-05-07T21:17:06.000Z",
+        "accession": "0001031296-09-000011",
+        "available_date": "2009-05-08",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2008-03-31",
+        "filed": "2009-05-07",
+        "fiscal_period": "Q1",
+        "fiscal_year": 2009,
+        "form": "10-Q",
+        "frame": "CY2008Q1",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2008-01-01",
+        "unit": "pure",
+        "value": 0.9
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2009-05-07T21:17:06.000Z",
+        "accession": "0001031296-09-000011",
+        "available_date": "2009-05-08",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2009-03-31",
+        "filed": "2009-05-07",
+        "fiscal_period": "Q1",
+        "fiscal_year": 2009,
+        "form": "10-Q",
+        "frame": "CY2009Q1",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-01-01",
+        "unit": "pure",
+        "value": 0.39
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2009-08-03T20:33:55.000Z",
+        "accession": "0001031296-09-000021",
+        "available_date": "2009-08-04",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2008-06-30",
+        "filed": "2009-08-03",
+        "fiscal_period": "Q2",
+        "fiscal_year": 2009,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2008-01-01",
+        "unit": "pure",
+        "value": 1.75
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2009-08-03T20:33:55.000Z",
+        "accession": "0001031296-09-000021",
+        "available_date": "2009-08-04",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2008-06-30",
+        "filed": "2009-08-03",
+        "fiscal_period": "Q2",
+        "fiscal_year": 2009,
+        "form": "10-Q",
+        "frame": "CY2008Q2",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2008-04-01",
+        "unit": "pure",
+        "value": 0.85
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2009-08-03T20:33:55.000Z",
+        "accession": "0001031296-09-000021",
+        "available_date": "2009-08-04",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2009-06-30",
+        "filed": "2009-08-03",
+        "fiscal_period": "Q2",
+        "fiscal_year": 2009,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-01-01",
+        "unit": "pure",
+        "value": 1.75
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2009-08-03T20:33:55.000Z",
+        "accession": "0001031296-09-000021",
+        "available_date": "2009-08-04",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2009-06-30",
+        "filed": "2009-08-03",
+        "fiscal_period": "Q2",
+        "fiscal_year": 2009,
+        "form": "10-Q",
+        "frame": "CY2009Q2",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-04-01",
+        "unit": "pure",
+        "value": 1.36
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "incompatible_metric_unit": 6
+  },
+  "quarantined_fact_count": 6,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 2684,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "FE"
+}

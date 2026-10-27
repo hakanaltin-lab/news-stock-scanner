@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "Walmart Inc.",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 3725,
-  "fact_count": 3725,
+  "exact_acceptance_fact_count": 3722,
+  "fact_count": 3722,
   "facts": [
     {
       "accepted_at": "2009-09-09T16:11:29.000Z",
@@ -2971,40 +2971,6 @@
       "accepted_at": "2010-09-01T19:50:02.000Z",
       "accession": "0001193125-10-202779",
       "available_date": "2010-09-02",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-07-31",
-      "filed": "2010-09-01",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-02-01",
-      "unit": "pure",
-      "value": 1.65
-    },
-    {
-      "accepted_at": "2010-09-01T19:50:02.000Z",
-      "accession": "0001193125-10-202779",
-      "available_date": "2010-09-02",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-07-31",
-      "filed": "2010-09-01",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2009Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-05-01",
-      "unit": "pure",
-      "value": 0.89
-    },
-    {
-      "accepted_at": "2010-09-01T19:50:02.000Z",
-      "accession": "0001193125-10-202779",
-      "available_date": "2010-09-02",
       "concept": "LongTermDebtNoncurrent",
       "end": "2009-07-31",
       "filed": "2010-09-01",
@@ -3459,23 +3425,6 @@
       "start": "2010-05-01",
       "unit": "USD/shares",
       "value": 0.97
-    },
-    {
-      "accepted_at": "2010-09-01T19:50:02.000Z",
-      "accession": "0001193125-10-202779",
-      "available_date": "2010-09-02",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-07-31",
-      "filed": "2010-09-01",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-02-01",
-      "unit": "pure",
-      "value": 1.84
     },
     {
       "accepted_at": "2010-09-01T19:50:02.000Z",
@@ -63383,7 +63332,7 @@
       "capex": 157,
       "cash": 352,
       "current_debt": 380,
-      "eps_diluted": 310,
+      "eps_diluted": 307,
       "long_term_debt": 193,
       "net_income": 651,
       "operating_cash_flow": 157,
@@ -63412,14 +63361,18 @@
   },
   "point_in_time": true,
   "quality_curation": {
-    "admission_rules_changed": false,
-    "engine": "V8.9.2 SEC Fact Quarantine",
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
     "quarantine_file": "data/sec_edgar_pit/quarantine/WMT.json",
-    "quarantined_fact_count": 1,
+    "quarantined_fact_count": 4,
     "source_fact_count": 3726,
     "source_quality_issues": {
+      "incompatible_metric_unit": 3,
       "period_end_after_filing": 1
-    }
+    },
+    "unit_conversion_applied": false
   },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
@@ -63463,7 +63416,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 3725
+    "us-gaap": 3722
   },
   "ticker": "WMT"
 }

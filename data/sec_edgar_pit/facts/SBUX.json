@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "Starbucks Corporation",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 3033,
-  "fact_count": 3033,
+  "exact_acceptance_fact_count": 3029,
+  "fact_count": 3029,
   "facts": [
     {
       "accepted_at": "2009-08-05T01:39:19.000Z",
@@ -2495,40 +2495,6 @@
       "accepted_at": "2010-08-02T20:46:54.000Z",
       "accession": "0001193125-10-173723",
       "available_date": "2010-08-03",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-28",
-      "filed": "2010-08-02",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-09-29",
-      "unit": "pure",
-      "value": 0.32
-    },
-    {
-      "accepted_at": "2010-08-02T20:46:54.000Z",
-      "accession": "0001193125-10-173723",
-      "available_date": "2010-08-03",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-28",
-      "filed": "2010-08-02",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2009Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-03-28",
-      "unit": "pure",
-      "value": 0.2
-    },
-    {
-      "accepted_at": "2010-08-02T20:46:54.000Z",
-      "accession": "0001193125-10-173723",
-      "available_date": "2010-08-03",
       "concept": "NetIncomeLoss",
       "end": "2009-06-28",
       "filed": "2010-08-02",
@@ -2897,40 +2863,6 @@
       "namespace": "us-gaap",
       "start": "2010-03-29",
       "unit": "USD/shares",
-      "value": 0.27
-    },
-    {
-      "accepted_at": "2010-08-02T20:46:54.000Z",
-      "accession": "0001193125-10-173723",
-      "available_date": "2010-08-03",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-27",
-      "filed": "2010-08-02",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-09-28",
-      "unit": "pure",
-      "value": 0.87
-    },
-    {
-      "accepted_at": "2010-08-02T20:46:54.000Z",
-      "accession": "0001193125-10-173723",
-      "available_date": "2010-08-03",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-27",
-      "filed": "2010-08-02",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2010Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-03-29",
-      "unit": "pure",
       "value": 0.27
     },
     {
@@ -51581,8 +51513,8 @@
       "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
     ],
     "current_debt": [
-      "us-gaap:ShortTermBorrowings",
-      "us-gaap:LongTermDebtCurrent"
+      "us-gaap:LongTermDebtCurrent",
+      "us-gaap:ShortTermBorrowings"
     ],
     "eps_diluted": [
       "us-gaap:EarningsPerShareDiluted"
@@ -51621,7 +51553,7 @@
       "capex": 155,
       "cash": 276,
       "current_debt": 150,
-      "eps_diluted": 285,
+      "eps_diluted": 281,
       "long_term_debt": 138,
       "net_income": 533,
       "operating_cash_flow": 155,
@@ -51649,6 +51581,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/SBUX.json",
+    "quarantined_fact_count": 4,
+    "source_fact_count": 3033,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 4
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -51682,7 +51627,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 3033
+    "us-gaap": 3029
   },
   "ticker": "SBUX"
 }

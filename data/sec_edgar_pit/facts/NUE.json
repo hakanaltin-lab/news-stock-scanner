@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "NUCOR CORP",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2921,
-  "fact_count": 2921,
+  "exact_acceptance_fact_count": 2920,
+  "fact_count": 2920,
   "facts": [
     {
       "accepted_at": "2009-08-11T15:16:49.000Z",
@@ -2779,23 +2779,6 @@
       "start": "2010-04-04",
       "unit": "USD/shares",
       "value": 0.29
-    },
-    {
-      "accepted_at": "2010-08-11T21:12:01.000Z",
-      "accession": "0001193125-10-186127",
-      "available_date": "2010-08-12",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-07-03",
-      "filed": "2010-08-11",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-01-01",
-      "unit": "pure",
-      "value": 0.38
     },
     {
       "accepted_at": "2010-08-11T21:12:01.000Z",
@@ -49676,8 +49659,8 @@
       "us-gaap:CashAndCashEquivalentsAtCarryingValue"
     ],
     "current_debt": [
-      "us-gaap:ShortTermBorrowings",
-      "us-gaap:LongTermDebtCurrent"
+      "us-gaap:LongTermDebtCurrent",
+      "us-gaap:ShortTermBorrowings"
     ],
     "eps_diluted": [
       "us-gaap:EarningsPerShareDiluted"
@@ -49714,7 +49697,7 @@
       "capex": 155,
       "cash": 213,
       "current_debt": 204,
-      "eps_diluted": 346,
+      "eps_diluted": 345,
       "long_term_debt": 82,
       "net_income": 686,
       "operating_cash_flow": 117,
@@ -49742,6 +49725,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/NUE.json",
+    "quarantined_fact_count": 1,
+    "source_fact_count": 2921,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 1
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -49776,7 +49772,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2921
+    "us-gaap": 2920
   },
   "ticker": "NUE"
 }

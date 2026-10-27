@@ -1,0 +1,107 @@
+{
+  "cik": "0000829224",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.3 SEC Unit and Period Contract",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2010-08-02T20:46:54.000Z",
+        "accession": "0001193125-10-173723",
+        "available_date": "2010-08-03",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2009-06-28",
+        "filed": "2010-08-02",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2010,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2008-09-29",
+        "unit": "pure",
+        "value": 0.32
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2010-08-02T20:46:54.000Z",
+        "accession": "0001193125-10-173723",
+        "available_date": "2010-08-03",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2009-06-28",
+        "filed": "2010-08-02",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2010,
+        "form": "10-Q",
+        "frame": "CY2009Q2",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-03-28",
+        "unit": "pure",
+        "value": 0.2
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2010-08-02T20:46:54.000Z",
+        "accession": "0001193125-10-173723",
+        "available_date": "2010-08-03",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2010-06-27",
+        "filed": "2010-08-02",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2010,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-09-28",
+        "unit": "pure",
+        "value": 0.87
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2010-08-02T20:46:54.000Z",
+        "accession": "0001193125-10-173723",
+        "available_date": "2010-08-03",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2010-06-27",
+        "filed": "2010-08-02",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2010,
+        "form": "10-Q",
+        "frame": "CY2010Q2",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2010-03-29",
+        "unit": "pure",
+        "value": 0.27
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "incompatible_metric_unit": 4
+  },
+  "quarantined_fact_count": 4,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 3033,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "SBUX"
+}

@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "FIFTH THIRD BANCORP",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 1680,
-  "fact_count": 1680,
+  "exact_acceptance_fact_count": 1676,
+  "fact_count": 1676,
   "facts": [
     {
       "accepted_at": "2009-08-10T20:28:29.000Z",
@@ -3651,40 +3651,6 @@
       "accepted_at": "2011-11-09T19:29:16.000Z",
       "accession": "0001193125-11-304217",
       "available_date": "2011-11-10",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-09-30",
-      "filed": "2011-11-09",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2011,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-12-30",
-      "unit": "shares",
-      "value": 799000000
-    },
-    {
-      "accepted_at": "2011-11-09T19:29:16.000Z",
-      "accession": "0001193125-11-304217",
-      "available_date": "2011-11-10",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-09-30",
-      "filed": "2011-11-09",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2011,
-      "form": "10-Q",
-      "frame": "CY2010Q3",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-07-01",
-      "unit": "shares",
-      "value": 797000000
-    },
-    {
-      "accepted_at": "2011-11-09T19:29:16.000Z",
-      "accession": "0001193125-11-304217",
-      "available_date": "2011-11-10",
       "concept": "NetIncomeLoss",
       "end": "2010-09-30",
       "filed": "2011-11-09",
@@ -3952,40 +3918,6 @@
       "start": "2011-07-01",
       "unit": "USD/shares",
       "value": 0.4
-    },
-    {
-      "accepted_at": "2011-11-09T19:29:16.000Z",
-      "accession": "0001193125-11-304217",
-      "available_date": "2011-11-10",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2011-09-30",
-      "filed": "2011-11-09",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2011,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-12-30",
-      "unit": "shares",
-      "value": 947000000
-    },
-    {
-      "accepted_at": "2011-11-09T19:29:16.000Z",
-      "accession": "0001193125-11-304217",
-      "available_date": "2011-11-10",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2011-09-30",
-      "filed": "2011-11-09",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2011,
-      "form": "10-Q",
-      "frame": "CY2011Q3",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2011-07-01",
-      "unit": "shares",
-      "value": 955000000
     },
     {
       "accepted_at": "2011-11-09T19:29:16.000Z",
@@ -28608,7 +28540,7 @@
       "capex": 155,
       "cash": 92,
       "current_debt": 6,
-      "eps_diluted": 229,
+      "eps_diluted": 225,
       "net_income": 360,
       "operating_cash_flow": 105,
       "stockholders_equity": 406,
@@ -28634,6 +28566,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/FITB.json",
+    "quarantined_fact_count": 4,
+    "source_fact_count": 1680,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 4
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -28675,7 +28620,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 1680
+    "us-gaap": 1676
   },
   "ticker": "FITB"
 }

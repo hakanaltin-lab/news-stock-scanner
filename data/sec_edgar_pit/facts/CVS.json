@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "CVS HEALTH CORPORATION",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2914,
-  "fact_count": 2914,
+  "exact_acceptance_fact_count": 2913,
+  "fact_count": 2913,
   "facts": [
     {
       "accepted_at": "2009-08-04T21:01:47.000Z",
@@ -9239,23 +9239,6 @@
       "start": null,
       "unit": "USD",
       "value": 1427000000
-    },
-    {
-      "accepted_at": "2013-02-15T22:28:33.000Z",
-      "accession": "0001104659-13-011354",
-      "available_date": "2013-02-16",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-12-31",
-      "filed": "2013-02-15",
-      "fiscal_period": "FY",
-      "fiscal_year": 2012,
-      "form": "10-K",
-      "frame": "CY2010",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-01-01",
-      "unit": "segment",
-      "value": 2.49
     },
     {
       "accepted_at": "2013-02-15T22:28:33.000Z",
@@ -49558,8 +49541,8 @@
       "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
     ],
     "current_debt": [
-      "us-gaap:ShortTermBorrowings",
-      "us-gaap:LongTermDebtCurrent"
+      "us-gaap:LongTermDebtCurrent",
+      "us-gaap:ShortTermBorrowings"
     ],
     "eps_diluted": [
       "us-gaap:EarningsPerShareDiluted"
@@ -49598,7 +49581,7 @@
       "capex": 155,
       "cash": 355,
       "current_debt": 177,
-      "eps_diluted": 305,
+      "eps_diluted": 304,
       "long_term_debt": 77,
       "net_income": 468,
       "operating_cash_flow": 155,
@@ -49626,6 +49609,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/CVS.json",
+    "quarantined_fact_count": 1,
+    "source_fact_count": 2914,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 1
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -49659,7 +49655,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2914
+    "us-gaap": 2913
   },
   "ticker": "CVS"
 }

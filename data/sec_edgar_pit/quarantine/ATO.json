@@ -1,0 +1,217 @@
+{
+  "cik": "0000731802",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.3 SEC Unit and Period Contract",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2010-08-05T16:44:37.000Z",
+        "accession": "0000950123-10-073148",
+        "available_date": "2010-08-06",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2009-06-30",
+        "filed": "2010-08-05",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2010,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2008-10-01",
+        "unit": "shares/USD",
+        "value": 2.25
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2010-08-05T16:44:37.000Z",
+        "accession": "0000950123-10-073148",
+        "available_date": "2010-08-06",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2009-06-30",
+        "filed": "2010-08-05",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2010,
+        "form": "10-Q",
+        "frame": "CY2009Q2",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-04-01",
+        "unit": "shares/USD",
+        "value": 0.02
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2010-08-05T16:44:37.000Z",
+        "accession": "0000950123-10-073148",
+        "available_date": "2010-08-06",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2010-06-30",
+        "filed": "2010-08-05",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2010,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-10-01",
+        "unit": "shares/USD",
+        "value": 2.18
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2010-08-05T16:44:37.000Z",
+        "accession": "0000950123-10-073148",
+        "available_date": "2010-08-06",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2010-06-30",
+        "filed": "2010-08-05",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2010,
+        "form": "10-Q",
+        "frame": "CY2010Q2",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2010-04-01",
+        "unit": "shares/USD",
+        "value": -0.03
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2010-11-12T22:06:47.000Z",
+        "accession": "0000950123-10-105040",
+        "available_date": "2010-11-13",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2008-09-30",
+        "filed": "2010-11-12",
+        "fiscal_period": "FY",
+        "fiscal_year": 2010,
+        "form": "10-K",
+        "frame": "CY2008",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2007-10-01",
+        "unit": "shares/USD",
+        "value": 1.99
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2010-11-12T22:06:47.000Z",
+        "accession": "0000950123-10-105040",
+        "available_date": "2010-11-13",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2009-09-30",
+        "filed": "2010-11-12",
+        "fiscal_period": "FY",
+        "fiscal_year": 2010,
+        "form": "10-K",
+        "frame": "CY2009",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2008-10-01",
+        "unit": "shares/USD",
+        "value": 2.07
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2010-11-12T22:06:47.000Z",
+        "accession": "0000950123-10-105040",
+        "available_date": "2010-11-13",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2010-09-30",
+        "filed": "2010-11-12",
+        "fiscal_period": "FY",
+        "fiscal_year": 2010,
+        "form": "10-K",
+        "frame": "CY2010",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-10-01",
+        "unit": "shares/USD",
+        "value": 2.2
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2011-02-09T19:59:50.000Z",
+        "accession": "0000950123-11-010942",
+        "available_date": "2011-02-10",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2009-12-31",
+        "filed": "2011-02-09",
+        "fiscal_period": "Q1",
+        "fiscal_year": 2011,
+        "form": "10-Q",
+        "frame": "CY2009Q4",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-10-01",
+        "unit": "shares/USD",
+        "value": 1
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2011-02-09T19:59:50.000Z",
+        "accession": "0000950123-11-010942",
+        "available_date": "2011-02-10",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2010-12-31",
+        "filed": "2011-02-09",
+        "fiscal_period": "Q1",
+        "fiscal_year": 2011,
+        "form": "10-Q",
+        "frame": "CY2010Q4",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2010-10-01",
+        "unit": "shares/USD",
+        "value": 0.81
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "incompatible_metric_unit": 9
+  },
+  "quarantined_fact_count": 9,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 2072,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "ATO"
+}

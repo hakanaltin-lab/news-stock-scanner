@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "COCA COLA CO",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2411,
-  "fact_count": 2411,
+  "exact_acceptance_fact_count": 2407,
+  "fact_count": 2407,
   "facts": [
     {
       "accepted_at": "2009-07-30T14:33:15.000Z",
@@ -59,40 +59,6 @@
       "start": null,
       "unit": "USD",
       "value": 6571000000
-    },
-    {
-      "accepted_at": "2009-07-30T14:33:15.000Z",
-      "accession": "0001047469-09-007013",
-      "available_date": "2009-07-31",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2008-06-27",
-      "filed": "2009-07-30",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2009,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-01-01",
-      "unit": "pure",
-      "value": 1.24
-    },
-    {
-      "accepted_at": "2009-07-30T14:33:15.000Z",
-      "accession": "0001047469-09-007013",
-      "available_date": "2009-07-31",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2008-06-27",
-      "filed": "2009-07-30",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2009,
-      "form": "10-Q",
-      "frame": "CY2008Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-03-29",
-      "unit": "pure",
-      "value": 0.61
     },
     {
       "accepted_at": "2009-07-30T14:33:15.000Z",
@@ -365,40 +331,6 @@
       "start": null,
       "unit": "USD",
       "value": 49000000
-    },
-    {
-      "accepted_at": "2009-07-30T14:33:15.000Z",
-      "accession": "0001047469-09-007013",
-      "available_date": "2009-07-31",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-07-03",
-      "filed": "2009-07-30",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2009,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-01-01",
-      "unit": "pure",
-      "value": 1.46
-    },
-    {
-      "accepted_at": "2009-07-30T14:33:15.000Z",
-      "accession": "0001047469-09-007013",
-      "available_date": "2009-07-31",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-07-03",
-      "filed": "2009-07-30",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2009,
-      "form": "10-Q",
-      "frame": "CY2009Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-04-04",
-      "unit": "pure",
-      "value": 0.88
     },
     {
       "accepted_at": "2009-07-30T14:33:15.000Z",
@@ -41007,8 +40939,8 @@
       "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
     ],
     "current_debt": [
-      "us-gaap:ShortTermBorrowings",
-      "us-gaap:LongTermDebtCurrent"
+      "us-gaap:LongTermDebtCurrent",
+      "us-gaap:ShortTermBorrowings"
     ],
     "eps_diluted": [
       "us-gaap:EarningsPerShareDiluted"
@@ -41043,7 +40975,7 @@
       "capex": 153,
       "cash": 398,
       "current_debt": 126,
-      "eps_diluted": 221,
+      "eps_diluted": 217,
       "long_term_debt": 120,
       "net_income": 442,
       "operating_cash_flow": 143,
@@ -41071,6 +41003,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/KO.json",
+    "quarantined_fact_count": 4,
+    "source_fact_count": 2411,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 4
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -41094,16 +41039,16 @@
         "name": "CIK0000021344-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1002,
+    "recent_acceptance_count": 1003,
     "status": "COMPLETE",
-    "total_acceptance_count": 3002
+    "total_acceptance_count": 3003
   },
   "taxonomies_supported": [
     "ifrs-full",
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2411
+    "us-gaap": 2407
   },
   "ticker": "KO"
 }

@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "ALNYLAM PHARMACEUTICALS, INC.",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 1822,
-  "fact_count": 1822,
+  "exact_acceptance_fact_count": 1820,
+  "fact_count": 1820,
   "facts": [
     {
       "accepted_at": "2010-08-05T20:53:34.000Z",
@@ -15534,23 +15534,6 @@
       "accepted_at": "2020-02-13T13:29:30.000Z",
       "accession": "0001178670-20-000004",
       "available_date": "2020-02-14",
-      "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
-      "end": "2018-01-01",
-      "filed": "2020-02-13",
-      "fiscal_period": "FY",
-      "fiscal_year": 2019,
-      "form": "10-K",
-      "frame": null,
-      "metric": "revenue",
-      "namespace": "us-gaap",
-      "start": null,
-      "unit": "USD",
-      "value": 2900000
-    },
-    {
-      "accepted_at": "2020-02-13T13:29:30.000Z",
-      "accession": "0001178670-20-000004",
-      "available_date": "2020-02-14",
       "concept": "NetIncomeLoss",
       "end": "2018-03-31",
       "filed": "2020-02-13",
@@ -17722,23 +17705,6 @@
       "start": null,
       "unit": "USD",
       "value": 1766431000
-    },
-    {
-      "accepted_at": "2021-02-11T21:13:06.000Z",
-      "accession": "0001178670-21-000010",
-      "available_date": "2021-02-12",
-      "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
-      "end": "2018-01-01",
-      "filed": "2021-02-11",
-      "fiscal_period": "FY",
-      "fiscal_year": 2020,
-      "form": "10-K",
-      "frame": "CY2017Q4I",
-      "metric": "revenue",
-      "namespace": "us-gaap",
-      "start": null,
-      "unit": "USD",
-      "value": 2900000
     },
     {
       "accepted_at": "2021-02-11T21:13:06.000Z",
@@ -31031,7 +30997,7 @@
       "net_income": 356,
       "operating_cash_flow": 106,
       "operating_income": 210,
-      "revenue": 145,
+      "revenue": 143,
       "stockholders_equity": 250,
       "total_assets": 128,
       "total_liabilities": 128
@@ -31055,6 +31021,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/ALNY.json",
+    "quarantined_fact_count": 2,
+    "source_fact_count": 1822,
+    "source_quality_issues": {
+      "duration_metric_missing_start": 2
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -31088,7 +31067,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 1822
+    "us-gaap": 1820
   },
   "ticker": "ALNY"
 }

@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "IDEXX LABORATORIES INC /DE",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2670,
-  "fact_count": 2670,
+  "exact_acceptance_fact_count": 2666,
+  "fact_count": 2666,
   "facts": [
     {
       "accepted_at": "2010-07-23T18:01:41.000Z",
@@ -365,40 +365,6 @@
       "start": null,
       "unit": "USD",
       "value": 117975000
-    },
-    {
-      "accepted_at": "2010-07-23T18:01:41.000Z",
-      "accession": "0001144204-10-039150",
-      "available_date": "2010-07-24",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-07-23",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-01-01",
-      "unit": "pure",
-      "value": 1.17
-    },
-    {
-      "accepted_at": "2010-07-23T18:01:41.000Z",
-      "accession": "0001144204-10-039150",
-      "available_date": "2010-07-24",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-07-23",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2010Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-04-01",
-      "unit": "pure",
-      "value": 0.62
     },
     {
       "accepted_at": "2010-07-23T18:01:41.000Z",
@@ -977,40 +943,6 @@
       "start": null,
       "unit": "USD",
       "value": 133512000
-    },
-    {
-      "accepted_at": "2010-10-22T19:59:12.000Z",
-      "accession": "0001144204-10-055158",
-      "available_date": "2010-10-23",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-09-30",
-      "filed": "2010-10-22",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-01-01",
-      "unit": "pure",
-      "value": 1.76
-    },
-    {
-      "accepted_at": "2010-10-22T19:59:12.000Z",
-      "accession": "0001144204-10-055158",
-      "available_date": "2010-10-23",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-09-30",
-      "filed": "2010-10-22",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2010Q3",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-07-01",
-      "unit": "pure",
-      "value": 0.59
     },
     {
       "accepted_at": "2010-10-22T19:59:12.000Z",
@@ -45449,7 +45381,7 @@
       "capex": 146,
       "cash": 327,
       "current_debt": 48,
-      "eps_diluted": 284,
+      "eps_diluted": 280,
       "long_term_debt": 48,
       "net_income": 498,
       "operating_cash_flow": 121,
@@ -45477,6 +45409,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/IDXX.json",
+    "quarantined_fact_count": 4,
+    "source_fact_count": 2670,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 4
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -45511,7 +45456,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2670
+    "us-gaap": 2666
   },
   "ticker": "IDXX"
 }

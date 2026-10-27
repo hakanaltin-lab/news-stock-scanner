@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "O REILLY AUTOMOTIVE INC",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2461,
-  "fact_count": 2461,
+  "exact_acceptance_fact_count": 2459,
+  "fact_count": 2459,
   "facts": [
     {
       "accepted_at": "2010-05-07T20:51:43.000Z",
@@ -489,23 +489,6 @@
       "accepted_at": "2010-08-05T18:07:53.000Z",
       "accession": "0001193125-10-179031",
       "available_date": "2010-08-06",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2010-08-05",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-01-01",
-      "unit": "pure",
-      "value": 1.08
-    },
-    {
-      "accepted_at": "2010-08-05T18:07:53.000Z",
-      "accession": "0001193125-10-179031",
-      "available_date": "2010-08-06",
       "concept": "NetIncomeLoss",
       "end": "2009-06-30",
       "filed": "2010-08-05",
@@ -790,23 +773,6 @@
       "start": "2010-04-01",
       "unit": "USD/shares",
       "value": 0.71
-    },
-    {
-      "accepted_at": "2010-08-05T18:07:53.000Z",
-      "accession": "0001193125-10-179031",
-      "available_date": "2010-08-06",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-08-05",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-01-01",
-      "unit": "pure",
-      "value": 1.4
     },
     {
       "accepted_at": "2010-08-05T18:07:53.000Z",
@@ -41891,7 +41857,7 @@
       "capex": 152,
       "cash": 327,
       "current_debt": 32,
-      "eps_diluted": 332,
+      "eps_diluted": 330,
       "long_term_debt": 92,
       "net_income": 330,
       "operating_cash_flow": 152,
@@ -41919,6 +41885,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/ORLY.json",
+    "quarantined_fact_count": 2,
+    "source_fact_count": 2461,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 2
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -41953,7 +41932,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2461
+    "us-gaap": 2459
   },
   "ticker": "ORLY"
 }

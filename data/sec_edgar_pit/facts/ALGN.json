@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "ALIGN TECHNOLOGY, INC.",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 1988,
-  "fact_count": 1988,
+  "exact_acceptance_fact_count": 1983,
+  "fact_count": 1983,
   "facts": [
     {
       "accepted_at": "2010-08-05T18:01:57.000Z",
@@ -17405,23 +17405,6 @@
       "accession": "0001097149-19-000022",
       "available_date": "2019-05-03",
       "concept": "PaymentsToAcquirePropertyPlantAndEquipment",
-      "end": "2019-01-15",
-      "filed": "2019-05-02",
-      "fiscal_period": "Q1",
-      "fiscal_year": 2019,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "capex",
-      "namespace": "us-gaap",
-      "start": null,
-      "unit": "USD",
-      "value": 27000000
-    },
-    {
-      "accepted_at": "2019-05-02T21:12:00.000Z",
-      "accession": "0001097149-19-000022",
-      "available_date": "2019-05-03",
-      "concept": "PaymentsToAcquirePropertyPlantAndEquipment",
       "end": "2019-03-31",
       "filed": "2019-05-02",
       "fiscal_period": "Q1",
@@ -17960,23 +17943,6 @@
       "start": null,
       "unit": "USD",
       "value": 799567000
-    },
-    {
-      "accepted_at": "2019-08-01T12:55:54.000Z",
-      "accession": "0001097149-19-000032",
-      "available_date": "2019-08-02",
-      "concept": "PaymentsToAcquirePropertyPlantAndEquipment",
-      "end": "2019-01-15",
-      "filed": "2019-08-01",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2019,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "capex",
-      "namespace": "us-gaap",
-      "start": null,
-      "unit": "USD",
-      "value": 27000000
     },
     {
       "accepted_at": "2019-08-01T12:55:54.000Z",
@@ -18589,23 +18555,6 @@
       "start": null,
       "unit": "USD",
       "value": 799567000
-    },
-    {
-      "accepted_at": "2019-10-31T20:06:31.000Z",
-      "accession": "0001097149-19-000036",
-      "available_date": "2019-11-01",
-      "concept": "PaymentsToAcquirePropertyPlantAndEquipment",
-      "end": "2019-01-15",
-      "filed": "2019-10-31",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2019,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "capex",
-      "namespace": "us-gaap",
-      "start": null,
-      "unit": "USD",
-      "value": 27000000
     },
     {
       "accepted_at": "2019-10-31T20:06:31.000Z",
@@ -19241,23 +19190,6 @@
       "accession": "0001097149-20-000008",
       "available_date": "2020-02-29",
       "concept": "PaymentsToAcquirePropertyPlantAndEquipment",
-      "end": "2019-01-15",
-      "filed": "2020-02-28",
-      "fiscal_period": "FY",
-      "fiscal_year": 2019,
-      "form": "10-K",
-      "frame": null,
-      "metric": "capex",
-      "namespace": "us-gaap",
-      "start": null,
-      "unit": "USD",
-      "value": 27000000
-    },
-    {
-      "accepted_at": "2020-02-28T21:17:53.000Z",
-      "accession": "0001097149-20-000008",
-      "available_date": "2020-02-29",
-      "concept": "PaymentsToAcquirePropertyPlantAndEquipment",
       "end": "2019-12-31",
       "filed": "2020-02-28",
       "fiscal_period": "FY",
@@ -19490,23 +19422,6 @@
       "start": null,
       "unit": "USD",
       "value": 1252891000
-    },
-    {
-      "accepted_at": "2020-05-05T20:40:23.000Z",
-      "accession": "0001097149-20-000025",
-      "available_date": "2020-05-06",
-      "concept": "PaymentsToAcquirePropertyPlantAndEquipment",
-      "end": "2019-01-15",
-      "filed": "2020-05-05",
-      "fiscal_period": "Q1",
-      "fiscal_year": 2020,
-      "form": "10-Q",
-      "frame": "CY2018Q4I",
-      "metric": "capex",
-      "namespace": "us-gaap",
-      "start": null,
-      "unit": "USD",
-      "value": 27000000
     },
     {
       "accepted_at": "2020-05-05T20:40:23.000Z",
@@ -33845,7 +33760,7 @@
   "metric_coverage": {
     "canonical_metric_count": 12,
     "metric_fact_counts": {
-      "capex": 153,
+      "capex": 148,
       "cash": 324,
       "eps_diluted": 212,
       "net_income": 212,
@@ -33875,6 +33790,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/ALGN.json",
+    "quarantined_fact_count": 5,
+    "source_fact_count": 1988,
+    "source_quality_issues": {
+      "duration_metric_missing_start": 5
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -33909,7 +33837,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 1988
+    "us-gaap": 1983
   },
   "ticker": "ALGN"
 }

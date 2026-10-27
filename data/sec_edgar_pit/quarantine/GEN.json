@@ -1,0 +1,63 @@
+{
+  "cik": "0000849399",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.3 SEC Unit and Period Contract",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2010-08-04T20:30:56.000Z",
+        "accession": "0000950123-10-072515",
+        "available_date": "2010-08-05",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2009-07-03",
+        "filed": "2010-08-04",
+        "fiscal_period": "Q1",
+        "fiscal_year": 2010,
+        "form": "10-Q",
+        "frame": "CY2009Q2",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-04-04",
+        "unit": "pure",
+        "value": 0.09
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2010-08-04T20:30:56.000Z",
+        "accession": "0000950123-10-072515",
+        "available_date": "2010-08-05",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2010-07-02",
+        "filed": "2010-08-04",
+        "fiscal_period": "Q1",
+        "fiscal_year": 2010,
+        "form": "10-Q",
+        "frame": "CY2010Q2",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2010-04-03",
+        "unit": "pure",
+        "value": 0.2
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "incompatible_metric_unit": 2
+  },
+  "quarantined_fact_count": 2,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 2239,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "GEN"
+}

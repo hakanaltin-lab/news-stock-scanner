@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "FIRSTENERGY CORP",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2684,
-  "fact_count": 2684,
+  "exact_acceptance_fact_count": 2678,
+  "fact_count": 2678,
   "facts": [
     {
       "accepted_at": "2009-05-07T21:17:06.000Z",
@@ -42,23 +42,6 @@
       "start": null,
       "unit": "USD",
       "value": 70000000
-    },
-    {
-      "accepted_at": "2009-05-07T21:17:06.000Z",
-      "accession": "0001031296-09-000011",
-      "available_date": "2009-05-08",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2008-03-31",
-      "filed": "2009-05-07",
-      "fiscal_period": "Q1",
-      "fiscal_year": 2009,
-      "form": "10-Q",
-      "frame": "CY2008Q1",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-01-01",
-      "unit": "pure",
-      "value": 0.9
     },
     {
       "accepted_at": "2009-05-07T21:17:06.000Z",
@@ -268,23 +251,6 @@
       "accepted_at": "2009-05-07T21:17:06.000Z",
       "accession": "0001031296-09-000011",
       "available_date": "2009-05-08",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-03-31",
-      "filed": "2009-05-07",
-      "fiscal_period": "Q1",
-      "fiscal_year": 2009,
-      "form": "10-Q",
-      "frame": "CY2009Q1",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-01-01",
-      "unit": "pure",
-      "value": 0.39
-    },
-    {
-      "accepted_at": "2009-05-07T21:17:06.000Z",
-      "accession": "0001031296-09-000011",
-      "available_date": "2009-05-08",
       "concept": "NetIncomeLoss",
       "end": "2009-03-31",
       "filed": "2009-05-07",
@@ -433,40 +399,6 @@
       "start": null,
       "unit": "USD",
       "value": 70000000
-    },
-    {
-      "accepted_at": "2009-08-03T20:33:55.000Z",
-      "accession": "0001031296-09-000021",
-      "available_date": "2009-08-04",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2008-06-30",
-      "filed": "2009-08-03",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2009,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-01-01",
-      "unit": "pure",
-      "value": 1.75
-    },
-    {
-      "accepted_at": "2009-08-03T20:33:55.000Z",
-      "accession": "0001031296-09-000021",
-      "available_date": "2009-08-04",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2008-06-30",
-      "filed": "2009-08-03",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2009,
-      "form": "10-Q",
-      "frame": "CY2008Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-04-01",
-      "unit": "pure",
-      "value": 0.85
     },
     {
       "accepted_at": "2009-08-03T20:33:55.000Z",
@@ -756,40 +688,6 @@
       "start": null,
       "unit": "USD",
       "value": 2397000000
-    },
-    {
-      "accepted_at": "2009-08-03T20:33:55.000Z",
-      "accession": "0001031296-09-000021",
-      "available_date": "2009-08-04",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2009-08-03",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2009,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-01-01",
-      "unit": "pure",
-      "value": 1.75
-    },
-    {
-      "accepted_at": "2009-08-03T20:33:55.000Z",
-      "accession": "0001031296-09-000021",
-      "available_date": "2009-08-04",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2009-08-03",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2009,
-      "form": "10-Q",
-      "frame": "CY2009Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-04-01",
-      "unit": "pure",
-      "value": 1.36
     },
     {
       "accepted_at": "2009-08-03T20:33:55.000Z",
@@ -45645,8 +45543,8 @@
       "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
     ],
     "current_debt": [
-      "us-gaap:ShortTermBorrowings",
-      "us-gaap:LongTermDebtCurrent"
+      "us-gaap:LongTermDebtCurrent",
+      "us-gaap:ShortTermBorrowings"
     ],
     "eps_diluted": [
       "us-gaap:EarningsPerShareDiluted"
@@ -45682,7 +45580,7 @@
     "metric_fact_counts": {
       "cash": 350,
       "current_debt": 168,
-      "eps_diluted": 298,
+      "eps_diluted": 292,
       "net_income": 514,
       "operating_cash_flow": 124,
       "operating_income": 306,
@@ -45710,6 +45608,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/FE.json",
+    "quarantined_fact_count": 6,
+    "source_fact_count": 2684,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 6
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -45744,7 +45655,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2684
+    "us-gaap": 2678
   },
   "ticker": "FE"
 }

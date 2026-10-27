@@ -1,0 +1,129 @@
+{
+  "cik": "0001097149",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.3 SEC Unit and Period Contract",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2019-05-02T21:12:00.000Z",
+        "accession": "0001097149-19-000022",
+        "available_date": "2019-05-03",
+        "concept": "PaymentsToAcquirePropertyPlantAndEquipment",
+        "end": "2019-01-15",
+        "filed": "2019-05-02",
+        "fiscal_period": "Q1",
+        "fiscal_year": 2019,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "capex",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 27000000
+      },
+      "issues": [
+        "duration_metric_missing_start"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2019-08-01T12:55:54.000Z",
+        "accession": "0001097149-19-000032",
+        "available_date": "2019-08-02",
+        "concept": "PaymentsToAcquirePropertyPlantAndEquipment",
+        "end": "2019-01-15",
+        "filed": "2019-08-01",
+        "fiscal_period": "Q2",
+        "fiscal_year": 2019,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "capex",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 27000000
+      },
+      "issues": [
+        "duration_metric_missing_start"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2019-10-31T20:06:31.000Z",
+        "accession": "0001097149-19-000036",
+        "available_date": "2019-11-01",
+        "concept": "PaymentsToAcquirePropertyPlantAndEquipment",
+        "end": "2019-01-15",
+        "filed": "2019-10-31",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2019,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "capex",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 27000000
+      },
+      "issues": [
+        "duration_metric_missing_start"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2020-02-28T21:17:53.000Z",
+        "accession": "0001097149-20-000008",
+        "available_date": "2020-02-29",
+        "concept": "PaymentsToAcquirePropertyPlantAndEquipment",
+        "end": "2019-01-15",
+        "filed": "2020-02-28",
+        "fiscal_period": "FY",
+        "fiscal_year": 2019,
+        "form": "10-K",
+        "frame": null,
+        "metric": "capex",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 27000000
+      },
+      "issues": [
+        "duration_metric_missing_start"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2020-05-05T20:40:23.000Z",
+        "accession": "0001097149-20-000025",
+        "available_date": "2020-05-06",
+        "concept": "PaymentsToAcquirePropertyPlantAndEquipment",
+        "end": "2019-01-15",
+        "filed": "2020-05-05",
+        "fiscal_period": "Q1",
+        "fiscal_year": 2020,
+        "form": "10-Q",
+        "frame": "CY2018Q4I",
+        "metric": "capex",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 27000000
+      },
+      "issues": [
+        "duration_metric_missing_start"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "duration_metric_missing_start": 5
+  },
+  "quarantined_fact_count": 5,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 1988,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "ALGN"
+}

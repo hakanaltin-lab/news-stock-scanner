@@ -1,13 +1,13 @@
 {
   "accession_count": 70,
-  "amendment_fact_count": 34,
+  "amendment_fact_count": 32,
   "availability_rule": "available_date = SEC filed date + 1 calendar day; conservative guard against same-day look-ahead. Exact current and historical acceptance timestamps from SEC submissions metadata are stored for audit but do not make the daily as-of date earlier.",
   "cik": "0000313616",
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "DANAHER CORPORATION",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2482,
-  "fact_count": 2482,
+  "exact_acceptance_fact_count": 2480,
+  "fact_count": 2480,
   "facts": [
     {
       "accepted_at": "2009-07-22T21:48:33.000Z",
@@ -2104,23 +2104,6 @@
       "accepted_at": "2010-08-10T22:38:47.000Z",
       "accession": "0001193125-10-185038",
       "available_date": "2010-08-12",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-07-03",
-      "filed": "2010-08-11",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q/A",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-01-01",
-      "unit": "pure",
-      "value": 0.8
-    },
-    {
-      "accepted_at": "2010-08-10T22:38:47.000Z",
-      "accession": "0001193125-10-185038",
-      "available_date": "2010-08-12",
       "concept": "NetIncomeLoss",
       "end": "2009-07-03",
       "filed": "2010-08-11",
@@ -2405,23 +2388,6 @@
       "start": "2010-04-03",
       "unit": "USD/shares",
       "value": 0.55
-    },
-    {
-      "accepted_at": "2010-08-10T22:38:47.000Z",
-      "accession": "0001193125-10-185038",
-      "available_date": "2010-08-12",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-07-02",
-      "filed": "2010-08-11",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q/A",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-01-01",
-      "unit": "pure",
-      "value": 1
     },
     {
       "accepted_at": "2010-08-10T22:38:47.000Z",
@@ -42214,8 +42180,8 @@
       "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
     ],
     "current_debt": [
-      "us-gaap:ShortTermBorrowings",
-      "us-gaap:LongTermDebtCurrent"
+      "us-gaap:LongTermDebtCurrent",
+      "us-gaap:ShortTermBorrowings"
     ],
     "eps_diluted": [
       "us-gaap:EarningsPerShareDiluted"
@@ -42255,7 +42221,7 @@
       "capex": 157,
       "cash": 286,
       "current_debt": 22,
-      "eps_diluted": 319,
+      "eps_diluted": 317,
       "long_term_debt": 140,
       "net_income": 305,
       "operating_cash_flow": 157,
@@ -42283,6 +42249,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/DHR.json",
+    "quarantined_fact_count": 2,
+    "source_fact_count": 2482,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 2
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -42317,7 +42296,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2482
+    "us-gaap": 2480
   },
   "ticker": "DHR"
 }

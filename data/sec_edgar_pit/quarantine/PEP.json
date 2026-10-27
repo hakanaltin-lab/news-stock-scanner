@@ -1,0 +1,63 @@
+{
+  "cik": "0000077476",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.3 SEC Unit and Period Contract",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2010-10-07T20:25:50.000Z",
+        "accession": "0001193125-10-225896",
+        "available_date": "2010-10-08",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2009-09-05",
+        "filed": "2010-10-07",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2010,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2008-12-28",
+        "unit": "pure",
+        "value": 2.87
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2010-10-07T20:25:50.000Z",
+        "accession": "0001193125-10-225896",
+        "available_date": "2010-10-08",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2010-09-04",
+        "filed": "2010-10-07",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2010,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-12-27",
+        "unit": "pure",
+        "value": 3.06
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "incompatible_metric_unit": 2
+  },
+  "quarantined_fact_count": 2,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 2481,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "PEP"
+}

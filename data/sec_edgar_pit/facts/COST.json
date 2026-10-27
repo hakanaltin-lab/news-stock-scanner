@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "COSTCO WHOLESALE CORP /NEW",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 3550,
-  "fact_count": 3550,
+  "exact_acceptance_fact_count": 3539,
+  "fact_count": 3539,
   "facts": [
     {
       "accepted_at": "2009-12-18T17:50:27.000Z",
@@ -2206,23 +2206,6 @@
       "accepted_at": "2010-10-15T22:40:36.000Z",
       "accession": "0001193125-10-230379",
       "available_date": "2010-10-19",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2008-08-31",
-      "filed": "2010-10-18",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2008",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2007-09-03",
-      "unit": "pure",
-      "value": 2.89
-    },
-    {
-      "accepted_at": "2010-10-15T22:40:36.000Z",
-      "accession": "0001193125-10-230379",
-      "available_date": "2010-10-19",
       "concept": "NetIncomeLoss",
       "end": "2008-08-31",
       "filed": "2010-10-18",
@@ -2359,23 +2342,6 @@
       "accepted_at": "2010-10-15T22:40:36.000Z",
       "accession": "0001193125-10-230379",
       "available_date": "2010-10-19",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2008-11-23",
-      "filed": "2010-10-18",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2008Q4",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-09-01",
-      "unit": "pure",
-      "value": 0.6
-    },
-    {
-      "accepted_at": "2010-10-15T22:40:36.000Z",
-      "accession": "0001193125-10-230379",
-      "available_date": "2010-10-19",
       "concept": "NetIncomeLoss",
       "end": "2008-11-23",
       "filed": "2010-10-18",
@@ -2461,23 +2427,6 @@
       "accepted_at": "2010-10-15T22:40:36.000Z",
       "accession": "0001193125-10-230379",
       "available_date": "2010-10-19",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-02-15",
-      "filed": "2010-10-18",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-11-24",
-      "unit": "pure",
-      "value": 0.55
-    },
-    {
-      "accepted_at": "2010-10-15T22:40:36.000Z",
-      "accession": "0001193125-10-230379",
-      "available_date": "2010-10-19",
       "concept": "NetIncomeLoss",
       "end": "2009-02-15",
       "filed": "2010-10-18",
@@ -2558,23 +2507,6 @@
       "start": "2008-11-24",
       "unit": "USD",
       "value": 16488000000
-    },
-    {
-      "accepted_at": "2010-10-15T22:40:36.000Z",
-      "accession": "0001193125-10-230379",
-      "available_date": "2010-10-19",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-05-10",
-      "filed": "2010-10-18",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2009Q1",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-02-16",
-      "unit": "pure",
-      "value": 0.48
     },
     {
       "accepted_at": "2010-10-15T22:40:36.000Z",
@@ -2728,40 +2660,6 @@
       "start": null,
       "unit": "USD",
       "value": 80000000
-    },
-    {
-      "accepted_at": "2010-10-15T22:40:36.000Z",
-      "accession": "0001193125-10-230379",
-      "available_date": "2010-10-19",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-08-30",
-      "filed": "2010-10-18",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2009",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-09-01",
-      "unit": "pure",
-      "value": 2.47
-    },
-    {
-      "accepted_at": "2010-10-15T22:40:36.000Z",
-      "accession": "0001193125-10-230379",
-      "available_date": "2010-10-19",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-08-30",
-      "filed": "2010-10-18",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2009Q3",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-05-11",
-      "unit": "pure",
-      "value": 0.85
     },
     {
       "accepted_at": "2010-10-15T22:40:36.000Z",
@@ -3039,23 +2937,6 @@
       "accepted_at": "2010-10-15T22:40:36.000Z",
       "accession": "0001193125-10-230379",
       "available_date": "2010-10-19",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-11-22",
-      "filed": "2010-10-18",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2009Q4",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-08-31",
-      "unit": "pure",
-      "value": 0.6
-    },
-    {
-      "accepted_at": "2010-10-15T22:40:36.000Z",
-      "accession": "0001193125-10-230379",
-      "available_date": "2010-10-19",
       "concept": "NetIncomeLoss",
       "end": "2009-11-22",
       "filed": "2010-10-18",
@@ -3141,23 +3022,6 @@
       "accepted_at": "2010-10-15T22:40:36.000Z",
       "accession": "0001193125-10-230379",
       "available_date": "2010-10-19",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-02-14",
-      "filed": "2010-10-18",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-11-23",
-      "unit": "pure",
-      "value": 0.67
-    },
-    {
-      "accepted_at": "2010-10-15T22:40:36.000Z",
-      "accession": "0001193125-10-230379",
-      "available_date": "2010-10-19",
       "concept": "NetIncomeLoss",
       "end": "2010-02-14",
       "filed": "2010-10-18",
@@ -3238,23 +3102,6 @@
       "start": "2009-11-23",
       "unit": "USD",
       "value": 18356000000
-    },
-    {
-      "accepted_at": "2010-10-15T22:40:36.000Z",
-      "accession": "0001193125-10-230379",
-      "available_date": "2010-10-19",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-05-09",
-      "filed": "2010-10-18",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2010Q1",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-02-15",
-      "unit": "pure",
-      "value": 0.68
     },
     {
       "accepted_at": "2010-10-15T22:40:36.000Z",
@@ -3408,40 +3255,6 @@
       "start": null,
       "unit": "USD",
       "value": 0
-    },
-    {
-      "accepted_at": "2010-10-15T22:40:36.000Z",
-      "accession": "0001193125-10-230379",
-      "available_date": "2010-10-19",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-08-29",
-      "filed": "2010-10-18",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2010",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-08-31",
-      "unit": "pure",
-      "value": 2.92
-    },
-    {
-      "accepted_at": "2010-10-15T22:40:36.000Z",
-      "accession": "0001193125-10-230379",
-      "available_date": "2010-10-19",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-08-29",
-      "filed": "2010-10-18",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2010Q3",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-05-10",
-      "unit": "pure",
-      "value": 0.97
     },
     {
       "accepted_at": "2010-10-15T22:40:36.000Z",
@@ -60370,8 +60183,8 @@
       "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
     ],
     "current_debt": [
-      "us-gaap:ShortTermBorrowings",
-      "us-gaap:LongTermDebtCurrent"
+      "us-gaap:LongTermDebtCurrent",
+      "us-gaap:ShortTermBorrowings"
     ],
     "eps_diluted": [
       "us-gaap:EarningsPerShareDiluted"
@@ -60411,7 +60224,7 @@
       "capex": 216,
       "cash": 308,
       "current_debt": 144,
-      "eps_diluted": 309,
+      "eps_diluted": 298,
       "long_term_debt": 136,
       "net_income": 595,
       "operating_cash_flow": 117,
@@ -60439,6 +60252,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/COST.json",
+    "quarantined_fact_count": 11,
+    "source_fact_count": 3550,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 11
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -60473,7 +60299,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 3550
+    "us-gaap": 3539
   },
   "ticker": "COST"
 }

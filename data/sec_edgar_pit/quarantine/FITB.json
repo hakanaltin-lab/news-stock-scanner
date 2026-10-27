@@ -1,0 +1,107 @@
+{
+  "cik": "0000035527",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.3 SEC Unit and Period Contract",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2011-11-09T19:29:16.000Z",
+        "accession": "0001193125-11-304217",
+        "available_date": "2011-11-10",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2010-09-30",
+        "filed": "2011-11-09",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2011,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2009-12-30",
+        "unit": "shares",
+        "value": 799000000
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2011-11-09T19:29:16.000Z",
+        "accession": "0001193125-11-304217",
+        "available_date": "2011-11-10",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2010-09-30",
+        "filed": "2011-11-09",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2011,
+        "form": "10-Q",
+        "frame": "CY2010Q3",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2010-07-01",
+        "unit": "shares",
+        "value": 797000000
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2011-11-09T19:29:16.000Z",
+        "accession": "0001193125-11-304217",
+        "available_date": "2011-11-10",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2011-09-30",
+        "filed": "2011-11-09",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2011,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2010-12-30",
+        "unit": "shares",
+        "value": 947000000
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2011-11-09T19:29:16.000Z",
+        "accession": "0001193125-11-304217",
+        "available_date": "2011-11-10",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2011-09-30",
+        "filed": "2011-11-09",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2011,
+        "form": "10-Q",
+        "frame": "CY2011Q3",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2011-07-01",
+        "unit": "shares",
+        "value": 955000000
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "incompatible_metric_unit": 4
+  },
+  "quarantined_fact_count": 4,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 1680,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "FITB"
+}

@@ -1,0 +1,63 @@
+{
+  "cik": "0000033213",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.3 SEC Unit and Period Contract",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2012-07-26T20:03:32.000Z",
+        "accession": "0001104659-12-051449",
+        "available_date": "2012-07-27",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2012-06-30",
+        "filed": "2012-07-26",
+        "fiscal_period": "Q2",
+        "fiscal_year": 2012,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2012-01-01",
+        "unit": "BillionsCubicFeet",
+        "value": 0.69
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2012-07-26T20:03:32.000Z",
+        "accession": "0001104659-12-051449",
+        "available_date": "2012-07-27",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2012-06-30",
+        "filed": "2012-07-26",
+        "fiscal_period": "Q2",
+        "fiscal_year": 2012,
+        "form": "10-Q",
+        "frame": "CY2012Q2",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2012-04-01",
+        "unit": "BillionsCubicFeet",
+        "value": 0.21
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "incompatible_metric_unit": 2
+  },
+  "quarantined_fact_count": 2,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 2745,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "EQT"
+}

@@ -1,0 +1,41 @@
+{
+  "cik": "0000927653",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.3 SEC Unit and Period Contract",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2011-05-05T20:02:58.000Z",
+        "accession": "0000950123-11-045634",
+        "available_date": "2011-05-06",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2011-03-31",
+        "filed": "2011-05-05",
+        "fiscal_period": "FY",
+        "fiscal_year": 2010,
+        "form": "10-K",
+        "frame": "CY2010",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2010-04-01",
+        "unit": "pure",
+        "value": 4.57
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "incompatible_metric_unit": 1
+  },
+  "quarantined_fact_count": 1,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 2687,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "MCK"
+}

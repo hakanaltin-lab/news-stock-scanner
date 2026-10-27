@@ -34198,14 +34198,17 @@
   },
   "point_in_time": true,
   "quality_curation": {
-    "admission_rules_changed": false,
-    "engine": "V8.9.2 SEC Fact Quarantine",
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
     "quarantine_file": "data/sec_edgar_pit/quarantine/GD.json",
     "quarantined_fact_count": 1,
     "source_fact_count": 2008,
     "source_quality_issues": {
       "period_end_after_filing": 1
-    }
+    },
+    "unit_conversion_applied": false
   },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",

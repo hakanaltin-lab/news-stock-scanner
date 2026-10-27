@@ -1,9 +1,9 @@
 {
-  "acceptance_fact_count": 1111418,
-  "amended_fact_count": 10543,
+  "acceptance_fact_count": 1111289,
+  "amended_fact_count": 10524,
   "attempted_ticker_count": 520,
   "availability_rule": "SEC filed date + 1 calendar day; acceptance timestamps are audit-only",
-  "changed_fact_files": 519,
+  "changed_fact_files": 89,
   "cik_coverage": {
     "assessed": true,
     "matched_ticker_count": 520,
@@ -11,11 +11,13 @@
     "universe_count": 520
   },
   "collection_ready": true,
-  "engine": "V8.9.2 SEC Fact Quarantine",
+  "engine": "V8.9.3 SEC Unit and Period Contract",
   "limitations": [
     "Current index constituents are a forward universe, not historical membership.",
     "Coverage is measured for this run; retained older facts are not counted as fresh success.",
     "Missing concepts may reflect issuer reporting or taxonomy differences.",
+    "Compatible currencies are preserved as reported; no FX conversion is applied.",
+    "Quarter, year-to-date and annual durations remain distinct and are never summed implicitly.",
     "No fundamental research hypothesis or live promotion is authorized by this report."
   ],
   "live_decisions_changed": false,
@@ -74,11 +76,11 @@
   "point_in_time_validation_passed": true,
   "quality_issues": {},
   "quality_summary": {
-    "amendment_fact_count": 10543,
+    "amendment_fact_count": 10524,
     "automatic_alpha_use_authorized": false,
     "cik_coverage_pct": 100.0,
     "cik_mapped_count": 520,
-    "exact_acceptance_fact_count": 1111418,
+    "exact_acceptance_fact_count": 1111289,
     "exact_acceptance_fact_coverage_pct": 99.99,
     "exact_acceptance_ticker_count": 519,
     "fact_ticker_count": 519,
@@ -120,18 +122,20 @@
     },
     "taxonomy_fact_counts": {
       "ifrs-full": 620,
-      "us-gaap": 1110879
+      "us-gaap": 1110750
     },
     "taxonomy_ticker_counts": {
       "ifrs-full": 4,
       "us-gaap": 516
     },
     "ticker_count": 520,
-    "total_fact_count": 1111499
+    "total_fact_count": 1111370
   },
-  "quarantined_fact_count": 12,
+  "quarantined_fact_count": 237,
   "research_use_authorized": false,
   "source_quality_issues": {
+    "duration_metric_missing_start": 9,
+    "incompatible_metric_unit": 216,
     "period_end_after_filing": 12
   },
   "status": "COMPLETE_WITH_GAPS",
@@ -141,21 +145,64 @@
   },
   "taxonomy_fact_counts": {
     "ifrs-full": 620,
-    "us-gaap": 1110879
+    "us-gaap": 1110750
   },
   "ticker_count": 520,
   "tickers_with_quarantined_facts": [
+    "ALGN",
+    "ALNY",
+    "AME",
+    "ATO",
+    "BRO",
+    "CAH",
+    "CCI",
+    "CLX",
+    "COST",
+    "CRM",
+    "CSCO",
+    "CVS",
+    "DHR",
+    "EBAY",
+    "EMR",
+    "EQT",
+    "FDX",
+    "FE",
+    "FITB",
     "GD",
+    "GEN",
+    "GILD",
+    "GS",
+    "IDXX",
+    "ISRG",
+    "KLAC",
+    "KMB",
+    "KO",
+    "LEN",
     "LLY",
+    "MCK",
+    "MDLZ",
     "MKC",
+    "NSC",
+    "NUE",
+    "OMC",
+    "ORLY",
+    "PEP",
     "ROP",
-    "WMT"
+    "ROST",
+    "SBUX",
+    "SHW",
+    "TROW",
+    "TRV",
+    "TT",
+    "VMRK",
+    "WMT",
+    "YUM"
   ],
   "universe_source": "CURRENT_SP500_NASDAQ100_UNION",
   "unusable_tickers": [
     "VYLR"
   ],
-  "updated_at": "2026-10-27T07:27:04.454378+00:00",
+  "updated_at": "2026-10-27T14:52:52.734481+00:00",
   "usable_ticker_count": 519,
-  "valid_fact_count": 1111499
+  "valid_fact_count": 1111370
 }

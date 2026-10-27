@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "Ross Stores, Inc.",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2422,
-  "fact_count": 2422,
+  "exact_acceptance_fact_count": 2420,
+  "fact_count": 2420,
   "facts": [
     {
       "accepted_at": "2010-06-09T10:01:03.000Z",
@@ -483,40 +483,6 @@
       "namespace": "us-gaap",
       "start": "2009-05-03",
       "unit": "USD/shares",
-      "value": 0.82
-    },
-    {
-      "accepted_at": "2010-09-08T10:01:03.000Z",
-      "accession": "0001206774-10-001976",
-      "available_date": "2010-09-09",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-08-01",
-      "filed": "2010-09-08",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-02-01",
-      "unit": "pure",
-      "value": 1.55
-    },
-    {
-      "accepted_at": "2010-09-08T10:01:03.000Z",
-      "accession": "0001206774-10-001976",
-      "available_date": "2010-09-09",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-08-01",
-      "filed": "2010-09-08",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2009Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-05-03",
-      "unit": "pure",
       "value": 0.82
     },
     {
@@ -41194,8 +41160,8 @@
       "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
     ],
     "current_debt": [
-      "us-gaap:ShortTermBorrowings",
-      "us-gaap:LongTermDebtCurrent"
+      "us-gaap:LongTermDebtCurrent",
+      "us-gaap:ShortTermBorrowings"
     ],
     "eps_diluted": [
       "us-gaap:EarningsPerShareDiluted"
@@ -41229,7 +41195,7 @@
       "capex": 152,
       "cash": 374,
       "current_debt": 89,
-      "eps_diluted": 310,
+      "eps_diluted": 308,
       "long_term_debt": 188,
       "net_income": 352,
       "operating_cash_flow": 152,
@@ -41257,6 +41223,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/ROST.json",
+    "quarantined_fact_count": 2,
+    "source_fact_count": 2422,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 2
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -41292,7 +41271,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2422
+    "us-gaap": 2420
   },
   "ticker": "ROST"
 }

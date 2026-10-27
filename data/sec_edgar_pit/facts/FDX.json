@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "FEDEX CORP",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 1991,
-  "fact_count": 1991,
+  "exact_acceptance_fact_count": 1988,
+  "fact_count": 1988,
   "facts": [
     {
       "accepted_at": "2009-09-18T16:11:08.000Z",
@@ -1118,23 +1118,6 @@
       "accepted_at": "2010-03-19T16:35:41.000Z",
       "accession": "0000950123-10-026283",
       "available_date": "2010-03-20",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-02-28",
-      "filed": "2010-03-19",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-06-01",
-      "unit": "shares",
-      "value": 2.43
-    },
-    {
-      "accepted_at": "2010-03-19T16:35:41.000Z",
-      "accession": "0000950123-10-026283",
-      "available_date": "2010-03-20",
       "concept": "LongTermDebtNoncurrent",
       "end": "2010-02-28",
       "filed": "2010-03-19",
@@ -1351,23 +1334,6 @@
       "start": null,
       "unit": "USD",
       "value": 1539000000
-    },
-    {
-      "accepted_at": "2010-07-15T19:33:17.000Z",
-      "accession": "0000950123-10-065730",
-      "available_date": "2010-07-16",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2008-05-31",
-      "filed": "2010-07-15",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2007",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2007-06-01",
-      "unit": "shares",
-      "value": 3.6
     },
     {
       "accepted_at": "2010-07-15T19:33:17.000Z",
@@ -2966,23 +2932,6 @@
       "start": null,
       "unit": "USD",
       "value": 2292000000
-    },
-    {
-      "accepted_at": "2011-07-12T21:20:39.000Z",
-      "accession": "0000950123-11-065246",
-      "available_date": "2011-07-13",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-05-31",
-      "filed": "2011-07-12",
-      "fiscal_period": "FY",
-      "fiscal_year": 2011,
-      "form": "10-K",
-      "frame": "CY2008",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-06-01",
-      "unit": "shares",
-      "value": 0.31
     },
     {
       "accepted_at": "2011-07-12T21:20:39.000Z",
@@ -33897,7 +33846,7 @@
     "metric_fact_counts": {
       "cash": 227,
       "current_debt": 9,
-      "eps_diluted": 301,
+      "eps_diluted": 298,
       "long_term_debt": 8,
       "net_income": 361,
       "operating_cash_flow": 133,
@@ -33925,6 +33874,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/FDX.json",
+    "quarantined_fact_count": 3,
+    "source_fact_count": 1991,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 3
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -33959,7 +33921,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 1991
+    "us-gaap": 1988
   },
   "ticker": "FDX"
 }

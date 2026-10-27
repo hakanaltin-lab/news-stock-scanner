@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "GILEAD SCIENCES, INC.",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2765,
-  "fact_count": 2765,
+  "exact_acceptance_fact_count": 2764,
+  "fact_count": 2764,
   "facts": [
     {
       "accepted_at": "2009-08-05T20:44:30.000Z",
@@ -2303,23 +2303,6 @@
       "start": "2010-01-01",
       "unit": "USD/shares",
       "value": 1.71
-    },
-    {
-      "accepted_at": "2010-08-09T10:20:57.000Z",
-      "accession": "0001193125-10-182351",
-      "available_date": "2010-08-10",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-08-09",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2010Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-04-01",
-      "unit": "pure",
-      "value": 0.79
     },
     {
       "accepted_at": "2010-08-09T10:20:57.000Z",
@@ -47062,7 +47045,7 @@
       "capex": 79,
       "cash": 284,
       "current_debt": 116,
-      "eps_diluted": 313,
+      "eps_diluted": 312,
       "long_term_debt": 116,
       "net_income": 621,
       "operating_cash_flow": 155,
@@ -47090,6 +47073,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/GILD.json",
+    "quarantined_fact_count": 1,
+    "source_fact_count": 2765,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 1
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -47124,7 +47120,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2765
+    "us-gaap": 2764
   },
   "ticker": "GILD"
 }

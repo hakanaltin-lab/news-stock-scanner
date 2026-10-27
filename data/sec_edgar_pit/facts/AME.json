@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "AMETEK, Inc.",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2439,
-  "fact_count": 2439,
+  "exact_acceptance_fact_count": 2429,
+  "fact_count": 2429,
   "facts": [
     {
       "accepted_at": "2009-08-05T21:22:42.000Z",
@@ -3277,23 +3277,6 @@
       "accepted_at": "2011-02-24T14:38:31.000Z",
       "accession": "0000950123-11-017564",
       "available_date": "2011-02-25",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-03-31",
-      "filed": "2011-02-24",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2009Q1",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-01-01",
-      "unit": "shares",
-      "value": 0.37
-    },
-    {
-      "accepted_at": "2011-02-24T14:38:31.000Z",
-      "accession": "0000950123-11-017564",
-      "available_date": "2011-02-25",
       "concept": "NetIncomeLoss",
       "end": "2009-03-31",
       "filed": "2011-02-24",
@@ -3340,23 +3323,6 @@
       "start": "2009-01-01",
       "unit": "USD",
       "value": 552866000
-    },
-    {
-      "accepted_at": "2011-02-24T14:38:31.000Z",
-      "accession": "0000950123-11-017564",
-      "available_date": "2011-02-25",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2011-02-24",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2009Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-04-01",
-      "unit": "shares",
-      "value": 0.32
     },
     {
       "accepted_at": "2011-02-24T14:38:31.000Z",
@@ -3413,23 +3379,6 @@
       "accepted_at": "2011-02-24T14:38:31.000Z",
       "accession": "0000950123-11-017564",
       "available_date": "2011-02-25",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-09-30",
-      "filed": "2011-02-24",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2009Q3",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-07-01",
-      "unit": "shares",
-      "value": 0.27
-    },
-    {
-      "accepted_at": "2011-02-24T14:38:31.000Z",
-      "accession": "0000950123-11-017564",
-      "available_date": "2011-02-25",
       "concept": "NetIncomeLoss",
       "end": "2009-09-30",
       "filed": "2011-02-24",
@@ -3476,23 +3425,6 @@
       "start": "2009-07-01",
       "unit": "USD",
       "value": 497060000
-    },
-    {
-      "accepted_at": "2011-02-24T14:38:31.000Z",
-      "accession": "0000950123-11-017564",
-      "available_date": "2011-02-25",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-12-30",
-      "filed": "2011-02-24",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2009Q4",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-10-01",
-      "unit": "shares",
-      "value": 0.32
     },
     {
       "accepted_at": "2011-02-24T14:38:31.000Z",
@@ -3611,23 +3543,6 @@
       "namespace": "us-gaap",
       "start": "2009-01-01",
       "unit": "USD/shares",
-      "value": 1.27
-    },
-    {
-      "accepted_at": "2011-02-24T14:38:31.000Z",
-      "accession": "0000950123-11-017564",
-      "available_date": "2011-02-25",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-12-31",
-      "filed": "2011-02-24",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2009",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-01-01",
-      "unit": "shares",
       "value": 1.27
     },
     {
@@ -3770,23 +3685,6 @@
       "accepted_at": "2011-02-24T14:38:31.000Z",
       "accession": "0000950123-11-017564",
       "available_date": "2011-02-25",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-03-31",
-      "filed": "2011-02-24",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2010Q1",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-01-01",
-      "unit": "shares",
-      "value": 0.36
-    },
-    {
-      "accepted_at": "2011-02-24T14:38:31.000Z",
-      "accession": "0000950123-11-017564",
-      "available_date": "2011-02-25",
       "concept": "NetIncomeLoss",
       "end": "2010-03-31",
       "filed": "2011-02-24",
@@ -3838,23 +3736,6 @@
       "accepted_at": "2011-02-24T14:38:31.000Z",
       "accession": "0000950123-11-017564",
       "available_date": "2011-02-25",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2011-02-24",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2010Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-04-01",
-      "unit": "shares",
-      "value": 0.42
-    },
-    {
-      "accepted_at": "2011-02-24T14:38:31.000Z",
-      "accession": "0000950123-11-017564",
-      "available_date": "2011-02-25",
       "concept": "NetIncomeLoss",
       "end": "2010-06-30",
       "filed": "2011-02-24",
@@ -3901,23 +3782,6 @@
       "start": "2010-04-01",
       "unit": "USD",
       "value": 591941000
-    },
-    {
-      "accepted_at": "2011-02-24T14:38:31.000Z",
-      "accession": "0000950123-11-017564",
-      "available_date": "2011-02-25",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-09-30",
-      "filed": "2011-02-24",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2010Q3",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-07-01",
-      "unit": "shares",
-      "value": 0.48
     },
     {
       "accepted_at": "2011-02-24T14:38:31.000Z",
@@ -4037,40 +3901,6 @@
       "start": "2010-01-01",
       "unit": "USD/shares",
       "value": 1.76
-    },
-    {
-      "accepted_at": "2011-02-24T14:38:31.000Z",
-      "accession": "0000950123-11-017564",
-      "available_date": "2011-02-25",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-12-31",
-      "filed": "2011-02-24",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2010",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-01-01",
-      "unit": "shares",
-      "value": 1.76
-    },
-    {
-      "accepted_at": "2011-02-24T14:38:31.000Z",
-      "accession": "0000950123-11-017564",
-      "available_date": "2011-02-25",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-12-31",
-      "filed": "2011-02-24",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2010Q4",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-10-01",
-      "unit": "shares",
-      "value": 0.5
     },
     {
       "accepted_at": "2011-02-24T14:38:31.000Z",
@@ -41521,7 +41351,7 @@
       "capex": 155,
       "cash": 324,
       "current_debt": 8,
-      "eps_diluted": 307,
+      "eps_diluted": 297,
       "long_term_debt": 138,
       "net_income": 377,
       "operating_cash_flow": 117,
@@ -41549,6 +41379,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/AME.json",
+    "quarantined_fact_count": 10,
+    "source_fact_count": 2439,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 10
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -41582,7 +41425,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2439
+    "us-gaap": 2429
   },
   "ticker": "AME"
 }

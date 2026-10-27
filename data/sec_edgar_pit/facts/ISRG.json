@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "Intuitive Surgical, Inc.",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2449,
-  "fact_count": 2449,
+  "exact_acceptance_fact_count": 2441,
+  "fact_count": 2441,
   "facts": [
     {
       "accepted_at": "2009-07-23T20:07:31.000Z",
@@ -1832,40 +1832,6 @@
       "accepted_at": "2010-07-23T00:49:59.000Z",
       "accession": "0001193125-10-164132",
       "available_date": "2010-07-24",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2010-07-23",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-01-01",
-      "unit": "pure",
-      "value": 2.32
-    },
-    {
-      "accepted_at": "2010-07-23T00:49:59.000Z",
-      "accession": "0001193125-10-164132",
-      "available_date": "2010-07-24",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2010-07-23",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2009Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-04-01",
-      "unit": "pure",
-      "value": 1.62
-    },
-    {
-      "accepted_at": "2010-07-23T00:49:59.000Z",
-      "accession": "0001193125-10-164132",
-      "available_date": "2010-07-24",
       "concept": "NetIncomeLoss",
       "end": "2009-06-30",
       "filed": "2010-07-23",
@@ -2098,40 +2064,6 @@
       "namespace": "us-gaap",
       "start": "2010-04-01",
       "unit": "USD/shares",
-      "value": 2.19
-    },
-    {
-      "accepted_at": "2010-07-23T00:49:59.000Z",
-      "accession": "0001193125-10-164132",
-      "available_date": "2010-07-24",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-07-23",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-01-01",
-      "unit": "pure",
-      "value": 4.31
-    },
-    {
-      "accepted_at": "2010-07-23T00:49:59.000Z",
-      "accession": "0001193125-10-164132",
-      "available_date": "2010-07-24",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-07-23",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2010Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-04-01",
-      "unit": "pure",
       "value": 2.19
     },
     {
@@ -2376,40 +2308,6 @@
       "accepted_at": "2010-10-20T21:27:05.000Z",
       "accession": "0001193125-10-232766",
       "available_date": "2010-10-21",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-09-30",
-      "filed": "2010-10-20",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-01-01",
-      "unit": "pure",
-      "value": 3.97
-    },
-    {
-      "accepted_at": "2010-10-20T21:27:05.000Z",
-      "accession": "0001193125-10-232766",
-      "available_date": "2010-10-21",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-09-30",
-      "filed": "2010-10-20",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2009Q3",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-07-01",
-      "unit": "pure",
-      "value": 1.64
-    },
-    {
-      "accepted_at": "2010-10-20T21:27:05.000Z",
-      "accession": "0001193125-10-232766",
-      "available_date": "2010-10-21",
       "concept": "NetIncomeLoss",
       "end": "2009-09-30",
       "filed": "2010-10-20",
@@ -2642,40 +2540,6 @@
       "namespace": "us-gaap",
       "start": "2010-07-01",
       "unit": "USD/shares",
-      "value": 2.14
-    },
-    {
-      "accepted_at": "2010-10-20T21:27:05.000Z",
-      "accession": "0001193125-10-232766",
-      "available_date": "2010-10-21",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-09-30",
-      "filed": "2010-10-20",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-01-01",
-      "unit": "pure",
-      "value": 6.45
-    },
-    {
-      "accepted_at": "2010-10-20T21:27:05.000Z",
-      "accession": "0001193125-10-232766",
-      "available_date": "2010-10-21",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-09-30",
-      "filed": "2010-10-20",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2010Q3",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-07-01",
-      "unit": "pure",
       "value": 2.14
     },
     {
@@ -41685,7 +41549,7 @@
     "metric_fact_counts": {
       "capex": 2,
       "cash": 350,
-      "eps_diluted": 333,
+      "eps_diluted": 325,
       "net_income": 439,
       "operating_cash_flow": 157,
       "operating_income": 229,
@@ -41713,6 +41577,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/ISRG.json",
+    "quarantined_fact_count": 8,
+    "source_fact_count": 2449,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 8
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -41747,7 +41624,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2449
+    "us-gaap": 2441
   },
   "ticker": "ISRG"
 }

@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "ATMOS ENERGY CORP",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2072,
-  "fact_count": 2072,
+  "exact_acceptance_fact_count": 2063,
+  "fact_count": 2063,
   "facts": [
     {
       "accepted_at": "2010-08-05T16:44:37.000Z",
@@ -42,40 +42,6 @@
       "start": null,
       "unit": "USD",
       "value": 125735000
-    },
-    {
-      "accepted_at": "2010-08-05T16:44:37.000Z",
-      "accession": "0000950123-10-073148",
-      "available_date": "2010-08-06",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2010-08-05",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-10-01",
-      "unit": "shares/USD",
-      "value": 2.25
-    },
-    {
-      "accepted_at": "2010-08-05T16:44:37.000Z",
-      "accession": "0000950123-10-073148",
-      "available_date": "2010-08-06",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2010-08-05",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2009Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-04-01",
-      "unit": "shares/USD",
-      "value": 0.02
     },
     {
       "accepted_at": "2010-08-05T16:44:37.000Z",
@@ -319,40 +285,6 @@
       "accepted_at": "2010-08-05T16:44:37.000Z",
       "accession": "0000950123-10-073148",
       "available_date": "2010-08-06",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-08-05",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-10-01",
-      "unit": "shares/USD",
-      "value": 2.18
-    },
-    {
-      "accepted_at": "2010-08-05T16:44:37.000Z",
-      "accession": "0000950123-10-073148",
-      "available_date": "2010-08-06",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-08-05",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2010Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-04-01",
-      "unit": "shares/USD",
-      "value": -0.03
-    },
-    {
-      "accepted_at": "2010-08-05T16:44:37.000Z",
-      "accession": "0000950123-10-073148",
-      "available_date": "2010-08-06",
       "concept": "LongTermDebtNoncurrent",
       "end": "2010-06-30",
       "filed": "2010-08-05",
@@ -540,23 +472,6 @@
       "accepted_at": "2010-11-12T22:06:47.000Z",
       "accession": "0000950123-10-105040",
       "available_date": "2010-11-13",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2008-09-30",
-      "filed": "2010-11-12",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2008",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2007-10-01",
-      "unit": "shares/USD",
-      "value": 1.99
-    },
-    {
-      "accepted_at": "2010-11-12T22:06:47.000Z",
-      "accession": "0000950123-10-105040",
-      "available_date": "2010-11-13",
       "concept": "NetIncomeLoss",
       "end": "2008-09-30",
       "filed": "2010-11-12",
@@ -671,23 +586,6 @@
       "start": null,
       "unit": "USD",
       "value": 131000
-    },
-    {
-      "accepted_at": "2010-11-12T22:06:47.000Z",
-      "accession": "0000950123-10-105040",
-      "available_date": "2010-11-13",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-09-30",
-      "filed": "2010-11-12",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2009",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-10-01",
-      "unit": "shares/USD",
-      "value": 2.07
     },
     {
       "accepted_at": "2010-11-12T22:06:47.000Z",
@@ -846,23 +744,6 @@
       "accepted_at": "2010-11-12T22:06:47.000Z",
       "accession": "0000950123-10-105040",
       "available_date": "2010-11-13",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-09-30",
-      "filed": "2010-11-12",
-      "fiscal_period": "FY",
-      "fiscal_year": 2010,
-      "form": "10-K",
-      "frame": "CY2010",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-10-01",
-      "unit": "shares/USD",
-      "value": 2.2
-    },
-    {
-      "accepted_at": "2010-11-12T22:06:47.000Z",
-      "accession": "0000950123-10-105040",
-      "available_date": "2010-11-13",
       "concept": "LongTermDebtNoncurrent",
       "end": "2010-09-30",
       "filed": "2010-11-12",
@@ -994,23 +875,6 @@
       "start": null,
       "unit": "USD",
       "value": 174829
-    },
-    {
-      "accepted_at": "2011-02-09T19:59:50.000Z",
-      "accession": "0000950123-11-010942",
-      "available_date": "2011-02-10",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-12-31",
-      "filed": "2011-02-09",
-      "fiscal_period": "Q1",
-      "fiscal_year": 2011,
-      "form": "10-Q",
-      "frame": "CY2009Q4",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-10-01",
-      "unit": "shares/USD",
-      "value": 1
     },
     {
       "accepted_at": "2011-02-09T19:59:50.000Z",
@@ -1215,23 +1079,6 @@
       "start": null,
       "unit": "USD",
       "value": 352434
-    },
-    {
-      "accepted_at": "2011-02-09T19:59:50.000Z",
-      "accession": "0000950123-11-010942",
-      "available_date": "2011-02-10",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-12-31",
-      "filed": "2011-02-09",
-      "fiscal_period": "Q1",
-      "fiscal_year": 2011,
-      "form": "10-Q",
-      "frame": "CY2010Q4",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-10-01",
-      "unit": "shares/USD",
-      "value": 0.81
     },
     {
       "accepted_at": "2011-02-09T19:59:50.000Z",
@@ -35241,8 +35088,8 @@
       "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
     ],
     "current_debt": [
-      "us-gaap:ShortTermBorrowings",
-      "us-gaap:LongTermDebtCurrent"
+      "us-gaap:LongTermDebtCurrent",
+      "us-gaap:ShortTermBorrowings"
     ],
     "eps_diluted": [
       "us-gaap:EarningsPerShareDiluted"
@@ -35275,7 +35122,7 @@
     "metric_fact_counts": {
       "cash": 314,
       "current_debt": 164,
-      "eps_diluted": 240,
+      "eps_diluted": 231,
       "long_term_debt": 76,
       "net_income": 346,
       "operating_cash_flow": 146,
@@ -35303,6 +35150,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/ATO.json",
+    "quarantined_fact_count": 9,
+    "source_fact_count": 2072,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 9
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -35337,7 +35197,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2072
+    "us-gaap": 2063
   },
   "ticker": "ATO"
 }

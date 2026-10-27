@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "LENNAR CORP /NEW/",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2468,
-  "fact_count": 2468,
+  "exact_acceptance_fact_count": 2464,
+  "fact_count": 2464,
   "facts": [
     {
       "accepted_at": "2010-10-08T21:04:09.000Z",
@@ -59,40 +59,6 @@
       "start": null,
       "unit": "USD",
       "value": 1483052000
-    },
-    {
-      "accepted_at": "2010-10-08T21:04:09.000Z",
-      "accession": "0001193125-10-226976",
-      "available_date": "2010-10-09",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-08-31",
-      "filed": "2010-10-08",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2008-12-01",
-      "unit": "pure",
-      "value": -2.72
-    },
-    {
-      "accepted_at": "2010-10-08T21:04:09.000Z",
-      "accession": "0001193125-10-226976",
-      "available_date": "2010-10-09",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-08-31",
-      "filed": "2010-10-08",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2009Q3",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-06-01",
-      "unit": "pure",
-      "value": -0.97
     },
     {
       "accepted_at": "2010-10-08T21:04:09.000Z",
@@ -331,40 +297,6 @@
       "start": null,
       "unit": "USD",
       "value": 1037534000
-    },
-    {
-      "accepted_at": "2010-10-08T21:04:09.000Z",
-      "accession": "0001193125-10-226976",
-      "available_date": "2010-10-09",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-08-31",
-      "filed": "2010-10-08",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-12-01",
-      "unit": "pure",
-      "value": 0.34
-    },
-    {
-      "accepted_at": "2010-10-08T21:04:09.000Z",
-      "accession": "0001193125-10-226976",
-      "available_date": "2010-10-09",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-08-31",
-      "filed": "2010-10-08",
-      "fiscal_period": "Q3",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2010Q3",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-06-01",
-      "unit": "pure",
-      "value": 0.16
     },
     {
       "accepted_at": "2010-10-08T21:04:09.000Z",
@@ -42007,7 +41939,7 @@
     "metric_fact_counts": {
       "capex": 96,
       "cash": 286,
-      "eps_diluted": 302,
+      "eps_diluted": 298,
       "net_income": 522,
       "operating_cash_flow": 151,
       "operating_income": 141,
@@ -42035,6 +41967,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/LEN.json",
+    "quarantined_fact_count": 4,
+    "source_fact_count": 2468,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 4
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -42069,7 +42014,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2468
+    "us-gaap": 2464
   },
   "ticker": "LEN"
 }

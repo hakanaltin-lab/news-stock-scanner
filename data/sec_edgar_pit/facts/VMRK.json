@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "Vivmark Residential",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2081,
-  "fact_count": 2081,
+  "exact_acceptance_fact_count": 2077,
+  "fact_count": 2077,
   "facts": [
     {
       "accepted_at": "2009-08-06T20:41:43.000Z",
@@ -2053,40 +2053,6 @@
       "accepted_at": "2010-08-05T15:19:07.000Z",
       "accession": "0001193125-10-178651",
       "available_date": "2010-08-06",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2010-08-05",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-01-01",
-      "unit": "pure",
-      "value": 0.637
-    },
-    {
-      "accepted_at": "2010-08-05T15:19:07.000Z",
-      "accession": "0001193125-10-178651",
-      "available_date": "2010-08-06",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2010-08-05",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2009Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-04-01",
-      "unit": "pure",
-      "value": 0.354
-    },
-    {
-      "accepted_at": "2010-08-05T15:19:07.000Z",
-      "accession": "0001193125-10-178651",
-      "available_date": "2010-08-06",
       "concept": "NetIncomeLoss",
       "end": "2009-06-30",
       "filed": "2010-08-05",
@@ -2371,40 +2337,6 @@
       "start": "2010-04-01",
       "unit": "USD/shares",
       "value": 0.02
-    },
-    {
-      "accepted_at": "2010-08-05T15:19:07.000Z",
-      "accession": "0001193125-10-178651",
-      "available_date": "2010-08-06",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-08-05",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-01-01",
-      "unit": "pure",
-      "value": 0.205
-    },
-    {
-      "accepted_at": "2010-08-05T15:19:07.000Z",
-      "accession": "0001193125-10-178651",
-      "available_date": "2010-08-06",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-08-05",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2010Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-04-01",
-      "unit": "pure",
-      "value": 0.022
     },
     {
       "accepted_at": "2010-08-05T15:19:07.000Z",
@@ -35425,7 +35357,7 @@
     "canonical_metric_count": 12,
     "metric_fact_counts": {
       "cash": 257,
-      "eps_diluted": 261,
+      "eps_diluted": 257,
       "net_income": 462,
       "operating_cash_flow": 155,
       "operating_income": 223,
@@ -35453,6 +35385,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/VMRK.json",
+    "quarantined_fact_count": 4,
+    "source_fact_count": 2081,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 4
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -35488,7 +35433,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2081
+    "us-gaap": 2077
   },
   "ticker": "VMRK"
 }

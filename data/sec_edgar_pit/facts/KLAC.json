@@ -1,13 +1,13 @@
 {
   "accession_count": 64,
-  "amendment_fact_count": 26,
+  "amendment_fact_count": 24,
   "availability_rule": "available_date = SEC filed date + 1 calendar day; conservative guard against same-day look-ahead. Exact current and historical acceptance timestamps from SEC submissions metadata are stored for audit but do not make the daily as-of date earlier.",
   "cik": "0000319201",
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "KLA Corporation",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2387,
-  "fact_count": 2387,
+  "exact_acceptance_fact_count": 2385,
+  "fact_count": 2385,
   "facts": [
     {
       "accepted_at": "2010-11-23T22:51:11.000Z",
@@ -75,23 +75,6 @@
       "namespace": "us-gaap",
       "start": "2009-07-01",
       "unit": "USD/shares",
-      "value": 0.12
-    },
-    {
-      "accepted_at": "2010-11-23T22:51:11.000Z",
-      "accession": "0001193125-10-267778",
-      "available_date": "2010-11-25",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-09-30",
-      "filed": "2010-11-24",
-      "fiscal_period": "Q1",
-      "fiscal_year": 2011,
-      "form": "10-Q/A",
-      "frame": "CY2009Q3",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-07-01",
-      "unit": "pure",
       "value": 0.12
     },
     {
@@ -296,23 +279,6 @@
       "namespace": "us-gaap",
       "start": "2010-07-01",
       "unit": "USD/shares",
-      "value": 0.91
-    },
-    {
-      "accepted_at": "2010-11-23T22:51:11.000Z",
-      "accession": "0001193125-10-267778",
-      "available_date": "2010-11-25",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-09-30",
-      "filed": "2010-11-24",
-      "fiscal_period": "Q1",
-      "fiscal_year": 2011,
-      "form": "10-Q/A",
-      "frame": "CY2010Q3",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-07-01",
-      "unit": "pure",
       "value": 0.91
     },
     {
@@ -40599,8 +40565,8 @@
       "us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
     ],
     "current_debt": [
-      "us-gaap:ShortTermBorrowings",
-      "us-gaap:LongTermDebtCurrent"
+      "us-gaap:LongTermDebtCurrent",
+      "us-gaap:ShortTermBorrowings"
     ],
     "eps_diluted": [
       "us-gaap:EarningsPerShareDiluted"
@@ -40640,7 +40606,7 @@
       "capex": 144,
       "cash": 314,
       "current_debt": 70,
-      "eps_diluted": 298,
+      "eps_diluted": 296,
       "long_term_debt": 50,
       "net_income": 417,
       "operating_cash_flow": 144,
@@ -40668,6 +40634,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/KLAC.json",
+    "quarantined_fact_count": 2,
+    "source_fact_count": 2387,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 2
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -40701,7 +40680,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2387
+    "us-gaap": 2385
   },
   "ticker": "KLAC"
 }

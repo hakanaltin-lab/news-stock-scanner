@@ -1,0 +1,63 @@
+{
+  "cik": "0001178670",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.3 SEC Unit and Period Contract",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2020-02-13T13:29:30.000Z",
+        "accession": "0001178670-20-000004",
+        "available_date": "2020-02-14",
+        "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "end": "2018-01-01",
+        "filed": "2020-02-13",
+        "fiscal_period": "FY",
+        "fiscal_year": 2019,
+        "form": "10-K",
+        "frame": null,
+        "metric": "revenue",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 2900000
+      },
+      "issues": [
+        "duration_metric_missing_start"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2021-02-11T21:13:06.000Z",
+        "accession": "0001178670-21-000010",
+        "available_date": "2021-02-12",
+        "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "end": "2018-01-01",
+        "filed": "2021-02-11",
+        "fiscal_period": "FY",
+        "fiscal_year": 2020,
+        "form": "10-K",
+        "frame": "CY2017Q4I",
+        "metric": "revenue",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 2900000
+      },
+      "issues": [
+        "duration_metric_missing_start"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "duration_metric_missing_start": 2
+  },
+  "quarantined_fact_count": 2,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 1822,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "ALNY"
+}

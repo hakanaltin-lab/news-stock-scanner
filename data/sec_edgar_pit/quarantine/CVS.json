@@ -1,0 +1,41 @@
+{
+  "cik": "0000064803",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.3 SEC Unit and Period Contract",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2013-02-15T22:28:33.000Z",
+        "accession": "0001104659-13-011354",
+        "available_date": "2013-02-16",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2010-12-31",
+        "filed": "2013-02-15",
+        "fiscal_period": "FY",
+        "fiscal_year": 2012,
+        "form": "10-K",
+        "frame": "CY2010",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": "2010-01-01",
+        "unit": "segment",
+        "value": 2.49
+      },
+      "issues": [
+        "incompatible_metric_unit"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "incompatible_metric_unit": 1
+  },
+  "quarantined_fact_count": 1,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 2914,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "CVS"
+}

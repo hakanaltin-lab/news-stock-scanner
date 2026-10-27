@@ -1,0 +1,63 @@
+{
+  "cik": "0000886982",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.3 SEC Unit and Period Contract",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2011-03-01T02:34:23.000Z",
+        "accession": "0000950123-11-020067",
+        "available_date": "2011-03-02",
+        "concept": "EarningsPerShareDiluted",
+        "end": "2008-12-31",
+        "filed": "2011-03-01",
+        "fiscal_period": "FY",
+        "fiscal_year": 2010,
+        "form": "10-K",
+        "frame": "CY2008Q4I",
+        "metric": "eps_diluted",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD/shares",
+        "value": -2.15
+      },
+      "issues": [
+        "duration_metric_missing_start"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2011-03-01T02:34:23.000Z",
+        "accession": "0000950123-11-020067",
+        "available_date": "2011-03-02",
+        "concept": "NetIncomeLoss",
+        "end": "2008-12-31",
+        "filed": "2011-03-01",
+        "fiscal_period": "FY",
+        "fiscal_year": 2010,
+        "form": "10-K",
+        "frame": "CY2008Q4I",
+        "metric": "net_income",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": -780000000
+      },
+      "issues": [
+        "duration_metric_missing_start"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "duration_metric_missing_start": 2
+  },
+  "quarantined_fact_count": 2,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 1610,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "GS"
+}

@@ -6,8 +6,8 @@
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
   "entity_name": "NORFOLK SOUTHERN CORP",
   "exact_acceptance_coverage_pct": 100.0,
-  "exact_acceptance_fact_count": 2568,
-  "fact_count": 2568,
+  "exact_acceptance_fact_count": 2564,
+  "fact_count": 2564,
   "facts": [
     {
       "accepted_at": "2009-10-30T15:37:44.000Z",
@@ -1560,40 +1560,6 @@
       "accepted_at": "2010-07-30T15:53:02.000Z",
       "accession": "0000702165-10-000123",
       "available_date": "2010-07-31",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2010-07-30",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-01-01",
-      "unit": "pure",
-      "value": 1.13
-    },
-    {
-      "accepted_at": "2010-07-30T15:53:02.000Z",
-      "accession": "0000702165-10-000123",
-      "available_date": "2010-07-31",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2009-06-30",
-      "filed": "2010-07-30",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2009Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2009-04-01",
-      "unit": "pure",
-      "value": 0.66
-    },
-    {
-      "accepted_at": "2010-07-30T15:53:02.000Z",
-      "accession": "0000702165-10-000123",
-      "available_date": "2010-07-31",
       "concept": "ProfitLoss",
       "end": "2009-06-30",
       "filed": "2010-07-30",
@@ -1877,40 +1843,6 @@
       "namespace": "us-gaap",
       "start": "2010-04-01",
       "unit": "USD/shares",
-      "value": 1.04
-    },
-    {
-      "accepted_at": "2010-07-30T15:53:02.000Z",
-      "accession": "0000702165-10-000123",
-      "available_date": "2010-07-31",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-07-30",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": null,
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-01-01",
-      "unit": "pure",
-      "value": 1.72
-    },
-    {
-      "accepted_at": "2010-07-30T15:53:02.000Z",
-      "accession": "0000702165-10-000123",
-      "available_date": "2010-07-31",
-      "concept": "EarningsPerShareDiluted",
-      "end": "2010-06-30",
-      "filed": "2010-07-30",
-      "fiscal_period": "Q2",
-      "fiscal_year": 2010,
-      "form": "10-Q",
-      "frame": "CY2010Q2",
-      "metric": "eps_diluted",
-      "namespace": "us-gaap",
-      "start": "2010-04-01",
-      "unit": "pure",
       "value": 1.04
     },
     {
@@ -43712,7 +43644,7 @@
       "capex": 155,
       "cash": 342,
       "current_debt": 92,
-      "eps_diluted": 317,
+      "eps_diluted": 313,
       "net_income": 361,
       "operating_cash_flow": 128,
       "operating_income": 313,
@@ -43740,6 +43672,19 @@
     ]
   },
   "point_in_time": true,
+  "quality_curation": {
+    "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+    "admission_rules_changed": true,
+    "engine": "V8.9.3 SEC Unit and Period Contract",
+    "period_dates_inferred": false,
+    "quarantine_file": "data/sec_edgar_pit/quarantine/NSC.json",
+    "quarantined_fact_count": 4,
+    "source_fact_count": 2568,
+    "source_quality_issues": {
+      "incompatible_metric_unit": 4
+    },
+    "unit_conversion_applied": false
+  },
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
@@ -43780,7 +43725,7 @@
     "us-gaap"
   ],
   "taxonomy_fact_counts": {
-    "us-gaap": 2568
+    "us-gaap": 2564
   },
   "ticker": "NSC"
 }
