@@ -20725,6 +20725,12 @@
   "point_in_time": true,
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_taxonomy_concept_counts": {
+    "dei": 3,
+    "ecd": 3,
+    "ffd": 4,
+    "us-gaap": 443
+  },
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],

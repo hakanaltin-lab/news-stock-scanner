@@ -1,0 +1,41 @@
+{
+  "cik": "0000104169",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.2 SEC Fact Quarantine",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2012-03-27T21:22:22.000Z",
+        "accession": "0001193125-12-134679",
+        "available_date": "2012-03-28",
+        "concept": "CashAndCashEquivalentsAtCarryingValue",
+        "end": "2012-12-31",
+        "filed": "2012-03-27",
+        "fiscal_period": "FY",
+        "fiscal_year": 2011,
+        "form": "10-K",
+        "frame": "CY2012Q4I",
+        "metric": "cash",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 6600000000
+      },
+      "issues": [
+        "period_end_after_filing"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "period_end_after_filing": 1
+  },
+  "quarantined_fact_count": 1,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 3726,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "WMT"
+}

@@ -1,9 +1,9 @@
 {
-  "acceptance_fact_count": 1098356,
-  "amended_fact_count": 10413,
+  "acceptance_fact_count": 1111418,
+  "amended_fact_count": 10543,
   "attempted_ticker_count": 520,
   "availability_rule": "SEC filed date + 1 calendar day; acceptance timestamps are audit-only",
-  "changed_fact_files": 514,
+  "changed_fact_files": 519,
   "cik_coverage": {
     "assessed": true,
     "matched_ticker_count": 520,
@@ -11,7 +11,7 @@
     "universe_count": 520
   },
   "collection_ready": true,
-  "engine": "V8.9.1 SEC Archive Readiness",
+  "engine": "V8.9.2 SEC Fact Quarantine",
   "limitations": [
     "Current index constituents are a forward universe, not historical membership.",
     "Coverage is measured for this run; retained older facts are not counted as fresh success.",
@@ -22,99 +22,97 @@
   "live_execution_authorized": false,
   "metric_coverage": {
     "capex": {
-      "ticker_count": 409,
+      "ticker_count": 412,
       "universe_count": 520
     },
     "cash": {
-      "ticker_count": 513,
+      "ticker_count": 518,
       "universe_count": 520
     },
     "current_debt": {
-      "ticker_count": 399,
+      "ticker_count": 403,
       "universe_count": 520
     },
     "eps_diluted": {
-      "ticker_count": 507,
+      "ticker_count": 512,
       "universe_count": 520
     },
     "long_term_debt": {
-      "ticker_count": 348,
+      "ticker_count": 353,
       "universe_count": 520
     },
     "net_income": {
-      "ticker_count": 514,
+      "ticker_count": 519,
       "universe_count": 520
     },
     "operating_cash_flow": {
-      "ticker_count": 513,
+      "ticker_count": 518,
       "universe_count": 520
     },
     "operating_income": {
-      "ticker_count": 433,
+      "ticker_count": 437,
       "universe_count": 520
     },
     "revenue": {
-      "ticker_count": 502,
+      "ticker_count": 507,
       "universe_count": 520
     },
     "stockholders_equity": {
-      "ticker_count": 514,
+      "ticker_count": 519,
       "universe_count": 520
     },
     "total_assets": {
-      "ticker_count": 514,
+      "ticker_count": 519,
       "universe_count": 520
     },
     "total_liabilities": {
-      "ticker_count": 388,
+      "ticker_count": 390,
       "universe_count": 520
     }
   },
   "paper_order_submission_authorized": false,
-  "point_in_time_validation_passed": false,
-  "quality_issues": {
-    "period_end_after_filing": 12
-  },
+  "point_in_time_validation_passed": true,
+  "quality_issues": {},
   "quality_summary": {
-    "amendment_fact_count": 10413,
+    "amendment_fact_count": 10543,
     "automatic_alpha_use_authorized": false,
     "cik_coverage_pct": 100.0,
     "cik_mapped_count": 520,
-    "exact_acceptance_fact_count": 1098356,
+    "exact_acceptance_fact_count": 1111418,
     "exact_acceptance_fact_coverage_pct": 99.99,
-    "exact_acceptance_ticker_count": 514,
-    "fact_ticker_count": 514,
-    "fact_ticker_coverage_pct": 98.85,
+    "exact_acceptance_ticker_count": 519,
+    "fact_ticker_count": 519,
+    "fact_ticker_coverage_pct": 99.81,
     "historical_submission_files_failed": 0,
     "historical_submission_files_loaded": 716,
     "measurement_status": "OBSERVATION_ONLY_NO_ALPHA_GATE",
     "metric_ticker_counts": {
-      "capex": 409,
-      "cash": 513,
-      "current_debt": 399,
-      "eps_diluted": 507,
-      "long_term_debt": 348,
-      "net_income": 514,
-      "operating_cash_flow": 513,
-      "operating_income": 433,
-      "revenue": 502,
-      "stockholders_equity": 514,
-      "total_assets": 514,
-      "total_liabilities": 388
+      "capex": 412,
+      "cash": 518,
+      "current_debt": 403,
+      "eps_diluted": 512,
+      "long_term_debt": 353,
+      "net_income": 519,
+      "operating_cash_flow": 518,
+      "operating_income": 437,
+      "revenue": 507,
+      "stockholders_equity": 519,
+      "total_assets": 519,
+      "total_liabilities": 390
     },
     "metric_ticker_coverage_pct": {
-      "capex": 78.65,
-      "cash": 98.65,
-      "current_debt": 76.73,
-      "eps_diluted": 97.5,
-      "long_term_debt": 66.92,
-      "net_income": 98.85,
-      "operating_cash_flow": 98.65,
-      "operating_income": 83.27,
-      "revenue": 96.54,
-      "stockholders_equity": 98.85,
-      "total_assets": 98.85,
-      "total_liabilities": 74.62
+      "capex": 79.23,
+      "cash": 99.62,
+      "current_debt": 77.5,
+      "eps_diluted": 98.46,
+      "long_term_debt": 67.88,
+      "net_income": 99.81,
+      "operating_cash_flow": 99.62,
+      "operating_income": 84.04,
+      "revenue": 97.5,
+      "stockholders_equity": 99.81,
+      "total_assets": 99.81,
+      "total_liabilities": 75.0
     },
     "next_gate": "Review observed coverage and concept continuity before freezing a separate pre-registered fundamental research protocol.",
     "submissions_status_counts": {
@@ -122,16 +120,20 @@
     },
     "taxonomy_fact_counts": {
       "ifrs-full": 620,
-      "us-gaap": 1097817
+      "us-gaap": 1110879
     },
     "taxonomy_ticker_counts": {
       "ifrs-full": 4,
-      "us-gaap": 511
+      "us-gaap": 516
     },
     "ticker_count": 520,
-    "total_fact_count": 1098437
+    "total_fact_count": 1111499
   },
+  "quarantined_fact_count": 12,
   "research_use_authorized": false,
+  "source_quality_issues": {
+    "period_end_after_filing": 12
+  },
   "status": "COMPLETE_WITH_GAPS",
   "status_counts": {
     "COMPLETE": 519,
@@ -139,11 +141,21 @@
   },
   "taxonomy_fact_counts": {
     "ifrs-full": 620,
-    "us-gaap": 1097817
+    "us-gaap": 1110879
   },
   "ticker_count": 520,
+  "tickers_with_quarantined_facts": [
+    "GD",
+    "LLY",
+    "MKC",
+    "ROP",
+    "WMT"
+  ],
   "universe_source": "CURRENT_SP500_NASDAQ100_UNION",
-  "updated_at": "2026-10-27T06:54:54.022834+00:00",
-  "usable_ticker_count": 514,
-  "valid_fact_count": 1098437
+  "unusable_tickers": [
+    "VYLR"
+  ],
+  "updated_at": "2026-10-27T07:27:04.454378+00:00",
+  "usable_ticker_count": 519,
+  "valid_fact_count": 1111499
 }

@@ -1,0 +1,41 @@
+{
+  "cik": "0000059478",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.2 SEC Fact Quarantine",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2014-02-19T18:34:18.000Z",
+        "accession": "0000059478-14-000078",
+        "available_date": "2014-02-20",
+        "concept": "ShortTermBorrowings",
+        "end": "2014-03-31",
+        "filed": "2014-02-19",
+        "fiscal_period": "FY",
+        "fiscal_year": 2013,
+        "form": "10-K",
+        "frame": "CY2014Q1I",
+        "metric": "current_debt",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 1000000000
+      },
+      "issues": [
+        "period_end_after_filing"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "period_end_after_filing": 1
+  },
+  "quarantined_fact_count": 1,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 1765,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "LLY"
+}

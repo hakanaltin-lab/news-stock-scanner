@@ -1,0 +1,195 @@
+{
+  "cik": "0000882835",
+  "dates_and_values_corrected": false,
+  "engine": "V8.9.2 SEC Fact Quarantine",
+  "facts": [
+    {
+      "fact": {
+        "accepted_at": "2009-11-02T20:54:54.000Z",
+        "accession": "0000882835-09-000045",
+        "available_date": "2009-11-03",
+        "concept": "CashAndCashEquivalentsAtCarryingValue",
+        "end": "2009-12-31",
+        "filed": "2009-11-02",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2009,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "cash",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 178069000
+      },
+      "issues": [
+        "period_end_after_filing"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2009-11-02T20:54:54.000Z",
+        "accession": "0000882835-09-000045",
+        "available_date": "2009-11-03",
+        "concept": "LongTermDebtCurrent",
+        "end": "2009-12-31",
+        "filed": "2009-11-02",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2009,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "current_debt",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 233526000
+      },
+      "issues": [
+        "period_end_after_filing"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2009-11-02T20:54:54.000Z",
+        "accession": "0000882835-09-000045",
+        "available_date": "2009-11-03",
+        "concept": "LongTermDebtNoncurrent",
+        "end": "2009-12-31",
+        "filed": "2009-11-02",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2009,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "long_term_debt",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 1033689000
+      },
+      "issues": [
+        "period_end_after_filing"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2009-11-02T20:54:54.000Z",
+        "accession": "0000882835-09-000045",
+        "available_date": "2009-11-03",
+        "concept": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest",
+        "end": "2009-12-31",
+        "filed": "2009-11-02",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2009,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "stockholders_equity",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 2003934000
+      },
+      "issues": [
+        "period_end_after_filing"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2009-11-02T20:54:54.000Z",
+        "accession": "0000882835-09-000045",
+        "available_date": "2009-11-03",
+        "concept": "Assets",
+        "end": "2009-12-31",
+        "filed": "2009-11-02",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2009,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "total_assets",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 3971538000
+      },
+      "issues": [
+        "period_end_after_filing"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2009-11-02T20:54:54.000Z",
+        "accession": "0000882835-09-000045",
+        "available_date": "2009-11-03",
+        "concept": "Liabilities",
+        "end": "2009-12-31",
+        "filed": "2009-11-02",
+        "fiscal_period": "Q3",
+        "fiscal_year": 2009,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "total_liabilities",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 1967604000
+      },
+      "issues": [
+        "period_end_after_filing"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2015-05-06T15:19:41.000Z",
+        "accession": "0000882835-15-000015",
+        "available_date": "2015-05-07",
+        "concept": "CashAndCashEquivalentsAtCarryingValue",
+        "end": "2015-12-31",
+        "filed": "2015-05-06",
+        "fiscal_period": "Q1",
+        "fiscal_year": 2015,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "cash",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 610430000
+      },
+      "issues": [
+        "period_end_after_filing"
+      ]
+    },
+    {
+      "fact": {
+        "accepted_at": "2015-08-06T13:06:27.000Z",
+        "accession": "0000882835-15-000019",
+        "available_date": "2015-08-07",
+        "concept": "CashAndCashEquivalentsAtCarryingValue",
+        "end": "2015-12-31",
+        "filed": "2015-08-06",
+        "fiscal_period": "Q2",
+        "fiscal_year": 2015,
+        "form": "10-Q",
+        "frame": null,
+        "metric": "cash",
+        "namespace": "us-gaap",
+        "start": null,
+        "unit": "USD",
+        "value": 610430000
+      },
+      "issues": [
+        "period_end_after_filing"
+      ]
+    }
+  ],
+  "live_decisions_changed": false,
+  "live_execution_authorized": false,
+  "paper_order_submission_authorized": false,
+  "quality_issues": {
+    "period_end_after_filing": 8
+  },
+  "quarantined_fact_count": 8,
+  "research_use_authorized": false,
+  "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_fact_count": 2653,
+  "status": "QUARANTINED_FACTS",
+  "ticker": "ROP"
+}

@@ -27450,6 +27450,13 @@
   "point_in_time": true,
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_taxonomy_concept_counts": {
+    "dei": 2,
+    "ffd": 1,
+    "invest": 1,
+    "srt": 3,
+    "us-gaap": 642
+  },
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],

@@ -40762,6 +40762,13 @@
   "point_in_time": true,
   "signature": "V8.8.3",
   "source": "SEC_EDGAR_COMPANYFACTS",
+  "source_taxonomy_concept_counts": {
+    "dei": 2,
+    "ecd": 7,
+    "invest": 5,
+    "srt": 7,
+    "us-gaap": 823
+  },
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
