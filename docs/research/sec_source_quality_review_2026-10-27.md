@@ -44,25 +44,55 @@ Company Facts data required by this foundation.
 
 ## Inspectable checks
 
-### Remaining feature-readiness work
+### V8.9.3 unit, period and snapshot review
 
-This repair validates record admission, not comparability of derived model
-features. The WMT source review also found three historical diluted-EPS facts
-with unit `pure`, all filed on 2010-09-01 under accession
-0001193125-10-202779. Their units are retained literally and are not converted
-to currency/share values. They must be resolved or excluded by an explicit
-unit contract before any fundamental model uses them.
+The follow-up profile covered all 519 currently usable issuer files and
+1,111,499 admitted facts. It found 225 additional rows across 44 tickers that
+fail the new semantic contract:
 
-Currency consistency, quarter/year/YTD duration alignment and latest-period
-selection also require a separate feature-readiness review. Existing raw
-filing versions must not be summed across units or durations. None of these
-source-coverage results authorizes fundamental research or portfolio changes.
+| Finding | Affected rows |
+|---|---:|
+| EPS unit incompatible with currency/share semantics | 216 |
+| Duration metric missing a source start date | 9 |
+| Total rows failing at least one new rule | 225 |
+
+The incompatible EPS units are `pure`, `shares`, `shares/USD`,
+`BillionsCubicFeet` and `segment`. The duration-shape exceptions affect five
+capex facts, two revenue facts, one net-income fact and one EPS fact. The three
+historical WMT `pure` EPS facts under accession 0001193125-10-202779 are part of
+this broader result. All source units, dates and values remain unchanged in the
+quarantine ledger; none is converted to currency/share.
+
+The snapshot review also found 130,837 same-context groups containing more
+than one mapped canonical concept across 513 tickers; 107,073 of those groups
+contain different values. V8.9.3 therefore makes concept fallback order an
+explicit selection rule rather than relying on input order. Selection now uses
+the newest reported period first, then the newest available filing version for
+that period, then the declared canonical concept priority. A late amendment of
+an older period cannot displace a newer period.
+
+Quarter, YTD, annual and instant contexts are classified separately. Exact
+duration contexts and reported currencies are exposed in snapshot diagnostics.
+Multiple currencies in the selected filing fail closed unless a reported
+currency is requested, and no FX conversion occurs. This makes incompatibility
+visible; it does not yet authorize a fundamental hypothesis or portfolio use.
+
+These are offline pre-publication profile counts against the then-current
+primary archive. The published archive summary remains the controlling source
+for actual post-collection admitted and quarantined counts.
 
 ### Reproducible validation
 
 - `tests/test_sec_archive_readiness.py`: strict per-row validity, mixed-record
-  isolation, value/date preservation, non-finite audit encoding, amendment
-  availability, identity blocking, and unsupported-taxonomy classification.
+  isolation, value/date preservation, unit and period-shape contracts,
+  non-finite audit encoding, amendment availability, identity blocking, and
+  unsupported-taxonomy classification.
+- `scripts/test_sec_edgar_pit_engine.py`: period-first as-of selection,
+  quarter/YTD separation, canonical concept priority, multi-currency blocking,
+  no-FX behavior and research/order safety state.
+- `scripts/audit_sec_semantic_contract.py`: full-archive unit/period profile,
+  concept-overlap inventory, snapshot diagnostics and summary/quarantine
+  reconciliation; the post-collection workflow requires a clean result.
 - `engines/sec_archive_quality_engine.py`: shared admission predicate,
   quarantine provenance and count recomputation.
 - `data/sec_edgar_pit/latest_summary.json`: published coverage and source issues.
@@ -70,6 +100,7 @@ source-coverage results authorizes fundamental research or portfolio changes.
 
 ## Controlling sources
 
+- [SEC EDGAR API documentation](https://www.sec.gov/search-filings/edgar-application-programming-interfaces)
 - [GD Company Facts](https://data.sec.gov/api/xbrl/companyfacts/CIK0000040533.json)
 - [LLY Company Facts](https://data.sec.gov/api/xbrl/companyfacts/CIK0000059478.json)
 - [MKC Company Facts](https://data.sec.gov/api/xbrl/companyfacts/CIK0000063754.json)

@@ -187,12 +187,116 @@ CANONICAL_METRICS = sorted(
 )
 
 
+DURATION_METRICS = frozenset({
+    "revenue",
+    "operating_income",
+    "net_income",
+    "eps_diluted",
+    "operating_cash_flow",
+    "capex",
+})
+
+
+INSTANT_METRICS = frozenset({
+    "cash",
+    "total_assets",
+    "total_liabilities",
+    "stockholders_equity",
+    "long_term_debt",
+    "current_debt",
+})
+
+
+SNAPSHOT_CONTRACT_VERSION = "V8.9.3 SEC Comparable Fact Selection"
+STANDARD_DURATION_PERIODS = frozenset({
+    "quarter",
+    "year_to_date",
+    "annual",
+    "nonstandard_duration",
+})
+
+
 UNIT_PREFERENCES = {
     "eps_diluted": [
-        "USD/shares",
-        "USD / shares"
+        "USD/shares"
     ]
 }
+
+
+def is_reporting_currency(value):
+    """Accept a reported three-letter currency code without converting it."""
+    return (
+        isinstance(value, str)
+        and len(value) == 3
+        and all("A" <= character <= "Z" for character in value)
+    )
+
+
+def reporting_currency(metric, unit):
+    """Return the source currency when the unit matches the metric contract."""
+    if not isinstance(unit, str):
+        return None
+    if metric == "eps_diluted":
+        numerator, separator, denominator = unit.partition("/")
+        if separator and denominator == "shares" and is_reporting_currency(numerator):
+            return numerator
+        return None
+    if metric in (DURATION_METRICS | INSTANT_METRICS):
+        return unit if is_reporting_currency(unit) else None
+    return None
+
+
+def is_metric_unit_compatible(metric, unit):
+    return reporting_currency(metric, unit) is not None
+
+
+def fact_period_type(fact):
+    """Classify source context without inferring or rewriting its dates."""
+    if not isinstance(fact, dict):
+        return "invalid"
+    metric = fact.get("metric")
+    try:
+        end = date.fromisoformat(fact.get("end"))
+    except (TypeError, ValueError):
+        return "invalid"
+
+    start_value = fact.get("start")
+    if metric in INSTANT_METRICS:
+        return "instant" if start_value is None else "invalid"
+    if metric not in DURATION_METRICS or start_value is None:
+        return "invalid"
+    try:
+        start = date.fromisoformat(start_value)
+    except (TypeError, ValueError):
+        return "invalid"
+    if start > end:
+        return "invalid"
+
+    days = (end - start).days + 1
+    # SEC calendar frames define a quarter as 91 +/- 30 days and a year as
+    # 365 +/- 30 days. Intermediate valid durations remain explicit YTD facts.
+    if 61 <= days <= 121:
+        return "quarter"
+    if 335 <= days <= 395:
+        return "annual"
+    if 122 <= days <= 334:
+        return "year_to_date"
+    return "nonstandard_duration"
+
+
+def metric_concept_priority(metric, namespace, concept):
+    """Rank mapped concepts by the declared canonical fallback order."""
+    for namespace_rank, (candidate_namespace, metric_map) in enumerate(
+        METRIC_CONCEPTS_BY_NAMESPACE.items()
+    ):
+        if candidate_namespace != namespace:
+            continue
+        try:
+            concept_rank = metric_map.get(metric, []).index(concept)
+        except ValueError:
+            concept_rank = 10_000
+        return namespace_rank, concept_rank
+    return 10_000, 10_000
 
 
 class SECClient:
@@ -1426,95 +1530,165 @@ def fetch_ticker_facts(
     return result
 
 
+def _select_metric_as_of(
+    ticker_record,
+    metric,
+    as_of_date,
+    duration_period="quarter",
+    currency=None,
+):
+    try:
+        cutoff = date.fromisoformat(str(as_of_date)[:10])
+    except (TypeError, ValueError):
+        return None, "invalid_as_of_date"
+    if metric not in CANONICAL_METRICS:
+        return None, "unknown_metric"
+    if currency is not None and not is_reporting_currency(currency):
+        return None, "invalid_requested_currency"
+
+    target_period = "instant" if metric in INSTANT_METRICS else duration_period
+    if metric in DURATION_METRICS and target_period not in STANDARD_DURATION_PERIODS:
+        return None, "unsupported_duration_period"
+
+    metric_rows = [
+        row for row in (ticker_record.get("facts", []) or [])
+        if isinstance(row, dict) and row.get("metric") == metric
+    ]
+    if not metric_rows:
+        return None, "metric_unavailable"
+
+    eligible = []
+    for row in metric_rows:
+        try:
+            available = date.fromisoformat(str(row.get("available_date"))[:10])
+            end = date.fromisoformat(str(row.get("end"))[:10])
+            filed = date.fromisoformat(str(row.get("filed"))[:10])
+        except (TypeError, ValueError):
+            continue
+        if available > cutoff or available < filed + timedelta(days=1) or end > filed:
+            continue
+        if fact_period_type(row) != target_period:
+            continue
+        row_currency = reporting_currency(metric, row.get("unit"))
+        if row_currency is None or (currency is not None and row_currency != currency):
+            continue
+        eligible.append((row, available, end, row_currency))
+
+    if not eligible:
+        return None, "no_compatible_fact"
+
+    latest_end = max(item[2] for item in eligible)
+    latest_period = [item for item in eligible if item[2] == latest_end]
+    latest_version_key = max(
+        (
+            item[1],
+            str(item[0].get("filed") or ""),
+            str(item[0].get("accession") or ""),
+        )
+        for item in latest_period
+    )
+    latest_version = [
+        item for item in latest_period
+        if (
+            item[1],
+            str(item[0].get("filed") or ""),
+            str(item[0].get("accession") or ""),
+        ) == latest_version_key
+    ]
+    preferred_rank = min(
+        metric_concept_priority(metric, item[0].get("namespace"), item[0].get("concept"))
+        for item in latest_version
+    )
+    preferred = [
+        item for item in latest_version
+        if metric_concept_priority(
+            metric, item[0].get("namespace"), item[0].get("concept")
+        ) == preferred_rank
+    ]
+    currencies = sorted({item[3] for item in preferred})
+    if currency is None and len(currencies) != 1:
+        return None, "ambiguous_reporting_currency"
+
+    selected = max(
+        preferred,
+        key=lambda item: (
+            item[1],
+            str(item[0].get("filed") or ""),
+            str(item[0].get("accession") or ""),
+            str(item[0].get("start") or ""),
+        ),
+    )[0]
+    result = dict(selected)
+    result["period_type"] = target_period
+    result["reporting_currency"] = reporting_currency(metric, result.get("unit"))
+    result["selection_contract"] = SNAPSHOT_CONTRACT_VERSION
+    return result, None
+
+
 def latest_metric_as_of(
     ticker_record,
     metric,
-    as_of_date
+    as_of_date,
+    duration_period="quarter",
+    currency=None,
 ):
-    cutoff = str(
-        as_of_date
-    )[:10]
-
-    eligible = [
-        row
-        for row in (
-            ticker_record.get(
-                "facts",
-                []
-            )
-            or
-            []
-        )
-        if (
-            row.get(
-                "metric"
-            )
-            ==
-            metric
-            and
-            str(
-                row.get(
-                    "available_date"
-                    or
-                    ""
-                )
-            )
-            <=
-            cutoff
-        )
-    ]
-
-    if not eligible:
-        return None
-
-    eligible.sort(
-        key=lambda row: (
-            str(
-                row.get(
-                    "available_date"
-                    or
-                    ""
-                )
-            ),
-            str(
-                row.get(
-                    "end"
-                    or
-                    ""
-                )
-            ),
-            str(
-                row.get(
-                    "filed"
-                    or
-                    ""
-                )
-            )
-        )
+    fact, _ = _select_metric_as_of(
+        ticker_record,
+        metric,
+        as_of_date,
+        duration_period=duration_period,
+        currency=currency,
     )
-
-    return eligible[
-        -1
-    ]
+    return fact
 
 
 def build_snapshot_as_of(
     ticker_record,
-    as_of_date
+    as_of_date,
+    duration_period="quarter",
+    currency=None,
 ):
     snapshot = {}
+    selection_issues = {}
 
     for metric in CANONICAL_METRICS:
-        fact = latest_metric_as_of(
+        fact, issue = _select_metric_as_of(
             ticker_record,
             metric,
-            as_of_date
+            as_of_date,
+            duration_period=duration_period,
+            currency=currency,
         )
 
         if fact is not None:
             snapshot[
                 metric
             ] = fact
+        else:
+            selection_issues[metric] = issue
+
+    selected_currencies = sorted({
+        fact["reporting_currency"] for fact in snapshot.values()
+    })
+    duration_contexts = {
+        metric: {
+            "period_type": fact["period_type"],
+            "start": fact.get("start"),
+            "end": fact.get("end"),
+        }
+        for metric, fact in snapshot.items()
+        if metric in DURATION_METRICS
+    }
+    distinct_duration_contexts = {
+        (context["period_type"], context["start"], context["end"])
+        for context in duration_contexts.values()
+    }
+    currency_aligned = len(selected_currencies) <= 1
+    duration_context_aligned = len(distinct_duration_contexts) <= 1
+    ambiguity_blocked = any(
+        issue == "ambiguous_reporting_currency"
+        for issue in selection_issues.values()
+    )
 
     return {
         "ticker":
@@ -1530,11 +1704,56 @@ def build_snapshot_as_of(
         "point_in_time":
         True,
 
+        "selection_contract":
+        SNAPSHOT_CONTRACT_VERSION,
+
+        "duration_period":
+        duration_period,
+
+        "requested_currency":
+        currency,
+
+        "selected_currencies":
+        selected_currencies,
+
+        "currency_conversion_applied":
+        False,
+
+        "currency_aligned":
+        currency_aligned,
+
+        "duration_contexts":
+        duration_contexts,
+
+        "duration_context_aligned":
+        duration_context_aligned,
+
+        "comparability_passed":
+        bool(snapshot)
+        and currency_aligned
+        and duration_context_aligned
+        and not ambiguity_blocked,
+
+        "selection_issues":
+        selection_issues,
+
         "metric_count":
         len(
             snapshot
         ),
 
         "metrics":
-        snapshot
+        snapshot,
+
+        "research_use_authorized":
+        False,
+
+        "paper_order_submission_authorized":
+        False,
+
+        "live_execution_authorized":
+        False,
+
+        "live_decisions_changed":
+        False,
     }

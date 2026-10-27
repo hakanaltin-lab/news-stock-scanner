@@ -1,4 +1,5 @@
 import json
+from datetime import date, timedelta
 
 from engines.sec_edgar_point_in_time_engine import (
     build_snapshot_as_of,
@@ -150,7 +151,8 @@ def main():
 
     early_ifrs = build_snapshot_as_of(
         record,
-        "2020-02-16"
+        "2020-02-16",
+        duration_period="annual"
     )
 
     assert_equal(
@@ -388,6 +390,104 @@ def main():
         "Synthetic historical acceptance load should be complete"
     )
 
+    def selection_fact(metric, value, start, end, filed, accession,
+                       concept=None, unit="USD", namespace="us-gaap"):
+        concepts = {
+            "revenue": "RevenueFromContractWithCustomerExcludingAssessedTax",
+            "net_income": "NetIncomeLoss",
+        }
+        return {
+            "metric": metric,
+            "namespace": namespace,
+            "concept": concept or concepts[metric],
+            "unit": unit,
+            "value": value,
+            "start": start,
+            "end": end,
+            "filed": filed,
+            "available_date": str(
+                date.fromisoformat(filed) + timedelta(days=1)
+            ),
+            "form": "10-Q",
+            "fiscal_year": 2021,
+            "fiscal_period": "Q2",
+            "accession": accession,
+            "accepted_at": None,
+            "frame": None,
+        }
+
+    selection_record = {
+        "ticker": "SELECT",
+        "facts": [
+            selection_fact("revenue", 100, "2021-01-01", "2021-03-31",
+                           "2021-05-01", "q1-original"),
+            selection_fact("revenue", 200, "2021-04-01", "2021-06-30",
+                           "2021-08-01", "q2"),
+            selection_fact("revenue", 300, "2021-01-01", "2021-06-30",
+                           "2021-08-01", "q2-ytd"),
+            selection_fact("revenue", 110, "2021-01-01", "2021-03-31",
+                           "2021-09-01", "q1-late-amendment"),
+            selection_fact("net_income", 25, "2021-04-01", "2021-06-30",
+                           "2021-08-01", "net-filing"),
+            selection_fact("net_income", 30, "2021-04-01", "2021-06-30",
+                           "2021-08-01", "net-filing", concept="ProfitLoss"),
+        ],
+    }
+    comparable_quarter = build_snapshot_as_of(selection_record, "2021-09-02")
+    assert_equal(
+        comparable_quarter["metrics"]["revenue"]["value"], 200,
+        "A late amendment to an older period must not displace the latest period",
+    )
+    assert_equal(
+        comparable_quarter["metrics"]["net_income"]["value"], 25,
+        "Canonical concept priority must resolve overlapping mapped concepts",
+    )
+    assert_equal(
+        comparable_quarter["duration_context_aligned"], True,
+        "Selected quarter contexts should be exactly aligned",
+    )
+    ytd_snapshot = build_snapshot_as_of(
+        selection_record, "2021-09-02", duration_period="year_to_date"
+    )
+    assert_equal(
+        ytd_snapshot["metrics"]["revenue"]["value"], 300,
+        "Quarter and year-to-date values must remain separate",
+    )
+
+    multi_currency_record = {
+        "ticker": "CURRENCY",
+        "facts": [
+            selection_fact("revenue", 100, "2021-01-01", "2021-12-31",
+                           "2022-02-01", "annual-filing", unit="USD"),
+            selection_fact("revenue", 650, "2021-01-01", "2021-12-31",
+                           "2022-02-01", "annual-filing", unit="CNY"),
+        ],
+    }
+    ambiguous_currency = build_snapshot_as_of(
+        multi_currency_record, "2022-02-02", duration_period="annual"
+    )
+    assert_equal(
+        ambiguous_currency["selection_issues"]["revenue"],
+        "ambiguous_reporting_currency",
+        "Multiple reported currencies must fail closed without a requested currency",
+    )
+    cny_snapshot = build_snapshot_as_of(
+        multi_currency_record, "2022-02-02",
+        duration_period="annual", currency="CNY"
+    )
+    assert_equal(
+        cny_snapshot["metrics"]["revenue"]["value"], 650,
+        "An explicit reported currency may be selected without FX conversion",
+    )
+    assert_equal(
+        cny_snapshot["currency_conversion_applied"], False,
+        "Snapshot selection must never imply an FX conversion",
+    )
+    assert_equal(
+        cny_snapshot["research_use_authorized"], False,
+        "Comparable data selection must not authorize research use",
+    )
+
     quality_summary = build_quality_summary([
         {
             **record,
@@ -449,7 +549,12 @@ def main():
                 "metric_and_taxonomy_coverage_measured",
                 "historical_acceptance_shards_loaded",
                 "pre_xbrl_and_unsafe_shards_rejected",
-                "archive_quality_summary_measured"
+                "archive_quality_summary_measured",
+                "latest_period_precedes_late_amendment",
+                "quarter_and_ytd_separated",
+                "canonical_concept_priority_applied",
+                "ambiguous_currency_fails_closed",
+                "no_fx_conversion_or_research_authorization"
             ]
         },
         indent=2)

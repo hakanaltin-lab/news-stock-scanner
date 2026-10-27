@@ -9,6 +9,7 @@ on:
       - "engines/sec_edgar_point_in_time_engine.py"
       - "engines/sec_archive_quality_engine.py"
       - "scripts/run_sec_edgar_pit_archive.py"
+      - "scripts/audit_sec_semantic_contract.py"
       - "scripts/publish_sec_pit_evidence.sh"
       - "scripts/test_sec_edgar_pit_engine.py"
       - "tests/test_sec_archive_readiness.py"
@@ -49,6 +50,7 @@ jobs:
         run: |
           python -m py_compile engines/sec_edgar_point_in_time_engine.py
           python -m py_compile scripts/run_sec_edgar_pit_archive.py
+          python -m py_compile scripts/audit_sec_semantic_contract.py
           python -m py_compile scripts/test_sec_edgar_pit_engine.py
           python -m py_compile engines/sec_archive_quality_engine.py
 
@@ -71,6 +73,14 @@ jobs:
         run: |
           python scripts/run_sec_edgar_pit_archive.py
 
+      - name: Audit generated SEC semantic contract
+        id: semantic_audit
+        if: ${{ steps.archive.outcome == 'success' }}
+        env:
+          PYTHONPATH: .
+        run: |
+          python scripts/audit_sec_semantic_contract.py --require-clean
+
       - name: Preserve SEC evidence for recovery
         if: ${{ always() && steps.archive.outputs.status != '' }}
         uses: actions/upload-artifact@v4
@@ -83,8 +93,9 @@ jobs:
             docs/sec_archive_readiness.json
 
       - name: Publish SEC PIT evidence
-        # Persist a truthful blocked/error status even when collection fails.
-        if: ${{ always() && steps.archive.outputs.status != '' }}
+        # Publish truthful blocked/error status, but never publish a collected
+        # archive that failed the post-collection semantic audit.
+        if: ${{ always() && steps.archive.outputs.status != '' && (steps.archive.outcome != 'success' || steps.semantic_audit.outcome == 'success') }}
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"

@@ -12,9 +12,11 @@ from unittest.mock import patch
 
 from engines.sec_archive_quality_engine import curate_sec_record, inspect_sec_record
 from engines.sec_edgar_point_in_time_engine import (
-    CANONICAL_METRICS, US_GAAP_METRIC_CONCEPTS, build_snapshot_as_of, fetch_ticker_facts,
+    CANONICAL_METRICS, DURATION_METRICS, US_GAAP_METRIC_CONCEPTS,
+    build_snapshot_as_of, fetch_ticker_facts,
 )
 from scripts import run_sec_edgar_pit_archive as archive
+from scripts.audit_sec_semantic_contract import audit as audit_semantic_contract
 
 
 def example_record(ticker="AAA", *, all_metrics=False):
@@ -24,8 +26,10 @@ def example_record(ticker="AAA", *, all_metrics=False):
         "facts": [{
             "metric": metric, "namespace": "us-gaap",
             "concept": US_GAAP_METRIC_CONCEPTS[metric][0],
-            "unit": "USD", "value": 100,
-            "start": "2020-01-01", "end": "2020-03-31",
+            "unit": "USD/shares" if metric == "eps_diluted" else "USD",
+            "value": 100,
+            "start": "2020-01-01" if metric in DURATION_METRICS else None,
+            "end": "2020-03-31",
             "filed": "2020-05-01", "available_date": "2020-05-02",
             "accession": "0000000001-20-000001", "form": "10-Q",
             "accepted_at": "2020-05-01T16:00:00Z",
@@ -324,6 +328,52 @@ class RecordQualityTests(unittest.TestCase):
                 record["facts"][0][field] = value
                 self.assertFalse(inspect_sec_record(record)["quality_valid"])
 
+    def test_eps_requires_reported_currency_per_share_without_conversion(self):
+        valid_units = ["USD/shares", "EUR/shares", "CNY/shares"]
+        invalid_units = ["pure", "shares", "shares/USD", "BillionsCubicFeet", "segment"]
+        for unit in valid_units:
+            with self.subTest(unit=unit):
+                record = example_record()
+                fact = record["facts"][0]
+                fact.update(metric="eps_diluted", concept="EarningsPerShareDiluted",
+                            unit=unit)
+                quality = inspect_sec_record(record)
+                self.assertTrue(quality["quality_valid"])
+                self.assertEqual(quality["currency_counts"], {unit[:3]: 1})
+        for unit in invalid_units:
+            with self.subTest(unit=unit):
+                record = example_record()
+                fact = record["facts"][0]
+                fact.update(metric="eps_diluted", concept="EarningsPerShareDiluted",
+                            unit=unit)
+                quality = inspect_sec_record(record)
+                self.assertFalse(quality["quality_valid"])
+                self.assertEqual(quality["quality_issues"], {
+                    "incompatible_metric_unit": 1
+                })
+
+    def test_metric_period_shape_is_enforced_without_date_inference(self):
+        duration = example_record()
+        duration["facts"][0]["start"] = None
+        duration_quality = inspect_sec_record(duration)
+        self.assertEqual(duration_quality["quality_issues"], {
+            "duration_metric_missing_start": 1
+        })
+
+        instant = example_record()
+        instant["facts"][0].update(
+            metric="cash", concept="CashAndCashEquivalentsAtCarryingValue"
+        )
+        instant_quality = inspect_sec_record(instant)
+        self.assertEqual(instant_quality["quality_issues"], {
+            "instant_metric_has_start": 1
+        })
+
+        curated, quarantine = curate_sec_record(duration)
+        self.assertEqual(curated, duration)
+        self.assertEqual(quarantine["facts"][0]["fact"]["start"], None)
+        self.assertFalse(quarantine["dates_and_values_corrected"])
+
     def test_invalid_issuer_identifier_is_not_usable(self):
         record = example_record()
         record["cik"] = "0"
@@ -369,6 +419,66 @@ class RecordQualityTests(unittest.TestCase):
         self.assertEqual(record["no_matched_facts_reason"], "NO_SUPPORTED_FINANCIAL_TAXONOMY")
         self.assertEqual(record["source_taxonomy_concept_counts"], {"ffd": 1})
         self.assertFalse(inspect_sec_record(record)["quality_valid"])
+
+
+class SemanticAuditTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = tempfile.TemporaryDirectory()
+        self.addCleanup(self.directory.cleanup)
+        original_directory = os.getcwd()
+        os.chdir(self.directory.name)
+        self.addCleanup(os.chdir, original_directory)
+        Path("data/sec_edgar_pit/facts").mkdir(parents=True)
+
+    def write_fixture(self, record, *, quarantined=0, quarantine_file=None):
+        Path("data/sec_edgar_pit/facts/AAA.json").write_text(
+            json.dumps(record), encoding="utf-8"
+        )
+        summary = {
+            "engine": "TEST",
+            "status": "COMPLETE_WITH_GAPS",
+            "usable_ticker_count": 1,
+            "valid_fact_count": len(record["facts"]),
+            "quarantined_fact_count": quarantined,
+            "point_in_time_validation_passed": True,
+            "records": [{
+                "ticker": "AAA",
+                "quarantined_fact_count": quarantined,
+                "quarantine_file": quarantine_file,
+            }],
+            "research_use_authorized": False,
+            "paper_order_submission_authorized": False,
+            "live_execution_authorized": False,
+            "live_decisions_changed": False,
+        }
+        Path("data/sec_edgar_pit/latest_summary.json").write_text(
+            json.dumps(summary), encoding="utf-8"
+        )
+
+    def test_full_archive_audit_passes_a_reconciled_clean_fixture(self):
+        self.write_fixture(example_record())
+        result = audit_semantic_contract("2020-05-02")
+        self.assertEqual(result["status"], "PASS")
+        self.assertEqual(result["primary_archive"]["invalid_fact_count"], 0)
+        self.assertFalse(result["research_use_authorized"])
+
+    def test_full_archive_audit_blocks_invalid_primary_and_missing_ledger(self):
+        record = example_record()
+        record["facts"][0].update(
+            metric="eps_diluted", concept="EarningsPerShareDiluted", unit="pure"
+        )
+        self.write_fixture(
+            record,
+            quarantined=1,
+            quarantine_file="data/sec_edgar_pit/quarantine/AAA.json",
+        )
+        result = audit_semantic_contract("2020-05-02")
+        self.assertEqual(result["status"], "FAIL")
+        self.assertIn(
+            "PRIMARY_ARCHIVE_CONTAINS_SEMANTIC_CONTRACT_FAILURES",
+            result["failures"],
+        )
+        self.assertIn("REFERENCED_QUARANTINE_FILE_MISSING", result["failures"])
 
 
 if __name__ == "__main__":

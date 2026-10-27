@@ -9801,7 +9801,7 @@ coverageElement.textContent = "Usable tickers this run: "
 noteElement.textContent = summary.status === "DISABLED_MISSING_SEC_USER_AGENT"
 ? "Complete SEC data-source setup before the first archive can be collected. Research use and broker orders remain blocked."
 : (summary.quarantined_fact_count > 0
-? "Invalid source rows are isolated with their original dates and values. Valid rows remain available; new fundamental research still requires a separate protocol."
+? "Invalid date, unit and period-shape rows are isolated with their original source fields. Valid rows remain available; new fundamental research still requires a separate protocol."
 : "Coverage describes this collection attempt; retained older records do not count as fresh success. New fundamental research still requires a separate protocol.");
 if (Array.isArray(summary.unusable_tickers) && summary.unusable_tickers.length > 0) {
 noteElement.textContent += " | Unavailable tickers: "

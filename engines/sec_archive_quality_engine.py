@@ -7,12 +7,17 @@ import math
 from engines.sec_edgar_point_in_time_engine import (
     ALLOWED_FORMS,
     CANONICAL_METRICS,
+    DURATION_METRICS,
+    INSTANT_METRICS,
     METRIC_CONCEPTS_BY_NAMESPACE,
     cik10,
+    fact_period_type,
+    is_metric_unit_compatible,
+    reporting_currency,
 )
 
 
-QUALITY_VERSION = "V8.9.2 SEC Fact Quarantine"
+QUALITY_VERSION = "V8.9.3 SEC Unit and Period Contract"
 SAFETY_STATE = {
     "live_decisions_changed": False,
     "research_use_authorized": False,
@@ -71,6 +76,13 @@ def fact_issues(fact):
     if any(not isinstance(fact.get(key), str) or not fact[key].strip()
            for key in ["unit", "accession"]):
         issues.add("missing_unit_or_accession")
+    elif isinstance(metric, str) and metric in CANONICAL_METRICS:
+        if not is_metric_unit_compatible(metric, fact.get("unit")):
+            issues.add("incompatible_metric_unit")
+    if metric in DURATION_METRICS and fact.get("start") is None:
+        issues.add("duration_metric_missing_start")
+    if metric in INSTANT_METRICS and fact.get("start") is not None:
+        issues.add("instant_metric_has_start")
     return issues
 
 
@@ -81,6 +93,8 @@ def inspect_sec_record(record):
     metric_counts = Counter()
     taxonomy_counts = Counter()
     unit_counts = Counter()
+    currency_counts = Counter()
+    period_type_counts = Counter()
     accessions = set()
     acceptance_accessions = set()
     available_dates = []
@@ -110,7 +124,7 @@ def inspect_sec_record(record):
                     "issues": sorted(row_issues),
                     **{
                         key: str(fact[key]) if fact.get(key) is not None else None
-                        for key in ["metric", "namespace", "concept", "accession",
+                        for key in ["metric", "namespace", "concept", "unit", "accession",
                                     "filed", "available_date", "start", "end"]
                     },
                 })
@@ -120,6 +134,8 @@ def inspect_sec_record(record):
         metric_counts[fact["metric"]] += 1
         taxonomy_counts[fact["namespace"]] += 1
         unit_counts[fact["unit"]] += 1
+        currency_counts[reporting_currency(fact["metric"], fact["unit"])] += 1
+        period_type_counts[fact_period_type(fact)] += 1
         accessions.add(fact["accession"])
         available_dates.append(available.isoformat())
         period_ends.append(end.isoformat())
@@ -145,6 +161,8 @@ def inspect_sec_record(record):
     valid = (record.get("status") == "COMPLETE" and cik is not None
              and valid_fact_count > 0 and not issues)
     curation = record.get("quality_curation") or {}
+    source_issues = Counter(curation.get("source_quality_issues", {}))
+    source_issues.update(issues)
     return {
         "ticker": record.get("ticker"),
         "cik": cik,
@@ -152,7 +170,7 @@ def inspect_sec_record(record):
         "quality_valid": valid,
         "quality_issues": dict(sorted(issues.items())),
         "quality_issue_examples": issue_examples,
-        "source_quality_issues": curation.get("source_quality_issues", dict(sorted(issues.items()))),
+        "source_quality_issues": dict(sorted(source_issues.items())),
         "source_fact_count": curation.get("source_fact_count", len(facts)),
         "quarantined_fact_count": curation.get("quarantined_fact_count", 0),
         "quarantine_file": curation.get("quarantine_file"),
@@ -184,6 +202,8 @@ def inspect_sec_record(record):
             ]
         },
         "unit_counts": dict(sorted(unit_counts.items())),
+        "currency_counts": dict(sorted(currency_counts.items())),
+        "period_type_counts": dict(sorted(period_type_counts.items())),
         "latest_available_date": max(available_dates, default=None),
         "earliest_period_end": min(period_ends, default=None),
         "latest_period_end": max(period_ends, default=None),
@@ -264,7 +284,10 @@ def curate_sec_record(record):
             "engine": QUALITY_VERSION, "source_fact_count": len(facts),
             "quarantined_fact_count": len(rejected),
             "source_quality_issues": source_quality["quality_issues"],
-            "admission_rules_changed": False,
+            "admission_rules_changed": True,
+            "admission_rule_change": "ADDED_METRIC_UNIT_AND_PERIOD_SHAPE_VALIDATION",
+            "unit_conversion_applied": False,
+            "period_dates_inferred": False,
         },
     })
     return curated, quarantine
@@ -343,6 +366,8 @@ def build_archive_summary(tickers, universe_source, records, *, status=None,
             "Current index constituents are a forward universe, not historical membership.",
             "Coverage is measured for this run; retained older facts are not counted as fresh success.",
             "Missing concepts may reflect issuer reporting or taxonomy differences.",
+            "Compatible currencies are preserved as reported; no FX conversion is applied.",
+            "Quarter, year-to-date and annual durations remain distinct and are never summed implicitly.",
             "No fundamental research hypothesis or live promotion is authorized by this report.",
         ],
         **SAFETY_STATE,

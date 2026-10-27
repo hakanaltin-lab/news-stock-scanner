@@ -124,7 +124,7 @@ AURORA still uses:
 The exact timestamp is retained for audit and future intraday-safe research,
 but it never makes the daily `available_date` earlier than the rule above.
 
-## V8.9.2 collection readiness and fact quarantine
+## V8.9.3 collection readiness, semantic contract and fact quarantine
 
 The workflow's offline no-lookahead tests and its real data collection are
 separate checks. A missing `SEC_USER_AGENT` now exits with code 2, publishes
@@ -145,12 +145,27 @@ combined by the coverage report. Current constituents remain a forward
 universe and must not be substituted for historical index membership.
 
 Rows with invalid dates, availability earlier than filing plus one day,
-non-finite/non-numeric values, or missing core provenance fail the quality
-check. They are preserved with their original dates and values in
+non-finite/non-numeric values, missing core provenance, incompatible metric
+units, or incompatible instant/duration context shapes fail the quality check.
+They are preserved with their original dates, units and values in
 `data/sec_edgar_pit/quarantine/<ticker>.json`; independently valid rows from a
 successful issuer response remain eligible. No row-admission rule is relaxed,
 no date is corrected, and no missing financial value is imputed. See
 [SEC fact quarantine policy](policy/sec_fact_quarantine_v1.md).
+
+V8.9.3 accepts exact three-uppercase-letter source currency units for monetary
+facts and exact `<currency>/shares` source units for diluted EPS. It does not
+convert currencies. Revenue, income, cash flow, capex and EPS require duration
+contexts; cash, balance-sheet and debt metrics require instant contexts.
+
+As-of snapshots request a duration class explicitly. Selection orders by
+latest period end before latest filing version, so a later amendment of an
+older period cannot replace a newer period. The declared canonical concept
+order resolves overlapping mapped concepts within the selected filing.
+Multiple reported currencies in the selected filing fail closed unless the
+caller requests one; quarter, YTD and annual facts are never mixed implicitly.
+Snapshot output includes exact context and currency-alignment diagnostics, no
+FX conversion, and all research/order authorization flags remain false.
 
 A failed or empty fetch, invalid issuer identity, or response with no valid
 facts never replaces an existing valid fact file. Retained older evidence does
@@ -175,6 +190,7 @@ Offline verification:
     PYTHONPATH=. python scripts/test_sec_edgar_pit_engine.py
     python -m unittest discover -s tests -p 'test_sec_archive_readiness.py' -v
     python -m unittest discover -s tests -p 'test_sec_evidence_publish.py' -v
+    PYTHONPATH=. python scripts/audit_sec_semantic_contract.py --require-clean
 
 ## Evidence publication and recovery
 
