@@ -10,8 +10,10 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from engines.sec_archive_quality_engine import inspect_sec_record
-from engines.sec_edgar_point_in_time_engine import CANONICAL_METRICS, US_GAAP_METRIC_CONCEPTS
+from engines.sec_archive_quality_engine import curate_sec_record, inspect_sec_record
+from engines.sec_edgar_point_in_time_engine import (
+    CANONICAL_METRICS, US_GAAP_METRIC_CONCEPTS, build_snapshot_as_of, fetch_ticker_facts,
+)
 from scripts import run_sec_edgar_pit_archive as archive
 
 
@@ -202,6 +204,75 @@ class ArchiveRunTests(unittest.TestCase):
         self.assertEqual(summary["quality_summary"]["historical_submission_files_failed"], 1)
         self.assertEqual(summary["quality_summary"]["submissions_status_counts"], {"PARTIAL": 1})
 
+    def test_mixed_record_recovers_good_facts_and_preserves_rejected_source(self):
+        candidate = example_record()
+        bad = deepcopy(candidate["facts"][0])
+        bad.update(end="2021-03-31", value=999)
+        candidate["facts"].append(bad)
+        before = deepcopy(candidate)
+        self.fetch.return_value = candidate
+        code, summary = self.run_archive()
+        self.assertEqual(code, 0)
+        self.assertEqual(summary["usable_ticker_count"], 1)
+        self.assertEqual(summary["valid_fact_count"], 1)
+        self.assertEqual(summary["quarantined_fact_count"], 1)
+        self.assertEqual(summary["quality_issues"], {})
+        self.assertEqual(summary["source_quality_issues"], {"period_end_after_filing": 1})
+        self.assertTrue(summary["point_in_time_validation_passed"])
+        curated = json.loads((Path(archive.OUTPUT_DIR) / "AAA.json").read_text())
+        rejected = json.loads((Path(archive.QUARANTINE_DIR) / "AAA.json").read_text())
+        self.assertEqual(curated["fact_count"], 1)
+        self.assertEqual(curated["quality_curation"]["source_fact_count"], 2)
+        self.assertEqual(rejected["facts"][0]["fact"], bad)
+        self.assertEqual(build_snapshot_as_of(curated, "2020-05-01")["metric_count"], 0)
+        self.assertEqual(build_snapshot_as_of(curated, "2020-05-02")["metrics"]["revenue"]["value"], 100)
+        self.assertEqual(candidate, before)
+
+    def test_non_finite_source_value_is_audit_only_and_json_safe(self):
+        candidate = example_record()
+        bad = deepcopy(candidate["facts"][0])
+        bad["value"] = float("nan")
+        candidate["facts"].append(bad)
+        self.fetch.return_value = candidate
+        code, summary = self.run_archive()
+        self.assertEqual(code, 0)
+        self.assertEqual(summary["quarantined_fact_count"], 1)
+        rejected = json.loads((Path(archive.QUARANTINE_DIR) / "AAA.json").read_text())
+        self.assertEqual(rejected["facts"][0]["fact"]["value"], {"non_finite_number_repr": "nan"})
+        curated = json.loads((Path(archive.OUTPUT_DIR) / "AAA.json").read_text())
+        self.assertEqual(curated["facts"][0]["value"], 100)
+
+    def test_quarantine_does_not_remove_legitimate_amendment_versions(self):
+        candidate = example_record()
+        amendment = deepcopy(candidate["facts"][0])
+        amendment.update(value=110, filed="2020-05-20", available_date="2020-05-21",
+                         accepted_at="2020-05-20T16:00:00Z", form="10-Q/A",
+                         accession="0000000001-20-000002")
+        unsafe = deepcopy(amendment)
+        unsafe.update(value=999, available_date="2020-05-20")
+        candidate["facts"].extend([amendment, unsafe])
+        self.fetch.return_value = candidate
+        code, summary = self.run_archive()
+        self.assertEqual(code, 0)
+        self.assertEqual(summary["valid_fact_count"], 2)
+        self.assertEqual(summary["quarantined_fact_count"], 1)
+        curated = json.loads((Path(archive.OUTPUT_DIR) / "AAA.json").read_text())
+        self.assertEqual(build_snapshot_as_of(curated, "2020-05-20")["metrics"]["revenue"]["value"], 100)
+        self.assertEqual(build_snapshot_as_of(curated, "2020-05-21")["metrics"]["revenue"]["value"], 110)
+
+    def test_row_isolation_cannot_repair_a_missing_issuer_identity(self):
+        path, previous = self.save_previous()
+        candidate = example_record()
+        candidate["cik"] = "0"
+        bad = deepcopy(candidate["facts"][0])
+        bad["end"] = "2021-03-31"
+        candidate["facts"].append(bad)
+        self.fetch.return_value = candidate
+        code, summary = self.run_archive()
+        self.assertEqual(code, 1)
+        self.assertEqual(summary["usable_ticker_count"], 0)
+        self.assertEqual(path.read_bytes(), previous)
+
 
 class RecordQualityTests(unittest.TestCase):
     def test_does_not_trust_declared_fact_counts(self):
@@ -271,6 +342,33 @@ class RecordQualityTests(unittest.TestCase):
         self.assertEqual(quality["quality_issue_examples"][0]["end"], "2021-03-31")
         self.assertEqual(quality["quality_issue_examples"][0]["accession"],
                          "0000000001-20-000001")
+
+    def test_curation_is_idempotent_without_imputing_source_values(self):
+        record = example_record()
+        bad = deepcopy(record["facts"][0])
+        bad.update(value=777, end="2021-03-31")
+        record["facts"].append(bad)
+        curated, quarantine = curate_sec_record(record)
+        again, repeated = curate_sec_record(curated)
+        self.assertEqual(again, curated)
+        self.assertIsNone(repeated)
+        self.assertEqual(len(curated["facts"]) + len(quarantine["facts"]), 2)
+        self.assertEqual(quarantine["facts"][0]["fact"]["value"], 777)
+
+    def test_unsupported_financial_taxonomy_is_explicitly_unavailable(self):
+        class Client:
+            def __init__(self):
+                self.replies = iter([
+                    {"filings": {"recent": {}, "files": []}},
+                    {"entityName": "New issuer", "facts": {"ffd": {"Other": {"units": {}}}}},
+                ])
+            def get_json(self, url):
+                return next(self.replies)
+        record = fetch_ticker_facts(Client(), "NEW", {"NEW": {"cik": "0000000001"}})
+        self.assertEqual(record["status"], "NO_MATCHED_FACTS")
+        self.assertEqual(record["no_matched_facts_reason"], "NO_SUPPORTED_FINANCIAL_TAXONOMY")
+        self.assertEqual(record["source_taxonomy_concept_counts"], {"ffd": 1})
+        self.assertFalse(inspect_sec_record(record)["quality_valid"])
 
 
 if __name__ == "__main__":

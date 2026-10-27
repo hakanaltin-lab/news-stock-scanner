@@ -124,7 +124,7 @@ AURORA still uses:
 The exact timestamp is retained for audit and future intraday-safe research,
 but it never makes the daily `available_date` earlier than the rule above.
 
-## V8.9.1 collection readiness and data quality
+## V8.9.2 collection readiness and fact quarantine
 
 The workflow's offline no-lookahead tests and its real data collection are
 separate checks. A missing `SEC_USER_AGENT` now exits with code 2, publishes
@@ -146,14 +146,24 @@ universe and must not be substituted for historical index membership.
 
 Rows with invalid dates, availability earlier than filing plus one day,
 non-finite/non-numeric values, or missing core provenance fail the quality
-check. A failed, empty or invalid fetch never replaces an existing valid fact
-file. Retained evidence does not count as successful current-run coverage.
-Each rejected issuer includes up to 20 date/provenance issue examples
-(metric, concept, accession and dates) for source review. No quality rule is
-relaxed to increase coverage.
+check. They are preserved with their original dates and values in
+`data/sec_edgar_pit/quarantine/<ticker>.json`; independently valid rows from a
+successful issuer response remain eligible. No row-admission rule is relaxed,
+no date is corrected, and no missing financial value is imputed. See
+[SEC fact quarantine policy](policy/sec_fact_quarantine_v1.md).
+
+A failed or empty fetch, invalid issuer identity, or response with no valid
+facts never replaces an existing valid fact file. Retained older evidence does
+not count as current-run coverage. The report keeps original
+`source_quality_issues` and `quarantined_fact_count` separate from
+`quality_issues` in the admitted archive. The point-in-time validation flag
+applies to admitted rows, not to quarantined source data. Up to 20 source
+date/provenance examples are retained per rejected issuer.
 Bootstrap failures and runs with no usable facts exit nonzero and publish an
 explicit blocker. A usable archive with missing issuers or concepts reports
 `COMPLETE_WITH_GAPS`; `COMPLETE` requires full issuer and metric coverage.
+An issuer with only unsupported financial taxonomies is explicitly reported
+as `NO_SUPPORTED_FINANCIAL_TAXONOMY`; it is not filled with unrelated data.
 
 `collection_ready` means data was collected, not that a strategy is validated.
 The research-use, paper-order and LIVE-execution authorization fields remain

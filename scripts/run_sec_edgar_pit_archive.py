@@ -3,7 +3,9 @@ import json
 import os
 import tempfile
 
-from engines.sec_archive_quality_engine import build_archive_summary, inspect_sec_record
+from engines.sec_archive_quality_engine import (
+    build_archive_summary, curate_sec_record, inspect_sec_record,
+)
 
 from engines.sec_edgar_point_in_time_engine import (
     CANONICAL_METRICS,
@@ -18,6 +20,7 @@ UNIVERSE_FILE = "data/us_universe.json"
 PORTFOLIO_FILE = "data/portfolio.csv"
 CURRENT_INDEX_UNIVERSE_FILE = "data/current_index_universe/latest.json"
 OUTPUT_DIR = "data/sec_edgar_pit/facts"
+QUARANTINE_DIR = "data/sec_edgar_pit/quarantine"
 SUMMARY_FILE = "data/sec_edgar_pit/latest_summary.json"
 
 
@@ -173,7 +176,7 @@ def finish_run(summary, exit_code):
     # A compact, public-safe source-status file. Never copy the User-Agent.
     dashboard = {
         key: value for key, value in summary.items()
-        if key not in {"records", "unusable_tickers", "unattempted_tickers"}
+        if key not in {"records", "unattempted_tickers"}
     }
     write_if_changed("docs/sec_archive_readiness.json", dashboard)
 
@@ -560,7 +563,16 @@ def main():
                 "facts": [],
             }
 
+        result, quarantine = curate_sec_record(result)
+        if quarantine is not None:
+            quarantine_path = os.path.join(QUARANTINE_DIR, ticker + ".json")
+            write_if_changed(quarantine_path, quarantine)
+            if result.get("quality_curation"):
+                result["quality_curation"]["quarantine_file"] = quarantine_path
         row = inspect_sec_record(result)
+        if quarantine is not None:
+            row["quarantined_fact_count"] = quarantine["quarantined_fact_count"]
+            row["quarantine_file"] = quarantine_path
         output_path = os.path.join(OUTPUT_DIR, ticker + ".json")
         previous = load_existing_record(output_path)
         row["retained_previous_evidence"] = False

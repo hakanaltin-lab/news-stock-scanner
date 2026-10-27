@@ -12,7 +12,7 @@ from engines.sec_edgar_point_in_time_engine import (
 )
 
 
-QUALITY_VERSION = "V8.9.1 SEC Archive Readiness"
+QUALITY_VERSION = "V8.9.2 SEC Fact Quarantine"
 SAFETY_STATE = {
     "live_decisions_changed": False,
     "research_use_authorized": False,
@@ -26,6 +26,52 @@ def parse_date(value):
         return date.fromisoformat(value) if isinstance(value, str) else None
     except ValueError:
         return None
+
+
+def fact_issues(fact):
+    """The same strict row rules govern profiling and admission."""
+    if not isinstance(fact, dict):
+        return {"invalid_fact_row"}
+    issues = set()
+    filed = parse_date(fact.get("filed"))
+    available = parse_date(fact.get("available_date"))
+    end = parse_date(fact.get("end"))
+    start = parse_date(fact.get("start"))
+    if filed is None or available is None or end is None:
+        issues.add("missing_or_invalid_date")
+    else:
+        if available.toordinal() < filed.toordinal() + 1:
+            issues.add("availability_before_filing_plus_one_day")
+        if end > filed:
+            issues.add("period_end_after_filing")
+    if fact.get("start") is not None:
+        if start is None or (end is not None and start > end):
+            issues.add("invalid_period_start")
+    value = fact.get("value")
+    try:
+        finite_number = (not isinstance(value, bool)
+                         and isinstance(value, (int, float)) and math.isfinite(value))
+    except OverflowError:
+        finite_number = False
+    if not finite_number:
+        issues.add("non_finite_or_non_numeric_value")
+    metric = fact.get("metric")
+    namespace = fact.get("namespace")
+    if not isinstance(metric, str) or metric not in CANONICAL_METRICS:
+        issues.add("unknown_metric")
+    if not isinstance(namespace, str) or namespace not in METRIC_CONCEPTS_BY_NAMESPACE:
+        issues.add("unknown_taxonomy")
+    concepts = METRIC_CONCEPTS_BY_NAMESPACE.get(
+        namespace if isinstance(namespace, str) else None, {}
+    ).get(metric if isinstance(metric, str) else None, [])
+    if fact.get("concept") not in concepts:
+        issues.add("unmapped_metric_concept")
+    if not isinstance(fact.get("form"), str) or fact["form"] not in ALLOWED_FORMS:
+        issues.add("unsupported_filing_form")
+    if any(not isinstance(fact.get(key), str) or not fact[key].strip()
+           for key in ["unit", "accession"]):
+        issues.add("missing_unit_or_accession")
+    return issues
 
 
 def inspect_sec_record(record):
@@ -53,41 +99,9 @@ def inspect_sec_record(record):
             issues["invalid_fact_row"] += 1
             continue
 
-        row_issues = set()
-        filed = parse_date(fact.get("filed"))
+        row_issues = fact_issues(fact)
         available = parse_date(fact.get("available_date"))
         end = parse_date(fact.get("end"))
-        start = parse_date(fact.get("start"))
-
-        if filed is None or available is None or end is None:
-            row_issues.add("missing_or_invalid_date")
-        else:
-            if available.toordinal() < filed.toordinal() + 1:
-                row_issues.add("availability_before_filing_plus_one_day")
-            if end > filed:
-                row_issues.add("period_end_after_filing")
-
-        if fact.get("start") is not None:
-            if start is None or (end is not None and start > end):
-                row_issues.add("invalid_period_start")
-
-        value = fact.get("value")
-        if (isinstance(value, bool) or not isinstance(value, (int, float))
-                or not math.isfinite(value)):
-            row_issues.add("non_finite_or_non_numeric_value")
-        if fact.get("metric") not in CANONICAL_METRICS:
-            row_issues.add("unknown_metric")
-        if fact.get("namespace") not in METRIC_CONCEPTS_BY_NAMESPACE:
-            row_issues.add("unknown_taxonomy")
-        concepts = METRIC_CONCEPTS_BY_NAMESPACE.get(fact.get("namespace"), {}).get(
-            fact.get("metric"), []
-        )
-        if fact.get("concept") not in concepts:
-            row_issues.add("unmapped_metric_concept")
-        if fact.get("form") not in ALLOWED_FORMS:
-            row_issues.add("unsupported_filing_form")
-        if not fact.get("unit") or not fact.get("accession"):
-            row_issues.add("missing_unit_or_accession")
 
         issues.update(row_issues)
         if row_issues:
@@ -130,6 +144,7 @@ def inspect_sec_record(record):
             issues["invalid_cik"] += 1
     valid = (record.get("status") == "COMPLETE" and cik is not None
              and valid_fact_count > 0 and not issues)
+    curation = record.get("quality_curation") or {}
     return {
         "ticker": record.get("ticker"),
         "cik": cik,
@@ -137,6 +152,10 @@ def inspect_sec_record(record):
         "quality_valid": valid,
         "quality_issues": dict(sorted(issues.items())),
         "quality_issue_examples": issue_examples,
+        "source_quality_issues": curation.get("source_quality_issues", dict(sorted(issues.items()))),
+        "source_fact_count": curation.get("source_fact_count", len(facts)),
+        "quarantined_fact_count": curation.get("quarantined_fact_count", 0),
+        "quarantine_file": curation.get("quarantine_file"),
         "fact_count": len(facts),
         "valid_fact_count": valid_fact_count,
         "invalid_fact_count": len(facts) - valid_fact_count,
@@ -168,7 +187,87 @@ def inspect_sec_record(record):
         "latest_available_date": max(available_dates, default=None),
         "earliest_period_end": min(period_ends, default=None),
         "latest_period_end": max(period_ends, default=None),
+        "source_taxonomy_concept_counts": record.get("source_taxonomy_concept_counts", {}),
+        "no_matched_facts_reason": record.get("no_matched_facts_reason"),
     }
+
+
+def quarantine_json_safe(value):
+    """Encode non-JSON numbers as explicit audit markers, never as data values."""
+    if isinstance(value, float) and not math.isfinite(value):
+        return {"non_finite_number_repr": repr(value)}
+    if isinstance(value, dict):
+        return {key: quarantine_json_safe(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [quarantine_json_safe(item) for item in value]
+    return value
+
+
+def curate_sec_record(record):
+    """Isolate invalid facts without re-dating, imputing or relaxing any rule."""
+    source_quality = inspect_sec_record(record)
+    facts = record.get("facts")
+    if not isinstance(facts, list) or not facts:
+        return record, None
+    accepted = []
+    rejected = []
+    for fact in facts:
+        issues = fact_issues(fact)
+        if issues:
+            rejected.append({"issues": sorted(issues), "fact": quarantine_json_safe(fact)})
+        else:
+            accepted.append(fact)
+    if not rejected:
+        return record, None
+
+    quarantine = {
+        "engine": QUALITY_VERSION,
+        "ticker": record.get("ticker"), "cik": record.get("cik"),
+        "status": "QUARANTINED_FACTS",
+        "source": record.get("source"),
+        "source_fact_count": len(facts),
+        "quarantined_fact_count": len(rejected),
+        "quality_issues": source_quality["quality_issues"],
+        "facts": rejected,
+        "dates_and_values_corrected": False,
+        **SAFETY_STATE,
+    }
+    # Row isolation cannot repair missing issuer identity or an unsuccessful fetch.
+    if (not accepted or record.get("status") != "COMPLETE"
+            or source_quality["cik"] is None):
+        return record, quarantine
+
+    curated = {**record, "facts": accepted}
+    quality = inspect_sec_record(curated)
+    if not quality["quality_valid"]:
+        return record, quarantine
+    matched = {}
+    for fact in accepted:
+        matched.setdefault(fact["metric"], set()).add(
+            fact["namespace"] + ":" + fact["concept"]
+        )
+    curated.update({
+        "fact_count": len(accepted),
+        "accession_count": quality["accession_count"],
+        "latest_available_date": quality["latest_available_date"],
+        "matched_concepts": {key: sorted(value) for key, value in sorted(matched.items())},
+        "metric_coverage": {
+            **quality["metric_coverage"],
+            "canonical_metric_count": len(CANONICAL_METRICS),
+            "present_metric_count": len(quality["metric_counts"]),
+        },
+        "taxonomy_fact_counts": quality["taxonomy_counts"],
+        "exact_acceptance_fact_count": quality["acceptance_fact_count"],
+        "exact_acceptance_coverage_pct": round(100 * quality["acceptance_fact_count"] / len(accepted), 2),
+        "amendment_fact_count": quality["amended_fact_count"],
+        "quality_curation": {
+            "engine": QUALITY_VERSION, "source_fact_count": len(facts),
+            "quarantined_fact_count": len(rejected),
+            "source_quality_issues": source_quality["quality_issues"],
+            "admission_rules_changed": False,
+        },
+    })
+    return curated, quarantine
 
 
 def build_archive_summary(tickers, universe_source, records, *, status=None,
@@ -202,8 +301,10 @@ def build_archive_summary(tickers, universe_source, records, *, status=None,
     }
     taxonomy_counts = Counter()
     quality_issues = Counter()
+    source_quality_issues = Counter()
     for row in rows:
         quality_issues.update(row["quality_issues"])
+        source_quality_issues.update(row.get("source_quality_issues", {}))
     for row in valid_rows:
         taxonomy_counts.update(row["taxonomy_counts"])
 
@@ -232,6 +333,9 @@ def build_archive_summary(tickers, universe_source, records, *, status=None,
         "acceptance_fact_count": sum(row["acceptance_fact_count"] for row in valid_rows),
         "amended_fact_count": sum(row["amended_fact_count"] for row in valid_rows),
         "quality_issues": dict(sorted(quality_issues.items())),
+        "source_quality_issues": dict(sorted(source_quality_issues.items())),
+        "quarantined_fact_count": sum(row.get("quarantined_fact_count", 0) for row in rows),
+        "tickers_with_quarantined_facts": sorted(row["ticker"] for row in rows if row.get("quarantined_fact_count")),
         "records": rows,
         "availability_rule": "SEC filed date + 1 calendar day; acceptance timestamps are audit-only",
         "point_in_time_validation_passed": bool(valid_rows) and not quality_issues,

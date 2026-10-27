@@ -1201,6 +1201,12 @@ def normalize_companyfacts(
         "source":
         "SEC_EDGAR_COMPANYFACTS",
 
+        "source_taxonomy_concept_counts": {
+            namespace: len(concepts)
+            for namespace, concepts in sorted(facts_root.items())
+            if isinstance(concepts, dict)
+        },
+
         "taxonomies_supported":
         sorted(
             METRIC_CONCEPTS_BY_NAMESPACE
@@ -1408,6 +1414,14 @@ def fetch_ticker_facts(
         else
         "NO_MATCHED_FACTS"
     )
+
+    if not result.get("fact_count"):
+        present = result.get("source_taxonomy_concept_counts", {})
+        result["no_matched_facts_reason"] = (
+            "NO_SUPPORTED_FINANCIAL_TAXONOMY"
+            if not any(present.get(namespace) for namespace in METRIC_CONCEPTS_BY_NAMESPACE)
+            else "NO_MATCHED_ALLOWED_CONCEPTS_OR_FORMS"
+        )
 
     return result
 

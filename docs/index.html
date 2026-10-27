@@ -9796,10 +9796,18 @@ coverageElement.textContent = "Usable tickers this run: "
 + " | CIK matches: " + (cik.assessed === true
 ? (cik.matched_ticker_count || 0) + "/" + total : "not assessed")
 + " | Financial facts: " + (summary.valid_fact_count || 0)
-+ " | Facts with exact acceptance metadata: " + (summary.acceptance_fact_count || 0);
++ " | Facts with exact acceptance metadata: " + (summary.acceptance_fact_count || 0)
++ " | Quarantined source facts: " + (summary.quarantined_fact_count || 0);
 noteElement.textContent = summary.status === "DISABLED_MISSING_SEC_USER_AGENT"
 ? "Complete SEC data-source setup before the first archive can be collected. Research use and broker orders remain blocked."
-: "Coverage describes this collection attempt; retained older records do not count as fresh success. New fundamental research still requires a separate protocol.";
+: (summary.quarantined_fact_count > 0
+? "Invalid source rows are isolated with their original dates and values. Valid rows remain available; new fundamental research still requires a separate protocol."
+: "Coverage describes this collection attempt; retained older records do not count as fresh success. New fundamental research still requires a separate protocol.");
+if (Array.isArray(summary.unusable_tickers) && summary.unusable_tickers.length > 0) {
+noteElement.textContent += " | Unavailable tickers: "
++ summary.unusable_tickers.slice(0, 10).join(", ")
++ (summary.unusable_tickers.length > 10 ? " ..." : "");
+}
 } catch (error) {
 statusElement.textContent = "UNAVAILABLE — SEC archive readiness could not be verified";
 coverageElement.textContent = "No current coverage can be confirmed. Check the SEC archive workflow.";
