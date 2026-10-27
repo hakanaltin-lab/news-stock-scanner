@@ -6,8 +6,8 @@ policy change or broker-order authorization.
 
 ## Finding and remedy
 
-The original issuer-level all-or-nothing check excluded 13,062 independently
-valid facts alongside 12 facts whose reported period end was later than the
+The original issuer-level all-or-nothing check excluded 13,062 facts passing
+the existing date, numeric and provenance rules alongside 12 facts whose reported period end was later than the
 filing date. Each rejected fact retains its original date, numeric value,
 metric, concept and accession in a separate quarantine ledger. Only rows that
 pass the unchanged admission rules enter the primary archive. Source dates
@@ -43,6 +43,22 @@ confirm a recently separated issuer, but do not supply the supported canonical
 Company Facts data required by this foundation.
 
 ## Inspectable checks
+
+### Remaining feature-readiness work
+
+This repair validates record admission, not comparability of derived model
+features. The WMT source review also found three historical diluted-EPS facts
+with unit `pure`, all filed on 2010-09-01 under accession
+0001193125-10-202779. Their units are retained literally and are not converted
+to currency/share values. They must be resolved or excluded by an explicit
+unit contract before any fundamental model uses them.
+
+Currency consistency, quarter/year/YTD duration alignment and latest-period
+selection also require a separate feature-readiness review. Existing raw
+filing versions must not be summed across units or durations. None of these
+source-coverage results authorizes fundamental research or portfolio changes.
+
+### Reproducible validation
 
 - `tests/test_sec_archive_readiness.py`: strict per-row validity, mixed-record
   isolation, value/date preservation, non-finite audit encoding, amendment
