@@ -21,6 +21,13 @@ from engines.market_data_quality_gate import evaluate_market_data_for_execution
 from execution_engine.broker_connector import BrokerConnector as LegacyExecutionConnector
 from engines.broker_connector import BrokerConnector as LegacyEngineConnector
 
+from broker_engine.broker_execution_connector import (
+    BrokerExecutionConnector as LegacyBrokerExecutionConnector,
+)
+from broker_engine.live_trading_bridge import LiveTradingBridge
+from broker_engine.order_management_system import OrderManagementSystem
+from deployment_engine.environment_manager import EnvironmentManager
+
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 
@@ -146,6 +153,78 @@ class MarketDataExecutionGateTests(unittest.TestCase):
 
         self.assertFalse(result["execution_eligible"])
         self.assertIn("fresh", result["failure_reasons"])
+
+
+class LegacyExecutionSurfaceTests(unittest.TestCase):
+    def test_approved_legacy_broker_request_is_still_blocked(self):
+        connector = LegacyBrokerExecutionConnector()
+        order = connector.create_order_request(
+            "NVDA",
+            "BUY",
+            1,
+            "LIMIT",
+            "APPROVED",
+        )
+
+        self.assertEqual(order["status"], "BLOCKED")
+        self.assertFalse(order["live_execution_allowed"])
+        self.assertFalse(order["paper_order_submission_allowed"])
+
+    def test_live_trading_bridge_can_never_become_ready_or_executed(self):
+        bridge = LiveTradingBridge()
+        request = bridge.create_execution_request(
+            "NVDA",
+            "BUY",
+            1,
+            "APPROVED",
+            "APPROVED",
+        )
+
+        self.assertEqual(request["status"], "BLOCKED")
+        self.assertFalse(request["live_execution_allowed"])
+
+        confirmed = bridge.confirm_execution(
+            request["request_id"],
+            {"status": "FILLED"},
+        )
+        self.assertEqual(confirmed["status"], "BLOCKED")
+        self.assertNotEqual(confirmed["status"], "EXECUTED")
+
+    def test_order_management_requires_dry_run_and_remains_shadow_only(self):
+        manager = OrderManagementSystem()
+
+        with patch.dict(os.environ, {
+            "AURORA_RUN_MODE": "SAFE_OFF",
+        }, clear=True):
+            blocked = manager.create_trade_order(
+                "NVDA", "BUY", 1, 100.0, 5.0, 10.0
+            )
+
+        self.assertEqual(blocked["status"], "BLOCKED")
+
+        with patch.dict(os.environ, {
+            "AURORA_RUN_MODE": "DRY_RUN",
+        }, clear=True):
+            shadow = manager.create_trade_order(
+                "NVDA", "BUY", 1, 100.0, 5.0, 10.0
+            )
+
+        self.assertEqual(shadow["status"], "SHADOW_ONLY")
+        self.assertFalse(shadow["live_execution_allowed"])
+        self.assertFalse(shadow["paper_order_submission_allowed"])
+
+    def test_environment_manager_rejects_live(self):
+        manager = EnvironmentManager()
+
+        blocked = manager.set_environment("LIVE")
+        self.assertEqual(blocked["status"], "BLOCKED")
+        self.assertEqual(manager.environment, "DEVELOPMENT")
+        self.assertFalse(blocked["live_execution_allowed"])
+
+        paper = manager.set_environment("PAPER")
+        self.assertEqual(paper["status"], "UPDATED")
+        self.assertEqual(manager.environment, "PAPER")
+        self.assertFalse(paper["live_execution_allowed"])
 
 
 class LegacyConnectorIsolationTests(unittest.TestCase):
