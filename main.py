@@ -266,7 +266,7 @@ def run_scanner():
 
 
     # =====================================================
-    # 0. V8.9.4 IBKR PAPER READ-ONLY BROKER READINESS
+    # 0. V8.9.5 IBKR PAPER READ-ONLY BROKER READINESS
     # =====================================================
 
     try:
@@ -284,7 +284,7 @@ def run_scanner():
     except Exception as error:
         ibkr_paper_snapshot = {
             "engine":
-            "V8.9.4 IBKR Gateway Connector",
+            "V8.9.5 IBKR Gateway Connector",
 
             "status":
             "ERROR",
@@ -300,7 +300,7 @@ def run_scanner():
 
         ibkr_paper_readiness = {
             "engine":
-            "V8.9.4 IBKR Paper Readiness Safety Gate",
+            "V8.9.5 IBKR Paper Readiness Safety Gate",
 
             "readiness":
             "NOT_READY",
