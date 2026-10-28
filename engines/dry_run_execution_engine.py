@@ -6,6 +6,7 @@ runtime is DRY_RUN and all pre-trade controls pass.
 """
 
 from datetime import datetime, timezone
+import math
 import os
 import uuid
 
@@ -28,7 +29,11 @@ def _env_float(name, default):
         value = float(raw)
     except (TypeError, ValueError):
         return float(default)
-    return value if value > 0 else float(default)
+
+    if not math.isfinite(value) or value <= 0:
+        return float(default)
+
+    return value
 
 
 class DryRunExecutionEngine:
@@ -80,22 +85,43 @@ class DryRunExecutionEngine:
             order_intent.get("idempotency_key") or ""
         ).strip()
 
+        raw_quantity = order_intent.get("quantity")
         try:
-            quantity = int(order_intent.get("quantity") or 0)
+            quantity_float = float(raw_quantity)
         except (TypeError, ValueError):
-            quantity = 0
+            quantity_float = 0.0
+
+        quantity_is_whole = (
+            math.isfinite(quantity_float)
+            and quantity_float > 0
+            and quantity_float.is_integer()
+        )
+        quantity = int(quantity_float) if quantity_is_whole else 0
 
         try:
             limit_price = float(order_intent.get("limit_price") or 0)
         except (TypeError, ValueError):
             limit_price = 0.0
 
+        if not math.isfinite(limit_price):
+            limit_price = 0.0
+
         try:
-            current_position_qty = int(
+            current_position_float = float(
                 order_intent.get("current_position_qty") or 0
             )
         except (TypeError, ValueError):
-            current_position_qty = 0
+            current_position_float = 0.0
+
+        current_position_qty = (
+            int(current_position_float)
+            if (
+                math.isfinite(current_position_float)
+                and current_position_float >= 0
+                and current_position_float.is_integer()
+            )
+            else 0
+        )
 
         if not symbol:
             return self._block("SYMBOL_REQUIRED")
@@ -127,8 +153,10 @@ class DryRunExecutionEngine:
         if risk_approval != "APPROVED":
             return self._block("RISK_APPROVAL_REQUIRED")
 
-        if quantity <= 0:
-            return self._block("POSITIVE_QUANTITY_REQUIRED")
+        if not quantity_is_whole:
+            return self._block(
+                "WHOLE_POSITIVE_SHARE_QUANTITY_REQUIRED"
+            )
 
         if limit_price <= 0:
             return self._block("POSITIVE_LIMIT_PRICE_REQUIRED")
@@ -162,6 +190,11 @@ class DryRunExecutionEngine:
             ask = float(market_data.get("ask") or 0)
         except (TypeError, ValueError):
             bid = 0.0
+            ask = 0.0
+
+        if not math.isfinite(bid):
+            bid = 0.0
+        if not math.isfinite(ask):
             ask = 0.0
 
         if bid <= 0 or ask <= 0 or ask < bid:
