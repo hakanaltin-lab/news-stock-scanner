@@ -1,16 +1,16 @@
 {
   "engine": "V8.7 Daily Forward Evidence Archive",
   "archive_signature": "V8.7.0",
-  "archive_date": "2026-10-27",
-  "retrieved_at": "2026-10-27T01:35:12.917286+00:00",
+  "archive_date": "2026-10-28",
+  "retrieved_at": "2026-10-28T01:33:42.098213+00:00",
   "status": "COMPLETE",
-  "archive_file": "data/evidence_archive/2026-10-27.json",
+  "archive_file": "data/evidence_archive/2026-10-28.json",
   "universe": {
     "source": "Union of data/us_universe.json and data/portfolio.csv",
     "ticker_count": 65
   },
   "coverage": {
-    "news_live_tickers": 65,
+    "news_live_tickers": 64,
     "fundamental_good_or_partial_tickers": 65,
     "error_ticker_count": 0,
     "error_tickers": []
