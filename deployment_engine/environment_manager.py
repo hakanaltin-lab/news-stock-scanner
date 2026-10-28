@@ -1,163 +1,63 @@
-"""
-AURORA AI CIO v3.1
+"""AURORA V8.9.5 fail-closed deployment environment manager.
 
-V7.7 Deployment & Environment Manager v1.0
-
-Purpose:
-Manage system environment,
-configuration and deployment status.
-
-Controls:
-- Environment
-- Version
-- API Status
-- Broker Status
-- System Health
-
-Output:
-Deployment Report
+LIVE is intentionally not a supported deployment environment.
 """
 
+from datetime import datetime, timezone
 
-from datetime import datetime
 
+VALID_ENVIRONMENTS = {"DEVELOPMENT", "PAPER"}
 
 
 class EnvironmentManager:
-
-
     def __init__(self):
-
-        self.status = "ACTIVE"
-
+        self.status = "SAFE"
         self.environment = "DEVELOPMENT"
-
-        self.version = "AURORA AI CIO v3.1"
-
+        self.version = "AURORA V8.9.5"
         self.configuration = {}
 
+    def set_environment(self, environment):
+        requested = str(environment or "").strip().upper()
 
+        if requested not in VALID_ENVIRONMENTS:
+            return {
+                "status": "BLOCKED",
+                "requested_environment": requested or None,
+                "environment": self.environment,
+                "reason": "UNSUPPORTED_OR_LIVE_ENVIRONMENT",
+                "live_execution_allowed": False,
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+            }
 
-
-
-    def set_environment(
-        self,
-        environment
-    ):
-
-
-        self.environment = environment
-
+        self.environment = requested
 
         return {
-
-
-            "environment":
-
-            self.environment,
-
-
-            "updated_at":
-
-            datetime.utcnow().isoformat()
-
+            "status": "UPDATED",
+            "environment": self.environment,
+            "live_execution_allowed": False,
+            "updated_at": datetime.now(timezone.utc).isoformat(),
         }
 
-
-
-
-
-    def add_configuration(
-        self,
-        key,
-        value
-    ):
-
-
+    def add_configuration(self, key, value):
         self.configuration[key] = value
+        return {key: value}
 
-
+    def health_check(self):
         return {
-
-
-            key:
-
-            value
-
+            "system": "AURORA",
+            "status": "HEALTHY",
+            "environment": self.environment,
+            "live_execution_allowed": False,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-
-
-
-
-    def health_check(
-        self
-    ):
-
-
+    def generate_deployment_report(self):
         return {
-
-
-            "system":
-
-            "AURORA AI CIO",
-
-
-            "status":
-
-            "HEALTHY",
-
-
-            "environment":
-
-            self.environment,
-
-
-            "timestamp":
-
-            datetime.utcnow().isoformat()
-
-        }
-
-
-
-
-
-    def generate_deployment_report(
-        self
-    ):
-
-
-        return {
-
-
-            "engine":
-
-            "V7.7 Environment Manager v1.0",
-
-
-            "version":
-
-            self.version,
-
-
-            "environment":
-
-            self.environment,
-
-
-            "configuration":
-
-            self.configuration,
-
-
-            "system_status":
-
-            self.status,
-
-
-            "generated_at":
-
-            datetime.utcnow().isoformat()
-
+            "engine": "V8.9.5 Fail-Closed Environment Manager",
+            "version": self.version,
+            "environment": self.environment,
+            "configuration": self.configuration,
+            "system_status": self.status,
+            "live_execution_allowed": False,
+            "generated_at": datetime.now(timezone.utc).isoformat(),
         }
