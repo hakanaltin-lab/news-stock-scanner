@@ -9,23 +9,21 @@ on:
       - "engines/aurora_run_mode_engine.py"
       - "engines/market_data_quality_gate.py"
       - "engines/market_data_engine.py"
+      - "engines/ibkr_paper_readiness_engine.py"
       - "execution_engine/broker_connector.py"
       - "engines/broker_connector.py"
-      - "engines/ibkr_paper_readiness_engine.py"
       - "main.py"
       - "scripts/ibkr_paper_probe.py"
+      - "scripts/verify_g0_g1_local.sh"
       - "tests/test_ibkr_paper_read_only.py"
       - "tests/test_v8_9_5_safety_hardening.py"
       - "config/ibkr_paper.env.example"
       - "config/aurora_runtime.env.example"
       - "deployment_engine/vps_security_contract.json"
-      - "scripts/verify_g0_g1_local.sh"
       - "docs/AURORA_G0_G1_DEPLOYMENT.md"
       - "docs/IBKR_PAPER_SETUP.md"
       - ".github/workflows/ibkr_paper_safety.yml"
   push:
-    branches:
-      - main
     paths:
       - "engines/ibkr_gateway_connector.py"
       - "engines/ibkr_account_guard.py"
@@ -37,12 +35,12 @@ on:
       - "engines/broker_connector.py"
       - "main.py"
       - "scripts/ibkr_paper_probe.py"
+      - "scripts/verify_g0_g1_local.sh"
       - "tests/test_ibkr_paper_read_only.py"
       - "tests/test_v8_9_5_safety_hardening.py"
       - "config/ibkr_paper.env.example"
       - "config/aurora_runtime.env.example"
       - "deployment_engine/vps_security_contract.json"
-      - "scripts/verify_g0_g1_local.sh"
       - "docs/AURORA_G0_G1_DEPLOYMENT.md"
       - "docs/IBKR_PAPER_SETUP.md"
       - ".github/workflows/ibkr_paper_safety.yml"
@@ -64,7 +62,7 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Compile read-only components
+      - name: Compile safety components
         run: |
           python -m py_compile engines/ibkr_gateway_connector.py
           python -m py_compile engines/ibkr_account_guard.py
@@ -79,62 +77,17 @@ jobs:
           python -m py_compile tests/test_ibkr_paper_read_only.py
           python -m py_compile tests/test_v8_9_5_safety_hardening.py
 
-      - name: Validate G0 G1 deployment contract
+      - name: Validate G0 G1 deployment artifacts
         run: |
           bash -n scripts/verify_g0_g1_local.sh
-          python - <<'PY'
-          import json
-          from pathlib import Path
-
-          contract = json.loads(
-              Path("deployment_engine/vps_security_contract.json").read_text()
-          )
-
-          assert contract["instance"]["name"] == "aurora-trading-vps"
-          assert contract["instance"]["zone"] == "europe-west3-a"
-          assert contract["instance"]["machine_type"] == "e2-medium"
-          assert contract["network"]["public_ibkr_api_4002"] is False
-          assert contract["network"]["public_vnc_5902"] is False
-          assert contract["network"]["ssh_ingress"]["source"] == "35.235.240.0/20"
-          assert contract["ibkr"]["host"] == "127.0.0.1"
-          assert contract["ibkr"]["port"] == 4002
-          assert contract["ibkr"]["live_execution_allowed"] is False
-          assert contract["runtime"]["initial_run_mode"] == "SAFE_OFF"
-          assert contract["runtime"]["live_mode_present"] is False
-          assert contract["cost_control"]["paid_resource_create_requires_user_approval"] is True
-          PY
-          grep -q '^AURORA_RUN_MODE=SAFE_OFF
-          grep -q '^AURORA_IBKR_ENABLED=false
+          python -c 'import json,pathlib; c=json.loads(pathlib.Path("deployment_engine/vps_security_contract.json").read_text()); assert c["instance"]["name"]=="aurora-trading-vps"; assert c["instance"]["zone"]=="europe-west3-a"; assert c["instance"]["machine_type"]=="e2-medium"; assert c["network"]["public_ibkr_api_4002"] is False; assert c["network"]["public_vnc_5902"] is False; assert c["network"]["ssh_ingress"]["source"]=="35.235.240.0/20"; assert c["ibkr"]["host"]=="127.0.0.1"; assert c["ibkr"]["port"]==4002; assert c["ibkr"]["live_execution_allowed"] is False; assert c["runtime"]["initial_run_mode"]=="SAFE_OFF"; assert c["runtime"]["live_mode_present"] is False; assert c["cost_control"]["paid_resource_create_requires_user_approval"] is True'
+          grep -q '^AURORA_RUN_MODE=SAFE_OFF$' config/aurora_runtime.env.example
+          grep -q '^AURORA_IBKR_ENABLED=false$' config/aurora_runtime.env.example
 
       - name: Prove fail-closed behavior
         env:
           AURORA_IBKR_ENABLED: "false"
           AURORA_IBKR_MODE: "PAPER"
-        run: |
-          python -m unittest tests.test_ibkr_paper_read_only tests.test_v8_9_5_safety_hardening -v
- config/aurora_runtime.env.example
-          grep -q '^AURORA_IBKR_ENABLED=false config/aurora_runtime.env.example
-
-      - name: Prove fail-closed behavior
-        env:
-          AURORA_IBKR_ENABLED: "false"
-          AURORA_IBKR_MODE: "PAPER"
-        run: |
-          python -m unittest tests.test_ibkr_paper_read_only tests.test_v8_9_5_safety_hardening -v
- config/aurora_runtime.env.example
-
-      - name: Prove fail-closed behavior
-        env:
-          AURORA_IBKR_ENABLED: "false"
-          AURORA_IBKR_MODE: "PAPER"
-        run: |
-          python -m unittest tests.test_ibkr_paper_read_only tests.test_v8_9_5_safety_hardening -v
- config/aurora_runtime.env.example
-          grep -q '^AURORA_IBKR_ENABLED=false config/aurora_runtime.env.example
-
-      - name: Prove fail-closed behavior
-        env:
-          AURORA_IBKR_ENABLED: "false"
-          AURORA_IBKR_MODE: "PAPER"
+          AURORA_RUN_MODE: "SAFE_OFF"
         run: |
           python -m unittest tests.test_ibkr_paper_read_only tests.test_v8_9_5_safety_hardening -v
