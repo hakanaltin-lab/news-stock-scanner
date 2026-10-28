@@ -119,6 +119,21 @@ class DryRunExecutionGateTests(unittest.TestCase):
         self.assertEqual(result["status"], "BLOCKED")
         self.assertEqual(result["reason"], "MARKET_DATA_GATE_BLOCKED")
 
+    def test_fractional_share_quantity_is_blocked(self):
+        with patch.dict(os.environ, {
+            "AURORA_RUN_MODE": "DRY_RUN",
+        }, clear=True):
+            result = self.engine.evaluate_and_create_shadow_order(
+                base_intent(quantity=1.5),
+                fresh_market_data(),
+            )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["reason"],
+            "WHOLE_POSITIVE_SHARE_QUANTITY_REQUIRED",
+        )
+
     def test_market_order_is_blocked(self):
         with patch.dict(os.environ, {
             "AURORA_RUN_MODE": "DRY_RUN",
