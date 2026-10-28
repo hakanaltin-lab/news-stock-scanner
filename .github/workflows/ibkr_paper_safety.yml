@@ -24,11 +24,19 @@ on:
       - main
     paths:
       - "engines/ibkr_gateway_connector.py"
+      - "engines/ibkr_account_guard.py"
+      - "engines/aurora_run_mode_engine.py"
+      - "engines/market_data_quality_gate.py"
+      - "engines/market_data_engine.py"
       - "engines/ibkr_paper_readiness_engine.py"
+      - "execution_engine/broker_connector.py"
+      - "engines/broker_connector.py"
       - "main.py"
       - "scripts/ibkr_paper_probe.py"
       - "tests/test_ibkr_paper_read_only.py"
       - "tests/test_v8_9_5_safety_hardening.py"
+      - "config/ibkr_paper.env.example"
+      - "docs/IBKR_PAPER_SETUP.md"
       - ".github/workflows/ibkr_paper_safety.yml"
 
 permissions:
