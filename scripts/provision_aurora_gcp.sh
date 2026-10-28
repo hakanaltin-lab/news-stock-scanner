@@ -216,12 +216,13 @@ for _ in 1 2 3 4 5 6 7 8; do
   if gcloud compute ssh "$VM_NAME"     --project="$PROJECT_ID"     --zone="$ZONE"     --tunnel-through-iap     --quiet     --command='
       set -e
       echo "IAP_SSH_OK"
-      sudo sshd -T | grep -E "^(passwordauthentication|permitrootlogin) "
-      if sudo ss -lntH | awk '"'"'$4 ~ /(^|:)4002$/ && ($4 ~ /^0\.0\.0\.0:/ || $4 ~ /^\[::\]:/ || $4 ~ /^\*:/) {exit 0} END{exit 1}'"'"'; then
+      sudo sshd -T | grep -qx "passwordauthentication no"
+      sudo sshd -T | grep -qx "permitrootlogin no"
+      if sudo ss -lntH | awk '"'"'$4 ~ /(^|:)4002$/ && ($4 ~ /^0\.0\.0\.0:/ || $4 ~ /^\[::\]:/ || $4 ~ /^\*:/) {found=1} END{exit !found}'"'"'; then
         echo "PUBLIC_4002_BIND_DETECTED" >&2
         exit 21
       fi
-      if sudo ss -lntH | awk '"'"'$4 ~ /(^|:)5902$/ && ($4 ~ /^0\.0\.0\.0:/ || $4 ~ /^\[::\]:/ || $4 ~ /^\*:/) {exit 0} END{exit 1}'"'"'; then
+      if sudo ss -lntH | awk '"'"'$4 ~ /(^|:)5902$/ && ($4 ~ /^0\.0\.0\.0:/ || $4 ~ /^\[::\]:/ || $4 ~ /^\*:/) {found=1} END{exit !found}'"'"'; then
         echo "PUBLIC_5902_BIND_DETECTED" >&2
         exit 22
       fi
