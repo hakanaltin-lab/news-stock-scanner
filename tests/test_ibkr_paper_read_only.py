@@ -25,11 +25,20 @@ def ready_snapshot():
             "mode": "PAPER",
             "mode_valid": True,
             "read_only": True,
+            "endpoint_safe": True,
         },
         "official_ibapi_available": True,
         "order_submission_hard_blocked": True,
         "live_trading_allowed": False,
         "account_count": 1,
+        "paper_account_guard": {
+            "allowlist_configured": True,
+            "managed_account_received": True,
+            "account_count": 1,
+            "all_accounts_allowlisted": True,
+            "paper_account_verified": True,
+            "reason": "PAPER_ACCOUNT_VERIFIED",
+        },
         "account_summary": {
             "NetLiquidation": {"value": 100000.0, "currency": "USD"},
             "TotalCashValue": {"value": 50000.0, "currency": "USD"},
@@ -82,6 +91,32 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
         self.assertFalse(config["mode_valid"])
         self.assertEqual(snapshot["status"], "BLOCKED")
         self.assertEqual(snapshot["connection_status"], "NOT_ATTEMPTED")
+
+    def test_non_loopback_host_is_blocked_before_network_access(self):
+        with patch.dict(os.environ, {
+            "AURORA_IBKR_ENABLED": "true",
+            "AURORA_IBKR_MODE": "PAPER",
+            "AURORA_IBKR_HOST": "10.20.0.5",
+            "AURORA_IBKR_PORT": "4002",
+        }, clear=True):
+            snapshot = connector.get_ibkr_read_only_snapshot()
+
+        self.assertEqual(snapshot["status"], "BLOCKED")
+        self.assertEqual(snapshot["connection_status"], "NOT_ATTEMPTED")
+        self.assertFalse(snapshot["config"]["endpoint_safe"])
+
+    def test_live_gateway_port_is_blocked_before_network_access(self):
+        with patch.dict(os.environ, {
+            "AURORA_IBKR_ENABLED": "true",
+            "AURORA_IBKR_MODE": "PAPER",
+            "AURORA_IBKR_HOST": "127.0.0.1",
+            "AURORA_IBKR_PORT": "4001",
+        }, clear=True):
+            snapshot = connector.get_ibkr_read_only_snapshot()
+
+        self.assertEqual(snapshot["status"], "BLOCKED")
+        self.assertEqual(snapshot["connection_status"], "NOT_ATTEMPTED")
+        self.assertFalse(snapshot["config"]["endpoint_safe"])
 
     def test_account_identifiers_are_masked_in_errors(self):
         account = "DU1234567"
