@@ -12,6 +12,11 @@ on:
       - "engines/ibkr_paper_readiness_engine.py"
       - "execution_engine/broker_connector.py"
       - "engines/broker_connector.py"
+      - "broker_engine/broker_execution_connector.py"
+      - "broker_engine/live_trading_bridge.py"
+      - "broker_engine/order_management_system.py"
+      - "deployment_engine/environment_manager.py"
+      - "deployment_engine/vps_security_contract.json"
       - "main.py"
       - "scripts/ibkr_paper_probe.py"
       - "scripts/verify_g0_g1_local.sh"
@@ -19,7 +24,6 @@ on:
       - "tests/test_v8_9_5_safety_hardening.py"
       - "config/ibkr_paper.env.example"
       - "config/aurora_runtime.env.example"
-      - "deployment_engine/vps_security_contract.json"
       - "docs/AURORA_G0_G1_DEPLOYMENT.md"
       - "docs/IBKR_PAPER_SETUP.md"
       - ".github/workflows/ibkr_paper_safety.yml"
@@ -33,6 +37,11 @@ on:
       - "engines/ibkr_paper_readiness_engine.py"
       - "execution_engine/broker_connector.py"
       - "engines/broker_connector.py"
+      - "broker_engine/broker_execution_connector.py"
+      - "broker_engine/live_trading_bridge.py"
+      - "broker_engine/order_management_system.py"
+      - "deployment_engine/environment_manager.py"
+      - "deployment_engine/vps_security_contract.json"
       - "main.py"
       - "scripts/ibkr_paper_probe.py"
       - "scripts/verify_g0_g1_local.sh"
@@ -40,7 +49,6 @@ on:
       - "tests/test_v8_9_5_safety_hardening.py"
       - "config/ibkr_paper.env.example"
       - "config/aurora_runtime.env.example"
-      - "deployment_engine/vps_security_contract.json"
       - "docs/AURORA_G0_G1_DEPLOYMENT.md"
       - "docs/IBKR_PAPER_SETUP.md"
       - ".github/workflows/ibkr_paper_safety.yml"
@@ -72,6 +80,10 @@ jobs:
           python -m py_compile engines/ibkr_paper_readiness_engine.py
           python -m py_compile execution_engine/broker_connector.py
           python -m py_compile engines/broker_connector.py
+          python -m py_compile broker_engine/broker_execution_connector.py
+          python -m py_compile broker_engine/live_trading_bridge.py
+          python -m py_compile broker_engine/order_management_system.py
+          python -m py_compile deployment_engine/environment_manager.py
           python -m py_compile main.py
           python -m py_compile scripts/ibkr_paper_probe.py
           python -m py_compile tests/test_ibkr_paper_read_only.py
