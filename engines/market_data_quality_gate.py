@@ -69,11 +69,11 @@ def evaluate_market_data_for_execution(
         data_points = 0
 
     age_seconds = None
+    future_skew_seconds = None
     if timestamp is not None:
-        age_seconds = max(
-            0.0,
-            (now_utc - timestamp).total_seconds(),
-        )
+        raw_age_seconds = (now_utc - timestamp).total_seconds()
+        age_seconds = max(0.0, raw_age_seconds)
+        future_skew_seconds = max(0.0, -raw_age_seconds)
 
     checks = {
         "source_allowed": source in allowed_sources,
@@ -81,6 +81,10 @@ def evaluate_market_data_for_execution(
         "fresh": (
             age_seconds is not None
             and age_seconds <= float(max_age_seconds)
+        ),
+        "clock_sane": (
+            future_skew_seconds is not None
+            and future_skew_seconds <= 2.0
         ),
         "positive_price": price > 0,
         "data_quality_valid": data_quality not in {
@@ -109,6 +113,11 @@ def evaluate_market_data_for_execution(
         "data_age_seconds": (
             round(age_seconds, 3)
             if age_seconds is not None
+            else None
+        ),
+        "future_skew_seconds": (
+            round(future_skew_seconds, 3)
+            if future_skew_seconds is not None
             else None
         ),
         "max_age_seconds": float(max_age_seconds),
