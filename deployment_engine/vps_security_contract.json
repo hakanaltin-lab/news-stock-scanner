@@ -1,0 +1,58 @@
+{
+  "contract_version": "V8.9.5-G0-G1",
+  "project_id": "project-ce9773ef-6814-469c-92b",
+  "instance": {
+    "name": "aurora-trading-vps",
+    "region": "europe-west3",
+    "zone": "europe-west3-a",
+    "machine_type": "e2-medium",
+    "os": "Ubuntu 22.04 LTS Minimal",
+    "boot_disk_gb": 30,
+    "boot_disk_type": "pd-standard",
+    "nic_count": 1
+  },
+  "network": {
+    "vpc": "aurora-vpc",
+    "subnet": "aurora-eu3-subnet",
+    "subnet_cidr": "10.20.0.0/24",
+    "external_ipv4": "EPHEMERAL_ALLOWED",
+    "public_http": false,
+    "public_https": false,
+    "public_ibkr_api_4002": false,
+    "public_vnc_5902": false,
+    "ssh_ingress": {
+      "source": "35.235.240.0/20",
+      "protocol": "tcp",
+      "port": 22,
+      "purpose": "Google Cloud IAP only"
+    }
+  },
+  "ssh": {
+    "os_login_required": true,
+    "password_authentication": false,
+    "root_login": false
+  },
+  "ibkr": {
+    "mode": "PAPER",
+    "host": "127.0.0.1",
+    "port": 4002,
+    "vnc_bind": "127.0.0.1:5902",
+    "live_execution_allowed": false,
+    "paper_orders_initially_allowed": false
+  },
+  "runtime": {
+    "initial_run_mode": "SAFE_OFF",
+    "permitted_modes": [
+      "SAFE_OFF",
+      "READ_ONLY",
+      "DRY_RUN",
+      "PAPER_ENABLED"
+    ],
+    "live_mode_present": false
+  },
+  "cost_control": {
+    "budget_alert_try": 750,
+    "budget_alert_is_spend_cap": false,
+    "paid_resource_create_requires_user_approval": true
+  }
+}

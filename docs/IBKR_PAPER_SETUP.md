@@ -1,4 +1,4 @@
-# AURORA V8.9.4 — IBKR Paper Read-Only Proof
+# AURORA V8.9.5 — IBKR Paper Read-Only Proof
 
 This milestone connects AURORA to an Interactive Brokers paper session in
 read-only mode. It does not submit orders and LIVE trading is hard-blocked.
@@ -6,6 +6,9 @@ read-only mode. It does not submit orders and LIVE trading is hard-blocked.
 ## Safety state
 
 - PAPER mode only
+- Fail-closed run modes: SAFE_OFF → READ_ONLY → DRY_RUN → PAPER_ENABLED
+- IBKR endpoint restricted to 127.0.0.1:4002
+- Managed account must match a runtime-only paper-account allowlist
 - LIVE trading hard-blocked in code
 - Every `placeOrder` call hard-blocked in the read-only connector
 - No IBKR username/password is stored in GitHub
@@ -53,12 +56,14 @@ After installation, this command should import successfully on the VPS:
 
 Set these environment variables on the VPS:
 
+    export AURORA_RUN_MODE=READ_ONLY
     export AURORA_IBKR_ENABLED=true
     export AURORA_IBKR_MODE=PAPER
     export AURORA_IBKR_HOST=127.0.0.1
     export AURORA_IBKR_PORT=4002
     export AURORA_IBKR_CLIENT_ID=82
     export AURORA_IBKR_TIMEOUT_SECONDS=8
+    export AURORA_IBKR_PAPER_ACCOUNT_ALLOWLIST=<YOUR_PAPER_ACCOUNT_ID>
 
 Then run:
 
@@ -75,7 +80,13 @@ Expected first successful milestone:
     paper_order_submission_allowed = false
 
 The probe should also return masked account information, account metrics,
-positions and open orders.
+positions and open orders. The raw paper account ID is used only for the
+runtime allowlist comparison and must never be committed to GitHub or emitted
+to logs/output.
+
+Yahoo Finance 15-minute data is research-only in V8.9.5 and is explicitly
+marked execution_eligible=false. Any future paper-order path must use a
+separately validated real-time execution source such as IBKR real-time data.
 
 The command exits with code `0` only when all required read-only checks pass.
 Disabled, incomplete, invalid-mode, missing-API and connection-failure states

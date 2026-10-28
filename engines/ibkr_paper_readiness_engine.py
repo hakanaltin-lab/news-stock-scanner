@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 
 
 ENGINE_VERSION = (
-    "V8.9.4 IBKR Paper Readiness Safety Gate"
+    "V8.9.5 IBKR Paper Readiness Safety Gate"
 )
 
 
@@ -318,6 +318,49 @@ def evaluate_ibkr_paper_readiness(
         True,
         (
             "Connector must run in explicitly configured PAPER mode."
+        )
+    )
+
+
+    add_check(
+        "safe_loopback_paper_endpoint",
+        config.get("endpoint_safe") is True,
+        True,
+        (
+            "IBKR access must be restricted to 127.0.0.1:4002."
+        )
+    )
+
+    paper_account_guard = (
+        broker_snapshot.get(
+            "paper_account_guard",
+            {}
+        )
+        or
+        {}
+    )
+
+    add_check(
+        "paper_account_allowlist_configured",
+        paper_account_guard.get(
+            "allowlist_configured"
+        )
+        is True,
+        True,
+        (
+            "A paper-account allowlist must be configured outside GitHub."
+        )
+    )
+
+    add_check(
+        "paper_account_identity_verified",
+        paper_account_guard.get(
+            "paper_account_verified"
+        )
+        is True,
+        True,
+        (
+            "Every managed account returned by IBKR must match the paper allowlist."
         )
     )
 

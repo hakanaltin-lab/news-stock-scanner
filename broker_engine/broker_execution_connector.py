@@ -1,40 +1,24 @@
-"""
-AURORA AI CIO v3.1
+"""Deprecated broker execution connector.
 
-V7.0 Production Trading System
-
-V7.1 Broker Execution Connector v1.0
-
-Purpose:
-Convert approved CIO decisions
-into broker-ready orders.
-
-Supports:
-- IBKR
-- Alpaca
-
-Output:
-Validated Order Request
+V8.9.5 safety policy:
+- Retained only for backward compatibility.
+- Does not create broker-ready executable orders.
+- Does not submit to any broker.
+- LIVE execution is unavailable.
 """
 
-
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 
 
+DEPRECATED_LEGACY_CONNECTOR = True
+LIVE_EXECUTION_ALLOWED = False
+
 
 class BrokerExecutionConnector:
-
-
     def __init__(self):
-
-        self.status = "ACTIVE"
-
+        self.status = "DEPRECATED"
         self.orders = {}
-
-
-
-
 
     def create_order_request(
         self,
@@ -44,146 +28,49 @@ class BrokerExecutionConnector:
         order_type,
         approval_status
     ):
-
-
         order_id = str(uuid.uuid4())
 
-
-        if approval_status != "APPROVED":
-
-            return {
-
-
-                "status":
-
-                "REJECTED",
-
-
-                "reason":
-
-                "Human approval required"
-
-            }
-
-
-
-        order = {
-
-
-            "order_id":
-
-            order_id,
-
-
-            "symbol":
-
-            symbol,
-
-
-            "action":
-
-            action,
-
-
-            "quantity":
-
-            quantity,
-
-
-            "order_type":
-
-            order_type,
-
-
-            "status":
-
-            "READY_FOR_EXECUTION",
-
-
-            "created_at":
-
-            datetime.utcnow().isoformat()
-
+        record = {
+            "order_id": order_id,
+            "symbol": symbol,
+            "action": action,
+            "quantity": quantity,
+            "order_type": order_type,
+            "approval_status": approval_status,
+            "status": "BLOCKED",
+            "reason": "V8_9_5_LEGACY_EXECUTION_CONNECTOR_DISABLED",
+            "live_execution_allowed": False,
+            "paper_order_submission_allowed": False,
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
+        self.orders[order_id] = record
+        return record
 
-        self.orders[order_id] = order
+    def update_order_status(self, order_id, status):
+        if order_id not in self.orders:
+            return None
 
-
-        return order
-
-
-
-
-
-    def update_order_status(
-        self,
-        order_id,
-        status
-    ):
-
-
-        if order_id in self.orders:
-
-
-            self.orders[order_id]["status"] = status
-
-
-            self.orders[order_id]["updated_at"] = datetime.utcnow().isoformat()
-
-
-            return self.orders[order_id]
-
-
-        return None
-
-
-
-
-
-    def get_order(
-        self,
-        order_id
-    ):
-
-
-        return self.orders.get(
-
-            order_id,
-
-            None
-
+        self.orders[order_id]["status"] = "BLOCKED"
+        self.orders[order_id]["requested_status"] = status
+        self.orders[order_id]["reason"] = (
+            "V8_9_5_LEGACY_EXECUTION_CONNECTOR_DISABLED"
         )
+        self.orders[order_id]["updated_at"] = (
+            datetime.now(timezone.utc).isoformat()
+        )
+        return self.orders[order_id]
 
+    def get_order(self, order_id):
+        return self.orders.get(order_id)
 
-
-
-
-    def generate_execution_report(
-        self
-    ):
-
-
+    def generate_execution_report(self):
         return {
-
-
-            "engine":
-
-            "V7.1 Broker Execution Connector v1.0",
-
-
-            "timestamp":
-
-            datetime.utcnow().isoformat(),
-
-
-            "total_orders":
-
-            len(self.orders),
-
-
-            "orders":
-
-            self.orders
-
+            "engine": "V8.9.5 Deprecated Broker Execution Connector",
+            "status": "BLOCKED",
+            "live_execution_allowed": False,
+            "paper_order_submission_allowed": False,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "total_orders": len(self.orders),
+            "orders": self.orders,
         }

@@ -64,6 +64,15 @@ from engines.market_data_engine import (
 )
 
 
+from engines.market_data_quality_gate import (
+    evaluate_market_data_for_execution
+)
+
+from engines.aurora_run_mode_engine import (
+    load_run_mode
+)
+
+
 from engines.scoring_engine import (
     calculate_market_score
 )
@@ -264,9 +273,11 @@ def run_scanner():
 
     portfolio = load_portfolio()
 
+    aurora_run_mode = load_run_mode()
+
 
     # =====================================================
-    # 0. V8.9.4 IBKR PAPER READ-ONLY BROKER READINESS
+    # 0. V8.9.5 IBKR PAPER READ-ONLY BROKER READINESS
     # =====================================================
 
     try:
@@ -284,7 +295,7 @@ def run_scanner():
     except Exception as error:
         ibkr_paper_snapshot = {
             "engine":
-            "V8.9.4 IBKR Gateway Connector",
+            "V8.9.5 IBKR Gateway Connector",
 
             "status":
             "ERROR",
@@ -300,7 +311,7 @@ def run_scanner():
 
         ibkr_paper_readiness = {
             "engine":
-            "V8.9.4 IBKR Paper Readiness Safety Gate",
+            "V8.9.5 IBKR Paper Readiness Safety Gate",
 
             "readiness":
             "NOT_READY",
@@ -347,6 +358,12 @@ def run_scanner():
 
         live_data = get_live_market_data(
             ticker
+        )
+
+        market_data_execution_gate = (
+            evaluate_market_data_for_execution(
+                live_data
+            )
         )
 
 
@@ -585,6 +602,9 @@ def run_scanner():
 
             "market":
             snapshot,
+
+            "market_data_execution_gate":
+            market_data_execution_gate,
 
             "tactical_market":
             snapshot,
@@ -1081,6 +1101,9 @@ def run_scanner():
 
         "scanner_version":
         "V8.6",
+
+        "aurora_run_mode":
+        aurora_run_mode,
 
         "decision_architecture": {
             "portfolio_horizon":
