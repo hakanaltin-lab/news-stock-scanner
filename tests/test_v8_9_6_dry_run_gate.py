@@ -2,6 +2,7 @@
 
 from datetime import datetime, timedelta, timezone
 import os
+from pathlib import Path
 import unittest
 from unittest.mock import patch
 
@@ -211,6 +212,25 @@ class DryRunExecutionGateTests(unittest.TestCase):
             second["reason"],
             "DAILY_GROSS_NOTIONAL_LIMIT_EXCEEDED",
         )
+
+    def test_dry_run_engine_has_no_broker_api_dependency(self):
+        source = (
+            Path(__file__).resolve().parents[1]
+            / "engines"
+            / "dry_run_execution_engine.py"
+        ).read_text(encoding="utf-8")
+
+        forbidden_tokens = [
+            "ibapi",
+            "placeOrder",
+            "EClient",
+            "EWrapper",
+            "broker_engine",
+            "ibkr_gateway_connector",
+        ]
+
+        for token in forbidden_tokens:
+            self.assertNotIn(token, source)
 
     def test_broker_submission_method_is_hard_blocked(self):
         with self.assertRaisesRegex(
