@@ -1,15 +1,32 @@
 """
-Standalone V8.3 IBKR Paper Read-Only Probe
+Standalone V8.9.4 IBKR Paper Read-Only Probe
 
 Run this on the VPS where IB Gateway is running after the official IBKR
 TWS Python API has been installed.
 
-No orders are submitted.
+No orders are submitted. A non-zero exit code is returned unless every
+required read-only readiness check passes.
 """
 
 import csv
 import json
 import os
+from pathlib import Path
+import sys
+
+
+REPOSITORY_ROOT = Path(
+    __file__
+).resolve().parents[1]
+
+# Support both documented entry points:
+#   python scripts/ibkr_paper_probe.py
+#   python -m scripts.ibkr_paper_probe
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(
+        0,
+        str(REPOSITORY_ROOT)
+    )
 
 from engines.ibkr_gateway_connector import (
     get_ibkr_read_only_snapshot
@@ -20,21 +37,37 @@ from engines.ibkr_paper_readiness_engine import (
 )
 
 
-PORTFOLIO_FILE = "data/portfolio.csv"
-RUNTIME_OUTPUT_FILE = "runtime/ibkr_paper_read_only/latest.json"
+PORTFOLIO_FILE = Path(
+    os.getenv(
+        "AURORA_IBKR_PORTFOLIO_FILE",
+        str(
+            REPOSITORY_ROOT
+            /
+            "data/portfolio.csv"
+        )
+    )
+).expanduser()
+
+RUNTIME_OUTPUT_FILE = Path(
+    os.getenv(
+        "AURORA_IBKR_PROBE_OUTPUT",
+        str(
+            REPOSITORY_ROOT
+            /
+            "runtime/ibkr_paper_read_only/latest.json"
+        )
+    )
+).expanduser()
 
 
 def load_portfolio():
     rows = []
 
-    if not os.path.exists(
-        PORTFOLIO_FILE
-    ):
+    if not PORTFOLIO_FILE.exists():
         return rows
 
-    with open(
-        PORTFOLIO_FILE,
-        "r",
+    with PORTFOLIO_FILE.open(
+        mode="r",
         encoding="utf-8"
     ) as file:
         reader = csv.DictReader(
@@ -68,23 +101,32 @@ def main():
         readiness
     }
 
-    os.makedirs(
-        os.path.dirname(
-            RUNTIME_OUTPUT_FILE
-        ),
+    RUNTIME_OUTPUT_FILE.parent.mkdir(
+        parents=True,
         exist_ok=True
     )
 
-    with open(
-        RUNTIME_OUTPUT_FILE,
-        "w",
-        encoding="utf-8"
-    ) as file:
-        json.dump(
+    temporary_output = (
+        RUNTIME_OUTPUT_FILE.with_suffix(
+            RUNTIME_OUTPUT_FILE.suffix
+            +
+            ".tmp"
+        )
+    )
+
+    temporary_output.write_text(
+        json.dumps(
             result,
-            file,
             indent=2
         )
+        +
+        "\n",
+        encoding="utf-8"
+    )
+
+    temporary_output.replace(
+        RUNTIME_OUTPUT_FILE
+    )
 
     print(
         json.dumps(
@@ -110,7 +152,9 @@ def main():
                 ),
 
                 "runtime_output":
-                RUNTIME_OUTPUT_FILE,
+                str(
+                    RUNTIME_OUTPUT_FILE
+                ),
 
                 "paper_order_submission_allowed":
                 readiness.get(
@@ -126,6 +170,19 @@ def main():
         )
     )
 
+    if (
+        readiness.get(
+            "readiness"
+        )
+        ==
+        "READY_FOR_PAPER_READ_ONLY"
+    ):
+        return 0
+
+    return 2
+
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(
+        main()
+    )

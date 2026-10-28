@@ -1,5 +1,5 @@
 """
-V8.3 AURORA IBKR Gateway Connector — Paper Read-Only Foundation
+V8.9.4 AURORA IBKR Gateway Connector — Paper Read-Only Proof Foundation
 
 Purpose:
 - Connect to Interactive Brokers TWS / IB Gateway through the official TWS API
@@ -46,7 +46,7 @@ except Exception as error:
 
 
 ENGINE_VERSION = (
-    "V8.3 IBKR Gateway Connector"
+    "V8.9.4 IBKR Gateway Connector"
 )
 
 LIVE_TRADING_ALLOWED = False
@@ -110,7 +110,7 @@ def mask_account(
 
 
 def load_ibkr_config():
-    mode = (
+    requested_mode = (
         os.getenv(
             "AURORA_IBKR_MODE",
             "PAPER"
@@ -119,11 +119,17 @@ def load_ibkr_config():
         .upper()
     )
 
-    if mode not in {
+    mode_valid = requested_mode in {
         "PAPER",
         "LIVE"
-    }:
-        mode = "PAPER"
+    }
+
+    mode = (
+        requested_mode
+        if mode_valid
+        else
+        "INVALID"
+    )
 
     default_port = (
         4002
@@ -175,6 +181,9 @@ def load_ibkr_config():
 
         "mode":
         mode,
+
+        "mode_valid":
+        mode_valid,
 
         "host":
         os.getenv(
@@ -242,6 +251,10 @@ if IBAPI_AVAILABLE:
                 threading.Event()
             )
 
+            self.managed_accounts_event = (
+                threading.Event()
+            )
+
             self.account_summary_event = (
                 threading.Event()
             )
@@ -281,6 +294,20 @@ if IBAPI_AVAILABLE:
                 )
                 if item.strip()
             ]
+
+            self.managed_accounts_event.set()
+
+
+        def placeOrder(
+            self,
+            orderId,
+            contract,
+            order
+        ):
+            raise RuntimeError(
+                "Order submission is hard-blocked by the AURORA "
+                "IBKR read-only connector."
+            )
 
 
         def accountSummary(
@@ -660,6 +687,55 @@ def _sanitize_positions(
     return sanitized
 
 
+def _sanitize_errors(
+    errors,
+    accounts
+):
+    sanitized = []
+
+    for item in (
+        errors
+        or
+        []
+    ):
+        message = str(
+            item.get(
+                "message",
+                ""
+            )
+        )
+
+        for account in (
+            accounts
+            or
+            []
+        ):
+            if account:
+                message = message.replace(
+                    str(account),
+                    mask_account(
+                        account
+                    )
+                )
+
+        sanitized.append({
+            "request_id":
+            item.get(
+                "request_id"
+            ),
+
+            "code":
+            item.get(
+                "code"
+            ),
+
+            "message":
+            message
+        })
+
+    return sanitized
+
+
 def get_ibkr_read_only_snapshot():
     config = load_ibkr_config()
 
@@ -681,6 +757,11 @@ def get_ibkr_read_only_snapshot():
             "mode":
             config.get(
                 "mode"
+            ),
+
+            "mode_valid":
+            config.get(
+                "mode_valid"
             ),
 
             "host":
@@ -707,6 +788,9 @@ def get_ibkr_read_only_snapshot():
 
         "official_ibapi_available":
         IBAPI_AVAILABLE,
+
+        "order_submission_hard_blocked":
+        True,
 
         "live_trading_allowed":
         False
@@ -749,8 +833,8 @@ def get_ibkr_read_only_snapshot():
 
             "reason":
             (
-                "V8.3 connector permits PAPER mode only. "
-                "LIVE mode is hard-blocked."
+                "V8.9.4 connector permits an explicit PAPER mode only. "
+                "LIVE and invalid modes are hard-blocked."
             )
         }
 
@@ -826,7 +910,10 @@ def get_ibkr_read_only_snapshot():
                 ),
 
                 "errors":
-                app.errors[-20:]
+                _sanitize_errors(
+                    app.errors[-20:],
+                    app.accounts
+                )
             }
 
         app.reqManagedAccts()
@@ -857,6 +944,8 @@ def get_ibkr_read_only_snapshot():
 
         while time.time() < deadline:
             if (
+                app.managed_accounts_event.is_set()
+                and
                 app.account_summary_event.is_set()
                 and
                 app.positions_event.is_set()
@@ -895,9 +984,13 @@ def get_ibkr_read_only_snapshot():
         status = (
             "CONNECTED"
             if (
+                app.managed_accounts_event.is_set()
+                and
                 app.account_summary_event.is_set()
                 and
                 app.positions_event.is_set()
+                and
+                app.open_orders_event.is_set()
             )
             else
             "PARTIAL"
@@ -952,9 +1045,15 @@ def get_ibkr_read_only_snapshot():
             app.execution_rows,
 
             "errors":
-            app.errors[-20:],
+            _sanitize_errors(
+                app.errors[-20:],
+                app.accounts
+            ),
 
             "requests_complete": {
+                "managed_accounts":
+                app.managed_accounts_event.is_set(),
+
                 "account_summary":
                 app.account_summary_event.is_set(),
 
@@ -982,11 +1081,18 @@ def get_ibkr_read_only_snapshot():
             ),
 
             "errors":
-            getattr(
-                app,
-                "errors",
-                []
-            )[-20:]
+            _sanitize_errors(
+                getattr(
+                    app,
+                    "errors",
+                    []
+                )[-20:],
+                getattr(
+                    app,
+                    "accounts",
+                    []
+                )
+            )
         }
 
     finally:

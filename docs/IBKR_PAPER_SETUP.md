@@ -1,4 +1,4 @@
-# AURORA V8.3 — IBKR Paper Read-Only Setup
+# AURORA V8.9.4 — IBKR Paper Read-Only Proof
 
 This milestone connects AURORA to an Interactive Brokers paper session in
 read-only mode. It does not submit orders and LIVE trading is hard-blocked.
@@ -7,9 +7,11 @@ read-only mode. It does not submit orders and LIVE trading is hard-blocked.
 
 - PAPER mode only
 - LIVE trading hard-blocked in code
+- Every `placeOrder` call hard-blocked in the read-only connector
 - No IBKR username/password is stored in GitHub
 - Account identifiers are masked before they are written to AURORA output
 - GitHub Actions keeps the connector disabled by default
+- Invalid or misspelled broker modes fail closed
 - The first milestone is account/position/open-order visibility only
 
 ## IB Gateway settings
@@ -26,8 +28,13 @@ In IB Gateway / TWS API settings:
 
 1. Enable socket/API clients.
 2. Confirm the socket port is 4002 for the paper Gateway session.
-3. Keep API access read-only for this milestone.
+3. Keep the **Read-Only API** setting enabled for this milestone. IBKR states
+   that this setting blocks API orders.
 4. If trusted-IP controls are enabled, allow only the local/VPS connection required by AURORA.
+
+IBKR's current defaults are 4002 for an IB Gateway paper session and 7497 for
+a TWS paper session. AURORA uses IB Gateway port 4002 by default; if the
+Gateway setting was changed, the configured port must match it.
 
 ## Official Python API
 
@@ -57,6 +64,10 @@ Then run:
 
     python scripts/ibkr_paper_probe.py
 
+The module form is also supported:
+
+    python -m scripts.ibkr_paper_probe
+
 Expected first successful milestone:
 
     readiness = READY_FOR_PAPER_READ_ONLY
@@ -65,6 +76,17 @@ Expected first successful milestone:
 
 The probe should also return masked account information, account metrics,
 positions and open orders.
+
+The command exits with code `0` only when all required read-only checks pass.
+Disabled, incomplete, invalid-mode, missing-API and connection-failure states
+exit with code `2`. The full sanitized proof is written atomically to:
+
+    runtime/ibkr_paper_read_only/latest.json
+
+For a service deployment, the output path can be overridden without changing
+the repository:
+
+    export AURORA_IBKR_PROBE_OUTPUT=/var/lib/aurora/ibkr/latest.json
 
 ## Next milestone
 

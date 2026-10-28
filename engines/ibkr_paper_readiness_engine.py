@@ -1,5 +1,5 @@
 """
-V8.3 AURORA IBKR Paper Readiness Safety Gate
+V8.9.4 AURORA IBKR Paper Readiness Safety Gate
 
 Purpose:
 - Validate whether the broker connection is safe enough for paper execution work
@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 
 
 ENGINE_VERSION = (
-    "V8.3 IBKR Paper Readiness Safety Gate"
+    "V8.9.4 IBKR Paper Readiness Safety Gate"
 )
 
 
@@ -303,14 +303,45 @@ def evaluate_ibkr_paper_readiness(
 
     add_check(
         "paper_mode_only",
-        config.get(
-            "mode"
-        )
-        ==
-        "PAPER",
+        (
+            config.get(
+                "mode"
+            )
+            ==
+            "PAPER"
+            and
+            config.get(
+                "mode_valid"
+            )
+            is True
+        ),
         True,
         (
-            "Connector must run in PAPER mode."
+            "Connector must run in explicitly configured PAPER mode."
+        )
+    )
+
+    add_check(
+        "connector_read_only",
+        config.get(
+            "read_only"
+        )
+        is True,
+        True,
+        (
+            "The broker snapshot connector must be read-only."
+        )
+    )
+
+    add_check(
+        "order_submission_hard_blocked",
+        broker_snapshot.get(
+            "order_submission_hard_blocked"
+        )
+        is True,
+        True,
+        (
+            "The connector must hard-block every placeOrder call."
         )
     )
 
@@ -441,6 +472,18 @@ def evaluate_ibkr_paper_readiness(
         )
         or
         {}
+    )
+
+    add_check(
+        "managed_accounts_snapshot_complete",
+        requests_complete.get(
+            "managed_accounts"
+        )
+        is True,
+        True,
+        (
+            "Managed-account request must complete."
+        )
     )
 
     add_check(
