@@ -228,7 +228,9 @@ class IBKRProbeEntrypointTests(unittest.TestCase):
             self.assertEqual(completed.returncode, 2, completed.stderr)
             summary = json.loads(completed.stdout)
             proof = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(summary["run_mode"], "SAFE_OFF")
             self.assertEqual(summary["snapshot_status"], "DISABLED")
+            self.assertEqual(proof["run_mode"]["mode"], "SAFE_OFF")
             self.assertEqual(proof["readiness"]["readiness"], "DISABLED")
             self.assertFalse(proof["readiness"]["live_execution_allowed"])
 
