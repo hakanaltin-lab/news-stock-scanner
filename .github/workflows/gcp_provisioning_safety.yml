@@ -1,0 +1,45 @@
+name: AURORA V8.9.8 GCP Provisioning Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "scripts/provision_aurora_gcp.sh"
+      - "tests/test_v8_9_8_gcp_provisioning.py"
+      - "docs/AURORA_GCP_PROVISIONING.md"
+      - ".github/workflows/gcp_provisioning_safety.yml"
+  push:
+    paths:
+      - "scripts/provision_aurora_gcp.sh"
+      - "tests/test_v8_9_8_gcp_provisioning.py"
+      - "docs/AURORA_GCP_PROVISIONING.md"
+      - ".github/workflows/gcp_provisioning_safety.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  provisioning-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Bash syntax check
+        run: |
+          bash -n scripts/provision_aurora_gcp.sh
+
+      - name: Compile tests
+        run: |
+          python -m py_compile tests/test_v8_9_8_gcp_provisioning.py
+
+      - name: Prove provisioning safety contract
+        run: |
+          python -m unittest tests.test_v8_9_8_gcp_provisioning -v
