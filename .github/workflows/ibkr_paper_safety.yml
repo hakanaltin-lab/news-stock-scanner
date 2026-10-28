@@ -103,7 +103,33 @@ jobs:
           assert contract["runtime"]["live_mode_present"] is False
           assert contract["cost_control"]["paid_resource_create_requires_user_approval"] is True
           PY
-          grep -q '^AURORA_RUN_MODE=SAFE_OFF config/aurora_runtime.env.example
+          grep -q '^AURORA_RUN_MODE=SAFE_OFF
+          grep -q '^AURORA_IBKR_ENABLED=false
+
+      - name: Prove fail-closed behavior
+        env:
+          AURORA_IBKR_ENABLED: "false"
+          AURORA_IBKR_MODE: "PAPER"
+        run: |
+          python -m unittest tests.test_ibkr_paper_read_only tests.test_v8_9_5_safety_hardening -v
+ config/aurora_runtime.env.example
+          grep -q '^AURORA_IBKR_ENABLED=false config/aurora_runtime.env.example
+
+      - name: Prove fail-closed behavior
+        env:
+          AURORA_IBKR_ENABLED: "false"
+          AURORA_IBKR_MODE: "PAPER"
+        run: |
+          python -m unittest tests.test_ibkr_paper_read_only tests.test_v8_9_5_safety_hardening -v
+ config/aurora_runtime.env.example
+
+      - name: Prove fail-closed behavior
+        env:
+          AURORA_IBKR_ENABLED: "false"
+          AURORA_IBKR_MODE: "PAPER"
+        run: |
+          python -m unittest tests.test_ibkr_paper_read_only tests.test_v8_9_5_safety_hardening -v
+ config/aurora_runtime.env.example
           grep -q '^AURORA_IBKR_ENABLED=false config/aurora_runtime.env.example
 
       - name: Prove fail-closed behavior
