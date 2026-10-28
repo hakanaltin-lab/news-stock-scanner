@@ -1,21 +1,21 @@
 {
   "engine": "V8.8.2 Broad Forward Evidence Archive",
   "signature": "V8.8.2",
-  "archive_date": "2026-10-27",
-  "retrieved_at": "2026-10-27T01:23:41.930571+00:00",
+  "archive_date": "2026-10-28",
+  "retrieved_at": "2026-10-28T01:09:03.120940+00:00",
   "status": "COMPLETE",
-  "archive_file": "data/broad_evidence_archive/2026-10-27.json",
+  "archive_file": "data/broad_evidence_archive/2026-10-28.json",
   "universe": {
     "source": "CURRENT_SP500_NASDAQ100_UNION",
-    "index_snapshot_date": "2026-10-27",
+    "index_snapshot_date": "2026-10-28",
     "index_union_count": 518,
     "core_count": 65,
     "archived_ticker_count": 520
   },
   "coverage": {
     "price_live_tickers": 520,
-    "news_live_tickers": 512,
-    "unique_articles": 1942,
+    "news_live_tickers": 511,
+    "unique_articles": 1983,
     "error_ticker_count": 0,
     "error_tickers": []
   },
