@@ -1,42 +1,20 @@
-"""
-AURORA AI CIO v3.1
+"""Deprecated live trading bridge.
 
-V7.0 Production Trading System
-
-V7.4 Live Trading Bridge v1.0
-
-Purpose:
-Controlled bridge between
-AURORA decisions and live broker execution.
-
-Flow:
-AI Decision
-Risk Approval
-Human Approval
-Live Order
-
-Output:
-Execution Request
+V8.9.5 deliberately removes LIVE execution from the supported state machine.
+This compatibility class always fails closed.
 """
 
-
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 
 
+LIVE_EXECUTION_ALLOWED = False
+
 
 class LiveTradingBridge:
-
-
     def __init__(self):
-
-        self.status = "ACTIVE"
-
+        self.status = "DISABLED"
         self.execution_requests = {}
-
-
-
-
 
     def create_execution_request(
         self,
@@ -46,180 +24,53 @@ class LiveTradingBridge:
         approval_status,
         risk_status
     ):
-
-
         request_id = str(uuid.uuid4())
-
-
-        if (
-
-            approval_status != "APPROVED"
-
-            or
-
-            risk_status != "APPROVED"
-
-        ):
-
-
-            return {
-
-
-                "status":
-
-                "BLOCKED",
-
-
-                "reason":
-
-                "Approval or risk validation failed"
-
-            }
-
-
-
-
-
         request = {
-
-
-            "request_id":
-
-            request_id,
-
-
-            "symbol":
-
-            symbol,
-
-
-            "action":
-
-            action,
-
-
-            "quantity":
-
-            quantity,
-
-
-            "status":
-
-            "READY_FOR_BROKER",
-
-
-            "created_at":
-
-            datetime.utcnow().isoformat()
-
+            "request_id": request_id,
+            "symbol": symbol,
+            "action": action,
+            "quantity": quantity,
+            "approval_status": approval_status,
+            "risk_status": risk_status,
+            "status": "BLOCKED",
+            "reason": "LIVE_TRADING_REMOVED_IN_V8_9_5",
+            "live_execution_allowed": False,
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
-
-
         self.execution_requests[request_id] = request
-
-
         return request
 
+    def confirm_execution(self, request_id, broker_response):
+        if request_id not in self.execution_requests:
+            return None
 
+        request = self.execution_requests[request_id]
+        request["status"] = "BLOCKED"
+        request["reason"] = "LIVE_TRADING_REMOVED_IN_V8_9_5"
+        request["broker_response_recorded"] = bool(broker_response)
+        request["live_execution_allowed"] = False
+        request["updated_at"] = datetime.now(timezone.utc).isoformat()
+        return request
 
+    def cancel_execution(self, request_id, reason):
+        if request_id not in self.execution_requests:
+            return None
 
+        request = self.execution_requests[request_id]
+        request["status"] = "CANCELLED"
+        request["reason"] = reason
+        request["live_execution_allowed"] = False
+        return request
 
-    def confirm_execution(
-        self,
-        request_id,
-        broker_response
-    ):
+    def get_execution_status(self, request_id):
+        return self.execution_requests.get(request_id)
 
-
-        if request_id in self.execution_requests:
-
-
-            self.execution_requests[request_id]["broker_response"] = broker_response
-
-
-            self.execution_requests[request_id]["status"] = "EXECUTED"
-
-
-            self.execution_requests[request_id]["executed_at"] = datetime.utcnow().isoformat()
-
-
-            return self.execution_requests[request_id]
-
-
-        return None
-
-
-
-
-
-    def cancel_execution(
-        self,
-        request_id,
-        reason
-    ):
-
-
-        if request_id in self.execution_requests:
-
-
-            self.execution_requests[request_id]["status"] = "CANCELLED"
-
-
-            self.execution_requests[request_id]["reason"] = reason
-
-
-            return self.execution_requests[request_id]
-
-
-        return None
-
-
-
-
-
-    def get_execution_status(
-        self,
-        request_id
-    ):
-
-
-        return self.execution_requests.get(
-
-            request_id,
-
-            None
-
-        )
-
-
-
-
-
-    def generate_execution_report(
-        self
-    ):
-
-
+    def generate_execution_report(self):
         return {
-
-
-            "engine":
-
-            "V7.4 Live Trading Bridge v1.0",
-
-
-            "timestamp":
-
-            datetime.utcnow().isoformat(),
-
-
-            "total_requests":
-
-            len(self.execution_requests),
-
-
-            "requests":
-
-            self.execution_requests
-
+            "engine": "V8.9.5 Disabled Live Trading Bridge",
+            "status": "DISABLED",
+            "live_execution_allowed": False,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "total_requests": len(self.execution_requests),
+            "requests": self.execution_requests,
         }
