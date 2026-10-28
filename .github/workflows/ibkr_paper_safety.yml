@@ -17,6 +17,10 @@ on:
       - "tests/test_ibkr_paper_read_only.py"
       - "tests/test_v8_9_5_safety_hardening.py"
       - "config/ibkr_paper.env.example"
+      - "config/aurora_runtime.env.example"
+      - "deployment_engine/vps_security_contract.json"
+      - "scripts/verify_g0_g1_local.sh"
+      - "docs/AURORA_G0_G1_DEPLOYMENT.md"
       - "docs/IBKR_PAPER_SETUP.md"
       - ".github/workflows/ibkr_paper_safety.yml"
   push:
@@ -36,6 +40,10 @@ on:
       - "tests/test_ibkr_paper_read_only.py"
       - "tests/test_v8_9_5_safety_hardening.py"
       - "config/ibkr_paper.env.example"
+      - "config/aurora_runtime.env.example"
+      - "deployment_engine/vps_security_contract.json"
+      - "scripts/verify_g0_g1_local.sh"
+      - "docs/AURORA_G0_G1_DEPLOYMENT.md"
       - "docs/IBKR_PAPER_SETUP.md"
       - ".github/workflows/ibkr_paper_safety.yml"
 
@@ -70,6 +78,33 @@ jobs:
           python -m py_compile scripts/ibkr_paper_probe.py
           python -m py_compile tests/test_ibkr_paper_read_only.py
           python -m py_compile tests/test_v8_9_5_safety_hardening.py
+
+      - name: Validate G0 G1 deployment contract
+        run: |
+          bash -n scripts/verify_g0_g1_local.sh
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          contract = json.loads(
+              Path("deployment_engine/vps_security_contract.json").read_text()
+          )
+
+          assert contract["instance"]["name"] == "aurora-trading-vps"
+          assert contract["instance"]["zone"] == "europe-west3-a"
+          assert contract["instance"]["machine_type"] == "e2-medium"
+          assert contract["network"]["public_ibkr_api_4002"] is False
+          assert contract["network"]["public_vnc_5902"] is False
+          assert contract["network"]["ssh_ingress"]["source"] == "35.235.240.0/20"
+          assert contract["ibkr"]["host"] == "127.0.0.1"
+          assert contract["ibkr"]["port"] == 4002
+          assert contract["ibkr"]["live_execution_allowed"] is False
+          assert contract["runtime"]["initial_run_mode"] == "SAFE_OFF"
+          assert contract["runtime"]["live_mode_present"] is False
+          assert contract["cost_control"]["paid_resource_create_requires_user_approval"] is True
+          PY
+          grep -q '^AURORA_RUN_MODE=SAFE_OFF config/aurora_runtime.env.example
+          grep -q '^AURORA_IBKR_ENABLED=false config/aurora_runtime.env.example
 
       - name: Prove fail-closed behavior
         env:
