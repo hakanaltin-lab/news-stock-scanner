@@ -1,5 +1,5 @@
 """
-Standalone V8.9.4 IBKR Paper Read-Only Probe
+Standalone V8.9.5 IBKR Paper Read-Only Probe
 
 Run this on the VPS where IB Gateway is running after the official IBKR
 TWS Python API has been installed.
@@ -34,6 +34,11 @@ from engines.ibkr_gateway_connector import (
 
 from engines.ibkr_paper_readiness_engine import (
     evaluate_ibkr_paper_readiness
+)
+
+
+from engines.aurora_run_mode_engine import (
+    load_run_mode
 )
 
 
@@ -82,6 +87,8 @@ def load_portfolio():
 
 
 def main():
+    run_mode = load_run_mode()
+
     snapshot = (
         get_ibkr_read_only_snapshot()
     )
@@ -94,6 +101,9 @@ def main():
     )
 
     result = {
+        "run_mode":
+        run_mode,
+
         "snapshot":
         snapshot,
 
@@ -131,6 +141,11 @@ def main():
     print(
         json.dumps(
             {
+                "run_mode":
+                run_mode.get(
+                    "mode"
+                ),
+
                 "snapshot_status":
                 snapshot.get(
                     "status"
