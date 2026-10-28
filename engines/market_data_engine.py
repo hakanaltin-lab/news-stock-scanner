@@ -10,7 +10,7 @@ Purpose:
 - Build normalized market snapshot
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 import yfinance as yf
 
@@ -139,137 +139,99 @@ def calculate_volume_ratio(volumes):
 
 
 def get_live_market_data(ticker):
+    """Return research-grade 15-minute Yahoo Finance data.
+
+    This source is intentionally marked execution_eligible=False. Broker order
+    execution must use a separately validated real-time execution source.
+    """
+
+    retrieved_at = datetime.now(timezone.utc).isoformat()
 
     try:
-
-        stock = yf.Ticker(
-            ticker
-        )
-
+        stock = yf.Ticker(ticker)
         data = stock.history(
             period="5d",
             interval="15m"
         )
 
-        if data.empty:
+        base = {
+            "ticker": ticker,
+            "source": "YFINANCE_15M",
+            "retrieved_at": retrieved_at,
+            "data_scope": "RESEARCH_ONLY",
+            "execution_eligible": False,
+        }
 
+        if data.empty:
             return {
-                "ticker": ticker,
+                **base,
                 "prices": [],
                 "volumes": [],
-                "data_quality": "NO_DATA"
+                "data_points": 0,
+                "market_timestamp": None,
+                "data_quality": "NO_DATA",
             }
 
         clean_data = data.dropna(
-            subset=[
-                "Close",
-                "Volume"
-            ]
+            subset=["Close", "Volume"]
         )
 
         if clean_data.empty:
-
             return {
-                "ticker": ticker,
+                **base,
                 "prices": [],
                 "volumes": [],
-                "data_quality": "NO_DATA"
+                "data_points": 0,
+                "market_timestamp": None,
+                "data_quality": "NO_DATA",
             }
 
         latest = clean_data.iloc[-1]
+        latest_index = clean_data.index[-1]
+
+        try:
+            market_timestamp = latest_index.isoformat()
+        except Exception:
+            market_timestamp = str(latest_index)
 
         prices = [
-            round(
-                float(price),
-                2
-            )
-            for price
-            in clean_data["Close"].tolist()
+            round(float(price), 2)
+            for price in clean_data["Close"].tolist()
         ]
 
         volumes = [
             int(volume)
-            for volume
-            in clean_data["Volume"].tolist()
+            for volume in clean_data["Volume"].tolist()
         ]
 
         return {
-
-            "ticker":
-            ticker,
-
-            "last_price":
-            round(
-                float(
-                    latest["Close"]
-                ),
-                2
-            ),
-
-            "volume":
-            int(
-                latest["Volume"]
-            ),
-
-            "high":
-            round(
-                float(
-                    latest["High"]
-                ),
-                2
-            ),
-
-            "low":
-            round(
-                float(
-                    latest["Low"]
-                ),
-                2
-            ),
-
-            "open":
-            round(
-                float(
-                    latest["Open"]
-                ),
-                2
-            ),
-
-            "prices":
-            prices,
-
-            "volumes":
-            volumes,
-
-            "data_points":
-            len(prices),
-
-            "data_quality":
-            "LIVE"
-
+            **base,
+            "last_price": round(float(latest["Close"]), 2),
+            "volume": int(latest["Volume"]),
+            "high": round(float(latest["High"]), 2),
+            "low": round(float(latest["Low"]), 2),
+            "open": round(float(latest["Open"]), 2),
+            "prices": prices,
+            "volumes": volumes,
+            "data_points": len(prices),
+            "market_timestamp": market_timestamp,
+            "data_quality": "AVAILABLE",
         }
 
-    except Exception as e:
-
+    except Exception as error:
         return {
-
-            "ticker":
-            ticker,
-
-            "prices":
-            [],
-
-            "volumes":
-            [],
-
-            "error":
-            str(e),
-
-            "data_quality":
-            "ERROR"
-
+            "ticker": ticker,
+            "source": "YFINANCE_15M",
+            "retrieved_at": retrieved_at,
+            "data_scope": "RESEARCH_ONLY",
+            "execution_eligible": False,
+            "prices": [],
+            "volumes": [],
+            "data_points": 0,
+            "market_timestamp": None,
+            "error": str(error),
+            "data_quality": "ERROR",
         }
-
 
 def build_market_snapshot(
     ticker,
@@ -313,7 +275,7 @@ def build_market_snapshot(
         ticker,
 
         "timestamp":
-        datetime.utcnow().isoformat(),
+        datetime.now(timezone.utc).isoformat(),
 
         "last_price":
         last_price,
