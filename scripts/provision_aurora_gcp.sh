@@ -168,16 +168,21 @@ if [[ "$APPLY" -eq 0 ]]; then
 fi
 
 log "Verify VM contract"
-VM_JSON="$(
-  gcloud compute instances describe "$VM_NAME"     --project="$PROJECT_ID"     --zone="$ZONE"     --format=json
-)"
+VM_JSON_FILE="$(mktemp)"
+trap 'rm -f "${STARTUP_FILE:-}" "${VM_JSON_FILE:-}"' EXIT
 
-python3 - "$VM_NAME" "$MACHINE_TYPE" "$VPC" "$SUBNET" <<'PY' <<<"$VM_JSON"
+gcloud compute instances describe "$VM_NAME" \
+  --project="$PROJECT_ID" \
+  --zone="$ZONE" \
+  --format=json >"$VM_JSON_FILE"
+
+python3 - "$VM_NAME" "$MACHINE_TYPE" "$VPC" "$SUBNET" "$VM_JSON_FILE" <<'PY'
 import json
 import sys
 
-vm_name, machine, vpc, subnet = sys.argv[1:]
-data = json.load(sys.stdin)
+vm_name, machine, vpc, subnet, json_path = sys.argv[1:]
+with open(json_path, "r", encoding="utf-8") as handle:
+    data = json.load(handle)
 
 assert data["name"] == vm_name
 assert data["machineType"].endswith("/machineTypes/" + machine)
