@@ -1,0 +1,56 @@
+name: IBKR Paper Read-Only Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/ibkr_gateway_connector.py"
+      - "engines/ibkr_paper_readiness_engine.py"
+      - "main.py"
+      - "scripts/ibkr_paper_probe.py"
+      - "tests/test_ibkr_paper_read_only.py"
+      - "config/ibkr_paper.env.example"
+      - "docs/IBKR_PAPER_SETUP.md"
+      - ".github/workflows/ibkr_paper_safety.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "engines/ibkr_gateway_connector.py"
+      - "engines/ibkr_paper_readiness_engine.py"
+      - "main.py"
+      - "scripts/ibkr_paper_probe.py"
+      - "tests/test_ibkr_paper_read_only.py"
+      - ".github/workflows/ibkr_paper_safety.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  offline-safety-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile read-only components
+        run: |
+          python -m py_compile engines/ibkr_gateway_connector.py
+          python -m py_compile engines/ibkr_paper_readiness_engine.py
+          python -m py_compile main.py
+          python -m py_compile scripts/ibkr_paper_probe.py
+          python -m py_compile tests/test_ibkr_paper_read_only.py
+
+      - name: Prove fail-closed behavior
+        env:
+          AURORA_IBKR_ENABLED: "false"
+          AURORA_IBKR_MODE: "PAPER"
+        run: |
+          python -m unittest tests.test_ibkr_paper_read_only -v
