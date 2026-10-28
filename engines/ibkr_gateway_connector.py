@@ -833,8 +833,25 @@ def get_ibkr_read_only_snapshot():
 
             "reason":
             (
-                "V8.9.4 connector permits an explicit PAPER mode only. "
+                "V8.9.5 connector permits an explicit PAPER mode only. "
                 "LIVE and invalid modes are hard-blocked."
+            )
+        }
+
+    if not endpoint_safe:
+        return {
+            **base,
+
+            "status":
+            "BLOCKED",
+
+            "connection_status":
+            "NOT_ATTEMPTED",
+
+            "reason":
+            (
+                "CONFIG_SAFETY_BLOCK: IBKR paper read-only access is "
+                "restricted to 127.0.0.1:4002."
             )
         }
 
@@ -981,20 +998,26 @@ def get_ibkr_read_only_snapshot():
             for account in app.accounts
         ]
 
-        status = (
-            "CONNECTED"
-            if (
-                app.managed_accounts_event.is_set()
-                and
-                app.account_summary_event.is_set()
-                and
-                app.positions_event.is_set()
-                and
-                app.open_orders_event.is_set()
-            )
-            else
-            "PARTIAL"
+        requests_complete = (
+            app.managed_accounts_event.is_set()
+            and
+            app.account_summary_event.is_set()
+            and
+            app.positions_event.is_set()
+            and
+            app.open_orders_event.is_set()
         )
+
+        account_guard = evaluate_paper_account_identity(
+            app.accounts
+        )
+
+        if not account_guard.get("paper_account_verified"):
+            status = "BLOCKED"
+        elif requests_complete:
+            status = "CONNECTED"
+        else:
+            status = "PARTIAL"
 
         return {
             **base,
@@ -1012,6 +1035,9 @@ def get_ibkr_read_only_snapshot():
             len(
                 masked_accounts
             ),
+
+            "paper_account_guard":
+            account_guard,
 
             "next_order_id_received":
             app.next_order_id
