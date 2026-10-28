@@ -3,7 +3,7 @@
   "validation_signature": "V8.6.2",
   "status": "COMPLETE",
   "cache_status": "FRESH",
-  "generated": "2026-10-28T12:56:26.674701+00:00",
+  "generated": "2026-10-28T18:30:39.350375+00:00",
   "test_period": {
     "start": "2022-06-01",
     "end": "2026-06-05"
@@ -83,7 +83,7 @@
       "mode": "TOP12_FULL",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 113557.49,
+        "ending_value": 113557.52,
         "total_return_pct": 13.67,
         "cagr_pct": 3.26,
         "annualized_volatility_pct": 13.29,
@@ -850,7 +850,7 @@
       "mode": "TOP12_RISK_OVERLAY",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 113557.49,
+        "ending_value": 113557.52,
         "total_return_pct": 13.67,
         "cagr_pct": 3.26,
         "annualized_volatility_pct": 13.29,
@@ -2155,7 +2155,7 @@
       "mode": "TOP12_FULL",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 102973.14,
+        "ending_value": 102973.16,
         "total_return_pct": 3.08,
         "cagr_pct": 0.76,
         "annualized_volatility_pct": 15.48,
@@ -2651,7 +2651,7 @@
             },
             {
               "ticker": "MAR",
-              "score": 78.9,
+              "score": 78.92,
               "action": "HOLD"
             }
           ]
@@ -2922,7 +2922,7 @@
       "mode": "TOP12_RISK_OVERLAY",
       "performance": {
         "starting_value": 99910.42,
-        "ending_value": 103980.71,
+        "ending_value": 103980.74,
         "total_return_pct": 4.07,
         "cagr_pct": 1.01,
         "annualized_volatility_pct": 14.86,
@@ -3418,7 +3418,7 @@
             },
             {
               "ticker": "MAR",
-              "score": 78.9,
+              "score": 78.92,
               "action": "HOLD"
             }
           ]

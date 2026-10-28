@@ -1,11 +1,11 @@
 {
   "engine": "V7.8 Recommendation Performance Journal",
-  "generated": "2026-10-28T12:56:27.170832+00:00",
-  "total_signals": 177,
+  "generated": "2026-10-28T18:30:40.049548+00:00",
+  "total_signals": 181,
   "bootstrap_signals_added": 0,
-  "new_signals_added": 0,
+  "new_signals_added": 4,
   "oldest_signal_date": "2026-10-23",
-  "newest_signal_date": "2026-10-27",
+  "newest_signal_date": "2026-10-28",
   "model_versions": [
     "V6.7",
     "V6.8",
@@ -32,7 +32,7 @@
   "horizons": {
     "5d": {
       "evaluated": 0,
-      "pending": 177,
+      "pending": 181,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -42,7 +42,7 @@
     },
     "20d": {
       "evaluated": 0,
-      "pending": 177,
+      "pending": 181,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -52,7 +52,7 @@
     },
     "60d": {
       "evaluated": 0,
-      "pending": 177,
+      "pending": 181,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -74,7 +74,7 @@
     },
     "REDUCE": {
       "evaluated": 0,
-      "pending": 72,
+      "pending": 73,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -94,7 +94,7 @@
     },
     "EXIT": {
       "evaluated": 0,
-      "pending": 42,
+      "pending": 45,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -246,7 +246,7 @@
     },
     "V8.6": {
       "evaluated": 0,
-      "pending": 19,
+      "pending": 23,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,

@@ -1,7 +1,7 @@
 {
   "engine": "V8.5.2 Thesis-Aware Exit Shadow Journal",
-  "updated_at": "2026-10-28T12:54:36.460081+00:00",
-  "record_count": 3,
+  "updated_at": "2026-10-28T18:28:59.424030+00:00",
+  "record_count": 4,
   "records": [
     {
       "id": "446e70f1b98d97f0",
@@ -114,6 +114,54 @@
       "exposure_difference": 1.0,
       "signal_price": 194.31,
       "spy_entry_price": 759.97,
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "889f40ff6d09e59a",
+      "signal_date": "2026-10-28",
+      "recorded_at": "2026-10-28T18:28:59.132722+00:00",
+      "ticker": "BKR",
+      "base_action": "EXIT",
+      "thesis_shadow_action": "REDUCE",
+      "review_status": "CONFIRMED_PARTIAL",
+      "thesis_health": "DETERIORATING",
+      "fundamental_score": 65.1,
+      "live_exposure": 0.0,
+      "shadow_exposure": 0.5,
+      "exposure_difference": 0.5,
+      "signal_price": 55.4,
+      "spy_entry_price": 770.78,
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
