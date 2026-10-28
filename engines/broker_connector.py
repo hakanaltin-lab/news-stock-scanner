@@ -1,183 +1,58 @@
-"""
-V6.5 Broker Connector Foundation
+"""Deprecated broker connector foundation.
 
-Purpose:
-Connect execution engine with brokers.
-
-Supported:
-- Alpaca
-- IBKR (future)
-
-Safety:
-LIVE trading disabled by default.
-
+V8.9.5 keeps this module fail-closed for backward compatibility only.
+Production broker integration must use engines.ibkr_gateway_connector.
 """
 
-
-from datetime import datetime
-
+from datetime import datetime, timezone
 
 
+DEPRECATED_LEGACY_CONNECTOR = True
 LIVE_TRADING = False
 
 
-
 class BrokerConnector:
-
-
-    def __init__(
-        self,
-        broker="ALPACA"
-    ):
-
+    def __init__(self, broker="LEGACY"):
         self.broker = broker
-
         self.connected = False
 
-
-
     def connect(self):
-
-        """
-        Establish broker connection
-        """
-
-        self.connected = True
-
-
+        self.connected = False
         return {
-
-            "status":
-            "CONNECTED",
-
-            "broker":
-            self.broker,
-
-            "timestamp":
-            datetime.utcnow().isoformat()
-
+            "status": "BLOCKED",
+            "reason": "DEPRECATED_LEGACY_CONNECTOR",
+            "broker": self.broker,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
-
-
 
     def get_account_status(self):
-
-        """
-        Account information layer
-        """
-
-        if not self.connected:
-
-            return {
-
-                "status":
-                "NOT_CONNECTED"
-
-            }
-
-
         return {
-
-            "broker":
-            self.broker,
-
-            "mode":
-            "LIVE"
-            if LIVE_TRADING
-            else
-            "PAPER",
-
-            "buying_power":
-            None,
-
-            "portfolio_value":
-            None
-
+            "broker": self.broker,
+            "mode": "PAPER",
+            "status": "BLOCKED",
+            "buying_power": None,
+            "portfolio_value": None,
         }
 
-
-
-    def submit_order(
-            self,
-            order
-    ):
-
-        """
-        Order execution gateway
-
-        Live disabled.
-        """
-
-        if not LIVE_TRADING:
-
-
-            return {
-
-                "status":
-                "BLOCKED",
-
-                "reason":
-                "LIVE trading disabled",
-
-                "order":
-                order
-
-            }
-
-
-
+    def submit_order(self, order):
         return {
-
-            "status":
-            "SUBMITTED",
-
-            "order":
-            order
-
+            "status": "BLOCKED",
+            "reason": "DEPRECATED_LEGACY_CONNECTOR",
+            "order": order,
         }
-
-
 
     def get_positions(self):
-
-        """
-        Portfolio synchronization layer
-        """
-
         return {
-
-
-            "positions":
-            [],
-
-            "timestamp":
-            datetime.utcnow().isoformat()
-
+            "positions": [],
+            "status": "BLOCKED",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
-
 
 
 def broker_health_check():
-
     connector = BrokerConnector()
-
-
-    connection = connector.connect()
-
-
-    account = connector.get_account_status()
-
-
     return {
-
-
-        "engine":
-        "V6.5 Broker Connector",
-
-        "connection":
-        connection,
-
-        "account":
-        account
-
+        "engine": "V8.9.5 Deprecated Broker Connector",
+        "connection": connector.connect(),
+        "account": connector.get_account_status(),
     }
