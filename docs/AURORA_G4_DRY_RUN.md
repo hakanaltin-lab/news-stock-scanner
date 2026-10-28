@@ -19,7 +19,7 @@ A shadow order is accepted only when all controls pass:
 - action = `BUY` or `SELL`
 - order type = `LIMIT`
 - time in force = `DAY`
-- quantity > 0
+- quantity is a positive whole-share integer
 - limit price > 0
 - `risk_approval=APPROVED`
 - explicit idempotency key is present
@@ -75,15 +75,16 @@ G4 passes only when the offline CI suite proves:
 
 1. SAFE_OFF cannot create a shadow order.
 2. Valid DRY_RUN intent creates only SHADOW_ACCEPTED.
-3. Market orders are rejected.
-4. Options/non-stock assets are rejected.
-5. Short selling is rejected.
-6. Stale and research-only market data are rejected.
-7. Excess spread is rejected.
-8. Per-order notional limit is enforced.
-9. Daily gross notional limit is enforced.
-10. Duplicate idempotency keys are rejected.
-11. Broker submission remains hard-blocked.
+3. Fractional or invalid share quantities are rejected.
+4. Market orders are rejected.
+5. Options/non-stock assets are rejected.
+6. Short selling is rejected.
+7. Stale and research-only market data are rejected.
+8. Excess spread is rejected.
+9. Per-order notional limit is enforced.
+10. Daily gross notional limit is enforced.
+11. Duplicate idempotency keys are rejected.
+12. Broker submission remains hard-blocked.
 
 Passing G4 does not authorize Paper broker orders and does not authorize
 real-money trading.
