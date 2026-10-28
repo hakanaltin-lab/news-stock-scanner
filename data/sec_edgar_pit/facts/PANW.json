@@ -4,7 +4,7 @@
   "availability_rule": "available_date = SEC filed date + 1 calendar day; conservative guard against same-day look-ahead. Exact current and historical acceptance timestamps from SEC submissions metadata are stored for audit but do not make the daily as-of date earlier.",
   "cik": "0001327567",
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
-  "entity_name": "Palo Alto Networks, Inc",
+  "entity_name": "Palo Alto Networks, Inc.",
   "exact_acceptance_coverage_pct": 100.0,
   "exact_acceptance_fact_count": 1730,
   "fact_count": 1730,
@@ -24754,7 +24754,7 @@
       "fiscal_period": "FY",
       "fiscal_year": 2024,
       "form": "10-K",
-      "frame": "CY2022",
+      "frame": null,
       "metric": "net_income",
       "namespace": "us-gaap",
       "start": "2021-08-01",
@@ -26879,7 +26879,7 @@
       "fiscal_period": "FY",
       "fiscal_year": 2025,
       "form": "10-K",
-      "frame": "CY2023",
+      "frame": null,
       "metric": "net_income",
       "namespace": "us-gaap",
       "start": "2022-08-01",
@@ -29004,7 +29004,7 @@
       "fiscal_period": "FY",
       "fiscal_year": 2026,
       "form": "10-K",
-      "frame": "CY2024",
+      "frame": null,
       "metric": "net_income",
       "namespace": "us-gaap",
       "start": "2023-08-01",
@@ -29140,7 +29140,7 @@
       "fiscal_period": "FY",
       "fiscal_year": 2026,
       "form": "10-K",
-      "frame": "CY2025",
+      "frame": null,
       "metric": "net_income",
       "namespace": "us-gaap",
       "start": "2024-08-01",
@@ -29310,7 +29310,7 @@
       "fiscal_period": "FY",
       "fiscal_year": 2026,
       "form": "10-K",
-      "frame": "CY2026",
+      "frame": null,
       "metric": "net_income",
       "namespace": "us-gaap",
       "start": "2025-08-01",
@@ -29495,6 +29495,7 @@
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
     "dei": 2,
+    "ecd": 7,
     "ffd": 4,
     "invest": 1,
     "srt": 1,
@@ -29517,9 +29518,9 @@
         "name": "CIK0001327567-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1000,
+    "recent_acceptance_count": 1003,
     "status": "COMPLETE",
-    "total_acceptance_count": 1908
+    "total_acceptance_count": 1911
   },
   "taxonomies_supported": [
     "ifrs-full",

@@ -1,9 +1,9 @@
 {
-  "acceptance_fact_count": 1111289,
+  "acceptance_fact_count": 1112078,
   "amended_fact_count": 10524,
   "attempted_ticker_count": 520,
   "availability_rule": "SEC filed date + 1 calendar day; acceptance timestamps are audit-only",
-  "changed_fact_files": 89,
+  "changed_fact_files": 120,
   "cik_coverage": {
     "assessed": true,
     "matched_ticker_count": 520,
@@ -32,7 +32,7 @@
       "universe_count": 520
     },
     "current_debt": {
-      "ticker_count": 403,
+      "ticker_count": 404,
       "universe_count": 520
     },
     "eps_diluted": {
@@ -80,7 +80,7 @@
     "automatic_alpha_use_authorized": false,
     "cik_coverage_pct": 100.0,
     "cik_mapped_count": 520,
-    "exact_acceptance_fact_count": 1111289,
+    "exact_acceptance_fact_count": 1112078,
     "exact_acceptance_fact_coverage_pct": 99.99,
     "exact_acceptance_ticker_count": 519,
     "fact_ticker_count": 519,
@@ -91,7 +91,7 @@
     "metric_ticker_counts": {
       "capex": 412,
       "cash": 518,
-      "current_debt": 403,
+      "current_debt": 404,
       "eps_diluted": 512,
       "long_term_debt": 353,
       "net_income": 519,
@@ -105,7 +105,7 @@
     "metric_ticker_coverage_pct": {
       "capex": 79.23,
       "cash": 99.62,
-      "current_debt": 77.5,
+      "current_debt": 77.69,
       "eps_diluted": 98.46,
       "long_term_debt": 67.88,
       "net_income": 99.81,
@@ -122,14 +122,14 @@
     },
     "taxonomy_fact_counts": {
       "ifrs-full": 620,
-      "us-gaap": 1110750
+      "us-gaap": 1111539
     },
     "taxonomy_ticker_counts": {
       "ifrs-full": 4,
       "us-gaap": 516
     },
     "ticker_count": 520,
-    "total_fact_count": 1111370
+    "total_fact_count": 1112159
   },
   "quarantined_fact_count": 237,
   "research_use_authorized": false,
@@ -145,7 +145,7 @@
   },
   "taxonomy_fact_counts": {
     "ifrs-full": 620,
-    "us-gaap": 1110750
+    "us-gaap": 1111539
   },
   "ticker_count": 520,
   "tickers_with_quarantined_facts": [
@@ -202,7 +202,7 @@
   "unusable_tickers": [
     "VYLR"
   ],
-  "updated_at": "2026-10-27T14:52:52.734481+00:00",
+  "updated_at": "2026-10-28T02:24:38.940611+00:00",
   "usable_ticker_count": 519,
-  "valid_fact_count": 1111370
+  "valid_fact_count": 1112159
 }

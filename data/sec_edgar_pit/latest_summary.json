@@ -1,9 +1,9 @@
 {
-  "acceptance_fact_count": 1111289,
+  "acceptance_fact_count": 1112078,
   "amended_fact_count": 10524,
   "attempted_ticker_count": 520,
   "availability_rule": "SEC filed date + 1 calendar day; acceptance timestamps are audit-only",
-  "changed_fact_files": 89,
+  "changed_fact_files": 120,
   "cik_coverage": {
     "assessed": true,
     "matched_ticker_count": 520,
@@ -32,7 +32,7 @@
       "universe_count": 520
     },
     "current_debt": {
-      "ticker_count": 403,
+      "ticker_count": 404,
       "universe_count": 520
     },
     "eps_diluted": {
@@ -80,7 +80,7 @@
     "automatic_alpha_use_authorized": false,
     "cik_coverage_pct": 100.0,
     "cik_mapped_count": 520,
-    "exact_acceptance_fact_count": 1111289,
+    "exact_acceptance_fact_count": 1112078,
     "exact_acceptance_fact_coverage_pct": 99.99,
     "exact_acceptance_ticker_count": 519,
     "fact_ticker_count": 519,
@@ -91,7 +91,7 @@
     "metric_ticker_counts": {
       "capex": 412,
       "cash": 518,
-      "current_debt": 403,
+      "current_debt": 404,
       "eps_diluted": 512,
       "long_term_debt": 353,
       "net_income": 519,
@@ -105,7 +105,7 @@
     "metric_ticker_coverage_pct": {
       "capex": 79.23,
       "cash": 99.62,
-      "current_debt": 77.5,
+      "current_debt": 77.69,
       "eps_diluted": 98.46,
       "long_term_debt": 67.88,
       "net_income": 99.81,
@@ -122,14 +122,14 @@
     },
     "taxonomy_fact_counts": {
       "ifrs-full": 620,
-      "us-gaap": 1110750
+      "us-gaap": 1111539
     },
     "taxonomy_ticker_counts": {
       "ifrs-full": 4,
       "us-gaap": 516
     },
     "ticker_count": 520,
-    "total_fact_count": 1111370
+    "total_fact_count": 1112159
   },
   "quarantined_fact_count": 237,
   "records": [
@@ -751,9 +751,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1004,
+        "recent_acceptance_count": 1005,
         "status": "COMPLETE",
-        "total_acceptance_count": 2151
+        "total_acceptance_count": 2152
       },
       "taxonomy_counts": {
         "us-gaap": 1989
@@ -1074,9 +1074,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 2795
+        "total_acceptance_count": 2796
       },
       "taxonomy_counts": {
         "us-gaap": 2174
@@ -2787,9 +2787,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1005,
+        "recent_acceptance_count": 1008,
         "status": "COMPLETE",
-        "total_acceptance_count": 1396
+        "total_acceptance_count": 1399
       },
       "taxonomy_counts": {
         "us-gaap": 2035
@@ -3432,9 +3432,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1008,
+        "recent_acceptance_count": 1009,
         "status": "COMPLETE",
-        "total_acceptance_count": 3008
+        "total_acceptance_count": 3009
       },
       "taxonomy_counts": {
         "us-gaap": 2358
@@ -3557,49 +3557,49 @@
       "valid_fact_count": 2089
     },
     {
-      "acceptance_accession_count": 69,
-      "acceptance_fact_count": 3063,
-      "accession_count": 69,
+      "acceptance_accession_count": 70,
+      "acceptance_fact_count": 3109,
+      "accession_count": 70,
       "amended_fact_count": 0,
       "amendment_fact_count": 0,
       "cik": "0001053507",
       "currency_counts": {
-        "USD": 3063
+        "USD": 3109
       },
       "earliest_period_end": "2006-12-31",
-      "exact_acceptance_fact_count": 3063,
-      "fact_count": 3063,
+      "exact_acceptance_fact_count": 3109,
+      "fact_count": 3109,
       "invalid_fact_count": 0,
-      "latest_available_date": "2026-07-29",
-      "latest_period_end": "2026-06-30",
+      "latest_available_date": "2026-10-28",
+      "latest_period_end": "2026-09-30",
       "metric_counts": {
-        "capex": 64,
-        "cash": 382,
-        "current_debt": 120,
-        "eps_diluted": 313,
+        "capex": 66,
+        "cash": 389,
+        "current_debt": 122,
+        "eps_diluted": 317,
         "long_term_debt": 36,
-        "net_income": 545,
-        "operating_cash_flow": 114,
-        "operating_income": 313,
-        "revenue": 414,
-        "stockholders_equity": 440,
-        "total_assets": 184,
-        "total_liabilities": 138
+        "net_income": 549,
+        "operating_cash_flow": 116,
+        "operating_income": 317,
+        "revenue": 422,
+        "stockholders_equity": 448,
+        "total_assets": 187,
+        "total_liabilities": 140
       },
       "metric_coverage": {
         "metric_fact_counts": {
-          "capex": 64,
-          "cash": 382,
-          "current_debt": 120,
-          "eps_diluted": 313,
+          "capex": 66,
+          "cash": 389,
+          "current_debt": 122,
+          "eps_diluted": 317,
           "long_term_debt": 36,
-          "net_income": 545,
-          "operating_cash_flow": 114,
-          "operating_income": 313,
-          "revenue": 414,
-          "stockholders_equity": 440,
-          "total_assets": 184,
-          "total_liabilities": 138
+          "net_income": 549,
+          "operating_cash_flow": 116,
+          "operating_income": 317,
+          "revenue": 422,
+          "stockholders_equity": 448,
+          "total_assets": 187,
+          "total_liabilities": 140
         },
         "missing_metrics": [],
         "present_metrics": [
@@ -3621,9 +3621,9 @@
       "no_matched_facts_reason": null,
       "period_type_counts": {
         "annual": 326,
-        "instant": 1300,
-        "quarter": 999,
-        "year_to_date": 438
+        "instant": 1322,
+        "quarter": 1009,
+        "year_to_date": 452
       },
       "quality_issue_examples": [],
       "quality_issues": {},
@@ -3631,7 +3631,7 @@
       "quarantine_file": null,
       "quarantined_fact_count": 0,
       "retained_previous_evidence": false,
-      "source_fact_count": 3063,
+      "source_fact_count": 3109,
       "source_quality_issues": {},
       "source_taxonomy_concept_counts": {
         "dei": 2,
@@ -3647,22 +3647,22 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1002,
+        "recent_acceptance_count": 1003,
         "status": "COMPLETE",
-        "total_acceptance_count": 2601
+        "total_acceptance_count": 2602
       },
       "taxonomy_counts": {
-        "us-gaap": 3063
+        "us-gaap": 3109
       },
       "taxonomy_fact_counts": {
-        "us-gaap": 3063
+        "us-gaap": 3109
       },
       "ticker": "AMT",
       "unit_counts": {
-        "USD": 2750,
-        "USD/shares": 313
+        "USD": 2792,
+        "USD/shares": 317
       },
-      "valid_fact_count": 3063
+      "valid_fact_count": 3109
     },
     {
       "acceptance_accession_count": 69,
@@ -4505,9 +4505,9 @@
         "historical_files_discovered": 0,
         "historical_files_failed": 0,
         "historical_files_loaded": 0,
-        "recent_acceptance_count": 745,
+        "recent_acceptance_count": 746,
         "status": "COMPLETE",
-        "total_acceptance_count": 745
+        "total_acceptance_count": 746
       },
       "taxonomy_counts": {
         "us-gaap": 590
@@ -4717,9 +4717,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 1783
+        "total_acceptance_count": 1784
       },
       "taxonomy_counts": {
         "us-gaap": 2364
@@ -4924,9 +4924,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 1201
+        "total_acceptance_count": 1202
       },
       "taxonomy_counts": {
         "us-gaap": 1406
@@ -5346,9 +5346,9 @@
         "historical_files_discovered": 0,
         "historical_files_failed": 0,
         "historical_files_loaded": 0,
-        "recent_acceptance_count": 998,
+        "recent_acceptance_count": 999,
         "status": "COMPLETE",
-        "total_acceptance_count": 998
+        "total_acceptance_count": 999
       },
       "taxonomy_counts": {
         "us-gaap": 1388
@@ -5452,9 +5452,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1007,
+        "recent_acceptance_count": 1008,
         "status": "COMPLETE",
-        "total_acceptance_count": 2212
+        "total_acceptance_count": 2213
       },
       "taxonomy_counts": {
         "us-gaap": 1664
@@ -5559,9 +5559,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 1620
+        "total_acceptance_count": 1621
       },
       "taxonomy_counts": {
         "us-gaap": 2567
@@ -5774,9 +5774,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 3000
+        "total_acceptance_count": 3001
       },
       "taxonomy_counts": {
         "us-gaap": 1865
@@ -5871,6 +5871,7 @@
       "source_quality_issues": {},
       "source_taxonomy_concept_counts": {
         "dei": 2,
+        "ecd": 5,
         "ffd": 5,
         "invest": 1,
         "srt": 1,
@@ -5883,9 +5884,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1002,
+        "recent_acceptance_count": 1005,
         "status": "COMPLETE",
-        "total_acceptance_count": 3002
+        "total_acceptance_count": 3005
       },
       "taxonomy_counts": {
         "us-gaap": 2395
@@ -5901,45 +5902,45 @@
       "valid_fact_count": 2395
     },
     {
-      "acceptance_accession_count": 69,
-      "acceptance_fact_count": 2773,
-      "accession_count": 69,
+      "acceptance_accession_count": 70,
+      "acceptance_fact_count": 2816,
+      "accession_count": 70,
       "amended_fact_count": 0,
       "amendment_fact_count": 0,
       "cik": "0000012927",
       "currency_counts": {
-        "USD": 2773
+        "USD": 2816
       },
       "earliest_period_end": "2006-12-31",
-      "exact_acceptance_fact_count": 2773,
-      "fact_count": 2773,
+      "exact_acceptance_fact_count": 2816,
+      "fact_count": 2816,
       "invalid_fact_count": 0,
-      "latest_available_date": "2026-07-29",
-      "latest_period_end": "2026-06-30",
+      "latest_available_date": "2026-10-28",
+      "latest_period_end": "2026-09-30",
       "metric_counts": {
-        "capex": 155,
-        "cash": 378,
-        "eps_diluted": 313,
-        "net_income": 496,
-        "operating_cash_flow": 155,
-        "operating_income": 313,
-        "revenue": 316,
-        "stockholders_equity": 441,
-        "total_assets": 138,
-        "total_liabilities": 68
+        "capex": 157,
+        "cash": 385,
+        "eps_diluted": 317,
+        "net_income": 504,
+        "operating_cash_flow": 157,
+        "operating_income": 317,
+        "revenue": 320,
+        "stockholders_equity": 449,
+        "total_assets": 140,
+        "total_liabilities": 70
       },
       "metric_coverage": {
         "metric_fact_counts": {
-          "capex": 155,
-          "cash": 378,
-          "eps_diluted": 313,
-          "net_income": 496,
-          "operating_cash_flow": 155,
-          "operating_income": 313,
-          "revenue": 316,
-          "stockholders_equity": 441,
-          "total_assets": 138,
-          "total_liabilities": 68
+          "capex": 157,
+          "cash": 385,
+          "eps_diluted": 317,
+          "net_income": 504,
+          "operating_cash_flow": 157,
+          "operating_income": 317,
+          "revenue": 320,
+          "stockholders_equity": 449,
+          "total_assets": 140,
+          "total_liabilities": 70
         },
         "missing_metrics": [
           "current_debt",
@@ -5965,9 +5966,9 @@
       "no_matched_facts_reason": null,
       "period_type_counts": {
         "annual": 361,
-        "instant": 1025,
-        "quarter": 900,
-        "year_to_date": 487
+        "instant": 1044,
+        "quarter": 910,
+        "year_to_date": 501
       },
       "quality_issue_examples": [],
       "quality_issues": {},
@@ -5975,12 +5976,12 @@
       "quarantine_file": null,
       "quarantined_fact_count": 0,
       "retained_previous_evidence": false,
-      "source_fact_count": 2773,
+      "source_fact_count": 2816,
       "source_quality_issues": {},
       "source_taxonomy_concept_counts": {
         "dei": 2,
         "invest": 1,
-        "us-gaap": 742
+        "us-gaap": 744
       },
       "status": "COMPLETE",
       "submissions_metadata": {
@@ -5989,22 +5990,22 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1007,
+        "recent_acceptance_count": 1008,
         "status": "COMPLETE",
-        "total_acceptance_count": 3013
+        "total_acceptance_count": 3014
       },
       "taxonomy_counts": {
-        "us-gaap": 2773
+        "us-gaap": 2816
       },
       "taxonomy_fact_counts": {
-        "us-gaap": 2773
+        "us-gaap": 2816
       },
       "ticker": "BA",
       "unit_counts": {
-        "USD": 2460,
-        "USD/shares": 313
+        "USD": 2499,
+        "USD/shares": 317
       },
-      "valid_fact_count": 2773
+      "valid_fact_count": 2816
     },
     {
       "acceptance_accession_count": 69,
@@ -6095,9 +6096,9 @@
         "historical_files_discovered": 19,
         "historical_files_failed": 0,
         "historical_files_loaded": 19,
-        "recent_acceptance_count": 11497,
+        "recent_acceptance_count": 11551,
         "status": "COMPLETE",
-        "total_acceptance_count": 49705
+        "total_acceptance_count": 49759
       },
       "taxonomy_counts": {
         "us-gaap": 1768
@@ -6309,9 +6310,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 2495
+        "total_acceptance_count": 2496
       },
       "taxonomy_counts": {
         "us-gaap": 2517
@@ -6528,9 +6529,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 3001
+        "total_acceptance_count": 3002
       },
       "taxonomy_counts": {
         "us-gaap": 2018
@@ -6635,9 +6636,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 1112
+        "total_acceptance_count": 1113
       },
       "taxonomy_counts": {
         "us-gaap": 1603
@@ -7278,9 +7279,9 @@
         "historical_files_discovered": 0,
         "historical_files_failed": 0,
         "historical_files_loaded": 0,
-        "recent_acceptance_count": 969,
+        "recent_acceptance_count": 970,
         "status": "COMPLETE",
-        "total_acceptance_count": 969
+        "total_acceptance_count": 970
       },
       "taxonomy_counts": {
         "us-gaap": 1123
@@ -7385,9 +7386,9 @@
         "historical_files_discovered": 3,
         "historical_files_failed": 0,
         "historical_files_loaded": 3,
-        "recent_acceptance_count": 1472,
+        "recent_acceptance_count": 1730,
         "status": "COMPLETE",
-        "total_acceptance_count": 5748
+        "total_acceptance_count": 6006
       },
       "taxonomy_counts": {
         "us-gaap": 305
@@ -8130,9 +8131,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1002,
+        "recent_acceptance_count": 1004,
         "status": "COMPLETE",
-        "total_acceptance_count": 1740
+        "total_acceptance_count": 1742
       },
       "taxonomy_counts": {
         "us-gaap": 2045
@@ -8236,9 +8237,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1002,
+        "recent_acceptance_count": 1003,
         "status": "COMPLETE",
-        "total_acceptance_count": 3002
+        "total_acceptance_count": 3003
       },
       "taxonomy_counts": {
         "us-gaap": 2541
@@ -8343,9 +8344,9 @@
         "historical_files_discovered": 37,
         "historical_files_failed": 0,
         "historical_files_loaded": 37,
-        "recent_acceptance_count": 13167,
+        "recent_acceptance_count": 13206,
         "status": "COMPLETE",
-        "total_acceptance_count": 88279
+        "total_acceptance_count": 88318
       },
       "taxonomy_counts": {
         "us-gaap": 2308
@@ -8773,9 +8774,9 @@
         "historical_files_discovered": 2,
         "historical_files_failed": 0,
         "historical_files_loaded": 2,
-        "recent_acceptance_count": 1002,
+        "recent_acceptance_count": 1005,
         "status": "COMPLETE",
-        "total_acceptance_count": 5007
+        "total_acceptance_count": 5010
       },
       "taxonomy_counts": {
         "us-gaap": 2322
@@ -9093,9 +9094,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1004,
+        "recent_acceptance_count": 1005,
         "status": "COMPLETE",
-        "total_acceptance_count": 2425
+        "total_acceptance_count": 2426
       },
       "taxonomy_counts": {
         "us-gaap": 2938
@@ -9306,9 +9307,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 2596
+        "total_acceptance_count": 2597
       },
       "taxonomy_counts": {
         "us-gaap": 2608
@@ -9735,9 +9736,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 1651
+        "total_acceptance_count": 1652
       },
       "taxonomy_counts": {
         "us-gaap": 2238
@@ -10375,9 +10376,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1002,
+        "recent_acceptance_count": 1004,
         "status": "COMPLETE",
-        "total_acceptance_count": 2980
+        "total_acceptance_count": 2982
       },
       "taxonomy_counts": {
         "us-gaap": 2497
@@ -10909,9 +10910,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 2663
+        "total_acceptance_count": 2664
       },
       "taxonomy_counts": {
         "us-gaap": 2406
@@ -11122,9 +11123,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1003,
+        "recent_acceptance_count": 1005,
         "status": "COMPLETE",
-        "total_acceptance_count": 3003
+        "total_acceptance_count": 3005
       },
       "taxonomy_counts": {
         "us-gaap": 2831
@@ -11443,9 +11444,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 3003
+        "total_acceptance_count": 3004
       },
       "taxonomy_counts": {
         "us-gaap": 2963
@@ -11765,9 +11766,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 3006
+        "total_acceptance_count": 3007
       },
       "taxonomy_counts": {
         "us-gaap": 1920
@@ -12086,9 +12087,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1008,
+        "recent_acceptance_count": 1009,
         "status": "COMPLETE",
-        "total_acceptance_count": 2297
+        "total_acceptance_count": 2298
       },
       "taxonomy_counts": {
         "us-gaap": 2789
@@ -12406,9 +12407,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1007,
+        "recent_acceptance_count": 1010,
         "status": "COMPLETE",
-        "total_acceptance_count": 2748
+        "total_acceptance_count": 2751
       },
       "taxonomy_counts": {
         "us-gaap": 3539
@@ -13162,9 +13163,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1003,
+        "recent_acceptance_count": 1004,
         "status": "COMPLETE",
-        "total_acceptance_count": 1309
+        "total_acceptance_count": 1310
       },
       "taxonomy_counts": {
         "us-gaap": 1044
@@ -13486,9 +13487,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 1543
+        "total_acceptance_count": 1544
       },
       "taxonomy_counts": {
         "us-gaap": 2072
@@ -14232,9 +14233,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 3002
+        "total_acceptance_count": 3003
       },
       "taxonomy_counts": {
         "us-gaap": 3173
@@ -16800,9 +16801,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 2646
+        "total_acceptance_count": 2647
       },
       "taxonomy_counts": {
         "us-gaap": 1975
@@ -17340,9 +17341,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1008,
+        "recent_acceptance_count": 1009,
         "status": "COMPLETE",
-        "total_acceptance_count": 2593
+        "total_acceptance_count": 2594
       },
       "taxonomy_counts": {
         "us-gaap": 2601
@@ -18306,9 +18307,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1005,
         "status": "COMPLETE",
-        "total_acceptance_count": 2470
+        "total_acceptance_count": 2474
       },
       "taxonomy_counts": {
         "us-gaap": 2743
@@ -18623,9 +18624,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1006,
+        "recent_acceptance_count": 1007,
         "status": "COMPLETE",
-        "total_acceptance_count": 1762
+        "total_acceptance_count": 1763
       },
       "taxonomy_counts": {
         "us-gaap": 2313
@@ -19176,49 +19177,49 @@
       "valid_fact_count": 2762
     },
     {
-      "acceptance_accession_count": 70,
-      "acceptance_fact_count": 2662,
-      "accession_count": 70,
+      "acceptance_accession_count": 71,
+      "acceptance_fact_count": 2707,
+      "accession_count": 71,
       "amended_fact_count": 25,
       "amendment_fact_count": 25,
       "cik": "0000895126",
       "currency_counts": {
-        "USD": 2662
+        "USD": 2707
       },
       "earliest_period_end": "2006-12-31",
-      "exact_acceptance_fact_count": 2662,
-      "fact_count": 2662,
+      "exact_acceptance_fact_count": 2707,
+      "fact_count": 2707,
       "invalid_fact_count": 0,
-      "latest_available_date": "2026-07-29",
-      "latest_period_end": "2026-06-30",
+      "latest_available_date": "2026-10-28",
+      "latest_period_end": "2026-09-30",
       "metric_counts": {
-        "capex": 54,
-        "cash": 390,
+        "capex": 56,
+        "cash": 397,
         "current_debt": 92,
-        "eps_diluted": 261,
-        "long_term_debt": 140,
-        "net_income": 460,
-        "operating_cash_flow": 166,
-        "operating_income": 244,
-        "revenue": 261,
-        "stockholders_equity": 383,
-        "total_assets": 153,
-        "total_liabilities": 58
+        "eps_diluted": 265,
+        "long_term_debt": 142,
+        "net_income": 468,
+        "operating_cash_flow": 168,
+        "operating_income": 248,
+        "revenue": 265,
+        "stockholders_equity": 391,
+        "total_assets": 155,
+        "total_liabilities": 60
       },
       "metric_coverage": {
         "metric_fact_counts": {
-          "capex": 54,
-          "cash": 390,
+          "capex": 56,
+          "cash": 397,
           "current_debt": 92,
-          "eps_diluted": 261,
-          "long_term_debt": 140,
-          "net_income": 460,
-          "operating_cash_flow": 166,
-          "operating_income": 244,
-          "revenue": 261,
-          "stockholders_equity": 383,
-          "total_assets": 153,
-          "total_liabilities": 58
+          "eps_diluted": 265,
+          "long_term_debt": 142,
+          "net_income": 468,
+          "operating_cash_flow": 168,
+          "operating_income": 248,
+          "revenue": 265,
+          "stockholders_equity": 391,
+          "total_assets": 155,
+          "total_liabilities": 60
         },
         "missing_metrics": [],
         "present_metrics": [
@@ -19240,10 +19241,10 @@
       "no_matched_facts_reason": null,
       "period_type_counts": {
         "annual": 290,
-        "instant": 1216,
+        "instant": 1237,
         "nonstandard_duration": 77,
-        "quarter": 642,
-        "year_to_date": 437
+        "quarter": 654,
+        "year_to_date": 449
       },
       "quality_issue_examples": [],
       "quality_issues": {},
@@ -19251,14 +19252,14 @@
       "quarantine_file": null,
       "quarantined_fact_count": 0,
       "retained_previous_evidence": false,
-      "source_fact_count": 2662,
+      "source_fact_count": 2707,
       "source_quality_issues": {},
       "source_taxonomy_concept_counts": {
         "dei": 2,
         "ecd": 5,
         "ffd": 6,
         "srt": 27,
-        "us-gaap": 943
+        "us-gaap": 946
       },
       "status": "COMPLETE",
       "submissions_metadata": {
@@ -19267,22 +19268,22 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 3001
+        "total_acceptance_count": 3003
       },
       "taxonomy_counts": {
-        "us-gaap": 2662
+        "us-gaap": 2707
       },
       "taxonomy_fact_counts": {
-        "us-gaap": 2662
+        "us-gaap": 2707
       },
       "ticker": "EXE",
       "unit_counts": {
-        "USD": 2401,
-        "USD/shares": 261
+        "USD": 2442,
+        "USD/shares": 265
       },
-      "valid_fact_count": 2662
+      "valid_fact_count": 2707
     },
     {
       "acceptance_accession_count": 69,
@@ -19587,9 +19588,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 1705
+        "total_acceptance_count": 1706
       },
       "taxonomy_counts": {
         "us-gaap": 2427
@@ -20334,9 +20335,9 @@
         "historical_files_discovered": 0,
         "historical_files_failed": 0,
         "historical_files_loaded": 0,
-        "recent_acceptance_count": 71,
+        "recent_acceptance_count": 72,
         "status": "COMPLETE",
-        "total_acceptance_count": 71
+        "total_acceptance_count": 72
       },
       "taxonomy_counts": {
         "us-gaap": 21
@@ -20443,9 +20444,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1006,
+        "recent_acceptance_count": 1007,
         "status": "COMPLETE",
-        "total_acceptance_count": 3006
+        "total_acceptance_count": 3007
       },
       "taxonomy_counts": {
         "us-gaap": 2678
@@ -20546,9 +20547,9 @@
         "historical_files_discovered": 0,
         "historical_files_failed": 0,
         "historical_files_loaded": 0,
-        "recent_acceptance_count": 186,
+        "recent_acceptance_count": 190,
         "status": "COMPLETE",
-        "total_acceptance_count": 186
+        "total_acceptance_count": 190
       },
       "taxonomy_counts": {
         "ifrs-full": 58
@@ -20653,9 +20654,9 @@
         "historical_files_discovered": 0,
         "historical_files_failed": 0,
         "historical_files_loaded": 0,
-        "recent_acceptance_count": 284,
+        "recent_acceptance_count": 285,
         "status": "COMPLETE",
-        "total_acceptance_count": 284
+        "total_acceptance_count": 285
       },
       "taxonomy_counts": {
         "us-gaap": 245
@@ -20758,9 +20759,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 2855
+        "total_acceptance_count": 2856
       },
       "taxonomy_counts": {
         "us-gaap": 2199
@@ -21186,9 +21187,9 @@
         "historical_files_discovered": 2,
         "historical_files_failed": 0,
         "historical_files_loaded": 2,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 4547
+        "total_acceptance_count": 4548
       },
       "taxonomy_counts": {
         "us-gaap": 1676
@@ -23011,9 +23012,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1010,
+        "recent_acceptance_count": 1011,
         "status": "COMPLETE",
-        "total_acceptance_count": 3010
+        "total_acceptance_count": 3011
       },
       "taxonomy_counts": {
         "us-gaap": 2400
@@ -23441,9 +23442,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1006,
         "status": "COMPLETE",
-        "total_acceptance_count": 2714
+        "total_acceptance_count": 2720
       },
       "taxonomy_counts": {
         "us-gaap": 1476
@@ -23548,9 +23549,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1006,
         "status": "COMPLETE",
-        "total_acceptance_count": 2714
+        "total_acceptance_count": 2720
       },
       "taxonomy_counts": {
         "us-gaap": 1476
@@ -23977,9 +23978,9 @@
         "historical_files_discovered": 37,
         "historical_files_failed": 0,
         "historical_files_loaded": 37,
-        "recent_acceptance_count": 16542,
+        "recent_acceptance_count": 16603,
         "status": "COMPLETE",
-        "total_acceptance_count": 91165
+        "total_acceptance_count": 91226
       },
       "taxonomy_counts": {
         "us-gaap": 1608
@@ -24302,9 +24303,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 2771
+        "total_acceptance_count": 2772
       },
       "taxonomy_counts": {
         "us-gaap": 2978
@@ -24320,45 +24321,45 @@
       "valid_fact_count": 2978
     },
     {
-      "acceptance_accession_count": 65,
-      "acceptance_fact_count": 2004,
-      "accession_count": 65,
+      "acceptance_accession_count": 67,
+      "acceptance_fact_count": 2080,
+      "accession_count": 67,
       "amended_fact_count": 26,
       "amendment_fact_count": 26,
       "cik": "0000049196",
       "currency_counts": {
-        "USD": 2004
+        "USD": 2080
       },
       "earliest_period_end": "2007-12-31",
-      "exact_acceptance_fact_count": 2004,
-      "fact_count": 2004,
+      "exact_acceptance_fact_count": 2080,
+      "fact_count": 2080,
       "invalid_fact_count": 0,
-      "latest_available_date": "2026-05-01",
-      "latest_period_end": "2026-03-31",
+      "latest_available_date": "2026-10-28",
+      "latest_period_end": "2026-09-30",
       "metric_counts": {
-        "capex": 146,
-        "cash": 248,
-        "current_debt": 136,
-        "eps_diluted": 285,
-        "net_income": 350,
-        "operating_cash_flow": 146,
-        "revenue": 98,
-        "stockholders_equity": 323,
-        "total_assets": 136,
-        "total_liabilities": 136
+        "capex": 150,
+        "cash": 256,
+        "current_debt": 140,
+        "eps_diluted": 293,
+        "net_income": 366,
+        "operating_cash_flow": 150,
+        "revenue": 106,
+        "stockholders_equity": 339,
+        "total_assets": 140,
+        "total_liabilities": 140
       },
       "metric_coverage": {
         "metric_fact_counts": {
-          "capex": 146,
-          "cash": 248,
-          "current_debt": 136,
-          "eps_diluted": 285,
-          "net_income": 350,
-          "operating_cash_flow": 146,
-          "revenue": 98,
-          "stockholders_equity": 323,
-          "total_assets": 136,
-          "total_liabilities": 136
+          "capex": 150,
+          "cash": 256,
+          "current_debt": 140,
+          "eps_diluted": 293,
+          "net_income": 366,
+          "operating_cash_flow": 150,
+          "revenue": 106,
+          "stockholders_equity": 339,
+          "total_assets": 140,
+          "total_liabilities": 140
         },
         "missing_metrics": [
           "long_term_debt",
@@ -24384,9 +24385,9 @@
       "no_matched_facts_reason": null,
       "period_type_counts": {
         "annual": 228,
-        "instant": 979,
-        "quarter": 481,
-        "year_to_date": 316
+        "instant": 1015,
+        "quarter": 497,
+        "year_to_date": 340
       },
       "quality_issue_examples": [],
       "quality_issues": {},
@@ -24394,7 +24395,7 @@
       "quarantine_file": null,
       "quarantined_fact_count": 0,
       "retained_previous_evidence": false,
-      "source_fact_count": 2004,
+      "source_fact_count": 2080,
       "source_quality_issues": {},
       "source_taxonomy_concept_counts": {
         "dei": 2,
@@ -24408,22 +24409,22 @@
         "historical_files_discovered": 2,
         "historical_files_failed": 0,
         "historical_files_loaded": 2,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 4223
+        "total_acceptance_count": 4224
       },
       "taxonomy_counts": {
-        "us-gaap": 2004
+        "us-gaap": 2080
       },
       "taxonomy_fact_counts": {
-        "us-gaap": 2004
+        "us-gaap": 2080
       },
       "ticker": "HBAN",
       "unit_counts": {
-        "USD": 1719,
-        "USD/shares": 285
+        "USD": 1787,
+        "USD/shares": 293
       },
-      "valid_fact_count": 2004
+      "valid_fact_count": 2080
     },
     {
       "acceptance_accession_count": 61,
@@ -24944,9 +24945,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1003,
+        "recent_acceptance_count": 1004,
         "status": "COMPLETE",
-        "total_acceptance_count": 1140
+        "total_acceptance_count": 1141
       },
       "taxonomy_counts": {
         "us-gaap": 2160
@@ -25051,9 +25052,9 @@
         "historical_files_discovered": 2,
         "historical_files_failed": 0,
         "historical_files_loaded": 2,
-        "recent_acceptance_count": 1010,
+        "recent_acceptance_count": 1012,
         "status": "COMPLETE",
-        "total_acceptance_count": 5018
+        "total_acceptance_count": 5020
       },
       "taxonomy_counts": {
         "us-gaap": 2430
@@ -25261,9 +25262,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1006,
+        "recent_acceptance_count": 1008,
         "status": "COMPLETE",
-        "total_acceptance_count": 1225
+        "total_acceptance_count": 1227
       },
       "taxonomy_counts": {
         "us-gaap": 606
@@ -25478,9 +25479,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1002,
+        "recent_acceptance_count": 1003,
         "status": "COMPLETE",
-        "total_acceptance_count": 3002
+        "total_acceptance_count": 3003
       },
       "taxonomy_counts": {
         "us-gaap": 1997
@@ -25584,9 +25585,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1006,
+        "recent_acceptance_count": 1008,
         "status": "COMPLETE",
-        "total_acceptance_count": 2808
+        "total_acceptance_count": 2810
       },
       "taxonomy_counts": {
         "us-gaap": 2522
@@ -26978,9 +26979,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 3001
+        "total_acceptance_count": 3002
       },
       "taxonomy_counts": {
         "us-gaap": 2385
@@ -27532,47 +27533,47 @@
       "valid_fact_count": 2431
     },
     {
-      "acceptance_accession_count": 53,
-      "acceptance_fact_count": 2186,
-      "accession_count": 53,
+      "acceptance_accession_count": 55,
+      "acceptance_fact_count": 2282,
+      "accession_count": 55,
       "amended_fact_count": 0,
       "amendment_fact_count": 0,
       "cik": "0001478242",
       "currency_counts": {
-        "USD": 2186
+        "USD": 2282
       },
       "earliest_period_end": "2010-12-31",
-      "exact_acceptance_fact_count": 2186,
-      "fact_count": 2186,
+      "exact_acceptance_fact_count": 2282,
+      "fact_count": 2282,
       "invalid_fact_count": 0,
-      "latest_available_date": "2026-05-06",
-      "latest_period_end": "2026-03-31",
+      "latest_available_date": "2026-10-28",
+      "latest_period_end": "2026-09-30",
       "metric_counts": {
-        "cash": 230,
-        "current_debt": 86,
-        "eps_diluted": 235,
-        "long_term_debt": 86,
-        "net_income": 514,
-        "operating_cash_flow": 72,
-        "operating_income": 235,
-        "revenue": 195,
-        "stockholders_equity": 318,
-        "total_assets": 109,
-        "total_liabilities": 106
+        "cash": 242,
+        "current_debt": 90,
+        "eps_diluted": 243,
+        "long_term_debt": 90,
+        "net_income": 536,
+        "operating_cash_flow": 76,
+        "operating_income": 243,
+        "revenue": 203,
+        "stockholders_equity": 336,
+        "total_assets": 113,
+        "total_liabilities": 110
       },
       "metric_coverage": {
         "metric_fact_counts": {
-          "cash": 230,
-          "current_debt": 86,
-          "eps_diluted": 235,
-          "long_term_debt": 86,
-          "net_income": 514,
-          "operating_cash_flow": 72,
-          "operating_income": 235,
-          "revenue": 195,
-          "stockholders_equity": 318,
-          "total_assets": 109,
-          "total_liabilities": 106
+          "cash": 242,
+          "current_debt": 90,
+          "eps_diluted": 243,
+          "long_term_debt": 90,
+          "net_income": 536,
+          "operating_cash_flow": 76,
+          "operating_income": 243,
+          "revenue": 203,
+          "stockholders_equity": 336,
+          "total_assets": 113,
+          "total_liabilities": 110
         },
         "missing_metrics": [
           "capex"
@@ -27597,9 +27598,9 @@
       "no_matched_facts_reason": null,
       "period_type_counts": {
         "annual": 219,
-        "instant": 935,
-        "quarter": 740,
-        "year_to_date": 292
+        "instant": 981,
+        "quarter": 766,
+        "year_to_date": 316
       },
       "quality_issue_examples": [],
       "quality_issues": {},
@@ -27607,7 +27608,7 @@
       "quarantine_file": null,
       "quarantined_fact_count": 0,
       "retained_previous_evidence": false,
-      "source_fact_count": 2186,
+      "source_fact_count": 2282,
       "source_quality_issues": {},
       "source_taxonomy_concept_counts": {
         "dei": 3,
@@ -27622,22 +27623,22 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1002,
+        "recent_acceptance_count": 1003,
         "status": "COMPLETE",
-        "total_acceptance_count": 1073
+        "total_acceptance_count": 1074
       },
       "taxonomy_counts": {
-        "us-gaap": 2186
+        "us-gaap": 2282
       },
       "taxonomy_fact_counts": {
-        "us-gaap": 2186
+        "us-gaap": 2282
       },
       "ticker": "IQV",
       "unit_counts": {
-        "USD": 1951,
-        "USD/shares": 235
+        "USD": 2039,
+        "USD/shares": 243
       },
-      "valid_fact_count": 2186
+      "valid_fact_count": 2282
     },
     {
       "acceptance_accession_count": 37,
@@ -28587,9 +28588,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1010,
         "status": "COMPLETE",
-        "total_acceptance_count": 3004
+        "total_acceptance_count": 3014
       },
       "taxonomy_counts": {
         "us-gaap": 2403
@@ -29012,9 +29013,9 @@
         "historical_files_discovered": 67,
         "historical_files_failed": 0,
         "historical_files_loaded": 67,
-        "recent_acceptance_count": 26438,
+        "recent_acceptance_count": 26518,
         "status": "COMPLETE",
-        "total_acceptance_count": 162747
+        "total_acceptance_count": 162827
       },
       "taxonomy_counts": {
         "us-gaap": 1544
@@ -29227,9 +29228,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 3001
+        "total_acceptance_count": 3002
       },
       "taxonomy_counts": {
         "us-gaap": 1904
@@ -31376,9 +31377,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 2644
+        "total_acceptance_count": 2646
       },
       "taxonomy_counts": {
         "us-gaap": 2728
@@ -31806,9 +31807,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 1631
+        "total_acceptance_count": 1632
       },
       "taxonomy_counts": {
         "us-gaap": 2364
@@ -32878,9 +32879,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 3002
+        "total_acceptance_count": 3003
       },
       "taxonomy_counts": {
         "us-gaap": 2431
@@ -34485,9 +34486,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1006,
+        "recent_acceptance_count": 1007,
         "status": "COMPLETE",
-        "total_acceptance_count": 1884
+        "total_acceptance_count": 1885
       },
       "taxonomy_counts": {
         "us-gaap": 2521
@@ -34915,9 +34916,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1003,
         "status": "COMPLETE",
-        "total_acceptance_count": 2996
+        "total_acceptance_count": 2998
       },
       "taxonomy_counts": {
         "us-gaap": 2425
@@ -35131,9 +35132,9 @@
         "historical_files_discovered": 42,
         "historical_files_failed": 0,
         "historical_files_loaded": 42,
-        "recent_acceptance_count": 19428,
+        "recent_acceptance_count": 19501,
         "status": "COMPLETE",
-        "total_acceptance_count": 104294
+        "total_acceptance_count": 104367
       },
       "taxonomy_counts": {
         "us-gaap": 2280
@@ -35343,9 +35344,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1003,
+        "recent_acceptance_count": 1004,
         "status": "COMPLETE",
-        "total_acceptance_count": 3010
+        "total_acceptance_count": 3011
       },
       "taxonomy_counts": {
         "us-gaap": 2756
@@ -36192,9 +36193,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1002,
+        "recent_acceptance_count": 1006,
         "status": "COMPLETE",
-        "total_acceptance_count": 2385
+        "total_acceptance_count": 2389
       },
       "taxonomy_counts": {
         "us-gaap": 2439
@@ -36405,9 +36406,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1003,
         "status": "COMPLETE",
-        "total_acceptance_count": 3004
+        "total_acceptance_count": 3007
       },
       "taxonomy_counts": {
         "us-gaap": 2538
@@ -36619,9 +36620,9 @@
         "historical_files_discovered": 2,
         "historical_files_failed": 0,
         "historical_files_loaded": 2,
-        "recent_acceptance_count": 1009,
+        "recent_acceptance_count": 1010,
         "status": "COMPLETE",
-        "total_acceptance_count": 5011
+        "total_acceptance_count": 5012
       },
       "taxonomy_counts": {
         "us-gaap": 2848
@@ -37479,9 +37480,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1008,
+        "recent_acceptance_count": 1009,
         "status": "COMPLETE",
-        "total_acceptance_count": 3008
+        "total_acceptance_count": 3009
       },
       "taxonomy_counts": {
         "us-gaap": 1648
@@ -38034,49 +38035,49 @@
       "valid_fact_count": 1987
     },
     {
-      "acceptance_accession_count": 35,
-      "acceptance_fact_count": 1300,
-      "accession_count": 35,
+      "acceptance_accession_count": 37,
+      "acceptance_fact_count": 1392,
+      "accession_count": 37,
       "amended_fact_count": 58,
       "amendment_fact_count": 58,
       "cik": "0001413447",
       "currency_counts": {
-        "USD": 1300
+        "USD": 1392
       },
       "earliest_period_end": "2008-12-31",
-      "exact_acceptance_fact_count": 1300,
-      "fact_count": 1300,
+      "exact_acceptance_fact_count": 1392,
+      "fact_count": 1392,
       "invalid_fact_count": 0,
-      "latest_available_date": "2026-04-29",
-      "latest_period_end": "2026-03-29",
+      "latest_available_date": "2026-10-28",
+      "latest_period_end": "2026-09-27",
       "metric_counts": {
-        "capex": 85,
-        "cash": 188,
+        "capex": 89,
+        "cash": 200,
         "current_debt": 8,
-        "eps_diluted": 105,
+        "eps_diluted": 113,
         "long_term_debt": 6,
-        "net_income": 262,
-        "operating_cash_flow": 64,
-        "operating_income": 111,
-        "revenue": 111,
-        "stockholders_equity": 250,
-        "total_assets": 70,
-        "total_liabilities": 40
+        "net_income": 284,
+        "operating_cash_flow": 68,
+        "operating_income": 119,
+        "revenue": 119,
+        "stockholders_equity": 268,
+        "total_assets": 74,
+        "total_liabilities": 44
       },
       "metric_coverage": {
         "metric_fact_counts": {
-          "capex": 85,
-          "cash": 188,
+          "capex": 89,
+          "cash": 200,
           "current_debt": 8,
-          "eps_diluted": 105,
+          "eps_diluted": 113,
           "long_term_debt": 6,
-          "net_income": 262,
-          "operating_cash_flow": 64,
-          "operating_income": 111,
-          "revenue": 111,
-          "stockholders_equity": 250,
-          "total_assets": 70,
-          "total_liabilities": 40
+          "net_income": 284,
+          "operating_cash_flow": 68,
+          "operating_income": 119,
+          "revenue": 119,
+          "stockholders_equity": 268,
+          "total_assets": 74,
+          "total_liabilities": 44
         },
         "missing_metrics": [],
         "present_metrics": [
@@ -38098,9 +38099,9 @@
       "no_matched_facts_reason": null,
       "period_type_counts": {
         "annual": 288,
-        "instant": 562,
-        "quarter": 268,
-        "year_to_date": 182
+        "instant": 600,
+        "quarter": 294,
+        "year_to_date": 210
       },
       "quality_issue_examples": [],
       "quality_issues": {},
@@ -38108,7 +38109,7 @@
       "quarantine_file": null,
       "quarantined_fact_count": 0,
       "retained_previous_evidence": false,
-      "source_fact_count": 1300,
+      "source_fact_count": 1392,
       "source_quality_issues": {},
       "source_taxonomy_concept_counts": {
         "dei": 2,
@@ -38124,22 +38125,22 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 1114
+        "total_acceptance_count": 1116
       },
       "taxonomy_counts": {
-        "us-gaap": 1300
+        "us-gaap": 1392
       },
       "taxonomy_fact_counts": {
-        "us-gaap": 1300
+        "us-gaap": 1392
       },
       "ticker": "NXPI",
       "unit_counts": {
-        "USD": 1195,
-        "USD/shares": 105
+        "USD": 1279,
+        "USD/shares": 113
       },
-      "valid_fact_count": 1300
+      "valid_fact_count": 1392
     },
     {
       "acceptance_accession_count": 66,
@@ -38443,9 +38444,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1006,
+        "recent_acceptance_count": 1007,
         "status": "COMPLETE",
-        "total_acceptance_count": 3006
+        "total_acceptance_count": 3007
       },
       "taxonomy_counts": {
         "us-gaap": 3083
@@ -38658,9 +38659,9 @@
         "historical_files_discovered": 0,
         "historical_files_failed": 0,
         "historical_files_loaded": 0,
-        "recent_acceptance_count": 232,
+        "recent_acceptance_count": 233,
         "status": "COMPLETE",
-        "total_acceptance_count": 232
+        "total_acceptance_count": 233
       },
       "taxonomy_counts": {
         "us-gaap": 176
@@ -38870,9 +38871,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1004,
         "status": "COMPLETE",
-        "total_acceptance_count": 2339
+        "total_acceptance_count": 2343
       },
       "taxonomy_counts": {
         "us-gaap": 1885
@@ -39300,9 +39301,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 1109
+        "total_acceptance_count": 1110
       },
       "taxonomy_counts": {
         "us-gaap": 1380
@@ -39396,6 +39397,7 @@
       "source_quality_issues": {},
       "source_taxonomy_concept_counts": {
         "dei": 2,
+        "ecd": 7,
         "ffd": 4,
         "invest": 1,
         "srt": 1,
@@ -39408,9 +39410,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1003,
         "status": "COMPLETE",
-        "total_acceptance_count": 1908
+        "total_acceptance_count": 1911
       },
       "taxonomy_counts": {
         "us-gaap": 1730
@@ -39515,9 +39517,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 1679
+        "total_acceptance_count": 1680
       },
       "taxonomy_counts": {
         "us-gaap": 2509
@@ -39726,9 +39728,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 3001
+        "total_acceptance_count": 3002
       },
       "taxonomy_counts": {
         "us-gaap": 2556
@@ -40377,9 +40379,9 @@
         "historical_files_discovered": 2,
         "historical_files_failed": 0,
         "historical_files_loaded": 2,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 5003
+        "total_acceptance_count": 5004
       },
       "taxonomy_counts": {
         "us-gaap": 2790
@@ -40695,9 +40697,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 1815
+        "total_acceptance_count": 1816
       },
       "taxonomy_counts": {
         "us-gaap": 2087
@@ -41247,49 +41249,49 @@
       "valid_fact_count": 1645
     },
     {
-      "acceptance_accession_count": 65,
-      "acceptance_fact_count": 2950,
-      "accession_count": 65,
+      "acceptance_accession_count": 67,
+      "acceptance_fact_count": 3038,
+      "accession_count": 67,
       "amended_fact_count": 66,
       "amendment_fact_count": 66,
       "cik": "0000077360",
       "currency_counts": {
-        "USD": 2950
+        "USD": 3038
       },
       "earliest_period_end": "2007-12-31",
-      "exact_acceptance_fact_count": 2950,
-      "fact_count": 2950,
+      "exact_acceptance_fact_count": 3038,
+      "fact_count": 3038,
       "invalid_fact_count": 0,
-      "latest_available_date": "2026-04-29",
-      "latest_period_end": "2026-03-31",
+      "latest_available_date": "2026-10-28",
+      "latest_period_end": "2026-09-30",
       "metric_counts": {
-        "capex": 147,
-        "cash": 299,
+        "capex": 151,
+        "cash": 311,
         "current_debt": 83,
-        "eps_diluted": 299,
-        "long_term_debt": 127,
-        "net_income": 545,
+        "eps_diluted": 307,
+        "long_term_debt": 131,
+        "net_income": 567,
         "operating_cash_flow": 147,
-        "operating_income": 299,
-        "revenue": 371,
-        "stockholders_equity": 342,
-        "total_assets": 153,
-        "total_liabilities": 138
+        "operating_income": 307,
+        "revenue": 379,
+        "stockholders_equity": 356,
+        "total_assets": 157,
+        "total_liabilities": 142
       },
       "metric_coverage": {
         "metric_fact_counts": {
-          "capex": 147,
-          "cash": 299,
+          "capex": 151,
+          "cash": 311,
           "current_debt": 83,
-          "eps_diluted": 299,
-          "long_term_debt": 127,
-          "net_income": 545,
+          "eps_diluted": 307,
+          "long_term_debt": 131,
+          "net_income": 567,
           "operating_cash_flow": 147,
-          "operating_income": 299,
-          "revenue": 371,
-          "stockholders_equity": 342,
-          "total_assets": 153,
-          "total_liabilities": 138
+          "operating_income": 307,
+          "revenue": 379,
+          "stockholders_equity": 356,
+          "total_assets": 157,
+          "total_liabilities": 142
         },
         "missing_metrics": [],
         "present_metrics": [
@@ -41311,9 +41313,9 @@
       "no_matched_facts_reason": null,
       "period_type_counts": {
         "annual": 354,
-        "instant": 1142,
-        "quarter": 982,
-        "year_to_date": 472
+        "instant": 1180,
+        "quarter": 1008,
+        "year_to_date": 496
       },
       "quality_issue_examples": [],
       "quality_issues": {},
@@ -41321,7 +41323,7 @@
       "quarantine_file": null,
       "quarantined_fact_count": 0,
       "retained_previous_evidence": false,
-      "source_fact_count": 2950,
+      "source_fact_count": 3038,
       "source_quality_issues": {},
       "source_taxonomy_concept_counts": {
         "dei": 2,
@@ -41334,22 +41336,22 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1007,
+        "recent_acceptance_count": 1009,
         "status": "COMPLETE",
-        "total_acceptance_count": 3011
+        "total_acceptance_count": 3013
       },
       "taxonomy_counts": {
-        "us-gaap": 2950
+        "us-gaap": 3038
       },
       "taxonomy_fact_counts": {
-        "us-gaap": 2950
+        "us-gaap": 3038
       },
       "ticker": "PNR",
       "unit_counts": {
-        "USD": 2651,
-        "USD/shares": 299
+        "USD": 2731,
+        "USD/shares": 307
       },
-      "valid_fact_count": 2950
+      "valid_fact_count": 3038
     },
     {
       "acceptance_accession_count": 65,
@@ -41548,9 +41550,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 1748
+        "total_acceptance_count": 1749
       },
       "taxonomy_counts": {
         "us-gaap": 2259
@@ -41655,9 +41657,9 @@
         "historical_files_discovered": 2,
         "historical_files_failed": 0,
         "historical_files_loaded": 2,
-        "recent_acceptance_count": 1002,
+        "recent_acceptance_count": 1003,
         "status": "COMPLETE",
-        "total_acceptance_count": 5006
+        "total_acceptance_count": 5007
       },
       "taxonomy_counts": {
         "us-gaap": 3165
@@ -42315,54 +42317,55 @@
       "valid_fact_count": 2621
     },
     {
-      "acceptance_accession_count": 44,
-      "acceptance_fact_count": 1691,
-      "accession_count": 44,
+      "acceptance_accession_count": 46,
+      "acceptance_fact_count": 1779,
+      "accession_count": 46,
       "amended_fact_count": 0,
       "amendment_fact_count": 0,
       "cik": "0001633917",
       "currency_counts": {
-        "USD": 1691
+        "USD": 1779
       },
       "earliest_period_end": "2012-12-31",
-      "exact_acceptance_fact_count": 1691,
-      "fact_count": 1691,
+      "exact_acceptance_fact_count": 1779,
+      "fact_count": 1779,
       "invalid_fact_count": 0,
-      "latest_available_date": "2026-05-06",
-      "latest_period_end": "2026-03-31",
+      "latest_available_date": "2026-10-28",
+      "latest_period_end": "2026-09-30",
       "metric_counts": {
-        "capex": 99,
-        "cash": 275,
-        "eps_diluted": 191,
-        "long_term_debt": 54,
-        "net_income": 233,
-        "operating_cash_flow": 99,
-        "operating_income": 143,
-        "revenue": 193,
-        "stockholders_equity": 228,
-        "total_assets": 88,
-        "total_liabilities": 88
+        "capex": 103,
+        "cash": 289,
+        "current_debt": 2,
+        "eps_diluted": 199,
+        "long_term_debt": 58,
+        "net_income": 247,
+        "operating_cash_flow": 103,
+        "operating_income": 151,
+        "revenue": 201,
+        "stockholders_equity": 242,
+        "total_assets": 92,
+        "total_liabilities": 92
       },
       "metric_coverage": {
         "metric_fact_counts": {
-          "capex": 99,
-          "cash": 275,
-          "eps_diluted": 191,
-          "long_term_debt": 54,
-          "net_income": 233,
-          "operating_cash_flow": 99,
-          "operating_income": 143,
-          "revenue": 193,
-          "stockholders_equity": 228,
-          "total_assets": 88,
-          "total_liabilities": 88
+          "capex": 103,
+          "cash": 289,
+          "current_debt": 2,
+          "eps_diluted": 199,
+          "long_term_debt": 58,
+          "net_income": 247,
+          "operating_cash_flow": 103,
+          "operating_income": 151,
+          "revenue": 201,
+          "stockholders_equity": 242,
+          "total_assets": 92,
+          "total_liabilities": 92
         },
-        "missing_metrics": [
-          "current_debt"
-        ],
+        "missing_metrics": [],
         "present_metrics": [
           "capex",
           "cash",
+          "current_debt",
           "eps_diluted",
           "long_term_debt",
           "net_income",
@@ -42374,15 +42377,13 @@
           "total_liabilities"
         ]
       },
-      "missing_metrics": [
-        "current_debt"
-      ],
+      "missing_metrics": [],
       "no_matched_facts_reason": null,
       "period_type_counts": {
         "annual": 198,
-        "instant": 733,
-        "quarter": 496,
-        "year_to_date": 264
+        "instant": 775,
+        "quarter": 518,
+        "year_to_date": 288
       },
       "quality_issue_examples": [],
       "quality_issues": {},
@@ -42390,7 +42391,7 @@
       "quarantine_file": null,
       "quarantined_fact_count": 0,
       "retained_previous_evidence": false,
-      "source_fact_count": 1691,
+      "source_fact_count": 1779,
       "source_quality_issues": {},
       "source_taxonomy_concept_counts": {
         "dei": 2,
@@ -42398,7 +42399,7 @@
         "ffd": 6,
         "invest": 1,
         "srt": 2,
-        "us-gaap": 500
+        "us-gaap": 502
       },
       "status": "COMPLETE",
       "submissions_metadata": {
@@ -42407,22 +42408,22 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1003,
+        "recent_acceptance_count": 1004,
         "status": "COMPLETE",
-        "total_acceptance_count": 1224
+        "total_acceptance_count": 1225
       },
       "taxonomy_counts": {
-        "us-gaap": 1691
+        "us-gaap": 1779
       },
       "taxonomy_fact_counts": {
-        "us-gaap": 1691
+        "us-gaap": 1779
       },
       "ticker": "PYPL",
       "unit_counts": {
-        "USD": 1500,
-        "USD/shares": 191
+        "USD": 1580,
+        "USD/shares": 199
       },
-      "valid_fact_count": 1691
+      "valid_fact_count": 1779
     },
     {
       "acceptance_accession_count": 4,
@@ -42638,49 +42639,49 @@
       "valid_fact_count": 2662
     },
     {
-      "acceptance_accession_count": 66,
-      "acceptance_fact_count": 2430,
-      "accession_count": 66,
+      "acceptance_accession_count": 67,
+      "acceptance_fact_count": 2472,
+      "accession_count": 67,
       "amended_fact_count": 0,
       "amendment_fact_count": 0,
       "cik": "0000884887",
       "currency_counts": {
-        "USD": 2430
+        "USD": 2472
       },
       "earliest_period_end": "2007-12-31",
-      "exact_acceptance_fact_count": 2430,
-      "fact_count": 2430,
+      "exact_acceptance_fact_count": 2472,
+      "fact_count": 2472,
       "invalid_fact_count": 0,
-      "latest_available_date": "2026-07-29",
-      "latest_period_end": "2026-06-30",
+      "latest_available_date": "2026-10-28",
+      "latest_period_end": "2026-09-30",
       "metric_counts": {
-        "capex": 148,
-        "cash": 316,
+        "capex": 150,
+        "cash": 322,
         "current_debt": 18,
-        "eps_diluted": 314,
+        "eps_diluted": 318,
         "long_term_debt": 18,
-        "net_income": 410,
-        "operating_cash_flow": 148,
-        "operating_income": 294,
-        "revenue": 296,
-        "stockholders_equity": 270,
-        "total_assets": 134,
-        "total_liabilities": 64
+        "net_income": 418,
+        "operating_cash_flow": 150,
+        "operating_income": 298,
+        "revenue": 300,
+        "stockholders_equity": 278,
+        "total_assets": 136,
+        "total_liabilities": 66
       },
       "metric_coverage": {
         "metric_fact_counts": {
-          "capex": 148,
-          "cash": 316,
+          "capex": 150,
+          "cash": 322,
           "current_debt": 18,
-          "eps_diluted": 314,
+          "eps_diluted": 318,
           "long_term_debt": 18,
-          "net_income": 410,
-          "operating_cash_flow": 148,
-          "operating_income": 294,
-          "revenue": 296,
-          "stockholders_equity": 270,
-          "total_assets": 134,
-          "total_liabilities": 64
+          "net_income": 418,
+          "operating_cash_flow": 150,
+          "operating_income": 298,
+          "revenue": 300,
+          "stockholders_equity": 278,
+          "total_assets": 136,
+          "total_liabilities": 66
         },
         "missing_metrics": [],
         "present_metrics": [
@@ -42702,9 +42703,9 @@
       "no_matched_facts_reason": null,
       "period_type_counts": {
         "annual": 320,
-        "instant": 820,
-        "quarter": 854,
-        "year_to_date": 436
+        "instant": 838,
+        "quarter": 864,
+        "year_to_date": 450
       },
       "quality_issue_examples": [],
       "quality_issues": {},
@@ -42712,7 +42713,7 @@
       "quarantine_file": null,
       "quarantined_fact_count": 0,
       "retained_previous_evidence": false,
-      "source_fact_count": 2430,
+      "source_fact_count": 2472,
       "source_quality_issues": {},
       "source_taxonomy_concept_counts": {
         "dei": 2,
@@ -42728,22 +42729,22 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 2264
+        "total_acceptance_count": 2265
       },
       "taxonomy_counts": {
-        "us-gaap": 2430
+        "us-gaap": 2472
       },
       "taxonomy_fact_counts": {
-        "us-gaap": 2430
+        "us-gaap": 2472
       },
       "ticker": "RCL",
       "unit_counts": {
-        "USD": 2116,
-        "USD/shares": 314
+        "USD": 2154,
+        "USD/shares": 318
       },
-      "valid_fact_count": 2430
+      "valid_fact_count": 2472
     },
     {
       "acceptance_accession_count": 10,
@@ -42835,9 +42836,9 @@
         "historical_files_discovered": 0,
         "historical_files_failed": 0,
         "historical_files_loaded": 0,
-        "recent_acceptance_count": 495,
+        "recent_acceptance_count": 496,
         "status": "COMPLETE",
-        "total_acceptance_count": 495
+        "total_acceptance_count": 496
       },
       "taxonomy_counts": {
         "us-gaap": 360
@@ -43912,9 +43913,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 1784
+        "total_acceptance_count": 1785
       },
       "taxonomy_counts": {
         "us-gaap": 2645
@@ -44790,47 +44791,47 @@
       "valid_fact_count": 410
     },
     {
-      "acceptance_accession_count": 69,
-      "acceptance_fact_count": 2934,
-      "accession_count": 69,
+      "acceptance_accession_count": 70,
+      "acceptance_fact_count": 2979,
+      "accession_count": 70,
       "amended_fact_count": 0,
       "amendment_fact_count": 0,
       "cik": "0000089800",
       "currency_counts": {
-        "USD": 2934
+        "USD": 2979
       },
       "earliest_period_end": "2006-12-31",
-      "exact_acceptance_fact_count": 2934,
-      "fact_count": 2934,
+      "exact_acceptance_fact_count": 2979,
+      "fact_count": 2979,
       "invalid_fact_count": 0,
-      "latest_available_date": "2026-07-29",
-      "latest_period_end": "2026-06-30",
+      "latest_available_date": "2026-10-28",
+      "latest_period_end": "2026-09-30",
       "metric_counts": {
         "capex": 20,
-        "cash": 360,
-        "current_debt": 414,
-        "eps_diluted": 319,
-        "long_term_debt": 207,
-        "net_income": 377,
-        "operating_cash_flow": 155,
+        "cash": 367,
+        "current_debt": 420,
+        "eps_diluted": 323,
+        "long_term_debt": 210,
+        "net_income": 385,
+        "operating_cash_flow": 157,
         "operating_income": 158,
-        "revenue": 389,
-        "stockholders_equity": 328,
-        "total_assets": 207
+        "revenue": 393,
+        "stockholders_equity": 336,
+        "total_assets": 210
       },
       "metric_coverage": {
         "metric_fact_counts": {
           "capex": 20,
-          "cash": 360,
-          "current_debt": 414,
-          "eps_diluted": 319,
-          "long_term_debt": 207,
-          "net_income": 377,
-          "operating_cash_flow": 155,
+          "cash": 367,
+          "current_debt": 420,
+          "eps_diluted": 323,
+          "long_term_debt": 210,
+          "net_income": 385,
+          "operating_cash_flow": 157,
           "operating_income": 158,
-          "revenue": 389,
-          "stockholders_equity": 328,
-          "total_assets": 207
+          "revenue": 393,
+          "stockholders_equity": 336,
+          "total_assets": 210
         },
         "missing_metrics": [
           "total_liabilities"
@@ -44855,10 +44856,10 @@
       "no_matched_facts_reason": null,
       "period_type_counts": {
         "annual": 276,
-        "instant": 1516,
+        "instant": 1543,
         "nonstandard_duration": 6,
-        "quarter": 768,
-        "year_to_date": 368
+        "quarter": 778,
+        "year_to_date": 376
       },
       "quality_issue_examples": [],
       "quality_issues": {},
@@ -44866,7 +44867,7 @@
       "quarantine_file": "data/sec_edgar_pit/quarantine/SHW.json",
       "quarantined_fact_count": 2,
       "retained_previous_evidence": false,
-      "source_fact_count": 2936,
+      "source_fact_count": 2981,
       "source_quality_issues": {
         "incompatible_metric_unit": 2
       },
@@ -44881,22 +44882,22 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1003,
+        "recent_acceptance_count": 1004,
         "status": "COMPLETE",
-        "total_acceptance_count": 3003
+        "total_acceptance_count": 3004
       },
       "taxonomy_counts": {
-        "us-gaap": 2934
+        "us-gaap": 2979
       },
       "taxonomy_fact_counts": {
-        "us-gaap": 2934
+        "us-gaap": 2979
       },
       "ticker": "SHW",
       "unit_counts": {
-        "USD": 2615,
-        "USD/shares": 319
+        "USD": 2656,
+        "USD/shares": 323
       },
-      "valid_fact_count": 2934
+      "valid_fact_count": 2979
     },
     {
       "acceptance_accession_count": 65,
@@ -45204,9 +45205,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1010,
+        "recent_acceptance_count": 1011,
         "status": "COMPLETE",
-        "total_acceptance_count": 2638
+        "total_acceptance_count": 2639
       },
       "taxonomy_counts": {
         "us-gaap": 2324
@@ -45525,9 +45526,9 @@
         "historical_files_discovered": 0,
         "historical_files_failed": 0,
         "historical_files_loaded": 0,
-        "recent_acceptance_count": 249,
+        "recent_acceptance_count": 250,
         "status": "COMPLETE",
-        "total_acceptance_count": 249
+        "total_acceptance_count": 250
       },
       "taxonomy_counts": {
         "us-gaap": 304
@@ -46693,9 +46694,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 2980
+        "total_acceptance_count": 2981
       },
       "taxonomy_counts": {
         "us-gaap": 2276
@@ -47120,9 +47121,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 2076
+        "total_acceptance_count": 2077
       },
       "taxonomy_counts": {
         "us-gaap": 2217
@@ -48180,9 +48181,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 3005
+        "total_acceptance_count": 3006
       },
       "taxonomy_counts": {
         "us-gaap": 1673
@@ -49249,9 +49250,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1003,
+        "recent_acceptance_count": 1004,
         "status": "COMPLETE",
-        "total_acceptance_count": 2532
+        "total_acceptance_count": 2533
       },
       "taxonomy_counts": {
         "us-gaap": 2725
@@ -49467,9 +49468,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 3000
+        "total_acceptance_count": 3001
       },
       "taxonomy_counts": {
         "us-gaap": 1710
@@ -49683,9 +49684,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 1760
+        "total_acceptance_count": 1761
       },
       "taxonomy_counts": {
         "us-gaap": 2198
@@ -50219,9 +50220,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1014,
+        "recent_acceptance_count": 1017,
         "status": "COMPLETE",
-        "total_acceptance_count": 3014
+        "total_acceptance_count": 3017
       },
       "taxonomy_counts": {
         "us-gaap": 2361
@@ -50431,9 +50432,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 2041
+        "total_acceptance_count": 2042
       },
       "taxonomy_counts": {
         "us-gaap": 2047
@@ -50861,9 +50862,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 1715
+        "total_acceptance_count": 1716
       },
       "taxonomy_counts": {
         "us-gaap": 2765
@@ -51396,9 +51397,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1002,
+        "recent_acceptance_count": 1003,
         "status": "COMPLETE",
-        "total_acceptance_count": 2478
+        "total_acceptance_count": 2479
       },
       "taxonomy_counts": {
         "us-gaap": 2242
@@ -51503,9 +51504,9 @@
         "historical_files_discovered": 2,
         "historical_files_failed": 0,
         "historical_files_loaded": 2,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 4843
+        "total_acceptance_count": 4845
       },
       "taxonomy_counts": {
         "us-gaap": 1900
@@ -51611,9 +51612,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 1704
+        "total_acceptance_count": 1705
       },
       "taxonomy_counts": {
         "us-gaap": 2096
@@ -52463,9 +52464,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1001,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 2659
+        "total_acceptance_count": 2660
       },
       "taxonomy_counts": {
         "us-gaap": 2087
@@ -52569,9 +52570,9 @@
         "historical_files_discovered": 0,
         "historical_files_failed": 0,
         "historical_files_loaded": 0,
-        "recent_acceptance_count": 877,
+        "recent_acceptance_count": 878,
         "status": "COMPLETE",
-        "total_acceptance_count": 877
+        "total_acceptance_count": 878
       },
       "taxonomy_counts": {
         "us-gaap": 1229
@@ -52891,9 +52892,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 3001
+        "total_acceptance_count": 3002
       },
       "taxonomy_counts": {
         "us-gaap": 2337
@@ -53738,41 +53739,41 @@
       "valid_fact_count": 2088
     },
     {
-      "acceptance_accession_count": 64,
-      "acceptance_fact_count": 1949,
-      "accession_count": 64,
+      "acceptance_accession_count": 66,
+      "acceptance_fact_count": 2023,
+      "accession_count": 66,
       "amended_fact_count": 69,
       "amendment_fact_count": 69,
       "cik": "0000766704",
       "currency_counts": {
-        "USD": 1949
+        "USD": 2023
       },
       "earliest_period_end": "2007-12-31",
-      "exact_acceptance_fact_count": 1949,
-      "fact_count": 1949,
+      "exact_acceptance_fact_count": 2023,
+      "fact_count": 2023,
       "invalid_fact_count": 0,
-      "latest_available_date": "2026-04-30",
-      "latest_period_end": "2026-03-31",
+      "latest_available_date": "2026-10-28",
+      "latest_period_end": "2026-09-30",
       "metric_counts": {
-        "cash": 320,
-        "eps_diluted": 296,
-        "net_income": 234,
-        "operating_cash_flow": 144,
-        "revenue": 271,
-        "stockholders_equity": 426,
-        "total_assets": 130,
-        "total_liabilities": 128
+        "cash": 332,
+        "eps_diluted": 304,
+        "net_income": 242,
+        "operating_cash_flow": 148,
+        "revenue": 287,
+        "stockholders_equity": 444,
+        "total_assets": 134,
+        "total_liabilities": 132
       },
       "metric_coverage": {
         "metric_fact_counts": {
-          "cash": 320,
-          "eps_diluted": 296,
-          "net_income": 234,
-          "operating_cash_flow": 144,
-          "revenue": 271,
-          "stockholders_equity": 426,
-          "total_assets": 130,
-          "total_liabilities": 128
+          "cash": 332,
+          "eps_diluted": 304,
+          "net_income": 242,
+          "operating_cash_flow": 148,
+          "revenue": 287,
+          "stockholders_equity": 444,
+          "total_assets": 134,
+          "total_liabilities": 132
         },
         "missing_metrics": [
           "capex",
@@ -53800,9 +53801,9 @@
       "no_matched_facts_reason": null,
       "period_type_counts": {
         "annual": 207,
-        "instant": 1004,
-        "quarter": 466,
-        "year_to_date": 272
+        "instant": 1042,
+        "quarter": 482,
+        "year_to_date": 292
       },
       "quality_issue_examples": [],
       "quality_issues": {},
@@ -53810,14 +53811,14 @@
       "quarantine_file": null,
       "quarantined_fact_count": 0,
       "retained_previous_evidence": false,
-      "source_fact_count": 1949,
+      "source_fact_count": 2023,
       "source_quality_issues": {},
       "source_taxonomy_concept_counts": {
         "dei": 2,
         "ecd": 7,
         "ffd": 6,
         "srt": 6,
-        "us-gaap": 667
+        "us-gaap": 668
       },
       "status": "COMPLETE",
       "submissions_metadata": {
@@ -53826,22 +53827,22 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1005,
         "status": "COMPLETE",
-        "total_acceptance_count": 2600
+        "total_acceptance_count": 2605
       },
       "taxonomy_counts": {
-        "us-gaap": 1949
+        "us-gaap": 2023
       },
       "taxonomy_fact_counts": {
-        "us-gaap": 1949
+        "us-gaap": 2023
       },
       "ticker": "WELL",
       "unit_counts": {
-        "USD": 1653,
-        "USD/shares": 296
+        "USD": 1719,
+        "USD/shares": 304
       },
-      "valid_fact_count": 1949
+      "valid_fact_count": 2023
     },
     {
       "acceptance_accession_count": 69,
@@ -53933,9 +53934,9 @@
         "historical_files_discovered": 7,
         "historical_files_failed": 0,
         "historical_files_loaded": 7,
-        "recent_acceptance_count": 1274,
+        "recent_acceptance_count": 1280,
         "status": "COMPLETE",
-        "total_acceptance_count": 15355
+        "total_acceptance_count": 15361
       },
       "taxonomy_counts": {
         "us-gaap": 1669
@@ -54041,9 +54042,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1004,
+        "recent_acceptance_count": 1005,
         "status": "COMPLETE",
-        "total_acceptance_count": 3004
+        "total_acceptance_count": 3005
       },
       "taxonomy_counts": {
         "us-gaap": 2692
@@ -54364,9 +54365,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 1765
+        "total_acceptance_count": 1766
       },
       "taxonomy_counts": {
         "us-gaap": 2150
@@ -54789,9 +54790,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1001,
         "status": "COMPLETE",
-        "total_acceptance_count": 2640
+        "total_acceptance_count": 2641
       },
       "taxonomy_counts": {
         "us-gaap": 2471
@@ -54896,9 +54897,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1006,
+        "recent_acceptance_count": 1007,
         "status": "COMPLETE",
-        "total_acceptance_count": 1751
+        "total_acceptance_count": 1752
       },
       "taxonomy_counts": {
         "us-gaap": 2775
@@ -55109,9 +55110,9 @@
         "historical_files_discovered": 0,
         "historical_files_failed": 0,
         "historical_files_loaded": 0,
-        "recent_acceptance_count": 36,
+        "recent_acceptance_count": 37,
         "status": "COMPLETE",
-        "total_acceptance_count": 36
+        "total_acceptance_count": 37
       },
       "taxonomy_counts": {
         "us-gaap": 38
@@ -55127,47 +55128,47 @@
       "valid_fact_count": 38
     },
     {
-      "acceptance_accession_count": 61,
-      "acceptance_fact_count": 2465,
-      "accession_count": 61,
+      "acceptance_accession_count": 62,
+      "acceptance_fact_count": 2519,
+      "accession_count": 62,
       "amended_fact_count": 32,
       "amendment_fact_count": 32,
       "cik": "0001524472",
       "currency_counts": {
-        "USD": 2465
+        "USD": 2519
       },
       "earliest_period_end": "2008-12-31",
-      "exact_acceptance_fact_count": 2465,
-      "fact_count": 2465,
+      "exact_acceptance_fact_count": 2519,
+      "fact_count": 2519,
       "invalid_fact_count": 0,
-      "latest_available_date": "2026-07-29",
-      "latest_period_end": "2026-06-30",
+      "latest_available_date": "2026-10-28",
+      "latest_period_end": "2026-09-30",
       "metric_counts": {
-        "cash": 280,
-        "current_debt": 28,
-        "eps_diluted": 267,
-        "long_term_debt": 122,
-        "net_income": 455,
-        "operating_cash_flow": 137,
-        "operating_income": 271,
-        "revenue": 313,
-        "stockholders_equity": 338,
-        "total_assets": 132,
-        "total_liabilities": 122
+        "cash": 286,
+        "current_debt": 30,
+        "eps_diluted": 271,
+        "long_term_debt": 124,
+        "net_income": 467,
+        "operating_cash_flow": 139,
+        "operating_income": 275,
+        "revenue": 321,
+        "stockholders_equity": 348,
+        "total_assets": 134,
+        "total_liabilities": 124
       },
       "metric_coverage": {
         "metric_fact_counts": {
-          "cash": 280,
-          "current_debt": 28,
-          "eps_diluted": 267,
-          "long_term_debt": 122,
-          "net_income": 455,
-          "operating_cash_flow": 137,
-          "operating_income": 271,
-          "revenue": 313,
-          "stockholders_equity": 338,
-          "total_assets": 132,
-          "total_liabilities": 122
+          "cash": 286,
+          "current_debt": 30,
+          "eps_diluted": 271,
+          "long_term_debt": 124,
+          "net_income": 467,
+          "operating_cash_flow": 139,
+          "operating_income": 275,
+          "revenue": 321,
+          "stockholders_equity": 348,
+          "total_assets": 134,
+          "total_liabilities": 124
         },
         "missing_metrics": [
           "capex"
@@ -55192,9 +55193,9 @@
       "no_matched_facts_reason": null,
       "period_type_counts": {
         "annual": 264,
-        "instant": 1022,
-        "quarter": 816,
-        "year_to_date": 363
+        "instant": 1046,
+        "quarter": 832,
+        "year_to_date": 377
       },
       "quality_issue_examples": [],
       "quality_issues": {},
@@ -55202,13 +55203,13 @@
       "quarantine_file": null,
       "quarantined_fact_count": 0,
       "retained_previous_evidence": false,
-      "source_fact_count": 2465,
+      "source_fact_count": 2519,
       "source_quality_issues": {},
       "source_taxonomy_concept_counts": {
         "dei": 2,
         "ffd": 6,
         "invest": 1,
-        "us-gaap": 570
+        "us-gaap": 574
       },
       "status": "COMPLETE",
       "submissions_metadata": {
@@ -55217,22 +55218,22 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1002,
+        "recent_acceptance_count": 1003,
         "status": "COMPLETE",
-        "total_acceptance_count": 1313
+        "total_acceptance_count": 1314
       },
       "taxonomy_counts": {
-        "us-gaap": 2465
+        "us-gaap": 2519
       },
       "taxonomy_fact_counts": {
-        "us-gaap": 2465
+        "us-gaap": 2519
       },
       "ticker": "XYL",
       "unit_counts": {
-        "USD": 2198,
-        "USD/shares": 267
+        "USD": 2248,
+        "USD/shares": 271
       },
-      "valid_fact_count": 2465
+      "valid_fact_count": 2519
     },
     {
       "acceptance_accession_count": 42,
@@ -55324,9 +55325,9 @@
         "historical_files_discovered": 1,
         "historical_files_failed": 0,
         "historical_files_loaded": 1,
-        "recent_acceptance_count": 1000,
+        "recent_acceptance_count": 1002,
         "status": "COMPLETE",
-        "total_acceptance_count": 2012
+        "total_acceptance_count": 2014
       },
       "taxonomy_counts": {
         "us-gaap": 1578
@@ -55783,7 +55784,7 @@
   },
   "taxonomy_fact_counts": {
     "ifrs-full": 620,
-    "us-gaap": 1110750
+    "us-gaap": 1111539
   },
   "ticker_count": 520,
   "tickers_with_quarantined_facts": [
@@ -55841,7 +55842,7 @@
   "unusable_tickers": [
     "VYLR"
   ],
-  "updated_at": "2026-10-27T14:52:52.734481+00:00",
+  "updated_at": "2026-10-28T02:24:38.940611+00:00",
   "usable_ticker_count": 519,
-  "valid_fact_count": 1111370
+  "valid_fact_count": 1112159
 }

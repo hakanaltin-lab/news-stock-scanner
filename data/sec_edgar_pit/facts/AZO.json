@@ -4,7 +4,7 @@
   "availability_rule": "available_date = SEC filed date + 1 calendar day; conservative guard against same-day look-ahead. Exact current and historical acceptance timestamps from SEC submissions metadata are stored for audit but do not make the daily as-of date earlier.",
   "cik": "0000866787",
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
-  "entity_name": "AUTOZONE, INC.",
+  "entity_name": "AutoZone, Inc.",
   "exact_acceptance_coverage_pct": 100.0,
   "exact_acceptance_fact_count": 2395,
   "fact_count": 2395,
@@ -36059,7 +36059,7 @@
       "fiscal_period": "FY",
       "fiscal_year": 2024,
       "form": "10-K",
-      "frame": "CY2022",
+      "frame": null,
       "metric": "net_income",
       "namespace": "us-gaap",
       "start": "2021-08-29",
@@ -38167,7 +38167,7 @@
       "fiscal_period": "FY",
       "fiscal_year": 2025,
       "form": "10-K",
-      "frame": "CY2023",
+      "frame": null,
       "metric": "net_income",
       "namespace": "us-gaap",
       "start": "2022-08-28",
@@ -40258,7 +40258,7 @@
       "fiscal_period": "FY",
       "fiscal_year": 2026,
       "form": "10-K",
-      "frame": "CY2024",
+      "frame": null,
       "metric": "net_income",
       "namespace": "us-gaap",
       "start": "2023-08-27",
@@ -40428,7 +40428,7 @@
       "fiscal_period": "FY",
       "fiscal_year": 2026,
       "form": "10-K",
-      "frame": "CY2025",
+      "frame": null,
       "metric": "net_income",
       "namespace": "us-gaap",
       "start": "2024-09-01",
@@ -40615,7 +40615,7 @@
       "fiscal_period": "FY",
       "fiscal_year": 2026,
       "form": "10-K",
-      "frame": "CY2026",
+      "frame": null,
       "metric": "net_income",
       "namespace": "us-gaap",
       "start": "2025-08-31",
@@ -40803,6 +40803,7 @@
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
     "dei": 2,
+    "ecd": 5,
     "ffd": 5,
     "invest": 1,
     "srt": 1,
@@ -40825,9 +40826,9 @@
         "name": "CIK0000866787-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1002,
+    "recent_acceptance_count": 1005,
     "status": "COMPLETE",
-    "total_acceptance_count": 3002
+    "total_acceptance_count": 3005
   },
   "taxonomies_supported": [
     "ifrs-full",
