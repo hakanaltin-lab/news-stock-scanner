@@ -1,0 +1,62 @@
+name: AURORA V8.9.7 IBKR Market Data Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/ibkr_market_data_connector.py"
+      - "engines/ibkr_account_guard.py"
+      - "engines/market_data_quality_gate.py"
+      - "scripts/ibkr_market_data_probe.py"
+      - "tests/test_v8_9_7_ibkr_market_data.py"
+      - "config/aurora_runtime.env.example"
+      - "docs/AURORA_G3_IBKR_MARKET_DATA.md"
+      - ".github/workflows/ibkr_market_data_safety.yml"
+  push:
+    paths:
+      - "engines/ibkr_market_data_connector.py"
+      - "engines/ibkr_account_guard.py"
+      - "engines/market_data_quality_gate.py"
+      - "scripts/ibkr_market_data_probe.py"
+      - "tests/test_v8_9_7_ibkr_market_data.py"
+      - "config/aurora_runtime.env.example"
+      - "docs/AURORA_G3_IBKR_MARKET_DATA.md"
+      - ".github/workflows/ibkr_market_data_safety.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  g3-market-data-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile G3 components
+        run: |
+          python -m py_compile engines/ibkr_market_data_connector.py
+          python -m py_compile scripts/ibkr_market_data_probe.py
+          python -m py_compile tests/test_v8_9_7_ibkr_market_data.py
+
+      - name: Validate safe defaults
+        run: |
+          grep -q '^AURORA_IBKR_MARKET_DATA_ENABLED=false$' config/aurora_runtime.env.example
+          grep -q '^AURORA_IBKR_MARKET_DATA_CLIENT_ID=83$' config/aurora_runtime.env.example
+          grep -q '^AURORA_IBKR_MARKET_DATA_TIMEOUT_SECONDS=8$' config/aurora_runtime.env.example
+
+      - name: Run G3 fail-closed tests
+        env:
+          AURORA_IBKR_MARKET_DATA_ENABLED: "false"
+          AURORA_IBKR_MODE: "PAPER"
+          AURORA_IBKR_HOST: "127.0.0.1"
+          AURORA_IBKR_PORT: "4002"
+        run: |
+          python -m unittest tests.test_v8_9_7_ibkr_market_data -v
