@@ -113,6 +113,23 @@ class MarketDataExecutionGateTests(unittest.TestCase):
         self.assertTrue(result["execution_eligible"])
         self.assertEqual(result["decision"], "PASS")
 
+    def test_future_timestamp_is_blocked(self):
+        now = datetime.now(timezone.utc)
+        future = datetime.fromtimestamp(
+            now.timestamp() + 30,
+            tz=timezone.utc,
+        )
+        result = evaluate_market_data_for_execution({
+            "source": "IBKR_REALTIME",
+            "market_timestamp": future.isoformat(),
+            "last_price": 100.0,
+            "data_points": 1,
+            "data_quality": "AVAILABLE",
+        }, now=now)
+
+        self.assertFalse(result["execution_eligible"])
+        self.assertIn("clock_sane", result["failure_reasons"])
+
     def test_stale_ibkr_data_is_blocked(self):
         now = datetime.now(timezone.utc)
         stale = datetime.fromtimestamp(
