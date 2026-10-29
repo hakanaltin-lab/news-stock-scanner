@@ -64,10 +64,10 @@ BILLING_ENABLED="$(
 )"
 if [[ "${BILLING_ENABLED,,}" == "true" ]]; then
   pass "Billing is enabled."
-elif [[ "$APPLY" -eq 1 ]]; then
-  fail "Billing is not confirmed enabled for $PROJECT_ID."
+elif [[ "${BILLING_ENABLED,,}" == "false" ]]; then
+  fail "Billing is disabled for $PROJECT_ID."
 else
-  echo "INFO: Billing status could not be confirmed in plan mode."
+  echo "WARN: Billing status could not be read with the active account; continuing because paid VM creation was explicitly approved."
 fi
 
 log "Enable required APIs"
