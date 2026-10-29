@@ -1,0 +1,63 @@
+name: AURORA V8.9.9 G2 VPS Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "scripts/bootstrap_aurora_g2_vps.sh"
+      - "scripts/start_aurora_vnc_local.sh"
+      - "scripts/configure_aurora_g2_runtime.sh"
+      - "scripts/install_ibkr_official_api.sh"
+      - "scripts/download_ibgateway_stable.sh"
+      - "scripts/launch_ibgateway_vnc.sh"
+      - "scripts/run_aurora_g2_readonly.sh"
+      - "tests/test_v8_9_9_g2_vps_safety.py"
+      - "docs/AURORA_G2_VPS_READ_ONLY.md"
+      - ".github/workflows/g2_vps_safety.yml"
+  push:
+    paths:
+      - "scripts/bootstrap_aurora_g2_vps.sh"
+      - "scripts/start_aurora_vnc_local.sh"
+      - "scripts/configure_aurora_g2_runtime.sh"
+      - "scripts/install_ibkr_official_api.sh"
+      - "scripts/download_ibgateway_stable.sh"
+      - "scripts/launch_ibgateway_vnc.sh"
+      - "scripts/run_aurora_g2_readonly.sh"
+      - "tests/test_v8_9_9_g2_vps_safety.py"
+      - "docs/AURORA_G2_VPS_READ_ONLY.md"
+      - ".github/workflows/g2_vps_safety.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  g2-vps-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Bash syntax checks
+        run: |
+          bash -n scripts/bootstrap_aurora_g2_vps.sh
+          bash -n scripts/start_aurora_vnc_local.sh
+          bash -n scripts/configure_aurora_g2_runtime.sh
+          bash -n scripts/install_ibkr_official_api.sh
+          bash -n scripts/download_ibgateway_stable.sh
+          bash -n scripts/launch_ibgateway_vnc.sh
+          bash -n scripts/run_aurora_g2_readonly.sh
+
+      - name: Compile safety tests
+        run: |
+          python -m py_compile tests/test_v8_9_9_g2_vps_safety.py
+
+      - name: Prove G2 deployment safety contract
+        run: |
+          python -m unittest tests.test_v8_9_9_g2_vps_safety -v
