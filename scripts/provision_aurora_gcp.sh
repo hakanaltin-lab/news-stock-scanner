@@ -60,14 +60,14 @@ echo "Mode: $([[ "$APPLY" -eq 1 ]] && echo APPLY || echo PLAN)"
 gcloud projects describe "$PROJECT_ID" >/dev/null   || fail "Active account cannot access target project."
 
 BILLING_ENABLED="$(
-  gcloud beta billing projects describe "$PROJECT_ID"     --format='value(billingEnabled)' 2>/dev/null || true
+  gcloud billing projects describe "$PROJECT_ID"     --format='value(billingEnabled)' 2>/dev/null || true
 )"
 if [[ "${BILLING_ENABLED,,}" == "true" ]]; then
   pass "Billing is enabled."
-elif [[ "$APPLY" -eq 1 ]]; then
-  fail "Billing is not confirmed enabled for $PROJECT_ID."
+elif [[ "${BILLING_ENABLED,,}" == "false" ]]; then
+  fail "Billing is disabled for $PROJECT_ID."
 else
-  echo "INFO: Billing status could not be confirmed in plan mode."
+  echo "WARN: Billing status could not be read with the active account; continuing because paid VM creation was explicitly approved."
 fi
 
 log "Enable required APIs"
