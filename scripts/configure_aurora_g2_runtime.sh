@@ -16,6 +16,7 @@ printf "\n"
 PAPER_ACCOUNT="$(printf '%s' "$PAPER_ACCOUNT" | tr -d '[:space:]')"
 [[ -n "$PAPER_ACCOUNT" ]] || fail "Paper account ID cannot be empty."
 [[ "$PAPER_ACCOUNT" != "DUXXXXXXX" ]] || fail "Placeholder account ID is not allowed."
+[[ "$PAPER_ACCOUNT" =~ ^DU[[:alnum:]]+$ ]] || fail "Expected an IBKR Paper account ID beginning with DU and containing only letters/numbers."
 
 TMP="$(mktemp)"
 trap 'rm -f "$TMP"' EXIT
