@@ -1,1 +1,43 @@
-name: AURORA V8.9.10 One Command Bootstrap Safety\n\non:\n  workflow_dispatch:\n  pull_request:\n    paths:\n      - "scripts/provision_and_bootstrap_aurora.sh"\n      - "tests/test_v8_9_10_one_command_bootstrap.py"\n      - ".github/workflows/one_command_bootstrap_safety.yml"\n  push:\n    paths:\n      - "scripts/provision_and_bootstrap_aurora.sh"\n      - "tests/test_v8_9_10_one_command_bootstrap.py"\n      - ".github/workflows/one_command_bootstrap_safety.yml"\n\npermissions:\n  contents: read\n\njobs:\n  one-command-contract:\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n\n    steps:\n      - name: Checkout repository\n        uses: actions/checkout@v4\n\n      - name: Setup Python\n        uses: actions/setup-python@v5\n        with:\n          python-version: "3.11"\n\n      - name: Bash syntax check\n        run: |\n          bash -n scripts/provision_and_bootstrap_aurora.sh\n\n      - name: Compile tests\n        run: |\n          python -m py_compile tests/test_v8_9_10_one_command_bootstrap.py\n\n      - name: Prove one-command safety contract\n        run: |\n          python -m unittest tests.test_v8_9_10_one_command_bootstrap -v\n
+name: AURORA V8.9.10 One Command Bootstrap Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "scripts/provision_and_bootstrap_aurora.sh"
+      - "tests/test_v8_9_10_one_command_bootstrap.py"
+      - ".github/workflows/one_command_bootstrap_safety.yml"
+  push:
+    paths:
+      - "scripts/provision_and_bootstrap_aurora.sh"
+      - "tests/test_v8_9_10_one_command_bootstrap.py"
+      - ".github/workflows/one_command_bootstrap_safety.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  one-command-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Bash syntax check
+        run: |
+          bash -n scripts/provision_and_bootstrap_aurora.sh
+
+      - name: Compile tests
+        run: |
+          python -m py_compile tests/test_v8_9_10_one_command_bootstrap.py
+
+      - name: Prove one-command safety contract
+        run: |
+          python -m unittest tests.test_v8_9_10_one_command_bootstrap -v
