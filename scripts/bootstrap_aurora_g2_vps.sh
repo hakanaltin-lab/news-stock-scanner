@@ -28,6 +28,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
   python3-venv \
   tigervnc-common \
   tigervnc-standalone-server \
+  tigervnc-tools \
   unzip \
   xfce4 \
   xfce4-terminal
