@@ -11208,6 +11208,67 @@
       }
     },
     {
+      "id": "a997ace8c5ce5de3",
+      "signal_date": "2026-10-28",
+      "generated_at": "2026-10-29T06:10:03.398639",
+      "model_version": "V8.6",
+      "source": "NEW_ENTRY",
+      "ticker": "SLB",
+      "action": "ACCUMULATE",
+      "direction": "LONG",
+      "signal_price": 53.76,
+      "benchmark": "SPY",
+      "benchmark_entry_price": 772.31,
+      "scores": {
+        "alpha_score": 75.52,
+        "risk_score": 85.1,
+        "confidence": 74.0
+      },
+      "origin_commit": "CURRENT_RUN",
+      "evaluation_basis": "signal_price_to_future_daily_close",
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "future_price": null,
+          "future_spy_price": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null,
+          "absolute_hit": null
+        }
+      }
+    },
+    {
       "id": "16ba0f60a85d9f86",
       "signal_date": "2026-10-28",
       "generated_at": "2026-10-28T18:30:39.368385",
@@ -11464,6 +11525,6 @@
       }
     }
   ],
-  "updated_at": "2026-10-28T22:48:55.258192+00:00",
-  "record_count": 181
+  "updated_at": "2026-10-29T06:10:03.880334+00:00",
+  "record_count": 182
 }

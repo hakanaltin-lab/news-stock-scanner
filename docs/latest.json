@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-28T22:48:54.498007",
+  "generated": "2026-10-29T06:10:03.398639",
   "scanner_version": "V8.6",
   "aurora_run_mode": {
     "requested_mode": "SAFE_OFF",
@@ -19,7 +19,7 @@
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-10-28T22:46:34.651970",
+      "timestamp": "2026-10-29T06:07:02.511353",
       "holding": {
         "shares": "10",
         "avg_cost": "140.16",
@@ -29,14 +29,14 @@
       },
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-28T22:46:33.288926+00:00",
+        "timestamp": "2026-10-29T06:07:01.504698+00:00",
         "last_price": 578.61,
-        "vwap": 542.24,
+        "vwap": 536.14,
         "momentum": 53.23,
         "momentum_pct": 10.13,
-        "vwap_distance_pct": 6.71,
-        "volume": 100549889,
-        "volume_ratio": 2.1,
+        "vwap_distance_pct": 7.92,
+        "volume": 81158141,
+        "volume_ratio": 0.93,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -44,7 +44,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-28T19:45:00+00:00",
-        "data_age_seconds": 10893.289,
+        "data_age_seconds": 37321.505,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -64,14 +64,14 @@
       },
       "tactical_market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-28T22:46:33.288926+00:00",
+        "timestamp": "2026-10-29T06:07:01.504698+00:00",
         "last_price": 578.61,
-        "vwap": 542.24,
+        "vwap": 536.14,
         "momentum": 53.23,
         "momentum_pct": 10.13,
-        "vwap_distance_pct": 6.71,
-        "volume": 100549889,
-        "volume_ratio": 2.1,
+        "vwap_distance_pct": 7.92,
+        "volume": 81158141,
+        "volume_ratio": 0.93,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -106,14 +106,14 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-28T02:08:31.867289+00:00",
+        "timestamp": "2026-10-29T06:07:02.510887+00:00",
         "ticker": "AMD",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
         "coverage_ratio": 1.0,
-        "thesis_score": 74.6,
+        "thesis_score": 74.4,
         "thesis_health": "HEALTHY",
         "hard_break_count": 0,
         "hard_breaks": [],
@@ -122,8 +122,8 @@
           "profitability": 60.0,
           "cash_flow": 64.2,
           "balance_sheet": 83.3,
-          "valuation": 57.6,
-          "revisions": 76.7
+          "valuation": 57.5,
+          "revisions": 75.4
         },
         "fundamentals": {
           "revenue_growth_pct": 50.1,
@@ -133,19 +133,19 @@
           "return_on_equity_pct": 10.2,
           "free_cash_flow": 8841499648.0,
           "operating_cash_flow": 10080000000.0,
-          "fcf_yield_pct": 0.97,
+          "fcf_yield_pct": 0.94,
           "total_cash": 13111000064.0,
           "total_debt": 4276000000.0,
           "debt_to_equity": 6.361,
           "current_ratio": 2.609
         },
         "valuation": {
-          "forward_pe": 35.55895,
-          "peg_ratio": 0.53
+          "forward_pe": 36.501064,
+          "peg_ratio": 0.56
         },
         "analyst_revision_context": {
-          "target_mean_price": 637.608,
-          "analyst_upside_pct": 13.77,
+          "target_mean_price": 640.208,
+          "analyst_upside_pct": 10.65,
           "recommendation_mean": 1.49091,
           "analyst_count": 50.0,
           "eps_revisions": {
@@ -167,16 +167,16 @@
       },
       "signal": "BULLISH",
       "scores": {
-        "market_score": 95.5,
+        "market_score": 89.7,
         "news_score": 65,
         "catalyst_score": 63,
         "sector_score": 7.4,
         "risk_score": 82.0,
-        "alpha_score": 70.78,
+        "alpha_score": 68.75,
         "strategic_trend_score": 100,
         "strategic_risk_score": 12.8,
         "strategic_composite_score": 65.0,
-        "fundamental_thesis_score": 74.6
+        "fundamental_thesis_score": 74.4
       },
       "news": {
         "ticker": "AMD",
@@ -231,7 +231,7 @@
         "volatility_pct": 0.57,
         "max_drawdown_pct": 4.63,
         "trend_pct": 10.13,
-        "average_dollar_volume": 419401331.77,
+        "average_dollar_volume": 334707876.4,
         "components": {
           "volatility_score": 85.6,
           "drawdown_score": 63.0,
@@ -240,11 +240,11 @@
         },
         "data_quality": "LIVE"
       },
-      "rating": "STRONG",
+      "rating": "POSITIVE",
       "entry_action": "ACCUMULATE",
       "entry_decision": {
         "action": "ACCUMULATE",
-        "confidence": 76.2,
+        "confidence": 74.1,
         "entry_zone": {
           "low": 555.47,
           "high": 578.61
@@ -305,7 +305,7 @@
         "tactical_inputs": {
           "signal": "BULLISH",
           "entry_action": "ACCUMULATE",
-          "confidence": 76.2
+          "confidence": 74.1
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -313,7 +313,7 @@
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-10-28T22:46:35.986952",
+      "timestamp": "2026-10-29T06:07:03.458101",
       "holding": {
         "shares": "35",
         "avg_cost": "147.95",
@@ -323,14 +323,14 @@
       },
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-28T22:46:34.898883+00:00",
+        "timestamp": "2026-10-29T06:07:02.633923+00:00",
         "last_price": 186.85,
-        "vwap": 179.28,
+        "vwap": 178.41,
         "momentum": 8.67,
         "momentum_pct": 4.87,
-        "vwap_distance_pct": 4.22,
-        "volume": 25075156,
-        "volume_ratio": 1.27,
+        "vwap_distance_pct": 4.73,
+        "volume": 22721906,
+        "volume_ratio": 0.78,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -338,7 +338,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-28T19:45:00+00:00",
-        "data_age_seconds": 10894.899,
+        "data_age_seconds": 37322.634,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -358,14 +358,14 @@
       },
       "tactical_market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-28T22:46:34.898883+00:00",
+        "timestamp": "2026-10-29T06:07:02.633923+00:00",
         "last_price": 186.85,
-        "vwap": 179.28,
+        "vwap": 178.41,
         "momentum": 8.67,
         "momentum_pct": 4.87,
-        "vwap_distance_pct": 4.22,
-        "volume": 25075156,
-        "volume_ratio": 1.27,
+        "vwap_distance_pct": 4.73,
+        "volume": 22721906,
+        "volume_ratio": 0.78,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -400,14 +400,14 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-28T02:08:32.947576+00:00",
+        "timestamp": "2026-10-29T06:07:03.457436+00:00",
         "ticker": "ANET",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
         "coverage_ratio": 1.0,
-        "thesis_score": 81.1,
+        "thesis_score": 81.2,
         "thesis_health": "STRONG",
         "hard_break_count": 0,
         "hard_breaks": [],
@@ -417,7 +417,7 @@
           "cash_flow": 66.1,
           "balance_sheet": 82.5,
           "valuation": 54.4,
-          "revisions": 89.7
+          "revisions": 89.8
         },
         "fundamentals": {
           "revenue_growth_pct": 37.7,
@@ -434,12 +434,12 @@
           "current_ratio": 2.957
         },
         "valuation": {
-          "forward_pe": 35.807426,
-          "peg_ratio": 1.31
+          "forward_pe": 35.791645,
+          "peg_ratio": 1.38
         },
         "analyst_revision_context": {
           "target_mean_price": 243.58655,
-          "analyst_upside_pct": 30.23,
+          "analyst_upside_pct": 30.36,
           "recommendation_mean": 1.28125,
           "analyst_count": 29.0,
           "eps_revisions": {
@@ -461,16 +461,16 @@
       },
       "signal": "BULLISH",
       "scores": {
-        "market_score": 76.2,
+        "market_score": 75.3,
         "news_score": 66,
         "catalyst_score": 66,
         "sector_score": 29.0,
         "risk_score": 81.4,
-        "alpha_score": 67.87,
+        "alpha_score": 67.56,
         "strategic_trend_score": 88.0,
         "strategic_risk_score": 21.5,
         "strategic_composite_score": 63.7,
-        "fundamental_thesis_score": 81.1
+        "fundamental_thesis_score": 81.2
       },
       "news": {
         "ticker": "ANET",
@@ -525,9 +525,9 @@
         "volatility_pct": 0.48,
         "max_drawdown_pct": 4.45,
         "trend_pct": 4.87,
-        "average_dollar_volume": 34580182.74,
+        "average_dollar_volume": 31182608.63,
         "components": {
-          "volatility_score": 88.1,
+          "volatility_score": 88.0,
           "drawdown_score": 64.4,
           "liquidity_score": 90,
           "downside_momentum_score": 100
@@ -538,7 +538,7 @@
       "entry_action": "ACCUMULATE",
       "entry_decision": {
         "action": "ACCUMULATE",
-        "confidence": 71.3,
+        "confidence": 71.0,
         "entry_zone": {
           "low": 179.38,
           "high": 186.85
@@ -599,7 +599,7 @@
         "tactical_inputs": {
           "signal": "BULLISH",
           "entry_action": "ACCUMULATE",
-          "confidence": 71.3
+          "confidence": 71.0
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -607,7 +607,7 @@
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-10-28T22:46:36.975609",
+      "timestamp": "2026-10-29T06:07:04.137888",
       "holding": {
         "shares": "3",
         "avg_cost": "676.38",
@@ -617,14 +617,14 @@
       },
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-28T22:46:36.209102+00:00",
+        "timestamp": "2026-10-29T06:07:03.603220+00:00",
         "last_price": 1663.27,
-        "vwap": 1611.51,
+        "vwap": 1605.36,
         "momentum": 41.52,
         "momentum_pct": 2.56,
-        "vwap_distance_pct": 3.21,
-        "volume": 6798733,
-        "volume_ratio": 1.4,
+        "vwap_distance_pct": 3.61,
+        "volume": 5993579,
+        "volume_ratio": 0.76,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -632,7 +632,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-28T19:45:00+00:00",
-        "data_age_seconds": 10896.209,
+        "data_age_seconds": 37323.603,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -652,14 +652,14 @@
       },
       "tactical_market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-28T22:46:36.209102+00:00",
+        "timestamp": "2026-10-29T06:07:03.603220+00:00",
         "last_price": 1663.27,
-        "vwap": 1611.51,
+        "vwap": 1605.36,
         "momentum": 41.52,
         "momentum_pct": 2.56,
-        "vwap_distance_pct": 3.21,
-        "volume": 6798733,
-        "volume_ratio": 1.4,
+        "vwap_distance_pct": 3.61,
+        "volume": 5993579,
+        "volume_ratio": 0.76,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -694,24 +694,24 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-28T02:08:33.788985+00:00",
+        "timestamp": "2026-10-29T06:07:04.137202+00:00",
         "ticker": "ASML",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
         "coverage_ratio": 1.0,
-        "thesis_score": 83.4,
+        "thesis_score": 83.2,
         "thesis_health": "STRONG",
         "hard_break_count": 0,
         "hard_breaks": [],
         "component_scores": {
           "growth": 100.0,
           "profitability": 95.9,
-          "cash_flow": 66.1,
+          "cash_flow": 66.0,
           "balance_sheet": 76.7,
-          "valuation": 64.4,
-          "revisions": 87.0
+          "valuation": 64.3,
+          "revisions": 86.2
         },
         "fundamentals": {
           "revenue_growth_pct": 55.2,
@@ -721,19 +721,19 @@
           "return_on_equity_pct": 65.64,
           "free_cash_flow": 10374124544.0,
           "operating_cash_flow": 22725300224.0,
-          "fcf_yield_pct": 1.65,
+          "fcf_yield_pct": 1.62,
           "total_cash": 12735099904.0,
           "total_debt": 1963000064.0,
           "debt_to_equity": 8.897,
           "current_ratio": 1.487
         },
         "valuation": {
-          "forward_pe": 26.030796,
-          "peg_ratio": 0.85
+          "forward_pe": 26.46512,
+          "peg_ratio": 0.87
         },
         "analyst_revision_context": {
-          "target_mean_price": 2133.9229,
-          "analyst_upside_pct": 30.45,
+          "target_mean_price": 2136.0618,
+          "analyst_upside_pct": 28.43,
           "recommendation_mean": 1.36585,
           "analyst_count": 17.0,
           "eps_revisions": {
@@ -755,16 +755,16 @@
       },
       "signal": "BULLISH",
       "scores": {
-        "market_score": 68.0,
+        "market_score": 66.0,
         "news_score": 58,
         "catalyst_score": 56,
         "sector_score": 7.4,
         "risk_score": 85.9,
-        "alpha_score": 60.38,
+        "alpha_score": 59.68,
         "strategic_trend_score": 67.0,
         "strategic_risk_score": 34.6,
         "strategic_composite_score": 50.5,
-        "fundamental_thesis_score": 83.4
+        "fundamental_thesis_score": 83.2
       },
       "news": {
         "ticker": "ASML",
@@ -813,7 +813,7 @@
         "volatility_pct": 0.33,
         "max_drawdown_pct": 4.01,
         "trend_pct": 2.56,
-        "average_dollar_volume": 84278620.22,
+        "average_dollar_volume": 74014415.12,
         "components": {
           "volatility_score": 91.7,
           "drawdown_score": 67.9,
@@ -822,11 +822,11 @@
         },
         "data_quality": "LIVE"
       },
-      "rating": "POSITIVE",
+      "rating": "NEUTRAL",
       "entry_action": "WATCH",
       "entry_decision": {
         "action": "WATCH",
-        "confidence": 65.1,
+        "confidence": 64.3,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -882,7 +882,7 @@
         "tactical_inputs": {
           "signal": "BULLISH",
           "entry_action": "WATCH",
-          "confidence": 65.1
+          "confidence": 64.3
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -890,7 +890,7 @@
     },
     {
       "ticker": "BKR",
-      "timestamp": "2026-10-28T22:46:38.225501",
+      "timestamp": "2026-10-29T06:07:05.056469",
       "holding": {
         "shares": "13",
         "avg_cost": "57.80",
@@ -900,13 +900,13 @@
       },
       "market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-28T22:46:37.239980+00:00",
+        "timestamp": "2026-10-29T06:07:04.285152+00:00",
         "last_price": 54.65,
         "vwap": 55.82,
         "momentum": -0.09,
         "momentum_pct": -0.16,
         "vwap_distance_pct": -2.1,
-        "volume": 41441471,
+        "volume": 41440349,
         "volume_ratio": 2.31,
         "data_points": 130,
         "data_quality": "LIVE"
@@ -915,7 +915,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-28T19:45:00+00:00",
-        "data_age_seconds": 10897.24,
+        "data_age_seconds": 37324.285,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -935,13 +935,13 @@
       },
       "tactical_market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-28T22:46:37.239980+00:00",
+        "timestamp": "2026-10-29T06:07:04.285152+00:00",
         "last_price": 54.65,
         "vwap": 55.82,
         "momentum": -0.09,
         "momentum_pct": -0.16,
         "vwap_distance_pct": -2.1,
-        "volume": 41441471,
+        "volume": 41440349,
         "volume_ratio": 2.31,
         "data_points": 130,
         "data_quality": "LIVE"
@@ -977,14 +977,14 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-28T02:08:35.306062+00:00",
+        "timestamp": "2026-10-29T06:07:05.055722+00:00",
         "ticker": "BKR",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
         "coverage_ratio": 1.0,
-        "thesis_score": 65.1,
+        "thesis_score": 66.5,
         "thesis_health": "DETERIORATING",
         "hard_break_count": 1,
         "hard_breaks": [
@@ -993,10 +993,10 @@
         "component_scores": {
           "growth": 46.2,
           "profitability": 58.2,
-          "cash_flow": 81.8,
+          "cash_flow": 83.3,
           "balance_sheet": 78.3,
-          "valuation": 68.4,
-          "revisions": 61.8
+          "valuation": 75.0,
+          "revisions": 64.6
         },
         "fundamentals": {
           "revenue_growth_pct": -2.4,
@@ -1006,26 +1006,26 @@
           "return_on_equity_pct": 16.46,
           "free_cash_flow": 4415000064.0,
           "operating_cash_flow": 4435999744.0,
-          "fcf_yield_pct": 7.54,
+          "fcf_yield_pct": 8.14,
           "total_cash": 17024000000.0,
           "total_debt": 16252999680.0,
           "debt_to_equity": 80.925,
           "current_ratio": 2.095
         },
         "valuation": {
-          "forward_pe": 20.061203,
-          "peg_ratio": 1.6
+          "forward_pe": 18.66765,
+          "peg_ratio": 1.68
         },
         "analyst_revision_context": {
-          "target_mean_price": 70.625,
-          "analyst_upside_pct": 19.74,
+          "target_mean_price": 70.79167,
+          "analyst_upside_pct": 29.54,
           "recommendation_mean": 1.68,
           "analyst_count": 24.0,
           "eps_revisions": {
-            "up_7d": 2,
-            "up_30d": 6,
+            "up_7d": 1,
+            "up_30d": 5,
             "down_7d": 10,
-            "down_30d": 16,
+            "down_30d": 15,
             "available": true
           }
         },
@@ -1041,31 +1041,30 @@
       "signal": "BEARISH",
       "scores": {
         "market_score": 36.8,
-        "news_score": 75,
-        "catalyst_score": 73,
+        "news_score": 65,
+        "catalyst_score": 63,
         "sector_score": 92.6,
         "risk_score": 70.1,
-        "alpha_score": 62.54,
+        "alpha_score": 60.04,
         "strategic_trend_score": 10.0,
         "strategic_risk_score": 32.5,
-        "strategic_composite_score": 33.2,
-        "fundamental_thesis_score": 65.1
+        "strategic_composite_score": 32.2,
+        "fundamental_thesis_score": 66.5
       },
       "news": {
         "ticker": "BKR",
-        "news_score": 75,
+        "news_score": 65,
         "events": [
           "ai",
-          "contract",
-          "earnings beat"
+          "contract"
         ],
         "article_count": 10,
         "data_quality": "LIVE"
       },
       "catalyst": {
         "ticker": "BKR",
-        "catalyst_score": 73,
-        "catalyst_signal": "POSITIVE",
+        "catalyst_score": 63,
+        "catalyst_signal": "NEUTRAL",
         "catalysts": [
           {
             "type": "POSITIVE",
@@ -1076,11 +1075,6 @@
             "type": "POSITIVE",
             "catalyst": "contract",
             "impact": 7
-          },
-          {
-            "type": "POSITIVE",
-            "catalyst": "earnings beat",
-            "impact": 10
           }
         ],
         "article_count": 10,
@@ -1110,7 +1104,7 @@
         "volatility_pct": 0.6,
         "max_drawdown_pct": 7.34,
         "trend_pct": -0.16,
-        "average_dollar_volume": 17794201.46,
+        "average_dollar_volume": 17793726.15,
         "components": {
           "volatility_score": 85.0,
           "drawdown_score": 41.3,
@@ -1123,7 +1117,7 @@
       "entry_action": "AVOID",
       "entry_decision": {
         "action": "AVOID",
-        "confidence": 60.1,
+        "confidence": 57.3,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -1155,7 +1149,7 @@
           "unrealized_pnl": -40.95,
           "unrealized_pnl_pct": -5.45
         },
-        "strategic_composite_score": 33.2,
+        "strategic_composite_score": 32.2,
         "strategic_signal": "DOWNTREND",
         "tactical_add_status": "DO_NOT_ADD_NOW",
         "reasons": [
@@ -1175,12 +1169,12 @@
           "above_sma100": false,
           "above_sma200": false,
           "sector_score": 92.6,
-          "catalyst_score": 73
+          "catalyst_score": 63
         },
         "tactical_inputs": {
           "signal": "BEARISH",
           "entry_action": "AVOID",
-          "confidence": 60.1
+          "confidence": 57.3
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -1188,7 +1182,7 @@
     },
     {
       "ticker": "CCLD",
-      "timestamp": "2026-10-28T22:46:39.472406",
+      "timestamp": "2026-10-29T06:07:05.925885",
       "holding": {
         "shares": "490",
         "avg_cost": "2.04",
@@ -1198,14 +1192,14 @@
       },
       "market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-28T22:46:38.504991+00:00",
+        "timestamp": "2026-10-29T06:07:05.176422+00:00",
         "last_price": 1.78,
         "vwap": 1.75,
         "momentum": 0.03,
         "momentum_pct": 1.71,
         "vwap_distance_pct": 1.71,
-        "volume": 1017285,
-        "volume_ratio": 0.89,
+        "volume": 1024354,
+        "volume_ratio": 0.95,
         "data_points": 117,
         "data_quality": "LIVE"
       },
@@ -1213,7 +1207,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-28T19:45:00+00:00",
-        "data_age_seconds": 10898.505,
+        "data_age_seconds": 37325.176,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -1233,14 +1227,14 @@
       },
       "tactical_market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-28T22:46:38.504991+00:00",
+        "timestamp": "2026-10-29T06:07:05.176422+00:00",
         "last_price": 1.78,
         "vwap": 1.75,
         "momentum": 0.03,
         "momentum_pct": 1.71,
         "vwap_distance_pct": 1.71,
-        "volume": 1017285,
-        "volume_ratio": 0.89,
+        "volume": 1024354,
+        "volume_ratio": 0.95,
         "data_points": 117,
         "data_quality": "LIVE"
       },
@@ -1275,9 +1269,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-28T02:08:36.742512+00:00",
+        "timestamp": "2026-10-29T06:07:05.925021+00:00",
         "ticker": "CCLD",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -1304,19 +1298,19 @@
           "return_on_equity_pct": 21.75,
           "free_cash_flow": 22634500.0,
           "operating_cash_flow": 26724000.0,
-          "fcf_yield_pct": 30.61,
+          "fcf_yield_pct": 30.09,
           "total_cash": 13395000.0,
           "total_debt": 54014000.0,
           "debt_to_equity": 310.39,
           "current_ratio": 1.021
         },
         "valuation": {
-          "forward_pe": 3.8241758,
+          "forward_pe": 3.8901098,
           "peg_ratio": 0.31
         },
         "analyst_revision_context": {
           "target_mean_price": 7.33333,
-          "analyst_upside_pct": 319.05,
+          "analyst_upside_pct": 311.98,
           "recommendation_mean": null,
           "analyst_count": 3.0,
           "eps_revisions": {
@@ -1338,12 +1332,12 @@
       },
       "signal": "BULLISH",
       "scores": {
-        "market_score": 58.9,
+        "market_score": 59.2,
         "news_score": 50,
         "catalyst_score": 50,
         "sector_score": 87.4,
         "risk_score": 70.4,
-        "alpha_score": 63.82,
+        "alpha_score": 63.93,
         "strategic_trend_score": 0,
         "strategic_risk_score": 10.0,
         "strategic_composite_score": 20.1,
@@ -1388,7 +1382,7 @@
         "volatility_pct": 0.7,
         "max_drawdown_pct": 3.39,
         "trend_pct": 1.71,
-        "average_dollar_volume": 15219.68,
+        "average_dollar_volume": 15324.77,
         "components": {
           "volatility_score": 82.5,
           "drawdown_score": 72.9,
@@ -1401,7 +1395,7 @@
       "entry_action": "WATCH",
       "entry_decision": {
         "action": "WATCH",
-        "confidence": 61.8,
+        "confidence": 61.9,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -1459,7 +1453,7 @@
         "tactical_inputs": {
           "signal": "BULLISH",
           "entry_action": "WATCH",
-          "confidence": 61.8
+          "confidence": 61.9
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -1467,7 +1461,7 @@
     },
     {
       "ticker": "CTAS",
-      "timestamp": "2026-10-28T22:46:40.706686",
+      "timestamp": "2026-10-29T06:07:06.871165",
       "holding": {
         "shares": "4",
         "avg_cost": "196.26",
@@ -1477,14 +1471,14 @@
       },
       "market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-28T22:46:39.728673+00:00",
+        "timestamp": "2026-10-29T06:07:06.073956+00:00",
         "last_price": 212.73,
-        "vwap": 217.95,
+        "vwap": 217.94,
         "momentum": -9.11,
         "momentum_pct": -4.11,
-        "vwap_distance_pct": -2.4,
-        "volume": 10397631,
-        "volume_ratio": 0.66,
+        "vwap_distance_pct": -2.39,
+        "volume": 10426254,
+        "volume_ratio": 0.67,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -1492,7 +1486,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-28T19:45:00+00:00",
-        "data_age_seconds": 10899.729,
+        "data_age_seconds": 37326.074,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -1512,14 +1506,14 @@
       },
       "tactical_market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-28T22:46:39.728673+00:00",
+        "timestamp": "2026-10-29T06:07:06.073956+00:00",
         "last_price": 212.73,
-        "vwap": 217.95,
+        "vwap": 217.94,
         "momentum": -9.11,
         "momentum_pct": -4.11,
-        "vwap_distance_pct": -2.4,
-        "volume": 10397631,
-        "volume_ratio": 0.66,
+        "vwap_distance_pct": -2.39,
+        "volume": 10426254,
+        "volume_ratio": 0.67,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -1554,24 +1548,24 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-28T02:08:37.969168+00:00",
+        "timestamp": "2026-10-29T06:07:06.870272+00:00",
         "ticker": "CTAS",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
         "coverage_ratio": 1.0,
-        "thesis_score": 63.9,
+        "thesis_score": 64.0,
         "thesis_health": "HEALTHY",
         "hard_break_count": 0,
         "hard_breaks": [],
         "component_scores": {
           "growth": 64.3,
           "profitability": 76.9,
-          "cash_flow": 67.1,
+          "cash_flow": 67.2,
           "balance_sheet": 57.0,
-          "valuation": 42.1,
-          "revisions": 63.4
+          "valuation": 42.2,
+          "revisions": 63.8
         },
         "fundamentals": {
           "revenue_growth_pct": 10.9,
@@ -1581,19 +1575,19 @@
           "return_on_equity_pct": 41.38,
           "free_cash_flow": 1743985280.0,
           "operating_cash_flow": 2434129920.0,
-          "fcf_yield_pct": 2.04,
+          "fcf_yield_pct": 2.06,
           "total_cash": 364579008.0,
           "total_debt": 2711374080.0,
           "debt_to_equity": 52.096,
           "current_ratio": 1.454
         },
         "valuation": {
-          "forward_pe": 34.864697,
-          "peg_ratio": 3.54
+          "forward_pe": 34.541695,
+          "peg_ratio": 3.37
         },
         "analyst_revision_context": {
           "target_mean_price": 218.3125,
-          "analyst_upside_pct": 1.64,
+          "analyst_upside_pct": 2.62,
           "recommendation_mean": 2.2,
           "analyst_count": 16.0,
           "eps_revisions": {
@@ -1624,7 +1618,7 @@
         "strategic_trend_score": 92.0,
         "strategic_risk_score": 65.5,
         "strategic_composite_score": 77.4,
-        "fundamental_thesis_score": 63.9
+        "fundamental_thesis_score": 64.0
       },
       "news": {
         "ticker": "CTAS",
@@ -1665,7 +1659,7 @@
         "volatility_pct": 0.55,
         "max_drawdown_pct": 7.04,
         "trend_pct": -4.11,
-        "average_dollar_volume": 17432244.35,
+        "average_dollar_volume": 17479022.36,
         "components": {
           "volatility_score": 86.3,
           "drawdown_score": 43.7,
@@ -1742,7 +1736,7 @@
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-10-28T22:46:41.809461",
+      "timestamp": "2026-10-29T06:07:07.522356",
       "holding": {
         "shares": "20",
         "avg_cost": "207.68",
@@ -1752,14 +1746,14 @@
       },
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-28T22:46:40.920701+00:00",
+        "timestamp": "2026-10-29T06:07:07.001920+00:00",
         "last_price": 322.35,
-        "vwap": 319.56,
+        "vwap": 319.29,
         "momentum": -3.85,
         "momentum_pct": -1.18,
-        "vwap_distance_pct": 0.87,
-        "volume": 80060719,
-        "volume_ratio": 2.14,
+        "vwap_distance_pct": 0.96,
+        "volume": 70452268,
+        "volume_ratio": 1.4,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -1767,7 +1761,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-28T19:45:00+00:00",
-        "data_age_seconds": 10900.921,
+        "data_age_seconds": 37327.002,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -1787,14 +1781,14 @@
       },
       "tactical_market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-28T22:46:40.920701+00:00",
+        "timestamp": "2026-10-29T06:07:07.001920+00:00",
         "last_price": 322.35,
-        "vwap": 319.56,
+        "vwap": 319.29,
         "momentum": -3.85,
         "momentum_pct": -1.18,
-        "vwap_distance_pct": 0.87,
-        "volume": 80060719,
-        "volume_ratio": 2.14,
+        "vwap_distance_pct": 0.96,
+        "volume": 70452268,
+        "volume_ratio": 1.4,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -1829,14 +1823,14 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-28T02:08:39.341949+00:00",
+        "timestamp": "2026-10-29T06:07:07.521352+00:00",
         "ticker": "GOOG",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
         "coverage_ratio": 1.0,
-        "thesis_score": 80.5,
+        "thesis_score": 80.7,
         "thesis_health": "STRONG",
         "hard_break_count": 0,
         "hard_breaks": [],
@@ -1845,8 +1839,8 @@
           "profitability": 96.5,
           "cash_flow": 63.2,
           "balance_sheet": 83.3,
-          "valuation": 56.6,
-          "revisions": 80.2
+          "valuation": 56.5,
+          "revisions": 81.6
         },
         "fundamentals": {
           "revenue_growth_pct": 24.2,
@@ -1863,19 +1857,19 @@
           "current_ratio": 2.724
         },
         "valuation": {
-          "forward_pe": 20.628778,
-          "peg_ratio": 1.1
+          "forward_pe": 21.193428,
+          "peg_ratio": 1.11
         },
         "analyst_revision_context": {
           "target_mean_price": 422.35715,
-          "analyst_upside_pct": 33.28,
-          "recommendation_mean": 1.37705,
+          "analyst_upside_pct": 31.02,
+          "recommendation_mean": 1.38333,
           "analyst_count": 14.0,
           "eps_revisions": {
             "up_7d": 5,
             "up_30d": 5,
-            "down_7d": 3,
-            "down_30d": 3,
+            "down_7d": 2,
+            "down_30d": 2,
             "available": true
           }
         },
@@ -1890,44 +1884,44 @@
       },
       "signal": "NEUTRAL",
       "scores": {
-        "market_score": 49.7,
-        "news_score": 48,
-        "catalyst_score": 46,
+        "market_score": 49.9,
+        "news_score": 53,
+        "catalyst_score": 51,
         "sector_score": 0.9,
         "risk_score": 86.5,
-        "alpha_score": 50.66,
+        "alpha_score": 51.98,
         "strategic_trend_score": 10.0,
         "strategic_risk_score": 49.0,
-        "strategic_composite_score": 20.0,
-        "fundamental_thesis_score": 80.5
+        "strategic_composite_score": 20.5,
+        "fundamental_thesis_score": 80.7
       },
       "news": {
         "ticker": "GOOG",
-        "news_score": 48,
+        "news_score": 53,
         "events": [
-          "earnings miss",
-          "ai"
+          "ai",
+          "delay"
         ],
-        "article_count": 9,
+        "article_count": 10,
         "data_quality": "LIVE"
       },
       "catalyst": {
         "ticker": "GOOG",
-        "catalyst_score": 46,
+        "catalyst_score": 51,
         "catalyst_signal": "NEUTRAL",
         "catalysts": [
-          {
-            "type": "NEGATIVE",
-            "catalyst": "earnings miss",
-            "impact": -10
-          },
           {
             "type": "POSITIVE",
             "catalyst": "ai",
             "impact": 6
+          },
+          {
+            "type": "NEGATIVE",
+            "catalyst": "delay",
+            "impact": -5
           }
         ],
-        "article_count": 9,
+        "article_count": 10,
         "data_quality": "LIVE"
       },
       "sector": {
@@ -1954,7 +1948,7 @@
         "volatility_pct": 0.24,
         "max_drawdown_pct": 3.84,
         "trend_pct": -1.18,
-        "average_dollar_volume": 196803007.14,
+        "average_dollar_volume": 173036881.99,
         "components": {
           "volatility_score": 93.9,
           "drawdown_score": 69.3,
@@ -1967,7 +1961,7 @@
       "entry_action": "AVOID",
       "entry_decision": {
         "action": "AVOID",
-        "confidence": 55.1,
+        "confidence": 56.6,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -1999,7 +1993,7 @@
           "unrealized_pnl": 2293.4,
           "unrealized_pnl_pct": 55.21
         },
-        "strategic_composite_score": 20.0,
+        "strategic_composite_score": 20.5,
         "strategic_signal": "DOWNTREND",
         "tactical_add_status": "WAIT",
         "reasons": [
@@ -2018,12 +2012,12 @@
           "above_sma100": false,
           "above_sma200": false,
           "sector_score": 0.9,
-          "catalyst_score": 46
+          "catalyst_score": 51
         },
         "tactical_inputs": {
           "signal": "NEUTRAL",
           "entry_action": "AVOID",
-          "confidence": 55.1
+          "confidence": 56.6
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -2031,7 +2025,7 @@
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-10-28T22:46:42.702481",
+      "timestamp": "2026-10-29T06:07:08.480313",
       "holding": {
         "shares": "44",
         "avg_cost": "171.81",
@@ -2041,14 +2035,14 @@
       },
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-28T22:46:42.022779+00:00",
-        "last_price": 182.58,
-        "vwap": 166.8,
-        "momentum": 19.06,
-        "momentum_pct": 11.66,
-        "vwap_distance_pct": 9.46,
-        "volume": 124300930,
-        "volume_ratio": 1.93,
+        "timestamp": "2026-10-29T06:07:07.697261+00:00",
+        "last_price": 182.57,
+        "vwap": 164.27,
+        "momentum": 19.05,
+        "momentum_pct": 11.65,
+        "vwap_distance_pct": 11.14,
+        "volume": 105675652,
+        "volume_ratio": 1.04,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -2056,7 +2050,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-28T19:45:00+00:00",
-        "data_age_seconds": 10902.023,
+        "data_age_seconds": 37327.697,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -2076,14 +2070,14 @@
       },
       "tactical_market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-28T22:46:42.022779+00:00",
-        "last_price": 182.58,
-        "vwap": 166.8,
-        "momentum": 19.06,
-        "momentum_pct": 11.66,
-        "vwap_distance_pct": 9.46,
-        "volume": 124300930,
-        "volume_ratio": 1.93,
+        "timestamp": "2026-10-29T06:07:07.697261+00:00",
+        "last_price": 182.57,
+        "vwap": 164.27,
+        "momentum": 19.05,
+        "momentum_pct": 11.65,
+        "vwap_distance_pct": 11.14,
+        "volume": 105675652,
+        "volume_ratio": 1.04,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -2118,9 +2112,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-28T02:08:40.434068+00:00",
+        "timestamp": "2026-10-29T06:07:08.479273+00:00",
         "ticker": "NBIS",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -2145,19 +2139,19 @@
           "return_on_equity_pct": 0.6,
           "free_cash_flow": -9614650368.0,
           "operating_cash_flow": 5257999872.0,
-          "fcf_yield_pct": -20.75,
+          "fcf_yield_pct": -20.77,
           "total_cash": 8042100224.0,
           "total_debt": 10195300352.0,
           "debt_to_equity": 98.596,
           "current_ratio": 4.03
         },
         "valuation": {
-          "forward_pe": -47.381336,
-          "peg_ratio": 0.34
+          "forward_pe": -50.680546,
+          "peg_ratio": 0.37
         },
         "analyst_revision_context": {
           "target_mean_price": 281.0,
-          "analyst_upside_pct": 64.84,
+          "analyst_upside_pct": 53.91,
           "recommendation_mean": 1.81818,
           "analyst_count": 20.0,
           "eps_revisions": {
@@ -2179,38 +2173,44 @@
       },
       "signal": "BULLISH",
       "scores": {
-        "market_score": 94.7,
-        "news_score": 58,
-        "catalyst_score": 56,
+        "market_score": 90.2,
+        "news_score": 53,
+        "catalyst_score": 51,
         "sector_score": 0.9,
         "risk_score": 66.4,
-        "alpha_score": 63.88,
+        "alpha_score": 61.05,
         "strategic_trend_score": 57.0,
         "strategic_risk_score": 10.0,
-        "strategic_composite_score": 39.1,
+        "strategic_composite_score": 38.6,
         "fundamental_thesis_score": 52.3
       },
       "news": {
         "ticker": "NBIS",
-        "news_score": 58,
+        "news_score": 53,
         "events": [
+          "delay",
           "ai"
         ],
-        "article_count": 9,
+        "article_count": 10,
         "data_quality": "LIVE"
       },
       "catalyst": {
         "ticker": "NBIS",
-        "catalyst_score": 56,
+        "catalyst_score": 51,
         "catalyst_signal": "NEUTRAL",
         "catalysts": [
+          {
+            "type": "NEGATIVE",
+            "catalyst": "delay",
+            "impact": -5
+          },
           {
             "type": "POSITIVE",
             "catalyst": "ai",
             "impact": 6
           }
         ],
-        "article_count": 9,
+        "article_count": 10,
         "data_quality": "LIVE"
       },
       "sector": {
@@ -2236,8 +2236,8 @@
         "risk_signal": "MODERATE_RISK",
         "volatility_pct": 1.29,
         "max_drawdown_pct": 7.99,
-        "trend_pct": 11.66,
-        "average_dollar_volume": 159484172.94,
+        "trend_pct": 11.65,
+        "average_dollar_volume": 133530419.69,
         "components": {
           "volatility_score": 67.9,
           "drawdown_score": 36.1,
@@ -2250,7 +2250,7 @@
       "entry_action": "WATCH",
       "entry_decision": {
         "action": "WATCH",
-        "confidence": 69.2,
+        "confidence": 66.2,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -2277,13 +2277,13 @@
         "position": {
           "shares": 44.0,
           "avg_cost": 171.81,
-          "current_price": 182.58,
+          "current_price": 182.57,
           "cost_basis": 7559.64,
-          "current_value": 8033.52,
-          "unrealized_pnl": 473.88,
-          "unrealized_pnl_pct": 6.27
+          "current_value": 8033.08,
+          "unrealized_pnl": 473.44,
+          "unrealized_pnl_pct": 6.26
         },
-        "strategic_composite_score": 39.1,
+        "strategic_composite_score": 38.6,
         "strategic_signal": "HEALTHY",
         "tactical_add_status": "WAIT_FOR_CONFIRMATION",
         "reasons": [
@@ -2301,12 +2301,12 @@
           "above_sma100": false,
           "above_sma200": true,
           "sector_score": 0.9,
-          "catalyst_score": 56
+          "catalyst_score": 51
         },
         "tactical_inputs": {
           "signal": "BULLISH",
           "entry_action": "WATCH",
-          "confidence": 69.2
+          "confidence": 66.2
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -2314,7 +2314,7 @@
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-10-28T22:46:43.502605",
+      "timestamp": "2026-10-29T06:07:09.025998",
       "holding": {
         "shares": "24",
         "avg_cost": "160.96",
@@ -2324,14 +2324,14 @@
       },
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-28T22:46:42.930323+00:00",
+        "timestamp": "2026-10-29T06:07:08.616743+00:00",
         "last_price": 215.39,
-        "vwap": 216.03,
+        "vwap": 215.19,
         "momentum": -2.36,
         "momentum_pct": -1.08,
-        "vwap_distance_pct": -0.3,
-        "volume": 609726466,
-        "volume_ratio": 3.6,
+        "vwap_distance_pct": 0.09,
+        "volume": 376278810,
+        "volume_ratio": 0.96,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -2339,7 +2339,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-28T19:45:00+00:00",
-        "data_age_seconds": 10902.93,
+        "data_age_seconds": 37328.617,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -2359,14 +2359,14 @@
       },
       "tactical_market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-28T22:46:42.930323+00:00",
+        "timestamp": "2026-10-29T06:07:08.616743+00:00",
         "last_price": 215.39,
-        "vwap": 216.03,
+        "vwap": 215.19,
         "momentum": -2.36,
         "momentum_pct": -1.08,
-        "vwap_distance_pct": -0.3,
-        "volume": 609726466,
-        "volume_ratio": 3.6,
+        "vwap_distance_pct": 0.09,
+        "volume": 376278810,
+        "volume_ratio": 0.96,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -2401,9 +2401,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-28T02:08:41.553178+00:00",
+        "timestamp": "2026-10-29T06:07:09.024894+00:00",
         "ticker": "NVDA",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -2428,19 +2428,19 @@
           "return_on_equity_pct": 117.21,
           "free_cash_flow": 41809874944.0,
           "operating_cash_flow": 134359998464.0,
-          "fcf_yield_pct": 0.79,
+          "fcf_yield_pct": 0.8,
           "total_cash": 62469001216.0,
           "total_debt": 38860001280.0,
           "debt_to_equity": 16.971,
           "current_ratio": 4.589
         },
         "valuation": {
-          "forward_pe": 13.694344,
-          "peg_ratio": 0.26
+          "forward_pe": 13.533485,
+          "peg_ratio": 0.27
         },
         "analyst_revision_context": {
           "target_mean_price": 328.95346,
-          "analyst_upside_pct": 50.98,
+          "analyst_upside_pct": 52.72,
           "recommendation_mean": 1.29032,
           "analyst_count": 58.0,
           "eps_revisions": {
@@ -2460,36 +2460,42 @@
         "live_action_changed": false,
         "reason": "Fundamental confirmation is only required for price-driven REDUCE / EXIT signals in V8.5."
       },
-      "signal": "BEARISH",
+      "signal": "NEUTRAL",
       "scores": {
-        "market_score": 36.4,
-        "news_score": 58,
-        "catalyst_score": 56,
+        "market_score": 47.6,
+        "news_score": 66,
+        "catalyst_score": 62,
         "sector_score": 7.4,
         "risk_score": 88.2,
-        "alpha_score": 49.9,
+        "alpha_score": 55.32,
         "strategic_trend_score": 76.0,
         "strategic_risk_score": 41.5,
-        "strategic_composite_score": 56.8,
+        "strategic_composite_score": 57.4,
         "fundamental_thesis_score": 85.2
       },
       "news": {
         "ticker": "NVDA",
-        "news_score": 58,
+        "news_score": 66,
         "events": [
-          "ai"
+          "ai",
+          "artificial intelligence"
         ],
         "article_count": 10,
         "data_quality": "LIVE"
       },
       "catalyst": {
         "ticker": "NVDA",
-        "catalyst_score": 56,
+        "catalyst_score": 62,
         "catalyst_signal": "NEUTRAL",
         "catalysts": [
           {
             "type": "POSITIVE",
             "catalyst": "ai",
+            "impact": 6
+          },
+          {
+            "type": "POSITIVE",
+            "catalyst": "artificial intelligence",
             "impact": 6
           }
         ],
@@ -2520,7 +2526,7 @@
         "volatility_pct": 0.29,
         "max_drawdown_pct": 3.1,
         "trend_pct": -1.08,
-        "average_dollar_volume": 1013240840.91,
+        "average_dollar_volume": 622870122.69,
         "components": {
           "volatility_score": 92.7,
           "drawdown_score": 75.2,
@@ -2529,24 +2535,25 @@
         },
         "data_quality": "LIVE"
       },
-      "rating": "CAUTIOUS",
-      "entry_action": "AVOID",
+      "rating": "NEUTRAL",
+      "entry_action": "WATCH",
       "entry_decision": {
-        "action": "AVOID",
-        "confidence": 53.9,
+        "action": "WATCH",
+        "confidence": 59.7,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
         "risk_reward": null,
-        "setup_quality": "WEAK",
+        "setup_quality": "DEVELOPING",
         "reasons": [
-          "Insufficient multi-factor confirmation"
+          "Setup has potential",
+          "Further confirmation required"
         ]
       },
       "tactical_timing": {
-        "action": "AVOID",
-        "signal": "BEARISH",
-        "status": "DO_NOT_ADD_NOW"
+        "action": "WATCH",
+        "signal": "NEUTRAL",
+        "status": "WAIT_FOR_CONFIRMATION"
       },
       "portfolio_action": "WATCH",
       "portfolio_management": {
@@ -2565,13 +2572,12 @@
           "unrealized_pnl": 1306.32,
           "unrealized_pnl_pct": 33.82
         },
-        "strategic_composite_score": 56.8,
+        "strategic_composite_score": 57.4,
         "strategic_signal": "STRONG_UPTREND",
-        "tactical_add_status": "DO_NOT_ADD_NOW",
+        "tactical_add_status": "WAIT_FOR_CONFIRMATION",
         "reasons": [
           "Strategic evidence is mixed",
-          "No immediate portfolio action required",
-          "Intraday setup is weak; wait before adding"
+          "No immediate portfolio action required"
         ],
         "strategic_inputs": {
           "strategic_trend_score": 76.0,
@@ -2584,12 +2590,12 @@
           "above_sma100": true,
           "above_sma200": true,
           "sector_score": 7.4,
-          "catalyst_score": 56
+          "catalyst_score": 62
         },
         "tactical_inputs": {
-          "signal": "BEARISH",
-          "entry_action": "AVOID",
-          "confidence": 53.9
+          "signal": "NEUTRAL",
+          "entry_action": "WATCH",
+          "confidence": 59.7
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -2597,7 +2603,7 @@
     },
     {
       "ticker": "OMDA",
-      "timestamp": "2026-10-28T22:46:44.462339",
+      "timestamp": "2026-10-29T06:07:09.719386",
       "holding": {
         "shares": "10",
         "avg_cost": "20.45",
@@ -2607,14 +2613,14 @@
       },
       "market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-28T22:46:43.717230+00:00",
+        "timestamp": "2026-10-29T06:07:09.197345+00:00",
         "last_price": 19.17,
         "vwap": 19.1,
         "momentum": -0.37,
         "momentum_pct": -1.89,
         "vwap_distance_pct": 0.37,
-        "volume": 2841682,
-        "volume_ratio": 0.73,
+        "volume": 2861147,
+        "volume_ratio": 0.76,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -2622,7 +2628,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-28T19:45:00+00:00",
-        "data_age_seconds": 10903.717,
+        "data_age_seconds": 37329.197,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -2642,14 +2648,14 @@
       },
       "tactical_market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-28T22:46:43.717230+00:00",
+        "timestamp": "2026-10-29T06:07:09.197345+00:00",
         "last_price": 19.17,
         "vwap": 19.1,
         "momentum": -0.37,
         "momentum_pct": -1.89,
         "vwap_distance_pct": 0.37,
-        "volume": 2841682,
-        "volume_ratio": 0.73,
+        "volume": 2861147,
+        "volume_ratio": 0.76,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -2684,9 +2690,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-28T02:08:42.531269+00:00",
+        "timestamp": "2026-10-29T06:07:09.718202+00:00",
         "ticker": "OMDA",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -2711,19 +2717,19 @@
           "return_on_equity_pct": 1.84,
           "free_cash_flow": 11915250.0,
           "operating_cash_flow": 23685000.0,
-          "fcf_yield_pct": 1.02,
+          "fcf_yield_pct": 1.01,
           "total_cash": 221712000.0,
           "total_debt": 0.0,
           "debt_to_equity": null,
           "current_ratio": 3.907
         },
         "valuation": {
-          "forward_pe": 34.18204,
+          "forward_pe": 34.48772,
           "peg_ratio": null
         },
         "analyst_revision_context": {
-          "target_mean_price": 28.41667,
-          "analyst_upside_pct": 49.56,
+          "target_mean_price": 28.16667,
+          "analyst_upside_pct": 46.93,
           "recommendation_mean": 1.75,
           "analyst_count": 12.0,
           "eps_revisions": {
@@ -2795,7 +2801,7 @@
         "volatility_pct": 0.45,
         "max_drawdown_pct": 4.45,
         "trend_pct": -1.89,
-        "average_dollar_volume": 417443.39,
+        "average_dollar_volume": 420272.17,
         "components": {
           "volatility_score": 88.7,
           "drawdown_score": 64.4,
@@ -2872,7 +2878,7 @@
     },
     {
       "ticker": "UNH",
-      "timestamp": "2026-10-28T22:46:45.619721",
+      "timestamp": "2026-10-29T06:07:10.489082",
       "holding": {
         "shares": "2",
         "avg_cost": "369.93",
@@ -2882,14 +2888,14 @@
       },
       "market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-28T22:46:44.715276+00:00",
+        "timestamp": "2026-10-29T06:07:09.932003+00:00",
         "last_price": 407.25,
         "vwap": 416.55,
         "momentum": -12.59,
         "momentum_pct": -3.0,
         "vwap_distance_pct": -2.23,
-        "volume": 16856801,
-        "volume_ratio": 0.87,
+        "volume": 16856125,
+        "volume_ratio": 0.86,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -2897,7 +2903,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-28T19:45:00+00:00",
-        "data_age_seconds": 10904.715,
+        "data_age_seconds": 37329.932,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -2917,14 +2923,14 @@
       },
       "tactical_market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-28T22:46:44.715276+00:00",
+        "timestamp": "2026-10-29T06:07:09.932003+00:00",
         "last_price": 407.25,
         "vwap": 416.55,
         "momentum": -12.59,
         "momentum_pct": -3.0,
         "vwap_distance_pct": -2.23,
-        "volume": 16856801,
-        "volume_ratio": 0.87,
+        "volume": 16856125,
+        "volume_ratio": 0.86,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -2959,24 +2965,24 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-28T02:08:43.547036+00:00",
+        "timestamp": "2026-10-29T06:07:10.487859+00:00",
         "ticker": "UNH",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
         "coverage_ratio": 1.0,
-        "thesis_score": 67.6,
+        "thesis_score": 67.7,
         "thesis_health": "HEALTHY",
         "hard_break_count": 0,
         "hard_breaks": [],
         "component_scores": {
           "growth": 74.7,
           "profitability": 50.9,
-          "cash_flow": 80.9,
+          "cash_flow": 81.0,
           "balance_sheet": 50.8,
-          "valuation": 79.2,
-          "revisions": 71.8
+          "valuation": 79.3,
+          "revisions": 72.2
         },
         "fundamentals": {
           "revenue_growth_pct": -0.4,
@@ -2986,19 +2992,19 @@
           "return_on_equity_pct": 15.77,
           "free_cash_flow": 26501249024.0,
           "operating_cash_flow": 26194999296.0,
-          "fcf_yield_pct": 7.19,
+          "fcf_yield_pct": 7.25,
           "total_cash": 28548999168.0,
           "total_debt": 74330996736.0,
           "debt_to_equity": 70.426,
           "current_ratio": 0.739
         },
         "valuation": {
-          "forward_pe": 17.623812,
+          "forward_pe": 17.482525,
           "peg_ratio": 1.04
         },
         "analyst_revision_context": {
           "target_mean_price": 476.64,
-          "analyst_upside_pct": 16.08,
+          "analyst_upside_pct": 17.04,
           "recommendation_mean": 1.61538,
           "analyst_count": 25.0,
           "eps_revisions": {
@@ -3029,7 +3035,7 @@
         "strategic_trend_score": 82.0,
         "strategic_risk_score": 50.1,
         "strategic_composite_score": 73.2,
-        "fundamental_thesis_score": 67.6
+        "fundamental_thesis_score": 67.7
       },
       "news": {
         "ticker": "UNH",
@@ -3070,7 +3076,7 @@
         "volatility_pct": 0.21,
         "max_drawdown_pct": 4.57,
         "trend_pct": -3.0,
-        "average_dollar_volume": 54012907.12,
+        "average_dollar_volume": 54010764.78,
         "components": {
           "volatility_score": 94.6,
           "drawdown_score": 63.4,
@@ -3147,7 +3153,7 @@
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-10-28T22:46:46.410621",
+      "timestamp": "2026-10-29T06:07:11.159382",
       "holding": {
         "shares": "11",
         "avg_cost": "316.20",
@@ -3157,14 +3163,14 @@
       },
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-28T22:46:45.838230+00:00",
+        "timestamp": "2026-10-29T06:07:10.614284+00:00",
         "last_price": 243.17,
-        "vwap": 216.84,
+        "vwap": 215.88,
         "momentum": 42.38,
         "momentum_pct": 21.11,
-        "vwap_distance_pct": 12.14,
-        "volume": 46692444,
-        "volume_ratio": 3.09,
+        "vwap_distance_pct": 12.64,
+        "volume": 44528043,
+        "volume_ratio": 2.76,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -3172,7 +3178,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-28T19:45:00+00:00",
-        "data_age_seconds": 10905.838,
+        "data_age_seconds": 37330.614,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -3192,14 +3198,14 @@
       },
       "tactical_market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-28T22:46:45.838230+00:00",
+        "timestamp": "2026-10-29T06:07:10.614284+00:00",
         "last_price": 243.17,
-        "vwap": 216.84,
+        "vwap": 215.88,
         "momentum": 42.38,
         "momentum_pct": 21.11,
-        "vwap_distance_pct": 12.14,
-        "volume": 46692444,
-        "volume_ratio": 3.09,
+        "vwap_distance_pct": 12.64,
+        "volume": 44528043,
+        "volume_ratio": 2.76,
         "data_points": 130,
         "data_quality": "LIVE"
       },
@@ -3234,24 +3240,24 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-28T02:08:45.070253+00:00",
+        "timestamp": "2026-10-29T06:07:11.158103+00:00",
         "ticker": "VRT",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
         "coverage_ratio": 1.0,
-        "thesis_score": 78.5,
+        "thesis_score": 77.9,
         "thesis_health": "STRONG",
         "hard_break_count": 0,
         "hard_breaks": [],
         "component_scores": {
           "growth": 91.9,
           "profitability": 74.8,
-          "cash_flow": 70.6,
+          "cash_flow": 69.4,
           "balance_sheet": 69.0,
-          "valuation": 69.0,
-          "revisions": 92.1
+          "valuation": 67.7,
+          "revisions": 90.1
         },
         "fundamentals": {
           "revenue_growth_pct": 24.1,
@@ -3261,24 +3267,24 @@
           "return_on_equity_pct": 43.94,
           "free_cash_flow": 2696537600.0,
           "operating_cash_flow": 3354200064.0,
-          "fcf_yield_pct": 3.36,
+          "fcf_yield_pct": 2.88,
           "total_cash": 3110599936.0,
           "total_debt": 3338200064.0,
           "debt_to_equity": 70.166,
           "current_ratio": 1.379
         },
         "valuation": {
-          "forward_pe": 22.683174,
-          "peg_ratio": 0.66
+          "forward_pe": 26.422375,
+          "peg_ratio": 0.69
         },
         "analyst_revision_context": {
           "target_mean_price": 333.0,
-          "analyst_upside_pct": 59.55,
+          "analyst_upside_pct": 36.94,
           "recommendation_mean": 1.36667,
           "analyst_count": 28.0,
           "eps_revisions": {
-            "up_7d": 5,
-            "up_30d": 12,
+            "up_7d": 4,
+            "up_30d": 11,
             "down_7d": 0,
             "down_30d": 1,
             "available": true
@@ -3295,25 +3301,25 @@
       },
       "signal": "BULLISH",
       "scores": {
-        "market_score": 100,
+        "market_score": 98.8,
         "news_score": 68,
         "catalyst_score": 66,
         "sector_score": 57.9,
         "risk_score": 72.5,
-        "alpha_score": 78.31,
+        "alpha_score": 77.89,
         "strategic_trend_score": 28.0,
         "strategic_risk_score": 10.0,
         "strategic_composite_score": 32.7,
-        "fundamental_thesis_score": 78.5
+        "fundamental_thesis_score": 77.9
       },
       "news": {
         "ticker": "VRT",
         "news_score": 68,
         "events": [
-          "earnings beat",
-          "ai"
+          "ai",
+          "earnings beat"
         ],
-        "article_count": 9,
+        "article_count": 10,
         "data_quality": "LIVE"
       },
       "catalyst": {
@@ -3323,16 +3329,16 @@
         "catalysts": [
           {
             "type": "POSITIVE",
-            "catalyst": "earnings beat",
-            "impact": 10
+            "catalyst": "ai",
+            "impact": 6
           },
           {
             "type": "POSITIVE",
-            "catalyst": "ai",
-            "impact": 6
+            "catalyst": "earnings beat",
+            "impact": 10
           }
         ],
-        "article_count": 9,
+        "article_count": 10,
         "data_quality": "LIVE"
       },
       "sector": {
@@ -3359,7 +3365,7 @@
         "volatility_pct": 1.33,
         "max_drawdown_pct": 5.68,
         "trend_pct": 21.11,
-        "average_dollar_volume": 77882327.46,
+        "average_dollar_volume": 73942470.3,
         "components": {
           "volatility_score": 66.9,
           "drawdown_score": 54.6,
@@ -3372,7 +3378,7 @@
       "entry_action": "BUY",
       "entry_decision": {
         "action": "BUY",
-        "confidence": 79.9,
+        "confidence": 79.5,
         "entry_zone": {
           "low": 238.31,
           "high": 245.6
@@ -3435,7 +3441,7 @@
         "tactical_inputs": {
           "signal": "BULLISH",
           "entry_action": "BUY",
-          "confidence": 79.9
+          "confidence": 79.5
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -3444,16 +3450,16 @@
   ],
   "portfolio_rebalancing": {
     "engine": "V7.1 Position Sizing & Rebalancing Engine",
-    "portfolio_value": 43080.18,
+    "portfolio_value": 43079.74,
     "position_count": 12,
     "max_position_weight_pct": 12.0,
     "theme_concentration_limit_pct": 35.0,
-    "estimated_sell_proceeds": 10677.11,
+    "estimated_sell_proceeds": 10676.95,
     "estimated_buy_requirement": 0,
-    "estimated_net_cash_generated": 10677.11,
+    "estimated_net_cash_generated": 10676.95,
     "current_theme_exposure": {
       "AI Infrastructure": {
-        "value": 23034.24,
+        "value": 23033.8,
         "weight_pct": 53.47,
         "concentration_status": "HIGH"
       },
@@ -3485,7 +3491,7 @@
     },
     "projected_theme_exposure": {
       "AI Infrastructure": {
-        "value": 15551.53,
+        "value": 15551.25,
         "weight_pct": 36.1,
         "concentration_status": "HIGH"
       },
@@ -3589,7 +3595,7 @@
         "target_weight_pct": 12.0,
         "projected_weight_pct": 12.09,
         "current_value": 5786.1,
-        "target_value": 5169.62,
+        "target_value": 5169.57,
         "projected_value": 5207.49,
         "trade_action": "SELL_PARTIAL",
         "suggested_shares": 1,
@@ -3608,7 +3614,7 @@
         "target_weight_pct": 12.0,
         "projected_weight_pct": 12.14,
         "current_value": 6539.75,
-        "target_value": 5169.62,
+        "target_value": 5169.57,
         "projected_value": 5231.8,
         "trade_action": "SELL_PARTIAL",
         "suggested_shares": 7,
@@ -3627,7 +3633,7 @@
         "target_weight_pct": 11.0,
         "projected_weight_pct": 11.22,
         "current_value": 6447.0,
-        "target_value": 4738.82,
+        "target_value": 4738.77,
         "projected_value": 4835.25,
         "trade_action": "SELL_PARTIAL",
         "suggested_shares": 5,
@@ -3645,12 +3651,12 @@
         "current_weight_pct": 18.65,
         "target_weight_pct": 12.0,
         "projected_weight_pct": 11.87,
-        "current_value": 8033.52,
-        "target_value": 5169.62,
-        "projected_value": 5112.24,
+        "current_value": 8033.08,
+        "target_value": 5169.57,
+        "projected_value": 5111.96,
         "trade_action": "SELL_PARTIAL",
         "suggested_shares": 16,
-        "suggested_trade_value": 2921.28,
+        "suggested_trade_value": 2921.12,
         "requires_cash": false,
         "reason": "Position reduced toward maximum concentration limit",
         "pre_turnover_guardrail_trade_action": "SELL_PARTIAL",
@@ -3773,8 +3779,8 @@
       "full_exit_suppression_allowed": false,
       "suppressed_trade_count": 0,
       "suppressed_trades": [],
-      "gross_trade_value_before": 10677.11,
-      "gross_trade_value_after": 10677.11,
+      "gross_trade_value_before": 10676.95,
+      "gross_trade_value_after": 10676.95,
       "suppressed_gross_trade_value": 0.0,
       "one_scan_turnover_pct_before": 24.78,
       "one_scan_turnover_pct_after": 24.78,
@@ -3803,7 +3809,7 @@
         "volume_ratio": 1.97,
         "above_sma20": true,
         "overextension_pct": 15.57,
-        "average_dollar_volume": 803995244.8,
+        "average_dollar_volume": 803915896.3,
         "opportunity_score": 89.2,
         "opportunity_signal": "HIGH_POTENTIAL",
         "data_quality": "LIVE"
@@ -3821,7 +3827,7 @@
         "volume_ratio": 1.15,
         "above_sma20": true,
         "overextension_pct": 9.52,
-        "average_dollar_volume": 587461632.25,
+        "average_dollar_volume": 587458049.69,
         "opportunity_score": 86.6,
         "opportunity_signal": "HIGH_POTENTIAL",
         "data_quality": "LIVE"
@@ -3839,7 +3845,7 @@
         "volume_ratio": 1.0,
         "above_sma20": true,
         "overextension_pct": 6.46,
-        "average_dollar_volume": 810485468.56,
+        "average_dollar_volume": 810484790.34,
         "opportunity_score": 82.8,
         "opportunity_signal": "HIGH_POTENTIAL",
         "data_quality": "LIVE"
@@ -3857,7 +3863,7 @@
         "volume_ratio": 1.24,
         "above_sma20": true,
         "overextension_pct": 7.28,
-        "average_dollar_volume": 14091293032.95,
+        "average_dollar_volume": 14098774680.32,
         "opportunity_score": 79.2,
         "opportunity_signal": "HIGH_POTENTIAL",
         "data_quality": "LIVE"
@@ -3875,7 +3881,7 @@
         "volume_ratio": 0.88,
         "above_sma20": true,
         "overextension_pct": 4.06,
-        "average_dollar_volume": 2274695663.99,
+        "average_dollar_volume": 2275668829.71,
         "opportunity_score": 75.6,
         "opportunity_signal": "HIGH_POTENTIAL",
         "data_quality": "LIVE"
@@ -3890,10 +3896,10 @@
         "return_60d_pct": 27.08,
         "spy_return_20d_pct": 1.27,
         "relative_strength_20d": 10.76,
-        "volume_ratio": 1.59,
+        "volume_ratio": 1.58,
         "above_sma20": true,
         "overextension_pct": 3.5,
-        "average_dollar_volume": 1832707073.09,
+        "average_dollar_volume": 1829836407.24,
         "opportunity_score": 74.5,
         "opportunity_signal": "STRONG",
         "data_quality": "LIVE"
@@ -3911,7 +3917,7 @@
         "volume_ratio": 1.16,
         "above_sma20": true,
         "overextension_pct": 7.37,
-        "average_dollar_volume": 597283419.98,
+        "average_dollar_volume": 597281751.04,
         "opportunity_score": 74.2,
         "opportunity_signal": "STRONG",
         "data_quality": "LIVE"
@@ -3929,7 +3935,7 @@
         "volume_ratio": 1.07,
         "above_sma20": true,
         "overextension_pct": 4.7,
-        "average_dollar_volume": 2009051725.65,
+        "average_dollar_volume": 2008982740.06,
         "opportunity_score": 74.0,
         "opportunity_signal": "STRONG",
         "data_quality": "LIVE"
@@ -3947,7 +3953,7 @@
         "volume_ratio": 0.92,
         "above_sma20": true,
         "overextension_pct": 4.61,
-        "average_dollar_volume": 1598788029.93,
+        "average_dollar_volume": 1598756549.31,
         "opportunity_score": 73.1,
         "opportunity_signal": "STRONG",
         "data_quality": "LIVE"
@@ -3965,7 +3971,7 @@
         "volume_ratio": 0.96,
         "above_sma20": true,
         "overextension_pct": 5.5,
-        "average_dollar_volume": 2772238265.5,
+        "average_dollar_volume": 2772116005.83,
         "opportunity_score": 72.3,
         "opportunity_signal": "STRONG",
         "data_quality": "LIVE"
@@ -3983,7 +3989,7 @@
         "volume_ratio": 1.13,
         "above_sma20": true,
         "overextension_pct": 4.27,
-        "average_dollar_volume": 983528160.89,
+        "average_dollar_volume": 984220415.41,
         "opportunity_score": 71.7,
         "opportunity_signal": "STRONG",
         "data_quality": "LIVE"
@@ -4001,7 +4007,7 @@
         "volume_ratio": 1.13,
         "above_sma20": true,
         "overextension_pct": 2.47,
-        "average_dollar_volume": 2365246773.18,
+        "average_dollar_volume": 2365214244.46,
         "opportunity_score": 71.5,
         "opportunity_signal": "STRONG",
         "data_quality": "LIVE"
@@ -4019,7 +4025,7 @@
         "volume_ratio": 1.11,
         "above_sma20": true,
         "overextension_pct": 2.15,
-        "average_dollar_volume": 1813792818.29,
+        "average_dollar_volume": 1813785952.3,
         "opportunity_score": 70.3,
         "opportunity_signal": "STRONG",
         "data_quality": "LIVE"
@@ -4037,7 +4043,7 @@
         "volume_ratio": 0.86,
         "above_sma20": true,
         "overextension_pct": 3.0,
-        "average_dollar_volume": 1443054561.78,
+        "average_dollar_volume": 1443016968.4,
         "opportunity_score": 69.3,
         "opportunity_signal": "STRONG",
         "data_quality": "LIVE"
@@ -4055,7 +4061,7 @@
         "volume_ratio": 1.0,
         "above_sma20": true,
         "overextension_pct": 4.56,
-        "average_dollar_volume": 876902075.66,
+        "average_dollar_volume": 878048992.23,
         "opportunity_score": 67.6,
         "opportunity_signal": "STRONG",
         "data_quality": "LIVE"
@@ -4086,25 +4092,25 @@
         },
         "market": {
           "ticker": "SLB",
-          "timestamp": "2026-10-28T22:46:56.157686+00:00",
+          "timestamp": "2026-10-29T06:07:17.301086+00:00",
           "last_price": 53.76,
-          "vwap": 52.33,
+          "vwap": 52.18,
           "momentum": 3.49,
           "momentum_pct": 6.94,
-          "vwap_distance_pct": 2.73,
-          "volume": 62810837,
-          "volume_ratio": 1.19,
+          "vwap_distance_pct": 3.03,
+          "volume": 57674262,
+          "volume_ratio": 0.77,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BULLISH",
         "scores": {
-          "market_score": 76.5,
+          "market_score": 75.3,
           "news_score": 50,
           "catalyst_score": 56,
           "sector_score": 92.6,
           "risk_score": 85.1,
-          "alpha_score": 75.94
+          "alpha_score": 75.52
         },
         "news": {
           "ticker": "SLB",
@@ -4151,7 +4157,7 @@
           "volatility_pct": 0.51,
           "max_drawdown_pct": 3.0,
           "trend_pct": 6.94,
-          "average_dollar_volume": 25285622.8,
+          "average_dollar_volume": 23149996.6,
           "components": {
             "volatility_score": 87.2,
             "drawdown_score": 76.0,
@@ -4164,7 +4170,7 @@
         "action": "ACCUMULATE",
         "base_decision": {
           "action": "ACCUMULATE",
-          "confidence": 74.4,
+          "confidence": 74.0,
           "entry_zone": {
             "low": 51.61,
             "high": 53.76
@@ -4182,7 +4188,7 @@
         },
         "decision": {
           "action": "ACCUMULATE",
-          "confidence": 74.4,
+          "confidence": 74.0,
           "entry_zone": {
             "low": 51.61,
             "high": 53.76
@@ -4223,25 +4229,25 @@
         },
         "market": {
           "ticker": "URI",
-          "timestamp": "2026-10-28T22:46:52.138049+00:00",
+          "timestamp": "2026-10-29T06:07:14.668755+00:00",
           "last_price": 1175.34,
-          "vwap": 1120.17,
+          "vwap": 1117.41,
           "momentum": 127.69,
           "momentum_pct": 12.19,
-          "vwap_distance_pct": 4.93,
-          "volume": 2722508,
-          "volume_ratio": 0.89,
+          "vwap_distance_pct": 5.18,
+          "volume": 2596431,
+          "volume_ratio": 0.66,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BULLISH",
         "scores": {
-          "market_score": 89.2,
+          "market_score": 88.3,
           "news_score": 66,
           "catalyst_score": 66,
           "sector_score": 57.9,
           "risk_score": 74.2,
-          "alpha_score": 74.95
+          "alpha_score": 74.64
         },
         "news": {
           "ticker": "URI",
@@ -4296,7 +4302,7 @@
           "volatility_pct": 0.75,
           "max_drawdown_pct": 6.17,
           "trend_pct": 12.19,
-          "average_dollar_volume": 23458990.19,
+          "average_dollar_volume": 22317618.47,
           "components": {
             "volatility_score": 81.3,
             "drawdown_score": 50.6,
@@ -4309,7 +4315,7 @@
         "action": "ACCUMULATE",
         "base_decision": {
           "action": "ACCUMULATE",
-          "confidence": 76.3,
+          "confidence": 76.0,
           "entry_zone": {
             "low": 1128.33,
             "high": 1175.34
@@ -4327,7 +4333,7 @@
         },
         "decision": {
           "action": "ACCUMULATE",
-          "confidence": 76.3,
+          "confidence": 76.0,
           "entry_zone": {
             "low": 1128.33,
             "high": 1175.34
@@ -4368,25 +4374,25 @@
         },
         "market": {
           "ticker": "TSLA",
-          "timestamp": "2026-10-28T22:46:53.387538+00:00",
-          "last_price": 404.46,
-          "vwap": 391.8,
-          "momentum": 24.44,
-          "momentum_pct": 6.43,
-          "vwap_distance_pct": 3.23,
-          "volume": 322382628,
-          "volume_ratio": 2.03,
+          "timestamp": "2026-10-29T06:07:15.671576+00:00",
+          "last_price": 404.41,
+          "vwap": 391.34,
+          "momentum": 24.39,
+          "momentum_pct": 6.42,
+          "vwap_distance_pct": 3.34,
+          "volume": 257675541,
+          "volume_ratio": 0.57,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BULLISH",
         "scores": {
-          "market_score": 80.9,
+          "market_score": 73.9,
           "news_score": 58,
           "catalyst_score": 56,
           "sector_score": 82.7,
           "risk_score": 80.5,
-          "alpha_score": 74.84
+          "alpha_score": 72.4
         },
         "news": {
           "ticker": "TSLA",
@@ -4434,10 +4440,10 @@
           "risk_signal": "LOW_RISK",
           "volatility_pct": 0.65,
           "max_drawdown_pct": 4.96,
-          "trend_pct": 6.43,
-          "average_dollar_volume": 971599358.73,
+          "trend_pct": 6.42,
+          "average_dollar_volume": 775683436.42,
           "components": {
-            "volatility_score": 83.8,
+            "volatility_score": 83.9,
             "drawdown_score": 60.3,
             "liquidity_score": 100,
             "downside_momentum_score": 100
@@ -4448,13 +4454,13 @@
         "action": "ACCUMULATE",
         "base_decision": {
           "action": "ACCUMULATE",
-          "confidence": 74.1,
+          "confidence": 71.5,
           "entry_zone": {
-            "low": 388.28,
-            "high": 404.46
+            "low": 388.23,
+            "high": 404.41
           },
-          "stop_loss": 368.06,
-          "target_price": 465.13,
+          "stop_loss": 368.01,
+          "target_price": 465.07,
           "risk_reward": 1.67,
           "setup_quality": "POSITIVE",
           "reasons": [
@@ -4466,13 +4472,13 @@
         },
         "decision": {
           "action": "ACCUMULATE",
-          "confidence": 74.1,
+          "confidence": 71.5,
           "entry_zone": {
-            "low": 388.28,
-            "high": 404.46
+            "low": 388.23,
+            "high": 404.41
           },
-          "stop_loss": 368.06,
-          "target_price": 465.13,
+          "stop_loss": 368.01,
+          "target_price": 465.07,
           "risk_reward": 1.67,
           "setup_quality": "POSITIVE",
           "reasons": [
@@ -4494,134 +4500,6 @@
     ],
     "watchlist": [
       {
-        "ticker": "WMT",
-        "sector": "Consumer Defensive",
-        "industry": "Discount Stores",
-        "fast_scan": {
-          "opportunity_score": 75.6,
-          "opportunity_signal": "HIGH_POTENTIAL",
-          "return_5d_pct": 0.82,
-          "return_20d_pct": 14.29,
-          "return_60d_pct": 6.73,
-          "relative_strength_20d": 13.02,
-          "volume_ratio": 0.88,
-          "overextension_pct": 4.06
-        },
-        "market": {
-          "ticker": "WMT",
-          "timestamp": "2026-10-28T22:46:54.234984+00:00",
-          "last_price": 118.86,
-          "vwap": 119.79,
-          "momentum": 0.45,
-          "momentum_pct": 0.38,
-          "vwap_distance_pct": -0.78,
-          "volume": 64796082,
-          "volume_ratio": 0.75,
-          "data_points": 130,
-          "data_quality": "LIVE"
-        },
-        "market_signal": "NEUTRAL",
-        "scores": {
-          "market_score": 48.6,
-          "news_score": 58,
-          "catalyst_score": 56,
-          "sector_score": 91.0,
-          "risk_score": 90.7,
-          "alpha_score": 67.33
-        },
-        "news": {
-          "ticker": "WMT",
-          "news_score": 58,
-          "events": [
-            "ai"
-          ],
-          "article_count": 8,
-          "data_quality": "LIVE"
-        },
-        "catalyst": {
-          "ticker": "WMT",
-          "catalyst_score": 56,
-          "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "POSITIVE",
-              "catalyst": "ai",
-              "impact": 6
-            }
-          ],
-          "article_count": 8,
-          "data_quality": "LIVE"
-        },
-        "sector_analysis": {
-          "ticker": "WMT",
-          "sector": "Consumer Defensive",
-          "industry": "Discount Stores",
-          "sector_etf": "XLP",
-          "sector_score": 91.0,
-          "sector_signal": "STRONG",
-          "metrics": {
-            "sector_momentum_20d": 7.74,
-            "sector_momentum_5d": -0.31,
-            "market_momentum_20d": 1.27,
-            "relative_strength": 6.47,
-            "volatility_pct": 0.99,
-            "trend_above_sma20": true
-          },
-          "data_quality": "LIVE"
-        },
-        "risk": {
-          "ticker": "WMT",
-          "risk_score": 90.7,
-          "risk_signal": "LOW_RISK",
-          "volatility_pct": 0.21,
-          "max_drawdown_pct": 2.69,
-          "trend_pct": 0.38,
-          "average_dollar_volume": 59705040.04,
-          "components": {
-            "volatility_score": 94.8,
-            "drawdown_score": 78.5,
-            "liquidity_score": 100,
-            "downside_momentum_score": 100
-          },
-          "data_quality": "LIVE"
-        },
-        "rating": "POSITIVE",
-        "action": "WATCH",
-        "base_decision": {
-          "action": "WATCH",
-          "confidence": 65.4,
-          "entry_zone": null,
-          "stop_loss": null,
-          "target_price": null,
-          "risk_reward": null,
-          "setup_quality": "DEVELOPING",
-          "reasons": [
-            "Setup has potential",
-            "Further confirmation required"
-          ]
-        },
-        "decision": {
-          "action": "WATCH",
-          "confidence": 65.4,
-          "entry_zone": null,
-          "stop_loss": null,
-          "target_price": null,
-          "risk_reward": null,
-          "setup_quality": "DEVELOPING",
-          "reasons": [
-            "Setup has potential",
-            "Further confirmation required"
-          ],
-          "safety_gate": {
-            "triggered": false,
-            "original_action": "WATCH",
-            "reasons": []
-          }
-        },
-        "status": "ANALYZED",
-        "data_quality": "LIVE"
-      },
-      {
         "ticker": "COP",
         "sector": "Energy",
         "industry": "Oil & Gas",
@@ -4637,14 +4515,14 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-28T22:46:52.700517+00:00",
+          "timestamp": "2026-10-29T06:07:15.164719+00:00",
           "last_price": 149.09,
           "vwap": 149.2,
           "momentum": 2.57,
           "momentum_pct": 1.75,
           "vwap_distance_pct": -0.07,
-          "volume": 22190459,
-          "volume_ratio": 0.93,
+          "volume": 21641865,
+          "volume_ratio": 0.81,
           "data_points": 130,
           "data_quality": "LIVE"
         },
@@ -4696,7 +4574,7 @@
           "volatility_pct": 0.33,
           "max_drawdown_pct": 3.27,
           "trend_pct": 1.75,
-          "average_dollar_volume": 25467026.52,
+          "average_dollar_volume": 24837482.43,
           "components": {
             "volatility_score": 91.8,
             "drawdown_score": 73.8,
@@ -4757,13 +4635,13 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-28T22:46:51.001299+00:00",
+          "timestamp": "2026-10-29T06:07:13.815567+00:00",
           "last_price": 629.98,
           "vwap": 612.77,
           "momentum": 30.92,
           "momentum_pct": 5.16,
           "vwap_distance_pct": 2.81,
-          "volume": 9731172,
+          "volume": 9729810,
           "volume_ratio": 0.61,
           "data_points": 130,
           "data_quality": "LIVE"
@@ -4816,7 +4694,7 @@
           "volatility_pct": 0.43,
           "max_drawdown_pct": 3.32,
           "trend_pct": 5.16,
-          "average_dollar_volume": 45868841.68,
+          "average_dollar_volume": 45862312.1,
           "components": {
             "volatility_score": 89.2,
             "drawdown_score": 73.4,
@@ -4862,6 +4740,140 @@
         "data_quality": "LIVE"
       },
       {
+        "ticker": "WMT",
+        "sector": "Consumer Defensive",
+        "industry": "Discount Stores",
+        "fast_scan": {
+          "opportunity_score": 75.6,
+          "opportunity_signal": "HIGH_POTENTIAL",
+          "return_5d_pct": 0.82,
+          "return_20d_pct": 14.29,
+          "return_60d_pct": 6.73,
+          "relative_strength_20d": 13.02,
+          "volume_ratio": 0.88,
+          "overextension_pct": 4.06
+        },
+        "market": {
+          "ticker": "WMT",
+          "timestamp": "2026-10-29T06:07:16.145436+00:00",
+          "last_price": 118.86,
+          "vwap": 119.82,
+          "momentum": 0.45,
+          "momentum_pct": 0.38,
+          "vwap_distance_pct": -0.8,
+          "volume": 68706296,
+          "volume_ratio": 0.7,
+          "data_points": 130,
+          "data_quality": "LIVE"
+        },
+        "market_signal": "NEUTRAL",
+        "scores": {
+          "market_score": 48.5,
+          "news_score": 48,
+          "catalyst_score": 46,
+          "sector_score": 91.0,
+          "risk_score": 90.7,
+          "alpha_score": 64.8
+        },
+        "news": {
+          "ticker": "WMT",
+          "news_score": 48,
+          "events": [
+            "earnings miss",
+            "ai"
+          ],
+          "article_count": 9,
+          "data_quality": "LIVE"
+        },
+        "catalyst": {
+          "ticker": "WMT",
+          "catalyst_score": 46,
+          "catalyst_signal": "NEUTRAL",
+          "catalysts": [
+            {
+              "type": "NEGATIVE",
+              "catalyst": "earnings miss",
+              "impact": -10
+            },
+            {
+              "type": "POSITIVE",
+              "catalyst": "ai",
+              "impact": 6
+            }
+          ],
+          "article_count": 9,
+          "data_quality": "LIVE"
+        },
+        "sector_analysis": {
+          "ticker": "WMT",
+          "sector": "Consumer Defensive",
+          "industry": "Discount Stores",
+          "sector_etf": "XLP",
+          "sector_score": 91.0,
+          "sector_signal": "STRONG",
+          "metrics": {
+            "sector_momentum_20d": 7.74,
+            "sector_momentum_5d": -0.31,
+            "market_momentum_20d": 1.27,
+            "relative_strength": 6.47,
+            "volatility_pct": 0.99,
+            "trend_above_sma20": true
+          },
+          "data_quality": "LIVE"
+        },
+        "risk": {
+          "ticker": "WMT",
+          "risk_score": 90.7,
+          "risk_signal": "LOW_RISK",
+          "volatility_pct": 0.21,
+          "max_drawdown_pct": 2.69,
+          "trend_pct": 0.38,
+          "average_dollar_volume": 63323734.99,
+          "components": {
+            "volatility_score": 94.8,
+            "drawdown_score": 78.5,
+            "liquidity_score": 100,
+            "downside_momentum_score": 100
+          },
+          "data_quality": "LIVE"
+        },
+        "rating": "POSITIVE",
+        "action": "WATCH",
+        "base_decision": {
+          "action": "WATCH",
+          "confidence": 62.6,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
+          "reasons": [
+            "Setup has potential",
+            "Further confirmation required"
+          ]
+        },
+        "decision": {
+          "action": "WATCH",
+          "confidence": 62.6,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
+          "reasons": [
+            "Setup has potential",
+            "Further confirmation required"
+          ],
+          "safety_gate": {
+            "triggered": false,
+            "original_action": "WATCH",
+            "reasons": []
+          }
+        },
+        "status": "ANALYZED",
+        "data_quality": "LIVE"
+      },
+      {
         "ticker": "XOM",
         "sector": "Energy",
         "industry": "Oil & Gas",
@@ -4877,25 +4889,25 @@
         },
         "market": {
           "ticker": "XOM",
-          "timestamp": "2026-10-28T22:46:56.861843+00:00",
+          "timestamp": "2026-10-29T06:07:17.739314+00:00",
           "last_price": 182.06,
-          "vwap": 181.54,
+          "vwap": 181.52,
           "momentum": 3.68,
           "momentum_pct": 2.06,
-          "vwap_distance_pct": 0.29,
-          "volume": 48896937,
-          "volume_ratio": 1.21,
+          "vwap_distance_pct": 0.3,
+          "volume": 47089798,
+          "volume_ratio": 1.01,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BULLISH",
         "scores": {
-          "market_score": 57.1,
+          "market_score": 56.1,
           "news_score": 32,
           "catalyst_score": 32,
           "sector_score": 92.6,
           "risk_score": 90.6,
-          "alpha_score": 64.53
+          "alpha_score": 64.17
         },
         "news": {
           "ticker": "XOM",
@@ -4950,7 +4962,7 @@
           "volatility_pct": 0.25,
           "max_drawdown_pct": 2.57,
           "trend_pct": 2.06,
-          "average_dollar_volume": 68281594.22,
+          "average_dollar_volume": 65751879.18,
           "components": {
             "volatility_score": 93.8,
             "drawdown_score": 79.4,
@@ -4963,7 +4975,7 @@
         "action": "WATCH",
         "base_decision": {
           "action": "WATCH",
-          "confidence": 62.1,
+          "confidence": 61.7,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -4976,7 +4988,7 @@
         },
         "decision": {
           "action": "WATCH",
-          "confidence": 62.1,
+          "confidence": 61.7,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -5014,25 +5026,25 @@
         },
         "market": {
           "ticker": "SLB",
-          "timestamp": "2026-10-28T22:46:56.157686+00:00",
+          "timestamp": "2026-10-29T06:07:17.301086+00:00",
           "last_price": 53.76,
-          "vwap": 52.33,
+          "vwap": 52.18,
           "momentum": 3.49,
           "momentum_pct": 6.94,
-          "vwap_distance_pct": 2.73,
-          "volume": 62810837,
-          "volume_ratio": 1.19,
+          "vwap_distance_pct": 3.03,
+          "volume": 57674262,
+          "volume_ratio": 0.77,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BULLISH",
         "scores": {
-          "market_score": 76.5,
+          "market_score": 75.3,
           "news_score": 50,
           "catalyst_score": 56,
           "sector_score": 92.6,
           "risk_score": 85.1,
-          "alpha_score": 75.94
+          "alpha_score": 75.52
         },
         "news": {
           "ticker": "SLB",
@@ -5079,7 +5091,7 @@
           "volatility_pct": 0.51,
           "max_drawdown_pct": 3.0,
           "trend_pct": 6.94,
-          "average_dollar_volume": 25285622.8,
+          "average_dollar_volume": 23149996.6,
           "components": {
             "volatility_score": 87.2,
             "drawdown_score": 76.0,
@@ -5092,7 +5104,7 @@
         "action": "ACCUMULATE",
         "base_decision": {
           "action": "ACCUMULATE",
-          "confidence": 74.4,
+          "confidence": 74.0,
           "entry_zone": {
             "low": 51.61,
             "high": 53.76
@@ -5110,7 +5122,7 @@
         },
         "decision": {
           "action": "ACCUMULATE",
-          "confidence": 74.4,
+          "confidence": 74.0,
           "entry_zone": {
             "low": 51.61,
             "high": 53.76
@@ -5151,25 +5163,25 @@
         },
         "market": {
           "ticker": "URI",
-          "timestamp": "2026-10-28T22:46:52.138049+00:00",
+          "timestamp": "2026-10-29T06:07:14.668755+00:00",
           "last_price": 1175.34,
-          "vwap": 1120.17,
+          "vwap": 1117.41,
           "momentum": 127.69,
           "momentum_pct": 12.19,
-          "vwap_distance_pct": 4.93,
-          "volume": 2722508,
-          "volume_ratio": 0.89,
+          "vwap_distance_pct": 5.18,
+          "volume": 2596431,
+          "volume_ratio": 0.66,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BULLISH",
         "scores": {
-          "market_score": 89.2,
+          "market_score": 88.3,
           "news_score": 66,
           "catalyst_score": 66,
           "sector_score": 57.9,
           "risk_score": 74.2,
-          "alpha_score": 74.95
+          "alpha_score": 74.64
         },
         "news": {
           "ticker": "URI",
@@ -5224,7 +5236,7 @@
           "volatility_pct": 0.75,
           "max_drawdown_pct": 6.17,
           "trend_pct": 12.19,
-          "average_dollar_volume": 23458990.19,
+          "average_dollar_volume": 22317618.47,
           "components": {
             "volatility_score": 81.3,
             "drawdown_score": 50.6,
@@ -5237,7 +5249,7 @@
         "action": "ACCUMULATE",
         "base_decision": {
           "action": "ACCUMULATE",
-          "confidence": 76.3,
+          "confidence": 76.0,
           "entry_zone": {
             "low": 1128.33,
             "high": 1175.34
@@ -5255,7 +5267,7 @@
         },
         "decision": {
           "action": "ACCUMULATE",
-          "confidence": 76.3,
+          "confidence": 76.0,
           "entry_zone": {
             "low": 1128.33,
             "high": 1175.34
@@ -5296,25 +5308,25 @@
         },
         "market": {
           "ticker": "TSLA",
-          "timestamp": "2026-10-28T22:46:53.387538+00:00",
-          "last_price": 404.46,
-          "vwap": 391.8,
-          "momentum": 24.44,
-          "momentum_pct": 6.43,
-          "vwap_distance_pct": 3.23,
-          "volume": 322382628,
-          "volume_ratio": 2.03,
+          "timestamp": "2026-10-29T06:07:15.671576+00:00",
+          "last_price": 404.41,
+          "vwap": 391.34,
+          "momentum": 24.39,
+          "momentum_pct": 6.42,
+          "vwap_distance_pct": 3.34,
+          "volume": 257675541,
+          "volume_ratio": 0.57,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BULLISH",
         "scores": {
-          "market_score": 80.9,
+          "market_score": 73.9,
           "news_score": 58,
           "catalyst_score": 56,
           "sector_score": 82.7,
           "risk_score": 80.5,
-          "alpha_score": 74.84
+          "alpha_score": 72.4
         },
         "news": {
           "ticker": "TSLA",
@@ -5362,10 +5374,10 @@
           "risk_signal": "LOW_RISK",
           "volatility_pct": 0.65,
           "max_drawdown_pct": 4.96,
-          "trend_pct": 6.43,
-          "average_dollar_volume": 971599358.73,
+          "trend_pct": 6.42,
+          "average_dollar_volume": 775683436.42,
           "components": {
-            "volatility_score": 83.8,
+            "volatility_score": 83.9,
             "drawdown_score": 60.3,
             "liquidity_score": 100,
             "downside_momentum_score": 100
@@ -5376,13 +5388,13 @@
         "action": "ACCUMULATE",
         "base_decision": {
           "action": "ACCUMULATE",
-          "confidence": 74.1,
+          "confidence": 71.5,
           "entry_zone": {
-            "low": 388.28,
-            "high": 404.46
+            "low": 388.23,
+            "high": 404.41
           },
-          "stop_loss": 368.06,
-          "target_price": 465.13,
+          "stop_loss": 368.01,
+          "target_price": 465.07,
           "risk_reward": 1.67,
           "setup_quality": "POSITIVE",
           "reasons": [
@@ -5394,13 +5406,13 @@
         },
         "decision": {
           "action": "ACCUMULATE",
-          "confidence": 74.1,
+          "confidence": 71.5,
           "entry_zone": {
-            "low": 388.28,
-            "high": 404.46
+            "low": 388.23,
+            "high": 404.41
           },
-          "stop_loss": 368.06,
-          "target_price": 465.13,
+          "stop_loss": 368.01,
+          "target_price": 465.07,
           "risk_reward": 1.67,
           "setup_quality": "POSITIVE",
           "reasons": [
@@ -5413,134 +5425,6 @@
             "triggered": false,
             "original_action": "ACCUMULATE",
             "final_action": "ACCUMULATE",
-            "reasons": []
-          }
-        },
-        "status": "ANALYZED",
-        "data_quality": "LIVE"
-      },
-      {
-        "ticker": "WMT",
-        "sector": "Consumer Defensive",
-        "industry": "Discount Stores",
-        "fast_scan": {
-          "opportunity_score": 75.6,
-          "opportunity_signal": "HIGH_POTENTIAL",
-          "return_5d_pct": 0.82,
-          "return_20d_pct": 14.29,
-          "return_60d_pct": 6.73,
-          "relative_strength_20d": 13.02,
-          "volume_ratio": 0.88,
-          "overextension_pct": 4.06
-        },
-        "market": {
-          "ticker": "WMT",
-          "timestamp": "2026-10-28T22:46:54.234984+00:00",
-          "last_price": 118.86,
-          "vwap": 119.79,
-          "momentum": 0.45,
-          "momentum_pct": 0.38,
-          "vwap_distance_pct": -0.78,
-          "volume": 64796082,
-          "volume_ratio": 0.75,
-          "data_points": 130,
-          "data_quality": "LIVE"
-        },
-        "market_signal": "NEUTRAL",
-        "scores": {
-          "market_score": 48.6,
-          "news_score": 58,
-          "catalyst_score": 56,
-          "sector_score": 91.0,
-          "risk_score": 90.7,
-          "alpha_score": 67.33
-        },
-        "news": {
-          "ticker": "WMT",
-          "news_score": 58,
-          "events": [
-            "ai"
-          ],
-          "article_count": 8,
-          "data_quality": "LIVE"
-        },
-        "catalyst": {
-          "ticker": "WMT",
-          "catalyst_score": 56,
-          "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "POSITIVE",
-              "catalyst": "ai",
-              "impact": 6
-            }
-          ],
-          "article_count": 8,
-          "data_quality": "LIVE"
-        },
-        "sector_analysis": {
-          "ticker": "WMT",
-          "sector": "Consumer Defensive",
-          "industry": "Discount Stores",
-          "sector_etf": "XLP",
-          "sector_score": 91.0,
-          "sector_signal": "STRONG",
-          "metrics": {
-            "sector_momentum_20d": 7.74,
-            "sector_momentum_5d": -0.31,
-            "market_momentum_20d": 1.27,
-            "relative_strength": 6.47,
-            "volatility_pct": 0.99,
-            "trend_above_sma20": true
-          },
-          "data_quality": "LIVE"
-        },
-        "risk": {
-          "ticker": "WMT",
-          "risk_score": 90.7,
-          "risk_signal": "LOW_RISK",
-          "volatility_pct": 0.21,
-          "max_drawdown_pct": 2.69,
-          "trend_pct": 0.38,
-          "average_dollar_volume": 59705040.04,
-          "components": {
-            "volatility_score": 94.8,
-            "drawdown_score": 78.5,
-            "liquidity_score": 100,
-            "downside_momentum_score": 100
-          },
-          "data_quality": "LIVE"
-        },
-        "rating": "POSITIVE",
-        "action": "WATCH",
-        "base_decision": {
-          "action": "WATCH",
-          "confidence": 65.4,
-          "entry_zone": null,
-          "stop_loss": null,
-          "target_price": null,
-          "risk_reward": null,
-          "setup_quality": "DEVELOPING",
-          "reasons": [
-            "Setup has potential",
-            "Further confirmation required"
-          ]
-        },
-        "decision": {
-          "action": "WATCH",
-          "confidence": 65.4,
-          "entry_zone": null,
-          "stop_loss": null,
-          "target_price": null,
-          "risk_reward": null,
-          "setup_quality": "DEVELOPING",
-          "reasons": [
-            "Setup has potential",
-            "Further confirmation required"
-          ],
-          "safety_gate": {
-            "triggered": false,
-            "original_action": "WATCH",
             "reasons": []
           }
         },
@@ -5563,14 +5447,14 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-28T22:46:52.700517+00:00",
+          "timestamp": "2026-10-29T06:07:15.164719+00:00",
           "last_price": 149.09,
           "vwap": 149.2,
           "momentum": 2.57,
           "momentum_pct": 1.75,
           "vwap_distance_pct": -0.07,
-          "volume": 22190459,
-          "volume_ratio": 0.93,
+          "volume": 21641865,
+          "volume_ratio": 0.81,
           "data_points": 130,
           "data_quality": "LIVE"
         },
@@ -5622,7 +5506,7 @@
           "volatility_pct": 0.33,
           "max_drawdown_pct": 3.27,
           "trend_pct": 1.75,
-          "average_dollar_volume": 25467026.52,
+          "average_dollar_volume": 24837482.43,
           "components": {
             "volatility_score": 91.8,
             "drawdown_score": 73.8,
@@ -5683,13 +5567,13 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-28T22:46:51.001299+00:00",
+          "timestamp": "2026-10-29T06:07:13.815567+00:00",
           "last_price": 629.98,
           "vwap": 612.77,
           "momentum": 30.92,
           "momentum_pct": 5.16,
           "vwap_distance_pct": 2.81,
-          "volume": 9731172,
+          "volume": 9729810,
           "volume_ratio": 0.61,
           "data_points": 130,
           "data_quality": "LIVE"
@@ -5742,7 +5626,7 @@
           "volatility_pct": 0.43,
           "max_drawdown_pct": 3.32,
           "trend_pct": 5.16,
-          "average_dollar_volume": 45868841.68,
+          "average_dollar_volume": 45862312.1,
           "components": {
             "volatility_score": 89.2,
             "drawdown_score": 73.4,
@@ -5788,6 +5672,140 @@
         "data_quality": "LIVE"
       },
       {
+        "ticker": "WMT",
+        "sector": "Consumer Defensive",
+        "industry": "Discount Stores",
+        "fast_scan": {
+          "opportunity_score": 75.6,
+          "opportunity_signal": "HIGH_POTENTIAL",
+          "return_5d_pct": 0.82,
+          "return_20d_pct": 14.29,
+          "return_60d_pct": 6.73,
+          "relative_strength_20d": 13.02,
+          "volume_ratio": 0.88,
+          "overextension_pct": 4.06
+        },
+        "market": {
+          "ticker": "WMT",
+          "timestamp": "2026-10-29T06:07:16.145436+00:00",
+          "last_price": 118.86,
+          "vwap": 119.82,
+          "momentum": 0.45,
+          "momentum_pct": 0.38,
+          "vwap_distance_pct": -0.8,
+          "volume": 68706296,
+          "volume_ratio": 0.7,
+          "data_points": 130,
+          "data_quality": "LIVE"
+        },
+        "market_signal": "NEUTRAL",
+        "scores": {
+          "market_score": 48.5,
+          "news_score": 48,
+          "catalyst_score": 46,
+          "sector_score": 91.0,
+          "risk_score": 90.7,
+          "alpha_score": 64.8
+        },
+        "news": {
+          "ticker": "WMT",
+          "news_score": 48,
+          "events": [
+            "earnings miss",
+            "ai"
+          ],
+          "article_count": 9,
+          "data_quality": "LIVE"
+        },
+        "catalyst": {
+          "ticker": "WMT",
+          "catalyst_score": 46,
+          "catalyst_signal": "NEUTRAL",
+          "catalysts": [
+            {
+              "type": "NEGATIVE",
+              "catalyst": "earnings miss",
+              "impact": -10
+            },
+            {
+              "type": "POSITIVE",
+              "catalyst": "ai",
+              "impact": 6
+            }
+          ],
+          "article_count": 9,
+          "data_quality": "LIVE"
+        },
+        "sector_analysis": {
+          "ticker": "WMT",
+          "sector": "Consumer Defensive",
+          "industry": "Discount Stores",
+          "sector_etf": "XLP",
+          "sector_score": 91.0,
+          "sector_signal": "STRONG",
+          "metrics": {
+            "sector_momentum_20d": 7.74,
+            "sector_momentum_5d": -0.31,
+            "market_momentum_20d": 1.27,
+            "relative_strength": 6.47,
+            "volatility_pct": 0.99,
+            "trend_above_sma20": true
+          },
+          "data_quality": "LIVE"
+        },
+        "risk": {
+          "ticker": "WMT",
+          "risk_score": 90.7,
+          "risk_signal": "LOW_RISK",
+          "volatility_pct": 0.21,
+          "max_drawdown_pct": 2.69,
+          "trend_pct": 0.38,
+          "average_dollar_volume": 63323734.99,
+          "components": {
+            "volatility_score": 94.8,
+            "drawdown_score": 78.5,
+            "liquidity_score": 100,
+            "downside_momentum_score": 100
+          },
+          "data_quality": "LIVE"
+        },
+        "rating": "POSITIVE",
+        "action": "WATCH",
+        "base_decision": {
+          "action": "WATCH",
+          "confidence": 62.6,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
+          "reasons": [
+            "Setup has potential",
+            "Further confirmation required"
+          ]
+        },
+        "decision": {
+          "action": "WATCH",
+          "confidence": 62.6,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
+          "reasons": [
+            "Setup has potential",
+            "Further confirmation required"
+          ],
+          "safety_gate": {
+            "triggered": false,
+            "original_action": "WATCH",
+            "reasons": []
+          }
+        },
+        "status": "ANALYZED",
+        "data_quality": "LIVE"
+      },
+      {
         "ticker": "XOM",
         "sector": "Energy",
         "industry": "Oil & Gas",
@@ -5803,25 +5821,25 @@
         },
         "market": {
           "ticker": "XOM",
-          "timestamp": "2026-10-28T22:46:56.861843+00:00",
+          "timestamp": "2026-10-29T06:07:17.739314+00:00",
           "last_price": 182.06,
-          "vwap": 181.54,
+          "vwap": 181.52,
           "momentum": 3.68,
           "momentum_pct": 2.06,
-          "vwap_distance_pct": 0.29,
-          "volume": 48896937,
-          "volume_ratio": 1.21,
+          "vwap_distance_pct": 0.3,
+          "volume": 47089798,
+          "volume_ratio": 1.01,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BULLISH",
         "scores": {
-          "market_score": 57.1,
+          "market_score": 56.1,
           "news_score": 32,
           "catalyst_score": 32,
           "sector_score": 92.6,
           "risk_score": 90.6,
-          "alpha_score": 64.53
+          "alpha_score": 64.17
         },
         "news": {
           "ticker": "XOM",
@@ -5876,7 +5894,7 @@
           "volatility_pct": 0.25,
           "max_drawdown_pct": 2.57,
           "trend_pct": 2.06,
-          "average_dollar_volume": 68281594.22,
+          "average_dollar_volume": 65751879.18,
           "components": {
             "volatility_score": 93.8,
             "drawdown_score": 79.4,
@@ -5889,7 +5907,7 @@
         "action": "WATCH",
         "base_decision": {
           "action": "WATCH",
-          "confidence": 62.1,
+          "confidence": 61.7,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -5902,7 +5920,7 @@
         },
         "decision": {
           "action": "WATCH",
-          "confidence": 62.1,
+          "confidence": 61.7,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -5932,52 +5950,44 @@
           "return_20d_pct": 12.03,
           "return_60d_pct": 27.08,
           "relative_strength_20d": 10.76,
-          "volume_ratio": 1.59,
+          "volume_ratio": 1.58,
           "overextension_pct": 3.5
         },
         "market": {
           "ticker": "NOW",
-          "timestamp": "2026-10-28T22:46:55.208822+00:00",
+          "timestamp": "2026-10-29T06:07:16.775764+00:00",
           "last_price": 149.77,
-          "vwap": 154.46,
+          "vwap": 154.75,
           "momentum": -6.91,
           "momentum_pct": -4.41,
-          "vwap_distance_pct": -3.04,
-          "volume": 75932953,
-          "volume_ratio": 2.11,
+          "vwap_distance_pct": -3.22,
+          "volume": 69580620,
+          "volume_ratio": 1.6,
           "data_points": 130,
           "data_quality": "LIVE"
         },
         "market_signal": "BEARISH",
         "scores": {
-          "market_score": 24.3,
-          "news_score": 40,
-          "catalyst_score": 40,
+          "market_score": 26.3,
+          "news_score": 50,
+          "catalyst_score": 50,
           "sector_score": 77.9,
           "risk_score": 75.5,
-          "alpha_score": 49.06
+          "alpha_score": 52.27
         },
         "news": {
           "ticker": "NOW",
-          "news_score": 40,
-          "events": [
-            "earnings miss"
-          ],
-          "article_count": 8,
+          "news_score": 50,
+          "events": [],
+          "article_count": 5,
           "data_quality": "LIVE"
         },
         "catalyst": {
           "ticker": "NOW",
-          "catalyst_score": 40,
+          "catalyst_score": 50,
           "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "NEGATIVE",
-              "catalyst": "earnings miss",
-              "impact": -10
-            }
-          ],
-          "article_count": 8,
+          "catalysts": [],
+          "article_count": 5,
           "data_quality": "LIVE"
         },
         "sector_analysis": {
@@ -6004,7 +6014,7 @@
           "volatility_pct": 0.48,
           "max_drawdown_pct": 6.48,
           "trend_pct": -4.41,
-          "average_dollar_volume": 90218692.92,
+          "average_dollar_volume": 82827389.7,
           "components": {
             "volatility_score": 88.0,
             "drawdown_score": 48.2,
@@ -6013,11 +6023,11 @@
           },
           "data_quality": "LIVE"
         },
-        "rating": "CAUTIOUS",
+        "rating": "NEUTRAL",
         "action": "AVOID",
         "base_decision": {
           "action": "AVOID",
-          "confidence": 46.7,
+          "confidence": 50.2,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -6029,7 +6039,7 @@
         },
         "decision": {
           "action": "AVOID",
-          "confidence": 46.7,
+          "confidence": 50.2,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -6052,7 +6062,7 @@
   },
   "market_regime": {
     "engine": "V7.4 Market Regime Engine",
-    "timestamp": "2026-10-28T22:46:58.425235+00:00",
+    "timestamp": "2026-10-29T06:07:18.697694+00:00",
     "market_date": "2026-10-28",
     "regime": "NORMAL",
     "regime_score": 90.0,
@@ -6142,40 +6152,29 @@
   },
   "event_risk": {
     "engine": "V7.5 Earnings & Event Risk Engine",
-    "generated": "2026-10-28T22:47:06.505648+00:00",
-    "reference_date": "2026-10-28",
+    "generated": "2026-10-29T06:07:26.689232+00:00",
+    "reference_date": "2026-10-29",
     "macro_event_risk": {
-      "reference_date": "2026-10-28",
+      "reference_date": "2026-10-29",
       "nearest_event": {
-        "event_type": "FOMC",
-        "name": "FOMC Rate Decision",
-        "date": "2026-10-28",
-        "source": "Federal Reserve",
-        "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-        "days_until_event": 0,
-        "risk_level": "CRITICAL",
-        "new_entry_policy": "BLOCK",
-        "position_size_multiplier": 0.0
+        "event_type": "EMPLOYMENT",
+        "name": "Employment Situation",
+        "date": "2026-11-06",
+        "source": "U.S. Bureau of Labor Statistics",
+        "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+        "days_until_event": 8,
+        "risk_level": "LOW",
+        "new_entry_policy": "ALLOW",
+        "position_size_multiplier": 1.0
       },
       "upcoming_events": [
-        {
-          "event_type": "FOMC",
-          "name": "FOMC Rate Decision",
-          "date": "2026-10-28",
-          "source": "Federal Reserve",
-          "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-          "days_until_event": 0,
-          "risk_level": "CRITICAL",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0
-        },
         {
           "event_type": "EMPLOYMENT",
           "name": "Employment Situation",
           "date": "2026-11-06",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 9,
+          "days_until_event": 8,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -6186,7 +6185,7 @@
           "date": "2026-11-10",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 13,
+          "days_until_event": 12,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -6197,7 +6196,7 @@
           "date": "2026-11-13",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 16,
+          "days_until_event": 15,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -6208,7 +6207,7 @@
           "date": "2026-12-04",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 37,
+          "days_until_event": 36,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -6219,7 +6218,7 @@
           "date": "2026-12-09",
           "source": "Federal Reserve",
           "source_url": "https://www.federalreserve.gov/newsevents/2026-december.htm",
-          "days_until_event": 42,
+          "days_until_event": 41,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -6230,7 +6229,7 @@
           "date": "2026-12-10",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 43,
+          "days_until_event": 42,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -6241,15 +6240,15 @@
           "date": "2026-12-15",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 48,
+          "days_until_event": 47,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
         }
       ],
-      "risk_level": "CRITICAL",
-      "new_entry_policy": "BLOCK",
-      "position_size_multiplier": 0.0,
+      "risk_level": "LOW",
+      "new_entry_policy": "ALLOW",
+      "position_size_multiplier": 1.0,
       "sources": {
         "federal_reserve": true,
         "bls": true
@@ -6261,31 +6260,30 @@
         "earnings": {
           "ticker": "AMD",
           "next_earnings_date": "2026-11-03",
-          "days_until_earnings": 6,
+          "days_until_earnings": 5,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "combined": {
-          "risk_level": "CRITICAL",
-          "dominant_risk_source": "MACRO",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0,
+          "risk_level": "HIGH",
+          "dominant_risk_source": "EARNINGS",
+          "new_entry_policy": "REDUCE_SIZE",
+          "position_size_multiplier": 0.5,
           "reasons": [
-            "Earnings event is within 7 calendar days",
-            "FOMC in 0 calendar days"
+            "Earnings event is within 5 calendar days"
           ]
         }
       },
@@ -6294,31 +6292,30 @@
         "earnings": {
           "ticker": "ANET",
           "next_earnings_date": "2026-11-03",
-          "days_until_earnings": 6,
+          "days_until_earnings": 5,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "combined": {
-          "risk_level": "CRITICAL",
-          "dominant_risk_source": "MACRO",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0,
+          "risk_level": "HIGH",
+          "dominant_risk_source": "EARNINGS",
+          "new_entry_policy": "REDUCE_SIZE",
+          "position_size_multiplier": 0.5,
           "reasons": [
-            "Earnings event is within 7 calendar days",
-            "FOMC in 0 calendar days"
+            "Earnings event is within 5 calendar days"
           ]
         }
       },
@@ -6327,30 +6324,30 @@
         "earnings": {
           "ticker": "ASML",
           "next_earnings_date": "2027-01-27",
-          "days_until_earnings": 91,
+          "days_until_earnings": 90,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "combined": {
-          "risk_level": "CRITICAL",
-          "dominant_risk_source": "MACRO",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0,
+          "risk_level": "LOW",
+          "dominant_risk_source": "EARNINGS",
+          "new_entry_policy": "ALLOW",
+          "position_size_multiplier": 1.0,
           "reasons": [
-            "FOMC in 0 calendar days"
+            "No scheduled event restriction"
           ]
         }
       },
@@ -6359,30 +6356,30 @@
         "earnings": {
           "ticker": "BKR",
           "next_earnings_date": "2027-01-25",
-          "days_until_earnings": 89,
+          "days_until_earnings": 88,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "combined": {
-          "risk_level": "CRITICAL",
-          "dominant_risk_source": "MACRO",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0,
+          "risk_level": "LOW",
+          "dominant_risk_source": "EARNINGS",
+          "new_entry_policy": "ALLOW",
+          "position_size_multiplier": 1.0,
           "reasons": [
-            "FOMC in 0 calendar days"
+            "No scheduled event restriction"
           ]
         }
       },
@@ -6391,30 +6388,30 @@
         "earnings": {
           "ticker": "CCLD",
           "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 8,
+          "days_until_earnings": 7,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "combined": {
-          "risk_level": "CRITICAL",
-          "dominant_risk_source": "MACRO",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0,
+          "risk_level": "ELEVATED",
+          "dominant_risk_source": "EARNINGS",
+          "new_entry_policy": "REDUCE_SIZE",
+          "position_size_multiplier": 0.75,
           "reasons": [
-            "FOMC in 0 calendar days"
+            "Earnings event is within 7 calendar days"
           ]
         }
       },
@@ -6423,30 +6420,30 @@
         "earnings": {
           "ticker": "CTAS",
           "next_earnings_date": "2026-12-17",
-          "days_until_earnings": 50,
+          "days_until_earnings": 49,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "combined": {
-          "risk_level": "CRITICAL",
-          "dominant_risk_source": "MACRO",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0,
+          "risk_level": "LOW",
+          "dominant_risk_source": "EARNINGS",
+          "new_entry_policy": "ALLOW",
+          "position_size_multiplier": 1.0,
           "reasons": [
-            "FOMC in 0 calendar days"
+            "No scheduled event restriction"
           ]
         }
       },
@@ -6454,32 +6451,31 @@
         "ticker": "GOOG",
         "earnings": {
           "ticker": "GOOG",
-          "next_earnings_date": "2026-10-28",
-          "days_until_earnings": 0,
-          "date_status": "AVAILABLE"
+          "next_earnings_date": null,
+          "days_until_earnings": null,
+          "date_status": "UNKNOWN"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "combined": {
-          "risk_level": "CRITICAL",
+          "risk_level": "UNKNOWN",
           "dominant_risk_source": "EARNINGS",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0,
+          "new_entry_policy": "ALLOW",
+          "position_size_multiplier": 1.0,
           "reasons": [
-            "Earnings event is within 2 calendar days",
-            "FOMC in 0 calendar days"
+            "No scheduled event restriction"
           ]
         }
       },
@@ -6488,30 +6484,30 @@
         "earnings": {
           "ticker": "NBIS",
           "next_earnings_date": "2026-11-10",
-          "days_until_earnings": 13,
+          "days_until_earnings": 12,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "combined": {
-          "risk_level": "CRITICAL",
-          "dominant_risk_source": "MACRO",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0,
+          "risk_level": "LOW",
+          "dominant_risk_source": "EARNINGS",
+          "new_entry_policy": "ALLOW",
+          "position_size_multiplier": 1.0,
           "reasons": [
-            "FOMC in 0 calendar days"
+            "No scheduled event restriction"
           ]
         }
       },
@@ -6520,30 +6516,30 @@
         "earnings": {
           "ticker": "NVDA",
           "next_earnings_date": "2026-11-17",
-          "days_until_earnings": 20,
+          "days_until_earnings": 19,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "combined": {
-          "risk_level": "CRITICAL",
-          "dominant_risk_source": "MACRO",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0,
+          "risk_level": "LOW",
+          "dominant_risk_source": "EARNINGS",
+          "new_entry_policy": "ALLOW",
+          "position_size_multiplier": 1.0,
           "reasons": [
-            "FOMC in 0 calendar days"
+            "No scheduled event restriction"
           ]
         }
       },
@@ -6552,30 +6548,30 @@
         "earnings": {
           "ticker": "OMDA",
           "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 8,
+          "days_until_earnings": 7,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "combined": {
-          "risk_level": "CRITICAL",
-          "dominant_risk_source": "MACRO",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0,
+          "risk_level": "ELEVATED",
+          "dominant_risk_source": "EARNINGS",
+          "new_entry_policy": "REDUCE_SIZE",
+          "position_size_multiplier": 0.75,
           "reasons": [
-            "FOMC in 0 calendar days"
+            "Earnings event is within 7 calendar days"
           ]
         }
       },
@@ -6584,30 +6580,30 @@
         "earnings": {
           "ticker": "UNH",
           "next_earnings_date": "2027-01-12",
-          "days_until_earnings": 76,
+          "days_until_earnings": 75,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "combined": {
-          "risk_level": "CRITICAL",
-          "dominant_risk_source": "MACRO",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0,
+          "risk_level": "LOW",
+          "dominant_risk_source": "EARNINGS",
+          "new_entry_policy": "ALLOW",
+          "position_size_multiplier": 1.0,
           "reasons": [
-            "FOMC in 0 calendar days"
+            "No scheduled event restriction"
           ]
         }
       },
@@ -6615,32 +6611,31 @@
         "ticker": "VRT",
         "earnings": {
           "ticker": "VRT",
-          "next_earnings_date": "2026-10-28",
-          "days_until_earnings": 0,
-          "date_status": "AVAILABLE"
+          "next_earnings_date": null,
+          "days_until_earnings": null,
+          "date_status": "UNKNOWN"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "combined": {
-          "risk_level": "CRITICAL",
+          "risk_level": "UNKNOWN",
           "dominant_risk_source": "EARNINGS",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0,
+          "new_entry_policy": "ALLOW",
+          "position_size_multiplier": 1.0,
           "reasons": [
-            "Earnings event is within 2 calendar days",
-            "FOMC in 0 calendar days"
+            "No scheduled event restriction"
           ]
         }
       },
@@ -6649,30 +6644,30 @@
         "earnings": {
           "ticker": "SLB",
           "next_earnings_date": "2027-01-22",
-          "days_until_earnings": 86,
+          "days_until_earnings": 85,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "combined": {
-          "risk_level": "CRITICAL",
-          "dominant_risk_source": "MACRO",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0,
+          "risk_level": "LOW",
+          "dominant_risk_source": "EARNINGS",
+          "new_entry_policy": "ALLOW",
+          "position_size_multiplier": 1.0,
           "reasons": [
-            "FOMC in 0 calendar days"
+            "No scheduled event restriction"
           ]
         }
       },
@@ -6681,30 +6676,30 @@
         "earnings": {
           "ticker": "URI",
           "next_earnings_date": "2027-01-27",
-          "days_until_earnings": 91,
+          "days_until_earnings": 90,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "combined": {
-          "risk_level": "CRITICAL",
-          "dominant_risk_source": "MACRO",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0,
+          "risk_level": "LOW",
+          "dominant_risk_source": "EARNINGS",
+          "new_entry_policy": "ALLOW",
+          "position_size_multiplier": 1.0,
           "reasons": [
-            "FOMC in 0 calendar days"
+            "No scheduled event restriction"
           ]
         }
       },
@@ -6713,475 +6708,156 @@
         "earnings": {
           "ticker": "TSLA",
           "next_earnings_date": "2027-01-27",
-          "days_until_earnings": 91,
+          "days_until_earnings": 90,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "combined": {
-          "risk_level": "CRITICAL",
-          "dominant_risk_source": "MACRO",
-          "new_entry_policy": "BLOCK",
-          "position_size_multiplier": 0.0,
+          "risk_level": "LOW",
+          "dominant_risk_source": "EARNINGS",
+          "new_entry_policy": "ALLOW",
+          "position_size_multiplier": 1.0,
           "reasons": [
-            "FOMC in 0 calendar days"
+            "No scheduled event restriction"
           ]
         }
       }
     },
-    "portfolio_alert_count": 12,
+    "portfolio_alert_count": 4,
     "portfolio_alerts": [
       {
         "ticker": "AMD",
-        "risk_level": "CRITICAL",
-        "event_policy": "BLOCK",
+        "risk_level": "HIGH",
+        "event_policy": "REDUCE_SIZE",
         "earnings": {
           "ticker": "AMD",
           "next_earnings_date": "2026-11-03",
-          "days_until_earnings": 6,
+          "days_until_earnings": 5,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "reasons": [
-          "Earnings event is within 7 calendar days",
-          "FOMC in 0 calendar days"
+          "Earnings event is within 5 calendar days"
         ]
       },
       {
         "ticker": "ANET",
-        "risk_level": "CRITICAL",
-        "event_policy": "BLOCK",
+        "risk_level": "HIGH",
+        "event_policy": "REDUCE_SIZE",
         "earnings": {
           "ticker": "ANET",
           "next_earnings_date": "2026-11-03",
-          "days_until_earnings": 6,
+          "days_until_earnings": 5,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "reasons": [
-          "Earnings event is within 7 calendar days",
-          "FOMC in 0 calendar days"
-        ]
-      },
-      {
-        "ticker": "ASML",
-        "risk_level": "CRITICAL",
-        "event_policy": "BLOCK",
-        "earnings": {
-          "ticker": "ASML",
-          "next_earnings_date": "2027-01-27",
-          "days_until_earnings": 91,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "CRITICAL",
-          "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
-          }
-        },
-        "reasons": [
-          "FOMC in 0 calendar days"
-        ]
-      },
-      {
-        "ticker": "BKR",
-        "risk_level": "CRITICAL",
-        "event_policy": "BLOCK",
-        "earnings": {
-          "ticker": "BKR",
-          "next_earnings_date": "2027-01-25",
-          "days_until_earnings": 89,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "CRITICAL",
-          "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
-          }
-        },
-        "reasons": [
-          "FOMC in 0 calendar days"
+          "Earnings event is within 5 calendar days"
         ]
       },
       {
         "ticker": "CCLD",
-        "risk_level": "CRITICAL",
-        "event_policy": "BLOCK",
+        "risk_level": "ELEVATED",
+        "event_policy": "REDUCE_SIZE",
         "earnings": {
           "ticker": "CCLD",
           "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 8,
+          "days_until_earnings": 7,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "reasons": [
-          "FOMC in 0 calendar days"
-        ]
-      },
-      {
-        "ticker": "CTAS",
-        "risk_level": "CRITICAL",
-        "event_policy": "BLOCK",
-        "earnings": {
-          "ticker": "CTAS",
-          "next_earnings_date": "2026-12-17",
-          "days_until_earnings": 50,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "CRITICAL",
-          "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
-          }
-        },
-        "reasons": [
-          "FOMC in 0 calendar days"
-        ]
-      },
-      {
-        "ticker": "GOOG",
-        "risk_level": "CRITICAL",
-        "event_policy": "BLOCK",
-        "earnings": {
-          "ticker": "GOOG",
-          "next_earnings_date": "2026-10-28",
-          "days_until_earnings": 0,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "CRITICAL",
-          "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
-          }
-        },
-        "reasons": [
-          "Earnings event is within 2 calendar days",
-          "FOMC in 0 calendar days"
-        ]
-      },
-      {
-        "ticker": "NBIS",
-        "risk_level": "CRITICAL",
-        "event_policy": "BLOCK",
-        "earnings": {
-          "ticker": "NBIS",
-          "next_earnings_date": "2026-11-10",
-          "days_until_earnings": 13,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "CRITICAL",
-          "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
-          }
-        },
-        "reasons": [
-          "FOMC in 0 calendar days"
-        ]
-      },
-      {
-        "ticker": "NVDA",
-        "risk_level": "CRITICAL",
-        "event_policy": "BLOCK",
-        "earnings": {
-          "ticker": "NVDA",
-          "next_earnings_date": "2026-11-17",
-          "days_until_earnings": 20,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "CRITICAL",
-          "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
-          }
-        },
-        "reasons": [
-          "FOMC in 0 calendar days"
+          "Earnings event is within 7 calendar days"
         ]
       },
       {
         "ticker": "OMDA",
-        "risk_level": "CRITICAL",
-        "event_policy": "BLOCK",
+        "risk_level": "ELEVATED",
+        "event_policy": "REDUCE_SIZE",
         "earnings": {
           "ticker": "OMDA",
           "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 8,
+          "days_until_earnings": 7,
           "date_status": "AVAILABLE"
         },
         "macro": {
-          "risk_level": "CRITICAL",
+          "risk_level": "LOW",
           "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 8,
+            "risk_level": "LOW",
+            "new_entry_policy": "ALLOW",
+            "position_size_multiplier": 1.0
           }
         },
         "reasons": [
-          "FOMC in 0 calendar days"
-        ]
-      },
-      {
-        "ticker": "UNH",
-        "risk_level": "CRITICAL",
-        "event_policy": "BLOCK",
-        "earnings": {
-          "ticker": "UNH",
-          "next_earnings_date": "2027-01-12",
-          "days_until_earnings": 76,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "CRITICAL",
-          "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
-          }
-        },
-        "reasons": [
-          "FOMC in 0 calendar days"
-        ]
-      },
-      {
-        "ticker": "VRT",
-        "risk_level": "CRITICAL",
-        "event_policy": "BLOCK",
-        "earnings": {
-          "ticker": "VRT",
-          "next_earnings_date": "2026-10-28",
-          "days_until_earnings": 0,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "CRITICAL",
-          "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
-          }
-        },
-        "reasons": [
-          "Earnings event is within 2 calendar days",
-          "FOMC in 0 calendar days"
+          "Earnings event is within 7 calendar days"
         ]
       }
     ],
-    "actionable_alert_count": 3,
-    "actionable_alerts": [
-      {
-        "ticker": "SLB",
-        "base_action": "ACCUMULATE",
-        "risk_level": "CRITICAL",
-        "event_policy": "BLOCK",
-        "size_multiplier": 0.0,
-        "earnings": {
-          "ticker": "SLB",
-          "next_earnings_date": "2027-01-22",
-          "days_until_earnings": 86,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "CRITICAL",
-          "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
-          }
-        },
-        "reasons": [
-          "FOMC in 0 calendar days"
-        ]
-      },
-      {
-        "ticker": "URI",
-        "base_action": "ACCUMULATE",
-        "risk_level": "CRITICAL",
-        "event_policy": "BLOCK",
-        "size_multiplier": 0.0,
-        "earnings": {
-          "ticker": "URI",
-          "next_earnings_date": "2027-01-27",
-          "days_until_earnings": 91,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "CRITICAL",
-          "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
-          }
-        },
-        "reasons": [
-          "FOMC in 0 calendar days"
-        ]
-      },
-      {
-        "ticker": "TSLA",
-        "base_action": "ACCUMULATE",
-        "risk_level": "CRITICAL",
-        "event_policy": "BLOCK",
-        "size_multiplier": 0.0,
-        "earnings": {
-          "ticker": "TSLA",
-          "next_earnings_date": "2027-01-27",
-          "days_until_earnings": 91,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "CRITICAL",
-          "nearest_event": {
-            "event_type": "FOMC",
-            "name": "FOMC Rate Decision",
-            "date": "2026-10-28",
-            "source": "Federal Reserve",
-            "source_url": "https://www.federalreserve.gov/newsevents/2026-october.htm",
-            "days_until_event": 0,
-            "risk_level": "CRITICAL",
-            "new_entry_policy": "BLOCK",
-            "position_size_multiplier": 0.0
-          }
-        },
-        "reasons": [
-          "FOMC in 0 calendar days"
-        ]
-      }
-    ],
+    "actionable_alert_count": 0,
+    "actionable_alerts": [],
     "data_quality": "MIXED_OFFICIAL_AND_MARKET_CALENDAR"
   },
   "correlation_allocation_gate": {
     "engine": "V7.7 Correlation-Aware Capital Allocation Gate",
-    "timestamp": "2026-10-28T22:47:08.456355+00:00",
+    "timestamp": "2026-10-29T06:07:27.979414+00:00",
     "existing_position_count": 9,
     "actionable_candidate_count": 3,
     "portfolio_factor_profile": {
@@ -7220,12 +6896,12 @@
         "policy": "ALLOW",
         "risk_level": "LOW",
         "size_multiplier": 1.0,
-        "provisional_target_weight_pct": 0.0,
+        "provisional_target_weight_pct": 4.0,
         "candidate_portfolio_correlation": 0.139,
         "max_pair_correlation": 0.253,
         "max_pair_ticker": "ASML",
         "high_correlation_existing_weight_pct": 0,
-        "projected_cluster_weight_pct": 0.0,
+        "projected_cluster_weight_pct": 4.0,
         "high_correlation_holdings": [],
         "factor_profile": {
           "MARKET": {
@@ -7266,12 +6942,12 @@
         "policy": "ALLOW",
         "risk_level": "LOW",
         "size_multiplier": 1.0,
-        "provisional_target_weight_pct": 0.0,
+        "provisional_target_weight_pct": 4.0,
         "candidate_portfolio_correlation": 0.247,
         "max_pair_correlation": 0.265,
         "max_pair_ticker": "AMD",
         "high_correlation_existing_weight_pct": 0,
-        "projected_cluster_weight_pct": 0.0,
+        "projected_cluster_weight_pct": 4.0,
         "high_correlation_holdings": [],
         "factor_profile": {
           "MARKET": {
@@ -7312,12 +6988,12 @@
         "policy": "ALLOW",
         "risk_level": "LOW",
         "size_multiplier": 1.0,
-        "provisional_target_weight_pct": 0.0,
+        "provisional_target_weight_pct": 4.0,
         "candidate_portfolio_correlation": 0.486,
         "max_pair_correlation": 0.479,
         "max_pair_ticker": "AMD",
         "high_correlation_existing_weight_pct": 0,
-        "projected_cluster_weight_pct": 0.0,
+        "projected_cluster_weight_pct": 4.0,
         "high_correlation_holdings": [],
         "factor_profile": {
           "MARKET": {
@@ -7370,7 +7046,7 @@
     "correlation_blocked_count": 0,
     "correlation_reduced_count": 0,
     "event_risk_engine": "V7.5 Earnings & Event Risk Engine",
-    "actionable_event_alert_count": 3,
+    "actionable_event_alert_count": 0,
     "market_regime": "NORMAL",
     "market_regime_score": 90.0,
     "regime_policy": {
@@ -7381,14 +7057,14 @@
       "accumulate_alpha_min": 65.0,
       "minimum_risk_score": 60.0
     },
-    "portfolio_value": 43080.18,
-    "generated_cash_available": 10677.11,
+    "portfolio_value": 43079.74,
+    "generated_cash_available": 10676.95,
     "minimum_cash_reserve_pct": 20.0,
-    "minimum_cash_reserve_value": 8616.04,
-    "initial_deployable_cash": 2061.07,
-    "new_opportunity_allocation": 0.0,
-    "projected_cash_after_allocations": 10677.11,
-    "projected_cash_weight_pct": 24.78,
+    "minimum_cash_reserve_value": 8615.95,
+    "initial_deployable_cash": 2061.0,
+    "new_opportunity_allocation": 1720.32,
+    "projected_cash_after_allocations": 8956.63,
+    "projected_cash_weight_pct": 20.79,
     "reserve_target_weight_pct": 20.0,
     "cash_reserve_status": "PASS",
     "max_new_position_weight_pct": 5.0,
@@ -7398,16 +7074,16 @@
         "action": "ACCUMULATE",
         "sector": "Energy",
         "price": 53.76,
-        "alpha_score": 75.94,
-        "confidence": 74.4,
+        "alpha_score": 75.52,
+        "confidence": 74.0,
         "risk_score": 85.1,
-        "target_weight_pct": 0.0,
-        "target_value": 0.0,
-        "suggested_shares": 0,
-        "allocated_value": 0.0,
-        "projected_weight_pct": 0.0,
-        "allocation_status": "EVENT_BLOCK",
-        "reason": "FOMC in 0 calendar days",
+        "target_weight_pct": 4.0,
+        "target_value": 1723.19,
+        "suggested_shares": 32,
+        "allocated_value": 1720.32,
+        "projected_weight_pct": 3.99,
+        "allocation_status": "ALLOCATE",
+        "reason": "Actionable opportunity inside entry zone and within capital limits",
         "entry_zone": {
           "low": 51.61,
           "high": 53.76
@@ -7415,21 +7091,21 @@
         "stop_loss": 48.92,
         "target_price": 61.82,
         "risk_reward": 1.67,
-        "event_policy": "BLOCK",
-        "event_risk_level": "CRITICAL",
-        "event_size_multiplier": 0.0,
+        "event_policy": "ALLOW",
+        "event_risk_level": "LOW",
+        "event_size_multiplier": 1.0,
         "event_reasons": [
-          "FOMC in 0 calendar days"
+          "No scheduled event restriction"
         ],
         "next_earnings_date": "2027-01-22",
-        "days_until_earnings": 86,
+        "days_until_earnings": 85,
         "correlation_policy": "ALLOW",
         "correlation_risk_level": "LOW",
         "correlation_size_multiplier": 1.0,
         "candidate_portfolio_correlation": 0.139,
         "max_pair_correlation": 0.253,
         "max_pair_ticker": "ASML",
-        "projected_cluster_weight_pct": 0.0,
+        "projected_cluster_weight_pct": 4.0,
         "candidate_dominant_factor": "ENERGY",
         "correlation_reasons": [
           "No material correlation concentration detected"
@@ -7440,16 +7116,16 @@
         "action": "ACCUMULATE",
         "sector": "Industrials",
         "price": 1175.34,
-        "alpha_score": 74.95,
-        "confidence": 76.3,
+        "alpha_score": 74.64,
+        "confidence": 76.0,
         "risk_score": 74.2,
-        "target_weight_pct": 0.0,
-        "target_value": 0.0,
+        "target_weight_pct": 4.0,
+        "target_value": 1723.19,
         "suggested_shares": 0,
         "allocated_value": 0.0,
         "projected_weight_pct": 0.0,
-        "allocation_status": "EVENT_BLOCK",
-        "reason": "FOMC in 0 calendar days",
+        "allocation_status": "CASH_LIMIT",
+        "reason": "Available cash is insufficient for one whole share",
         "entry_zone": {
           "low": 1128.33,
           "high": 1175.34
@@ -7457,21 +7133,21 @@
         "stop_loss": 1069.56,
         "target_price": 1351.64,
         "risk_reward": 1.67,
-        "event_policy": "BLOCK",
-        "event_risk_level": "CRITICAL",
-        "event_size_multiplier": 0.0,
+        "event_policy": "ALLOW",
+        "event_risk_level": "LOW",
+        "event_size_multiplier": 1.0,
         "event_reasons": [
-          "FOMC in 0 calendar days"
+          "No scheduled event restriction"
         ],
         "next_earnings_date": "2027-01-27",
-        "days_until_earnings": 91,
+        "days_until_earnings": 90,
         "correlation_policy": "ALLOW",
         "correlation_risk_level": "LOW",
         "correlation_size_multiplier": 1.0,
         "candidate_portfolio_correlation": 0.247,
         "max_pair_correlation": 0.265,
         "max_pair_ticker": "AMD",
-        "projected_cluster_weight_pct": 0.0,
+        "projected_cluster_weight_pct": 4.0,
         "candidate_dominant_factor": "SEMICONDUCTOR",
         "correlation_reasons": [
           "No material correlation concentration detected"
@@ -7481,39 +7157,39 @@
         "ticker": "TSLA",
         "action": "ACCUMULATE",
         "sector": "Consumer Cyclical",
-        "price": 404.46,
-        "alpha_score": 74.84,
-        "confidence": 74.1,
+        "price": 404.41,
+        "alpha_score": 72.4,
+        "confidence": 71.5,
         "risk_score": 80.5,
-        "target_weight_pct": 0.0,
-        "target_value": 0.0,
+        "target_weight_pct": 4.0,
+        "target_value": 1723.19,
         "suggested_shares": 0,
         "allocated_value": 0.0,
         "projected_weight_pct": 0.0,
-        "allocation_status": "EVENT_BLOCK",
-        "reason": "FOMC in 0 calendar days",
+        "allocation_status": "CASH_LIMIT",
+        "reason": "Available cash is insufficient for one whole share",
         "entry_zone": {
-          "low": 388.28,
-          "high": 404.46
+          "low": 388.23,
+          "high": 404.41
         },
-        "stop_loss": 368.06,
-        "target_price": 465.13,
+        "stop_loss": 368.01,
+        "target_price": 465.07,
         "risk_reward": 1.67,
-        "event_policy": "BLOCK",
-        "event_risk_level": "CRITICAL",
-        "event_size_multiplier": 0.0,
+        "event_policy": "ALLOW",
+        "event_risk_level": "LOW",
+        "event_size_multiplier": 1.0,
         "event_reasons": [
-          "FOMC in 0 calendar days"
+          "No scheduled event restriction"
         ],
         "next_earnings_date": "2027-01-27",
-        "days_until_earnings": 91,
+        "days_until_earnings": 90,
         "correlation_policy": "ALLOW",
         "correlation_risk_level": "LOW",
         "correlation_size_multiplier": 1.0,
         "candidate_portfolio_correlation": 0.486,
         "max_pair_correlation": 0.479,
         "max_pair_ticker": "AMD",
-        "projected_cluster_weight_pct": 0.0,
+        "projected_cluster_weight_pct": 4.0,
         "candidate_dominant_factor": "GROWTH_TECH",
         "correlation_reasons": [
           "No material correlation concentration detected"
@@ -7524,14 +7200,14 @@
   },
   "final_portfolio_projection": {
     "engine": "V7.3 Final Portfolio Projection Engine",
-    "portfolio_value": 43080.18,
-    "final_projected_value": 43080.18,
-    "invested_value": 32403.07,
-    "invested_weight_pct": 75.22,
-    "cash_value": 10677.11,
-    "cash_weight_pct": 24.78,
-    "final_position_count": 9,
-    "new_position_count": 0,
+    "portfolio_value": 43079.74,
+    "final_projected_value": 43079.74,
+    "invested_value": 34123.11,
+    "invested_weight_pct": 79.21,
+    "cash_value": 8956.63,
+    "cash_weight_pct": 20.79,
+    "final_position_count": 10,
+    "new_position_count": 1,
     "largest_position": {
       "ticker": "ANET",
       "weight_pct": 12.14,
@@ -7542,7 +7218,7 @@
     "reconciliation_status": "PASS",
     "final_theme_exposure": {
       "AI Infrastructure": {
-        "value": 15551.53,
+        "value": 15551.25,
         "weight_pct": 36.1
       },
       "AI": {
@@ -7557,9 +7233,13 @@
         "value": 1006.2,
         "weight_pct": 2.34
       },
+      "Energy": {
+        "value": 1720.32,
+        "weight_pct": 3.99
+      },
       "Cash": {
-        "value": 10677.11,
-        "weight_pct": 24.78
+        "value": 8956.63,
+        "weight_pct": 20.79
       }
     },
     "concentration_alerts": [
@@ -7579,9 +7259,9 @@
         "final_shares": 0,
         "price": 1.0,
         "current_value": 0.0,
-        "final_value": 10677.11,
-        "value_change": 10677.11,
-        "final_weight_pct": 24.78,
+        "final_value": 8956.63,
+        "value_change": 8956.63,
+        "final_weight_pct": 20.79,
         "portfolio_action": "RESERVE",
         "trade_action": "HOLD_CASH"
       },
@@ -7637,10 +7317,10 @@
         "theme": "AI Infrastructure",
         "current_shares": 44.0,
         "final_shares": 28.0,
-        "price": 182.58,
-        "current_value": 8033.52,
-        "final_value": 5112.24,
-        "value_change": -2921.28,
+        "price": 182.57,
+        "current_value": 8033.08,
+        "final_value": 5111.96,
+        "value_change": -2921.12,
         "final_weight_pct": 11.87,
         "portfolio_action": "WATCH",
         "trade_action": "SELL_PARTIAL"
@@ -7674,6 +7354,21 @@
         "final_weight_pct": 11.22,
         "portfolio_action": "REDUCE",
         "trade_action": "SELL_PARTIAL"
+      },
+      {
+        "ticker": "SLB",
+        "source": "NEW_ALLOCATION",
+        "sector": "Energy",
+        "theme": "Energy",
+        "current_shares": 0,
+        "final_shares": 32.0,
+        "price": 53.76,
+        "current_value": 0.0,
+        "final_value": 1720.32,
+        "value_change": 1720.32,
+        "final_weight_pct": 3.99,
+        "portfolio_action": "ACCUMULATE",
+        "trade_action": "NEW_POSITION"
       },
       {
         "ticker": "CTAS",
@@ -7725,16 +7420,16 @@
   },
   "portfolio_correlation_factor_risk": {
     "engine": "V7.6 Portfolio Correlation & Factor Risk Engine",
-    "timestamp": "2026-10-28T22:47:08.473870+00:00",
-    "position_count": 9,
+    "timestamp": "2026-10-29T06:07:28.015208+00:00",
+    "position_count": 10,
     "data_coverage": {
-      "positions_with_market_history": 9,
-      "positions_total": 9,
+      "positions_with_market_history": 10,
+      "positions_total": 10,
       "coverage_pct": 100.0,
       "missing_tickers": []
     },
-    "portfolio_volatility_annualized_pct": 31.88,
-    "weighted_average_correlation": 0.34,
+    "portfolio_volatility_annualized_pct": 32.12,
+    "weighted_average_correlation": 0.315,
     "correlation_risk": "MODERATE",
     "high_correlation_pair_count": 0,
     "very_high_correlation_pair_count": 0,
@@ -7810,6 +7505,13 @@
         "risk_level": "NORMAL"
       },
       {
+        "ticker_a": "ASML",
+        "ticker_b": "SLB",
+        "correlation": 0.253,
+        "combined_portfolio_weight_pct": 15.57,
+        "risk_level": "NORMAL"
+      },
+      {
         "ticker_a": "NVDA",
         "ticker_b": "GOOG",
         "correlation": 0.243,
@@ -7836,13 +7538,6 @@
         "correlation": 0.224,
         "combined_portfolio_weight_pct": 22.8,
         "risk_level": "NORMAL"
-      },
-      {
-        "ticker_a": "UNH",
-        "ticker_b": "OMDA",
-        "correlation": 0.186,
-        "combined_portfolio_weight_pct": 2.33,
-        "risk_level": "NORMAL"
       }
     ],
     "correlation_clusters": [],
@@ -7852,34 +7547,34 @@
     "factor_sensitivity": {
       "MARKET": {
         "proxy": "SPY",
-        "beta": 1.822,
-        "correlation": 0.753,
+        "beta": 1.848,
+        "correlation": 0.758,
         "observations": 167
       },
       "GROWTH_TECH": {
         "proxy": "QQQ",
-        "beta": 1.265,
-        "correlation": 0.853,
+        "beta": 1.278,
+        "correlation": 0.855,
         "observations": 167
       },
       "SEMICONDUCTOR": {
         "proxy": "SMH",
-        "beta": 0.633,
-        "correlation": 0.874,
+        "beta": 0.641,
+        "correlation": 0.879,
         "observations": 167
       },
       "ENERGY": {
         "proxy": "XLE",
-        "beta": -0.369,
-        "correlation": -0.265,
+        "beta": -0.343,
+        "correlation": -0.244,
         "observations": 167
       }
     },
     "dominant_factor": {
       "factor": "SEMICONDUCTOR",
       "proxy": "SMH",
-      "beta": 0.633,
-      "correlation": 0.874,
+      "beta": 0.641,
+      "correlation": 0.879,
       "observations": 167
     },
     "sector_exposure": [
@@ -7890,6 +7585,10 @@
       {
         "name": "Communication Services",
         "weight_pct": 23.09
+      },
+      {
+        "name": "Energy",
+        "weight_pct": 3.99
       },
       {
         "name": "Healthcare",
@@ -7910,6 +7609,10 @@
         "weight_pct": 34.8
       },
       {
+        "name": "Energy",
+        "weight_pct": 3.99
+      },
+      {
         "name": "Healthcare",
         "weight_pct": 2.33
       },
@@ -7927,7 +7630,7 @@
       "name": "AI Infrastructure",
       "weight_pct": 36.1
     },
-    "hidden_risk_score": 44.4,
+    "hidden_risk_score": 43.6,
     "hidden_risk_level": "MODERATE",
     "recommendation": "MONITOR",
     "note": "This layer measures hidden diversification risk using historical co-movement and factor proxies. It is diagnostic only and does not automatically liquidate or resize positions."
@@ -11724,7 +11427,7 @@
   },
   "shadow_policy_monitor": {
     "engine": "V8.2 Shadow Policy Monitor",
-    "timestamp": "2026-10-28T22:47:11.769639+00:00",
+    "timestamp": "2026-10-29T06:07:30.034781+00:00",
     "status": "ACTIVE_SHADOW",
     "candidate_policy": "MOMENTUM_FRIENDLY",
     "live_policy": "V7.9 DEFAULT",
@@ -11922,7 +11625,7 @@
   "fresh_forward_promotion_gate": {
     "engine": "V8.4.8 Independent-Cohort Fresh Forward Promotion Gate",
     "gate_signature": "V8.4.8",
-    "generated": "2026-10-28T22:47:11.769940+00:00",
+    "generated": "2026-10-29T06:07:30.035204+00:00",
     "status": "WAITING_FOR_FRESH_EVIDENCE",
     "verdict": "PROMOTION_BLOCKED",
     "candidate_policy": "MOMENTUM_FRIENDLY",
@@ -12074,7 +11777,7 @@
   },
   "ibkr_paper_snapshot": {
     "engine": "V8.9.5 IBKR Gateway Connector",
-    "timestamp": "2026-10-28T22:46:32.555825+00:00",
+    "timestamp": "2026-10-29T06:07:01.116077+00:00",
     "config": {
       "enabled": false,
       "mode": "PAPER",
@@ -12095,7 +11798,7 @@
   },
   "ibkr_paper_readiness": {
     "engine": "V8.9.5 IBKR Paper Readiness Safety Gate",
-    "timestamp": "2026-10-28T22:46:32.555896+00:00",
+    "timestamp": "2026-10-29T06:07:01.116193+00:00",
     "readiness": "DISABLED",
     "live_execution_allowed": false,
     "paper_order_submission_allowed": false,
@@ -12313,13 +12016,13 @@
   "historical_evidence_recovery": {
     "engine": "V8.4 Historical Evidence Recovery Engine",
     "recovery_signature": "V8.4.1",
-    "generated": "2026-10-28T02:09:15.110017+00:00",
+    "generated": "2026-10-29T06:07:32.408943+00:00",
     "status": "COMPLETE",
-    "cache_status": "REUSED",
-    "record_count": 136,
-    "directional_record_count": 136,
+    "cache_status": "FRESH",
+    "record_count": 137,
+    "directional_record_count": 137,
     "oldest_signal_date": "2026-05-29",
-    "newest_signal_date": "2026-10-26",
+    "newest_signal_date": "2026-10-28",
     "recovery_coverage": {
       "legacy_csv": {
         "scanned_dates": 33,
@@ -12332,9 +12035,9 @@
         "records": 21
       },
       "modern_json": {
-        "scanned_dates": 83,
-        "usable_dates": 4,
-        "records": 16,
+        "scanned_dates": 84,
+        "usable_dates": 5,
+        "records": 17,
         "excluded_foundation_snapshots": 77
       }
     },
@@ -12342,7 +12045,7 @@
       "modern_action_changes": {
         "5d": {
           "evaluated": 0,
-          "pending": 16,
+          "pending": 17,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12350,7 +12053,7 @@
         },
         "20d": {
           "evaluated": 0,
-          "pending": 16,
+          "pending": 17,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12358,7 +12061,7 @@
         },
         "60d": {
           "evaluated": 0,
-          "pending": 16,
+          "pending": 17,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12447,7 +12150,7 @@
         "EXIT": {
           "5d": {
             "evaluated": 0,
-            "pending": 3,
+            "pending": 4,
             "benchmark_hit_rate_pct": null,
             "average_decision_alpha_pct": null,
             "average_stock_return_pct": null,
@@ -12455,7 +12158,7 @@
           },
           "20d": {
             "evaluated": 0,
-            "pending": 3,
+            "pending": 4,
             "benchmark_hit_rate_pct": null,
             "average_decision_alpha_pct": null,
             "average_stock_return_pct": null,
@@ -12463,7 +12166,7 @@
           },
           "60d": {
             "evaluated": 0,
-            "pending": 3,
+            "pending": 4,
             "benchmark_hit_rate_pct": null,
             "average_decision_alpha_pct": null,
             "average_stock_return_pct": null,
@@ -12500,7 +12203,7 @@
       "modern_defensive_reduce_exit": {
         "5d": {
           "evaluated": 0,
-          "pending": 9,
+          "pending": 10,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12508,7 +12211,7 @@
         },
         "20d": {
           "evaluated": 0,
-          "pending": 9,
+          "pending": 10,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12516,7 +12219,7 @@
         },
         "60d": {
           "evaluated": 0,
-          "pending": 9,
+          "pending": 10,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12658,7 +12361,7 @@
       "MODERN_ACTION_CHANGE": {
         "5d": {
           "evaluated": 0,
-          "pending": 16,
+          "pending": 17,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12666,7 +12369,7 @@
         },
         "20d": {
           "evaluated": 0,
-          "pending": 16,
+          "pending": 17,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12674,7 +12377,7 @@
         },
         "60d": {
           "evaluated": 0,
-          "pending": 16,
+          "pending": 17,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12712,7 +12415,7 @@
       "V8.6": {
         "5d": {
           "evaluated": 0,
-          "pending": 6,
+          "pending": 7,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12720,7 +12423,7 @@
         },
         "20d": {
           "evaluated": 0,
-          "pending": 6,
+          "pending": 7,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -12728,7 +12431,7 @@
         },
         "60d": {
           "evaluated": 0,
-          "pending": 6,
+          "pending": 7,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -19283,6 +18986,54 @@
             "benchmark_hit": null
           }
         }
+      },
+      {
+        "id": "e65025357719ded7",
+        "cohort": "MODERN_ACTION_CHANGE",
+        "signal_date": "2026-10-28",
+        "ticker": "BKR",
+        "action": "EXIT",
+        "direction": "DEFENSIVE",
+        "signal_price_snapshot": 54.65,
+        "origin_commit": "2d6efc3d6e379fca43e5baeab5f821012d031308",
+        "model_version": "V8.6",
+        "legacy_label": null,
+        "score": 62.54,
+        "rank": null,
+        "source": "PORTFOLIO",
+        "evaluation_basis": "yfinance_adjusted_close_on_signal_date_to_future_close",
+        "horizons": {
+          "5d": {
+            "target_trading_sessions": 5,
+            "status": "PENDING",
+            "evaluation_date": null,
+            "stock_return_pct": null,
+            "spy_return_pct": null,
+            "excess_return_pct": null,
+            "decision_alpha_pct": null,
+            "benchmark_hit": null
+          },
+          "20d": {
+            "target_trading_sessions": 20,
+            "status": "PENDING",
+            "evaluation_date": null,
+            "stock_return_pct": null,
+            "spy_return_pct": null,
+            "excess_return_pct": null,
+            "decision_alpha_pct": null,
+            "benchmark_hit": null
+          },
+          "60d": {
+            "target_trading_sessions": 60,
+            "status": "PENDING",
+            "evaluation_date": null,
+            "stock_return_pct": null,
+            "spy_return_pct": null,
+            "excess_return_pct": null,
+            "decision_alpha_pct": null,
+            "benchmark_hit": null
+          }
+        }
       }
     ]
   },
@@ -19291,7 +19042,7 @@
     "validation_signature": "V8.6.2",
     "status": "COMPLETE",
     "cache_status": "FRESH",
-    "generated": "2026-10-28T22:48:54.479381+00:00",
+    "generated": "2026-10-29T06:10:03.376405+00:00",
     "test_period": {
       "start": "2022-06-01",
       "end": "2026-06-05"
@@ -19371,7 +19122,7 @@
         "mode": "TOP12_FULL",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 113557.48,
+          "ending_value": 113557.51,
           "total_return_pct": 13.67,
           "cagr_pct": 3.26,
           "annualized_volatility_pct": 13.29,
@@ -20138,7 +19889,7 @@
         "mode": "TOP12_RISK_OVERLAY",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 113557.48,
+          "ending_value": 113557.51,
           "total_return_pct": 13.67,
           "cagr_pct": 3.26,
           "annualized_volatility_pct": 13.29,
@@ -21443,7 +21194,7 @@
         "mode": "TOP12_FULL",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 102973.15,
+          "ending_value": 102973.16,
           "total_return_pct": 3.08,
           "cagr_pct": 0.76,
           "annualized_volatility_pct": 15.48,
@@ -23524,7 +23275,7 @@
   },
   "thesis_exit_shadow": {
     "engine": "V8.5.2 Thesis-Aware Exit Shadow Journal",
-    "timestamp": "2026-10-28T22:47:12.061339+00:00",
+    "timestamp": "2026-10-29T06:07:30.222137+00:00",
     "status": "ACTIVE_SHADOW",
     "live_actions_changed": false,
     "reviewed_sell_count": 4,
@@ -23544,7 +23295,7 @@
         "thesis_shadow_action": "REDUCE",
         "review_status": "CONFIRMED_PARTIAL",
         "thesis_health": "DETERIORATING",
-        "fundamental_score": 65.1,
+        "fundamental_score": 66.5,
         "live_exposure": 0.0,
         "shadow_exposure": 0.5,
         "exposure_difference": 0.5,
@@ -23570,7 +23321,7 @@
         "thesis_shadow_action": "HOLD",
         "review_status": "CONTRADICTED",
         "thesis_health": "STRONG",
-        "fundamental_score": 80.5,
+        "fundamental_score": 80.7,
         "live_exposure": 0.5,
         "shadow_exposure": 1.0,
         "exposure_difference": 0.5,
@@ -23583,7 +23334,7 @@
         "thesis_shadow_action": "HOLD",
         "review_status": "CONTRADICTED",
         "thesis_health": "STRONG",
-        "fundamental_score": 78.5,
+        "fundamental_score": 77.9,
         "live_exposure": 0.0,
         "shadow_exposure": 1.0,
         "exposure_difference": 1.0,
@@ -23629,10 +23380,10 @@
   },
   "recommendation_performance": {
     "engine": "V7.8 Recommendation Performance Journal",
-    "generated": "2026-10-28T22:48:55.258026+00:00",
-    "total_signals": 181,
+    "generated": "2026-10-29T06:10:03.880081+00:00",
+    "total_signals": 182,
     "bootstrap_signals_added": 0,
-    "new_signals_added": 0,
+    "new_signals_added": 1,
     "oldest_signal_date": "2026-10-23",
     "newest_signal_date": "2026-10-28",
     "model_versions": [
@@ -23661,7 +23412,7 @@
     "horizons": {
       "5d": {
         "evaluated": 0,
-        "pending": 181,
+        "pending": 182,
         "benchmark_hit_rate_pct": null,
         "absolute_hit_rate_pct": null,
         "average_stock_return_pct": null,
@@ -23671,7 +23422,7 @@
       },
       "20d": {
         "evaluated": 0,
-        "pending": 181,
+        "pending": 182,
         "benchmark_hit_rate_pct": null,
         "absolute_hit_rate_pct": null,
         "average_stock_return_pct": null,
@@ -23681,7 +23432,7 @@
       },
       "60d": {
         "evaluated": 0,
-        "pending": 181,
+        "pending": 182,
         "benchmark_hit_rate_pct": null,
         "absolute_hit_rate_pct": null,
         "average_stock_return_pct": null,
@@ -23733,7 +23484,7 @@
       },
       "ACCUMULATE": {
         "evaluated": 0,
-        "pending": 19,
+        "pending": 20,
         "benchmark_hit_rate_pct": null,
         "absolute_hit_rate_pct": null,
         "average_stock_return_pct": null,
@@ -23875,7 +23626,7 @@
       },
       "V8.6": {
         "evaluated": 0,
-        "pending": 23,
+        "pending": 24,
         "benchmark_hit_rate_pct": null,
         "absolute_hit_rate_pct": null,
         "average_stock_return_pct": null,
