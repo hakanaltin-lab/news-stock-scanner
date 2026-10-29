@@ -52,6 +52,32 @@ class GCPProvisioningContractTests(unittest.TestCase):
         self.assertIn("PasswordAuthentication no", self.source)
         self.assertIn("PermitRootLogin no", self.source)
 
+    def test_existing_vm_network_attachment_is_self_healed(self):
+        self.assertIn(
+            "gcloud compute instances network-interfaces update",
+            self.source,
+        )
+        self.assertIn(
+            "--network-interface=nic0",
+            self.source,
+        )
+        self.assertIn(
+            '--network="$VPC"',
+            self.source,
+        )
+        self.assertIn(
+            '--subnetwork="$SUBNET"',
+            self.source,
+        )
+        self.assertIn(
+            'gcloud compute instances stop "$VM_NAME"',
+            self.source,
+        )
+        self.assertIn(
+            'gcloud compute instances start "$VM_NAME"',
+            self.source,
+        )
+
     def test_billing_check_matches_current_google_cloud_cli(self):
         self.assertIn(
             "gcloud beta billing projects describe",
