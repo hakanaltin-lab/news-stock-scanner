@@ -60,7 +60,7 @@ echo "Mode: $([[ "$APPLY" -eq 1 ]] && echo APPLY || echo PLAN)"
 gcloud projects describe "$PROJECT_ID" >/dev/null   || fail "Active account cannot access target project."
 
 BILLING_ENABLED="$(
-  gcloud billing projects describe "$PROJECT_ID"     --format='value(billingEnabled)' 2>/dev/null || true
+  gcloud beta billing projects describe "$PROJECT_ID"     --format='value(billingEnabled)' 2>/dev/null || true
 )"
 if [[ "${BILLING_ENABLED,,}" == "true" ]]; then
   pass "Billing is enabled."
