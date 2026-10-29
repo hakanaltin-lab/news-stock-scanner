@@ -1,11 +1,11 @@
 {
   "engine": "V7.8 Recommendation Performance Journal",
-  "generated": "2026-10-29T12:46:39.852128+00:00",
-  "total_signals": 182,
+  "generated": "2026-10-29T18:59:19.692897+00:00",
+  "total_signals": 188,
   "bootstrap_signals_added": 0,
-  "new_signals_added": 0,
+  "new_signals_added": 6,
   "oldest_signal_date": "2026-10-23",
-  "newest_signal_date": "2026-10-28",
+  "newest_signal_date": "2026-10-29",
   "model_versions": [
     "V6.7",
     "V6.8",
@@ -32,7 +32,7 @@
   "horizons": {
     "5d": {
       "evaluated": 0,
-      "pending": 182,
+      "pending": 188,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -42,7 +42,7 @@
     },
     "20d": {
       "evaluated": 0,
-      "pending": 182,
+      "pending": 188,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -52,7 +52,7 @@
     },
     "60d": {
       "evaluated": 0,
-      "pending": 182,
+      "pending": 188,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -64,7 +64,7 @@
   "by_action_20d": {
     "BUY": {
       "evaluated": 0,
-      "pending": 34,
+      "pending": 36,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -74,7 +74,7 @@
     },
     "REDUCE": {
       "evaluated": 0,
-      "pending": 73,
+      "pending": 74,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -94,7 +94,7 @@
     },
     "EXIT": {
       "evaluated": 0,
-      "pending": 45,
+      "pending": 48,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
@@ -246,7 +246,7 @@
     },
     "V8.6": {
       "evaluated": 0,
-      "pending": 24,
+      "pending": 30,
       "benchmark_hit_rate_pct": null,
       "absolute_hit_rate_pct": null,
       "average_stock_return_pct": null,
