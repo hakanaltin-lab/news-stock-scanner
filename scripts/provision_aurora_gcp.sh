@@ -135,6 +135,57 @@ run gcloud projects add-iam-policy-binding "$PROJECT_ID"   --member="$MEMBER"   
 log "Create hardened VM"
 if gcloud compute instances describe "$VM_NAME"   --project="$PROJECT_ID"   --zone="$ZONE" >/dev/null 2>&1; then
   pass "VM already exists; creation skipped."
+
+  if [[ "$APPLY" -eq 1 ]]; then
+    CURRENT_NETWORK="$(
+      gcloud compute instances describe "$VM_NAME" \
+        --project="$PROJECT_ID" \
+        --zone="$ZONE" \
+        --format='value(networkInterfaces[0].network.basename())'
+    )"
+    CURRENT_SUBNET="$(
+      gcloud compute instances describe "$VM_NAME" \
+        --project="$PROJECT_ID" \
+        --zone="$ZONE" \
+        --format='value(networkInterfaces[0].subnetwork.basename())'
+    )"
+
+    if [[ "$CURRENT_NETWORK" != "$VPC" || "$CURRENT_SUBNET" != "$SUBNET" ]]; then
+      log "Repair existing VM network attachment"
+      echo "Current: network=$CURRENT_NETWORK subnet=$CURRENT_SUBNET"
+      echo "Target:  network=$VPC subnet=$SUBNET"
+
+      VM_STATUS="$(
+        gcloud compute instances describe "$VM_NAME" \
+          --project="$PROJECT_ID" \
+          --zone="$ZONE" \
+          --format='value(status)'
+      )"
+
+      if [[ "$VM_STATUS" != "TERMINATED" ]]; then
+        gcloud compute instances stop "$VM_NAME" \
+          --project="$PROJECT_ID" \
+          --zone="$ZONE" \
+          --quiet
+      fi
+
+      gcloud compute instances network-interfaces update "$VM_NAME" \
+        --project="$PROJECT_ID" \
+        --zone="$ZONE" \
+        --network-interface=nic0 \
+        --network="$VPC" \
+        --subnetwork="$SUBNET"
+
+      gcloud compute instances start "$VM_NAME" \
+        --project="$PROJECT_ID" \
+        --zone="$ZONE" \
+        --quiet
+
+      pass "Existing VM network attachment repaired."
+    else
+      pass "Existing VM already uses the target VPC/subnet."
+    fi
+  fi
 else
   STARTUP_FILE="$(mktemp)"
   trap 'rm -f "${STARTUP_FILE:-}"' EXIT
