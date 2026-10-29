@@ -23,8 +23,12 @@ class GCPProvisioningContractTests(unittest.TestCase):
         self.assertIn('BOOT_DISK_SIZE="30GB"', self.source)
         self.assertIn('BOOT_DISK_TYPE="pd-standard"', self.source)
 
-    def test_only_one_vm_network_interface_is_declared(self):
-        self.assertEqual(self.source.count("--network-interface="), 1)
+    def test_vm_creation_declares_exactly_one_network_interface(self):
+        self.assertEqual(
+            self.source.count('--network-interface="network=$VPC,subnet=$SUBNET,network-tier=PREMIUM"'),
+            1,
+        )
+        self.assertIn("--network-interface=nic0", self.source)
 
     def test_iap_ssh_source_is_exact(self):
         self.assertIn('IAP_RANGE="35.235.240.0/20"', self.source)
@@ -51,6 +55,32 @@ class GCPProvisioningContractTests(unittest.TestCase):
     def test_ssh_password_and_root_login_are_disabled(self):
         self.assertIn("PasswordAuthentication no", self.source)
         self.assertIn("PermitRootLogin no", self.source)
+
+    def test_existing_vm_network_attachment_is_self_healed(self):
+        self.assertIn(
+            "gcloud compute instances network-interfaces update",
+            self.source,
+        )
+        self.assertIn(
+            "--network-interface=nic0",
+            self.source,
+        )
+        self.assertIn(
+            '--network="$VPC"',
+            self.source,
+        )
+        self.assertIn(
+            '--subnetwork="$SUBNET"',
+            self.source,
+        )
+        self.assertIn(
+            'gcloud compute instances stop "$VM_NAME"',
+            self.source,
+        )
+        self.assertIn(
+            'gcloud compute instances start "$VM_NAME"',
+            self.source,
+        )
 
     def test_billing_check_matches_current_google_cloud_cli(self):
         self.assertIn(
