@@ -52,6 +52,16 @@ class GCPProvisioningContractTests(unittest.TestCase):
         self.assertIn("PasswordAuthentication no", self.source)
         self.assertIn("PermitRootLogin no", self.source)
 
+    def test_billing_check_uses_stable_gcloud_surface(self):
+        self.assertIn(
+            "gcloud billing projects describe",
+            self.source,
+        )
+        self.assertNotIn(
+            "gcloud beta billing projects describe",
+            self.source,
+        )
+
     def test_apply_flag_is_required_for_creation(self):
         self.assertIn('if [[ "${1:-}" == "--apply" ]]', self.source)
         self.assertIn("PLAN: resource creation commands are not executed.", self.source)
