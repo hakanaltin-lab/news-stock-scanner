@@ -4,7 +4,7 @@
   "availability_rule": "available_date = SEC filed date + 1 calendar day; conservative guard against same-day look-ahead. Exact current and historical acceptance timestamps from SEC submissions metadata are stored for audit but do not make the daily as-of date earlier.",
   "cik": "0000097476",
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
-  "entity_name": "TEXAS INSTRUMENTS INCORPORATED",
+  "entity_name": "TEXAS INSTRUMENTS INC",
   "exact_acceptance_coverage_pct": 100.0,
   "exact_acceptance_fact_count": 2361,
   "fact_count": 2361,
@@ -40228,6 +40228,7 @@
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
     "dei": 2,
+    "ffd": 6,
     "invest": 1,
     "us-gaap": 482
   },
@@ -40248,9 +40249,9 @@
         "name": "CIK0000097476-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1017,
+    "recent_acceptance_count": 1018,
     "status": "COMPLETE",
-    "total_acceptance_count": 3017
+    "total_acceptance_count": 3018
   },
   "taxonomies_supported": [
     "ifrs-full",

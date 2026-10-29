@@ -4,7 +4,7 @@
   "availability_rule": "available_date = SEC filed date + 1 calendar day; conservative guard against same-day look-ahead. Exact current and historical acceptance timestamps from SEC submissions metadata are stored for audit but do not make the daily as-of date earlier.",
   "cik": "0000842023",
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
-  "entity_name": "BIO-TECHNE Corp",
+  "entity_name": "BIO-TECHNE CORP",
   "exact_acceptance_coverage_pct": 100.0,
   "exact_acceptance_fact_count": 2048,
   "fact_count": 2048,
@@ -34912,9 +34912,9 @@
     "historical_files_failed": 0,
     "historical_files_loaded": 0,
     "loaded_files": [],
-    "recent_acceptance_count": 1000,
+    "recent_acceptance_count": 1001,
     "status": "COMPLETE",
-    "total_acceptance_count": 1000
+    "total_acceptance_count": 1001
   },
   "taxonomies_supported": [
     "ifrs-full",

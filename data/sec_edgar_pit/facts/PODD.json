@@ -38501,21 +38501,21 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 747,
+    "historical_acceptance_count": 749,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 1,
     "historical_files_failed": 0,
     "historical_files_loaded": 1,
     "loaded_files": [
       {
-        "acceptance_count": 747,
-        "added_acceptance_count": 747,
+        "acceptance_count": 749,
+        "added_acceptance_count": 749,
         "filing_from": "2002-09-19",
-        "filing_to": "2015-08-11",
+        "filing_to": "2015-08-22",
         "name": "CIK0001145197-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1002,
+    "recent_acceptance_count": 1000,
     "status": "COMPLETE",
     "total_acceptance_count": 1749
   },

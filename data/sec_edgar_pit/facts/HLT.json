@@ -36813,21 +36813,21 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 137,
+    "historical_acceptance_count": 138,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 1,
     "historical_files_failed": 0,
     "historical_files_loaded": 1,
     "loaded_files": [
       {
-        "acceptance_count": 137,
-        "added_acceptance_count": 137,
+        "acceptance_count": 138,
+        "added_acceptance_count": 138,
         "filing_from": "2013-09-12",
-        "filing_to": "2015-04-30",
+        "filing_to": "2015-05-06",
         "name": "CIK0001585689-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1004,
+    "recent_acceptance_count": 1003,
     "status": "COMPLETE",
     "total_acceptance_count": 1141
   },

@@ -46473,21 +46473,21 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 1644,
+    "historical_acceptance_count": 1645,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 1,
     "historical_files_failed": 0,
     "historical_files_loaded": 1,
     "loaded_files": [
       {
-        "acceptance_count": 1644,
-        "added_acceptance_count": 1644,
+        "acceptance_count": 1645,
+        "added_acceptance_count": 1645,
         "filing_from": "1995-02-09",
-        "filing_to": "2016-05-22",
+        "filing_to": "2016-06-21",
         "name": "CIK0000936468-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1002,
+    "recent_acceptance_count": 1001,
     "status": "COMPLETE",
     "total_acceptance_count": 2646
   },

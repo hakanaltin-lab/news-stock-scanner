@@ -43240,21 +43240,21 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 2004,
+    "historical_acceptance_count": 2007,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 1,
     "historical_files_failed": 0,
     "historical_files_loaded": 1,
     "loaded_files": [
       {
-        "acceptance_count": 2004,
-        "added_acceptance_count": 2004,
+        "acceptance_count": 2007,
+        "added_acceptance_count": 2007,
         "filing_from": "2003-02-18",
-        "filing_to": "2019-03-11",
+        "filing_to": "2019-03-16",
         "name": "CIK0000753308-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1003,
+    "recent_acceptance_count": 1000,
     "status": "COMPLETE",
     "total_acceptance_count": 3007
   },

@@ -28600,20 +28600,20 @@
         "acceptance_count": 1546,
         "added_acceptance_count": 1546,
         "filing_from": "1994-02-10",
-        "filing_to": "2009-07-01",
+        "filing_to": "2009-06-30",
         "name": "CIK0000035527-submissions-002.json"
       },
       {
         "acceptance_count": 2001,
         "added_acceptance_count": 2001,
         "filing_from": "2009-07-02",
-        "filing_to": "2019-08-07",
+        "filing_to": "2019-08-06",
         "name": "CIK0000035527-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1001,
+    "recent_acceptance_count": 1002,
     "status": "COMPLETE",
-    "total_acceptance_count": 4548
+    "total_acceptance_count": 4549
   },
   "taxonomies_supported": [
     "ifrs-full",

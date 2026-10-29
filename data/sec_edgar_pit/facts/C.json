@@ -39326,7 +39326,7 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 75112,
+    "historical_acceptance_count": 75148,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 37,
     "historical_files_failed": 0,
@@ -39585,16 +39585,16 @@
         "name": "CIK0000831001-submissions-002.json"
       },
       {
-        "acceptance_count": 2010,
-        "added_acceptance_count": 2010,
+        "acceptance_count": 2046,
+        "added_acceptance_count": 2046,
         "filing_from": "2025-09-03",
-        "filing_to": "2025-10-25",
+        "filing_to": "2025-10-26",
         "name": "CIK0000831001-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 13206,
+    "recent_acceptance_count": 13217,
     "status": "COMPLETE",
-    "total_acceptance_count": 88318
+    "total_acceptance_count": 88365
   },
   "taxonomies_supported": [
     "ifrs-full",

@@ -39821,6 +39821,7 @@
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
     "dei": 2,
+    "ffd": 6,
     "us-gaap": 715
   },
   "status": "COMPLETE",
@@ -39840,9 +39841,9 @@
         "name": "CIK0000029905-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1000,
+    "recent_acceptance_count": 1001,
     "status": "COMPLETE",
-    "total_acceptance_count": 1964
+    "total_acceptance_count": 1965
   },
   "taxonomies_supported": [
     "ifrs-full",

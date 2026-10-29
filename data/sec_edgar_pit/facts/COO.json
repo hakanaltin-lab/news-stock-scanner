@@ -47512,21 +47512,21 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 1289,
+    "historical_acceptance_count": 1298,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 1,
     "historical_files_failed": 0,
     "historical_files_loaded": 1,
     "loaded_files": [
       {
-        "acceptance_count": 1289,
-        "added_acceptance_count": 1289,
+        "acceptance_count": 1298,
+        "added_acceptance_count": 1298,
         "filing_from": "1994-01-07",
-        "filing_to": "2013-01-09",
+        "filing_to": "2013-01-23",
         "name": "CIK0000711404-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1009,
+    "recent_acceptance_count": 1000,
     "status": "COMPLETE",
     "total_acceptance_count": 2298
   },

@@ -4,7 +4,7 @@
   "availability_rule": "available_date = SEC filed date + 1 calendar day; conservative guard against same-day look-ahead. Exact current and historical acceptance timestamps from SEC submissions metadata are stored for audit but do not make the daily as-of date earlier.",
   "cik": "0000091576",
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
-  "entity_name": "KeyCorp",
+  "entity_name": "KEYCORP /NEW/",
   "exact_acceptance_coverage_pct": 100.0,
   "exact_acceptance_fact_count": 1904,
   "fact_count": 1904,
@@ -32451,7 +32451,7 @@
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
     "dei": 2,
-    "ffd": 5,
+    "ffd": 6,
     "invest": 1,
     "srt": 1,
     "us-gaap": 820
@@ -32469,13 +32469,13 @@
         "acceptance_count": 2000,
         "added_acceptance_count": 2000,
         "filing_from": "2005-03-14",
-        "filing_to": "2018-05-21",
+        "filing_to": "2018-05-20",
         "name": "CIK0000091576-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1002,
+    "recent_acceptance_count": 1004,
     "status": "COMPLETE",
-    "total_acceptance_count": 3002
+    "total_acceptance_count": 3004
   },
   "taxonomies_supported": [
     "ifrs-full",

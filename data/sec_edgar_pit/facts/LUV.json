@@ -4,7 +4,7 @@
   "availability_rule": "available_date = SEC filed date + 1 calendar day; conservative guard against same-day look-ahead. Exact current and historical acceptance timestamps from SEC submissions metadata are stored for audit but do not make the daily as-of date earlier.",
   "cik": "0000092380",
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
-  "entity_name": "SOUTHWEST AIRLINES CO.",
+  "entity_name": "SOUTHWEST AIRLINES CO",
   "exact_acceptance_coverage_pct": 100.0,
   "exact_acceptance_fact_count": 2533,
   "fact_count": 2533,
@@ -43148,6 +43148,7 @@
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
     "dei": 3,
+    "ffd": 6,
     "invest": 2,
     "srt": 1,
     "us-gaap": 639
@@ -43169,9 +43170,9 @@
         "name": "CIK0000092380-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1002,
+    "recent_acceptance_count": 1003,
     "status": "COMPLETE",
-    "total_acceptance_count": 2070
+    "total_acceptance_count": 2071
   },
   "taxonomies_supported": [
     "ifrs-full",

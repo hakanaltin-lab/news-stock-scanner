@@ -44442,21 +44442,21 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 1595,
+    "historical_acceptance_count": 1597,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 1,
     "historical_files_failed": 0,
     "historical_files_loaded": 1,
     "loaded_files": [
       {
-        "acceptance_count": 1595,
-        "added_acceptance_count": 1595,
+        "acceptance_count": 1597,
+        "added_acceptance_count": 1597,
         "filing_from": "1998-01-08",
-        "filing_to": "2016-04-02",
+        "filing_to": "2016-04-06",
         "name": "CIK0001051470-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1002,
+    "recent_acceptance_count": 1000,
     "status": "COMPLETE",
     "total_acceptance_count": 2597
   },
