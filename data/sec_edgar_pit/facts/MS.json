@@ -38849,7 +38849,7 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 84921,
+    "historical_acceptance_count": 85046,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 42,
     "historical_files_failed": 0,
@@ -38975,184 +38975,184 @@
         "name": "CIK0000895421-submissions-026.json"
       },
       {
-        "acceptance_count": 2003,
-        "added_acceptance_count": 2003,
+        "acceptance_count": 2031,
+        "added_acceptance_count": 2031,
         "filing_from": "2021-04-30",
-        "filing_to": "2021-08-25",
+        "filing_to": "2021-08-28",
         "name": "CIK0000895421-submissions-025.json"
       },
       {
-        "acceptance_count": 2016,
-        "added_acceptance_count": 2016,
-        "filing_from": "2021-08-27",
-        "filing_to": "2021-11-17",
+        "acceptance_count": 2013,
+        "added_acceptance_count": 2013,
+        "filing_from": "2021-08-30",
+        "filing_to": "2021-11-21",
         "name": "CIK0000895421-submissions-024.json"
       },
       {
-        "acceptance_count": 2004,
-        "added_acceptance_count": 2004,
-        "filing_from": "2021-11-19",
-        "filing_to": "2022-02-05",
+        "acceptance_count": 2022,
+        "added_acceptance_count": 2022,
+        "filing_from": "2021-11-23",
+        "filing_to": "2022-02-07",
         "name": "CIK0000895421-submissions-023.json"
       },
       {
-        "acceptance_count": 2009,
-        "added_acceptance_count": 2009,
-        "filing_from": "2022-02-07",
-        "filing_to": "2022-04-06",
+        "acceptance_count": 2046,
+        "added_acceptance_count": 2046,
+        "filing_from": "2022-02-09",
+        "filing_to": "2022-04-11",
         "name": "CIK0000895421-submissions-022.json"
       },
       {
-        "acceptance_count": 2003,
-        "added_acceptance_count": 2003,
-        "filing_from": "2022-04-08",
-        "filing_to": "2022-06-26",
+        "acceptance_count": 2000,
+        "added_acceptance_count": 2000,
+        "filing_from": "2022-04-13",
+        "filing_to": "2022-06-27",
         "name": "CIK0000895421-submissions-021.json"
       },
       {
-        "acceptance_count": 2047,
-        "added_acceptance_count": 2047,
-        "filing_from": "2022-06-28",
-        "filing_to": "2022-09-21",
+        "acceptance_count": 2041,
+        "added_acceptance_count": 2041,
+        "filing_from": "2022-06-29",
+        "filing_to": "2022-09-25",
         "name": "CIK0000895421-submissions-020.json"
       },
       {
         "acceptance_count": 2024,
         "added_acceptance_count": 2024,
-        "filing_from": "2022-09-23",
-        "filing_to": "2022-11-29",
+        "filing_from": "2022-09-27",
+        "filing_to": "2022-11-30",
         "name": "CIK0000895421-submissions-019.json"
-      },
-      {
-        "acceptance_count": 2069,
-        "added_acceptance_count": 2069,
-        "filing_from": "2022-12-01",
-        "filing_to": "2023-02-11",
-        "name": "CIK0000895421-submissions-018.json"
-      },
-      {
-        "acceptance_count": 2001,
-        "added_acceptance_count": 2001,
-        "filing_from": "2023-02-13",
-        "filing_to": "2023-04-24",
-        "name": "CIK0000895421-submissions-017.json"
-      },
-      {
-        "acceptance_count": 2032,
-        "added_acceptance_count": 2032,
-        "filing_from": "2023-04-26",
-        "filing_to": "2023-07-19",
-        "name": "CIK0000895421-submissions-016.json"
-      },
-      {
-        "acceptance_count": 2013,
-        "added_acceptance_count": 2013,
-        "filing_from": "2023-07-21",
-        "filing_to": "2023-10-08",
-        "name": "CIK0000895421-submissions-015.json"
-      },
-      {
-        "acceptance_count": 2000,
-        "added_acceptance_count": 2000,
-        "filing_from": "2023-10-10",
-        "filing_to": "2023-12-31",
-        "name": "CIK0000895421-submissions-014.json"
-      },
-      {
-        "acceptance_count": 2033,
-        "added_acceptance_count": 2033,
-        "filing_from": "2024-01-02",
-        "filing_to": "2024-03-05",
-        "name": "CIK0000895421-submissions-013.json"
       },
       {
         "acceptance_count": 2023,
         "added_acceptance_count": 2023,
-        "filing_from": "2024-03-07",
-        "filing_to": "2024-05-06",
+        "filing_from": "2022-12-02",
+        "filing_to": "2023-02-12",
+        "name": "CIK0000895421-submissions-018.json"
+      },
+      {
+        "acceptance_count": 2010,
+        "added_acceptance_count": 2010,
+        "filing_from": "2023-02-14",
+        "filing_to": "2023-04-25",
+        "name": "CIK0000895421-submissions-017.json"
+      },
+      {
+        "acceptance_count": 2061,
+        "added_acceptance_count": 2061,
+        "filing_from": "2023-04-27",
+        "filing_to": "2023-07-23",
+        "name": "CIK0000895421-submissions-016.json"
+      },
+      {
+        "acceptance_count": 2024,
+        "added_acceptance_count": 2024,
+        "filing_from": "2023-07-25",
+        "filing_to": "2023-10-11",
+        "name": "CIK0000895421-submissions-015.json"
+      },
+      {
+        "acceptance_count": 2012,
+        "added_acceptance_count": 2012,
+        "filing_from": "2023-10-13",
+        "filing_to": "2024-01-03",
+        "name": "CIK0000895421-submissions-014.json"
+      },
+      {
+        "acceptance_count": 2034,
+        "added_acceptance_count": 2034,
+        "filing_from": "2024-01-05",
+        "filing_to": "2024-03-10",
+        "name": "CIK0000895421-submissions-013.json"
+      },
+      {
+        "acceptance_count": 2002,
+        "added_acceptance_count": 2002,
+        "filing_from": "2024-03-12",
+        "filing_to": "2024-05-11",
         "name": "CIK0000895421-submissions-012.json"
       },
       {
-        "acceptance_count": 2000,
-        "added_acceptance_count": 2000,
-        "filing_from": "2024-05-08",
-        "filing_to": "2024-07-22",
+        "acceptance_count": 2019,
+        "added_acceptance_count": 2019,
+        "filing_from": "2024-05-13",
+        "filing_to": "2024-07-24",
         "name": "CIK0000895421-submissions-011.json"
       },
       {
-        "acceptance_count": 2040,
-        "added_acceptance_count": 2040,
-        "filing_from": "2024-07-24",
-        "filing_to": "2024-09-16",
+        "acceptance_count": 2027,
+        "added_acceptance_count": 2027,
+        "filing_from": "2024-07-26",
+        "filing_to": "2024-09-18",
         "name": "CIK0000895421-submissions-010.json"
-      },
-      {
-        "acceptance_count": 2011,
-        "added_acceptance_count": 2011,
-        "filing_from": "2024-09-18",
-        "filing_to": "2024-11-06",
-        "name": "CIK0000895421-submissions-009.json"
-      },
-      {
-        "acceptance_count": 2051,
-        "added_acceptance_count": 2051,
-        "filing_from": "2024-11-08",
-        "filing_to": "2024-12-28",
-        "name": "CIK0000895421-submissions-008.json"
-      },
-      {
-        "acceptance_count": 2050,
-        "added_acceptance_count": 2050,
-        "filing_from": "2024-12-30",
-        "filing_to": "2025-02-10",
-        "name": "CIK0000895421-submissions-007.json"
-      },
-      {
-        "acceptance_count": 2009,
-        "added_acceptance_count": 2009,
-        "filing_from": "2025-02-12",
-        "filing_to": "2025-03-25",
-        "name": "CIK0000895421-submissions-006.json"
-      },
-      {
-        "acceptance_count": 2063,
-        "added_acceptance_count": 2063,
-        "filing_from": "2025-03-27",
-        "filing_to": "2025-04-28",
-        "name": "CIK0000895421-submissions-005.json"
-      },
-      {
-        "acceptance_count": 2141,
-        "added_acceptance_count": 2141,
-        "filing_from": "2025-04-30",
-        "filing_to": "2025-06-23",
-        "name": "CIK0000895421-submissions-004.json"
-      },
-      {
-        "acceptance_count": 2042,
-        "added_acceptance_count": 2042,
-        "filing_from": "2025-06-25",
-        "filing_to": "2025-08-12",
-        "name": "CIK0000895421-submissions-003.json"
-      },
-      {
-        "acceptance_count": 2025,
-        "added_acceptance_count": 2025,
-        "filing_from": "2025-08-14",
-        "filing_to": "2025-09-24",
-        "name": "CIK0000895421-submissions-002.json"
       },
       {
         "acceptance_count": 2013,
         "added_acceptance_count": 2013,
-        "filing_from": "2025-09-26",
-        "filing_to": "2025-10-26",
+        "filing_from": "2024-09-20",
+        "filing_to": "2024-11-10",
+        "name": "CIK0000895421-submissions-009.json"
+      },
+      {
+        "acceptance_count": 2038,
+        "added_acceptance_count": 2038,
+        "filing_from": "2024-11-12",
+        "filing_to": "2024-12-29",
+        "name": "CIK0000895421-submissions-008.json"
+      },
+      {
+        "acceptance_count": 2053,
+        "added_acceptance_count": 2053,
+        "filing_from": "2024-12-31",
+        "filing_to": "2025-02-11",
+        "name": "CIK0000895421-submissions-007.json"
+      },
+      {
+        "acceptance_count": 2042,
+        "added_acceptance_count": 2042,
+        "filing_from": "2025-02-13",
+        "filing_to": "2025-03-26",
+        "name": "CIK0000895421-submissions-006.json"
+      },
+      {
+        "acceptance_count": 2113,
+        "added_acceptance_count": 2113,
+        "filing_from": "2025-03-28",
+        "filing_to": "2025-04-29",
+        "name": "CIK0000895421-submissions-005.json"
+      },
+      {
+        "acceptance_count": 2094,
+        "added_acceptance_count": 2094,
+        "filing_from": "2025-05-01",
+        "filing_to": "2025-06-25",
+        "name": "CIK0000895421-submissions-004.json"
+      },
+      {
+        "acceptance_count": 2024,
+        "added_acceptance_count": 2024,
+        "filing_from": "2025-06-27",
+        "filing_to": "2025-08-16",
+        "name": "CIK0000895421-submissions-003.json"
+      },
+      {
+        "acceptance_count": 2017,
+        "added_acceptance_count": 2017,
+        "filing_from": "2025-08-18",
+        "filing_to": "2025-09-27",
+        "name": "CIK0000895421-submissions-002.json"
+      },
+      {
+        "acceptance_count": 2064,
+        "added_acceptance_count": 2064,
+        "filing_from": "2025-09-29",
+        "filing_to": "2025-10-27",
         "name": "CIK0000895421-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 19510,
+    "recent_acceptance_count": 19531,
     "status": "COMPLETE",
-    "total_acceptance_count": 104431
+    "total_acceptance_count": 104577
   },
   "taxonomies_supported": [
     "ifrs-full",

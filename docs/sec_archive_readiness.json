@@ -1,9 +1,9 @@
 {
-  "acceptance_fact_count": 1114271,
+  "acceptance_fact_count": 1116831,
   "amended_fact_count": 10524,
   "attempted_ticker_count": 520,
   "availability_rule": "SEC filed date + 1 calendar day; acceptance timestamps are audit-only",
-  "changed_fact_files": 200,
+  "changed_fact_files": 211,
   "cik_coverage": {
     "assessed": true,
     "matched_ticker_count": 520,
@@ -80,7 +80,7 @@
     "automatic_alpha_use_authorized": false,
     "cik_coverage_pct": 100.0,
     "cik_mapped_count": 520,
-    "exact_acceptance_fact_count": 1114271,
+    "exact_acceptance_fact_count": 1116831,
     "exact_acceptance_fact_coverage_pct": 99.99,
     "exact_acceptance_ticker_count": 519,
     "fact_ticker_count": 519,
@@ -122,14 +122,14 @@
     },
     "taxonomy_fact_counts": {
       "ifrs-full": 620,
-      "us-gaap": 1113732
+      "us-gaap": 1116292
     },
     "taxonomy_ticker_counts": {
       "ifrs-full": 4,
       "us-gaap": 516
     },
     "ticker_count": 520,
-    "total_fact_count": 1114352
+    "total_fact_count": 1116912
   },
   "quarantined_fact_count": 237,
   "research_use_authorized": false,
@@ -145,7 +145,7 @@
   },
   "taxonomy_fact_counts": {
     "ifrs-full": 620,
-    "us-gaap": 1113732
+    "us-gaap": 1116292
   },
   "ticker_count": 520,
   "tickers_with_quarantined_facts": [
@@ -202,7 +202,7 @@
   "unusable_tickers": [
     "VYLR"
   ],
-  "updated_at": "2026-10-29T02:36:13.584736+00:00",
+  "updated_at": "2026-10-30T02:47:13.473987+00:00",
   "usable_ticker_count": 519,
-  "valid_fact_count": 1114352
+  "valid_fact_count": 1116912
 }

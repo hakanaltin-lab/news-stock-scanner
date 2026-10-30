@@ -39009,21 +39009,21 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 1683,
+    "historical_acceptance_count": 1685,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 1,
     "historical_files_failed": 0,
     "historical_files_loaded": 1,
     "loaded_files": [
       {
-        "acceptance_count": 1683,
-        "added_acceptance_count": 1683,
+        "acceptance_count": 1685,
+        "added_acceptance_count": 1685,
         "filing_from": "1994-01-21",
-        "filing_to": "2011-09-22",
+        "filing_to": "2011-09-25",
         "name": "CIK0000815097-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1002,
+    "recent_acceptance_count": 1000,
     "status": "COMPLETE",
     "total_acceptance_count": 2685
   },

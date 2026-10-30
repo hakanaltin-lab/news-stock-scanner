@@ -40960,14 +40960,14 @@
       {
         "acceptance_count": 2000,
         "added_acceptance_count": 2000,
-        "filing_from": "2000-06-15",
-        "filing_to": "2018-09-23",
+        "filing_from": "2000-07-05",
+        "filing_to": "2018-09-30",
         "name": "CIK0000898293-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1001,
+    "recent_acceptance_count": 1000,
     "status": "COMPLETE",
-    "total_acceptance_count": 3001
+    "total_acceptance_count": 3000
   },
   "taxonomies_supported": [
     "ifrs-full",

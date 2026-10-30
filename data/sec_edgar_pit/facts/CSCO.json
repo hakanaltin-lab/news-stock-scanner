@@ -39663,7 +39663,7 @@
       "fiscal_period": "FY",
       "fiscal_year": 2024,
       "form": "10-K",
-      "frame": "CY2022",
+      "frame": null,
       "metric": "net_income",
       "namespace": "us-gaap",
       "start": "2021-08-01",
@@ -42145,7 +42145,7 @@
       "fiscal_period": "FY",
       "fiscal_year": 2025,
       "form": "10-K",
-      "frame": "CY2023",
+      "frame": null,
       "metric": "net_income",
       "namespace": "us-gaap",
       "start": "2022-07-31",
@@ -44627,7 +44627,7 @@
       "fiscal_period": "FY",
       "fiscal_year": 2026,
       "form": "10-K",
-      "frame": "CY2024",
+      "frame": null,
       "metric": "net_income",
       "namespace": "us-gaap",
       "start": "2023-07-30",
@@ -44814,7 +44814,7 @@
       "fiscal_period": "FY",
       "fiscal_year": 2026,
       "form": "10-K",
-      "frame": "CY2025",
+      "frame": null,
       "metric": "net_income",
       "namespace": "us-gaap",
       "start": "2024-07-28",
@@ -45035,7 +45035,7 @@
       "fiscal_period": "FY",
       "fiscal_year": 2026,
       "form": "10-K",
-      "frame": "CY2026",
+      "frame": null,
       "metric": "net_income",
       "namespace": "us-gaap",
       "start": "2025-07-27",
@@ -45241,6 +45241,7 @@
   "source": "SEC_EDGAR_COMPANYFACTS",
   "source_taxonomy_concept_counts": {
     "dei": 2,
+    "ecd": 7,
     "ffd": 4,
     "invest": 1,
     "us-gaap": 789
@@ -45262,9 +45263,9 @@
         "name": "CIK0000858877-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1009,
+    "recent_acceptance_count": 1012,
     "status": "COMPLETE",
-    "total_acceptance_count": 3013
+    "total_acceptance_count": 3016
   },
   "taxonomies_supported": [
     "ifrs-full",

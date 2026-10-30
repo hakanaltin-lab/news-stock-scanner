@@ -32636,21 +32636,21 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 794,
+    "historical_acceptance_count": 795,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 1,
     "historical_files_failed": 0,
     "historical_files_loaded": 1,
     "loaded_files": [
       {
-        "acceptance_count": 794,
-        "added_acceptance_count": 794,
+        "acceptance_count": 795,
+        "added_acceptance_count": 795,
         "filing_from": "2003-08-29",
-        "filing_to": "2017-11-15",
+        "filing_to": "2017-11-18",
         "name": "CIK0001262039-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1001,
+    "recent_acceptance_count": 1000,
     "status": "COMPLETE",
     "total_acceptance_count": 1795
   },
