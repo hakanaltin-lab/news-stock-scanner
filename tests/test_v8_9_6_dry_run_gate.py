@@ -21,6 +21,7 @@ def fresh_market_data(
     timestamp = now - timedelta(seconds=age_seconds)
     return {
         "source": source,
+        "execution_eligible": source == "IBKR_REALTIME",
         "market_timestamp": timestamp.isoformat(),
         "last_price": last_price,
         "bid": bid,

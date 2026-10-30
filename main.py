@@ -390,7 +390,8 @@ def run_scanner():
         snapshot = build_market_snapshot(
             ticker,
             prices,
-            volumes
+            volumes,
+            metadata=live_data
         )
 
 

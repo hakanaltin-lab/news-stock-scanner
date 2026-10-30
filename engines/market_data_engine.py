@@ -236,8 +236,11 @@ def get_live_market_data(ticker):
 def build_market_snapshot(
     ticker,
     prices,
-    volumes
+    volumes,
+    metadata=None
 ):
+
+    metadata = metadata or {}
 
     last_price = (
         prices[-1]
@@ -301,8 +304,15 @@ def build_market_snapshot(
         "data_points":
         len(prices),
 
-        "data_quality":
-        "LIVE"
+        "data_quality": metadata.get("data_quality", "UNVERIFIED"),
+
+        "source": metadata.get("source"),
+
+        "market_timestamp": metadata.get("market_timestamp"),
+
+        "data_scope": metadata.get("data_scope", "RESEARCH_ONLY"),
+
+        "execution_eligible": False
 
     }
 

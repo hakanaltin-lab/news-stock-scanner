@@ -111,6 +111,7 @@ class MarketDataExecutionGateTests(unittest.TestCase):
         now = datetime.now(timezone.utc)
         result = evaluate_market_data_for_execution({
             "source": "IBKR_REALTIME",
+            "execution_eligible": True,
             "market_timestamp": now.isoformat(),
             "last_price": 100.0,
             "data_points": 1,

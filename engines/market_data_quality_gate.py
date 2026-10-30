@@ -5,6 +5,7 @@ Execution requires a specifically allowed real-time source and fresh timestamps.
 """
 
 from datetime import datetime, timezone
+import math
 
 
 DEFAULT_EXECUTION_MAX_AGE_SECONDS = 10
@@ -29,7 +30,7 @@ def _to_utc_datetime(value):
             return None
 
     if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
+        return None  # Ambiguous timestamps must never authorize an order.
 
     return parsed.astimezone(timezone.utc)
 
@@ -41,7 +42,8 @@ def evaluate_market_data_for_execution(
     allowed_sources=None,
 ):
     market_data = market_data or {}
-    allowed_sources = set(allowed_sources or DEFAULT_EXECUTION_SOURCES)
+    allowed_sources = set(DEFAULT_EXECUTION_SOURCES)
+    # Caller-supplied allowlists must not expand the execution trust boundary.
     now_utc = _to_utc_datetime(now) or datetime.now(timezone.utc)
 
     source = str(market_data.get("source") or "").strip().upper()
@@ -86,12 +88,14 @@ def evaluate_market_data_for_execution(
             future_skew_seconds is not None
             and future_skew_seconds <= 2.0
         ),
-        "positive_price": price > 0,
+        "positive_price": math.isfinite(price) and price > 0,
+        "explicit_execution_eligibility": market_data.get("execution_eligible") is True,
         "data_quality_valid": data_quality not in {
             "",
             "NO_DATA",
             "ERROR",
             "INVALID",
+            "UNVERIFIED",
         },
         "has_data_points": data_points > 0,
     }
