@@ -1,0 +1,42 @@
+name: AURORA V8.9.21 G0-G4 Completion Gate Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "scripts/aurora_completion_status.py"
+      - "scripts/run_aurora_completion_gate.sh"
+      - "scripts/gcp_runtime_proof.py"
+      - "engines/shadow_audit_verifier.py"
+      - "tests/test_aurora_completion_status.py"
+      - ".github/workflows/completion_gate_safety.yml"
+  push:
+    paths:
+      - "scripts/aurora_completion_status.py"
+      - "scripts/run_aurora_completion_gate.sh"
+      - "scripts/gcp_runtime_proof.py"
+      - "engines/shadow_audit_verifier.py"
+      - "tests/test_aurora_completion_status.py"
+      - ".github/workflows/completion_gate_safety.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  completion-gate-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile and check shell
+        run: |
+          python -m py_compile scripts/aurora_completion_status.py
+          python -m py_compile tests/test_aurora_completion_status.py
+          bash -n scripts/run_aurora_completion_gate.sh
+      - name: Prove shadow-only completion behavior
+        run: python -m unittest tests.test_aurora_completion_status -v
