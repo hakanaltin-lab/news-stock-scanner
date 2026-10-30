@@ -22,12 +22,14 @@ install an unofficial PyPI ibapi package.
 """
 
 from datetime import datetime, timezone
-import hashlib
 import os
 import threading
 import time
 
-from engines.ibkr_account_guard import evaluate_paper_account_identity
+from engines.ibkr_account_guard import (
+    account_fingerprint,
+    evaluate_paper_account_identity,
+)
 
 
 try:
@@ -93,22 +95,7 @@ def safe_float(
 def mask_account(
     account
 ):
-    if not account:
-        return None
-
-    digest = hashlib.sha256(
-        str(
-            account
-        ).encode(
-            "utf-8"
-        )
-    ).hexdigest()[:10]
-
-    return (
-        "IBKR-"
-        +
-        digest.upper()
-    )
+    return account_fingerprint(account)
 
 
 def load_ibkr_config():
