@@ -40,12 +40,23 @@ def proofs():
         "status": "G0_G1_VERIFIED",
         "failure_reasons": [],
     }
+    g2 = {
+        "run_mode": {"mode": "READ_ONLY"},
+        "readiness": {
+            "readiness": "READY_FOR_PAPER_READ_ONLY",
+            "required_failure_count": 0,
+            "paper_order_submission_allowed": False,
+            "live_execution_allowed": False,
+        },
+        "snapshot": {"order_submission_hard_blocked": True},
+    }
     readiness = {
         **safe,
         "generated_at": (NOW - timedelta(seconds=20)).isoformat(),
         "status": "READY_FOR_CONTROLLED_DRY_RUN",
         "failure_reasons": [],
         "g0_g1_proof_sha256": digest(g0),
+        "g2_paper_read_only_proof_sha256": digest(g2),
     }
     g4 = {
         **safe,
@@ -73,12 +84,20 @@ def proofs():
             g4["ledger_receipt"]
         ),
     }
-    return g0, readiness, g4, audit
+    return g0, readiness, g4, audit, g2
 
 
 class AuroraCompletionStatusTests(unittest.TestCase):
     def test_complete_shadow_chain_passes_without_order_permission(self):
-        result = evaluate_completion_status(*proofs(), now=NOW)
+        g0, ready, g4, audit, g2 = proofs()
+        result = evaluate_completion_status(
+            g0,
+            ready,
+            g4,
+            audit,
+            now=NOW,
+            g2_proof=g2,
+        )
         self.assertEqual(
             result["status"],
             "PAPER_RUNTIME_VALIDATED_SHADOW_ONLY",
@@ -95,10 +114,19 @@ class AuroraCompletionStatusTests(unittest.TestCase):
         self.assertTrue(
             result["checks"]["g0_g1_readiness_proof_bound"]
         )
+        self.assertTrue(result["checks"]["g2_readiness_proof_bound"])
         self.assertEqual(
             result["evidence_binding"]["g0_g1_proof_sha256"],
             result["evidence_binding"][
                 "readiness_recorded_g0_g1_proof_sha256"
+            ],
+        )
+        self.assertEqual(
+            result["evidence_binding"][
+                "g2_paper_read_only_proof_sha256"
+            ],
+            result["evidence_binding"][
+                "readiness_recorded_g2_proof_sha256"
             ],
         )
         self.assertEqual(
@@ -109,18 +137,24 @@ class AuroraCompletionStatusTests(unittest.TestCase):
         )
 
     def test_missing_or_stale_stage_blocks(self):
-        g0, ready, g4, audit = proofs()
-        missing = evaluate_completion_status({}, ready, g4, audit, now=NOW)
+        g0, ready, g4, audit, g2 = proofs()
+        missing = evaluate_completion_status(
+            {}, ready, g4, audit, now=NOW, g2_proof=g2
+        )
         self.assertIn("g0_g1_verified", missing["failure_reasons"])
         ready["generated_at"] = (NOW - timedelta(seconds=121)).isoformat()
-        stale = evaluate_completion_status(g0, ready, g4, audit, now=NOW)
+        stale = evaluate_completion_status(
+            g0, ready, g4, audit, now=NOW, g2_proof=g2
+        )
         self.assertIn("g2_g3_evidence_fresh", stale["failure_reasons"])
 
     def test_missing_or_mismatched_g0_readiness_binding_blocks(self):
-        g0, ready, g4, audit = proofs()
+        g0, ready, g4, audit, g2 = proofs()
         ready.pop("g0_g1_proof_sha256")
         g4["readiness_proof_sha256"] = digest(ready)
-        missing = evaluate_completion_status(g0, ready, g4, audit, now=NOW)
+        missing = evaluate_completion_status(
+            g0, ready, g4, audit, now=NOW, g2_proof=g2
+        )
         self.assertIn(
             "g0_g1_readiness_proof_bound",
             missing["failure_reasons"],
@@ -134,6 +168,7 @@ class AuroraCompletionStatusTests(unittest.TestCase):
             g4,
             audit,
             now=NOW,
+            g2_proof=g2,
         )
         self.assertIn(
             "g0_g1_readiness_proof_bound",
@@ -141,17 +176,49 @@ class AuroraCompletionStatusTests(unittest.TestCase):
         )
         self.assertFalse(mismatched["paper_order_submission_allowed"])
 
+    def test_missing_or_mismatched_g2_readiness_binding_blocks(self):
+        g0, ready, g4, audit, g2 = proofs()
+        ready.pop("g2_paper_read_only_proof_sha256")
+        g4["readiness_proof_sha256"] = digest(ready)
+        missing = evaluate_completion_status(
+            g0, ready, g4, audit, now=NOW, g2_proof=g2
+        )
+        self.assertIn(
+            "g2_readiness_proof_bound",
+            missing["failure_reasons"],
+        )
+
+        ready["g2_paper_read_only_proof_sha256"] = "0" * 64
+        g4["readiness_proof_sha256"] = digest(ready)
+        mismatched = evaluate_completion_status(
+            g0,
+            ready,
+            g4,
+            audit,
+            now=NOW,
+            g2_proof=g2,
+        )
+        self.assertIn(
+            "g2_readiness_proof_bound",
+            mismatched["failure_reasons"],
+        )
+        self.assertFalse(mismatched["paper_order_submission_allowed"])
+
     def test_unsafe_flag_or_duplicate_receipt_blocks(self):
-        g0, ready, g4, audit = proofs()
+        g0, ready, g4, audit, g2 = proofs()
         g4["paper_order_submission_allowed"] = True
         g4["ledger_receipt"]["duplicate"] = True
-        result = evaluate_completion_status(g0, ready, g4, audit, now=NOW)
+        result = evaluate_completion_status(
+            g0, ready, g4, audit, now=NOW, g2_proof=g2
+        )
         self.assertIn("g4_shadow_accepted", result["failure_reasons"])
 
     def test_missing_or_mismatched_readiness_digest_blocks(self):
-        g0, ready, g4, audit = proofs()
+        g0, ready, g4, audit, g2 = proofs()
         g4.pop("readiness_proof_sha256")
-        missing = evaluate_completion_status(g0, ready, g4, audit, now=NOW)
+        missing = evaluate_completion_status(
+            g0, ready, g4, audit, now=NOW, g2_proof=g2
+        )
         self.assertIn(
             "g4_readiness_proof_bound",
             missing["failure_reasons"],
@@ -164,6 +231,7 @@ class AuroraCompletionStatusTests(unittest.TestCase):
             g4,
             audit,
             now=NOW,
+            g2_proof=g2,
         )
         self.assertIn(
             "g4_readiness_proof_bound",
@@ -172,9 +240,11 @@ class AuroraCompletionStatusTests(unittest.TestCase):
         self.assertFalse(mismatched["paper_order_submission_allowed"])
 
     def test_missing_or_mismatched_ledger_receipt_binding_blocks(self):
-        g0, ready, g4, audit = proofs()
+        g0, ready, g4, audit, g2 = proofs()
         audit.pop("expected_receipt_sha256")
-        missing = evaluate_completion_status(g0, ready, g4, audit, now=NOW)
+        missing = evaluate_completion_status(
+            g0, ready, g4, audit, now=NOW, g2_proof=g2
+        )
         self.assertIn(
             "g4_ledger_receipt_bound",
             missing["failure_reasons"],
@@ -187,6 +257,7 @@ class AuroraCompletionStatusTests(unittest.TestCase):
             g4,
             audit,
             now=NOW,
+            g2_proof=g2,
         )
         self.assertIn(
             "g4_ledger_receipt_bound",

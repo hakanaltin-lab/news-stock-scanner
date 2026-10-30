@@ -20,6 +20,7 @@ from engines.shadow_audit_verifier import receipt_binding_sha256
 
 
 DEFAULT_G0_PROOF = "runtime/gcp/latest.json"
+DEFAULT_G2_PROOF = "runtime/ibkr_paper_read_only/latest.json"
 DEFAULT_READINESS = "runtime/aurora_readiness/latest.json"
 DEFAULT_G4_SHADOW = "runtime/aurora_g4_shadow/latest.json"
 DEFAULT_LEDGER_AUDIT = "runtime/aurora_g4_shadow/ledger_audit.json"
@@ -88,12 +89,14 @@ def evaluate_completion_status(
     g4_shadow,
     ledger_audit,
     now=None,
+    g2_proof=None,
 ):
     now = _utc_datetime(now) or datetime.now(timezone.utc)
     g0_proof = g0_proof or {}
     readiness = readiness or {}
     g4_shadow = g4_shadow or {}
     ledger_audit = ledger_audit or {}
+    g2_proof = g2_proof or {}
 
     ages = {
         "g0_seconds": _age_seconds(g0_proof.get("generated_at"), now),
@@ -110,8 +113,12 @@ def evaluate_completion_status(
     ).strip().lower()
     actual_readiness_digest = _digest(readiness)
     actual_g0_digest = _digest(g0_proof)
+    actual_g2_digest = _digest(g2_proof)
     readiness_g0_digest = str(
         readiness.get("g0_g1_proof_sha256") or ""
+    ).strip().lower()
+    readiness_g2_digest = str(
+        readiness.get("g2_paper_read_only_proof_sha256") or ""
     ).strip().lower()
     recorded_readiness_digest = str(
         g4_shadow.get("readiness_proof_sha256") or ""
@@ -136,6 +143,13 @@ def evaluate_completion_status(
             and hmac.compare_digest(
                 readiness_g0_digest,
                 actual_g0_digest,
+            )
+        ),
+        "g2_readiness_proof_bound": (
+            _is_sha256(readiness_g2_digest)
+            and hmac.compare_digest(
+                readiness_g2_digest,
+                actual_g2_digest,
             )
         ),
         "g2_g3_evidence_fresh": (
@@ -182,7 +196,7 @@ def evaluate_completion_status(
     failures = [name for name, passed in checks.items() if not passed]
     complete = not failures
     return {
-        "engine": "AURORA V8.9.25 G0-G4 Completion Gate",
+        "engine": "AURORA V8.9.26 G0-G4 Completion Gate",
         "generated_at": now.isoformat(),
         "status": (
             "PAPER_RUNTIME_VALIDATED_SHADOW_ONLY"
@@ -195,6 +209,10 @@ def evaluate_completion_status(
             "g0_g1_proof_sha256": actual_g0_digest,
             "readiness_recorded_g0_g1_proof_sha256": (
                 readiness_g0_digest or None
+            ),
+            "g2_paper_read_only_proof_sha256": actual_g2_digest,
+            "readiness_recorded_g2_proof_sha256": (
+                readiness_g2_digest or None
             ),
             "readiness_proof_sha256": actual_readiness_digest,
             "g4_recorded_readiness_proof_sha256": (
@@ -244,6 +262,7 @@ def _write_atomic(path, payload):
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--g0-proof", default=DEFAULT_G0_PROOF)
+    parser.add_argument("--g2-proof", default=DEFAULT_G2_PROOF)
     parser.add_argument("--readiness", default=DEFAULT_READINESS)
     parser.add_argument("--g4-shadow", default=DEFAULT_G4_SHADOW)
     parser.add_argument("--ledger-audit", default=DEFAULT_LEDGER_AUDIT)
@@ -254,6 +273,7 @@ def main(argv=None):
         _read_json(args.readiness),
         _read_json(args.g4_shadow),
         _read_json(args.ledger_audit),
+        g2_proof=_read_json(args.g2_proof),
     )
     _write_atomic(args.output, result)
     print(json.dumps(result, indent=2, sort_keys=True))
