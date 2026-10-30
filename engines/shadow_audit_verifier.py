@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 import sqlite3
 
@@ -27,6 +28,7 @@ def _is_sha256(value):
 def _blocked(reason, **extra):
     return {
         "engine": "AURORA V8.9.19 Shadow Ledger Integrity Verifier",
+        "generated_at": datetime.now(timezone.utc).isoformat(),
         "status": "BLOCKED",
         "failure_reasons": [reason],
         "broker_submission_allowed": False,
@@ -154,6 +156,7 @@ def verify_shadow_ledger(path):
     failures = sorted(set(failures))
     return {
         "engine": "AURORA V8.9.19 Shadow Ledger Integrity Verifier",
+        "generated_at": datetime.now(timezone.utc).isoformat(),
         "status": "LEDGER_VERIFIED" if not failures else "BLOCKED",
         "record_count": len(rows),
         "latest_recorded_at": latest_recorded_at,
