@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-30T11:38:54.358449",
+  "generated": "2026-10-30T12:37:37.095062",
   "scanner_version": "V8.6",
   "aurora_run_mode": {
     "requested_mode": "SAFE_OFF",
@@ -19,7 +19,7 @@
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-10-30T11:36:05.065244",
+      "timestamp": "2026-10-30T12:34:59.564163",
       "holding": {
         "shares": "10",
         "avg_cost": "140.16",
@@ -29,7 +29,7 @@
       },
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-30T11:36:04.301462+00:00",
+        "timestamp": "2026-10-30T12:34:58.554737+00:00",
         "last_price": 566.46,
         "vwap": 548.92,
         "momentum": 50.65,
@@ -48,7 +48,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-29T19:45:00+00:00",
-        "data_age_seconds": 57064.301,
+        "data_age_seconds": 60598.555,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -70,7 +70,7 @@
       },
       "tactical_market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-30T11:36:04.301462+00:00",
+        "timestamp": "2026-10-30T12:34:58.554737+00:00",
         "last_price": 566.46,
         "vwap": 548.92,
         "momentum": 50.65,
@@ -317,7 +317,7 @@
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-10-30T11:36:05.753534",
+      "timestamp": "2026-10-30T12:35:00.436636",
       "holding": {
         "shares": "35",
         "avg_cost": "147.95",
@@ -327,7 +327,7 @@
       },
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-30T11:36:05.188703+00:00",
+        "timestamp": "2026-10-30T12:34:59.730175+00:00",
         "last_price": 184.22,
         "vwap": 181.81,
         "momentum": 11.96,
@@ -346,7 +346,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-29T19:45:00+00:00",
-        "data_age_seconds": 57065.189,
+        "data_age_seconds": 60599.73,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -368,7 +368,7 @@
       },
       "tactical_market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-30T11:36:05.188703+00:00",
+        "timestamp": "2026-10-30T12:34:59.730175+00:00",
         "last_price": 184.22,
         "vwap": 181.81,
         "momentum": 11.96,
@@ -627,7 +627,7 @@
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-10-30T11:36:06.302990",
+      "timestamp": "2026-10-30T12:35:01.224524",
       "holding": {
         "shares": "3",
         "avg_cost": "676.38",
@@ -637,7 +637,7 @@
       },
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-30T11:36:05.944834+00:00",
+        "timestamp": "2026-10-30T12:35:00.619069+00:00",
         "last_price": 1675.7,
         "vwap": 1626.48,
         "momentum": 107.32,
@@ -656,7 +656,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-29T19:45:00+00:00",
-        "data_age_seconds": 57065.945,
+        "data_age_seconds": 60600.619,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -678,7 +678,7 @@
       },
       "tactical_market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-30T11:36:05.944834+00:00",
+        "timestamp": "2026-10-30T12:35:00.619069+00:00",
         "last_price": 1675.7,
         "vwap": 1626.48,
         "momentum": 107.32,
@@ -931,7 +931,7 @@
     },
     {
       "ticker": "BKR",
-      "timestamp": "2026-10-30T11:36:07.221583",
+      "timestamp": "2026-10-30T12:35:02.432625",
       "holding": {
         "shares": "13",
         "avg_cost": "57.80",
@@ -941,7 +941,7 @@
       },
       "market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-30T11:36:06.443126+00:00",
+        "timestamp": "2026-10-30T12:35:01.409376+00:00",
         "last_price": 54.53,
         "vwap": 56.0,
         "momentum": 0.15,
@@ -960,7 +960,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-29T19:45:00+00:00",
-        "data_age_seconds": 57066.443,
+        "data_age_seconds": 60601.409,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -982,7 +982,7 @@
       },
       "tactical_market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-30T11:36:06.443126+00:00",
+        "timestamp": "2026-10-30T12:35:01.409376+00:00",
         "last_price": 54.53,
         "vwap": 56.0,
         "momentum": 0.15,
@@ -1093,20 +1093,21 @@
       "signal": "NEUTRAL",
       "scores": {
         "market_score": 42.8,
-        "news_score": 60,
-        "catalyst_score": 60,
+        "news_score": 67,
+        "catalyst_score": 67,
         "sector_score": 94.5,
         "risk_score": 69.0,
-        "alpha_score": 61.4,
+        "alpha_score": 63.15,
         "strategic_trend_score": 10.0,
         "strategic_risk_score": 33.3,
-        "strategic_composite_score": 32.3,
+        "strategic_composite_score": 33.0,
         "fundamental_thesis_score": 58.5
       },
       "news": {
         "ticker": "BKR",
-        "news_score": 60,
+        "news_score": 67,
         "events": [
+          "contract",
           "earnings beat"
         ],
         "article_count": 10,
@@ -1114,9 +1115,14 @@
       },
       "catalyst": {
         "ticker": "BKR",
-        "catalyst_score": 60,
-        "catalyst_signal": "NEUTRAL",
+        "catalyst_score": 67,
+        "catalyst_signal": "POSITIVE",
         "catalysts": [
+          {
+            "type": "POSITIVE",
+            "catalyst": "contract",
+            "impact": 7
+          },
           {
             "type": "POSITIVE",
             "catalyst": "earnings beat",
@@ -1163,7 +1169,7 @@
       "entry_action": "AVOID",
       "entry_decision": {
         "action": "AVOID",
-        "confidence": 58.6,
+        "confidence": 60.5,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -1195,7 +1201,7 @@
           "unrealized_pnl": -42.51,
           "unrealized_pnl_pct": -5.66
         },
-        "strategic_composite_score": 32.3,
+        "strategic_composite_score": 33.0,
         "strategic_signal": "DOWNTREND",
         "tactical_add_status": "WAIT",
         "reasons": [
@@ -1215,12 +1221,12 @@
           "above_sma100": false,
           "above_sma200": false,
           "sector_score": 94.5,
-          "catalyst_score": 60
+          "catalyst_score": 67
         },
         "tactical_inputs": {
           "signal": "NEUTRAL",
           "entry_action": "AVOID",
-          "confidence": 58.6
+          "confidence": 60.5
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -1228,7 +1234,7 @@
     },
     {
       "ticker": "CCLD",
-      "timestamp": "2026-10-30T11:36:08.085242",
+      "timestamp": "2026-10-30T12:35:03.505940",
       "holding": {
         "shares": "490",
         "avg_cost": "2.04",
@@ -1238,7 +1244,7 @@
       },
       "market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-30T11:36:07.348355+00:00",
+        "timestamp": "2026-10-30T12:35:02.599950+00:00",
         "last_price": 1.81,
         "vwap": 1.76,
         "momentum": 0.07,
@@ -1257,7 +1263,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-29T19:45:00+00:00",
-        "data_age_seconds": 57067.348,
+        "data_age_seconds": 60602.6,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -1279,7 +1285,7 @@
       },
       "tactical_market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-30T11:36:07.348355+00:00",
+        "timestamp": "2026-10-30T12:35:02.599950+00:00",
         "last_price": 1.81,
         "vwap": 1.76,
         "momentum": 0.07,
@@ -1517,7 +1523,7 @@
     },
     {
       "ticker": "CTAS",
-      "timestamp": "2026-10-30T11:36:08.766271",
+      "timestamp": "2026-10-30T12:35:04.587119",
       "holding": {
         "shares": "4",
         "avg_cost": "196.26",
@@ -1527,7 +1533,7 @@
       },
       "market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-30T11:36:08.226650+00:00",
+        "timestamp": "2026-10-30T12:35:03.905154+00:00",
         "last_price": 218.08,
         "vwap": 216.79,
         "momentum": -5.96,
@@ -1546,7 +1552,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-29T19:45:00+00:00",
-        "data_age_seconds": 57068.227,
+        "data_age_seconds": 60603.905,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -1568,7 +1574,7 @@
       },
       "tactical_market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-30T11:36:08.226650+00:00",
+        "timestamp": "2026-10-30T12:35:03.905154+00:00",
         "last_price": 218.08,
         "vwap": 216.79,
         "momentum": -5.96,
@@ -1803,7 +1809,7 @@
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-10-30T11:36:09.918973",
+      "timestamp": "2026-10-30T12:35:05.521164",
       "holding": {
         "shares": "20",
         "avg_cost": "207.68",
@@ -1813,7 +1819,7 @@
       },
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-30T11:36:08.885112+00:00",
+        "timestamp": "2026-10-30T12:35:04.755493+00:00",
         "last_price": 282.17,
         "vwap": 296.3,
         "momentum": -36.95,
@@ -1832,7 +1838,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-29T19:45:00+00:00",
-        "data_age_seconds": 57068.885,
+        "data_age_seconds": 60604.755,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -1854,7 +1860,7 @@
       },
       "tactical_market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-30T11:36:08.885112+00:00",
+        "timestamp": "2026-10-30T12:35:04.755493+00:00",
         "last_price": 282.17,
         "vwap": 296.3,
         "momentum": -36.95,
@@ -1962,28 +1968,48 @@
       "signal": "BEARISH",
       "scores": {
         "market_score": 0.7,
-        "news_score": 50,
-        "catalyst_score": 50,
+        "news_score": 58,
+        "catalyst_score": 56,
         "sector_score": 0,
         "risk_score": 49.2,
-        "alpha_score": 25.05,
+        "alpha_score": 26.55,
         "strategic_trend_score": 10.0,
         "strategic_risk_score": 28.3,
-        "strategic_composite_score": 16.2,
+        "strategic_composite_score": 16.8,
         "fundamental_thesis_score": 81.9
       },
       "news": {
         "ticker": "GOOG",
-        "news_score": 50,
-        "events": [],
+        "news_score": 58,
+        "events": [
+          "ai",
+          "upgrade",
+          "downgrade"
+        ],
         "article_count": 10,
         "data_quality": "LIVE"
       },
       "catalyst": {
         "ticker": "GOOG",
-        "catalyst_score": 50,
+        "catalyst_score": 56,
         "catalyst_signal": "NEUTRAL",
-        "catalysts": [],
+        "catalysts": [
+          {
+            "type": "POSITIVE",
+            "catalyst": "ai",
+            "impact": 6
+          },
+          {
+            "type": "POSITIVE",
+            "catalyst": "upgrade",
+            "impact": 6
+          },
+          {
+            "type": "NEGATIVE",
+            "catalyst": "downgrade",
+            "impact": -6
+          }
+        ],
         "article_count": 10,
         "data_quality": "LIVE"
       },
@@ -2024,7 +2050,7 @@
       "entry_action": "AVOID",
       "entry_decision": {
         "action": "AVOID",
-        "confidence": 27.5,
+        "confidence": 29.2,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -2056,7 +2082,7 @@
           "unrealized_pnl": 1489.8,
           "unrealized_pnl_pct": 35.87
         },
-        "strategic_composite_score": 16.2,
+        "strategic_composite_score": 16.8,
         "strategic_signal": "DOWNTREND",
         "tactical_add_status": "DO_NOT_ADD_NOW",
         "reasons": [
@@ -2076,12 +2102,12 @@
           "above_sma100": false,
           "above_sma200": false,
           "sector_score": 0,
-          "catalyst_score": 50
+          "catalyst_score": 56
         },
         "tactical_inputs": {
           "signal": "BEARISH",
           "entry_action": "AVOID",
-          "confidence": 27.5
+          "confidence": 29.2
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -2089,7 +2115,7 @@
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-10-30T11:36:10.646654",
+      "timestamp": "2026-10-30T12:35:06.295379",
       "holding": {
         "shares": "44",
         "avg_cost": "171.81",
@@ -2099,7 +2125,7 @@
       },
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-30T11:36:10.048247+00:00",
+        "timestamp": "2026-10-30T12:35:05.684659+00:00",
         "last_price": 171.98,
         "vwap": 166.6,
         "momentum": 10.56,
@@ -2118,7 +2144,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-29T19:45:00+00:00",
-        "data_age_seconds": 57070.048,
+        "data_age_seconds": 60605.685,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -2140,7 +2166,7 @@
       },
       "tactical_market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-30T11:36:10.048247+00:00",
+        "timestamp": "2026-10-30T12:35:05.684659+00:00",
         "last_price": 171.98,
         "vwap": 166.6,
         "momentum": 10.56,
@@ -2382,7 +2408,7 @@
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-10-30T11:36:11.253804",
+      "timestamp": "2026-10-30T12:35:06.933458",
       "holding": {
         "shares": "24",
         "avg_cost": "160.96",
@@ -2392,7 +2418,7 @@
       },
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-30T11:36:10.779179+00:00",
+        "timestamp": "2026-10-30T12:35:06.471914+00:00",
         "last_price": 213.72,
         "vwap": 215.33,
         "momentum": 1.15,
@@ -2411,7 +2437,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-29T19:45:00+00:00",
-        "data_age_seconds": 57070.779,
+        "data_age_seconds": 60606.472,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -2433,7 +2459,7 @@
       },
       "tactical_market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-30T11:36:10.779179+00:00",
+        "timestamp": "2026-10-30T12:35:06.471914+00:00",
         "last_price": 213.72,
         "vwap": 215.33,
         "momentum": 1.15,
@@ -2541,28 +2567,42 @@
       "signal": "NEUTRAL",
       "scores": {
         "market_score": 49.1,
-        "news_score": 50,
-        "catalyst_score": 50,
+        "news_score": 66,
+        "catalyst_score": 62,
         "sector_score": 13.0,
         "risk_score": 89.3,
-        "alpha_score": 53.96,
+        "alpha_score": 56.96,
         "strategic_trend_score": 63.0,
         "strategic_risk_score": 42.1,
-        "strategic_composite_score": 50.0,
+        "strategic_composite_score": 51.2,
         "fundamental_thesis_score": 85.2
       },
       "news": {
         "ticker": "NVDA",
-        "news_score": 50,
-        "events": [],
+        "news_score": 66,
+        "events": [
+          "ai",
+          "artificial intelligence"
+        ],
         "article_count": 10,
         "data_quality": "LIVE"
       },
       "catalyst": {
         "ticker": "NVDA",
-        "catalyst_score": 50,
+        "catalyst_score": 62,
         "catalyst_signal": "NEUTRAL",
-        "catalysts": [],
+        "catalysts": [
+          {
+            "type": "POSITIVE",
+            "catalyst": "ai",
+            "impact": 6
+          },
+          {
+            "type": "POSITIVE",
+            "catalyst": "artificial intelligence",
+            "impact": 6
+          }
+        ],
         "article_count": 10,
         "data_quality": "LIVE"
       },
@@ -2600,23 +2640,24 @@
         "data_quality": "LIVE"
       },
       "rating": "NEUTRAL",
-      "entry_action": "AVOID",
+      "entry_action": "WATCH",
       "entry_decision": {
-        "action": "AVOID",
-        "confidence": 57.7,
+        "action": "WATCH",
+        "confidence": 61.0,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
         "risk_reward": null,
-        "setup_quality": "WEAK",
+        "setup_quality": "DEVELOPING",
         "reasons": [
-          "Insufficient multi-factor confirmation"
+          "Setup has potential",
+          "Further confirmation required"
         ]
       },
       "tactical_timing": {
-        "action": "AVOID",
+        "action": "WATCH",
         "signal": "NEUTRAL",
-        "status": "WAIT"
+        "status": "WAIT_FOR_CONFIRMATION"
       },
       "portfolio_action": "WATCH",
       "portfolio_management": {
@@ -2635,9 +2676,9 @@
           "unrealized_pnl": 1266.24,
           "unrealized_pnl_pct": 32.78
         },
-        "strategic_composite_score": 50.0,
+        "strategic_composite_score": 51.2,
         "strategic_signal": "HEALTHY",
-        "tactical_add_status": "WAIT",
+        "tactical_add_status": "WAIT_FOR_CONFIRMATION",
         "reasons": [
           "Strategic evidence is mixed",
           "No immediate portfolio action required"
@@ -2653,12 +2694,12 @@
           "above_sma100": false,
           "above_sma200": true,
           "sector_score": 13.0,
-          "catalyst_score": 50
+          "catalyst_score": 62
         },
         "tactical_inputs": {
           "signal": "NEUTRAL",
-          "entry_action": "AVOID",
-          "confidence": 57.7
+          "entry_action": "WATCH",
+          "confidence": 61.0
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -2666,7 +2707,7 @@
     },
     {
       "ticker": "OMDA",
-      "timestamp": "2026-10-30T11:36:12.122034",
+      "timestamp": "2026-10-30T12:35:07.822698",
       "holding": {
         "shares": "10",
         "avg_cost": "20.45",
@@ -2676,7 +2717,7 @@
       },
       "market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-30T11:36:11.383210+00:00",
+        "timestamp": "2026-10-30T12:35:07.164406+00:00",
         "last_price": 19.64,
         "vwap": 19.19,
         "momentum": 0.64,
@@ -2695,7 +2736,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-29T19:45:00+00:00",
-        "data_age_seconds": 57071.383,
+        "data_age_seconds": 60607.164,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -2717,7 +2758,7 @@
       },
       "tactical_market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-30T11:36:11.383210+00:00",
+        "timestamp": "2026-10-30T12:35:07.164406+00:00",
         "last_price": 19.64,
         "vwap": 19.19,
         "momentum": 0.64,
@@ -2951,7 +2992,7 @@
     },
     {
       "ticker": "UNH",
-      "timestamp": "2026-10-30T11:36:13.009105",
+      "timestamp": "2026-10-30T12:35:08.690506",
       "holding": {
         "shares": "2",
         "avg_cost": "369.93",
@@ -2961,7 +3002,7 @@
       },
       "market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-30T11:36:12.452497+00:00",
+        "timestamp": "2026-10-30T12:35:08.020445+00:00",
         "last_price": 410.79,
         "vwap": 412.4,
         "momentum": -11.01,
@@ -2980,7 +3021,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-29T19:45:00+00:00",
-        "data_age_seconds": 57072.452,
+        "data_age_seconds": 60608.02,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -3002,7 +3043,7 @@
       },
       "tactical_market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-30T11:36:12.452497+00:00",
+        "timestamp": "2026-10-30T12:35:08.020445+00:00",
         "last_price": 410.79,
         "vwap": 412.4,
         "momentum": -11.01,
@@ -3244,7 +3285,7 @@
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-10-30T11:36:13.627966",
+      "timestamp": "2026-10-30T12:35:09.367294",
       "holding": {
         "shares": "11",
         "avg_cost": "316.20",
@@ -3254,7 +3295,7 @@
       },
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-30T11:36:13.136921+00:00",
+        "timestamp": "2026-10-30T12:35:08.861940+00:00",
         "last_price": 245.94,
         "vwap": 225.14,
         "momentum": 53.9,
@@ -3273,7 +3314,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-29T19:45:00+00:00",
-        "data_age_seconds": 57073.137,
+        "data_age_seconds": 60608.862,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -3295,7 +3336,7 @@
       },
       "tactical_market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-30T11:36:13.136921+00:00",
+        "timestamp": "2026-10-30T12:35:08.861940+00:00",
         "last_price": 245.94,
         "vwap": 225.14,
         "momentum": 53.9,
@@ -3559,7 +3600,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-29T15:45:00-04:00",
-      "retrieved_at": "2026-10-30T11:36:03.957882+00:00",
+      "retrieved_at": "2026-10-30T12:34:57.972072+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3577,7 +3618,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-29T15:45:00-04:00",
-      "retrieved_at": "2026-10-30T11:36:05.065255+00:00",
+      "retrieved_at": "2026-10-30T12:34:59.564174+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3595,7 +3636,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-29T15:45:00-04:00",
-      "retrieved_at": "2026-10-30T11:36:05.753545+00:00",
+      "retrieved_at": "2026-10-30T12:35:00.436647+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3613,7 +3654,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-29T15:45:00-04:00",
-      "retrieved_at": "2026-10-30T11:36:06.303001+00:00",
+      "retrieved_at": "2026-10-30T12:35:01.224534+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3631,7 +3672,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-29T15:45:00-04:00",
-      "retrieved_at": "2026-10-30T11:36:07.221595+00:00",
+      "retrieved_at": "2026-10-30T12:35:02.432635+00:00",
       "data_points": 115,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3649,7 +3690,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-29T15:45:00-04:00",
-      "retrieved_at": "2026-10-30T11:36:08.085254+00:00",
+      "retrieved_at": "2026-10-30T12:35:03.505951+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3667,7 +3708,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-29T15:45:00-04:00",
-      "retrieved_at": "2026-10-30T11:36:08.766282+00:00",
+      "retrieved_at": "2026-10-30T12:35:04.587130+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3685,7 +3726,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-29T15:45:00-04:00",
-      "retrieved_at": "2026-10-30T11:36:09.918994+00:00",
+      "retrieved_at": "2026-10-30T12:35:05.521182+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3703,7 +3744,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-29T15:45:00-04:00",
-      "retrieved_at": "2026-10-30T11:36:10.646664+00:00",
+      "retrieved_at": "2026-10-30T12:35:06.295388+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3721,7 +3762,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-29T15:45:00-04:00",
-      "retrieved_at": "2026-10-30T11:36:11.253814+00:00",
+      "retrieved_at": "2026-10-30T12:35:06.933467+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3739,7 +3780,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-29T15:45:00-04:00",
-      "retrieved_at": "2026-10-30T11:36:12.122044+00:00",
+      "retrieved_at": "2026-10-30T12:35:07.822708+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3757,7 +3798,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-29T15:45:00-04:00",
-      "retrieved_at": "2026-10-30T11:36:13.009116+00:00",
+      "retrieved_at": "2026-10-30T12:35:08.690515+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -4428,7 +4469,7 @@
         },
         "market": {
           "ticker": "URI",
-          "timestamp": "2026-10-30T11:36:17.617531+00:00",
+          "timestamp": "2026-10-30T12:35:17.740998+00:00",
           "last_price": 1198.72,
           "vwap": 1143.54,
           "momentum": 140.73,
@@ -4562,6 +4603,149 @@
         "data_quality": "LIVE"
       },
       {
+        "ticker": "MA",
+        "sector": "Financials",
+        "industry": "Credit Services",
+        "fast_scan": {
+          "opportunity_score": 78.9,
+          "opportunity_signal": "HIGH_POTENTIAL",
+          "return_5d_pct": 0.39,
+          "return_20d_pct": 15.76,
+          "return_60d_pct": 11.6,
+          "relative_strength_20d": 15.05,
+          "volume_ratio": 1.1,
+          "overextension_pct": 5.64
+        },
+        "market": {
+          "ticker": "MA",
+          "timestamp": "2026-10-30T12:35:19.066626+00:00",
+          "last_price": 635.71,
+          "vwap": 623.07,
+          "momentum": 11.37,
+          "momentum_pct": 1.82,
+          "vwap_distance_pct": 2.03,
+          "volume": 16116044,
+          "volume_ratio": 2.57,
+          "data_points": 130,
+          "data_quality": "UNVERIFIED",
+          "source": null,
+          "market_timestamp": null,
+          "data_scope": "RESEARCH_ONLY",
+          "execution_eligible": false
+        },
+        "market_signal": "BULLISH",
+        "scores": {
+          "market_score": 68.5,
+          "news_score": 50,
+          "catalyst_score": 56,
+          "sector_score": 88.2,
+          "risk_score": 87.7,
+          "alpha_score": 73.13
+        },
+        "news": {
+          "ticker": "MA",
+          "news_score": 50,
+          "events": [],
+          "article_count": 10,
+          "data_quality": "LIVE"
+        },
+        "catalyst": {
+          "ticker": "MA",
+          "catalyst_score": 56,
+          "catalyst_signal": "NEUTRAL",
+          "catalysts": [
+            {
+              "type": "POSITIVE",
+              "catalyst": "buy rating",
+              "impact": 6
+            }
+          ],
+          "article_count": 10,
+          "data_quality": "LIVE"
+        },
+        "sector_analysis": {
+          "ticker": "MA",
+          "sector": "Financial Services",
+          "industry": "Credit Services",
+          "sector_etf": "XLF",
+          "sector_score": 88.2,
+          "sector_signal": "STRONG",
+          "metrics": {
+            "sector_momentum_20d": 6.51,
+            "sector_momentum_5d": 0.51,
+            "market_momentum_20d": 0.7,
+            "relative_strength": 5.81,
+            "volatility_pct": 0.78,
+            "trend_above_sma20": true
+          },
+          "data_quality": "LIVE"
+        },
+        "risk": {
+          "ticker": "MA",
+          "risk_score": 87.7,
+          "risk_signal": "LOW_RISK",
+          "volatility_pct": 0.42,
+          "max_drawdown_pct": 3.06,
+          "trend_pct": 1.82,
+          "average_dollar_volume": 77241976.03,
+          "components": {
+            "volatility_score": 89.5,
+            "drawdown_score": 75.5,
+            "liquidity_score": 100,
+            "downside_momentum_score": 100
+          },
+          "data_quality": "LIVE"
+        },
+        "rating": "STRONG",
+        "action": "ACCUMULATE",
+        "base_decision": {
+          "action": "ACCUMULATE",
+          "confidence": 71.8,
+          "entry_zone": {
+            "low": 610.28,
+            "high": 635.71
+          },
+          "stop_loss": 578.5,
+          "target_price": 731.07,
+          "risk_reward": 1.67,
+          "setup_quality": "POSITIVE",
+          "reasons": [
+            "Positive alpha score",
+            "Technical confirmation present",
+            "Catalyst confirmation present",
+            "Risk profile acceptable"
+          ]
+        },
+        "decision": {
+          "action": "ACCUMULATE",
+          "confidence": 71.8,
+          "entry_zone": {
+            "low": 610.28,
+            "high": 635.71
+          },
+          "stop_loss": 578.5,
+          "target_price": 731.07,
+          "risk_reward": 1.67,
+          "setup_quality": "POSITIVE",
+          "reasons": [
+            "Positive alpha score",
+            "Technical confirmation present",
+            "Catalyst confirmation present",
+            "Risk profile acceptable"
+          ],
+          "safety_gate": {
+            "triggered": false,
+            "original_action": "ACCUMULATE",
+            "final_action": "ACCUMULATE",
+            "reasons": []
+          }
+        },
+        "status": "ANALYZED",
+        "data_quality": "LIVE"
+      }
+    ],
+    "watchlist": [
+      {
         "ticker": "LLY",
         "sector": "Healthcare",
         "industry": "Pharmaceuticals",
@@ -4577,7 +4761,7 @@
         },
         "market": {
           "ticker": "LLY",
-          "timestamp": "2026-10-30T11:36:16.189210+00:00",
+          "timestamp": "2026-10-30T12:35:15.214270+00:00",
           "last_price": 1373.0,
           "vwap": 1318.04,
           "momentum": 85.29,
@@ -4596,10 +4780,10 @@
         "scores": {
           "market_score": 85.8,
           "news_score": 50,
-          "catalyst_score": 56,
+          "catalyst_score": 50,
           "sector_score": 94.3,
           "risk_score": 87.1,
-          "alpha_score": 79.95
+          "alpha_score": 78.45
         },
         "news": {
           "ticker": "LLY",
@@ -4610,15 +4794,9 @@
         },
         "catalyst": {
           "ticker": "LLY",
-          "catalyst_score": 56,
+          "catalyst_score": 50,
           "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "POSITIVE",
-              "catalyst": "buy rating",
-              "impact": 6
-            }
-          ],
+          "catalysts": [],
           "article_count": 10,
           "data_quality": "LIVE"
         },
@@ -4656,54 +4834,41 @@
           "data_quality": "LIVE"
         },
         "rating": "STRONG",
-        "action": "ACCUMULATE",
+        "action": "WATCH",
         "base_decision": {
-          "action": "ACCUMULATE",
-          "confidence": 78.6,
-          "entry_zone": {
-            "low": 1318.08,
-            "high": 1373.0
-          },
-          "stop_loss": 1249.43,
-          "target_price": 1578.95,
-          "risk_reward": 1.67,
-          "setup_quality": "POSITIVE",
+          "action": "WATCH",
+          "confidence": 77.0,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
           "reasons": [
-            "Positive alpha score",
-            "Technical confirmation present",
-            "Catalyst confirmation present",
-            "Risk profile acceptable"
+            "Setup has potential",
+            "Further confirmation required"
           ]
         },
         "decision": {
-          "action": "ACCUMULATE",
-          "confidence": 78.6,
-          "entry_zone": {
-            "low": 1318.08,
-            "high": 1373.0
-          },
-          "stop_loss": 1249.43,
-          "target_price": 1578.95,
-          "risk_reward": 1.67,
-          "setup_quality": "POSITIVE",
+          "action": "WATCH",
+          "confidence": 77.0,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
           "reasons": [
-            "Positive alpha score",
-            "Technical confirmation present",
-            "Catalyst confirmation present",
-            "Risk profile acceptable"
+            "Setup has potential",
+            "Further confirmation required"
           ],
           "safety_gate": {
             "triggered": false,
-            "original_action": "ACCUMULATE",
-            "final_action": "ACCUMULATE",
+            "original_action": "WATCH",
             "reasons": []
           }
         },
         "status": "ANALYZED",
         "data_quality": "LIVE"
-      }
-    ],
-    "watchlist": [
+      },
       {
         "ticker": "GILD",
         "sector": "Healthcare",
@@ -4720,7 +4885,7 @@
         },
         "market": {
           "ticker": "GILD",
-          "timestamp": "2026-10-30T11:36:19.496654+00:00",
+          "timestamp": "2026-10-30T12:35:20.466464+00:00",
           "last_price": 165.63,
           "vwap": 159.57,
           "momentum": 8.56,
@@ -4748,7 +4913,7 @@
           "ticker": "GILD",
           "news_score": 50,
           "events": [],
-          "article_count": 9,
+          "article_count": 10,
           "data_quality": "LIVE"
         },
         "catalyst": {
@@ -4756,7 +4921,7 @@
           "catalyst_score": 50,
           "catalyst_signal": "NEUTRAL",
           "catalysts": [],
-          "article_count": 9,
+          "article_count": 10,
           "data_quality": "LIVE"
         },
         "sector_analysis": {
@@ -4844,7 +5009,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-30T11:36:16.789463+00:00",
+          "timestamp": "2026-10-30T12:35:16.137478+00:00",
           "last_price": 643.68,
           "vwap": 626.7,
           "momentum": 56.38,
@@ -4968,7 +5133,7 @@
         },
         "market": {
           "ticker": "TSLA",
-          "timestamp": "2026-10-30T11:36:17.978798+00:00",
+          "timestamp": "2026-10-30T12:35:18.362109+00:00",
           "last_price": 403.29,
           "vwap": 396.48,
           "momentum": 30.22,
@@ -4986,16 +5151,17 @@
         "market_signal": "BULLISH",
         "scores": {
           "market_score": 72.6,
-          "news_score": 52,
-          "catalyst_score": 50,
+          "news_score": 42,
+          "catalyst_score": 40,
           "sector_score": 90.4,
           "risk_score": 88.4,
-          "alpha_score": 73.57
+          "alpha_score": 71.07
         },
         "news": {
           "ticker": "TSLA",
-          "news_score": 52,
+          "news_score": 42,
           "events": [
+            "earnings miss",
             "ai",
             "downgrade"
           ],
@@ -5004,9 +5170,14 @@
         },
         "catalyst": {
           "ticker": "TSLA",
-          "catalyst_score": 50,
+          "catalyst_score": 40,
           "catalyst_signal": "NEUTRAL",
           "catalysts": [
+            {
+              "type": "NEGATIVE",
+              "catalyst": "earnings miss",
+              "impact": -10
+            },
             {
               "type": "POSITIVE",
               "catalyst": "ai",
@@ -5058,7 +5229,7 @@
         "action": "WATCH",
         "base_decision": {
           "action": "WATCH",
-          "confidence": 72.1,
+          "confidence": 69.3,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -5071,139 +5242,7 @@
         },
         "decision": {
           "action": "WATCH",
-          "confidence": 72.1,
-          "entry_zone": null,
-          "stop_loss": null,
-          "target_price": null,
-          "risk_reward": null,
-          "setup_quality": "DEVELOPING",
-          "reasons": [
-            "Setup has potential",
-            "Further confirmation required"
-          ],
-          "safety_gate": {
-            "triggered": false,
-            "original_action": "WATCH",
-            "reasons": []
-          }
-        },
-        "status": "ANALYZED",
-        "data_quality": "LIVE"
-      },
-      {
-        "ticker": "MA",
-        "sector": "Financials",
-        "industry": "Credit Services",
-        "fast_scan": {
-          "opportunity_score": 78.9,
-          "opportunity_signal": "HIGH_POTENTIAL",
-          "return_5d_pct": 0.39,
-          "return_20d_pct": 15.76,
-          "return_60d_pct": 11.6,
-          "relative_strength_20d": 15.05,
-          "volume_ratio": 1.1,
-          "overextension_pct": 5.64
-        },
-        "market": {
-          "ticker": "MA",
-          "timestamp": "2026-10-30T11:36:18.493907+00:00",
-          "last_price": 635.71,
-          "vwap": 623.07,
-          "momentum": 11.37,
-          "momentum_pct": 1.82,
-          "vwap_distance_pct": 2.03,
-          "volume": 16116044,
-          "volume_ratio": 2.57,
-          "data_points": 130,
-          "data_quality": "UNVERIFIED",
-          "source": null,
-          "market_timestamp": null,
-          "data_scope": "RESEARCH_ONLY",
-          "execution_eligible": false
-        },
-        "market_signal": "BULLISH",
-        "scores": {
-          "market_score": 68.5,
-          "news_score": 42,
-          "catalyst_score": 42,
-          "sector_score": 88.2,
-          "risk_score": 87.7,
-          "alpha_score": 69.63
-        },
-        "news": {
-          "ticker": "MA",
-          "news_score": 42,
-          "events": [
-            "lawsuit"
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "catalyst": {
-          "ticker": "MA",
-          "catalyst_score": 42,
-          "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "NEGATIVE",
-              "catalyst": "lawsuit",
-              "impact": -8
-            }
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "sector_analysis": {
-          "ticker": "MA",
-          "sector": "Financial Services",
-          "industry": "Credit Services",
-          "sector_etf": "XLF",
-          "sector_score": 88.2,
-          "sector_signal": "STRONG",
-          "metrics": {
-            "sector_momentum_20d": 6.51,
-            "sector_momentum_5d": 0.51,
-            "market_momentum_20d": 0.7,
-            "relative_strength": 5.81,
-            "volatility_pct": 0.78,
-            "trend_above_sma20": true
-          },
-          "data_quality": "LIVE"
-        },
-        "risk": {
-          "ticker": "MA",
-          "risk_score": 87.7,
-          "risk_signal": "LOW_RISK",
-          "volatility_pct": 0.42,
-          "max_drawdown_pct": 3.06,
-          "trend_pct": 1.82,
-          "average_dollar_volume": 77241976.03,
-          "components": {
-            "volatility_score": 89.5,
-            "drawdown_score": 75.5,
-            "liquidity_score": 100,
-            "downside_momentum_score": 100
-          },
-          "data_quality": "LIVE"
-        },
-        "rating": "POSITIVE",
-        "action": "WATCH",
-        "base_decision": {
-          "action": "WATCH",
-          "confidence": 68.0,
-          "entry_zone": null,
-          "stop_loss": null,
-          "target_price": null,
-          "risk_reward": null,
-          "setup_quality": "DEVELOPING",
-          "reasons": [
-            "Setup has potential",
-            "Further confirmation required"
-          ]
-        },
-        "decision": {
-          "action": "WATCH",
-          "confidence": 68.0,
+          "confidence": 69.3,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -5238,7 +5277,7 @@
         },
         "market": {
           "ticker": "WMT",
-          "timestamp": "2026-10-30T11:36:18.991728+00:00",
+          "timestamp": "2026-10-30T12:35:19.797954+00:00",
           "last_price": 121.25,
           "vwap": 119.94,
           "momentum": 0.17,
@@ -5362,7 +5401,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-30T11:36:17.261933+00:00",
+          "timestamp": "2026-10-30T12:35:17.177662+00:00",
           "last_price": 150.01,
           "vwap": 150.1,
           "momentum": 1.16,
@@ -5503,7 +5542,7 @@
         },
         "market": {
           "ticker": "URI",
-          "timestamp": "2026-10-30T11:36:17.617531+00:00",
+          "timestamp": "2026-10-30T12:35:17.740998+00:00",
           "last_price": 1198.72,
           "vwap": 1143.54,
           "momentum": 140.73,
@@ -5637,6 +5676,147 @@
         "data_quality": "LIVE"
       },
       {
+        "ticker": "MA",
+        "sector": "Financials",
+        "industry": "Credit Services",
+        "fast_scan": {
+          "opportunity_score": 78.9,
+          "opportunity_signal": "HIGH_POTENTIAL",
+          "return_5d_pct": 0.39,
+          "return_20d_pct": 15.76,
+          "return_60d_pct": 11.6,
+          "relative_strength_20d": 15.05,
+          "volume_ratio": 1.1,
+          "overextension_pct": 5.64
+        },
+        "market": {
+          "ticker": "MA",
+          "timestamp": "2026-10-30T12:35:19.066626+00:00",
+          "last_price": 635.71,
+          "vwap": 623.07,
+          "momentum": 11.37,
+          "momentum_pct": 1.82,
+          "vwap_distance_pct": 2.03,
+          "volume": 16116044,
+          "volume_ratio": 2.57,
+          "data_points": 130,
+          "data_quality": "UNVERIFIED",
+          "source": null,
+          "market_timestamp": null,
+          "data_scope": "RESEARCH_ONLY",
+          "execution_eligible": false
+        },
+        "market_signal": "BULLISH",
+        "scores": {
+          "market_score": 68.5,
+          "news_score": 50,
+          "catalyst_score": 56,
+          "sector_score": 88.2,
+          "risk_score": 87.7,
+          "alpha_score": 73.13
+        },
+        "news": {
+          "ticker": "MA",
+          "news_score": 50,
+          "events": [],
+          "article_count": 10,
+          "data_quality": "LIVE"
+        },
+        "catalyst": {
+          "ticker": "MA",
+          "catalyst_score": 56,
+          "catalyst_signal": "NEUTRAL",
+          "catalysts": [
+            {
+              "type": "POSITIVE",
+              "catalyst": "buy rating",
+              "impact": 6
+            }
+          ],
+          "article_count": 10,
+          "data_quality": "LIVE"
+        },
+        "sector_analysis": {
+          "ticker": "MA",
+          "sector": "Financial Services",
+          "industry": "Credit Services",
+          "sector_etf": "XLF",
+          "sector_score": 88.2,
+          "sector_signal": "STRONG",
+          "metrics": {
+            "sector_momentum_20d": 6.51,
+            "sector_momentum_5d": 0.51,
+            "market_momentum_20d": 0.7,
+            "relative_strength": 5.81,
+            "volatility_pct": 0.78,
+            "trend_above_sma20": true
+          },
+          "data_quality": "LIVE"
+        },
+        "risk": {
+          "ticker": "MA",
+          "risk_score": 87.7,
+          "risk_signal": "LOW_RISK",
+          "volatility_pct": 0.42,
+          "max_drawdown_pct": 3.06,
+          "trend_pct": 1.82,
+          "average_dollar_volume": 77241976.03,
+          "components": {
+            "volatility_score": 89.5,
+            "drawdown_score": 75.5,
+            "liquidity_score": 100,
+            "downside_momentum_score": 100
+          },
+          "data_quality": "LIVE"
+        },
+        "rating": "STRONG",
+        "action": "ACCUMULATE",
+        "base_decision": {
+          "action": "ACCUMULATE",
+          "confidence": 71.8,
+          "entry_zone": {
+            "low": 610.28,
+            "high": 635.71
+          },
+          "stop_loss": 578.5,
+          "target_price": 731.07,
+          "risk_reward": 1.67,
+          "setup_quality": "POSITIVE",
+          "reasons": [
+            "Positive alpha score",
+            "Technical confirmation present",
+            "Catalyst confirmation present",
+            "Risk profile acceptable"
+          ]
+        },
+        "decision": {
+          "action": "ACCUMULATE",
+          "confidence": 71.8,
+          "entry_zone": {
+            "low": 610.28,
+            "high": 635.71
+          },
+          "stop_loss": 578.5,
+          "target_price": 731.07,
+          "risk_reward": 1.67,
+          "setup_quality": "POSITIVE",
+          "reasons": [
+            "Positive alpha score",
+            "Technical confirmation present",
+            "Catalyst confirmation present",
+            "Risk profile acceptable"
+          ],
+          "safety_gate": {
+            "triggered": false,
+            "original_action": "ACCUMULATE",
+            "final_action": "ACCUMULATE",
+            "reasons": []
+          }
+        },
+        "status": "ANALYZED",
+        "data_quality": "LIVE"
+      },
+      {
         "ticker": "LLY",
         "sector": "Healthcare",
         "industry": "Pharmaceuticals",
@@ -5652,7 +5832,7 @@
         },
         "market": {
           "ticker": "LLY",
-          "timestamp": "2026-10-30T11:36:16.189210+00:00",
+          "timestamp": "2026-10-30T12:35:15.214270+00:00",
           "last_price": 1373.0,
           "vwap": 1318.04,
           "momentum": 85.29,
@@ -5671,10 +5851,10 @@
         "scores": {
           "market_score": 85.8,
           "news_score": 50,
-          "catalyst_score": 56,
+          "catalyst_score": 50,
           "sector_score": 94.3,
           "risk_score": 87.1,
-          "alpha_score": 79.95
+          "alpha_score": 78.45
         },
         "news": {
           "ticker": "LLY",
@@ -5685,15 +5865,9 @@
         },
         "catalyst": {
           "ticker": "LLY",
-          "catalyst_score": 56,
+          "catalyst_score": 50,
           "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "POSITIVE",
-              "catalyst": "buy rating",
-              "impact": 6
-            }
-          ],
+          "catalysts": [],
           "article_count": 10,
           "data_quality": "LIVE"
         },
@@ -5731,46 +5905,35 @@
           "data_quality": "LIVE"
         },
         "rating": "STRONG",
-        "action": "ACCUMULATE",
+        "action": "WATCH",
         "base_decision": {
-          "action": "ACCUMULATE",
-          "confidence": 78.6,
-          "entry_zone": {
-            "low": 1318.08,
-            "high": 1373.0
-          },
-          "stop_loss": 1249.43,
-          "target_price": 1578.95,
-          "risk_reward": 1.67,
-          "setup_quality": "POSITIVE",
+          "action": "WATCH",
+          "confidence": 77.0,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
           "reasons": [
-            "Positive alpha score",
-            "Technical confirmation present",
-            "Catalyst confirmation present",
-            "Risk profile acceptable"
+            "Setup has potential",
+            "Further confirmation required"
           ]
         },
         "decision": {
-          "action": "ACCUMULATE",
-          "confidence": 78.6,
-          "entry_zone": {
-            "low": 1318.08,
-            "high": 1373.0
-          },
-          "stop_loss": 1249.43,
-          "target_price": 1578.95,
-          "risk_reward": 1.67,
-          "setup_quality": "POSITIVE",
+          "action": "WATCH",
+          "confidence": 77.0,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
           "reasons": [
-            "Positive alpha score",
-            "Technical confirmation present",
-            "Catalyst confirmation present",
-            "Risk profile acceptable"
+            "Setup has potential",
+            "Further confirmation required"
           ],
           "safety_gate": {
             "triggered": false,
-            "original_action": "ACCUMULATE",
-            "final_action": "ACCUMULATE",
+            "original_action": "WATCH",
             "reasons": []
           }
         },
@@ -5793,7 +5956,7 @@
         },
         "market": {
           "ticker": "GILD",
-          "timestamp": "2026-10-30T11:36:19.496654+00:00",
+          "timestamp": "2026-10-30T12:35:20.466464+00:00",
           "last_price": 165.63,
           "vwap": 159.57,
           "momentum": 8.56,
@@ -5821,7 +5984,7 @@
           "ticker": "GILD",
           "news_score": 50,
           "events": [],
-          "article_count": 9,
+          "article_count": 10,
           "data_quality": "LIVE"
         },
         "catalyst": {
@@ -5829,7 +5992,7 @@
           "catalyst_score": 50,
           "catalyst_signal": "NEUTRAL",
           "catalysts": [],
-          "article_count": 9,
+          "article_count": 10,
           "data_quality": "LIVE"
         },
         "sector_analysis": {
@@ -5917,7 +6080,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-30T11:36:16.789463+00:00",
+          "timestamp": "2026-10-30T12:35:16.137478+00:00",
           "last_price": 643.68,
           "vwap": 626.7,
           "momentum": 56.38,
@@ -6041,7 +6204,7 @@
         },
         "market": {
           "ticker": "TSLA",
-          "timestamp": "2026-10-30T11:36:17.978798+00:00",
+          "timestamp": "2026-10-30T12:35:18.362109+00:00",
           "last_price": 403.29,
           "vwap": 396.48,
           "momentum": 30.22,
@@ -6059,16 +6222,17 @@
         "market_signal": "BULLISH",
         "scores": {
           "market_score": 72.6,
-          "news_score": 52,
-          "catalyst_score": 50,
+          "news_score": 42,
+          "catalyst_score": 40,
           "sector_score": 90.4,
           "risk_score": 88.4,
-          "alpha_score": 73.57
+          "alpha_score": 71.07
         },
         "news": {
           "ticker": "TSLA",
-          "news_score": 52,
+          "news_score": 42,
           "events": [
+            "earnings miss",
             "ai",
             "downgrade"
           ],
@@ -6077,9 +6241,14 @@
         },
         "catalyst": {
           "ticker": "TSLA",
-          "catalyst_score": 50,
+          "catalyst_score": 40,
           "catalyst_signal": "NEUTRAL",
           "catalysts": [
+            {
+              "type": "NEGATIVE",
+              "catalyst": "earnings miss",
+              "impact": -10
+            },
             {
               "type": "POSITIVE",
               "catalyst": "ai",
@@ -6131,7 +6300,7 @@
         "action": "WATCH",
         "base_decision": {
           "action": "WATCH",
-          "confidence": 72.1,
+          "confidence": 69.3,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -6144,139 +6313,7 @@
         },
         "decision": {
           "action": "WATCH",
-          "confidence": 72.1,
-          "entry_zone": null,
-          "stop_loss": null,
-          "target_price": null,
-          "risk_reward": null,
-          "setup_quality": "DEVELOPING",
-          "reasons": [
-            "Setup has potential",
-            "Further confirmation required"
-          ],
-          "safety_gate": {
-            "triggered": false,
-            "original_action": "WATCH",
-            "reasons": []
-          }
-        },
-        "status": "ANALYZED",
-        "data_quality": "LIVE"
-      },
-      {
-        "ticker": "MA",
-        "sector": "Financials",
-        "industry": "Credit Services",
-        "fast_scan": {
-          "opportunity_score": 78.9,
-          "opportunity_signal": "HIGH_POTENTIAL",
-          "return_5d_pct": 0.39,
-          "return_20d_pct": 15.76,
-          "return_60d_pct": 11.6,
-          "relative_strength_20d": 15.05,
-          "volume_ratio": 1.1,
-          "overextension_pct": 5.64
-        },
-        "market": {
-          "ticker": "MA",
-          "timestamp": "2026-10-30T11:36:18.493907+00:00",
-          "last_price": 635.71,
-          "vwap": 623.07,
-          "momentum": 11.37,
-          "momentum_pct": 1.82,
-          "vwap_distance_pct": 2.03,
-          "volume": 16116044,
-          "volume_ratio": 2.57,
-          "data_points": 130,
-          "data_quality": "UNVERIFIED",
-          "source": null,
-          "market_timestamp": null,
-          "data_scope": "RESEARCH_ONLY",
-          "execution_eligible": false
-        },
-        "market_signal": "BULLISH",
-        "scores": {
-          "market_score": 68.5,
-          "news_score": 42,
-          "catalyst_score": 42,
-          "sector_score": 88.2,
-          "risk_score": 87.7,
-          "alpha_score": 69.63
-        },
-        "news": {
-          "ticker": "MA",
-          "news_score": 42,
-          "events": [
-            "lawsuit"
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "catalyst": {
-          "ticker": "MA",
-          "catalyst_score": 42,
-          "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "NEGATIVE",
-              "catalyst": "lawsuit",
-              "impact": -8
-            }
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "sector_analysis": {
-          "ticker": "MA",
-          "sector": "Financial Services",
-          "industry": "Credit Services",
-          "sector_etf": "XLF",
-          "sector_score": 88.2,
-          "sector_signal": "STRONG",
-          "metrics": {
-            "sector_momentum_20d": 6.51,
-            "sector_momentum_5d": 0.51,
-            "market_momentum_20d": 0.7,
-            "relative_strength": 5.81,
-            "volatility_pct": 0.78,
-            "trend_above_sma20": true
-          },
-          "data_quality": "LIVE"
-        },
-        "risk": {
-          "ticker": "MA",
-          "risk_score": 87.7,
-          "risk_signal": "LOW_RISK",
-          "volatility_pct": 0.42,
-          "max_drawdown_pct": 3.06,
-          "trend_pct": 1.82,
-          "average_dollar_volume": 77241976.03,
-          "components": {
-            "volatility_score": 89.5,
-            "drawdown_score": 75.5,
-            "liquidity_score": 100,
-            "downside_momentum_score": 100
-          },
-          "data_quality": "LIVE"
-        },
-        "rating": "POSITIVE",
-        "action": "WATCH",
-        "base_decision": {
-          "action": "WATCH",
-          "confidence": 68.0,
-          "entry_zone": null,
-          "stop_loss": null,
-          "target_price": null,
-          "risk_reward": null,
-          "setup_quality": "DEVELOPING",
-          "reasons": [
-            "Setup has potential",
-            "Further confirmation required"
-          ]
-        },
-        "decision": {
-          "action": "WATCH",
-          "confidence": 68.0,
+          "confidence": 69.3,
           "entry_zone": null,
           "stop_loss": null,
           "target_price": null,
@@ -6311,7 +6348,7 @@
         },
         "market": {
           "ticker": "WMT",
-          "timestamp": "2026-10-30T11:36:18.991728+00:00",
+          "timestamp": "2026-10-30T12:35:19.797954+00:00",
           "last_price": 121.25,
           "vwap": 119.94,
           "momentum": 0.17,
@@ -6435,7 +6472,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-30T11:36:17.261933+00:00",
+          "timestamp": "2026-10-30T12:35:17.177662+00:00",
           "last_price": 150.01,
           "vwap": 150.1,
           "momentum": 1.16,
@@ -6562,7 +6599,7 @@
   },
   "market_regime": {
     "engine": "V7.4 Market Regime Engine",
-    "timestamp": "2026-10-30T11:36:20.311232+00:00",
+    "timestamp": "2026-10-30T12:35:21.633627+00:00",
     "market_date": "2026-10-29",
     "regime": "NORMAL",
     "regime_score": 75.0,
@@ -6628,17 +6665,17 @@
         "ticker": "^VIX",
         "status": "OK",
         "market_date": "2026-10-30",
-        "last_price": 18.45,
-        "return_5d_pct": -5.14,
-        "return_20d_pct": 20.51,
-        "return_60d_pct": 23.83,
-        "sma20": 16.95,
-        "sma50": 16.16,
+        "last_price": 18.68,
+        "return_5d_pct": -3.96,
+        "return_20d_pct": 22.01,
+        "return_60d_pct": 25.37,
+        "sma20": 16.96,
+        "sma50": 16.17,
         "sma200": 18.25,
         "above_sma20": true,
         "above_sma50": true,
         "above_sma200": true,
-        "realized_volatility_20d_pct": 116.31
+        "realized_volatility_20d_pct": 117.33
       }
     },
     "reasons": [
@@ -6646,13 +6683,13 @@
       "SPY 20D momentum positive",
       "SPY 60D momentum positive",
       "QQQ/IWM above SMA50: 0/2",
-      "VIX level: 18.45",
+      "VIX level: 18.68",
       "Balanced capital policy activated"
     ]
   },
   "event_risk": {
     "engine": "V7.5 Earnings & Event Risk Engine",
-    "generated": "2026-10-30T11:36:27.230447+00:00",
+    "generated": "2026-10-30T12:35:28.793644+00:00",
     "reference_date": "2026-10-30",
     "macro_event_risk": {
       "reference_date": "2026-10-30",
@@ -7175,12 +7212,12 @@
           ]
         }
       },
-      "LLY": {
-        "ticker": "LLY",
+      "MA": {
+        "ticker": "MA",
         "earnings": {
-          "ticker": "LLY",
-          "next_earnings_date": "2027-02-03",
-          "days_until_earnings": 96,
+          "ticker": "MA",
+          "next_earnings_date": "2027-01-28",
+          "days_until_earnings": 90,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7584,15 +7621,15 @@
         ]
       },
       {
-        "ticker": "LLY",
+        "ticker": "MA",
         "base_action": "ACCUMULATE",
         "risk_level": "ELEVATED",
         "event_policy": "REDUCE_SIZE",
         "size_multiplier": 0.75,
         "earnings": {
-          "ticker": "LLY",
-          "next_earnings_date": "2027-02-03",
-          "days_until_earnings": 96,
+          "ticker": "MA",
+          "next_earnings_date": "2027-01-28",
+          "days_until_earnings": 90,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7618,7 +7655,7 @@
   },
   "correlation_allocation_gate": {
     "engine": "V7.7 Correlation-Aware Capital Allocation Gate",
-    "timestamp": "2026-10-30T11:36:28.531207+00:00",
+    "timestamp": "2026-10-30T12:35:30.383599+00:00",
     "existing_position_count": 9,
     "actionable_candidate_count": 2,
     "portfolio_factor_profile": {
@@ -7698,14 +7735,14 @@
           "No material correlation concentration detected"
         ]
       },
-      "LLY": {
-        "ticker": "LLY",
+      "MA": {
+        "ticker": "MA",
         "policy": "ALLOW",
         "risk_level": "LOW",
         "size_multiplier": 1.0,
         "provisional_target_weight_pct": 3.0,
-        "candidate_portfolio_correlation": -0.122,
-        "max_pair_correlation": 0.274,
+        "candidate_portfolio_correlation": -0.238,
+        "max_pair_correlation": 0.382,
         "max_pair_ticker": "CTAS",
         "high_correlation_existing_weight_pct": 0,
         "projected_cluster_weight_pct": 3.0,
@@ -7713,25 +7750,25 @@
         "factor_profile": {
           "MARKET": {
             "proxy": "SPY",
-            "correlation": 0.081
+            "correlation": 0.069
           },
           "GROWTH_TECH": {
             "proxy": "QQQ",
-            "correlation": -0.081
+            "correlation": -0.145
           },
           "SEMICONDUCTOR": {
             "proxy": "SMH",
-            "correlation": -0.144
+            "correlation": -0.325
           },
           "ENERGY": {
             "proxy": "XLE",
-            "correlation": -0.118
+            "correlation": -0.055
           }
         },
         "dominant_factor": {
           "factor": "SEMICONDUCTOR",
           "proxy": "SMH",
-          "correlation": -0.144
+          "correlation": -0.325
         },
         "portfolio_dominant_factor": {
           "factor": "SEMICONDUCTOR",
@@ -7777,9 +7814,9 @@
     "minimum_cash_reserve_pct": 20.0,
     "minimum_cash_reserve_value": 8334.13,
     "initial_deployable_cash": 1997.77,
-    "new_opportunity_allocation": 1198.72,
-    "projected_cash_after_allocations": 9133.18,
-    "projected_cash_weight_pct": 21.92,
+    "new_opportunity_allocation": 1834.43,
+    "projected_cash_after_allocations": 8497.47,
+    "projected_cash_weight_pct": 20.39,
     "reserve_target_weight_pct": 20.0,
     "cash_reserve_status": "PASS",
     "max_new_position_weight_pct": 5.0,
@@ -7827,26 +7864,26 @@
         ]
       },
       {
-        "ticker": "LLY",
+        "ticker": "MA",
         "action": "ACCUMULATE",
-        "sector": "Healthcare",
-        "price": 1373.0,
-        "alpha_score": 79.95,
-        "confidence": 78.6,
-        "risk_score": 87.1,
+        "sector": "Financials",
+        "price": 635.71,
+        "alpha_score": 73.13,
+        "confidence": 71.8,
+        "risk_score": 87.7,
         "target_weight_pct": 3.0,
         "target_value": 1250.12,
-        "suggested_shares": 0,
-        "allocated_value": 0.0,
-        "projected_weight_pct": 0.0,
-        "allocation_status": "CASH_LIMIT",
-        "reason": "Available cash is insufficient for one whole share",
+        "suggested_shares": 1,
+        "allocated_value": 635.71,
+        "projected_weight_pct": 1.53,
+        "allocation_status": "ALLOCATE",
+        "reason": "Actionable opportunity inside entry zone and within capital limits",
         "entry_zone": {
-          "low": 1318.08,
-          "high": 1373.0
+          "low": 610.28,
+          "high": 635.71
         },
-        "stop_loss": 1249.43,
-        "target_price": 1578.95,
+        "stop_loss": 578.5,
+        "target_price": 731.07,
         "risk_reward": 1.67,
         "event_policy": "REDUCE_SIZE",
         "event_risk_level": "ELEVATED",
@@ -7854,13 +7891,13 @@
         "event_reasons": [
           "EMPLOYMENT in 7 calendar days"
         ],
-        "next_earnings_date": "2027-02-03",
-        "days_until_earnings": 96,
+        "next_earnings_date": "2027-01-28",
+        "days_until_earnings": 90,
         "correlation_policy": "ALLOW",
         "correlation_risk_level": "LOW",
         "correlation_size_multiplier": 1.0,
-        "candidate_portfolio_correlation": -0.122,
-        "max_pair_correlation": 0.274,
+        "candidate_portfolio_correlation": -0.238,
+        "max_pair_correlation": 0.382,
         "max_pair_ticker": "CTAS",
         "projected_cluster_weight_pct": 3.0,
         "candidate_dominant_factor": "SEMICONDUCTOR",
@@ -7875,12 +7912,12 @@
     "engine": "V7.3 Final Portfolio Projection Engine",
     "portfolio_value": 41670.63,
     "final_projected_value": 41670.63,
-    "invested_value": 32537.45,
-    "invested_weight_pct": 78.08,
-    "cash_value": 9133.18,
-    "cash_weight_pct": 21.92,
-    "final_position_count": 10,
-    "new_position_count": 1,
+    "invested_value": 33173.16,
+    "invested_weight_pct": 79.61,
+    "cash_value": 8497.47,
+    "cash_weight_pct": 20.39,
+    "final_position_count": 11,
+    "new_position_count": 2,
     "largest_position": {
       "ticker": "NVDA",
       "weight_pct": 12.31,
@@ -7910,9 +7947,13 @@
         "value": 1198.72,
         "weight_pct": 2.88
       },
+      "Financials": {
+        "value": 635.71,
+        "weight_pct": 1.53
+      },
       "Cash": {
-        "value": 9133.18,
-        "weight_pct": 21.92
+        "value": 8497.47,
+        "weight_pct": 20.39
       }
     },
     "concentration_alerts": [
@@ -7932,9 +7973,9 @@
         "final_shares": 0,
         "price": 1.0,
         "current_value": 0.0,
-        "final_value": 9133.18,
-        "value_change": 9133.18,
-        "final_weight_pct": 21.92,
+        "final_value": 8497.47,
+        "value_change": 8497.47,
+        "final_weight_pct": 20.39,
         "portfolio_action": "RESERVE",
         "trade_action": "HOLD_CASH"
       },
@@ -8074,6 +8115,21 @@
         "trade_action": "NO_TRADE"
       },
       {
+        "ticker": "MA",
+        "source": "NEW_ALLOCATION",
+        "sector": "Financials",
+        "theme": "Financials",
+        "current_shares": 0,
+        "final_shares": 1.0,
+        "price": 635.71,
+        "current_value": 0.0,
+        "final_value": 635.71,
+        "value_change": 635.71,
+        "final_weight_pct": 1.53,
+        "portfolio_action": "ACCUMULATE",
+        "trade_action": "NEW_POSITION"
+      },
+      {
         "ticker": "OMDA",
         "source": "EXISTING",
         "sector": "Healthcare",
@@ -8093,16 +8149,16 @@
   },
   "portfolio_correlation_factor_risk": {
     "engine": "V7.6 Portfolio Correlation & Factor Risk Engine",
-    "timestamp": "2026-10-30T11:36:28.567604+00:00",
-    "position_count": 10,
+    "timestamp": "2026-10-30T12:35:30.410030+00:00",
+    "position_count": 11,
     "data_coverage": {
-      "positions_with_market_history": 10,
-      "positions_total": 10,
+      "positions_with_market_history": 11,
+      "positions_total": 11,
       "coverage_pct": 100.0,
       "missing_tickers": []
     },
-    "portfolio_volatility_annualized_pct": 32.49,
-    "weighted_average_correlation": 0.326,
+    "portfolio_volatility_annualized_pct": 32.41,
+    "weighted_average_correlation": 0.305,
     "correlation_risk": "MODERATE",
     "high_correlation_pair_count": 0,
     "very_high_correlation_pair_count": 0,
@@ -8178,6 +8234,13 @@
         "risk_level": "NORMAL"
       },
       {
+        "ticker_a": "CTAS",
+        "ticker_b": "MA",
+        "correlation": 0.382,
+        "combined_portfolio_weight_pct": 3.62,
+        "risk_level": "NORMAL"
+      },
+      {
         "ticker_a": "ASML",
         "ticker_b": "URI",
         "correlation": 0.265,
@@ -8204,13 +8267,6 @@
         "correlation": 0.233,
         "combined_portfolio_weight_pct": 22.47,
         "risk_level": "NORMAL"
-      },
-      {
-        "ticker_a": "ASML",
-        "ticker_b": "GOOG",
-        "correlation": 0.197,
-        "combined_portfolio_weight_pct": 22.22,
-        "risk_level": "NORMAL"
       }
     ],
     "correlation_clusters": [],
@@ -8220,34 +8276,34 @@
     "factor_sensitivity": {
       "MARKET": {
         "proxy": "SPY",
-        "beta": 1.861,
-        "correlation": 0.753,
+        "beta": 1.862,
+        "correlation": 0.756,
         "observations": 168
       },
       "GROWTH_TECH": {
         "proxy": "QQQ",
-        "beta": 1.29,
-        "correlation": 0.854,
+        "beta": 1.288,
+        "correlation": 0.855,
         "observations": 168
       },
       "SEMICONDUCTOR": {
         "proxy": "SMH",
-        "beta": 0.65,
-        "correlation": 0.879,
+        "beta": 0.647,
+        "correlation": 0.878,
         "observations": 168
       },
       "ENERGY": {
         "proxy": "XLE",
-        "beta": -0.378,
-        "correlation": -0.265,
+        "beta": -0.379,
+        "correlation": -0.266,
         "observations": 168
       }
     },
     "dominant_factor": {
       "factor": "SEMICONDUCTOR",
       "proxy": "SMH",
-      "beta": 0.65,
-      "correlation": 0.879,
+      "beta": 0.647,
+      "correlation": 0.878,
       "observations": 168
     },
     "sector_exposure": [
@@ -8266,6 +8322,10 @@
       {
         "name": "Healthcare",
         "weight_pct": 2.44
+      },
+      {
+        "name": "Financials",
+        "weight_pct": 1.53
       }
     ],
     "theme_exposure": [
@@ -8288,6 +8348,10 @@
       {
         "name": "Industrial",
         "weight_pct": 2.09
+      },
+      {
+        "name": "Financials",
+        "weight_pct": 1.53
       }
     ],
     "ai_complex_weight_pct": 70.67,
@@ -8299,7 +8363,7 @@
       "name": "AI Infrastructure",
       "weight_pct": 36.14
     },
-    "hidden_risk_score": 44.0,
+    "hidden_risk_score": 43.2,
     "hidden_risk_level": "MODERATE",
     "recommendation": "MONITOR",
     "note": "This layer measures hidden diversification risk using historical co-movement and factor proxies. It is diagnostic only and does not automatically liquidate or resize positions."
@@ -12096,7 +12160,7 @@
   },
   "shadow_policy_monitor": {
     "engine": "V8.2 Shadow Policy Monitor",
-    "timestamp": "2026-10-30T11:36:30.960155+00:00",
+    "timestamp": "2026-10-30T12:35:33.389704+00:00",
     "status": "ACTIVE_SHADOW",
     "candidate_policy": "MOMENTUM_FRIENDLY",
     "live_policy": "V7.9 DEFAULT",
@@ -12294,7 +12358,7 @@
   "fresh_forward_promotion_gate": {
     "engine": "V8.4.8 Independent-Cohort Fresh Forward Promotion Gate",
     "gate_signature": "V8.4.8",
-    "generated": "2026-10-30T11:36:30.960578+00:00",
+    "generated": "2026-10-30T12:35:33.390060+00:00",
     "status": "WAITING_FOR_FRESH_EVIDENCE",
     "verdict": "PROMOTION_BLOCKED",
     "candidate_policy": "MOMENTUM_FRIENDLY",
@@ -12446,7 +12510,7 @@
   },
   "ibkr_paper_snapshot": {
     "engine": "V8.9.5 IBKR Gateway Connector",
-    "timestamp": "2026-10-30T11:36:03.957791+00:00",
+    "timestamp": "2026-10-30T12:34:57.971991+00:00",
     "config": {
       "enabled": false,
       "mode": "PAPER",
@@ -12467,7 +12531,7 @@
   },
   "ibkr_paper_readiness": {
     "engine": "V8.9.5 IBKR Paper Readiness Safety Gate",
-    "timestamp": "2026-10-30T11:36:03.957874+00:00",
+    "timestamp": "2026-10-30T12:34:57.972066+00:00",
     "readiness": "DISABLED",
     "live_execution_allowed": false,
     "paper_order_submission_allowed": false,
@@ -19759,7 +19823,7 @@
     "validation_signature": "V8.6.2",
     "status": "COMPLETE",
     "cache_status": "FRESH",
-    "generated": "2026-10-30T11:38:54.336229+00:00",
+    "generated": "2026-10-30T12:37:37.075084+00:00",
     "test_period": {
       "start": "2022-06-01",
       "end": "2026-06-05"
@@ -19839,7 +19903,7 @@
         "mode": "TOP12_FULL",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 113557.5,
+          "ending_value": 113557.49,
           "total_return_pct": 13.67,
           "cagr_pct": 3.26,
           "annualized_volatility_pct": 13.29,
@@ -20606,7 +20670,7 @@
         "mode": "TOP12_RISK_OVERLAY",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 113557.5,
+          "ending_value": 113557.49,
           "total_return_pct": 13.67,
           "cagr_pct": 3.26,
           "annualized_volatility_pct": 13.29,
@@ -21880,7 +21944,7 @@
                 "Q1": -0.722,
                 "Q2": -0.771,
                 "Q3": -0.527,
-                "Q4": -0.416,
+                "Q4": -0.417,
                 "Q5": 0.031
               },
               "top_minus_bottom_pct": 0.753
@@ -21911,7 +21975,7 @@
         "mode": "TOP12_FULL",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 102973.17,
+          "ending_value": 102973.15,
           "total_return_pct": 3.08,
           "cagr_pct": 0.76,
           "annualized_volatility_pct": 15.48,
@@ -21923,7 +21987,7 @@
           "spy_total_return_pct": 136.3,
           "spy_cagr_pct": 24.04,
           "cagr_alpha_vs_spy_pct": -23.28,
-          "total_trading_costs": 4590.11,
+          "total_trading_costs": 4590.1,
           "trading_cost_pct_of_starting_capital": 4.59,
           "annualized_turnover_x": 11.5,
           "trading_days": 1006,
@@ -22678,7 +22742,7 @@
         "mode": "TOP12_RISK_OVERLAY",
         "performance": {
           "starting_value": 99910.42,
-          "ending_value": 103980.75,
+          "ending_value": 103980.73,
           "total_return_pct": 4.07,
           "cagr_pct": 1.01,
           "annualized_volatility_pct": 14.86,
@@ -23992,7 +24056,7 @@
   },
   "thesis_exit_shadow": {
     "engine": "V8.5.2 Thesis-Aware Exit Shadow Journal",
-    "timestamp": "2026-10-30T11:36:31.138053+00:00",
+    "timestamp": "2026-10-30T12:35:33.656361+00:00",
     "status": "ACTIVE_SHADOW",
     "live_actions_changed": false,
     "reviewed_sell_count": 4,
@@ -24096,7 +24160,7 @@
   },
   "recommendation_performance": {
     "engine": "V7.8 Recommendation Performance Journal",
-    "generated": "2026-10-30T11:38:54.880128+00:00",
+    "generated": "2026-10-30T12:37:37.828715+00:00",
     "total_signals": 189,
     "bootstrap_signals_added": 0,
     "new_signals_added": 0,
