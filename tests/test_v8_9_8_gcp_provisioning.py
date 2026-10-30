@@ -107,5 +107,13 @@ class GCPProvisioningContractTests(unittest.TestCase):
         self.assertNotIn("billing budgets update", self.source)
         self.assertNotIn("billing budgets delete", self.source)
 
+    def test_sanitized_runtime_proof_is_required(self):
+        self.assertIn("scripts/gcp_runtime_proof.py", self.source)
+        self.assertIn('--output "$BUDGET_PROOF"', self.source)
+        self.assertIn('--vm-json "$VM_JSON_FILE"', self.source)
+        self.assertIn('--firewall-json "$FIREWALL_JSON_FILE"', self.source)
+        self.assertIn('--output "$GCP_PROOF_OUTPUT"', self.source)
+        self.assertIn('chmod 600 "$GCP_PROOF_OUTPUT"', self.source)
+
 if __name__ == "__main__":
     unittest.main()

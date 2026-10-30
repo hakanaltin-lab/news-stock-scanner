@@ -16,9 +16,11 @@ ACTIVE_ACCOUNT="$(gcloud auth list --filter=status:ACTIVE --format='value(accoun
 
 log "Step 1/4 — Provision approved G0/G1 infrastructure"
 PROVISION_SCRIPT="$(mktemp)"
-trap 'rm -f "$PROVISION_SCRIPT"' EXIT
+GCP_PROOF_PATH="$(mktemp)"
+trap 'rm -f "$PROVISION_SCRIPT" "$GCP_PROOF_PATH"' EXIT
 
 curl -fsSL "$RAW_BASE/scripts/provision_aurora_gcp.sh" -o "$PROVISION_SCRIPT"
+export AURORA_GCP_PROOF_OUTPUT="$GCP_PROOF_PATH"
 bash "$PROVISION_SCRIPT" --apply
 
 log "Step 2/4 — Confirm VM is RUNNING"
@@ -84,6 +86,20 @@ gcloud compute ssh "$VM_NAME" \
   --tunnel-through-iap \
   --quiet \
   --command="$REMOTE_VERIFY"
+
+log "Persist sanitized G0/G1 proof on the VPS"
+gcloud compute ssh "$VM_NAME" \
+  --project="$PROJECT_ID" \
+  --zone="$ZONE" \
+  --tunnel-through-iap \
+  --quiet \
+  --command='mkdir -p "$HOME/aurora/news-stock-scanner/runtime/gcp"'
+gcloud compute scp "$GCP_PROOF_PATH" \
+  "$VM_NAME:~/aurora/news-stock-scanner/runtime/gcp/latest.json" \
+  --project="$PROJECT_ID" \
+  --zone="$ZONE" \
+  --tunnel-through-iap \
+  --quiet
 
 cat <<'EOF'
 

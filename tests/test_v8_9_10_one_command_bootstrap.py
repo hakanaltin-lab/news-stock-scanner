@@ -46,5 +46,11 @@ class OneCommandBootstrapTests(unittest.TestCase):
         ]:
             self.assertNotIn(token, lowered)
 
+    def test_g0_g1_proof_is_transferred_over_iap(self):
+        self.assertIn("AURORA_GCP_PROOF_OUTPUT", self.source)
+        self.assertIn("runtime/gcp/latest.json", self.source)
+        self.assertIn("gcloud compute scp", self.source)
+        self.assertGreaterEqual(self.source.count("--tunnel-through-iap"), 4)
+
 if __name__ == "__main__":
     unittest.main()
