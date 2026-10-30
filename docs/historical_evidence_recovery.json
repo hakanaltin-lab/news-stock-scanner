@@ -1,13 +1,13 @@
 {
   "engine": "V8.4 Historical Evidence Recovery Engine",
   "recovery_signature": "V8.4.1",
-  "generated": "2026-10-29T06:07:32.408943+00:00",
+  "generated": "2026-10-30T10:07:21.472139+00:00",
   "status": "COMPLETE",
   "cache_status": "FRESH",
-  "record_count": 137,
-  "directional_record_count": 137,
+  "record_count": 138,
+  "directional_record_count": 138,
   "oldest_signal_date": "2026-05-29",
-  "newest_signal_date": "2026-10-28",
+  "newest_signal_date": "2026-10-29",
   "recovery_coverage": {
     "legacy_csv": {
       "scanned_dates": 33,
@@ -20,9 +20,9 @@
       "records": 21
     },
     "modern_json": {
-      "scanned_dates": 84,
-      "usable_dates": 5,
-      "records": 17,
+      "scanned_dates": 85,
+      "usable_dates": 6,
+      "records": 18,
       "excluded_foundation_snapshots": 77
     }
   },
@@ -30,7 +30,7 @@
     "modern_action_changes": {
       "5d": {
         "evaluated": 0,
-        "pending": 17,
+        "pending": 18,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -38,7 +38,7 @@
       },
       "20d": {
         "evaluated": 0,
-        "pending": 17,
+        "pending": 18,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -46,7 +46,7 @@
       },
       "60d": {
         "evaluated": 0,
-        "pending": 17,
+        "pending": 18,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -109,7 +109,7 @@
       "BUY": {
         "5d": {
           "evaluated": 0,
-          "pending": 3,
+          "pending": 4,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -117,7 +117,7 @@
         },
         "20d": {
           "evaluated": 0,
-          "pending": 3,
+          "pending": 4,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -125,7 +125,7 @@
         },
         "60d": {
           "evaluated": 0,
-          "pending": 3,
+          "pending": 4,
           "benchmark_hit_rate_pct": null,
           "average_decision_alpha_pct": null,
           "average_stock_return_pct": null,
@@ -214,7 +214,7 @@
     "modern_long_add_buy_accumulate": {
       "5d": {
         "evaluated": 0,
-        "pending": 7,
+        "pending": 8,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -222,7 +222,7 @@
       },
       "20d": {
         "evaluated": 0,
-        "pending": 7,
+        "pending": 8,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -230,7 +230,7 @@
       },
       "60d": {
         "evaluated": 0,
-        "pending": 7,
+        "pending": 8,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -346,7 +346,7 @@
     "MODERN_ACTION_CHANGE": {
       "5d": {
         "evaluated": 0,
-        "pending": 17,
+        "pending": 18,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -354,7 +354,7 @@
       },
       "20d": {
         "evaluated": 0,
-        "pending": 17,
+        "pending": 18,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -362,7 +362,7 @@
       },
       "60d": {
         "evaluated": 0,
-        "pending": 17,
+        "pending": 18,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -400,7 +400,7 @@
     "V8.6": {
       "5d": {
         "evaluated": 0,
-        "pending": 7,
+        "pending": 8,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -408,7 +408,7 @@
       },
       "20d": {
         "evaluated": 0,
-        "pending": 7,
+        "pending": 8,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -416,7 +416,7 @@
       },
       "60d": {
         "evaluated": 0,
-        "pending": 7,
+        "pending": 8,
         "benchmark_hit_rate_pct": null,
         "average_decision_alpha_pct": null,
         "average_stock_return_pct": null,
@@ -6986,6 +6986,54 @@
       "score": 62.54,
       "rank": null,
       "source": "PORTFOLIO",
+      "evaluation_basis": "yfinance_adjusted_close_on_signal_date_to_future_close",
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "excess_return_pct": null,
+          "decision_alpha_pct": null,
+          "benchmark_hit": null
+        }
+      }
+    },
+    {
+      "id": "4caef032f14fcba6",
+      "cohort": "MODERN_ACTION_CHANGE",
+      "signal_date": "2026-10-29",
+      "ticker": "URI",
+      "action": "BUY",
+      "direction": "LONG",
+      "signal_price_snapshot": 1198.72,
+      "origin_commit": "6c11dac833392dd12fe876cc60038889f2038f2d",
+      "model_version": "V8.6",
+      "legacy_label": null,
+      "score": 78.68,
+      "rank": null,
+      "source": "NEW_ENTRY",
       "evaluation_basis": "yfinance_adjusted_close_on_signal_date_to_future_close",
       "horizons": {
         "5d": {
