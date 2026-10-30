@@ -111,3 +111,18 @@ script never creates, edits, or deletes a budget. A Google Cloud budget alert
 is a notification threshold, not a spending cap.
 
 No real-money trading action is authorized by this deployment.
+
+## Sanitized runtime proof
+
+An applied provisioning run now writes `aurora-g0-g1-proof.json` with owner-only
+permissions. The one-command bootstrap copies this evidence over IAP to:
+
+```text
+runtime/gcp/latest.json
+```
+
+The proof contains no external IP address or operator account identifier. It
+fails closed unless the exact TRY 750 budget guard passes, the VM matches the
+pinned Frankfurt contract, Shielded VM and OS Login controls are enabled, IAP
+is the only SSH source, TCP/4002 and TCP/5902 are explicitly denied, and no
+public allow rule exposes SSH, IBKR API, or VNC to the AURORA network tag.
