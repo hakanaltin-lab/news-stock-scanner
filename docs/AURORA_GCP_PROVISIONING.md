@@ -101,7 +101,13 @@ VPC, firewall and project IAM resources in the target project.
 The Google Cloud console estimate observed before approval was approximately
 USD 32.95/month for e2-medium plus a 30 GB standard persistent disk, before
 additional items such as external IPv4, network usage, logs, or other optional
-services. The existing TRY 750 budget alert is a notification threshold, not
-a spending cap.
+services.
+
+Before any paid VPC/VM provisioning, `scripts/gcp_budget_guard.py` now uses the
+read-only `gcloud billing budgets list` command and requires an exact TRY 750
+budget that covers the target project and contains a 100% alert threshold. If
+the budget cannot be read or verified, provisioning stops fail-closed. The
+script never creates, edits, or deletes a budget. A Google Cloud budget alert
+is a notification threshold, not a spending cap.
 
 No real-money trading action is authorized by this deployment.
