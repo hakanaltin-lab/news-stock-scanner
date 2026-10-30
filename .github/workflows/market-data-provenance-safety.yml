@@ -6,6 +6,7 @@ on:
       - 'main.py'
       - 'engines/market_data_engine.py'
       - 'engines/market_data_quality_gate.py'
+      - 'tests/test_market_data_coverage_reporting.py'
       - 'tests/test_market_snapshot_provenance.py'
       - 'tests/test_market_data_execution_gate_safety.py'
       - '.github/workflows/market-data-provenance-safety.yml'
@@ -33,3 +34,5 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_market_*safety.py' -v
       - name: Run snapshot provenance test
         run: python -m unittest discover -s tests -p 'test_market_snapshot_provenance.py' -v
+      - name: Run portfolio market-data coverage reporting test
+        run: python -m unittest tests.test_market_data_coverage_reporting -v
