@@ -1,4 +1,4 @@
-name: AURORA V8.9.23 G0-G4 Completion Gate Safety
+name: AURORA V8.9.24 G0-G4 Completion Gate Safety
 
 on:
   workflow_dispatch:
@@ -9,6 +9,7 @@ on:
       - "scripts/gcp_runtime_proof.py"
       - "engines/shadow_audit_verifier.py"
       - "tests/test_aurora_completion_status.py"
+      - "tests/test_shadow_audit_verifier.py"
       - ".github/workflows/completion_gate_safety.yml"
   push:
     paths:
@@ -17,6 +18,7 @@ on:
       - "scripts/gcp_runtime_proof.py"
       - "engines/shadow_audit_verifier.py"
       - "tests/test_aurora_completion_status.py"
+      - "tests/test_shadow_audit_verifier.py"
       - ".github/workflows/completion_gate_safety.yml"
 
 permissions:
@@ -37,6 +39,9 @@ jobs:
         run: |
           python -m py_compile scripts/aurora_completion_status.py
           python -m py_compile tests/test_aurora_completion_status.py
+          python -m py_compile engines/shadow_audit_verifier.py
           bash -n scripts/run_aurora_completion_gate.sh
       - name: Prove shadow-only completion behavior
-        run: python -m unittest tests.test_aurora_completion_status -v
+        run: |
+          python -m unittest tests.test_aurora_completion_status -v
+          python -m unittest tests.test_shadow_audit_verifier -v

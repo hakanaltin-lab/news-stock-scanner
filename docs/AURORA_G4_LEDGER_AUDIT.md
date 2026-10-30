@@ -1,4 +1,4 @@
-# AURORA V8.9.19 — G4 Shadow Ledger Audit
+# AURORA V8.9.24 — G4 Shadow Ledger Audit
 
 This read-only verifier checks the persistent G4 shadow ledger without changing
 any receipt or contacting a broker.
@@ -19,6 +19,8 @@ The audit passes as `LEDGER_VERIFIED` only when:
 - every record is `SHADOW_ACCEPTED`;
 - broker, Paper, and LIVE submission flags are false; and
 - the readiness and market-data evidence digests are valid SHA-256 values.
+- the exact receipt emitted by the current G4 artifact is present in the
+  verified ledger, matched by a canonical SHA-256 binding.
 
 The sanitized report is written atomically to:
 
@@ -26,6 +28,7 @@ The sanitized report is written atomically to:
 runtime/aurora_g4_shadow/ledger_audit.json
 ```
 
-Missing, unreadable, malformed, or altered ledgers return `BLOCKED`. The
+Missing, unreadable, malformed, altered, or unrelated receipts return
+`BLOCKED`. The
 verifier opens SQLite in read-only mode and exposes no insert, update, delete,
 broker, Paper-order, or LIVE-order path.

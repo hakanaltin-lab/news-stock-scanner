@@ -18,6 +18,14 @@ from engines.shadow_audit_verifier import verify_shadow_ledger
 
 DEFAULT_LEDGER = "runtime/aurora_g4_shadow/shadow_audit.sqlite3"
 DEFAULT_OUTPUT = "runtime/aurora_g4_shadow/ledger_audit.json"
+DEFAULT_G4_SHADOW = "runtime/aurora_g4_shadow/latest.json"
+
+
+def _read_json(path):
+    try:
+        return json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
 
 
 def _write_atomic(path, payload):
@@ -39,9 +47,14 @@ def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--ledger", default=DEFAULT_LEDGER)
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
+    parser.add_argument("--g4-shadow", default=DEFAULT_G4_SHADOW)
     args = parser.parse_args(argv)
 
-    result = verify_shadow_ledger(args.ledger)
+    g4_shadow = _read_json(args.g4_shadow)
+    result = verify_shadow_ledger(
+        args.ledger,
+        expected_receipt=g4_shadow.get("ledger_receipt"),
+    )
     _write_atomic(args.output, result)
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if result.get("status") == "LEDGER_VERIFIED" else 2
