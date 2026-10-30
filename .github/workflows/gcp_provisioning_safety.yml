@@ -5,12 +5,16 @@ on:
   pull_request:
     paths:
       - "scripts/provision_aurora_gcp.sh"
+      - "scripts/gcp_budget_guard.py"
+      - "tests/test_gcp_budget_guard.py"
       - "tests/test_v8_9_8_gcp_provisioning.py"
       - "docs/AURORA_GCP_PROVISIONING.md"
       - ".github/workflows/gcp_provisioning_safety.yml"
   push:
     paths:
       - "scripts/provision_aurora_gcp.sh"
+      - "scripts/gcp_budget_guard.py"
+      - "tests/test_gcp_budget_guard.py"
       - "tests/test_v8_9_8_gcp_provisioning.py"
       - "docs/AURORA_GCP_PROVISIONING.md"
       - ".github/workflows/gcp_provisioning_safety.yml"
@@ -38,8 +42,11 @@ jobs:
 
       - name: Compile tests
         run: |
+          python -m py_compile scripts/gcp_budget_guard.py
+          python -m py_compile tests/test_gcp_budget_guard.py
           python -m py_compile tests/test_v8_9_8_gcp_provisioning.py
 
       - name: Prove provisioning safety contract
         run: |
+          python -m unittest tests.test_gcp_budget_guard -v
           python -m unittest tests.test_v8_9_8_gcp_provisioning -v
