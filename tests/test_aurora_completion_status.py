@@ -1,6 +1,7 @@
 """The final G0-G4 gate must validate only a shadow Paper milestone."""
 
 from datetime import datetime, timedelta, timezone
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -14,6 +15,15 @@ from scripts.aurora_completion_status import evaluate_completion_status
 
 ROOT = Path(__file__).resolve().parents[1]
 NOW = datetime(2026, 10, 30, 12, 0, tzinfo=timezone.utc)
+
+
+def digest(payload):
+    canonical = json.dumps(
+        payload,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
 
 
 def proofs():
@@ -39,6 +49,7 @@ def proofs():
         **safe,
         "generated_at": (NOW - timedelta(seconds=10)).isoformat(),
         "status": "SHADOW_ACCEPTED",
+        "readiness_proof_sha256": digest(readiness),
         "ledger_receipt": {"recorded": True, "duplicate": False},
     }
     audit = {
@@ -65,6 +76,13 @@ class AuroraCompletionStatusTests(unittest.TestCase):
             result["next_gate"],
             "MANUAL_PAPER_ORDER_AUTHORIZATION_NOT_GRANTED",
         )
+        self.assertTrue(result["checks"]["g4_readiness_proof_bound"])
+        self.assertEqual(
+            result["evidence_binding"]["readiness_proof_sha256"],
+            result["evidence_binding"][
+                "g4_recorded_readiness_proof_sha256"
+            ],
+        )
 
     def test_missing_or_stale_stage_blocks(self):
         g0, ready, g4, audit = proofs()
@@ -80,6 +98,29 @@ class AuroraCompletionStatusTests(unittest.TestCase):
         g4["ledger_receipt"]["duplicate"] = True
         result = evaluate_completion_status(g0, ready, g4, audit, now=NOW)
         self.assertIn("g4_shadow_accepted", result["failure_reasons"])
+
+    def test_missing_or_mismatched_readiness_digest_blocks(self):
+        g0, ready, g4, audit = proofs()
+        g4.pop("readiness_proof_sha256")
+        missing = evaluate_completion_status(g0, ready, g4, audit, now=NOW)
+        self.assertIn(
+            "g4_readiness_proof_bound",
+            missing["failure_reasons"],
+        )
+
+        g4["readiness_proof_sha256"] = "0" * 64
+        mismatched = evaluate_completion_status(
+            g0,
+            ready,
+            g4,
+            audit,
+            now=NOW,
+        )
+        self.assertIn(
+            "g4_readiness_proof_bound",
+            mismatched["failure_reasons"],
+        )
+        self.assertFalse(mismatched["paper_order_submission_allowed"])
 
     def test_cli_missing_evidence_writes_blocked_status(self):
         with tempfile.TemporaryDirectory() as directory:
