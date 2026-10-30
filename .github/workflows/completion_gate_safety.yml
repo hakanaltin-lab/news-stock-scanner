@@ -1,4 +1,4 @@
-name: AURORA V8.9.24 G0-G4 Completion Gate Safety
+name: AURORA V8.9.25 G0-G4 Completion Gate Safety
 
 on:
   workflow_dispatch:
@@ -7,8 +7,10 @@ on:
       - "scripts/aurora_completion_status.py"
       - "scripts/run_aurora_completion_gate.sh"
       - "scripts/gcp_runtime_proof.py"
+      - "scripts/aurora_readiness_summary.py"
       - "engines/shadow_audit_verifier.py"
       - "tests/test_aurora_completion_status.py"
+      - "tests/test_aurora_readiness_summary.py"
       - "tests/test_shadow_audit_verifier.py"
       - ".github/workflows/completion_gate_safety.yml"
   push:
@@ -16,8 +18,10 @@ on:
       - "scripts/aurora_completion_status.py"
       - "scripts/run_aurora_completion_gate.sh"
       - "scripts/gcp_runtime_proof.py"
+      - "scripts/aurora_readiness_summary.py"
       - "engines/shadow_audit_verifier.py"
       - "tests/test_aurora_completion_status.py"
+      - "tests/test_aurora_readiness_summary.py"
       - "tests/test_shadow_audit_verifier.py"
       - ".github/workflows/completion_gate_safety.yml"
 
@@ -38,10 +42,13 @@ jobs:
       - name: Compile and check shell
         run: |
           python -m py_compile scripts/aurora_completion_status.py
+          python -m py_compile scripts/aurora_readiness_summary.py
           python -m py_compile tests/test_aurora_completion_status.py
+          python -m py_compile tests/test_aurora_readiness_summary.py
           python -m py_compile engines/shadow_audit_verifier.py
           bash -n scripts/run_aurora_completion_gate.sh
       - name: Prove shadow-only completion behavior
         run: |
           python -m unittest tests.test_aurora_completion_status -v
+          python -m unittest tests.test_aurora_readiness_summary -v
           python -m unittest tests.test_shadow_audit_verifier -v

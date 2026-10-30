@@ -109,6 +109,10 @@ def evaluate_completion_status(
         ledger_audit.get("expected_receipt_sha256") or ""
     ).strip().lower()
     actual_readiness_digest = _digest(readiness)
+    actual_g0_digest = _digest(g0_proof)
+    readiness_g0_digest = str(
+        readiness.get("g0_g1_proof_sha256") or ""
+    ).strip().lower()
     recorded_readiness_digest = str(
         g4_shadow.get("readiness_proof_sha256") or ""
     ).strip().lower()
@@ -126,6 +130,13 @@ def evaluate_completion_status(
             readiness.get("status") == "READY_FOR_CONTROLLED_DRY_RUN"
             and not readiness.get("failure_reasons")
             and _flags_safe(readiness)
+        ),
+        "g0_g1_readiness_proof_bound": (
+            _is_sha256(readiness_g0_digest)
+            and hmac.compare_digest(
+                readiness_g0_digest,
+                actual_g0_digest,
+            )
         ),
         "g2_g3_evidence_fresh": (
             ages["readiness_seconds"] is not None
@@ -171,7 +182,7 @@ def evaluate_completion_status(
     failures = [name for name, passed in checks.items() if not passed]
     complete = not failures
     return {
-        "engine": "AURORA V8.9.24 G0-G4 Completion Gate",
+        "engine": "AURORA V8.9.25 G0-G4 Completion Gate",
         "generated_at": now.isoformat(),
         "status": (
             "PAPER_RUNTIME_VALIDATED_SHADOW_ONLY"
@@ -181,6 +192,10 @@ def evaluate_completion_status(
         "checks": checks,
         "evidence_age": ages,
         "evidence_binding": {
+            "g0_g1_proof_sha256": actual_g0_digest,
+            "readiness_recorded_g0_g1_proof_sha256": (
+                readiness_g0_digest or None
+            ),
             "readiness_proof_sha256": actual_readiness_digest,
             "g4_recorded_readiness_proof_sha256": (
                 recorded_readiness_digest or None

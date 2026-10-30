@@ -1,4 +1,4 @@
-# AURORA V8.9.22 — G2/G3 Runtime Readiness Bundle
+# AURORA V8.9.25 — G0-bound G2/G3 Runtime Readiness Bundle
 
 This bundle runs after the manual IB Gateway **Paper Trading** login, 2FA,
 official TWS API installation, and protected Paper account allowlist setup.
@@ -16,6 +16,8 @@ real-time stock quote, and reconciles both evidence files.
 
 The final status is `READY_FOR_CONTROLLED_DRY_RUN` only when:
 
+- the local sanitized G0/G1 infrastructure proof is verified, safe, and no
+  more than 24 hours old;
 - G2 is `READY_FOR_PAPER_READ_ONLY` with no required failure;
 - the read-only connector still hard-blocks order submission;
 - G2 evidence is no more than five minutes old;
@@ -31,9 +33,10 @@ The sanitized result is written to:
 runtime/aurora_readiness/latest.json
 ```
 
-The result also records canonical SHA-256 digests of the exact G2 read-only
-and G3 market-data proofs used for the decision. G4 must match the G3 digest
-before it can create a shadow order; a missing or different proof fails closed.
+The result records canonical SHA-256 digests of the exact G0/G1, G2 read-only,
+and G3 market-data proofs used for the decision. The final completion gate must
+match the G0/G1 digest, while G4 must match the G3 digest; missing, replayed, or
+mixed-run evidence fails closed.
 
 The wrapper still produces this fail-closed summary when either probe returns a
 non-zero status, then exits non-zero itself.
