@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import sys
 import tempfile
+from uuid import UUID
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
@@ -42,6 +43,18 @@ def _is_sha256(value):
         character in "0123456789abcdef"
         for character in text
     )
+
+
+def _verified_evidence_run_id(value):
+    text = str(value or "").strip()
+    try:
+        parsed = UUID(text)
+    except (ValueError, AttributeError):
+        return None
+    canonical = str(parsed)
+    if parsed.version != 4 or text != canonical:
+        return None
+    return canonical
 
 
 def _utc_datetime(value):
@@ -123,6 +136,12 @@ def evaluate_completion_status(
     recorded_readiness_digest = str(
         g4_shadow.get("readiness_proof_sha256") or ""
     ).strip().lower()
+    readiness_run_id = _verified_evidence_run_id(
+        readiness.get("evidence_run_id")
+    )
+    g4_run_id = _verified_evidence_run_id(
+        g4_shadow.get("evidence_run_id")
+    )
     checks = {
         "g0_g1_verified": (
             g0_proof.get("status") == "G0_G1_VERIFIED"
@@ -173,6 +192,10 @@ def evaluate_completion_status(
                 actual_readiness_digest,
             )
         ),
+        "g4_evidence_run_bound": (
+            readiness_run_id is not None
+            and readiness_run_id == g4_run_id
+        ),
         "shadow_ledger_verified": (
             ledger_audit.get("status") == "LEDGER_VERIFIED"
             and not ledger_audit.get("failure_reasons")
@@ -196,7 +219,7 @@ def evaluate_completion_status(
     failures = [name for name, passed in checks.items() if not passed]
     complete = not failures
     return {
-        "engine": "AURORA V8.9.26 G0-G4 Completion Gate",
+        "engine": "AURORA V8.9.29 G0-G4 Completion Gate",
         "generated_at": now.isoformat(),
         "status": (
             "PAPER_RUNTIME_VALIDATED_SHADOW_ONLY"
@@ -206,6 +229,8 @@ def evaluate_completion_status(
         "checks": checks,
         "evidence_age": ages,
         "evidence_binding": {
+            "readiness_evidence_run_id": readiness_run_id,
+            "g4_evidence_run_id": g4_run_id,
             "g0_g1_proof_sha256": actual_g0_digest,
             "readiness_recorded_g0_g1_proof_sha256": (
                 readiness_g0_digest or None

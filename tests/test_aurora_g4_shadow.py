@@ -16,6 +16,7 @@ from scripts.aurora_g4_shadow import evaluate_runtime_shadow
 
 ROOT = Path(__file__).resolve().parents[1]
 NOW = datetime(2026, 10, 30, 12, 0, tzinfo=timezone.utc)
+EVIDENCE_RUN_ID = "11111111-1111-4111-8111-111111111111"
 
 
 def digest(payload):
@@ -29,6 +30,7 @@ def digest(payload):
 
 def readiness(timestamp=None, market=None):
     return {
+        "evidence_run_id": EVIDENCE_RUN_ID,
         "generated_at": timestamp or (NOW - timedelta(seconds=2)).isoformat(),
         "status": "READY_FOR_CONTROLLED_DRY_RUN",
         "g3_market_data_proof_sha256": digest(
@@ -44,6 +46,7 @@ def readiness(timestamp=None, market=None):
 def market_proof(timestamp=None):
     stamp = timestamp or datetime.now(timezone.utc).isoformat()
     return {
+        "evidence_run_id": EVIDENCE_RUN_ID,
         "symbol": "BKR",
         "snapshot": {
             "status": "REALTIME_READY",
@@ -104,6 +107,27 @@ class AuroraG4ShadowTests(unittest.TestCase):
             "SHADOW_ACCEPTED",
         )
         self.assertEqual(len(result["readiness_proof_sha256"]), 64)
+        self.assertEqual(result["evidence_run_id"], EVIDENCE_RUN_ID)
+
+    def test_unbound_or_mismatched_evidence_run_id_blocks(self):
+        market = market_proof()
+        ready = readiness(market=market)
+        ready.pop("evidence_run_id")
+        self.assertEqual(
+            self.evaluate(ready=ready, market=market)["reason"],
+            "READINESS_EVIDENCE_RUN_ID_REQUIRED",
+        )
+
+        market = market_proof()
+        ready = readiness(market=market)
+        market["evidence_run_id"] = (
+            "22222222-2222-4222-8222-222222222222"
+        )
+        ready["g3_market_data_proof_sha256"] = digest(market)
+        self.assertEqual(
+            self.evaluate(ready=ready, market=market)["reason"],
+            "READINESS_MARKET_EVIDENCE_RUN_MISMATCH",
+        )
 
     def test_not_ready_or_stale_evidence_blocks(self):
         blocked = readiness()
