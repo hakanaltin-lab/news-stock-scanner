@@ -2,6 +2,7 @@
 """Create a sanitized G0/G1 proof from read-only gcloud JSON snapshots."""
 
 import argparse
+from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
@@ -155,6 +156,7 @@ def evaluate_gcp_runtime_proof(vm, firewall_rules, budget_proof):
     failures = [name for name, passed in checks.items() if not passed]
     return {
         "engine": "AURORA V8.9.20 G0-G1 Runtime Proof",
+        "generated_at": datetime.now(timezone.utc).isoformat(),
         "project_id": PROJECT_ID,
         "zone": ZONE,
         "vm_name": VM_NAME,
