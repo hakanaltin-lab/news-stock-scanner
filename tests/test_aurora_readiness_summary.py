@@ -1,4 +1,4 @@
-"""Unified G2/G3 runtime readiness must remain fresh and fail closed."""
+"""G0-bound G2/G3 runtime readiness must remain fresh and fail closed."""
 
 from datetime import datetime, timedelta, timezone
 import hashlib
@@ -23,6 +23,19 @@ def digest(payload):
         separators=(",", ":"),
     ).encode("utf-8")
     return hashlib.sha256(canonical).hexdigest()
+
+
+def verified_g0(timestamp=None):
+    timestamp = timestamp or (NOW - timedelta(minutes=5)).isoformat()
+    return {
+        "generated_at": timestamp,
+        "status": "G0_G1_VERIFIED",
+        "failure_reasons": [],
+        "broker_submission_allowed": False,
+        "paper_order_submission_allowed": False,
+        "live_execution_allowed": False,
+        "automatic_promotion_allowed": False,
+    }
 
 
 def ready_g2(timestamp=None):
@@ -77,9 +90,19 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
     def test_fresh_safe_g2_g3_evidence_passes(self):
         g2 = ready_g2()
         g3 = ready_g3()
-        result = evaluate_readiness_bundle(g2, g3, now=NOW)
+        g0 = verified_g0()
+        result = evaluate_readiness_bundle(
+            g2,
+            g3,
+            now=NOW,
+            g0_proof=g0,
+        )
         self.assertEqual(result["status"], "READY_FOR_CONTROLLED_DRY_RUN")
         self.assertEqual(result["failure_reasons"], [])
+        self.assertEqual(
+            result["g0_g1_proof_sha256"],
+            digest(g0),
+        )
         self.assertEqual(
             result["g2_paper_read_only_proof_sha256"],
             digest(g2),
@@ -95,8 +118,18 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
     def test_stale_g2_or_g3_evidence_blocks(self):
         stale_g2 = (NOW - timedelta(seconds=301)).isoformat()
         stale_g3 = (NOW - timedelta(seconds=61)).isoformat()
-        first = evaluate_readiness_bundle(ready_g2(stale_g2), ready_g3(), now=NOW)
-        second = evaluate_readiness_bundle(ready_g2(), ready_g3(stale_g3), now=NOW)
+        first = evaluate_readiness_bundle(
+            ready_g2(stale_g2),
+            ready_g3(),
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        second = evaluate_readiness_bundle(
+            ready_g2(),
+            ready_g3(stale_g3),
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
         self.assertIn("g2_evidence_fresh", first["failure_reasons"])
         self.assertIn("g3_evidence_fresh", second["failure_reasons"])
 
@@ -104,7 +137,12 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
         proof = ready_g3()
         proof["snapshot"]["config"]["port"] = 4001
         proof["snapshot"]["paper_account_guard"]["paper_account_verified"] = False
-        result = evaluate_readiness_bundle(ready_g2(), proof, now=NOW)
+        result = evaluate_readiness_bundle(
+            ready_g2(),
+            proof,
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
         self.assertEqual(result["status"], "NOT_READY")
         self.assertIn("g3_paper_loopback_endpoint", result["failure_reasons"])
         self.assertIn("g3_paper_account_verified", result["failure_reasons"])
@@ -112,10 +150,45 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
     def test_missing_or_order_enabled_evidence_blocks(self):
         proof = ready_g3()
         proof["paper_order_submission_allowed"] = True
-        result = evaluate_readiness_bundle({}, proof, now=NOW)
+        result = evaluate_readiness_bundle(
+            {},
+            proof,
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
         self.assertEqual(result["status"], "NOT_READY")
         self.assertIn("g2_ready", result["failure_reasons"])
         self.assertIn("g3_order_submission_blocked", result["failure_reasons"])
+
+    def test_missing_or_stale_g0_evidence_blocks(self):
+        missing = evaluate_readiness_bundle(
+            ready_g2(),
+            ready_g3(),
+            now=NOW,
+            g0_proof={},
+        )
+        stale = evaluate_readiness_bundle(
+            ready_g2(),
+            ready_g3(),
+            now=NOW,
+            g0_proof=verified_g0(
+                (NOW - timedelta(seconds=86401)).isoformat()
+            ),
+        )
+        unsafe_g0 = verified_g0()
+        unsafe_g0["paper_order_submission_allowed"] = True
+        unsafe = evaluate_readiness_bundle(
+            ready_g2(),
+            ready_g3(),
+            now=NOW,
+            g0_proof=unsafe_g0,
+        )
+        self.assertIn("g0_g1_verified", missing["failure_reasons"])
+        self.assertIn(
+            "g0_g1_evidence_current",
+            stale["failure_reasons"],
+        )
+        self.assertIn("g0_g1_verified", unsafe["failure_reasons"])
 
     def test_cli_writes_blocked_artifact_when_proofs_are_missing(self):
         with tempfile.TemporaryDirectory() as directory:

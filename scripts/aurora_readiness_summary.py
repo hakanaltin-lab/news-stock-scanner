@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Unify fresh G2 and G3 runtime evidence without authorizing any order."""
+"""Bind fresh G0-G3 runtime evidence without authorizing any order."""
 
 from datetime import datetime, timezone
 import argparse
@@ -10,11 +10,13 @@ from pathlib import Path
 import tempfile
 
 
+DEFAULT_G0_PROOF = "runtime/gcp/latest.json"
 DEFAULT_G2_PROOF = "runtime/ibkr_paper_read_only/latest.json"
 DEFAULT_G3_PROOF = "runtime/ibkr_market_data/latest.json"
 DEFAULT_OUTPUT = "runtime/aurora_readiness/latest.json"
 DEFAULT_MAX_G2_AGE_SECONDS = 300
 DEFAULT_MAX_G3_AGE_SECONDS = 60
+DEFAULT_MAX_G0_AGE_SECONDS = 86400
 
 
 def _digest(payload):
@@ -60,10 +62,13 @@ def evaluate_readiness_bundle(
     now=None,
     max_g2_age_seconds=DEFAULT_MAX_G2_AGE_SECONDS,
     max_g3_age_seconds=DEFAULT_MAX_G3_AGE_SECONDS,
+    g0_proof=None,
+    max_g0_age_seconds=DEFAULT_MAX_G0_AGE_SECONDS,
 ):
     now = _utc_datetime(now) or datetime.now(timezone.utc)
     g2_proof = g2_proof or {}
     g3_proof = g3_proof or {}
+    g0_proof = g0_proof or {}
 
     g2_run_mode = g2_proof.get("run_mode") or {}
     g2_readiness = g2_proof.get("readiness") or {}
@@ -74,6 +79,7 @@ def evaluate_readiness_bundle(
     g3_quote = g3_snapshot.get("quote") or {}
     g3_market_gate = g3_proof.get("execution_market_data_gate") or {}
 
+    g0_age = _age_seconds(g0_proof.get("generated_at"), now)
     g2_age = _age_seconds(
         g2_readiness.get("timestamp") or g2_snapshot.get("timestamp"),
         now,
@@ -84,6 +90,23 @@ def evaluate_readiness_bundle(
     )
 
     checks = {
+        "g0_g1_verified": (
+            g0_proof.get("status") == "G0_G1_VERIFIED"
+            and not g0_proof.get("failure_reasons")
+            and all(
+                g0_proof.get(name) is False
+                for name in (
+                    "broker_submission_allowed",
+                    "paper_order_submission_allowed",
+                    "live_execution_allowed",
+                    "automatic_promotion_allowed",
+                )
+            )
+        ),
+        "g0_g1_evidence_current": (
+            g0_age is not None
+            and g0_age <= float(max_g0_age_seconds)
+        ),
         "g2_read_only_mode": g2_run_mode.get("mode") == "READ_ONLY",
         "g2_ready": g2_readiness.get("readiness") == "READY_FOR_PAPER_READ_ONLY",
         "g2_no_required_failures": g2_readiness.get("required_failure_count") == 0,
@@ -129,14 +152,16 @@ def evaluate_readiness_bundle(
     ready = not failures
 
     return {
-        "engine": "AURORA V8.9.22 G2-G3 Runtime Readiness Bundle",
+        "engine": "AURORA V8.9.25 G0-G3 Runtime Readiness Bundle",
         "generated_at": now.isoformat(),
         "status": "READY_FOR_CONTROLLED_DRY_RUN" if ready else "NOT_READY",
         "checks": checks,
         "failure_reasons": failures,
+        "g0_g1_evidence_age_seconds": g0_age,
         "g2_evidence_age_seconds": g2_age,
         "g3_evidence_age_seconds": g3_age,
         "symbol": g3_proof.get("symbol"),
+        "g0_g1_proof_sha256": _digest(g0_proof),
         "g2_paper_read_only_proof_sha256": _digest(g2_proof),
         "g3_market_data_proof_sha256": _digest(g3_proof),
         "broker_submission_allowed": False,
@@ -146,7 +171,7 @@ def evaluate_readiness_bundle(
         "next_milestone": (
             "G4_CONTROLLED_DRY_RUN"
             if ready
-            else "REPAIR_G2_G3_RUNTIME_EVIDENCE"
+            else "REPAIR_G0_G3_RUNTIME_EVIDENCE"
         ),
     }
 
@@ -175,6 +200,7 @@ def _write_atomic(path, payload):
 
 def main(argv=None):
     parser = argparse.ArgumentParser()
+    parser.add_argument("--g0-proof", default=DEFAULT_G0_PROOF)
     parser.add_argument("--g2-proof", default=DEFAULT_G2_PROOF)
     parser.add_argument("--g3-proof", default=DEFAULT_G3_PROOF)
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
@@ -183,6 +209,7 @@ def main(argv=None):
     result = evaluate_readiness_bundle(
         _read_json(args.g2_proof),
         _read_json(args.g3_proof),
+        g0_proof=_read_json(args.g0_proof),
     )
     _write_atomic(args.output, result)
     print(json.dumps(result, indent=2, sort_keys=True))

@@ -45,6 +45,7 @@ def proofs():
         "generated_at": (NOW - timedelta(seconds=20)).isoformat(),
         "status": "READY_FOR_CONTROLLED_DRY_RUN",
         "failure_reasons": [],
+        "g0_g1_proof_sha256": digest(g0),
     }
     g4 = {
         **safe,
@@ -91,6 +92,15 @@ class AuroraCompletionStatusTests(unittest.TestCase):
         )
         self.assertTrue(result["checks"]["g4_readiness_proof_bound"])
         self.assertTrue(result["checks"]["g4_ledger_receipt_bound"])
+        self.assertTrue(
+            result["checks"]["g0_g1_readiness_proof_bound"]
+        )
+        self.assertEqual(
+            result["evidence_binding"]["g0_g1_proof_sha256"],
+            result["evidence_binding"][
+                "readiness_recorded_g0_g1_proof_sha256"
+            ],
+        )
         self.assertEqual(
             result["evidence_binding"]["readiness_proof_sha256"],
             result["evidence_binding"][
@@ -105,6 +115,31 @@ class AuroraCompletionStatusTests(unittest.TestCase):
         ready["generated_at"] = (NOW - timedelta(seconds=121)).isoformat()
         stale = evaluate_completion_status(g0, ready, g4, audit, now=NOW)
         self.assertIn("g2_g3_evidence_fresh", stale["failure_reasons"])
+
+    def test_missing_or_mismatched_g0_readiness_binding_blocks(self):
+        g0, ready, g4, audit = proofs()
+        ready.pop("g0_g1_proof_sha256")
+        g4["readiness_proof_sha256"] = digest(ready)
+        missing = evaluate_completion_status(g0, ready, g4, audit, now=NOW)
+        self.assertIn(
+            "g0_g1_readiness_proof_bound",
+            missing["failure_reasons"],
+        )
+
+        ready["g0_g1_proof_sha256"] = "0" * 64
+        g4["readiness_proof_sha256"] = digest(ready)
+        mismatched = evaluate_completion_status(
+            g0,
+            ready,
+            g4,
+            audit,
+            now=NOW,
+        )
+        self.assertIn(
+            "g0_g1_readiness_proof_bound",
+            mismatched["failure_reasons"],
+        )
+        self.assertFalse(mismatched["paper_order_submission_allowed"])
 
     def test_unsafe_flag_or_duplicate_receipt_blocks(self):
         g0, ready, g4, audit = proofs()

@@ -1,4 +1,4 @@
-# AURORA V8.9.24 — G0-G4 Completion Gate
+# AURORA V8.9.25 — G0-G4 Completion Gate
 
 After the approved GCP bootstrap, manual IBKR Paper login/2FA, official TWS API
 installation, and Paper account allowlist configuration, prepare one reviewed
@@ -27,6 +27,8 @@ PAPER_RUNTIME_VALIDATED_SHADOW_ONLY
 The completion gate recalculates the canonical SHA-256 digest of the current
 G2/G3 readiness artifact and requires it to match the digest recorded by G4.
 Missing, malformed, replayed, or mixed-run readiness evidence fails closed.
+It also requires the G0/G1 digest recorded by readiness to match the current
+sanitized infrastructure proof, preventing cross-run infrastructure evidence.
 The read-only ledger audit also binds the exact current G4 receipt by canonical
 SHA-256 digest; an audit of a valid but unrelated ledger record fails closed.
 
