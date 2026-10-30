@@ -71,7 +71,26 @@ else
 fi
 
 log "Enable required APIs"
-run gcloud services enable   compute.googleapis.com   iap.googleapis.com   --project="$PROJECT_ID"
+run gcloud services enable \
+  compute.googleapis.com \
+  iap.googleapis.com \
+  billingbudgets.googleapis.com \
+  --project="$PROJECT_ID"
+
+log "Verify approved TRY 750 budget alert"
+if [[ "$APPLY" -eq 1 ]]; then
+  BUDGET_GUARD="$(mktemp)"
+  trap 'rm -f "${STARTUP_FILE:-}" "${VM_JSON_FILE:-}" "${BUDGET_GUARD:-}"' EXIT
+  curl -fsSL \
+    "https://raw.githubusercontent.com/hakanaltin-lab/news-stock-scanner/main/scripts/gcp_budget_guard.py" \
+    -o "$BUDGET_GUARD"
+  python3 "$BUDGET_GUARD" \
+    --project "$PROJECT_ID" \
+    --currency TRY \
+    --amount 750
+else
+  echo "PLAN: verify an exact TRY 750 project-covering budget with a 100% alert threshold."
+fi
 
 if [[ "$APPLY" -eq 0 ]]; then
   echo "PLAN: resource creation commands are not executed."
@@ -220,7 +239,7 @@ fi
 
 log "Verify VM contract"
 VM_JSON_FILE="$(mktemp)"
-trap 'rm -f "${STARTUP_FILE:-}" "${VM_JSON_FILE:-}"' EXIT
+trap 'rm -f "${STARTUP_FILE:-}" "${VM_JSON_FILE:-}" "${BUDGET_GUARD:-}"' EXIT
 
 gcloud compute instances describe "$VM_NAME" \
   --project="$PROJECT_ID" \
