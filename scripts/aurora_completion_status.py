@@ -8,7 +8,15 @@ import hmac
 import json
 import os
 from pathlib import Path
+import sys
 import tempfile
+
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
+
+from engines.shadow_audit_verifier import receipt_binding_sha256
 
 
 DEFAULT_G0_PROOF = "runtime/gcp/latest.json"
@@ -96,6 +104,10 @@ def evaluate_completion_status(
         ),
     }
     receipt = g4_shadow.get("ledger_receipt") or {}
+    actual_receipt_digest = receipt_binding_sha256(receipt)
+    audited_receipt_digest = str(
+        ledger_audit.get("expected_receipt_sha256") or ""
+    ).strip().lower()
     actual_readiness_digest = _digest(readiness)
     recorded_readiness_digest = str(
         g4_shadow.get("readiness_proof_sha256") or ""
@@ -142,6 +154,15 @@ def evaluate_completion_status(
             and (ledger_audit.get("record_count") or 0) >= 1
             and _flags_safe(ledger_audit)
         ),
+        "g4_ledger_receipt_bound": (
+            actual_receipt_digest is not None
+            and ledger_audit.get("expected_receipt_bound") is True
+            and _is_sha256(audited_receipt_digest)
+            and hmac.compare_digest(
+                actual_receipt_digest,
+                audited_receipt_digest,
+            )
+        ),
         "ledger_audit_fresh": (
             ages["ledger_audit_seconds"] is not None
             and ages["ledger_audit_seconds"] <= 60
@@ -150,7 +171,7 @@ def evaluate_completion_status(
     failures = [name for name, passed in checks.items() if not passed]
     complete = not failures
     return {
-        "engine": "AURORA V8.9.23 G0-G4 Completion Gate",
+        "engine": "AURORA V8.9.24 G0-G4 Completion Gate",
         "generated_at": now.isoformat(),
         "status": (
             "PAPER_RUNTIME_VALIDATED_SHADOW_ONLY"
@@ -163,6 +184,10 @@ def evaluate_completion_status(
             "readiness_proof_sha256": actual_readiness_digest,
             "g4_recorded_readiness_proof_sha256": (
                 recorded_readiness_digest or None
+            ),
+            "g4_ledger_receipt_sha256": actual_receipt_digest,
+            "audited_ledger_receipt_sha256": (
+                audited_receipt_digest or None
             ),
         },
         "failure_reasons": failures,

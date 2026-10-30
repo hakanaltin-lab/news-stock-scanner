@@ -11,6 +11,7 @@ import tempfile
 import unittest
 
 from scripts.aurora_completion_status import evaluate_completion_status
+from engines.shadow_audit_verifier import receipt_binding_sha256
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -50,7 +51,15 @@ def proofs():
         "generated_at": (NOW - timedelta(seconds=10)).isoformat(),
         "status": "SHADOW_ACCEPTED",
         "readiness_proof_sha256": digest(readiness),
-        "ledger_receipt": {"recorded": True, "duplicate": False},
+        "ledger_receipt": {
+            "recorded": True,
+            "duplicate": False,
+            "idempotency_key": "intent-001",
+            "shadow_order_id": "shadow-001",
+            "symbol": "BKR",
+            "payload_sha256": "c" * 64,
+            "recorded_at": (NOW - timedelta(seconds=10)).isoformat(),
+        },
     }
     audit = {
         **safe,
@@ -58,6 +67,10 @@ def proofs():
         "status": "LEDGER_VERIFIED",
         "record_count": 1,
         "failure_reasons": [],
+        "expected_receipt_bound": True,
+        "expected_receipt_sha256": receipt_binding_sha256(
+            g4["ledger_receipt"]
+        ),
     }
     return g0, readiness, g4, audit
 
@@ -77,6 +90,7 @@ class AuroraCompletionStatusTests(unittest.TestCase):
             "MANUAL_PAPER_ORDER_AUTHORIZATION_NOT_GRANTED",
         )
         self.assertTrue(result["checks"]["g4_readiness_proof_bound"])
+        self.assertTrue(result["checks"]["g4_ledger_receipt_bound"])
         self.assertEqual(
             result["evidence_binding"]["readiness_proof_sha256"],
             result["evidence_binding"][
@@ -118,6 +132,29 @@ class AuroraCompletionStatusTests(unittest.TestCase):
         )
         self.assertIn(
             "g4_readiness_proof_bound",
+            mismatched["failure_reasons"],
+        )
+        self.assertFalse(mismatched["paper_order_submission_allowed"])
+
+    def test_missing_or_mismatched_ledger_receipt_binding_blocks(self):
+        g0, ready, g4, audit = proofs()
+        audit.pop("expected_receipt_sha256")
+        missing = evaluate_completion_status(g0, ready, g4, audit, now=NOW)
+        self.assertIn(
+            "g4_ledger_receipt_bound",
+            missing["failure_reasons"],
+        )
+
+        audit["expected_receipt_sha256"] = "0" * 64
+        mismatched = evaluate_completion_status(
+            g0,
+            ready,
+            g4,
+            audit,
+            now=NOW,
+        )
+        self.assertIn(
+            "g4_ledger_receipt_bound",
             mismatched["failure_reasons"],
         )
         self.assertFalse(mismatched["paper_order_submission_allowed"])

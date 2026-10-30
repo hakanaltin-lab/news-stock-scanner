@@ -1,6 +1,7 @@
 """Read-only integrity verification for the persistent G4 shadow ledger."""
 
 import hashlib
+import hmac
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -16,6 +17,14 @@ REQUIRED_COLUMNS = {
     "recorded_at",
 }
 
+RECEIPT_BINDING_FIELDS = (
+    "idempotency_key",
+    "shadow_order_id",
+    "symbol",
+    "payload_sha256",
+    "recorded_at",
+)
+
 
 def _is_sha256(value):
     text = str(value or "")
@@ -25,9 +34,39 @@ def _is_sha256(value):
     )
 
 
+def receipt_binding_sha256(receipt):
+    """Return a canonical digest for one accepted ledger receipt."""
+    receipt = receipt or {}
+    if (
+        receipt.get("recorded") is not True
+        or receipt.get("duplicate") is not False
+        or not all(
+            isinstance(receipt.get(name), str)
+            and receipt.get(name)
+            for name in RECEIPT_BINDING_FIELDS
+        )
+        or not _is_sha256(receipt.get("payload_sha256"))
+    ):
+        return None
+    canonical = {
+        "duplicate": False,
+        "recorded": True,
+        **{
+            name: receipt[name]
+            for name in RECEIPT_BINDING_FIELDS
+        },
+    }
+    encoded = json.dumps(
+        canonical,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
 def _blocked(reason, **extra):
     return {
-        "engine": "AURORA V8.9.19 Shadow Ledger Integrity Verifier",
+        "engine": "AURORA V8.9.24 Shadow Ledger Integrity Verifier",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "status": "BLOCKED",
         "failure_reasons": [reason],
@@ -39,7 +78,11 @@ def _blocked(reason, **extra):
     }
 
 
-def verify_shadow_ledger(path):
+def verify_shadow_ledger(path, expected_receipt=None):
+    expected_receipt_sha256 = receipt_binding_sha256(expected_receipt)
+    if expected_receipt_sha256 is None:
+        return _blocked("EXPECTED_LEDGER_RECEIPT_REQUIRED")
+
     target = Path(path)
     if not target.is_file():
         return _blocked("LEDGER_NOT_FOUND")
@@ -90,6 +133,7 @@ def verify_shadow_ledger(path):
 
     seen_keys = set()
     latest_recorded_at = None
+    expected_receipt_bound = False
     for index, row in enumerate(rows, start=1):
         (
             idempotency_key,
@@ -100,6 +144,26 @@ def verify_shadow_ledger(path):
             recorded_at,
         ) = row
         prefix = f"ROW_{index}"
+
+        row_receipt_sha256 = receipt_binding_sha256(
+            {
+                "recorded": True,
+                "duplicate": False,
+                "idempotency_key": idempotency_key,
+                "shadow_order_id": shadow_order_id,
+                "symbol": symbol,
+                "payload_sha256": payload_sha256,
+                "recorded_at": recorded_at,
+            }
+        )
+        if (
+            row_receipt_sha256 is not None
+            and hmac.compare_digest(
+                row_receipt_sha256,
+                expected_receipt_sha256,
+            )
+        ):
+            expected_receipt_bound = True
 
         if idempotency_key in seen_keys:
             failures.append(f"{prefix}_DUPLICATE_IDEMPOTENCY_KEY")
@@ -153,13 +217,18 @@ def verify_shadow_ledger(path):
             str(recorded_at),
         )
 
+    if not expected_receipt_bound:
+        failures.append("EXPECTED_LEDGER_RECEIPT_NOT_FOUND")
+
     failures = sorted(set(failures))
     return {
-        "engine": "AURORA V8.9.19 Shadow Ledger Integrity Verifier",
+        "engine": "AURORA V8.9.24 Shadow Ledger Integrity Verifier",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "status": "LEDGER_VERIFIED" if not failures else "BLOCKED",
         "record_count": len(rows),
         "latest_recorded_at": latest_recorded_at,
+        "expected_receipt_sha256": expected_receipt_sha256,
+        "expected_receipt_bound": expected_receipt_bound,
         "failure_reasons": failures,
         "broker_submission_allowed": False,
         "paper_order_submission_allowed": False,
