@@ -1,0 +1,44 @@
+name: AURORA V8.9.17 G4 Runtime Shadow Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "scripts/aurora_g4_shadow.py"
+      - "scripts/run_aurora_g4_shadow.sh"
+      - "scripts/aurora_readiness_summary.py"
+      - "engines/dry_run_execution_engine.py"
+      - "engines/market_data_quality_gate.py"
+      - "tests/test_aurora_g4_shadow.py"
+      - ".github/workflows/g4_runtime_shadow_safety.yml"
+  push:
+    paths:
+      - "scripts/aurora_g4_shadow.py"
+      - "scripts/run_aurora_g4_shadow.sh"
+      - "scripts/aurora_readiness_summary.py"
+      - "engines/dry_run_execution_engine.py"
+      - "engines/market_data_quality_gate.py"
+      - "tests/test_aurora_g4_shadow.py"
+      - ".github/workflows/g4_runtime_shadow_safety.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  g4-runtime-shadow-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile and check shell
+        run: |
+          python -m py_compile scripts/aurora_g4_shadow.py
+          python -m py_compile tests/test_aurora_g4_shadow.py
+          bash -n scripts/run_aurora_g4_shadow.sh
+      - name: Prove broker-independent runtime shadow behavior
+        run: python -m unittest tests.test_aurora_g4_shadow -v
