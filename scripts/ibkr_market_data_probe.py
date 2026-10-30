@@ -13,6 +13,11 @@ from pathlib import Path
 import sys
 import tempfile
 
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
+
 from engines.ibkr_market_data_connector import (
     get_ibkr_realtime_quote,
 )
@@ -87,6 +92,10 @@ def main():
             "AURORA V8.9.7 G3 "
             "IBKR Market Data Probe"
         ),
+        "evidence_run_id": os.getenv(
+            "AURORA_EVIDENCE_RUN_ID",
+            "",
+        ).strip() or None,
         "symbol": symbol or None,
         "snapshot": snapshot,
         "execution_market_data_gate": execution_gate,

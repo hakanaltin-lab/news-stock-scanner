@@ -101,6 +101,12 @@ def main():
     )
 
     result = {
+        "evidence_run_id":
+        os.getenv(
+            "AURORA_EVIDENCE_RUN_ID",
+            ""
+        ).strip() or None,
+
         "run_mode":
         run_mode,
 

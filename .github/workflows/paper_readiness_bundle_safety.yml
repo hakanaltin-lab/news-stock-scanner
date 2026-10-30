@@ -1,11 +1,15 @@
-name: AURORA V8.9.27 Paper Readiness Bundle Safety
+name: AURORA V8.9.28 Paper Readiness Bundle Safety
 
 on:
   workflow_dispatch:
   pull_request:
     paths:
       - "scripts/aurora_readiness_summary.py"
+      - "scripts/ibkr_paper_probe.py"
+      - "scripts/ibkr_market_data_probe.py"
       - "scripts/run_aurora_g2_g3_readiness.sh"
+      - "tests/test_ibkr_paper_read_only.py"
+      - "tests/test_v8_9_7_ibkr_market_data.py"
       - "tests/test_aurora_readiness_summary.py"
       - "engines/ibkr_gateway_connector.py"
       - "engines/ibkr_market_data_connector.py"
@@ -16,7 +20,11 @@ on:
   push:
     paths:
       - "scripts/aurora_readiness_summary.py"
+      - "scripts/ibkr_paper_probe.py"
+      - "scripts/ibkr_market_data_probe.py"
       - "scripts/run_aurora_g2_g3_readiness.sh"
+      - "tests/test_ibkr_paper_read_only.py"
+      - "tests/test_v8_9_7_ibkr_market_data.py"
       - "tests/test_aurora_readiness_summary.py"
       - "engines/ibkr_gateway_connector.py"
       - "engines/ibkr_market_data_connector.py"
@@ -42,6 +50,8 @@ jobs:
       - name: Compile and check shell
         run: |
           python -m py_compile scripts/aurora_readiness_summary.py
+          python -m py_compile scripts/ibkr_paper_probe.py
+          python -m py_compile scripts/ibkr_market_data_probe.py
           python -m py_compile engines/ibkr_account_guard.py
           python -m py_compile tests/test_aurora_readiness_summary.py
           bash -n scripts/run_aurora_g2_g3_readiness.sh
@@ -49,5 +59,7 @@ jobs:
         run: |
           python -m unittest \
             tests.test_aurora_readiness_summary \
+            tests.test_ibkr_paper_read_only.IBKRProbeEntrypointTests \
+            tests.test_v8_9_7_ibkr_market_data.IBKRMarketDataStaticSafetyTests \
             tests.test_v8_9_5_safety_hardening.PaperAccountGuardTests \
             -v

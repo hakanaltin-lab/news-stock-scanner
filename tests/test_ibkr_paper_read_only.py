@@ -16,6 +16,7 @@ from engines.ibkr_paper_readiness_engine import evaluate_ibkr_paper_readiness
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+EVIDENCE_RUN_ID = "11111111-1111-4111-8111-111111111111"
 
 
 def ready_snapshot():
@@ -211,6 +212,7 @@ class IBKRProbeEntrypointTests(unittest.TestCase):
                 "AURORA_IBKR_ENABLED": "false",
                 "AURORA_IBKR_MODE": "PAPER",
                 "AURORA_IBKR_PROBE_OUTPUT": str(output),
+                "AURORA_EVIDENCE_RUN_ID": EVIDENCE_RUN_ID,
             })
 
             completed = subprocess.run(
@@ -231,6 +233,7 @@ class IBKRProbeEntrypointTests(unittest.TestCase):
             self.assertEqual(summary["run_mode"], "SAFE_OFF")
             self.assertEqual(summary["snapshot_status"], "DISABLED")
             self.assertEqual(proof["run_mode"]["mode"], "SAFE_OFF")
+            self.assertEqual(proof["evidence_run_id"], EVIDENCE_RUN_ID)
             self.assertEqual(proof["readiness"]["readiness"], "DISABLED")
             self.assertFalse(proof["readiness"]["live_execution_allowed"])
 

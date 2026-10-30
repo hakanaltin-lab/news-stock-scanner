@@ -26,6 +26,11 @@ set +a
 
 cd "$REPO_DIR"
 
+readonly AURORA_EVIDENCE_RUN_ID="$(
+  "$VENV_DIR/bin/python" -c 'import uuid; print(uuid.uuid4())'
+)"
+export AURORA_EVIDENCE_RUN_ID
+
 echo "==> G2 Paper Read-Only proof"
 g2_status=0
 bash scripts/run_aurora_g2_readonly.sh || g2_status=$?
