@@ -9,9 +9,12 @@ budget with a 100% alert threshold covers the target project.
 import argparse
 from decimal import Decimal, InvalidOperation
 import json
+import os
+from pathlib import Path
 import re
 import subprocess
 import sys
+import tempfile
 
 
 def _money_value(value):
@@ -133,11 +136,27 @@ def _gcloud_json(arguments):
         raise RuntimeError("GCLOUD_INVALID_JSON") from error
 
 
+def _write_atomic(path, payload):
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile(
+        mode="w",
+        encoding="utf-8",
+        dir=str(target.parent),
+        delete=False,
+    ) as handle:
+        json.dump(payload, handle, indent=2, sort_keys=True)
+        handle.write("\n")
+        temporary = handle.name
+    os.replace(temporary, target)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--project", required=True)
     parser.add_argument("--currency", default="TRY")
     parser.add_argument("--amount", default="750")
+    parser.add_argument("--output")
     args = parser.parse_args(argv)
 
     try:
@@ -181,6 +200,8 @@ def main(argv=None):
             "failure_reason": _sanitize_error(error),
         }
 
+    if args.output:
+        _write_atomic(args.output, result)
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if result.get("status") == "PASS" else 2
 
