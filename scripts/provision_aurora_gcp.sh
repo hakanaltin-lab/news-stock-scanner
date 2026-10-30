@@ -14,6 +14,7 @@ IMAGE_PROJECT="ubuntu-os-cloud"
 IMAGE_FAMILY="ubuntu-minimal-2204-lts"
 BOOT_DISK_SIZE="30GB"
 BOOT_DISK_TYPE="pd-standard"
+GCP_PROOF_OUTPUT="${AURORA_GCP_PROOF_OUTPUT:-$PWD/aurora-g0-g1-proof.json}"
 IAP_RANGE="35.235.240.0/20"
 IAP_SSH_RULE="aurora-allow-iap-ssh"
 DENY_PRIVATE_PORTS_RULE="aurora-deny-public-private-ports"
@@ -80,14 +81,16 @@ run gcloud services enable \
 log "Verify approved TRY 750 budget alert"
 if [[ "$APPLY" -eq 1 ]]; then
   BUDGET_GUARD="$(mktemp)"
-  trap 'rm -f "${STARTUP_FILE:-}" "${VM_JSON_FILE:-}" "${BUDGET_GUARD:-}"' EXIT
+  BUDGET_PROOF="$(mktemp)"
+  trap 'rm -f "${STARTUP_FILE:-}" "${VM_JSON_FILE:-}" "${FIREWALL_JSON_FILE:-}" "${BUDGET_GUARD:-}" "${BUDGET_PROOF:-}" "${GCP_PROOF_SCRIPT:-}"' EXIT
   curl -fsSL \
     "https://raw.githubusercontent.com/hakanaltin-lab/news-stock-scanner/main/scripts/gcp_budget_guard.py" \
     -o "$BUDGET_GUARD"
   python3 "$BUDGET_GUARD" \
     --project "$PROJECT_ID" \
     --currency TRY \
-    --amount 750
+    --amount 750 \
+    --output "$BUDGET_PROOF"
 else
   echo "PLAN: verify an exact TRY 750 project-covering budget with a 100% alert threshold."
 fi
@@ -239,7 +242,9 @@ fi
 
 log "Verify VM contract"
 VM_JSON_FILE="$(mktemp)"
-trap 'rm -f "${STARTUP_FILE:-}" "${VM_JSON_FILE:-}" "${BUDGET_GUARD:-}"' EXIT
+FIREWALL_JSON_FILE="$(mktemp)"
+GCP_PROOF_SCRIPT="$(mktemp)"
+trap 'rm -f "${STARTUP_FILE:-}" "${VM_JSON_FILE:-}" "${FIREWALL_JSON_FILE:-}" "${BUDGET_GUARD:-}" "${BUDGET_PROOF:-}" "${GCP_PROOF_SCRIPT:-}"' EXIT
 
 gcloud compute instances describe "$VM_NAME" \
   --project="$PROJECT_ID" \
@@ -320,6 +325,22 @@ if command -v nc >/dev/null 2>&1; then
 else
   echo "INFO: nc is unavailable; external negative tests must be run separately."
 fi
+
+log "Write sanitized G0/G1 runtime proof"
+gcloud compute firewall-rules list \
+  --project="$PROJECT_ID" \
+  --filter="network:$VPC" \
+  --format=json >"$FIREWALL_JSON_FILE"
+curl -fsSL \
+  "https://raw.githubusercontent.com/hakanaltin-lab/news-stock-scanner/main/scripts/gcp_runtime_proof.py" \
+  -o "$GCP_PROOF_SCRIPT"
+python3 "$GCP_PROOF_SCRIPT" \
+  --vm-json "$VM_JSON_FILE" \
+  --firewall-json "$FIREWALL_JSON_FILE" \
+  --budget-proof "$BUDGET_PROOF" \
+  --output "$GCP_PROOF_OUTPUT"
+chmod 600 "$GCP_PROOF_OUTPUT"
+pass "Sanitized proof written to $GCP_PROOF_OUTPUT"
 
 log "Provisioning complete"
 echo "G0/G1 status: PASS if all checks above passed."
