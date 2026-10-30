@@ -1,11 +1,19 @@
 """AURORA V8.9.7 IBKR market-data connector safety tests."""
 
+import json
 import os
 from pathlib import Path
+import subprocess
+import sys
+import tempfile
 import unittest
 from unittest.mock import patch
 
 from engines import ibkr_market_data_connector as connector
+
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+EVIDENCE_RUN_ID = "11111111-1111-4111-8111-111111111111"
 
 
 class IBKRMarketDataEvaluationTests(unittest.TestCase):
@@ -172,6 +180,37 @@ class IBKRMarketDataStaticSafetyTests(unittest.TestCase):
 
         for token in forbidden_tokens:
             self.assertNotIn(token, source)
+
+    def test_probe_preserves_wrapper_evidence_run_id(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "g3-proof.json"
+            environment = os.environ.copy()
+            environment.update({
+                "AURORA_IBKR_MARKET_DATA_ENABLED": "false",
+                "AURORA_IBKR_MODE": "PAPER",
+                "AURORA_IBKR_MARKET_DATA_PROBE_OUTPUT": str(output),
+                "AURORA_EVIDENCE_RUN_ID": EVIDENCE_RUN_ID,
+            })
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    str(
+                        REPOSITORY_ROOT
+                        / "scripts"
+                        / "ibkr_market_data_probe.py"
+                    ),
+                    "NVDA",
+                ],
+                cwd=directory,
+                env=environment,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(completed.returncode, 2, completed.stderr)
+            proof = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(proof["evidence_run_id"], EVIDENCE_RUN_ID)
+            self.assertFalse(proof["broker_submission_allowed"])
 
 
 if __name__ == "__main__":

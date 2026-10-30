@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import tempfile
+from uuid import UUID
 
 
 DEFAULT_G0_PROOF = "runtime/gcp/latest.json"
@@ -74,6 +75,18 @@ def _verified_account_fingerprints(account_guard):
     return fingerprints
 
 
+def _verified_evidence_run_id(value):
+    text = str(value or "").strip()
+    try:
+        parsed = UUID(text)
+    except (ValueError, AttributeError):
+        return None
+    canonical = str(parsed)
+    if parsed.version != 4 or text != canonical:
+        return None
+    return canonical
+
+
 def evaluate_readiness_bundle(
     g2_proof,
     g3_proof,
@@ -97,6 +110,12 @@ def evaluate_readiness_bundle(
     g3_account_guard = g3_snapshot.get("paper_account_guard") or {}
     g3_quote = g3_snapshot.get("quote") or {}
     g3_market_gate = g3_proof.get("execution_market_data_gate") or {}
+    g2_evidence_run_id = _verified_evidence_run_id(
+        g2_proof.get("evidence_run_id")
+    )
+    g3_evidence_run_id = _verified_evidence_run_id(
+        g3_proof.get("evidence_run_id")
+    )
     g2_account_fingerprints = _verified_account_fingerprints(
         g2_account_guard
     )
@@ -144,6 +163,10 @@ def evaluate_readiness_bundle(
             g2_age is not None
             and g2_age <= float(max_g2_age_seconds)
         ),
+        "g2_g3_same_evidence_run": (
+            g2_evidence_run_id is not None
+            and g2_evidence_run_id == g3_evidence_run_id
+        ),
         "g3_realtime_ready": g3_snapshot.get("status") == "REALTIME_READY",
         "g3_paper_loopback_endpoint": (
             g3_config.get("mode") == "PAPER"
@@ -183,7 +206,7 @@ def evaluate_readiness_bundle(
     ready = not failures
 
     return {
-        "engine": "AURORA V8.9.27 G0-G3 Runtime Readiness Bundle",
+        "engine": "AURORA V8.9.28 G0-G3 Runtime Readiness Bundle",
         "generated_at": now.isoformat(),
         "status": "READY_FOR_CONTROLLED_DRY_RUN" if ready else "NOT_READY",
         "checks": checks,
@@ -192,6 +215,11 @@ def evaluate_readiness_bundle(
         "g2_evidence_age_seconds": g2_age,
         "g3_evidence_age_seconds": g3_age,
         "symbol": g3_proof.get("symbol"),
+        "evidence_run_id": (
+            g2_evidence_run_id
+            if checks["g2_g3_same_evidence_run"]
+            else None
+        ),
         "g0_g1_proof_sha256": _digest(g0_proof),
         "g2_paper_read_only_proof_sha256": _digest(g2_proof),
         "g3_market_data_proof_sha256": _digest(g3_proof),

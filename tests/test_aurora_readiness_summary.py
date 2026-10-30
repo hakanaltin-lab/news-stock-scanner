@@ -15,6 +15,7 @@ from scripts.aurora_readiness_summary import evaluate_readiness_bundle
 ROOT = Path(__file__).resolve().parents[1]
 NOW = datetime(2026, 10, 30, 12, 0, tzinfo=timezone.utc)
 ACCOUNT_FINGERPRINT = "IBKR-A1B2C3D4E5"
+EVIDENCE_RUN_ID = "11111111-1111-4111-8111-111111111111"
 
 
 def digest(payload):
@@ -42,6 +43,7 @@ def verified_g0(timestamp=None):
 def ready_g2(timestamp=None):
     timestamp = timestamp or (NOW - timedelta(seconds=5)).isoformat()
     return {
+        "evidence_run_id": EVIDENCE_RUN_ID,
         "run_mode": {"mode": "READ_ONLY"},
         "snapshot": {
             "timestamp": timestamp,
@@ -64,6 +66,7 @@ def ready_g2(timestamp=None):
 def ready_g3(timestamp=None):
     timestamp = timestamp or (NOW - timedelta(seconds=2)).isoformat()
     return {
+        "evidence_run_id": EVIDENCE_RUN_ID,
         "symbol": "BKR",
         "snapshot": {
             "status": "REALTIME_READY",
@@ -108,6 +111,8 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
         self.assertEqual(result["status"], "READY_FOR_CONTROLLED_DRY_RUN")
         self.assertEqual(result["failure_reasons"], [])
         self.assertTrue(result["checks"]["g2_g3_paper_account_bound"])
+        self.assertTrue(result["checks"]["g2_g3_same_evidence_run"])
+        self.assertEqual(result["evidence_run_id"], EVIDENCE_RUN_ID)
         self.assertEqual(
             result["paper_account_fingerprints"],
             [ACCOUNT_FINGERPRINT],
@@ -127,6 +132,42 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
         self.assertFalse(result["paper_order_submission_allowed"])
         self.assertFalse(result["live_execution_allowed"])
         self.assertFalse(result["automatic_promotion_allowed"])
+
+    def test_mismatched_evidence_run_id_blocks(self):
+        g3 = ready_g3()
+        g3["evidence_run_id"] = "22222222-2222-4222-8222-222222222222"
+        result = evaluate_readiness_bundle(
+            ready_g2(),
+            g3,
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        self.assertEqual(result["status"], "NOT_READY")
+        self.assertIn(
+            "g2_g3_same_evidence_run",
+            result["failure_reasons"],
+        )
+        self.assertIsNone(result["evidence_run_id"])
+
+    def test_missing_or_malformed_evidence_run_id_blocks(self):
+        missing = ready_g2()
+        missing.pop("evidence_run_id")
+        malformed = ready_g3()
+        malformed["evidence_run_id"] = "not-a-uuid"
+        first = evaluate_readiness_bundle(
+            missing,
+            ready_g3(),
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        second = evaluate_readiness_bundle(
+            ready_g2(),
+            malformed,
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        self.assertIn("g2_g3_same_evidence_run", first["failure_reasons"])
+        self.assertIn("g2_g3_same_evidence_run", second["failure_reasons"])
 
     def test_missing_account_fingerprint_blocks(self):
         g2 = ready_g2()
@@ -269,6 +310,8 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
         for token in ["placeOrder", "submit_order", "PAPER_ENABLED", "4001"]:
             self.assertNotIn(token, source)
         self.assertIn("AURORA_IBKR_MARKET_DATA_ENABLED=true", source)
+        self.assertIn("uuid.uuid4()", source)
+        self.assertIn("export AURORA_EVIDENCE_RUN_ID", source)
         self.assertIn("summary_status=0", source)
         self.assertIn("g2_status != 0 || g3_status != 0", source)
 
