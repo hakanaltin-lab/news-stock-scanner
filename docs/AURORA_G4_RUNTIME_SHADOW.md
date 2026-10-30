@@ -1,4 +1,4 @@
-# AURORA V8.9.17 — G4 Runtime Shadow Gate
+# AURORA V8.9.18 — G4 Runtime Shadow Gate
 
 This package connects the fresh G2/G3 runtime evidence to the existing
 broker-independent dry-run engine. It creates an auditable shadow order only.
@@ -47,6 +47,17 @@ The result is written atomically to:
 ```text
 runtime/aurora_g4_shadow/latest.json
 ```
+
+Accepted shadow intents are also recorded in a private SQLite ledger:
+
+```text
+runtime/aurora_g4_shadow/shadow_audit.sqlite3
+```
+
+The idempotency key is a database primary key. A second process or later
+restart using the same key fails closed as
+`PERSISTENT_DUPLICATE_ORDER_INTENT`. The ledger exposes no update or delete
+operation and is created with owner-only file permissions.
 
 The record contains SHA-256 digests of the readiness and market-data evidence
 used for the decision. Passing G4 requires operator review and does not
