@@ -1,7 +1,7 @@
 {
   "engine": "V8.5.2 Thesis-Aware Exit Shadow Journal",
-  "updated_at": "2026-10-30T12:35:33.655825+00:00",
-  "record_count": 4,
+  "updated_at": "2026-10-30T17:32:43.712323+00:00",
+  "record_count": 5,
   "records": [
     {
       "id": "446e70f1b98d97f0",
@@ -21,13 +21,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "stock_excess_return_pct": null,
-          "shadow_relative_alpha_pct": null,
-          "shadow_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": -1.7,
+          "spy_return_pct": -0.65,
+          "stock_excess_return_pct": -1.06,
+          "shadow_relative_alpha_pct": -0.53,
+          "shadow_hit": false
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -69,13 +69,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "stock_excess_return_pct": null,
-          "shadow_relative_alpha_pct": null,
-          "shadow_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": -12.65,
+          "spy_return_pct": -0.65,
+          "stock_excess_return_pct": -12.0,
+          "shadow_relative_alpha_pct": -6.0,
+          "shadow_hit": false
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -117,13 +117,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "stock_excess_return_pct": null,
-          "shadow_relative_alpha_pct": null,
-          "shadow_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": 19.01,
+          "spy_return_pct": -0.65,
+          "stock_excess_return_pct": 19.65,
+          "shadow_relative_alpha_pct": 19.65,
+          "shadow_hit": true
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -162,6 +162,54 @@
       "exposure_difference": 0.5,
       "signal_price": 55.4,
       "spy_entry_price": 770.78,
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "a532c17d79e7b9e9",
+      "signal_date": "2026-10-30",
+      "recorded_at": "2026-10-30T17:32:43.411584+00:00",
+      "ticker": "NBIS",
+      "base_action": "EXIT",
+      "thesis_shadow_action": "WATCH",
+      "review_status": "NOT_CONFIRMED",
+      "thesis_health": "MIXED",
+      "fundamental_score": 52.3,
+      "live_exposure": 0.0,
+      "shadow_exposure": 0.75,
+      "exposure_difference": 0.75,
+      "signal_price": 151.89,
+      "spy_entry_price": 755.21,
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,

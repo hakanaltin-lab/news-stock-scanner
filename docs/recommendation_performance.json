@@ -1,6 +1,6 @@
 {
   "engine": "V7.8 Recommendation Performance Journal",
-  "generated": "2026-10-30T12:37:37.828715+00:00",
+  "generated": "2026-10-30T17:34:23.538300+00:00",
   "total_signals": 189,
   "bootstrap_signals_added": 0,
   "new_signals_added": 0,
@@ -31,14 +31,14 @@
   ],
   "horizons": {
     "5d": {
-      "evaluated": 0,
-      "pending": 189,
-      "benchmark_hit_rate_pct": null,
-      "absolute_hit_rate_pct": null,
-      "average_stock_return_pct": null,
-      "average_spy_return_pct": null,
-      "average_excess_return_pct": null,
-      "average_decision_alpha_pct": null
+      "evaluated": 165,
+      "pending": 24,
+      "benchmark_hit_rate_pct": 69.1,
+      "absolute_hit_rate_pct": 69.1,
+      "average_stock_return_pct": -1.01,
+      "average_spy_return_pct": -0.67,
+      "average_excess_return_pct": -0.34,
+      "average_decision_alpha_pct": -0.42
     },
     "20d": {
       "evaluated": 0,
