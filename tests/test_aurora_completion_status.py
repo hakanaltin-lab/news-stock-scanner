@@ -16,6 +16,7 @@ from engines.shadow_audit_verifier import receipt_binding_sha256
 
 ROOT = Path(__file__).resolve().parents[1]
 NOW = datetime(2026, 10, 30, 12, 0, tzinfo=timezone.utc)
+EVIDENCE_RUN_ID = "11111111-1111-4111-8111-111111111111"
 
 
 def digest(payload):
@@ -52,6 +53,7 @@ def proofs():
     }
     readiness = {
         **safe,
+        "evidence_run_id": EVIDENCE_RUN_ID,
         "generated_at": (NOW - timedelta(seconds=20)).isoformat(),
         "status": "READY_FOR_CONTROLLED_DRY_RUN",
         "failure_reasons": [],
@@ -60,6 +62,7 @@ def proofs():
     }
     g4 = {
         **safe,
+        "evidence_run_id": EVIDENCE_RUN_ID,
         "generated_at": (NOW - timedelta(seconds=10)).isoformat(),
         "status": "SHADOW_ACCEPTED",
         "readiness_proof_sha256": digest(readiness),
@@ -110,6 +113,7 @@ class AuroraCompletionStatusTests(unittest.TestCase):
             "MANUAL_PAPER_ORDER_AUTHORIZATION_NOT_GRANTED",
         )
         self.assertTrue(result["checks"]["g4_readiness_proof_bound"])
+        self.assertTrue(result["checks"]["g4_evidence_run_bound"])
         self.assertTrue(result["checks"]["g4_ledger_receipt_bound"])
         self.assertTrue(
             result["checks"]["g0_g1_readiness_proof_bound"]
@@ -135,6 +139,30 @@ class AuroraCompletionStatusTests(unittest.TestCase):
                 "g4_recorded_readiness_proof_sha256"
             ],
         )
+        self.assertEqual(
+            result["evidence_binding"]["readiness_evidence_run_id"],
+            result["evidence_binding"]["g4_evidence_run_id"],
+        )
+
+    def test_missing_or_mismatched_g4_evidence_run_id_blocks(self):
+        g0, ready, g4, audit, g2 = proofs()
+        g4.pop("evidence_run_id")
+        missing = evaluate_completion_status(
+            g0, ready, g4, audit, now=NOW, g2_proof=g2
+        )
+        self.assertIn("g4_evidence_run_bound", missing["failure_reasons"])
+
+        g4["evidence_run_id"] = (
+            "22222222-2222-4222-8222-222222222222"
+        )
+        mismatched = evaluate_completion_status(
+            g0, ready, g4, audit, now=NOW, g2_proof=g2
+        )
+        self.assertIn(
+            "g4_evidence_run_bound",
+            mismatched["failure_reasons"],
+        )
+        self.assertFalse(mismatched["paper_order_submission_allowed"])
 
     def test_missing_or_stale_stage_blocks(self):
         g0, ready, g4, audit, g2 = proofs()

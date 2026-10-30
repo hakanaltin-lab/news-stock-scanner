@@ -1,10 +1,11 @@
-name: AURORA V8.9.26 G0-G4 Completion Gate Safety
+name: AURORA V8.9.29 G0-G4 Completion Gate Safety
 
 on:
   workflow_dispatch:
   pull_request:
     paths:
       - "scripts/aurora_completion_status.py"
+      - "scripts/aurora_g4_shadow.py"
       - "scripts/run_aurora_completion_gate.sh"
       - "scripts/gcp_runtime_proof.py"
       - "scripts/aurora_readiness_summary.py"
@@ -16,6 +17,7 @@ on:
   push:
     paths:
       - "scripts/aurora_completion_status.py"
+      - "scripts/aurora_g4_shadow.py"
       - "scripts/run_aurora_completion_gate.sh"
       - "scripts/gcp_runtime_proof.py"
       - "scripts/aurora_readiness_summary.py"
@@ -42,6 +44,7 @@ jobs:
       - name: Compile and check shell
         run: |
           python -m py_compile scripts/aurora_completion_status.py
+          python -m py_compile scripts/aurora_g4_shadow.py
           python -m py_compile scripts/aurora_readiness_summary.py
           python -m py_compile tests/test_aurora_completion_status.py
           python -m py_compile tests/test_aurora_readiness_summary.py

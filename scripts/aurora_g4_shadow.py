@@ -15,6 +15,7 @@ import os
 from pathlib import Path
 import sys
 import tempfile
+from uuid import UUID
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
@@ -69,9 +70,21 @@ def _digest(payload):
     return hashlib.sha256(canonical).hexdigest()
 
 
+def _verified_evidence_run_id(value):
+    text = str(value or "").strip()
+    try:
+        parsed = UUID(text)
+    except (ValueError, AttributeError):
+        return None
+    canonical = str(parsed)
+    if parsed.version != 4 or text != canonical:
+        return None
+    return canonical
+
+
 def _block(reason, **extra):
     return {
-        "engine": "AURORA V8.9.22 G4 Runtime Shadow Gate",
+        "engine": "AURORA V8.9.29 G4 Runtime Shadow Gate",
         "status": "BLOCKED",
         "reason": reason,
         "broker_submission_allowed": False,
@@ -138,6 +151,17 @@ def evaluate_runtime_shadow(
     if not market_flags_safe:
         return _block("MARKET_PROOF_SUBMISSION_FLAGS_NOT_SAFE")
 
+    readiness_run_id = _verified_evidence_run_id(
+        readiness_proof.get("evidence_run_id")
+    )
+    market_run_id = _verified_evidence_run_id(
+        market_data_proof.get("evidence_run_id")
+    )
+    if readiness_run_id is None:
+        return _block("READINESS_EVIDENCE_RUN_ID_REQUIRED")
+    if market_run_id is None or market_run_id != readiness_run_id:
+        return _block("READINESS_MARKET_EVIDENCE_RUN_MISMATCH")
+
     expected_market_digest = str(
         readiness_proof.get("g3_market_data_proof_sha256") or ""
     ).strip().lower()
@@ -202,6 +226,7 @@ def evaluate_runtime_shadow(
             ).record_shadow_order(
                 shadow_order,
                 {
+                    "evidence_run_id": readiness_run_id,
                     "readiness_proof_sha256": _digest(readiness_proof),
                     "market_data_proof_sha256": _digest(market_data_proof),
                 },
@@ -219,10 +244,11 @@ def evaluate_runtime_shadow(
             )
 
     return {
-        "engine": "AURORA V8.9.22 G4 Runtime Shadow Gate",
+        "engine": "AURORA V8.9.29 G4 Runtime Shadow Gate",
         "generated_at": now.isoformat(),
         "status": "SHADOW_ACCEPTED",
         "symbol": intent_symbol,
+        "evidence_run_id": readiness_run_id,
         "readiness_age_seconds": readiness_age,
         "readiness_proof_sha256": _digest(readiness_proof),
         "market_data_proof_sha256": _digest(market_data_proof),
