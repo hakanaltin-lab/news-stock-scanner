@@ -265,6 +265,77 @@ def load_portfolio():
     return portfolio
 
 
+def build_market_data_coverage_record(
+    ticker,
+    market_data,
+    execution_gate,
+):
+    """Return an auditable record even when a symbol has no usable quote.
+
+    Scanner/research availability is deliberately separate from execution
+    eligibility.  A Yahoo quote can be analyzed, but it must never be promoted
+    to broker execution data by this reporting layer.
+    """
+    market_data = market_data or {}
+    execution_gate = execution_gate or {}
+
+    prices = market_data.get("prices") or []
+    volumes = market_data.get("volumes") or []
+    analysis_eligible = bool(prices and volumes)
+
+    record = {
+        "ticker": ticker,
+        "status": (
+            "AVAILABLE_FOR_RESEARCH"
+            if analysis_eligible
+            else "BLOCKED_NO_USABLE_QUOTE"
+        ),
+        "analysis_eligible": analysis_eligible,
+        "execution_eligible": execution_gate.get("decision") == "PASS",
+        "source": market_data.get("source"),
+        "data_scope": market_data.get("data_scope", "RESEARCH_ONLY"),
+        "data_quality": market_data.get("data_quality", "UNVERIFIED"),
+        "market_timestamp": market_data.get("market_timestamp"),
+        "retrieved_at": market_data.get("retrieved_at"),
+        "data_points": market_data.get("data_points", len(prices)),
+        "execution_gate_decision": execution_gate.get("decision", "BLOCK"),
+        "execution_gate_failures": list(
+            execution_gate.get("failure_reasons") or []
+        ),
+    }
+
+    if not analysis_eligible and market_data.get("error"):
+        record["provider_error"] = str(market_data.get("error"))[:500]
+
+    return record
+
+
+def summarize_market_data_coverage(records, expected_symbols):
+    records = records or []
+    expected_symbols = max(0, int(expected_symbols or 0))
+    analyzed = sum(
+        1
+        for item in records
+        if item.get("analysis_eligible") is True
+    )
+    execution_ready = sum(
+        1
+        for item in records
+        if item.get("execution_eligible") is True
+    )
+
+    return {
+        "expected_symbols": expected_symbols,
+        "reported_symbols": len(records),
+        "analysis_eligible_symbols": analyzed,
+        "blocked_symbols": max(0, expected_symbols - analyzed),
+        "execution_eligible_symbols": execution_ready,
+        "complete_reporting": len(records) == expected_symbols,
+        "paper_order_submission_allowed": False,
+        "live_execution_allowed": False,
+    }
+
+
 def run_scanner():
 
     # =====================================================
@@ -330,6 +401,7 @@ def run_scanner():
 
 
     results = []
+    market_data_coverage = []
 
 
     for stock in portfolio:
@@ -363,6 +435,14 @@ def run_scanner():
         market_data_execution_gate = (
             evaluate_market_data_for_execution(
                 live_data
+            )
+        )
+
+        market_data_coverage.append(
+            build_market_data_coverage_record(
+                ticker,
+                live_data,
+                market_data_execution_gate,
             )
         )
 
@@ -1122,6 +1202,15 @@ def run_scanner():
 
         "portfolio":
         results,
+
+        "market_data_coverage":
+        market_data_coverage,
+
+        "market_data_coverage_summary":
+        summarize_market_data_coverage(
+            market_data_coverage,
+            len(portfolio),
+        ),
 
         "portfolio_rebalancing":
         portfolio_rebalancing,
