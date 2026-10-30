@@ -1,0 +1,42 @@
+name: AURORA V8.9.19 Shadow Ledger Audit Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/shadow_audit_ledger.py"
+      - "engines/shadow_audit_verifier.py"
+      - "scripts/audit_aurora_g4_ledger.py"
+      - "tests/test_shadow_audit_ledger.py"
+      - "tests/test_shadow_audit_verifier.py"
+      - ".github/workflows/shadow_ledger_audit_safety.yml"
+  push:
+    paths:
+      - "engines/shadow_audit_ledger.py"
+      - "engines/shadow_audit_verifier.py"
+      - "scripts/audit_aurora_g4_ledger.py"
+      - "tests/test_shadow_audit_ledger.py"
+      - "tests/test_shadow_audit_verifier.py"
+      - ".github/workflows/shadow_ledger_audit_safety.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  shadow-ledger-audit-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile verifier
+        run: |
+          python -m py_compile engines/shadow_audit_verifier.py
+          python -m py_compile scripts/audit_aurora_g4_ledger.py
+          python -m py_compile tests/test_shadow_audit_verifier.py
+      - name: Prove read-only tamper detection
+        run: python -m unittest tests.test_shadow_audit_verifier -v
