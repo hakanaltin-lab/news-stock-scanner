@@ -1,6 +1,7 @@
-"""V8.9.17 runtime shadow execution must remain broker-independent."""
+"""V8.9.22 runtime shadow execution must remain broker-independent."""
 
 from datetime import datetime, timedelta, timezone
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -17,10 +18,22 @@ ROOT = Path(__file__).resolve().parents[1]
 NOW = datetime(2026, 10, 30, 12, 0, tzinfo=timezone.utc)
 
 
-def readiness(timestamp=None):
+def digest(payload):
+    canonical = json.dumps(
+        payload,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
+
+
+def readiness(timestamp=None, market=None):
     return {
         "generated_at": timestamp or (NOW - timedelta(seconds=2)).isoformat(),
         "status": "READY_FOR_CONTROLLED_DRY_RUN",
+        "g3_market_data_proof_sha256": digest(
+            market if market is not None else market_proof()
+        ),
         "broker_submission_allowed": False,
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
@@ -70,10 +83,12 @@ def intent():
 
 class AuroraG4ShadowTests(unittest.TestCase):
     def evaluate(self, ready=None, market=None, order=None):
+        market = market if market is not None else market_proof()
+        ready = ready if ready is not None else readiness(market=market)
         with patch.dict(os.environ, {"AURORA_RUN_MODE": "DRY_RUN"}):
             return evaluate_runtime_shadow(
-                ready if ready is not None else readiness(),
-                market if market is not None else market_proof(),
+                ready,
+                market,
                 order if order is not None else intent(),
                 now=NOW,
             )
@@ -131,11 +146,32 @@ class AuroraG4ShadowTests(unittest.TestCase):
             "VERIFIED_REALTIME_QUOTE_REQUIRED",
         )
 
+    def test_unbound_or_replayed_market_proof_blocks(self):
+        original = market_proof()
+        ready = readiness(market=original)
+
+        missing_digest = readiness(market=original)
+        del missing_digest["g3_market_data_proof_sha256"]
+        self.assertEqual(
+            self.evaluate(ready=missing_digest, market=original)["reason"],
+            "READINESS_MARKET_PROOF_DIGEST_REQUIRED",
+        )
+
+        replayed = market_proof()
+        replayed["snapshot"]["quote"]["last_price"] = 51.0
+        result = self.evaluate(ready=ready, market=replayed)
+        self.assertEqual(
+            result["reason"],
+            "READINESS_MARKET_PROOF_MISMATCH",
+        )
+        self.assertFalse(result["paper_order_submission_allowed"])
+
     def test_read_only_mode_blocks(self):
+        market = market_proof()
         with patch.dict(os.environ, {"AURORA_RUN_MODE": "READ_ONLY"}):
             result = evaluate_runtime_shadow(
-                readiness(),
-                market_proof(),
+                readiness(market=market),
+                market,
                 intent(),
                 now=NOW,
             )

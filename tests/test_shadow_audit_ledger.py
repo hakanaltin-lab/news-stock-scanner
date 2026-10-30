@@ -71,16 +71,24 @@ class ShadowAuditLedgerTests(unittest.TestCase):
     def test_runtime_gate_blocks_same_intent_after_restart(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "shadow.sqlite3"
+            first_market = market_proof()
+            second_market = market_proof()
             with patch.dict(os.environ, {"AURORA_RUN_MODE": "DRY_RUN"}):
                 first = evaluate_runtime_shadow(
-                    readiness(datetime.now(timezone.utc).isoformat()),
-                    market_proof(),
+                    readiness(
+                        datetime.now(timezone.utc).isoformat(),
+                        market=first_market,
+                    ),
+                    first_market,
                     intent(),
                     ledger_path=path,
                 )
                 second = evaluate_runtime_shadow(
-                    readiness(datetime.now(timezone.utc).isoformat()),
-                    market_proof(),
+                    readiness(
+                        datetime.now(timezone.utc).isoformat(),
+                        market=second_market,
+                    ),
+                    second_market,
                     intent(),
                     ledger_path=path,
                 )
@@ -96,10 +104,14 @@ class ShadowAuditLedgerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             blocked_path = Path(directory) / "as-directory"
             blocked_path.mkdir()
+            market = market_proof()
             with patch.dict(os.environ, {"AURORA_RUN_MODE": "DRY_RUN"}):
                 result = evaluate_runtime_shadow(
-                    readiness(datetime.now(timezone.utc).isoformat()),
-                    market_proof(),
+                    readiness(
+                        datetime.now(timezone.utc).isoformat(),
+                        market=market,
+                    ),
+                    market,
                     intent(),
                     ledger_path=blocked_path,
                 )

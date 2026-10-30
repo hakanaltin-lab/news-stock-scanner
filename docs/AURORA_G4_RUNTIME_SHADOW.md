@@ -1,4 +1,4 @@
-# AURORA V8.9.18 — G4 Runtime Shadow Gate
+# AURORA V8.9.22 — G4 Runtime Shadow Gate
 
 This package connects the fresh G2/G3 runtime evidence to the existing
 broker-independent dry-run engine. It creates an auditable shadow order only.
@@ -35,6 +35,8 @@ broker-independent child process.
 The shadow gate accepts only when:
 
 - unified readiness is `READY_FOR_CONTROLLED_DRY_RUN` and at most 30 seconds old;
+- the G3 market-data proof SHA-256 exactly matches the proof bound into the
+  readiness decision;
 - every readiness and market-proof submission flag is false;
 - the intent symbol exactly matches the verified real-time quote symbol;
 - the existing G4 risk, limit-order, spread, notional, short-sale, and market
