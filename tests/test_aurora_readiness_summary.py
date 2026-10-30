@@ -14,6 +14,7 @@ from scripts.aurora_readiness_summary import evaluate_readiness_bundle
 
 ROOT = Path(__file__).resolve().parents[1]
 NOW = datetime(2026, 10, 30, 12, 0, tzinfo=timezone.utc)
+ACCOUNT_FINGERPRINT = "IBKR-A1B2C3D4E5"
 
 
 def digest(payload):
@@ -45,6 +46,10 @@ def ready_g2(timestamp=None):
         "snapshot": {
             "timestamp": timestamp,
             "order_submission_hard_blocked": True,
+            "paper_account_guard": {
+                "paper_account_verified": True,
+                "verified_account_fingerprints": [ACCOUNT_FINGERPRINT],
+            },
         },
         "readiness": {
             "timestamp": timestamp,
@@ -68,7 +73,10 @@ def ready_g3(timestamp=None):
                 "host": "127.0.0.1",
                 "port": 4002,
             },
-            "paper_account_guard": {"paper_account_verified": True},
+            "paper_account_guard": {
+                "paper_account_verified": True,
+                "verified_account_fingerprints": [ACCOUNT_FINGERPRINT],
+            },
             "quote": {
                 "source": "IBKR_REALTIME",
                 "market_data_type_name": "REALTIME",
@@ -99,6 +107,11 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
         )
         self.assertEqual(result["status"], "READY_FOR_CONTROLLED_DRY_RUN")
         self.assertEqual(result["failure_reasons"], [])
+        self.assertTrue(result["checks"]["g2_g3_paper_account_bound"])
+        self.assertEqual(
+            result["paper_account_fingerprints"],
+            [ACCOUNT_FINGERPRINT],
+        )
         self.assertEqual(
             result["g0_g1_proof_sha256"],
             digest(g0),
@@ -114,6 +127,44 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
         self.assertFalse(result["paper_order_submission_allowed"])
         self.assertFalse(result["live_execution_allowed"])
         self.assertFalse(result["automatic_promotion_allowed"])
+
+    def test_missing_account_fingerprint_blocks(self):
+        g2 = ready_g2()
+        del g2["snapshot"]["paper_account_guard"][
+            "verified_account_fingerprints"
+        ]
+        result = evaluate_readiness_bundle(
+            g2,
+            ready_g3(),
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        self.assertEqual(result["status"], "NOT_READY")
+        self.assertIn(
+            "g2_g3_paper_account_bound",
+            result["failure_reasons"],
+        )
+        self.assertEqual(result["paper_account_fingerprints"], [])
+        self.assertFalse(result["paper_order_submission_allowed"])
+
+    def test_mismatched_account_fingerprint_blocks(self):
+        g3 = ready_g3()
+        g3["snapshot"]["paper_account_guard"][
+            "verified_account_fingerprints"
+        ] = ["IBKR-0F1E2D3C4B"]
+        result = evaluate_readiness_bundle(
+            ready_g2(),
+            g3,
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        self.assertEqual(result["status"], "NOT_READY")
+        self.assertIn(
+            "g2_g3_paper_account_bound",
+            result["failure_reasons"],
+        )
+        self.assertEqual(result["paper_account_fingerprints"], [])
+        self.assertFalse(result["live_execution_allowed"])
 
     def test_stale_g2_or_g3_evidence_blocks(self):
         stale_g2 = (NOW - timedelta(seconds=301)).isoformat()

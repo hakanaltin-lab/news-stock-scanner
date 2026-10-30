@@ -1,13 +1,22 @@
-"""AURORA V8.9.5 IBKR paper-account identity guard.
+"""AURORA V8.9.27 IBKR paper-account identity guard.
 
 The raw IBKR account identifier is accepted only from process memory/environment.
 This module never returns or logs raw account identifiers.
 """
 
+import hashlib
 import os
 
 
 ENV_NAME = "AURORA_IBKR_PAPER_ACCOUNT_ALLOWLIST"
+
+
+def account_fingerprint(account):
+    """Return the existing sanitized account token without exposing the ID."""
+    if not account:
+        return None
+    digest = hashlib.sha256(str(account).encode("utf-8")).hexdigest()[:10]
+    return f"IBKR-{digest.upper()}"
 
 
 def load_paper_account_allowlist():
@@ -34,6 +43,11 @@ def evaluate_paper_account_identity(accounts):
         and received
         and all(account in allowlist for account in accounts)
     )
+    verified_fingerprints = (
+        sorted({account_fingerprint(account) for account in accounts})
+        if all_allowlisted
+        else []
+    )
 
     if not configured:
         reason = "PAPER_ACCOUNT_ALLOWLIST_NOT_CONFIGURED"
@@ -50,5 +64,6 @@ def evaluate_paper_account_identity(accounts):
         "account_count": len(accounts),
         "all_accounts_allowlisted": all_allowlisted,
         "paper_account_verified": all_allowlisted,
+        "verified_account_fingerprints": verified_fingerprints,
         "reason": reason,
     }

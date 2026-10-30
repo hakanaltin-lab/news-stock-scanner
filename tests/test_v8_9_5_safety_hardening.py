@@ -16,7 +16,10 @@ from engines.aurora_run_mode_engine import (
     load_run_mode,
     restart_state,
 )
-from engines.ibkr_account_guard import evaluate_paper_account_identity
+from engines.ibkr_account_guard import (
+    account_fingerprint,
+    evaluate_paper_account_identity,
+)
 from engines.market_data_quality_gate import evaluate_market_data_for_execution
 from execution_engine.broker_connector import BrokerConnector as LegacyExecutionConnector
 from engines.broker_connector import BrokerConnector as LegacyEngineConnector
@@ -42,6 +45,10 @@ class PaperAccountGuardTests(unittest.TestCase):
 
         self.assertTrue(result["paper_account_verified"])
         self.assertTrue(result["allowlist_configured"])
+        self.assertEqual(
+            result["verified_account_fingerprints"],
+            [account_fingerprint(raw_account)],
+        )
         self.assertNotIn(raw_account, json.dumps(result))
 
     def test_unknown_account_fails_closed(self):

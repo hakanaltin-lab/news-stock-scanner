@@ -56,6 +56,24 @@ def _age_seconds(value, now):
     return round(max(0.0, age), 3)
 
 
+def _verified_account_fingerprints(account_guard):
+    values = account_guard.get("verified_account_fingerprints")
+    if not isinstance(values, list):
+        return ()
+    fingerprints = tuple(str(value).strip() for value in values)
+    canonical = tuple(sorted(set(fingerprints)))
+    if not fingerprints or fingerprints != canonical:
+        return ()
+    if any(
+        len(value) != 15
+        or not value.startswith("IBKR-")
+        or any(character not in "0123456789ABCDEF" for character in value[5:])
+        for value in fingerprints
+    ):
+        return ()
+    return fingerprints
+
+
 def evaluate_readiness_bundle(
     g2_proof,
     g3_proof,
@@ -73,11 +91,18 @@ def evaluate_readiness_bundle(
     g2_run_mode = g2_proof.get("run_mode") or {}
     g2_readiness = g2_proof.get("readiness") or {}
     g2_snapshot = g2_proof.get("snapshot") or {}
+    g2_account_guard = g2_snapshot.get("paper_account_guard") or {}
     g3_snapshot = g3_proof.get("snapshot") or {}
     g3_config = g3_snapshot.get("config") or {}
     g3_account_guard = g3_snapshot.get("paper_account_guard") or {}
     g3_quote = g3_snapshot.get("quote") or {}
     g3_market_gate = g3_proof.get("execution_market_data_gate") or {}
+    g2_account_fingerprints = _verified_account_fingerprints(
+        g2_account_guard
+    )
+    g3_account_fingerprints = _verified_account_fingerprints(
+        g3_account_guard
+    )
 
     g0_age = _age_seconds(g0_proof.get("generated_at"), now)
     g2_age = _age_seconds(
@@ -129,6 +154,12 @@ def evaluate_readiness_bundle(
         "g3_paper_account_verified": (
             g3_account_guard.get("paper_account_verified") is True
         ),
+        "g2_g3_paper_account_bound": (
+            g2_account_guard.get("paper_account_verified") is True
+            and g3_account_guard.get("paper_account_verified") is True
+            and bool(g2_account_fingerprints)
+            and g2_account_fingerprints == g3_account_fingerprints
+        ),
         "g3_realtime_quote": (
             g3_quote.get("source") == "IBKR_REALTIME"
             and g3_quote.get("market_data_type_name") == "REALTIME"
@@ -152,7 +183,7 @@ def evaluate_readiness_bundle(
     ready = not failures
 
     return {
-        "engine": "AURORA V8.9.25 G0-G3 Runtime Readiness Bundle",
+        "engine": "AURORA V8.9.27 G0-G3 Runtime Readiness Bundle",
         "generated_at": now.isoformat(),
         "status": "READY_FOR_CONTROLLED_DRY_RUN" if ready else "NOT_READY",
         "checks": checks,
@@ -164,6 +195,11 @@ def evaluate_readiness_bundle(
         "g0_g1_proof_sha256": _digest(g0_proof),
         "g2_paper_read_only_proof_sha256": _digest(g2_proof),
         "g3_market_data_proof_sha256": _digest(g3_proof),
+        "paper_account_fingerprints": (
+            list(g2_account_fingerprints)
+            if checks["g2_g3_paper_account_bound"]
+            else []
+        ),
         "broker_submission_allowed": False,
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,

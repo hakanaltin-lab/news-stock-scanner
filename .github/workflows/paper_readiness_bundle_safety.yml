@@ -1,4 +1,4 @@
-name: AURORA V8.9.25 Paper Readiness Bundle Safety
+name: AURORA V8.9.27 Paper Readiness Bundle Safety
 
 on:
   workflow_dispatch:
@@ -9,7 +9,9 @@ on:
       - "tests/test_aurora_readiness_summary.py"
       - "engines/ibkr_gateway_connector.py"
       - "engines/ibkr_market_data_connector.py"
+      - "engines/ibkr_account_guard.py"
       - "engines/ibkr_paper_readiness_engine.py"
+      - "tests/test_v8_9_5_safety_hardening.py"
       - ".github/workflows/paper_readiness_bundle_safety.yml"
   push:
     paths:
@@ -18,7 +20,9 @@ on:
       - "tests/test_aurora_readiness_summary.py"
       - "engines/ibkr_gateway_connector.py"
       - "engines/ibkr_market_data_connector.py"
+      - "engines/ibkr_account_guard.py"
       - "engines/ibkr_paper_readiness_engine.py"
+      - "tests/test_v8_9_5_safety_hardening.py"
       - ".github/workflows/paper_readiness_bundle_safety.yml"
 
 permissions:
@@ -38,7 +42,12 @@ jobs:
       - name: Compile and check shell
         run: |
           python -m py_compile scripts/aurora_readiness_summary.py
+          python -m py_compile engines/ibkr_account_guard.py
           python -m py_compile tests/test_aurora_readiness_summary.py
           bash -n scripts/run_aurora_g2_g3_readiness.sh
       - name: Prove fail-closed bundle behavior
-        run: python -m unittest tests.test_aurora_readiness_summary -v
+        run: |
+          python -m unittest \
+            tests.test_aurora_readiness_summary \
+            tests.test_v8_9_5_safety_hardening.PaperAccountGuardTests \
+            -v
