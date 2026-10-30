@@ -9,6 +9,7 @@ the broker-independent dry-run engine.
 import argparse
 from datetime import datetime, timezone
 import hashlib
+import hmac
 import json
 import os
 from pathlib import Path
@@ -70,7 +71,7 @@ def _digest(payload):
 
 def _block(reason, **extra):
     return {
-        "engine": "AURORA V8.9.17 G4 Runtime Shadow Gate",
+        "engine": "AURORA V8.9.22 G4 Runtime Shadow Gate",
         "status": "BLOCKED",
         "reason": reason,
         "broker_submission_allowed": False,
@@ -137,6 +138,28 @@ def evaluate_runtime_shadow(
     if not market_flags_safe:
         return _block("MARKET_PROOF_SUBMISSION_FLAGS_NOT_SAFE")
 
+    expected_market_digest = str(
+        readiness_proof.get("g3_market_data_proof_sha256") or ""
+    ).strip().lower()
+    actual_market_digest = _digest(market_data_proof)
+    if (
+        len(expected_market_digest) != 64
+        or any(
+            character not in "0123456789abcdef"
+            for character in expected_market_digest
+        )
+    ):
+        return _block("READINESS_MARKET_PROOF_DIGEST_REQUIRED")
+    if not hmac.compare_digest(
+        expected_market_digest,
+        actual_market_digest,
+    ):
+        return _block(
+            "READINESS_MARKET_PROOF_MISMATCH",
+            expected_market_data_proof_sha256=expected_market_digest,
+            actual_market_data_proof_sha256=actual_market_digest,
+        )
+
     snapshot = market_data_proof.get("snapshot") or {}
     quote = snapshot.get("quote") or {}
     proof_symbol = str(
@@ -196,7 +219,7 @@ def evaluate_runtime_shadow(
             )
 
     return {
-        "engine": "AURORA V8.9.17 G4 Runtime Shadow Gate",
+        "engine": "AURORA V8.9.22 G4 Runtime Shadow Gate",
         "generated_at": now.isoformat(),
         "status": "SHADOW_ACCEPTED",
         "symbol": intent_symbol,

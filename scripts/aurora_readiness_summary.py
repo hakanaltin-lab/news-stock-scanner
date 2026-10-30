@@ -3,6 +3,7 @@
 
 from datetime import datetime, timezone
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -14,6 +15,15 @@ DEFAULT_G3_PROOF = "runtime/ibkr_market_data/latest.json"
 DEFAULT_OUTPUT = "runtime/aurora_readiness/latest.json"
 DEFAULT_MAX_G2_AGE_SECONDS = 300
 DEFAULT_MAX_G3_AGE_SECONDS = 60
+
+
+def _digest(payload):
+    canonical = json.dumps(
+        payload or {},
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
 
 
 def _utc_datetime(value):
@@ -119,7 +129,7 @@ def evaluate_readiness_bundle(
     ready = not failures
 
     return {
-        "engine": "AURORA V8.9.16 G2-G3 Runtime Readiness Bundle",
+        "engine": "AURORA V8.9.22 G2-G3 Runtime Readiness Bundle",
         "generated_at": now.isoformat(),
         "status": "READY_FOR_CONTROLLED_DRY_RUN" if ready else "NOT_READY",
         "checks": checks,
@@ -127,6 +137,8 @@ def evaluate_readiness_bundle(
         "g2_evidence_age_seconds": g2_age,
         "g3_evidence_age_seconds": g3_age,
         "symbol": g3_proof.get("symbol"),
+        "g2_paper_read_only_proof_sha256": _digest(g2_proof),
+        "g3_market_data_proof_sha256": _digest(g3_proof),
         "broker_submission_allowed": False,
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,

@@ -1,4 +1,4 @@
-# AURORA V8.9.16 — G2/G3 Runtime Readiness Bundle
+# AURORA V8.9.22 — G2/G3 Runtime Readiness Bundle
 
 This bundle runs after the manual IB Gateway **Paper Trading** login, 2FA,
 official TWS API installation, and protected Paper account allowlist setup.
@@ -30,6 +30,10 @@ The sanitized result is written to:
 ```text
 runtime/aurora_readiness/latest.json
 ```
+
+The result also records canonical SHA-256 digests of the exact G2 read-only
+and G3 market-data proofs used for the decision. G4 must match the G3 digest
+before it can create a shadow order; a missing or different proof fails closed.
 
 The wrapper still produces this fail-closed summary when either probe returns a
 non-zero status, then exits non-zero itself.

@@ -1,6 +1,7 @@
 """Unified G2/G3 runtime readiness must remain fresh and fail closed."""
 
 from datetime import datetime, timedelta, timezone
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -13,6 +14,15 @@ from scripts.aurora_readiness_summary import evaluate_readiness_bundle
 
 ROOT = Path(__file__).resolve().parents[1]
 NOW = datetime(2026, 10, 30, 12, 0, tzinfo=timezone.utc)
+
+
+def digest(payload):
+    canonical = json.dumps(
+        payload,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
 
 
 def ready_g2(timestamp=None):
@@ -65,9 +75,19 @@ def ready_g3(timestamp=None):
 
 class AuroraReadinessSummaryTests(unittest.TestCase):
     def test_fresh_safe_g2_g3_evidence_passes(self):
-        result = evaluate_readiness_bundle(ready_g2(), ready_g3(), now=NOW)
+        g2 = ready_g2()
+        g3 = ready_g3()
+        result = evaluate_readiness_bundle(g2, g3, now=NOW)
         self.assertEqual(result["status"], "READY_FOR_CONTROLLED_DRY_RUN")
         self.assertEqual(result["failure_reasons"], [])
+        self.assertEqual(
+            result["g2_paper_read_only_proof_sha256"],
+            digest(g2),
+        )
+        self.assertEqual(
+            result["g3_market_data_proof_sha256"],
+            digest(g3),
+        )
         self.assertFalse(result["paper_order_submission_allowed"])
         self.assertFalse(result["live_execution_allowed"])
         self.assertFalse(result["automatic_promotion_allowed"])
