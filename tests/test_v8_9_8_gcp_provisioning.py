@@ -92,5 +92,20 @@ class GCPProvisioningContractTests(unittest.TestCase):
         self.assertIn('if [[ "${1:-}" == "--apply" ]]', self.source)
         self.assertIn("PLAN: resource creation commands are not executed.", self.source)
 
+    def test_budget_guard_runs_before_paid_resource_work(self):
+        self.assertIn("billingbudgets.googleapis.com", self.source)
+        self.assertIn("scripts/gcp_budget_guard.py", self.source)
+        self.assertIn("--currency TRY", self.source)
+        self.assertIn("--amount 750", self.source)
+        self.assertLess(
+            self.source.index('log "Verify approved TRY 750 budget alert"'),
+            self.source.index('log "Ensure custom VPC"'),
+        )
+
+    def test_provisioning_never_creates_or_edits_a_budget(self):
+        self.assertNotIn("billing budgets create", self.source)
+        self.assertNotIn("billing budgets update", self.source)
+        self.assertNotIn("billing budgets delete", self.source)
+
 if __name__ == "__main__":
     unittest.main()
