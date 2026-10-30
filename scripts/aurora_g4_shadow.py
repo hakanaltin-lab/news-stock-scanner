@@ -21,11 +21,13 @@ if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
 from engines.dry_run_execution_engine import DryRunExecutionEngine
+from engines.shadow_audit_ledger import ShadowAuditLedger
 
 
 DEFAULT_READINESS_PROOF = "runtime/aurora_readiness/latest.json"
 DEFAULT_MARKET_DATA_PROOF = "runtime/ibkr_market_data/latest.json"
 DEFAULT_OUTPUT = "runtime/aurora_g4_shadow/latest.json"
+DEFAULT_LEDGER = "runtime/aurora_g4_shadow/shadow_audit.sqlite3"
 DEFAULT_MAX_READINESS_AGE_SECONDS = 30
 
 
@@ -86,6 +88,7 @@ def evaluate_runtime_shadow(
     now=None,
     max_readiness_age_seconds=DEFAULT_MAX_READINESS_AGE_SECONDS,
     engine=None,
+    ledger_path=None,
 ):
     now = _utc_datetime(now) or datetime.now(timezone.utc)
     readiness_proof = readiness_proof or {}
@@ -168,6 +171,30 @@ def evaluate_runtime_shadow(
             shadow_gate=shadow_order,
         )
 
+    ledger_receipt = None
+    if ledger_path is not None:
+        try:
+            ledger_receipt = ShadowAuditLedger(
+                ledger_path
+            ).record_shadow_order(
+                shadow_order,
+                {
+                    "readiness_proof_sha256": _digest(readiness_proof),
+                    "market_data_proof_sha256": _digest(market_data_proof),
+                },
+            )
+        except Exception as error:
+            return _block(
+                "PERSISTENT_SHADOW_LEDGER_UNAVAILABLE",
+                error_type=type(error).__name__,
+            )
+
+        if ledger_receipt.get("recorded") is not True:
+            return _block(
+                "PERSISTENT_DUPLICATE_ORDER_INTENT",
+                ledger_receipt=ledger_receipt,
+            )
+
     return {
         "engine": "AURORA V8.9.17 G4 Runtime Shadow Gate",
         "generated_at": now.isoformat(),
@@ -177,6 +204,7 @@ def evaluate_runtime_shadow(
         "readiness_proof_sha256": _digest(readiness_proof),
         "market_data_proof_sha256": _digest(market_data_proof),
         "shadow_order": shadow_order,
+        "ledger_receipt": ledger_receipt,
         "broker_submission_allowed": False,
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
@@ -216,12 +244,14 @@ def main(argv=None):
         default=DEFAULT_MARKET_DATA_PROOF,
     )
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
+    parser.add_argument("--ledger", default=DEFAULT_LEDGER)
     args = parser.parse_args(argv)
 
     result = evaluate_runtime_shadow(
         _read_json(args.readiness_proof),
         _read_json(args.market_data_proof),
         _read_json(args.intent),
+        ledger_path=args.ledger,
     )
     _write_atomic(args.output, result)
     print(json.dumps(result, indent=2, sort_keys=True))
