@@ -155,6 +155,8 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
         fake_ibapi = types.ModuleType("ibapi")
         fake_client = types.ModuleType("ibapi.client")
         fake_wrapper = types.ModuleType("ibapi.wrapper")
+        fake_execution = types.ModuleType("ibapi.execution")
+        fake_execution.ExecutionFilter = type("ExecutionFilter", (), {})
 
         class FakeClient:
             def __init__(self, wrapper):
@@ -178,6 +180,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             "ibapi": fake_ibapi,
             "ibapi.client": fake_client,
             "ibapi.wrapper": fake_wrapper,
+            "ibapi.execution": fake_execution,
         }):
             specification.loader.exec_module(isolated)
 
