@@ -13,7 +13,7 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
     complete=snapshot.get("requests_complete")
     if not isinstance(complete,dict) or not all(complete.get(k) is True for k in ("managed_accounts","account_summary","positions","open_orders")):
         return {**blocked,"reason":"INCOMPLETE_SNAPSHOT"}
-    if not isinstance(snapshot.get("order_status"),list) or not isinstance(snapshot.get("executions"),list):
+    if not isinstance(snapshot.get("order_status"),list) or not isinstance(snapshot.get("executions"),list) or not isinstance(snapshot.get("open_orders"),list):
         return {**blocked,"reason":"MISSING_BROKER_ROWS"}
     # The completion callback covers this reqExecutions response only,
     # not all historical executions or broker-wide order history.
@@ -42,9 +42,9 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
             return {**blocked,"reason":"BROKER_CORRELATION_NOT_OBSERVED"}
     for item in mapping.values():
         matching=[row for row in rows if row["perm_id"]==item["perm_id"]]
-        # IBKR orderStatus does not provide an account field. Only an
-        # execution callback supplies broker-origin account evidence.
-        evidence=[row for row in snapshot["executions"] if row.get("perm_id")==item["perm_id"]]
+        # IBKR orderStatus has no account field. Broker-origin execution or
+        # openOrder records can independently prove the account identity.
+        evidence=[row for row in snapshot["executions"]+snapshot["open_orders"] if row.get("perm_id")==item["perm_id"]]
         if not evidence:
             return {**blocked,"reason":"BROKER_ACCOUNT_EVIDENCE_UNAVAILABLE"}
         if not any(row.get("order_id")==item["order_id"] and row.get("client_id")==item["client_id"] and row.get("account")==item["account"] for row in evidence):
