@@ -119,6 +119,7 @@ class MarketDataExecutionGateTests(unittest.TestCase):
         result = evaluate_market_data_for_execution({
             "source": "IBKR_REALTIME",
             "execution_eligible": True,
+            "broker_market_timestamp_verified": True,
             "market_timestamp": now.isoformat(),
             "last_price": 100.0,
             "data_points": 1,
@@ -128,6 +129,23 @@ class MarketDataExecutionGateTests(unittest.TestCase):
         self.assertTrue(result["execution_eligible"])
         self.assertEqual(result["decision"], "PASS")
 
+    def test_missing_broker_timestamp_verification_is_blocked(self):
+        now = datetime.now(timezone.utc)
+        result = evaluate_market_data_for_execution({
+            "source": "IBKR_REALTIME",
+            "execution_eligible": True,
+            "market_timestamp": now.isoformat(),
+            "last_price": 100.0,
+            "data_points": 1,
+            "data_quality": "AVAILABLE",
+        }, now=now)
+
+        self.assertFalse(result["execution_eligible"])
+        self.assertIn(
+            "broker_timestamp_verified",
+            result["failure_reasons"],
+        )
+
     def test_future_timestamp_is_blocked(self):
         now = datetime.now(timezone.utc)
         future = datetime.fromtimestamp(
@@ -136,6 +154,7 @@ class MarketDataExecutionGateTests(unittest.TestCase):
         )
         result = evaluate_market_data_for_execution({
             "source": "IBKR_REALTIME",
+            "broker_market_timestamp_verified": True,
             "market_timestamp": future.isoformat(),
             "last_price": 100.0,
             "data_points": 1,
@@ -153,6 +172,7 @@ class MarketDataExecutionGateTests(unittest.TestCase):
         )
         result = evaluate_market_data_for_execution({
             "source": "IBKR_REALTIME",
+            "broker_market_timestamp_verified": True,
             "market_timestamp": stale.isoformat(),
             "last_price": 100.0,
             "data_points": 1,
