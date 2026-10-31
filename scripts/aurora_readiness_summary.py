@@ -239,6 +239,7 @@ def evaluate_readiness_bundle(
             g3_quote.get("source") == "IBKR_REALTIME"
             and g3_quote.get("market_data_type_name") == "REALTIME"
             and g3_quote.get("execution_eligible") is True
+            and g3_quote.get("broker_market_timestamp_verified") is True
         ),
         "g3_execution_data_gate_passed": (
             g3_market_gate.get("decision") == "PASS"
