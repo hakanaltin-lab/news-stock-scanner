@@ -120,5 +120,13 @@ class TestBridge(unittest.TestCase):
         self.assertEqual(result["status"],"CORRELATIONS_VERIFIED")
         self.assertFalse(result["paper_order_submission_allowed"])
 
+    def test_status_identity_conflict_blocks_without_account_evidence(self):
+        s={"status":"CONNECTED","requests_complete":dict.fromkeys(("managed_accounts","account_summary","positions","open_orders","executions"),True),"open_orders":[],"order_status":[{"perm_id":123,"order_id":1,"client_id":999,"filled":0,"remaining":1,"status":"Submitted"}],"executions":[],"order_submission_hard_blocked":True,"live_trading_allowed":False,"config":{"mode":"PAPER","endpoint_safe":True,"read_only":True},"paper_account_guard":{"paper_account_verified":True,"verified_account_fingerprints":["PAPER-REDACTED"]}}
+        local={"k":{"account":"PAPER-REDACTED","idempotency_key":"k"}}
+        mapping={"k":{"account":"PAPER-REDACTED","perm_id":123,"order_id":1,"client_id":82}}
+        result=diagnose_snapshot(s,local,mapping)
+        self.assertEqual(result["reason"],"CONFLICTING_ORDER_STATUS_IDENTITY")
+        self.assertFalse(result["paper_order_submission_allowed"])
+
 if __name__=="__main__":
     unittest.main()
