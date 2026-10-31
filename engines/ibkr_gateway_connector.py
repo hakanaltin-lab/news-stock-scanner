@@ -410,6 +410,8 @@ if IBAPI_AVAILABLE:
                 "order_id":
                 orderId,
 
+                "perm_id": getattr(order, "permId", None),
+                "client_id": getattr(order, "clientId", None),
                 "account":
                 mask_account(
                     getattr(
