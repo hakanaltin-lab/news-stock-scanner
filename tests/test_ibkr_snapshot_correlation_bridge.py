@@ -14,5 +14,12 @@ class TestBridge(unittest.TestCase):
         self.assertEqual(diagnose_snapshot(s,{}, {})["reason"],"MISSING_BROKER_ROWS")
     def test_invalid_snapshot_blocks(self):
         self.assertEqual(diagnose_snapshot(None,{}, {})["status"],"BLOCKED")
+    def test_execution_complete_but_unsafe_endpoint_blocks(self):
+        s={"status":"CONNECTED","requests_complete":dict.fromkeys(("managed_accounts","account_summary","positions","open_orders","executions"),True),"order_status":[],"executions":[],"order_submission_hard_blocked":True,"live_trading_allowed":False,"config":{"mode":"LIVE","endpoint_safe":False,"read_only":True}}
+        self.assertEqual(diagnose_snapshot(s,{}, {})["reason"],"UNSAFE_BROKER_ENDPOINT")
+    def test_execution_complete_but_order_guard_missing_blocks(self):
+        s={"status":"CONNECTED","requests_complete":dict.fromkeys(("managed_accounts","account_summary","positions","open_orders","executions"),True),"order_status":[],"executions":[],"order_submission_hard_blocked":False,"live_trading_allowed":False,"config":{"mode":"PAPER","endpoint_safe":True,"read_only":True}}
+        self.assertEqual(diagnose_snapshot(s,{}, {})["reason"],"ORDER_SAFETY_GUARD_UNPROVEN")
+
 if __name__=="__main__":
     unittest.main()
