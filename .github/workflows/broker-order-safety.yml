@@ -1,0 +1,31 @@
+name: Broker order safety regression
+
+on:
+  pull_request:
+    paths:
+      - "engines/broker_connector.py"
+      - "execution_engine/broker_connector.py"
+      - "broker_engine/broker_execution_connector.py"
+      - "engines/ibkr_gateway_connector.py"
+      - "tests/test_broker_order_path_audit.py"
+      - ".github/workflows/broker-order-safety.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fail-closed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      AURORA_IBKR_ENABLED: "false"
+      AURORA_IBKR_MODE: "PAPER"
+      AURORA_RUN_MODE: "SAFE_OFF"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check broker safety regressions (no broker network)
+        run: python -m unittest discover -s tests -p test_broker_order_path_audit.py -v
