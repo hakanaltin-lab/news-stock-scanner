@@ -60,6 +60,14 @@ def ready_snapshot():
 
 
 class IBKRConnectorConfigurationTests(unittest.TestCase):
+    def test_nonfinite_gateway_timeout_is_safely_defaulted(self):
+        for value in ("nan", "inf", "-inf"):
+            with self.subTest(value=value), patch.dict(os.environ, {
+                "AURORA_IBKR_TIMEOUT_SECONDS": value,
+            }, clear=True):
+                config = connector.load_ibkr_config()
+                self.assertEqual(config["timeout_seconds"], 8.0)
+
     def test_disabled_connector_never_attempts_a_connection(self):
         with patch.dict(os.environ, {
             "AURORA_IBKR_ENABLED": "false",
