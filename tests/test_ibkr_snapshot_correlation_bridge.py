@@ -57,5 +57,11 @@ class TestBridge(unittest.TestCase):
         mapping={"k":{"account":"PAPER-REDACTED","perm_id":123,"order_id":1,"client_id":82}}
         self.assertEqual(diagnose_snapshot(s,local,mapping)["reason"],"EXECUTIONS_EXCEED_REPORTED_FILL")
 
+    def test_filled_status_with_remaining_quantity_blocks(self):
+        s={"status":"CONNECTED","requests_complete":dict.fromkeys(("managed_accounts","account_summary","positions","open_orders","executions"),True),"order_status":[{"perm_id":123,"order_id":1,"client_id":82,"account":"PAPER-REDACTED","filled":2,"remaining":1,"status":"Filled"}],"executions":[],"order_submission_hard_blocked":True,"live_trading_allowed":False,"config":{"mode":"PAPER","endpoint_safe":True,"read_only":True},"paper_account_guard":{"paper_account_verified":True,"verified_account_fingerprints":["PAPER-REDACTED"]}}
+        local={"k":{"account":"PAPER-REDACTED","idempotency_key":"k"}}
+        mapping={"k":{"account":"PAPER-REDACTED","perm_id":123,"order_id":1,"client_id":82}}
+        self.assertEqual(diagnose_snapshot(s,local,mapping)["reason"],"CONFLICTING_FILLED_STATUS")
+
 if __name__=="__main__":
     unittest.main()
