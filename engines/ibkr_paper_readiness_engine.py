@@ -617,6 +617,23 @@ def evaluate_ibkr_paper_readiness(
         )
     )
 
+    positions = broker_snapshot.get("positions", []) or []
+    position_accounts_verified = (
+        isinstance(positions, list)
+        and all(
+            isinstance(row, dict)
+            and isinstance(row.get("account"), str)
+            and row["account"] in verified_account_fingerprints
+            for row in positions
+        )
+    )
+    add_check(
+        "position_accounts_match_verified_paper_accounts",
+        position_accounts_verified,
+        True,
+        "Every reported position must originate from a verified Paper account.",
+    )
+
     position_sync = compare_positions(
         portfolio_rows,
         broker_snapshot
