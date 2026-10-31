@@ -497,6 +497,8 @@ if IBAPI_AVAILABLE:
             mktCapPrice
         ):
             self.order_status_rows.append({
+                "perm_id": permId,
+                "client_id": clientId,
                 "order_id":
                 orderId,
 
