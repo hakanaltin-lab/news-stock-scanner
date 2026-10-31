@@ -163,6 +163,12 @@ def load_ibkr_config():
     except Exception:
         timeout_seconds = 8.0
 
+    # Reject non-finite timeout values before clamping; NaN otherwise
+    # propagates into socket/event waits and can break the read-only probe.
+    import math
+    if not math.isfinite(timeout_seconds):
+        timeout_seconds = 8.0
+
     return {
         "enabled":
         env_bool(
