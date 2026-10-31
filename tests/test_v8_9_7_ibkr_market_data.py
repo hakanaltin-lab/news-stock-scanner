@@ -24,6 +24,7 @@ class IBKRMarketDataEvaluationTests(unittest.TestCase):
             "bid": 100.0,
             "ask": 100.1,
             "last_price": 100.05,
+            "market_timestamp": "2026-10-28T11:59:59+00:00",
             "received_at": "2026-10-28T12:00:00+00:00",
         })
 
@@ -33,6 +34,38 @@ class IBKRMarketDataEvaluationTests(unittest.TestCase):
             result["market_data_type_name"],
             "REALTIME",
         )
+
+    def test_realtime_quote_without_broker_timestamp_is_blocked(self):
+        result = connector.evaluate_ibkr_quote_snapshot({
+            "symbol": "NVDA",
+            "market_data_type": 1,
+            "bid": 100.0,
+            "ask": 100.1,
+            "last_price": 100.05,
+            "received_at": "2026-10-28T12:00:00+00:00",
+        })
+
+        self.assertFalse(result["execution_eligible"])
+        self.assertFalse(result["broker_market_timestamp_verified"])
+        self.assertIn(
+            "BROKER_MARKET_TIMESTAMP_REQUIRED",
+            result["failure_reasons"],
+        )
+
+    def test_broker_epoch_timestamp_is_normalized_to_utc(self):
+        result = connector.evaluate_ibkr_quote_snapshot({
+            "symbol": "NVDA",
+            "market_data_type": 1,
+            "bid": 100.0,
+            "ask": 100.1,
+            "last_price": 100.05,
+            "market_timestamp": 1793188799,
+            "received_at": "2026-10-28T12:00:00+00:00",
+        })
+
+        self.assertTrue(result["execution_eligible"])
+        self.assertTrue(result["broker_market_timestamp_verified"])
+        self.assertTrue(result["market_timestamp"].endswith("+00:00"))
 
     def test_delayed_quote_is_never_execution_eligible(self):
         result = connector.evaluate_ibkr_quote_snapshot({
@@ -180,6 +213,9 @@ class IBKRMarketDataStaticSafetyTests(unittest.TestCase):
 
         for token in forbidden_tokens:
             self.assertNotIn(token, source)
+
+        self.assertIn("reqTickByTickData", source)
+        self.assertIn("tickByTickAllLast", source)
 
     def test_probe_preserves_wrapper_evidence_run_id(self):
         with tempfile.TemporaryDirectory() as directory:
