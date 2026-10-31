@@ -42,6 +42,15 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
     for item in mapping.values():
         if item["perm_id"] not in seen:
             return {**blocked,"reason":"BROKER_CORRELATION_NOT_OBSERVED"}
+    # Broker callbacks may contain unrelated orders, but never accept a
+    # mapped order's missing or malformed identity as a valid match.
+    for item in mapping.values():
+        for row in snapshot["open_orders"]:
+            if row.get("perm_id")==item["perm_id"] and (
+                type(row.get("order_id")) is not int or
+                type(row.get("client_id")) is not int
+            ):
+                return {**blocked,"reason":"INVALID_OPEN_ORDER_IDENTITY"}
     # Every status callback for a mapped permanent ID must carry the
     # expected order/client identity, including when no execution exists.
     for item in mapping.values():
