@@ -1,7 +1,7 @@
 {
   "engine": "V8.4 Historical Evidence Recovery Engine",
   "recovery_signature": "V8.4.1",
-  "generated": "2026-10-30T10:07:21.472139+00:00",
+  "generated": "2026-10-31T06:08:04.644878+00:00",
   "status": "COMPLETE",
   "cache_status": "FRESH",
   "record_count": 138,
@@ -20,7 +20,7 @@
       "records": 21
     },
     "modern_json": {
-      "scanned_dates": 85,
+      "scanned_dates": 86,
       "usable_dates": 6,
       "records": 18,
       "excluded_foundation_snapshots": 77
@@ -29,12 +29,12 @@
   "primary_evidence": {
     "modern_action_changes": {
       "5d": {
-        "evaluated": 0,
-        "pending": 18,
-        "benchmark_hit_rate_pct": null,
-        "average_decision_alpha_pct": null,
-        "average_stock_return_pct": null,
-        "average_spy_return_pct": null
+        "evaluated": 14,
+        "pending": 4,
+        "benchmark_hit_rate_pct": 64.3,
+        "average_decision_alpha_pct": -0.32,
+        "average_stock_return_pct": -0.86,
+        "average_spy_return_pct": -0.56
       },
       "20d": {
         "evaluated": 0,
@@ -56,12 +56,12 @@
     "modern_by_action": {
       "ACCUMULATE": {
         "5d": {
-          "evaluated": 0,
-          "pending": 3,
-          "benchmark_hit_rate_pct": null,
-          "average_decision_alpha_pct": null,
-          "average_stock_return_pct": null,
-          "average_spy_return_pct": null
+          "evaluated": 2,
+          "pending": 1,
+          "benchmark_hit_rate_pct": 50.0,
+          "average_decision_alpha_pct": -0.94,
+          "average_stock_return_pct": -1.51,
+          "average_spy_return_pct": -0.56
         },
         "20d": {
           "evaluated": 0,
@@ -82,12 +82,12 @@
       },
       "ADD": {
         "5d": {
-          "evaluated": 0,
-          "pending": 1,
-          "benchmark_hit_rate_pct": null,
-          "average_decision_alpha_pct": null,
-          "average_stock_return_pct": null,
-          "average_spy_return_pct": null
+          "evaluated": 1,
+          "pending": 0,
+          "benchmark_hit_rate_pct": 0.0,
+          "average_decision_alpha_pct": -0.57,
+          "average_stock_return_pct": -1.13,
+          "average_spy_return_pct": -0.56
         },
         "20d": {
           "evaluated": 0,
@@ -108,12 +108,12 @@
       },
       "BUY": {
         "5d": {
-          "evaluated": 0,
-          "pending": 4,
-          "benchmark_hit_rate_pct": null,
-          "average_decision_alpha_pct": null,
-          "average_stock_return_pct": null,
-          "average_spy_return_pct": null
+          "evaluated": 2,
+          "pending": 2,
+          "benchmark_hit_rate_pct": 50.0,
+          "average_decision_alpha_pct": -0.94,
+          "average_stock_return_pct": -1.51,
+          "average_spy_return_pct": -0.56
         },
         "20d": {
           "evaluated": 0,
@@ -134,12 +134,12 @@
       },
       "EXIT": {
         "5d": {
-          "evaluated": 0,
-          "pending": 4,
-          "benchmark_hit_rate_pct": null,
-          "average_decision_alpha_pct": null,
-          "average_stock_return_pct": null,
-          "average_spy_return_pct": null
+          "evaluated": 3,
+          "pending": 1,
+          "benchmark_hit_rate_pct": 66.7,
+          "average_decision_alpha_pct": -5.95,
+          "average_stock_return_pct": 5.4,
+          "average_spy_return_pct": -0.56
         },
         "20d": {
           "evaluated": 0,
@@ -160,12 +160,12 @@
       },
       "REDUCE": {
         "5d": {
-          "evaluated": 0,
-          "pending": 6,
-          "benchmark_hit_rate_pct": null,
-          "average_decision_alpha_pct": null,
-          "average_stock_return_pct": null,
-          "average_spy_return_pct": null
+          "evaluated": 6,
+          "pending": 0,
+          "benchmark_hit_rate_pct": 83.3,
+          "average_decision_alpha_pct": 2.95,
+          "average_stock_return_pct": -3.51,
+          "average_spy_return_pct": -0.56
         },
         "20d": {
           "evaluated": 0,
@@ -187,12 +187,12 @@
     },
     "modern_defensive_reduce_exit": {
       "5d": {
-        "evaluated": 0,
-        "pending": 10,
-        "benchmark_hit_rate_pct": null,
-        "average_decision_alpha_pct": null,
-        "average_stock_return_pct": null,
-        "average_spy_return_pct": null
+        "evaluated": 9,
+        "pending": 1,
+        "benchmark_hit_rate_pct": 77.8,
+        "average_decision_alpha_pct": -0.02,
+        "average_stock_return_pct": -0.54,
+        "average_spy_return_pct": -0.56
       },
       "20d": {
         "evaluated": 0,
@@ -213,12 +213,12 @@
     },
     "modern_long_add_buy_accumulate": {
       "5d": {
-        "evaluated": 0,
-        "pending": 8,
-        "benchmark_hit_rate_pct": null,
-        "average_decision_alpha_pct": null,
-        "average_stock_return_pct": null,
-        "average_spy_return_pct": null
+        "evaluated": 5,
+        "pending": 3,
+        "benchmark_hit_rate_pct": 40.0,
+        "average_decision_alpha_pct": -0.87,
+        "average_stock_return_pct": -1.43,
+        "average_spy_return_pct": -0.56
       },
       "20d": {
         "evaluated": 0,
@@ -345,12 +345,12 @@
     },
     "MODERN_ACTION_CHANGE": {
       "5d": {
-        "evaluated": 0,
-        "pending": 18,
-        "benchmark_hit_rate_pct": null,
-        "average_decision_alpha_pct": null,
-        "average_stock_return_pct": null,
-        "average_spy_return_pct": null
+        "evaluated": 14,
+        "pending": 4,
+        "benchmark_hit_rate_pct": 64.3,
+        "average_decision_alpha_pct": -0.32,
+        "average_stock_return_pct": -0.86,
+        "average_spy_return_pct": -0.56
       },
       "20d": {
         "evaluated": 0,
@@ -373,12 +373,12 @@
   "model_version_summary": {
     "V7.2": {
       "5d": {
-        "evaluated": 0,
-        "pending": 10,
-        "benchmark_hit_rate_pct": null,
-        "average_decision_alpha_pct": null,
-        "average_stock_return_pct": null,
-        "average_spy_return_pct": null
+        "evaluated": 10,
+        "pending": 0,
+        "benchmark_hit_rate_pct": 60.0,
+        "average_decision_alpha_pct": -0.32,
+        "average_stock_return_pct": -0.73,
+        "average_spy_return_pct": -0.56
       },
       "20d": {
         "evaluated": 0,
@@ -399,12 +399,12 @@
     },
     "V8.6": {
       "5d": {
-        "evaluated": 0,
-        "pending": 8,
-        "benchmark_hit_rate_pct": null,
-        "average_decision_alpha_pct": null,
-        "average_stock_return_pct": null,
-        "average_spy_return_pct": null
+        "evaluated": 4,
+        "pending": 4,
+        "benchmark_hit_rate_pct": 75.0,
+        "average_decision_alpha_pct": -0.33,
+        "average_stock_return_pct": -1.17,
+        "average_spy_return_pct": -0.56
       },
       "20d": {
         "evaluated": 0,
@@ -6222,13 +6222,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "excess_return_pct": null,
-          "decision_alpha_pct": null,
-          "benchmark_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": -5.15,
+          "spy_return_pct": -0.56,
+          "excess_return_pct": -4.59,
+          "decision_alpha_pct": -4.59,
+          "benchmark_hit": false
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -6270,13 +6270,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "excess_return_pct": null,
-          "decision_alpha_pct": null,
-          "benchmark_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": -1.13,
+          "spy_return_pct": -0.56,
+          "excess_return_pct": -0.57,
+          "decision_alpha_pct": 0.57,
+          "benchmark_hit": true
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -6318,13 +6318,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "excess_return_pct": null,
-          "decision_alpha_pct": null,
-          "benchmark_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": -0.56,
+          "spy_return_pct": -0.56,
+          "excess_return_pct": -0.01,
+          "decision_alpha_pct": 0.01,
+          "benchmark_hit": true
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -6366,13 +6366,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "excess_return_pct": null,
-          "decision_alpha_pct": null,
-          "benchmark_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": 2.14,
+          "spy_return_pct": -0.56,
+          "excess_return_pct": 2.7,
+          "decision_alpha_pct": 2.7,
+          "benchmark_hit": true
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -6414,13 +6414,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "excess_return_pct": null,
-          "decision_alpha_pct": null,
-          "benchmark_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": -5.15,
+          "spy_return_pct": -0.56,
+          "excess_return_pct": -4.59,
+          "decision_alpha_pct": -4.59,
+          "benchmark_hit": false
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -6462,13 +6462,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "excess_return_pct": null,
-          "decision_alpha_pct": null,
-          "benchmark_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": -2.32,
+          "spy_return_pct": -0.56,
+          "excess_return_pct": -1.76,
+          "decision_alpha_pct": 1.76,
+          "benchmark_hit": true
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -6510,13 +6510,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "excess_return_pct": null,
-          "decision_alpha_pct": null,
-          "benchmark_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": -2.04,
+          "spy_return_pct": -0.56,
+          "excess_return_pct": -1.48,
+          "decision_alpha_pct": 1.48,
+          "benchmark_hit": true
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -6558,13 +6558,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "excess_return_pct": null,
-          "decision_alpha_pct": null,
-          "benchmark_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": -0.24,
+          "spy_return_pct": -0.56,
+          "excess_return_pct": 0.32,
+          "decision_alpha_pct": -0.32,
+          "benchmark_hit": false
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -6606,13 +6606,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "excess_return_pct": null,
-          "decision_alpha_pct": null,
-          "benchmark_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": -1.13,
+          "spy_return_pct": -0.56,
+          "excess_return_pct": -0.57,
+          "decision_alpha_pct": -0.57,
+          "benchmark_hit": false
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -6654,13 +6654,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "excess_return_pct": null,
-          "decision_alpha_pct": null,
-          "benchmark_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": 2.14,
+          "spy_return_pct": -0.56,
+          "excess_return_pct": 2.7,
+          "decision_alpha_pct": 2.7,
+          "benchmark_hit": true
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -6702,13 +6702,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "excess_return_pct": null,
-          "decision_alpha_pct": null,
-          "benchmark_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": -12.31,
+          "spy_return_pct": -0.56,
+          "excess_return_pct": -11.75,
+          "decision_alpha_pct": 11.75,
+          "benchmark_hit": true
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -6750,13 +6750,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "excess_return_pct": null,
-          "decision_alpha_pct": null,
-          "benchmark_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": -2.9,
+          "spy_return_pct": -0.56,
+          "excess_return_pct": -2.34,
+          "decision_alpha_pct": 2.34,
+          "benchmark_hit": true
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -6798,13 +6798,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "excess_return_pct": null,
-          "decision_alpha_pct": null,
-          "benchmark_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": -3.0,
+          "spy_return_pct": -0.56,
+          "excess_return_pct": -2.44,
+          "decision_alpha_pct": 2.44,
+          "benchmark_hit": true
         },
         "20d": {
           "target_trading_sessions": 20,
@@ -6846,13 +6846,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "excess_return_pct": null,
-          "decision_alpha_pct": null,
-          "benchmark_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-10-30",
+          "stock_return_pct": 19.65,
+          "spy_return_pct": -0.56,
+          "excess_return_pct": 20.21,
+          "decision_alpha_pct": -20.21,
+          "benchmark_hit": false
         },
         "20d": {
           "target_trading_sessions": 20,

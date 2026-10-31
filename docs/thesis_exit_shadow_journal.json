@@ -1,6 +1,6 @@
 {
   "engine": "V8.5.2 Thesis-Aware Exit Shadow Journal",
-  "updated_at": "2026-10-30T22:35:55.038774+00:00",
+  "updated_at": "2026-10-31T06:08:01.140590+00:00",
   "record_count": 5,
   "records": [
     {
@@ -58,9 +58,9 @@
       "ticker": "GOOG",
       "base_action": "REDUCE",
       "thesis_shadow_action": "HOLD",
-      "review_status": "CONTRADICTED",
-      "thesis_health": "STRONG",
-      "fundamental_score": 81.9,
+      "review_status": "CONFIRMED_PARTIAL",
+      "thesis_health": "DETERIORATING",
+      "fundamental_score": 73.9,
       "live_exposure": 0.5,
       "shadow_exposure": 1.0,
       "exposure_difference": 0.5,
@@ -108,7 +108,7 @@
       "thesis_shadow_action": "HOLD",
       "review_status": "CONTRADICTED",
       "thesis_health": "STRONG",
-      "fundamental_score": 79.8,
+      "fundamental_score": 81.0,
       "live_exposure": 0.0,
       "shadow_exposure": 1.0,
       "exposure_difference": 1.0,
@@ -156,7 +156,7 @@
       "thesis_shadow_action": "REDUCE",
       "review_status": "CONFIRMED",
       "thesis_health": "BROKEN",
-      "fundamental_score": 58.5,
+      "fundamental_score": 61.7,
       "live_exposure": 0.0,
       "shadow_exposure": 0.5,
       "exposure_difference": 0.5,
