@@ -19,6 +19,18 @@ DEFAULT_MAX_G2_AGE_SECONDS = 300
 DEFAULT_MAX_G3_AGE_SECONDS = 60
 DEFAULT_MAX_G0_AGE_SECONDS = 86400
 
+EXPECTED_G2_REQUIRED_CHECKS = {
+    "paper_mode_only",
+    "safe_loopback_paper_endpoint",
+    "paper_account_identity_verified",
+    "order_submission_hard_blocked",
+    "live_trading_hard_blocked",
+    "gateway_connected",
+    "single_managed_account_for_readiness",
+    "account_summary_accounts_match_managed_accounts",
+    "position_accounts_match_verified_paper_accounts",
+}
+
 
 def _digest(payload):
     canonical = json.dumps(
@@ -119,6 +131,40 @@ def evaluate_readiness_bundle(
     g2_account_fingerprints = _verified_account_fingerprints(
         g2_account_guard
     )
+
+    g2_checks = g2_readiness.get("checks")
+    g2_checks_well_formed = (
+        isinstance(g2_checks, list)
+        and bool(g2_checks)
+        and all(
+            isinstance(item, dict)
+            and isinstance(item.get("check"), str)
+            and item.get("check")
+            and isinstance(item.get("required"), bool)
+            and isinstance(item.get("passed"), bool)
+            for item in g2_checks
+        )
+    )
+    g2_required_check_names = (
+        {
+            item["check"]
+            for item in g2_checks
+            if item.get("required") is True
+        }
+        if g2_checks_well_formed
+        else set()
+    )
+    g2_computed_required_failures = (
+        sum(
+            1
+            for item in g2_checks
+            if item.get("required") is True
+            and item.get("passed") is not True
+        )
+        if g2_checks_well_formed
+        else None
+    )
+
     g3_account_fingerprints = _verified_account_fingerprints(
         g3_account_guard
     )
@@ -154,6 +200,12 @@ def evaluate_readiness_bundle(
         "g2_read_only_mode": g2_run_mode.get("mode") == "READ_ONLY",
         "g2_ready": g2_readiness.get("readiness") == "READY_FOR_PAPER_READ_ONLY",
         "g2_no_required_failures": g2_readiness.get("required_failure_count") == 0,
+        "g2_required_checks_consistent": (
+            g2_checks_well_formed
+            and EXPECTED_G2_REQUIRED_CHECKS.issubset(g2_required_check_names)
+            and g2_computed_required_failures
+            == g2_readiness.get("required_failure_count")
+        ),
         "g2_order_submission_blocked": (
             g2_readiness.get("paper_order_submission_allowed") is False
             and g2_readiness.get("live_execution_allowed") is False
