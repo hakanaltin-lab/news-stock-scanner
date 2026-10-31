@@ -42,6 +42,8 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
     for item in mapping.values():
         if item["perm_id"] not in seen:
             return {**blocked,"reason":"BROKER_CORRELATION_NOT_OBSERVED"}
+    # An openOrder callback may omit clientId in some API circumstances.
+    # Treat such a record as insufficient identity evidence, not as proof.
     # Broker callbacks may contain unrelated orders, but never accept a
     # mapped order's missing or malformed identity as a valid match.
     for item in mapping.values():
