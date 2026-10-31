@@ -190,6 +190,47 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             application.placeOrder(1, object(), object())
 
 
+    def test_open_order_callback_captures_broker_identity(self):
+        fake_ibapi = types.ModuleType("ibapi")
+        fake_client = types.ModuleType("ibapi.client")
+        fake_wrapper = types.ModuleType("ibapi.wrapper")
+        fake_execution = types.ModuleType("ibapi.execution")
+        class FakeClient:
+            def __init__(self, wrapper):
+                self.wrapper = wrapper
+        class FakeWrapper:
+            def __init__(self):
+                pass
+        fake_client.EClient = FakeClient
+        fake_wrapper.EWrapper = FakeWrapper
+        fake_execution.ExecutionFilter = type("ExecutionFilter", (), {})
+        specification = importlib.util.spec_from_file_location(
+            "ibkr_connector_open_order_identity_test",
+            REPOSITORY_ROOT / "engines/ibkr_gateway_connector.py",
+        )
+        isolated = importlib.util.module_from_spec(specification)
+        with patch.dict(sys.modules, {
+            "ibapi": fake_ibapi,
+            "ibapi.client": fake_client,
+            "ibapi.wrapper": fake_wrapper,
+            "ibapi.execution": fake_execution,
+        }):
+            specification.loader.exec_module(isolated)
+        app = isolated._IBKRSnapshotApp()
+        order = types.SimpleNamespace(
+            permId=123, clientId=82, account="DU1234567",
+            action="BUY", orderType="LMT", totalQuantity=1, lmtPrice=10,
+        )
+        contract = types.SimpleNamespace(symbol="AAPL", secType="STK")
+        state = types.SimpleNamespace(status="Submitted")
+        app.openOrder(1, contract, order, state)
+        row = app.open_orders[0]
+        self.assertEqual(row["perm_id"], 123)
+        self.assertEqual(row["client_id"], 82)
+        self.assertEqual(row["order_id"], 1)
+        self.assertEqual(row["account"], isolated.mask_account("DU1234567"))
+        self.assertNotEqual(row["account"], "DU1234567")
+
     def test_unrelated_execution_request_is_ignored(self):
         fake_ibapi = types.ModuleType("ibapi")
         fake_client = types.ModuleType("ibapi.client")
