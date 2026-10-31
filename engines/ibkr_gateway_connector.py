@@ -407,6 +407,15 @@ if IBAPI_AVAILABLE:
                 "order_id":
                 orderId,
 
+                "account":
+                mask_account(
+                    getattr(
+                        order,
+                        "account",
+                        None
+                    )
+                ),
+
                 "symbol":
                 getattr(
                     contract,
