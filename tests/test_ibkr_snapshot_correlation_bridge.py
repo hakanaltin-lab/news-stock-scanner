@@ -40,5 +40,16 @@ class TestBridge(unittest.TestCase):
         mapping={"k":{"account":"PAPER-REDACTED","perm_id":123,"order_id":1,"client_id":82}}
         self.assertEqual(diagnose_snapshot(s,local,mapping)["reason"],"BROKER_IDENTITY_MISMATCH")
 
+    def test_duplicate_execution_id_blocks(self):
+        s={"status":"CONNECTED","requests_complete":dict.fromkeys(("managed_accounts","account_summary","positions","open_orders","executions"),True),"order_status":[],"executions":[{"perm_id":123,"order_id":1,"client_id":82,"account":"PAPER-REDACTED","execution_id":"X","shares":2},{"perm_id":123,"order_id":1,"client_id":82,"account":"PAPER-REDACTED","execution_id":"X","shares":3}],"order_submission_hard_blocked":True,"live_trading_allowed":False,"config":{"mode":"PAPER","endpoint_safe":True,"read_only":True},"paper_account_guard":{"paper_account_verified":True,"verified_account_fingerprints":["PAPER-REDACTED"]}}
+        local={"k":{"account":"PAPER-REDACTED","idempotency_key":"k"}}
+        mapping={"k":{"account":"PAPER-REDACTED","perm_id":123,"order_id":1,"client_id":82}}
+        self.assertEqual(diagnose_snapshot(s,local,mapping)["reason"],"INVALID_OR_DUPLICATE_EXECUTION_ID")
+    def test_zero_execution_quantity_blocks(self):
+        s={"status":"CONNECTED","requests_complete":dict.fromkeys(("managed_accounts","account_summary","positions","open_orders","executions"),True),"order_status":[],"executions":[{"perm_id":123,"order_id":1,"client_id":82,"account":"PAPER-REDACTED","execution_id":"X","shares":0}],"order_submission_hard_blocked":True,"live_trading_allowed":False,"config":{"mode":"PAPER","endpoint_safe":True,"read_only":True},"paper_account_guard":{"paper_account_verified":True,"verified_account_fingerprints":["PAPER-REDACTED"]}}
+        local={"k":{"account":"PAPER-REDACTED","idempotency_key":"k"}}
+        mapping={"k":{"account":"PAPER-REDACTED","perm_id":123,"order_id":1,"client_id":82}}
+        self.assertEqual(diagnose_snapshot(s,local,mapping)["reason"],"INVALID_EXECUTION_QUANTITY")
+
 if __name__=="__main__":
     unittest.main()
