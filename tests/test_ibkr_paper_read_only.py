@@ -192,6 +192,20 @@ class IBKRReadinessTests(unittest.TestCase):
         }
         self.assertIn("managed_accounts_snapshot_complete", failed)
 
+    def test_incomplete_account_summary_blocks_read_only_readiness(self):
+        snapshot = ready_snapshot()
+        snapshot["requests_complete"]["account_summary"] = False
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+        self.assertEqual(readiness["readiness"], "NOT_READY")
+        self.assertFalse(readiness["paper_order_submission_allowed"])
+        self.assertFalse(readiness["live_execution_allowed"])
+        failed = {
+            check["check"]
+            for check in readiness["checks"]
+            if check["required"] and not check["passed"]
+        }
+        self.assertIn("account_summary_snapshot_complete", failed)
+
     def test_missing_order_block_evidence_is_not_ready(self):
         snapshot = ready_snapshot()
         snapshot["order_submission_hard_blocked"] = False
