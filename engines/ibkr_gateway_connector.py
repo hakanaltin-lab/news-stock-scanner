@@ -138,8 +138,8 @@ def load_ibkr_config():
             )
         )
 
-    except Exception:
-        port = default_port
+    except (TypeError, ValueError, OverflowError):
+        port = -1  # Invalid configuration must not silently select a safe port.
 
     try:
         client_id = int(
