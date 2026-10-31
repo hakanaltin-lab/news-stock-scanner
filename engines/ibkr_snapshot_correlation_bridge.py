@@ -44,4 +44,20 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
         matching=[row for row in rows if row["perm_id"]==item["perm_id"]]
         if not any(row.get("order_id")==item["order_id"] and row.get("client_id")==item["client_id"] and row.get("account")==item["account"] for row in matching):
             return {**blocked,"reason":"BROKER_IDENTITY_MISMATCH"}
+    # Reconcile observed execution quantities without assuming history completeness.
+    # Empty executions remain a valid read-only snapshot (no observed fills).
+    import math
+    execution_ids=set()
+    for row in snapshot["executions"]:
+        if not isinstance(row,dict):
+            return {**blocked,"reason":"INVALID_EXECUTION_ROW"}
+        exec_id=row.get("execution_id")
+        shares=row.get("shares")
+        if not isinstance(exec_id,str) or not exec_id.strip() or exec_id in execution_ids:
+            return {**blocked,"reason":"INVALID_OR_DUPLICATE_EXECUTION_ID"}
+        execution_ids.add(exec_id)
+        if type(shares) not in (int,float) or not math.isfinite(shares) or shares<=0:
+            return {**blocked,"reason":"INVALID_EXECUTION_QUANTITY"}
+        if not any(row.get("perm_id")==item["perm_id"] and row.get("order_id")==item["order_id"] and row.get("client_id")==item["client_id"] and row.get("account")==item["account"] for item in mapping.values()):
+            return {**blocked,"reason":"UNMATCHED_EXECUTION_IDENTITY"}
     return result
