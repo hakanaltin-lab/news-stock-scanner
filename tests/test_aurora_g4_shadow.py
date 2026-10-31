@@ -58,6 +58,7 @@ def market_proof(timestamp=None):
                 "ask": 50.01,
                 "last_price": 50.0,
                 "market_timestamp": stamp,
+                "broker_market_timestamp_verified": True,
                 "retrieved_at": stamp,
                 "execution_eligible": True,
                 "data_quality": "AVAILABLE",

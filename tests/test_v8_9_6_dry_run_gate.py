@@ -22,6 +22,7 @@ def fresh_market_data(
     return {
         "source": source,
         "execution_eligible": source == "IBKR_REALTIME",
+        "broker_market_timestamp_verified": source == "IBKR_REALTIME",
         "market_timestamp": timestamp.isoformat(),
         "last_price": last_price,
         "bid": bid,

@@ -103,6 +103,7 @@ def ready_g3(timestamp=None):
                 "source": "IBKR_REALTIME",
                 "market_data_type_name": "REALTIME",
                 "market_timestamp": timestamp,
+                "broker_market_timestamp_verified": True,
                 "execution_eligible": True,
             },
         },
@@ -259,6 +260,21 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
         )
         self.assertEqual(result["paper_account_fingerprints"], [])
         self.assertFalse(result["live_execution_allowed"])
+
+    def test_missing_g3_broker_timestamp_verification_blocks(self):
+        proof = ready_g3()
+        proof["snapshot"]["quote"]["broker_market_timestamp_verified"] = False
+        result = evaluate_readiness_bundle(
+            ready_g2(),
+            proof,
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        self.assertEqual(result["status"], "NOT_READY")
+        self.assertIn(
+            "g3_realtime_quote",
+            result["failure_reasons"],
+        )
 
     def test_stale_g2_or_g3_evidence_blocks(self):
         stale_g2 = (NOW - timedelta(seconds=301)).isoformat()
