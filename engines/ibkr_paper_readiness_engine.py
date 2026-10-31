@@ -530,6 +530,13 @@ def evaluate_ibkr_paper_readiness(
     )
 
     add_check(
+        "account_summary_snapshot_complete",
+        requests_complete.get("account_summary") is True,
+        True,
+        "Account summary request must finish before read-only readiness.",
+    )
+
+    add_check(
         "positions_snapshot_complete",
         requests_complete.get(
             "positions"
