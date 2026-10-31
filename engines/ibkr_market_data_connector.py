@@ -149,6 +149,35 @@ def _finite_positive(value):
     return parsed
 
 
+def _normalized_market_timestamp(value):
+    if value is None:
+        return None
+
+    if isinstance(value, (int, float)):
+        try:
+            parsed = datetime.fromtimestamp(
+                float(value),
+                tz=timezone.utc,
+            )
+        except (OverflowError, OSError, ValueError):
+            return None
+    else:
+        text = str(value).strip()
+        if not text:
+            return None
+        if text.endswith("Z"):
+            text = text[:-1] + "+00:00"
+        try:
+            parsed = datetime.fromisoformat(text)
+        except ValueError:
+            return None
+        if parsed.tzinfo is None:
+            return None
+        parsed = parsed.astimezone(timezone.utc)
+
+    return parsed.isoformat()
+
+
 def evaluate_ibkr_quote_snapshot(raw_quote):
     raw_quote = raw_quote or {}
 
@@ -176,10 +205,15 @@ def evaluate_ibkr_quote_snapshot(raw_quote):
     )
 
     realtime_verified = data_type_id == 1
+    market_timestamp = _normalized_market_timestamp(
+        raw_quote.get("market_timestamp")
+    )
+    broker_timestamp_verified = market_timestamp is not None
 
     execution_eligible = (
         realtime_verified
         and quote_complete
+        and broker_timestamp_verified
     )
 
     failure_reasons = []
@@ -199,6 +233,11 @@ def evaluate_ibkr_quote_snapshot(raw_quote):
             "VALID_LAST_PRICE_REQUIRED"
         )
 
+    if not broker_timestamp_verified:
+        failure_reasons.append(
+            "BROKER_MARKET_TIMESTAMP_REQUIRED"
+        )
+
     received_at = raw_quote.get(
         "received_at"
     ) or datetime.now(timezone.utc).isoformat()
@@ -215,8 +254,9 @@ def evaluate_ibkr_quote_snapshot(raw_quote):
         "bid": bid,
         "ask": ask,
         "last_price": last_price,
-        "market_timestamp": received_at,
+        "market_timestamp": market_timestamp,
         "retrieved_at": received_at,
+        "broker_market_timestamp_verified": broker_timestamp_verified,
         "data_points": 1 if quote_complete else 0,
         "data_quality": (
             "AVAILABLE"
@@ -243,8 +283,10 @@ if IBAPI_AVAILABLE:
             self.accounts_event = threading.Event()
             self.quote_event = threading.Event()
             self.snapshot_end_event = threading.Event()
+            self.last_trade_event = threading.Event()
 
             self.market_data_type_id = None
+            self.last_trade_timestamp = None
             self.quote = {
                 "bid": None,
                 "ask": None,
@@ -283,6 +325,30 @@ if IBAPI_AVAILABLE:
 
         def tickSnapshotEnd(self, reqId):
             self.snapshot_end_event.set()
+
+        def tickByTickAllLast(
+            self,
+            reqId,
+            tickType,
+            timestamp,
+            price,
+            size,
+            tickAttribLast,
+            exchange,
+            specialConditions,
+        ):
+            market_timestamp = _normalized_market_timestamp(
+                timestamp
+            )
+            parsed_price = _finite_positive(price)
+
+            if (
+                market_timestamp is not None
+                and parsed_price is not None
+            ):
+                self.last_trade_timestamp = market_timestamp
+                self.quote["last_price"] = parsed_price
+                self.last_trade_event.set()
 
         def error(
             self,
@@ -361,6 +427,8 @@ def get_ibkr_realtime_quote(symbol):
 
     app = _IBKRMarketDataApp()
     thread = None
+    request_id = None
+    tick_request_id = None
 
     try:
         app.connect(
@@ -416,14 +484,24 @@ def get_ibkr_realtime_quote(symbol):
             }
 
         request_id = 91001
+        tick_request_id = 91002
+        contract = _build_us_stock_contract(symbol)
+
         app.reqMarketDataType(1)
         app.reqMktData(
             request_id,
-            _build_us_stock_contract(symbol),
+            contract,
             "",
             True,
             False,
             [],
+        )
+        app.reqTickByTickData(
+            tick_request_id,
+            contract,
+            "AllLast",
+            1,
+            False,
         )
 
         deadline = (
@@ -432,9 +510,13 @@ def get_ibkr_realtime_quote(symbol):
         )
 
         while time.monotonic() < deadline:
-            if (
+            quote_snapshot_complete = (
                 app.quote_event.is_set()
                 or app.snapshot_end_event.is_set()
+            )
+            if (
+                quote_snapshot_complete
+                and app.last_trade_event.is_set()
             ):
                 break
             time.sleep(0.05)
@@ -453,6 +535,7 @@ def get_ibkr_realtime_quote(symbol):
             "last_price": app.quote.get(
                 "last_price"
             ),
+            "market_timestamp": app.last_trade_timestamp,
             "received_at": received_at,
         })
 
@@ -489,6 +572,16 @@ def get_ibkr_realtime_quote(symbol):
     finally:
         try:
             if IBAPI_AVAILABLE and app.isConnected():
+                if request_id is not None:
+                    try:
+                        app.cancelMktData(request_id)
+                    except Exception:
+                        pass
+                if tick_request_id is not None:
+                    try:
+                        app.cancelTickByTickData(tick_request_id)
+                    except Exception:
+                        pass
                 app.disconnect()
         except Exception:
             pass
