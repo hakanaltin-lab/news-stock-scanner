@@ -44,7 +44,7 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
         ):
             return {**blocked,"reason":"BROKER_CORRELATION_NOT_OBSERVED"}
     for item in mapping.values():
-        matching=[row for row in rows if row["perm_id"]==item["perm_id"]]
+        matching=[row for row in rows+snapshot["open_orders"] if row.get("perm_id")==item["perm_id"]]
         # IBKR orderStatus has no account field. Broker-origin execution or
         # openOrder records can independently prove the account identity.
         evidence=[row for row in snapshot["executions"]+snapshot["open_orders"] if row.get("perm_id")==item["perm_id"]]
