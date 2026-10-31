@@ -4,6 +4,14 @@ Run only on the IB Gateway host. Connector itself hard-blocks placeOrder.
 """
 import json
 import os
+import sys
+from pathlib import Path
+
+# Allow direct execution from any working directory on the Gateway VPS.
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
+
 from engines.ibkr_gateway_connector import get_ibkr_read_only_snapshot
 
 
