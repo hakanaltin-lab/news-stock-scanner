@@ -38,7 +38,10 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
             return {**blocked,"reason":"BROKER_PERM_ID_MISSING"}
         seen.add(perm_id)
     for item in mapping.values():
-        if item["perm_id"] not in seen:
+        if item["perm_id"] not in seen and not any(
+            isinstance(row,dict) and row.get("perm_id")==item["perm_id"]
+            for row in snapshot["open_orders"]
+        ):
             return {**blocked,"reason":"BROKER_CORRELATION_NOT_OBSERVED"}
     for item in mapping.values():
         matching=[row for row in rows if row["perm_id"]==item["perm_id"]]
