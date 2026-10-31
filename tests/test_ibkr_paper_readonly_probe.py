@@ -3,6 +3,10 @@ import contextlib
 import io
 import json
 import os
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
 import unittest
 from unittest.mock import patch
 
@@ -10,6 +14,20 @@ from scripts import ibkr_paper_readonly_probe as probe
 
 
 class PaperProbeTests(unittest.TestCase):
+    def test_direct_script_from_unrelated_directory_is_safely_disabled(self):
+        script = Path(probe.__file__).resolve()
+        with tempfile.TemporaryDirectory() as directory:
+            env = os.environ.copy()
+            env.pop("PYTHONPATH", None)
+            env["AURORA_IBKR_ENABLED"] = "false"
+            result = subprocess.run(
+                [sys.executable, str(script)],
+                cwd=directory, env=env, capture_output=True, text=True,
+                timeout=15, check=False,
+            )
+        self.assertEqual(result.returncode, 2, result.stderr)
+        self.assertEqual(json.loads(result.stdout)["status"], "BLOCKED")
+
     def test_disabled_probe_never_calls_connector(self):
         output = io.StringIO()
         with patch.dict(os.environ, {}, clear=True), patch.object(
