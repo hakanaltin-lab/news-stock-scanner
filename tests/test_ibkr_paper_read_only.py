@@ -235,6 +235,40 @@ class IBKRReadinessTests(unittest.TestCase):
         }
         self.assertIn("single_managed_account_for_readiness", failed)
 
+    def test_foreign_open_order_blocks_readiness(self):
+        snapshot = ready_snapshot()
+        snapshot["open_orders"] = [{
+            "account": "IBKR-OTHERACCOUNT",
+            "order_id": 10,
+            "symbol": "NVDA",
+        }]
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+        self.assertEqual(readiness["readiness"], "NOT_READY")
+        self.assertIn(
+            "open_order_accounts_match_verified_paper_accounts",
+            {
+                item["check"] for item in readiness["checks"]
+                if item["required"] and not item["passed"]
+            },
+        )
+
+    def test_verified_paper_open_order_is_accepted(self):
+        snapshot = ready_snapshot()
+        snapshot["open_orders"] = [{
+            "account": "IBKR-TESTACCOUNT",
+            "order_id": 10,
+            "symbol": "NVDA",
+        }]
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+        self.assertEqual(readiness["readiness"], "READY_FOR_PAPER_READ_ONLY")
+        self.assertFalse(readiness["paper_order_submission_allowed"])
+
+    def test_open_order_missing_account_blocks_readiness(self):
+        snapshot = ready_snapshot()
+        snapshot["open_orders"] = [{"order_id": 10, "symbol": "NVDA"}]
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+        self.assertEqual(readiness["readiness"], "NOT_READY")
+
     def test_foreign_paper_position_blocks_readiness(self):
         snapshot = ready_snapshot()
         snapshot["positions"] = [{
