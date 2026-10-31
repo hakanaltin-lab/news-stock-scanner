@@ -74,7 +74,8 @@ class PaperProbeTests(unittest.TestCase):
         env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
                "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
         snapshot = {"status": "CONNECTED", "connection_status": "CONNECTED",
-                    "config": {"endpoint_safe": True},
+                    "config": {"endpoint_safe": True, "read_only": True, "mode": "PAPER"},
+                    "live_trading_allowed": False,
                     "order_submission_hard_blocked": True,
                     "paper_account_guard": {"paper_account_verified": True},
                     "accounts": ["DU1234567"], "errors": [{"message": "SECRET"}],
@@ -89,6 +90,21 @@ class PaperProbeTests(unittest.TestCase):
         self.assertNotIn("DU1234567", output.getvalue())
         self.assertNotIn("SECRET", output.getvalue())
         self.assertTrue(json.loads(output.getvalue())["hard_blocked"])
+
+    def test_missing_live_disabled_evidence_fails_closed(self):
+        env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
+               "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
+        snapshot = {"status": "CONNECTED",
+                    "config": {"endpoint_safe": True, "read_only": True, "mode": "PAPER"},
+                    "order_submission_hard_blocked": True,
+                    "paper_account_guard": {"paper_account_verified": True},
+                    "requests_complete": dict.fromkeys(
+                        ("managed_accounts", "account_summary", "positions",
+                         "open_orders", "executions"), True)}
+        with patch.dict(os.environ, env, clear=True), patch.object(
+            probe, "get_ibkr_read_only_snapshot", return_value=snapshot
+        ), contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(probe.main(), 1)
 
     def test_incomplete_execution_snapshot_is_not_ready(self):
         env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
