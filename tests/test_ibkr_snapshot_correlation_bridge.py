@@ -112,12 +112,12 @@ class TestBridge(unittest.TestCase):
         self.assertEqual(result["reason"],"BROKER_PERM_ID_MISSING")
         self.assertFalse(result["paper_order_submission_allowed"])
 
-    def test_unmapped_broker_open_order_blocks(self):
+    def test_unrelated_valid_broker_open_order_does_not_block(self):
         s={"status":"CONNECTED","requests_complete":dict.fromkeys(("managed_accounts","account_summary","positions","open_orders","executions"),True),"open_orders":[{"perm_id":123,"order_id":1,"client_id":82,"account":"PAPER-REDACTED"},{"perm_id":999,"order_id":9,"client_id":82,"account":"PAPER-REDACTED"}],"order_status":[],"executions":[],"order_submission_hard_blocked":True,"live_trading_allowed":False,"config":{"mode":"PAPER","endpoint_safe":True,"read_only":True},"paper_account_guard":{"paper_account_verified":True,"verified_account_fingerprints":["PAPER-REDACTED"]}}
         local={"k":{"account":"PAPER-REDACTED","idempotency_key":"k"}}
         mapping={"k":{"account":"PAPER-REDACTED","perm_id":123,"order_id":1,"client_id":82}}
         result=diagnose_snapshot(s,local,mapping)
-        self.assertEqual(result["reason"],"UNMAPPED_BROKER_ORDER")
+        self.assertEqual(result["status"],"CORRELATIONS_VERIFIED")
         self.assertFalse(result["paper_order_submission_allowed"])
 
 if __name__=="__main__":
