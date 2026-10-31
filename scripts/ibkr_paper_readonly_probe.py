@@ -58,6 +58,9 @@ def main():
         "requests_complete": {key: complete.get(key) is True for key in
                               ("managed_accounts", "account_summary", "positions", "open_orders", "executions")},
     }
+    # Explicit negative evidence must never be overridden by a healthy snapshot.
+    if snapshot.get("live_trading_allowed") is not False or config.get("read_only") is not True or config.get("mode") != "PAPER":
+        report["paper_endpoint_safe"] = False
     print(json.dumps(report, sort_keys=True))
     return 0 if (report["status"] == "CONNECTED" and report["paper_endpoint_safe"]
                  and report["hard_blocked"] and report["paper_account_verified"]
