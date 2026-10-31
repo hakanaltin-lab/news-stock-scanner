@@ -535,6 +535,8 @@ if IBAPI_AVAILABLE:
             contract,
             execution
         ):
+            if reqId != 8302:
+                return
             self.execution_rows.append({
                 "symbol":
                 getattr(
