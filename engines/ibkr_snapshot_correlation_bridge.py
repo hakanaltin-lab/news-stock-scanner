@@ -40,6 +40,10 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
     for item in mapping.values():
         if item["perm_id"] not in seen:
             return {**blocked,"reason":"BROKER_CORRELATION_NOT_OBSERVED"}
+    # Broker-origin openOrder evidence must not be allowed to bypass the
+    # execution identity checks below: all account-bearing rows for a
+    # mapped permanent ID must agree with the local identity.
+
     for item in mapping.values():
         # IBKR orderStatus has no account field. Broker-origin execution or
         # openOrder records can independently prove the account identity.
