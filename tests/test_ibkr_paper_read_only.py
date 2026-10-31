@@ -60,6 +60,19 @@ def ready_snapshot():
 
 
 class IBKRConnectorConfigurationTests(unittest.TestCase):
+    def test_invalid_gateway_port_fails_closed_before_network(self):
+        with patch.dict(os.environ, {
+            "AURORA_IBKR_ENABLED": "true",
+            "AURORA_IBKR_MODE": "PAPER",
+            "AURORA_IBKR_PORT": "not-a-port",
+        }, clear=True):
+            config = connector.load_ibkr_config()
+            snapshot = connector.get_ibkr_read_only_snapshot()
+        self.assertEqual(config["port"], -1)
+        self.assertFalse(snapshot["config"]["endpoint_safe"])
+        self.assertEqual(snapshot["connection_status"], "NOT_ATTEMPTED")
+        self.assertEqual(snapshot["status"], "BLOCKED")
+
     def test_nonfinite_gateway_timeout_is_safely_defaulted(self):
         for value in ("nan", "inf", "-inf"):
             with self.subTest(value=value), patch.dict(os.environ, {
