@@ -1,0 +1,31 @@
+name: AURORA G5 Manual Paper Authorization Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/paper_order_authorization_gate.py"
+      - "tests/test_paper_order_authorization_gate.py"
+      - "docs/AURORA_G5_MANUAL_PAPER_AUTHORIZATION.md"
+      - ".github/workflows/g5_manual_paper_authorization_safety.yml"
+
+jobs:
+  authorization-preflight-safety:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile
+        run: |
+          python -m py_compile engines/paper_order_authorization_gate.py
+          python -m py_compile tests/test_paper_order_authorization_gate.py
+      - name: Prove fail-closed preflight behavior
+        run: |
+          python -m unittest tests.test_paper_order_authorization_gate -v
+      - name: Prove no broker submission path exists
+        run: |
+          ! grep -E "placeOrder|submit_order|from ibapi|import ibapi|4001" engines/paper_order_authorization_gate.py
