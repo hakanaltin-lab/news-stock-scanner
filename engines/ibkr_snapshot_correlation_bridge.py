@@ -15,8 +15,13 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
         return {**blocked,"reason":"INCOMPLETE_SNAPSHOT"}
     if not isinstance(snapshot.get("order_status"),list) or not isinstance(snapshot.get("executions"),list):
         return {**blocked,"reason":"MISSING_BROKER_ROWS"}
-    # The current gateway does not provide a completion event for reqExecutions.
-    # Therefore execution evidence cannot be considered complete or trusted.
+    # The completion callback covers this reqExecutions response only,
+    # not all historical executions or broker-wide order history.
     if complete.get("executions") is not True:
         return {**blocked,"reason":"EXECUTION_COMPLETENESS_UNPROVEN"}
+    if snapshot.get("order_submission_hard_blocked") is not True or snapshot.get("live_trading_allowed") is not False:
+        return {**blocked,"reason":"ORDER_SAFETY_GUARD_UNPROVEN"}
+    config=snapshot.get("config")
+    if not isinstance(config,dict) or config.get("mode")!="PAPER" or config.get("endpoint_safe") is not True or config.get("read_only") is not True:
+        return {**blocked,"reason":"UNSAFE_BROKER_ENDPOINT"}
     return verify_correlations(local_orders,snapshot,mapping)
