@@ -10,9 +10,11 @@ on:
       - "scripts/gcp_runtime_proof.py"
       - "scripts/aurora_readiness_summary.py"
       - "engines/shadow_audit_verifier.py"
+      - "engines/paper_order_authorization_gate.py"
       - "tests/test_aurora_completion_status.py"
       - "tests/test_aurora_readiness_summary.py"
       - "tests/test_shadow_audit_verifier.py"
+      - "tests/test_paper_order_authorization_gate.py"
       - ".github/workflows/completion_gate_safety.yml"
   push:
     paths:
@@ -49,9 +51,13 @@ jobs:
           python -m py_compile tests/test_aurora_completion_status.py
           python -m py_compile tests/test_aurora_readiness_summary.py
           python -m py_compile engines/shadow_audit_verifier.py
+          python -m py_compile engines/paper_order_authorization_gate.py
+          python -m py_compile tests/test_paper_order_authorization_gate.py
           bash -n scripts/run_aurora_completion_gate.sh
       - name: Prove shadow-only completion behavior
         run: |
           python -m unittest tests.test_aurora_completion_status -v
           python -m unittest tests.test_aurora_readiness_summary -v
           python -m unittest tests.test_shadow_audit_verifier -v
+          python -m unittest tests.test_paper_order_authorization_gate -v
+          ! grep -E "placeOrder|submit_order|from ibapi|import ibapi|4001" engines/paper_order_authorization_gate.py
