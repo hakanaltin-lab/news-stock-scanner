@@ -31,7 +31,8 @@ class TestBridge(unittest.TestCase):
         local={"k":{"account":"PAPER-REDACTED","idempotency_key":"k"}}
         mapping={"k":{"account":"PAPER-REDACTED","perm_id":123,"order_id":1,"client_id":82}}
         result=diagnose_snapshot(s,local,mapping)
-        self.assertEqual(result["status"],"CORRELATIONS_VERIFIED")
+        self.assertEqual(result["status"],"BLOCKED")
+        self.assertEqual(result["reason"],"BROKER_ACCOUNT_EVIDENCE_UNAVAILABLE")
         self.assertFalse(result["paper_order_submission_allowed"])
 
     def test_wrong_broker_account_blocks(self):
