@@ -88,7 +88,8 @@ def safe_float(
         )
     except (
         TypeError,
-        ValueError
+        ValueError,
+        OverflowError
     ):
         return default
 
