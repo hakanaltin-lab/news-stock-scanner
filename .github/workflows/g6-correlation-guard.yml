@@ -2,6 +2,7 @@ name: AURORA G6 Correlation Guard
 on:
   pull_request:
     paths:
+      - 'engines/ibkr_gateway_connector.py'
       - 'engines/ibkr_correlation_guard.py'
       - 'tests/test_ibkr_correlation_guard.py'
       - 'engines/ibkr_snapshot_correlation_bridge.py'
@@ -24,3 +25,4 @@ jobs:
         run: |
           python -m unittest discover -s tests -p 'test_ibkr_correlation_guard.py' -v
           python -m unittest discover -s tests -p 'test_ibkr_snapshot_correlation_bridge.py' -v
+          python -m py_compile engines/ibkr_gateway_connector.py
