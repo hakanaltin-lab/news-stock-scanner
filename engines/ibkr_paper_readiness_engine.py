@@ -617,6 +617,23 @@ def evaluate_ibkr_paper_readiness(
         )
     )
 
+    open_orders = broker_snapshot.get("open_orders", []) or []
+    open_order_accounts_verified = (
+        isinstance(open_orders, list)
+        and all(
+            isinstance(row, dict)
+            and isinstance(row.get("account"), str)
+            and row["account"] in verified_account_fingerprints
+            for row in open_orders
+        )
+    )
+    add_check(
+        "open_order_accounts_match_verified_paper_accounts",
+        open_order_accounts_verified,
+        True,
+        "Every reported open order must originate from a verified Paper account.",
+    )
+
     positions = broker_snapshot.get("positions", []) or []
     position_accounts_verified = (
         isinstance(positions, list)
