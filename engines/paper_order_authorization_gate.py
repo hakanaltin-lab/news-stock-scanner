@@ -57,15 +57,15 @@ def _uuid4(value):
 
 
 def _safe_flags(payload):
+    required = (
+        "broker_submission_allowed",
+        "paper_order_submission_allowed",
+        "live_execution_allowed",
+        "automatic_promotion_allowed",
+    )
     return all(
-        payload.get(name) is False
-        for name in (
-            "broker_submission_allowed",
-            "paper_order_submission_allowed",
-            "live_execution_allowed",
-            "automatic_promotion_allowed",
-        )
-        if name in payload
+        name in payload and payload.get(name) is False
+        for name in required
     )
 
 
