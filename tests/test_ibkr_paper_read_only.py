@@ -190,6 +190,40 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             application.placeOrder(1, object(), object())
 
 
+    def test_unrelated_execution_request_is_ignored(self):
+        fake_ibapi = types.ModuleType("ibapi")
+        fake_client = types.ModuleType("ibapi.client")
+        fake_wrapper = types.ModuleType("ibapi.wrapper")
+        fake_execution = types.ModuleType("ibapi.execution")
+        class FakeClient:
+            def __init__(self, wrapper):
+                self.wrapper = wrapper
+        class FakeWrapper:
+            def __init__(self):
+                pass
+        fake_client.EClient = FakeClient
+        fake_wrapper.EWrapper = FakeWrapper
+        fake_execution.ExecutionFilter = type("ExecutionFilter", (), {})
+        specification = importlib.util.spec_from_file_location(
+            "ibkr_connector_req_id_test",
+            REPOSITORY_ROOT / "engines/ibkr_gateway_connector.py",
+        )
+        isolated = importlib.util.module_from_spec(specification)
+        with patch.dict(sys.modules, {
+            "ibapi": fake_ibapi,
+            "ibapi.client": fake_client,
+            "ibapi.wrapper": fake_wrapper,
+            "ibapi.execution": fake_execution,
+        }):
+            specification.loader.exec_module(isolated)
+        app = isolated._IBKRSnapshotApp()
+        app.execDetails(9999, object(), object())
+        self.assertEqual(app.execution_rows, [])
+        self.assertFalse(app.executions_event.is_set())
+        app.execDetailsEnd(9999)
+        self.assertFalse(app.executions_event.is_set())
+
+
 class IBKRReadinessTests(unittest.TestCase):
     def test_complete_snapshot_reaches_read_only_only(self):
         readiness = evaluate_ibkr_paper_readiness(
