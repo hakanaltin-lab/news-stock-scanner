@@ -4,6 +4,8 @@ on:
     paths:
       - 'engines/ibkr_correlation_guard.py'
       - 'tests/test_ibkr_correlation_guard.py'
+      - 'engines/ibkr_snapshot_correlation_bridge.py'
+      - 'tests/test_ibkr_snapshot_correlation_bridge.py'
       - '.github/workflows/g6-correlation-guard.yml'
   push:
     branches:
@@ -19,4 +21,6 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run isolated correlation guard tests
-        run: python -m unittest discover -s tests -p 'test_ibkr_correlation_guard.py' -v
+        run: |
+          python -m unittest discover -s tests -p 'test_ibkr_correlation_guard.py' -v
+          python -m unittest discover -s tests -p 'test_ibkr_snapshot_correlation_bridge.py' -v
