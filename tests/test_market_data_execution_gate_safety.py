@@ -14,6 +14,7 @@ class MarketDataExecutionGateTests(unittest.TestCase):
             "data_quality": "AVAILABLE",
             "data_points": 1,
             "execution_eligible": True,
+            "broker_market_timestamp_verified": True,
         }
 
     def gate(self, **changes):
