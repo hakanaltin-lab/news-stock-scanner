@@ -211,6 +211,11 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             application.placeOrder(1, object(), object())
 
 
+    def test_invalid_order_status_quantities_are_not_silently_zeroed(self):
+        self.assertIsNone(connector.safe_float("not-a-number"))
+        self.assertIsNone(connector.safe_float(None))
+        self.assertEqual(connector.safe_float("0"), 0.0)
+
     def test_open_order_callback_captures_broker_identity(self):
         fake_ibapi = types.ModuleType("ibapi")
         fake_client = types.ModuleType("ibapi.client")
