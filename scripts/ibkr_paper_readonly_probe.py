@@ -28,16 +28,33 @@ def main():
         print(json.dumps({"status": "BLOCKED", "reason": "PAPER_LOCAL_ONLY_CONFIGURATION_REQUIRED",
                           "order_submission_allowed": False}))
         return 2
-    snapshot = get_ibkr_read_only_snapshot()
-    complete = snapshot.get("requests_complete") or {}
+    try:
+        snapshot = get_ibkr_read_only_snapshot()
+    except Exception:
+        print(json.dumps({"status": "ERROR", "reason": "SNAPSHOT_PROBE_FAILED",
+                          "order_submission_allowed": False}))
+        return 1
+    if not isinstance(snapshot, dict):
+        print(json.dumps({"status": "ERROR", "reason": "INVALID_SNAPSHOT",
+                          "order_submission_allowed": False}))
+        return 1
+    complete = snapshot.get("requests_complete")
+    if not isinstance(complete, dict):
+        complete = {}
     # Whitelist only non-sensitive diagnostic fields; never serialize raw snapshot.
+    config = snapshot.get("config")
+    if not isinstance(config, dict):
+        config = {}
+    account_guard = snapshot.get("paper_account_guard")
+    if not isinstance(account_guard, dict):
+        account_guard = {}
     report = {
         "status": snapshot.get("status"),
         "connection_status": snapshot.get("connection_status"),
-        "paper_endpoint_safe": (snapshot.get("config") or {}).get("endpoint_safe") is True,
+        "paper_endpoint_safe": config.get("endpoint_safe") is True,
         "hard_blocked": snapshot.get("order_submission_hard_blocked") is True,
         "live_trading_allowed": False,
-        "paper_account_verified": (snapshot.get("paper_account_guard") or {}).get("paper_account_verified") is True,
+        "paper_account_verified": account_guard.get("paper_account_verified") is True,
         "requests_complete": {key: complete.get(key) is True for key in
                               ("managed_accounts", "account_summary", "positions", "open_orders", "executions")},
     }
