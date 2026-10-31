@@ -49,6 +49,10 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
             return {**blocked,"reason":"BROKER_ACCOUNT_EVIDENCE_UNAVAILABLE"}
         if not any(row.get("order_id")==item["order_id"] and row.get("client_id")==item["client_id"] and row.get("account")==item["account"] for row in evidence):
             return {**blocked,"reason":"BROKER_IDENTITY_MISMATCH"}
+        # Never silently accept contradictory broker-origin account/identity
+        # rows for the same permanent ID, even if one matching row exists.
+        if any(row.get("order_id")!=item["order_id"] or row.get("client_id")!=item["client_id"] or row.get("account")!=item["account"] for row in evidence):
+            return {**blocked,"reason":"CONFLICTING_BROKER_IDENTITY"}
     # Reconcile observed execution quantities without assuming history completeness.
     # Empty executions remain a valid read-only snapshot (no observed fills).
     import math
