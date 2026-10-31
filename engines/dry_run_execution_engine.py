@@ -19,6 +19,7 @@ from engines.market_data_quality_gate import (
 DEFAULT_MAX_ORDER_NOTIONAL_USD = 100.0
 DEFAULT_MAX_DAILY_GROSS_NOTIONAL_USD = 500.0
 DEFAULT_MAX_SPREAD_BPS = 50.0
+DEFAULT_MAX_LIMIT_DEVIATION_BPS = 50.0
 
 
 def _env_float(name, default):
@@ -222,6 +223,33 @@ class DryRunExecutionEngine:
                 max_spread_bps=max_spread_bps,
             )
 
+        max_limit_deviation_bps = _env_float(
+            "AURORA_DRY_RUN_MAX_LIMIT_DEVIATION_BPS",
+            DEFAULT_MAX_LIMIT_DEVIATION_BPS,
+        )
+        if action == "BUY":
+            limit_reference_price = ask
+            limit_deviation_bps = max(
+                0.0,
+                ((limit_price - ask) / ask) * 10000,
+            )
+        else:
+            limit_reference_price = bid
+            limit_deviation_bps = max(
+                0.0,
+                ((bid - limit_price) / bid) * 10000,
+            )
+
+        if limit_deviation_bps > max_limit_deviation_bps:
+            return self._block(
+                "LIMIT_PRICE_DEVIATION_EXCEEDED",
+                action=action,
+                limit_price=round(limit_price, 4),
+                limit_reference_price=round(limit_reference_price, 4),
+                limit_deviation_bps=round(limit_deviation_bps, 3),
+                max_limit_deviation_bps=max_limit_deviation_bps,
+            )
+
         notional = quantity * limit_price
         max_order_notional = _env_float(
             "AURORA_DRY_RUN_MAX_ORDER_NOTIONAL_USD",
@@ -264,6 +292,9 @@ class DryRunExecutionEngine:
             "limit_price": round(limit_price, 4),
             "order_notional_usd": round(notional, 2),
             "spread_bps": round(spread_bps, 3),
+            "limit_reference_price": round(limit_reference_price, 4),
+            "limit_deviation_bps": round(limit_deviation_bps, 3),
+            "max_limit_deviation_bps": max_limit_deviation_bps,
             "market_data_gate": market_gate,
             "status": "SHADOW_ACCEPTED",
             "broker_submission_allowed": False,

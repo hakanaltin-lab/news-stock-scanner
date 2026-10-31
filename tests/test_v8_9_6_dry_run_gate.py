@@ -201,6 +201,47 @@ class DryRunExecutionGateTests(unittest.TestCase):
         self.assertEqual(result["status"], "BLOCKED")
         self.assertEqual(result["reason"], "SPREAD_LIMIT_EXCEEDED")
 
+    def test_aggressive_buy_limit_above_ask_is_blocked(self):
+        with patch.dict(os.environ, {
+            "AURORA_RUN_MODE": "DRY_RUN",
+            "AURORA_DRY_RUN_MAX_ORDER_NOTIONAL_USD": "1000",
+            "AURORA_DRY_RUN_MAX_LIMIT_DEVIATION_BPS": "50",
+        }, clear=True):
+            result = self.engine.evaluate_and_create_shadow_order(
+                base_intent(limit_price=101.0),
+                fresh_market_data(bid=99.95, ask=100.05),
+            )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["reason"],
+            "LIMIT_PRICE_DEVIATION_EXCEEDED",
+        )
+        self.assertGreater(result["limit_deviation_bps"], 50)
+
+    def test_aggressive_sell_limit_below_bid_is_blocked(self):
+        with patch.dict(os.environ, {
+            "AURORA_RUN_MODE": "DRY_RUN",
+            "AURORA_DRY_RUN_MAX_ORDER_NOTIONAL_USD": "1000",
+            "AURORA_DRY_RUN_MAX_LIMIT_DEVIATION_BPS": "50",
+        }, clear=True):
+            result = self.engine.evaluate_and_create_shadow_order(
+                base_intent(
+                    action="SELL",
+                    current_position_qty=1,
+                    limit_price=99.0,
+                    idempotency_key="sell-limit-test",
+                ),
+                fresh_market_data(bid=99.95, ask=100.05),
+            )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["reason"],
+            "LIMIT_PRICE_DEVIATION_EXCEEDED",
+        )
+        self.assertGreater(result["limit_deviation_bps"], 50)
+
     def test_daily_gross_notional_limit_is_enforced(self):
         with patch.dict(os.environ, {
             "AURORA_RUN_MODE": "DRY_RUN",
