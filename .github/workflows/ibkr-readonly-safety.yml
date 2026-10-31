@@ -8,6 +8,7 @@ on:
       - "engines/ibkr_paper_readiness_engine.py"
       - "scripts/ibkr_paper_probe.py"
       - "tests/test_ibkr_paper_read_only.py"
+      - "tests/test_ibkr_account_guard_negative.py"
       - ".github/workflows/ibkr-readonly-safety.yml"
   workflow_dispatch:
 
@@ -28,4 +29,6 @@ jobs:
         with:
           python-version: "3.11"
       - name: Test read-only connector, account guard and probe (offline)
-        run: python -m unittest discover -s tests -p test_ibkr_paper_read_only.py -v
+        run: |
+          python -m unittest discover -s tests -p test_ibkr_paper_read_only.py -v
+          python -m unittest discover -s tests -p test_ibkr_account_guard_negative.py -v
