@@ -516,14 +516,12 @@ if IBAPI_AVAILABLE:
 
                 "filled":
                 safe_float(
-                    filled,
-                    0.0
+                    filled
                 ),
 
                 "remaining":
                 safe_float(
-                    remaining,
-                    0.0
+                    remaining
                 ),
 
                 "average_fill_price":
