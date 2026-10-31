@@ -40,4 +40,8 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
     for item in mapping.values():
         if item["perm_id"] not in seen:
             return {**blocked,"reason":"BROKER_CORRELATION_NOT_OBSERVED"}
+    for item in mapping.values():
+        matching=[row for row in rows if row["perm_id"]==item["perm_id"]]
+        if not any(row.get("order_id")==item["order_id"] and row.get("client_id")==item["client_id"] and row.get("account")==item["account"] for row in matching):
+            return {**blocked,"reason":"BROKER_IDENTITY_MISMATCH"}
     return result
