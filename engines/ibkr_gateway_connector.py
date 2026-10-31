@@ -149,8 +149,8 @@ def load_ibkr_config():
             )
         )
 
-    except Exception:
-        client_id = 82
+    except (TypeError, ValueError, OverflowError):
+        client_id = -1  # Invalid identity must never fall back to a valid client ID.
 
     try:
         timeout_seconds = float(
@@ -903,6 +903,14 @@ def get_ibkr_read_only_snapshot():
                 "CONFIG_SAFETY_BLOCK: IBKR paper read-only access is "
                 "restricted to 127.0.0.1:4002."
             )
+        }
+
+    if type(config.get("client_id")) is not int or not (0 <= config["client_id"] <= 2147483647):
+        return {
+            **base,
+            "status": "BLOCKED",
+            "connection_status": "NOT_ATTEMPTED",
+            "reason": "INVALID_IBKR_CLIENT_ID"
         }
 
     if not IBAPI_AVAILABLE:
