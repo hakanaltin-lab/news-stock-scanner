@@ -60,4 +60,17 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
             return {**blocked,"reason":"INVALID_EXECUTION_QUANTITY"}
         if not any(row.get("perm_id")==item["perm_id"] and row.get("order_id")==item["order_id"] and row.get("client_id")==item["client_id"] and row.get("account")==item["account"] for item in mapping.values()):
             return {**blocked,"reason":"UNMATCHED_EXECUTION_IDENTITY"}
+    # A broker order-status cumulative fill cannot be smaller than fills
+    # observed in the same snapshot. Do not assert equality: reqExecutions
+    # covers only its request window, not necessarily all historical fills.
+    for item in mapping.values():
+        relevant=[row for row in snapshot["executions"] if row["perm_id"]==item["perm_id"]]
+        observed=sum(row["shares"] for row in relevant)
+        statuses=[row for row in snapshot["order_status"] if row.get("perm_id")==item["perm_id"] and row.get("order_id")==item["order_id"] and row.get("client_id")==item["client_id"]]
+        for status in statuses:
+            filled=status.get("filled")
+            if type(filled) not in (int,float) or not math.isfinite(filled) or filled<0:
+                return {**blocked,"reason":"INVALID_CUMULATIVE_FILL"}
+            if observed>filled+1e-7:
+                return {**blocked,"reason":"EXECUTIONS_EXCEED_REPORTED_FILL"}
     return result
