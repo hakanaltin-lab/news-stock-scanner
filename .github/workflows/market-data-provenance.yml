@@ -1,0 +1,22 @@
+name: Market data provenance regression
+on:
+  pull_request:
+    paths:
+      - "main.py"
+      - "engines/market_data_engine.py"
+      - "tests/test_market_data_provenance_regression.py"
+      - ".github/workflows/market-data-provenance.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-provenance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check data source and missing-quote fail-closed behavior
+        run: python -m unittest discover -s tests -p test_market_data_provenance_regression.py -v
