@@ -28,6 +28,29 @@ class PaperProbeTests(unittest.TestCase):
         self.assertEqual(result.returncode, 2, result.stderr)
         self.assertEqual(json.loads(result.stdout)["status"], "BLOCKED")
 
+    def test_broker_exception_is_redacted(self):
+        env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
+               "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
+        output = io.StringIO()
+        with patch.dict(os.environ, env, clear=True), patch.object(
+            probe, "get_ibkr_read_only_snapshot",
+            side_effect=RuntimeError("private-account-DU1234567")
+        ), contextlib.redirect_stdout(output):
+            self.assertEqual(probe.main(), 1)
+        self.assertNotIn("DU1234567", output.getvalue())
+        self.assertEqual(json.loads(output.getvalue())["reason"], "SNAPSHOT_PROBE_FAILED")
+
+    def test_malformed_snapshot_is_rejected(self):
+        env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
+               "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
+        for snapshot in (None, [], {"status": "CONNECTED", "config": [],
+                                    "paper_account_guard": [],
+                                    "requests_complete": []}):
+            with self.subTest(snapshot=snapshot), patch.dict(os.environ, env, clear=True), patch.object(
+                probe, "get_ibkr_read_only_snapshot", return_value=snapshot
+            ), contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(probe.main(), 1)
+
     def test_disabled_probe_never_calls_connector(self):
         output = io.StringIO()
         with patch.dict(os.environ, {}, clear=True), patch.object(
