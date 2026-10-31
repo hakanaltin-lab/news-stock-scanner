@@ -37,6 +37,10 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
         if type(perm_id) is not int or perm_id<=0:
             return {**blocked,"reason":"BROKER_PERM_ID_MISSING"}
         seen.add(perm_id)
+    # A valid broker row must not be silently ignored just because its
+    # permanent ID is absent from the supplied local mapping.
+    if any(row["perm_id"] not in {item["perm_id"] for item in mapping.values()} for row in rows):
+        return {**blocked,"reason":"UNMAPPED_BROKER_ORDER"}
     for item in mapping.values():
         if item["perm_id"] not in seen:
             return {**blocked,"reason":"BROKER_CORRELATION_NOT_OBSERVED"}
