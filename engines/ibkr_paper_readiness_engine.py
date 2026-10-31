@@ -487,6 +487,19 @@ def evaluate_ibkr_paper_readiness(
         )
     )
 
+    add_check(
+        "single_managed_account_for_readiness",
+        account_count
+        ==
+        1,
+        True,
+        (
+            "Read-only readiness currently supports exactly one managed "
+            "Paper account because account-summary metrics are not yet "
+            "represented per account."
+        )
+    )
+
     net_liquidation = account_metric(
         broker_snapshot,
         "NetLiquidation"

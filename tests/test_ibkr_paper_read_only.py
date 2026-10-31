@@ -212,6 +212,29 @@ class IBKRReadinessTests(unittest.TestCase):
         }
         self.assertIn("managed_accounts_snapshot_complete", failed)
 
+    def test_multiple_managed_accounts_are_not_ready(self):
+        snapshot = ready_snapshot()
+        snapshot["account_count"] = 2
+        snapshot["paper_account_guard"]["account_count"] = 2
+        snapshot["paper_account_guard"]["verified_account_fingerprints"] = [
+            "IBKR-TESTACCOUNT",
+            "IBKR-SECONDACCOUNT",
+        ]
+        snapshot["account_summary_account_fingerprints"] = [
+            "IBKR-SECONDACCOUNT",
+            "IBKR-TESTACCOUNT",
+        ]
+
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+        self.assertEqual(readiness["readiness"], "NOT_READY")
+        failed = {
+            item["check"]
+            for item in readiness["checks"]
+            if item["required"] and not item["passed"]
+        }
+        self.assertIn("single_managed_account_for_readiness", failed)
+
     def test_incomplete_account_summary_blocks_read_only_readiness(self):
         snapshot = ready_snapshot()
         snapshot["requests_complete"]["account_summary"] = False
