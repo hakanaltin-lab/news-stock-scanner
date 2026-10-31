@@ -628,6 +628,26 @@ def _account_summary_dict(
     return summary
 
 
+def _account_summary_fingerprints(
+    rows
+):
+    return sorted({
+        mask_account(
+            row.get(
+                "account"
+            )
+        )
+        for row in (
+            rows
+            or
+            []
+        )
+        if row.get(
+            "account"
+        )
+    })
+
+
 def _sanitize_positions(
     positions
 ):
@@ -989,6 +1009,12 @@ def get_ibkr_read_only_snapshot():
             app.account_summary_rows
         )
 
+        account_summary_account_fingerprints = (
+            _account_summary_fingerprints(
+                app.account_summary_rows
+            )
+        )
+
         masked_accounts = [
             mask_account(
                 account
@@ -1043,6 +1069,9 @@ def get_ibkr_read_only_snapshot():
 
             "account_summary":
             summary,
+
+            "account_summary_account_fingerprints":
+            account_summary_account_fingerprints,
 
             "positions":
             _sanitize_positions(
