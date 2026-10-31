@@ -1,0 +1,31 @@
+name: IBKR read-only safety regression
+
+on:
+  pull_request:
+    paths:
+      - "engines/ibkr_gateway_connector.py"
+      - "engines/ibkr_account_guard.py"
+      - "engines/ibkr_paper_readiness_engine.py"
+      - "scripts/ibkr_paper_probe.py"
+      - "tests/test_ibkr_paper_read_only.py"
+      - ".github/workflows/ibkr-readonly-safety.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-readonly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      AURORA_IBKR_ENABLED: "false"
+      AURORA_IBKR_MODE: "PAPER"
+      AURORA_RUN_MODE: "SAFE_OFF"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test read-only connector, account guard and probe (offline)
+        run: python -m unittest discover -s tests -p test_ibkr_paper_read_only.py -v
