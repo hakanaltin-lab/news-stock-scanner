@@ -16,6 +16,17 @@ ROOT = Path(__file__).resolve().parents[1]
 NOW = datetime(2026, 10, 30, 12, 0, tzinfo=timezone.utc)
 ACCOUNT_FINGERPRINT = "IBKR-A1B2C3D4E5"
 EVIDENCE_RUN_ID = "11111111-1111-4111-8111-111111111111"
+G2_REQUIRED_CHECKS = [
+    "paper_mode_only",
+    "safe_loopback_paper_endpoint",
+    "paper_account_identity_verified",
+    "order_submission_hard_blocked",
+    "live_trading_hard_blocked",
+    "gateway_connected",
+    "single_managed_account_for_readiness",
+    "account_summary_accounts_match_managed_accounts",
+    "position_accounts_match_verified_paper_accounts",
+]
 
 
 def digest(payload):
@@ -57,6 +68,14 @@ def ready_g2(timestamp=None):
             "timestamp": timestamp,
             "readiness": "READY_FOR_PAPER_READ_ONLY",
             "required_failure_count": 0,
+            "checks": [
+                {
+                    "check": name,
+                    "required": True,
+                    "passed": True,
+                }
+                for name in G2_REQUIRED_CHECKS
+            ],
             "paper_order_submission_allowed": False,
             "live_execution_allowed": False,
         },
@@ -132,6 +151,40 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
         self.assertFalse(result["paper_order_submission_allowed"])
         self.assertFalse(result["live_execution_allowed"])
         self.assertFalse(result["automatic_promotion_allowed"])
+
+    def test_g2_required_failure_count_must_match_checks(self):
+        g2 = ready_g2()
+        g2["readiness"]["checks"][0]["passed"] = False
+        result = evaluate_readiness_bundle(
+            g2,
+            ready_g3(),
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        self.assertEqual(result["status"], "NOT_READY")
+        self.assertIn(
+            "g2_required_checks_consistent",
+            result["failure_reasons"],
+        )
+
+    def test_g2_cannot_omit_expected_required_check(self):
+        g2 = ready_g2()
+        g2["readiness"]["checks"] = [
+            item
+            for item in g2["readiness"]["checks"]
+            if item["check"] != "order_submission_hard_blocked"
+        ]
+        result = evaluate_readiness_bundle(
+            g2,
+            ready_g3(),
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        self.assertEqual(result["status"], "NOT_READY")
+        self.assertIn(
+            "g2_required_checks_consistent",
+            result["failure_reasons"],
+        )
 
     def test_mismatched_evidence_run_id_blocks(self):
         g3 = ready_g3()
