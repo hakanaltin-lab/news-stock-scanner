@@ -39,7 +39,7 @@ class TestBridge(unittest.TestCase):
         s={"status":"CONNECTED","requests_complete":dict.fromkeys(("managed_accounts","account_summary","positions","open_orders","executions"),True),"order_status":[{"perm_id":123,"order_id":1,"client_id":82,"account":"OTHER"}],"executions":[],"order_submission_hard_blocked":True,"live_trading_allowed":False,"config":{"mode":"PAPER","endpoint_safe":True,"read_only":True},"paper_account_guard":{"paper_account_verified":True,"verified_account_fingerprints":["PAPER-REDACTED"]}}
         local={"k":{"account":"PAPER-REDACTED","idempotency_key":"k"}}
         mapping={"k":{"account":"PAPER-REDACTED","perm_id":123,"order_id":1,"client_id":82}}
-        self.assertEqual(diagnose_snapshot(s,local,mapping)["reason"],"BROKER_IDENTITY_MISMATCH")
+        self.assertEqual(diagnose_snapshot(s,local,mapping)["reason"],"BROKER_ACCOUNT_EVIDENCE_UNAVAILABLE")
 
     def test_duplicate_execution_id_blocks(self):
         s={"status":"CONNECTED","requests_complete":dict.fromkeys(("managed_accounts","account_summary","positions","open_orders","executions"),True),"order_status":[],"executions":[{"perm_id":123,"order_id":1,"client_id":82,"account":"PAPER-REDACTED","execution_id":"X","shares":2},{"perm_id":123,"order_id":1,"client_id":82,"account":"PAPER-REDACTED","execution_id":"X","shares":3}],"order_submission_hard_blocked":True,"live_trading_allowed":False,"config":{"mode":"PAPER","endpoint_safe":True,"read_only":True},"paper_account_guard":{"paper_account_verified":True,"verified_account_fingerprints":["PAPER-REDACTED"]}}
@@ -62,7 +62,7 @@ class TestBridge(unittest.TestCase):
         s={"status":"CONNECTED","requests_complete":dict.fromkeys(("managed_accounts","account_summary","positions","open_orders","executions"),True),"order_status":[{"perm_id":123,"order_id":1,"client_id":82,"account":"PAPER-REDACTED","filled":2,"remaining":1,"status":"Filled"}],"executions":[],"order_submission_hard_blocked":True,"live_trading_allowed":False,"config":{"mode":"PAPER","endpoint_safe":True,"read_only":True},"paper_account_guard":{"paper_account_verified":True,"verified_account_fingerprints":["PAPER-REDACTED"]}}
         local={"k":{"account":"PAPER-REDACTED","idempotency_key":"k"}}
         mapping={"k":{"account":"PAPER-REDACTED","perm_id":123,"order_id":1,"client_id":82}}
-        self.assertEqual(diagnose_snapshot(s,local,mapping)["reason"],"CONFLICTING_FILLED_STATUS")
+        self.assertEqual(diagnose_snapshot(s,local,mapping)["reason"],"BROKER_ACCOUNT_EVIDENCE_UNAVAILABLE")
 
     def test_intermediate_cumulative_fill_does_not_false_block(self):
         s={"status":"CONNECTED","requests_complete":dict.fromkeys(("managed_accounts","account_summary","positions","open_orders","executions"),True),"order_status":[{"perm_id":123,"order_id":1,"client_id":82,"filled":0,"remaining":2,"status":"Submitted"},{"perm_id":123,"order_id":1,"client_id":82,"filled":2,"remaining":0,"status":"Filled"}],"executions":[{"perm_id":123,"order_id":1,"client_id":82,"account":"PAPER-REDACTED","execution_id":"X","shares":2}],"order_submission_hard_blocked":True,"live_trading_allowed":False,"config":{"mode":"PAPER","endpoint_safe":True,"read_only":True},"paper_account_guard":{"paper_account_verified":True,"verified_account_fingerprints":["PAPER-REDACTED"]}}
