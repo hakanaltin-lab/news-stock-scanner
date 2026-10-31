@@ -42,7 +42,12 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
             return {**blocked,"reason":"BROKER_CORRELATION_NOT_OBSERVED"}
     for item in mapping.values():
         matching=[row for row in rows if row["perm_id"]==item["perm_id"]]
-        if not any(row.get("order_id")==item["order_id"] and row.get("client_id")==item["client_id"] and row.get("account")==item["account"] for row in matching):
+        # IBKR orderStatus does not provide an account field. Only an
+        # execution callback supplies broker-origin account evidence.
+        evidence=[row for row in snapshot["executions"] if row.get("perm_id")==item["perm_id"]]
+        if not evidence:
+            return {**blocked,"reason":"BROKER_ACCOUNT_EVIDENCE_UNAVAILABLE"}
+        if not any(row.get("order_id")==item["order_id"] and row.get("client_id")==item["client_id"] and row.get("account")==item["account"] for row in evidence):
             return {**blocked,"reason":"BROKER_IDENTITY_MISMATCH"}
     # Reconcile observed execution quantities without assuming history completeness.
     # Empty executions remain a valid read-only snapshot (no observed fills).
