@@ -135,10 +135,21 @@ class ManualPaperAuthorizationTests(unittest.TestCase):
         self.assertFalse(result["checks"]["paper_mode_only"])
         self.assertFalse(result["checks"]["single_order_scope"])
 
-    def test_unsafe_upstream_flags_block(self):
+    def test_unsafe_or_missing_upstream_flags_block(self):
         comp = completion()
         comp["paper_order_submission_allowed"] = True
         order = shadow()
+        auth = authorization(comp, order)
+        result = evaluate_manual_paper_authorization(
+            comp, order, auth, now=NOW
+        )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertFalse(
+            result["checks"]["completion_validated_shadow_only"]
+        )
+
+        comp = completion()
+        del comp["automatic_promotion_allowed"]
         auth = authorization(comp, order)
         result = evaluate_manual_paper_authorization(
             comp, order, auth, now=NOW
