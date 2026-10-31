@@ -32,6 +32,7 @@ def ready_snapshot():
         "order_submission_hard_blocked": True,
         "live_trading_allowed": False,
         "account_count": 1,
+        "accounts": ["IBKR-TESTACCOUNT"],
         "paper_account_guard": {
             "allowlist_configured": True,
             "managed_account_received": True,
@@ -211,6 +212,32 @@ class IBKRReadinessTests(unittest.TestCase):
             if item["required"] and not item["passed"]
         }
         self.assertIn("managed_accounts_snapshot_complete", failed)
+
+    def test_snapshot_account_identity_mismatch_is_not_ready(self):
+        snapshot = ready_snapshot()
+        snapshot["accounts"] = ["IBKR-OTHERACCOUNT"]
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+        self.assertEqual(readiness["readiness"], "NOT_READY")
+        self.assertIn(
+            "managed_account_identity_consistent",
+            {
+                item["check"] for item in readiness["checks"]
+                if item["required"] and not item["passed"]
+            },
+        )
+
+    def test_guard_account_count_mismatch_is_not_ready(self):
+        snapshot = ready_snapshot()
+        snapshot["paper_account_guard"]["account_count"] = 2
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+        self.assertEqual(readiness["readiness"], "NOT_READY")
+        self.assertIn(
+            "managed_account_identity_consistent",
+            {
+                item["check"] for item in readiness["checks"]
+                if item["required"] and not item["passed"]
+            },
+        )
 
     def test_multiple_managed_accounts_are_not_ready(self):
         snapshot = ready_snapshot()

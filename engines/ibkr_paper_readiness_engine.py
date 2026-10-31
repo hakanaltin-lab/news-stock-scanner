@@ -475,6 +475,39 @@ def evaluate_ibkr_paper_readiness(
         ),
         0
     )
+    guard_account_count = safe_float(
+        paper_account_guard.get(
+            "account_count"
+        ),
+        -1
+    )
+    snapshot_accounts = broker_snapshot.get("accounts")
+    snapshot_account_fingerprints = (
+        sorted({
+            str(item).strip()
+            for item in snapshot_accounts
+            if str(item).strip()
+        })
+        if isinstance(snapshot_accounts, list)
+        else []
+    )
+
+    add_check(
+        "managed_account_identity_consistent",
+        (
+            bool(verified_account_fingerprints)
+            and snapshot_account_fingerprints
+            == verified_account_fingerprints
+            and account_count
+            == guard_account_count
+            == len(verified_account_fingerprints)
+        ),
+        True,
+        (
+            "Snapshot account list/count and account-guard fingerprints "
+            "must describe the exact same Paper account set."
+        )
+    )
 
     add_check(
         "managed_account_received",
