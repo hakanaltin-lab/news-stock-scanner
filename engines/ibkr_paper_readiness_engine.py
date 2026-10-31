@@ -364,6 +364,50 @@ def evaluate_ibkr_paper_readiness(
         )
     )
 
+    verified_account_fingerprints = sorted({
+        str(item).strip()
+        for item in (
+            paper_account_guard.get(
+                "verified_account_fingerprints",
+                []
+            )
+            or
+            []
+        )
+        if str(item).strip()
+    })
+
+    account_summary_account_fingerprints = sorted({
+        str(item).strip()
+        for item in (
+            broker_snapshot.get(
+                "account_summary_account_fingerprints",
+                []
+            )
+            or
+            []
+        )
+        if str(item).strip()
+    })
+
+    add_check(
+        "account_summary_accounts_match_managed_accounts",
+        (
+            bool(
+                verified_account_fingerprints
+            )
+            and
+            account_summary_account_fingerprints
+            ==
+            verified_account_fingerprints
+        ),
+        True,
+        (
+            "Account-summary metrics must belong to the exact verified "
+            "managed Paper account set."
+        )
+    )
+
     add_check(
         "connector_read_only",
         config.get(
