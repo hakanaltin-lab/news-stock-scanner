@@ -72,12 +72,17 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
         relevant=[row for row in snapshot["executions"] if row["perm_id"]==item["perm_id"]]
         observed=sum(row["shares"] for row in relevant)
         statuses=[row for row in snapshot["order_status"] if row.get("perm_id")==item["perm_id"] and row.get("order_id")==item["order_id"] and row.get("client_id")==item["client_id"]]
+        fills=[]
         for status in statuses:
             filled=status.get("filled")
             if type(filled) not in (int,float) or not math.isfinite(filled) or filled<0:
                 return {**blocked,"reason":"INVALID_CUMULATIVE_FILL"}
-            if observed>filled+1e-7:
-                return {**blocked,"reason":"EXECUTIONS_EXCEED_REPORTED_FILL"}
+            fills.append(filled)
+        # orderStatus can emit intermediate cumulative fills (0, then 2).
+        # Compare against the highest observed cumulative value, not every
+        # intermediate callback; missing status history proves no quantity cap.
+        if fills and observed>max(fills)+1e-7:
+            return {**blocked,"reason":"EXECUTIONS_EXCEED_REPORTED_FILL"}
     # Broker status callbacks can repeat, but cumulative filled quantity
     # must never contradict the remaining quantity for the same order.
     for item in mapping.values():
