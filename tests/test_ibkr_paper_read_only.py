@@ -38,8 +38,10 @@ def ready_snapshot():
             "account_count": 1,
             "all_accounts_allowlisted": True,
             "paper_account_verified": True,
+            "verified_account_fingerprints": ["IBKR-TESTACCOUNT"],
             "reason": "PAPER_ACCOUNT_VERIFIED",
         },
+        "account_summary_account_fingerprints": ["IBKR-TESTACCOUNT"],
         "account_summary": {
             "NetLiquidation": {"value": 100000.0, "currency": "USD"},
             "TotalCashValue": {"value": 50000.0, "currency": "USD"},
@@ -130,6 +132,24 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
         self.assertNotIn(account, sanitized[0]["message"])
         self.assertIn(connector.mask_account(account), sanitized[0]["message"])
 
+    def test_account_summary_account_ids_are_fingerprinted(self):
+        rows = [
+            {
+                "account": "DU1234567",
+                "tag": "NetLiquidation",
+                "value": "100000",
+                "currency": "USD",
+            },
+        ]
+
+        fingerprints = connector._account_summary_fingerprints(rows)
+
+        self.assertEqual(
+            fingerprints,
+            [connector.mask_account("DU1234567")],
+        )
+        self.assertNotIn("DU1234567", fingerprints)
+
     def test_place_order_is_hard_blocked_even_with_ibapi_available(self):
         fake_ibapi = types.ModuleType("ibapi")
         fake_client = types.ModuleType("ibapi.client")
@@ -205,6 +225,25 @@ class IBKRReadinessTests(unittest.TestCase):
             if check["required"] and not check["passed"]
         }
         self.assertIn("account_summary_snapshot_complete", failed)
+
+    def test_mismatched_account_summary_account_is_not_ready(self):
+        snapshot = ready_snapshot()
+        snapshot["account_summary_account_fingerprints"] = ["IBKR-OTHERACCOUNT"]
+
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+        self.assertEqual(readiness["readiness"], "NOT_READY")
+        self.assertFalse(readiness["paper_order_submission_allowed"])
+        self.assertFalse(readiness["live_execution_allowed"])
+        failed = {
+            item["check"]
+            for item in readiness["checks"]
+            if item["required"] and not item["passed"]
+        }
+        self.assertIn(
+            "account_summary_accounts_match_managed_accounts",
+            failed,
+        )
 
     def test_missing_order_block_evidence_is_not_ready(self):
         snapshot = ready_snapshot()
