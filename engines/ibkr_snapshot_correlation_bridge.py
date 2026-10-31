@@ -73,4 +73,17 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
                 return {**blocked,"reason":"INVALID_CUMULATIVE_FILL"}
             if observed>filled+1e-7:
                 return {**blocked,"reason":"EXECUTIONS_EXCEED_REPORTED_FILL"}
+    # Broker status callbacks can repeat, but cumulative filled quantity
+    # must never contradict the remaining quantity for the same order.
+    for item in mapping.values():
+        statuses=[row for row in snapshot["order_status"] if row.get("perm_id")==item["perm_id"]]
+        for status in statuses:
+            if status.get("order_id")!=item["order_id"] or status.get("client_id")!=item["client_id"]:
+                return {**blocked,"reason":"CONFLICTING_ORDER_STATUS_IDENTITY"}
+            remaining=status.get("remaining")
+            if type(remaining) not in (int,float) or not math.isfinite(remaining) or remaining<0:
+                return {**blocked,"reason":"INVALID_REMAINING_QUANTITY"}
+            state=status.get("status")
+            if state=="Filled" and (remaining>1e-7 or status["filled"]<=0):
+                return {**blocked,"reason":"CONFLICTING_FILLED_STATUS"}
     return result
