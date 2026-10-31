@@ -47543,23 +47543,23 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 1475,
+    "historical_acceptance_count": 1477,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 1,
     "historical_files_failed": 0,
     "historical_files_loaded": 1,
     "loaded_files": [
       {
-        "acceptance_count": 1475,
-        "added_acceptance_count": 1475,
+        "acceptance_count": 1477,
+        "added_acceptance_count": 1477,
         "filing_from": "1994-01-19",
-        "filing_to": "2018-10-01",
+        "filing_to": "2018-10-23",
         "name": "CIK0000033213-submissions-001.json"
       }
     ],
     "recent_acceptance_count": 1002,
     "status": "COMPLETE",
-    "total_acceptance_count": 2477
+    "total_acceptance_count": 2479
   },
   "taxonomies_supported": [
     "ifrs-full",

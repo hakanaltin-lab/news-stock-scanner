@@ -47528,30 +47528,30 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 4001,
+    "historical_acceptance_count": 4005,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 2,
     "historical_files_failed": 0,
     "historical_files_loaded": 2,
     "loaded_files": [
       {
-        "acceptance_count": 2001,
-        "added_acceptance_count": 2001,
+        "acceptance_count": 2004,
+        "added_acceptance_count": 2004,
         "filing_from": "2006-08-17",
-        "filing_to": "2015-01-11",
+        "filing_to": "2015-01-25",
         "name": "CIK0000080424-submissions-002.json"
       },
       {
-        "acceptance_count": 2000,
-        "added_acceptance_count": 2000,
-        "filing_from": "2015-01-13",
-        "filing_to": "2022-08-14",
+        "acceptance_count": 2001,
+        "added_acceptance_count": 2001,
+        "filing_from": "2015-01-27",
+        "filing_to": "2022-08-16",
         "name": "CIK0000080424-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1005,
+    "recent_acceptance_count": 1002,
     "status": "COMPLETE",
-    "total_acceptance_count": 5006
+    "total_acceptance_count": 5007
   },
   "taxonomies_supported": [
     "ifrs-full",
