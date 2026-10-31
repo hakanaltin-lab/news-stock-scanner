@@ -24,4 +24,20 @@ def diagnose_snapshot(snapshot, local_orders, mapping):
     config=snapshot.get("config")
     if not isinstance(config,dict) or config.get("mode")!="PAPER" or config.get("endpoint_safe") is not True or config.get("read_only") is not True:
         return {**blocked,"reason":"UNSAFE_BROKER_ENDPOINT"}
-    return verify_correlations(local_orders,snapshot,mapping)
+    result=verify_correlations(local_orders,snapshot,mapping)
+    if result.get("status")!="CORRELATIONS_VERIFIED":
+        return result
+    # A supplied mapping is not broker evidence: require observed permanent IDs.
+    rows=snapshot.get("order_status")+snapshot.get("executions")
+    seen=set()
+    for row in rows:
+        if not isinstance(row,dict):
+            return {**blocked,"reason":"INVALID_BROKER_ROW"}
+        perm_id=row.get("perm_id")
+        if type(perm_id) is not int or perm_id<=0:
+            return {**blocked,"reason":"BROKER_PERM_ID_MISSING"}
+        seen.add(perm_id)
+    for item in mapping.values():
+        if item["perm_id"] not in seen:
+            return {**blocked,"reason":"BROKER_CORRELATION_NOT_OBSERVED"}
+    return result
