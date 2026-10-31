@@ -90,6 +90,9 @@ def evaluate_market_data_for_execution(
         ),
         "positive_price": math.isfinite(price) and price > 0,
         "explicit_execution_eligibility": market_data.get("execution_eligible") is True,
+        "broker_timestamp_verified": (
+            market_data.get("broker_market_timestamp_verified") is True
+        ),
         "data_quality_valid": data_quality not in {
             "",
             "NO_DATA",
