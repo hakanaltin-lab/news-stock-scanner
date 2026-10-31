@@ -49,8 +49,8 @@ def main():
     if not isinstance(account_guard, dict):
         account_guard = {}
     report = {
-        "status": snapshot.get("status"),
-        "connection_status": snapshot.get("connection_status"),
+        "status": snapshot.get("status") if snapshot.get("status") in ("CONNECTED", "BLOCKED", "DISABLED", "ERROR", "NOT_INSTALLED") else "UNKNOWN",
+        "connection_status": snapshot.get("connection_status") if snapshot.get("connection_status") in ("CONNECTED", "NOT_ATTEMPTED", "FAILED", "DISCONNECTED") else "UNKNOWN",
         "paper_endpoint_safe": config.get("endpoint_safe") is True,
         "hard_blocked": snapshot.get("order_submission_hard_blocked") is True,
         "live_trading_allowed": False,
