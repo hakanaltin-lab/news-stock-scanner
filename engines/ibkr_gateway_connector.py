@@ -35,6 +35,7 @@ from engines.ibkr_account_guard import (
 try:
     from ibapi.client import EClient
     from ibapi.wrapper import EWrapper
+    from ibapi.execution import ExecutionFilter
 
     IBAPI_AVAILABLE = True
     IBAPI_IMPORT_ERROR = None
@@ -87,7 +88,8 @@ def safe_float(
         )
     except (
         TypeError,
-        ValueError
+        ValueError,
+        OverflowError
     ):
         return default
 
@@ -136,8 +138,8 @@ def load_ibkr_config():
             )
         )
 
-    except Exception:
-        port = default_port
+    except (TypeError, ValueError, OverflowError):
+        port = -1  # Invalid configuration must not silently select a safe port.
 
     try:
         client_id = int(
@@ -147,8 +149,8 @@ def load_ibkr_config():
             )
         )
 
-    except Exception:
-        client_id = 82
+    except (TypeError, ValueError, OverflowError):
+        client_id = -1  # Invalid identity must never fall back to a valid client ID.
 
     try:
         timeout_seconds = float(
@@ -159,6 +161,12 @@ def load_ibkr_config():
         )
 
     except Exception:
+        timeout_seconds = 8.0
+
+    # Reject non-finite timeout values before clamping; NaN otherwise
+    # propagates into socket/event waits and can break the read-only probe.
+    import math
+    if not math.isfinite(timeout_seconds):
         timeout_seconds = 8.0
 
     return {
@@ -255,6 +263,8 @@ if IBAPI_AVAILABLE:
             self.open_orders_event = (
                 threading.Event()
             )
+
+            self.executions_event = threading.Event()
 
 
         def nextValidId(
@@ -407,6 +417,8 @@ if IBAPI_AVAILABLE:
                 "order_id":
                 orderId,
 
+                "perm_id": getattr(order, "permId", None),
+                "client_id": getattr(order, "clientId", None),
                 "account":
                 mask_account(
                     getattr(
@@ -494,6 +506,8 @@ if IBAPI_AVAILABLE:
             mktCapPrice
         ):
             self.order_status_rows.append({
+                "perm_id": permId,
+                "client_id": clientId,
                 "order_id":
                 orderId,
 
@@ -502,14 +516,12 @@ if IBAPI_AVAILABLE:
 
                 "filled":
                 safe_float(
-                    filled,
-                    0.0
+                    filled
                 ),
 
                 "remaining":
                 safe_float(
-                    remaining,
-                    0.0
+                    remaining
                 ),
 
                 "average_fill_price":
@@ -520,12 +532,18 @@ if IBAPI_AVAILABLE:
             })
 
 
+        def execDetailsEnd(self, reqId):
+            if reqId == 8302:
+                self.executions_event.set()
+
         def execDetails(
             self,
             reqId,
             contract,
             execution
         ):
+            if reqId != 8302:
+                return
             self.execution_rows.append({
                 "symbol":
                 getattr(
@@ -533,6 +551,11 @@ if IBAPI_AVAILABLE:
                     "symbol",
                     None
                 ),
+
+                "order_id": getattr(execution, "orderId", None),
+                "perm_id": getattr(execution, "permId", None),
+                "client_id": getattr(execution, "clientId", None),
+                "account": mask_account(getattr(execution, "acctNumber", None)),
 
                 "execution_id":
                 getattr(
@@ -882,6 +905,14 @@ def get_ibkr_read_only_snapshot():
             )
         }
 
+    if type(config.get("client_id")) is not int or not (0 <= config["client_id"] <= 2147483647):
+        return {
+            **base,
+            "status": "BLOCKED",
+            "connection_status": "NOT_ATTEMPTED",
+            "reason": "INVALID_IBKR_CLIENT_ID"
+        }
+
     if not IBAPI_AVAILABLE:
         return {
             **base,
@@ -980,6 +1011,8 @@ def get_ibkr_read_only_snapshot():
 
         app.reqOpenOrders()
 
+        app.reqExecutions(8302, ExecutionFilter())
+
         deadline = (
             time.time()
             +
@@ -995,6 +1028,7 @@ def get_ibkr_read_only_snapshot():
                 app.positions_event.is_set()
                 and
                 app.open_orders_event.is_set()
+                and app.executions_event.is_set()
             ):
                 break
 
@@ -1106,6 +1140,9 @@ def get_ibkr_read_only_snapshot():
             "executions":
             app.execution_rows,
 
+            "execution_rows": app.execution_rows,
+            "order_status_rows": app.order_status_rows,
+
             "errors":
             _sanitize_errors(
                 app.errors[-20:],
@@ -1123,7 +1160,9 @@ def get_ibkr_read_only_snapshot():
                 app.positions_event.is_set(),
 
                 "open_orders":
-                app.open_orders_event.is_set()
+                app.open_orders_event.is_set(),
+
+                "executions": app.executions_event.is_set()
             }
         }
 
