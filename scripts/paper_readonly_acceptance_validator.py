@@ -13,20 +13,20 @@ REQUIRED_REQUESTS = (
 )
 
 
-def _valid_fingerprint(value):
-    return (isinstance(value, str) and value.startswith("IBKR-")
-            and len(value) == 15
-            and all(c in "0123456789ABCDEF" for c in value[5:]))
+def _valid_evidence_token(value):
+    return (isinstance(value, str) and value.startswith("IBKR-EVID-")
+            and len(value) == 26
+            and all(c in "0123456789ABCDEF" for c in value[10:]))
 
 
-def _valid_aware_timestamp(value):
+def _valid_utc_timestamp(value):
     if not isinstance(value, str) or not value.strip():
         return False
     try:
         parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError:
         return False
-    return parsed.tzinfo is not None
+    return parsed.tzinfo is not None and parsed.utcoffset() is not None and parsed.utcoffset().total_seconds() == 0
 
 
 def evaluate_report(report):
@@ -43,19 +43,23 @@ def evaluate_report(report):
             or report.get("live_trading_allowed") is not False
             or report.get("paper_account_verified") is not True):
         return {**base, "reason": "PAPER_GUARD_UNPROVEN"}
-    fingerprint = report.get("paper_account_fingerprint")
-    if not _valid_fingerprint(fingerprint):
-        return {**base, "reason": "INVALID_ACCOUNT_FINGERPRINT"}
+
+    token = report.get("paper_account_evidence_token")
+    if not _valid_evidence_token(token):
+        return {**base, "reason": "INVALID_ACCOUNT_EVIDENCE_TOKEN"}
+
     timestamp = report.get("snapshot_generated_at_utc")
-    if not _valid_aware_timestamp(timestamp):
+    if not _valid_utc_timestamp(timestamp):
         return {**base, "reason": "INVALID_SNAPSHOT_TIMESTAMP"}
+
     checks = report.get("requests_complete")
     if not isinstance(checks, dict) or any(checks.get(k) is not True for k in REQUIRED_REQUESTS):
         return {**base, "reason": "INCOMPLETE_REQUESTS"}
+
     return {**base, "status": "READ_ONLY_SNAPSHOT_VALIDATED",
             "reason": "DIAGNOSTIC_ONLY_NO_ORDER_AUTHORIZATION",
             "diagnostic_binding_fields_valid": True,
-            "paper_account_fingerprint": fingerprint,
+            "paper_account_evidence_token": token,
             "snapshot_generated_at_utc": timestamp}
 
 
