@@ -16,6 +16,8 @@ def verify_correlations(local, snapshot, mapping):
     seen_perm_ids=set()
     seen_client_order_ids=set()
     for key,order in local.items():
+        if not isinstance(key,str) or not key.strip():
+            return {**base,"reason":"INVALID_IDEMPOTENCY_KEY"}
         item=mapping.get(key)
         if not isinstance(order,dict) or not isinstance(item,dict):
             return {**base,"reason":"INVALID_MAPPING"}
