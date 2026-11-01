@@ -34,13 +34,24 @@ def _valid_utc_timestamp(value):
     return parsed.tzinfo is not None and parsed.utcoffset() is not None and parsed.utcoffset().total_seconds() == 0
 
 
+def _decode_evidence_secret(secret):
+    if (not isinstance(secret, str) or len(secret) != 64
+            or any(c not in "0123456789abcdefABCDEF" for c in secret)):
+        return None
+    try:
+        return bytes.fromhex(secret)
+    except ValueError:
+        return None
+
+
 def _evidence_token(fingerprint, secret):
     if not _valid_internal_fingerprint(fingerprint):
         return None
-    if not isinstance(secret, str) or len(secret) < 32:
+    key = _decode_evidence_secret(secret)
+    if key is None:
         return None
     digest = hmac.new(
-        secret.encode("utf-8"),
+        key,
         fingerprint.encode("utf-8"),
         hashlib.sha256,
     ).hexdigest()[:16].upper()
@@ -62,7 +73,7 @@ def main():
         return 2
 
     evidence_secret = os.environ.get("AURORA_IBKR_EVIDENCE_HMAC_KEY", "")
-    if len(evidence_secret) < 32:
+    if _decode_evidence_secret(evidence_secret) is None:
         print(json.dumps({"status": "BLOCKED", "reason": "EVIDENCE_HMAC_KEY_REQUIRED",
                           "order_submission_allowed": False}))
         return 2
