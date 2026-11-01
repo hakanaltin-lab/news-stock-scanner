@@ -1,0 +1,40 @@
+name: G6.18 Adapter Review Envelope Safety
+
+on:
+  pull_request:
+    paths:
+      - 'engines/paper_adapter_review_envelope.py'
+      - 'tests/test_paper_adapter_review_envelope.py'
+      - 'engines/paper_submission_attempt_journal.py'
+      - 'docs/AURORA_G6_18_ADAPTER_REVIEW_ENVELOPE.md'
+      - '.github/workflows/g6-18-adapter-review-envelope.yml'
+  push:
+    branches:
+      - aurora-g6-18-adapter-review-envelope
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-envelope-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile and test review-only adapter envelope
+        run: |
+          python -m py_compile engines/paper_adapter_review_envelope.py tests/test_paper_adapter_review_envelope.py
+          python -m unittest discover -s tests -p 'test_paper_adapter_review_envelope.py' -v
+          if grep -Eq '(^|[[:space:]])(from|import)[[:space:]]+ibapi' engines/paper_adapter_review_envelope.py; then
+            echo "Broker API import forbidden in G6.18 envelope"
+            exit 1
+          fi
+          if grep -Eq 'placeOrder|cancelOrder|reqGlobalCancel' engines/paper_adapter_review_envelope.py; then
+            echo "Broker mutation call forbidden in G6.18 envelope"
+            exit 1
+          fi
+          grep -q '"broker_request_materialization_allowed": False' engines/paper_adapter_review_envelope.py
