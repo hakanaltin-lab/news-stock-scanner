@@ -197,6 +197,10 @@ def _validate_attempt(attempt, reservation):
     ):
         return None
 
+    account_token = attempt.get("paper_account_evidence_token")
+    if not _valid_token(account_token):
+        return None
+
     client_id = attempt.get("client_id")
     order_id = attempt.get("order_id")
     if client_id is not None and (type(client_id) is not int or client_id < 0):
@@ -218,6 +222,7 @@ def _validate_attempt(attempt, reservation):
         },
         "client_id": client_id,
         "order_id": order_id,
+        "paper_account_evidence_token": account_token,
     }
 
 
@@ -239,6 +244,10 @@ def _validate_observation(observation, attempt, now, max_age_seconds):
         or age < 0
         or age > float(max_age_seconds)
         or not _valid_token(observation.get("paper_account_evidence_token"))
+        or not hmac.compare_digest(
+            observation.get("paper_account_evidence_token"),
+            attempt.get("paper_account_evidence_token"),
+        )
     ):
         return None
 
@@ -252,6 +261,7 @@ def _validate_observation(observation, attempt, now, max_age_seconds):
             "present": True,
             "order_observed": False,
             "snapshot_age_seconds": age,
+            "snapshot_generated_at_utc": generated_at,
         }
 
     order = observation.get("order")
@@ -322,6 +332,7 @@ def _validate_observation(observation, attempt, now, max_age_seconds):
         "remaining_quantity": float(remaining),
         "total_quantity": total,
         "execution_count": len(execution_ids),
+        "snapshot_generated_at_utc": generated_at,
     }
 
 
@@ -340,7 +351,7 @@ def _classify_observed(observed):
         return "BROKER_ORDER_FILLED", "BROKER_TERMINAL_FILL_OBSERVED"
 
     if status == "Cancelled":
-        if filled >= total - 1e-7:
+        if filled >= total - 1e-7 or remaining > 1e-7:
             return None, "CONFLICTING_CANCELLED_QUANTITIES"
         if filled > 0:
             return "BROKER_ORDER_PARTIALLY_FILLED_CANCELLED", "BROKER_CANCEL_AFTER_PARTIAL_FILL"
@@ -352,12 +363,18 @@ def _classify_observed(observed):
         return "BROKER_ORDER_INACTIVE_MANUAL_REVIEW", "BROKER_INACTIVE_OBSERVED"
 
     if status in CANCEL_PENDING_STATUSES:
+        if not math.isclose(filled + remaining, total, abs_tol=1e-7):
+            return None, "CONFLICTING_ACTIVE_QUANTITIES"
         return "BROKER_CANCEL_PENDING", "CANCELLATION_NOT_FINAL_DO_NOT_RETRY"
 
     if status in PENDING_STATUSES:
+        if not math.isclose(filled + remaining, total, abs_tol=1e-7):
+            return None, "CONFLICTING_ACTIVE_QUANTITIES"
         return "BROKER_SUBMISSION_PENDING", "DESTINATION_ACCEPTANCE_UNCONFIRMED"
 
     if status in ACTIVE_STATUSES:
+        if not math.isclose(filled + remaining, total, abs_tol=1e-7):
+            return None, "CONFLICTING_ACTIVE_QUANTITIES"
         if filled >= total - 1e-7 and remaining <= 1e-7:
             return None, "STATUS_LAGS_FULL_FILL_MANUAL_REVIEW"
         if filled > 0:
@@ -389,6 +406,12 @@ def reconcile_submission_attempt(
     attempt_state = _validate_attempt(attempt, reservation_state)
     if attempt_state is None:
         return {**_base(), "reason": "INVALID_ATTEMPT_ARTIFACT"}
+
+    if attempt_state["present"] is True:
+        if attempt_state["attempted_at"] < reservation_state["reserved_at"]:
+            return {**_base(), "reason": "ATTEMPT_PREDATES_RESERVATION"}
+        if attempt_state["attempted_at"] > current:
+            return {**_base(), "reason": "ATTEMPT_TIMESTAMP_IN_FUTURE"}
 
     if attempt_state["present"] is False:
         return {
@@ -426,6 +449,12 @@ def reconcile_submission_attempt(
     )
     if observed is None:
         return {**_base(), "reason": "INVALID_OR_STALE_BROKER_OBSERVATION"}
+
+    if (
+        observed["present"] is True
+        and observed["snapshot_generated_at_utc"] < attempt_state["attempted_at"]
+    ):
+        return {**_base(), "reason": "BROKER_OBSERVATION_PREDATES_ATTEMPT"}
 
     if observed["present"] is False or observed["order_observed"] is False:
         return {
