@@ -2,14 +2,18 @@
 import unittest
 from scripts.paper_readonly_acceptance_validator import evaluate_report
 
+
 def valid_report():
     return {
         "status": "CONNECTED", "connection_status": "CONNECTED",
         "paper_endpoint_safe": True, "hard_blocked": True,
         "live_trading_allowed": False, "paper_account_verified": True,
+        "paper_account_fingerprint": "IBKR-ABCDEF1234",
+        "snapshot_generated_at_utc": "2026-11-01T12:00:00+00:00",
         "requests_complete": {k: True for k in
             ("managed_accounts", "account_summary", "positions", "open_orders", "executions")}
     }
+
 
 class TestReadOnlyAcceptance(unittest.TestCase):
     def test_valid_diagnostic_still_never_authorizes_order(self):
@@ -20,6 +24,8 @@ class TestReadOnlyAcceptance(unittest.TestCase):
         self.assertIs(result["evidence_authenticity_verified"], False)
         self.assertIs(result["broker_session_independently_verified"], False)
         self.assertIs(result["release_approved"], False)
+        self.assertIs(result["diagnostic_binding_fields_valid"], True)
+        self.assertEqual(result["paper_account_fingerprint"], "IBKR-ABCDEF1234")
 
     def test_invalid_reports_fail_closed(self):
         for report in (None, [], {}, True, "CONNECTED"):
@@ -39,6 +45,23 @@ class TestReadOnlyAcceptance(unittest.TestCase):
                 with self.subTest(key=key, value=value):
                     self.assertEqual(evaluate_report(report)["status"], "BLOCKED")
 
+    def test_invalid_fingerprint_fails_closed(self):
+        for value in (None, "", "DU1234567", "IBKR-abcdef1234",
+                      "IBKR-ABCDEF123", "IBKR-ABCDEF12345"):
+            with self.subTest(value=value):
+                report = valid_report()
+                report["paper_account_fingerprint"] = value
+                self.assertEqual(
+                    evaluate_report(report)["reason"], "INVALID_ACCOUNT_FINGERPRINT")
+
+    def test_invalid_timestamp_fails_closed(self):
+        for value in (None, "", "not-a-time", "2026-11-01T12:00:00"):
+            with self.subTest(value=value):
+                report = valid_report()
+                report["snapshot_generated_at_utc"] = value
+                self.assertEqual(
+                    evaluate_report(report)["reason"], "INVALID_SNAPSHOT_TIMESTAMP")
+
     def test_missing_broker_callback_fails_closed(self):
         for key in valid_report()["requests_complete"]:
             report = valid_report()
@@ -50,6 +73,7 @@ class TestReadOnlyAcceptance(unittest.TestCase):
         report = valid_report()
         report["connection_status"] = "DISCONNECTED"
         self.assertEqual(evaluate_report(report)["reason"], "BROKER_NOT_CONNECTED")
+
 
 if __name__ == "__main__":
     unittest.main()
