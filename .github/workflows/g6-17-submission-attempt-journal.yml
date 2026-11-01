@@ -1,0 +1,41 @@
+name: G6.17 Submission Attempt Journal Safety
+
+on:
+  pull_request:
+    paths:
+      - 'engines/paper_submission_attempt_journal.py'
+      - 'tests/test_paper_submission_attempt_journal.py'
+      - 'engines/paper_authorization_reservation_ledger.py'
+      - 'engines/paper_broker_reconciliation_state_machine.py'
+      - 'docs/AURORA_G6_17_SUBMISSION_ATTEMPT_JOURNAL.md'
+      - '.github/workflows/g6-17-submission-attempt-journal.yml'
+  push:
+    branches:
+      - aurora-g6-17-submission-attempt-journal
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-attempt-journal-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile and test trusted attempt journal
+        run: |
+          python -m py_compile engines/paper_submission_attempt_journal.py tests/test_paper_submission_attempt_journal.py
+          python -m unittest discover -s tests -p 'test_paper_submission_attempt_journal.py' -v
+          if grep -Eq '(^|[[:space:]])(from|import)[[:space:]]+ibapi' engines/paper_submission_attempt_journal.py; then
+            echo "Broker API import forbidden in G6.17 journal"
+            exit 1
+          fi
+          if grep -Eq 'placeOrder|cancelOrder|reqGlobalCancel' engines/paper_submission_attempt_journal.py; then
+            echo "Broker mutation call forbidden in G6.17 journal"
+            exit 1
+          fi
+          grep -q '"automatic_retry_allowed": False' engines/paper_submission_attempt_journal.py
