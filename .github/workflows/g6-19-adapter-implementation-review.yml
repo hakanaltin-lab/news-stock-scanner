@@ -1,0 +1,42 @@
+name: G6.19 Adapter Implementation Review Safety
+
+on:
+  pull_request:
+    paths:
+      - 'engines/paper_adapter_implementation_review.py'
+      - 'tests/test_paper_adapter_implementation_review.py'
+      - 'engines/paper_adapter_review_envelope.py'
+      - 'docs/AURORA_G6_19_ADAPTER_IMPLEMENTATION_REVIEW.md'
+      - '.github/workflows/g6-19-adapter-implementation-review.yml'
+  push:
+    branches:
+      - aurora-g6-19-adapter-implementation-review-contract
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-implementation-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile and test frozen adapter implementation specification
+        run: |
+          python -m py_compile engines/paper_adapter_implementation_review.py tests/test_paper_adapter_implementation_review.py
+          python -m unittest discover -s tests -p 'test_paper_adapter_implementation_review.py' -v
+          if grep -Eq '(^|[[:space:]])(from|import)[[:space:]]+ibapi' engines/paper_adapter_implementation_review.py; then
+            echo "Broker API import forbidden in G6.19 review contract"
+            exit 1
+          fi
+          if grep -Eq 'placeOrder|cancelOrder|reqGlobalCancel' engines/paper_adapter_implementation_review.py; then
+            echo "Broker mutation call forbidden in G6.19 review contract"
+            exit 1
+          fi
+          grep -q '"implementation_allowed": False' engines/paper_adapter_implementation_review.py
+          grep -q '"connection_allowed": False' engines/paper_adapter_implementation_review.py
+          grep -q '"broker_request_materialization_allowed": False' engines/paper_adapter_implementation_review.py
