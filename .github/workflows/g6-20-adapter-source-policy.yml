@@ -1,0 +1,43 @@
+name: G6.20 Adapter Source Policy Safety
+
+on:
+  pull_request:
+    paths:
+      - 'broker_engine/ibkr_paper_adapter_review_skeleton.py'
+      - 'engines/paper_adapter_source_policy.py'
+      - 'tests/test_paper_adapter_source_policy.py'
+      - 'engines/paper_adapter_implementation_review.py'
+      - 'docs/AURORA_G6_20_ADAPTER_SOURCE_POLICY.md'
+      - '.github/workflows/g6-20-adapter-source-policy.yml'
+  push:
+    branches:
+      - aurora-g6-20-adapter-source-policy
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-source-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile and test hard-disabled adapter source policy
+        run: |
+          python -m py_compile broker_engine/ibkr_paper_adapter_review_skeleton.py engines/paper_adapter_source_policy.py tests/test_paper_adapter_source_policy.py
+          python -m unittest discover -s tests -p 'test_paper_adapter_source_policy.py' -v
+          if grep -Eq '(^|[[:space:]])(from|import)[[:space:]]+ibapi' broker_engine/ibkr_paper_adapter_review_skeleton.py engines/paper_adapter_source_policy.py; then
+            echo "IBKR broker API import forbidden in G6.20 source policy"
+            exit 1
+          fi
+          if grep -Eq 'placeOrder|cancelOrder|reqGlobalCancel' broker_engine/ibkr_paper_adapter_review_skeleton.py; then
+            echo "Broker mutation call forbidden in G6.20 review skeleton"
+            exit 1
+          fi
+          grep -q 'G6_20_CONNECTION_DISABLED' broker_engine/ibkr_paper_adapter_review_skeleton.py
+          grep -q 'G6_20_REQUEST_MATERIALIZATION_DISABLED' broker_engine/ibkr_paper_adapter_review_skeleton.py
+          grep -q 'G6_20_ORDER_SUBMISSION_DISABLED' broker_engine/ibkr_paper_adapter_review_skeleton.py
