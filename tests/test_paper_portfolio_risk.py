@@ -1,5 +1,9 @@
 import unittest
+from datetime import datetime, timedelta, timezone
 from engines.paper_portfolio_risk import evaluate_portfolio_intent
+
+
+NOW = datetime(2026, 11, 1, 12, 0, 0, tzinfo=timezone.utc)
 
 
 def order():
@@ -11,20 +15,23 @@ def order():
 def env():
     return {"mode": "PAPER", "live_trading_allowed": False,
             "broker_read_only": True, "paper_account_verified": True,
-            "kill_switch_engaged": True}
+            "kill_switch_engaged": True,
+            "paper_account_fingerprint": "PAPER-REDACTED"}
 
 
 def snapshot():
     return {"snapshot_verified": True, "snapshot_fresh": True,
+            "snapshot_generated_at_utc": (NOW - timedelta(seconds=5)).isoformat(),
+            "paper_account_fingerprint": "PAPER-REDACTED",
             "equity_usd": 1000, "gross_exposure_usd": 300,
             "pending_notional_usd": 100, "known_idempotency_keys": []}
 
 
 class TestPortfolioRisk(unittest.TestCase):
-    def check(self, portfolio, reason, intent=None, context=None):
+    def check(self, portfolio, reason, intent=None, context=None, now_utc=NOW):
         result = evaluate_portfolio_intent(
             intent if intent is not None else order(),
-            context if context is not None else env(), portfolio)
+            context if context is not None else env(), portfolio, now_utc=now_utc)
         self.assertEqual(result["reason"], reason)
         self.assertIs(result["paper_order_submission_allowed"], False)
         self.assertIs(result["live_trading_allowed"], False)
@@ -33,11 +40,12 @@ class TestPortfolioRisk(unittest.TestCase):
     def test_safe_diagnostic_still_denies_execution(self):
         result = self.check(snapshot(), "PORTFOLIO_DIAGNOSTIC_ONLY_NO_EXECUTION")
         self.assertEqual(result["status"], "VALIDATED_READ_ONLY")
+        self.assertEqual(result["snapshot_age_seconds"], 5.0)
 
     def test_missing_snapshot_blocks(self):
         self.check(None, "MISSING_PORTFOLIO_SNAPSHOT")
 
-    def test_stale_snapshot_blocks(self):
+    def test_stale_snapshot_flag_blocks(self):
         p = snapshot()
         p["snapshot_fresh"] = False
         self.check(p, "UNVERIFIED_OR_STALE_PORTFOLIO")
@@ -46,6 +54,35 @@ class TestPortfolioRisk(unittest.TestCase):
         p = snapshot()
         p["snapshot_verified"] = False
         self.check(p, "UNVERIFIED_OR_STALE_PORTFOLIO")
+
+    def test_missing_or_mismatched_account_fingerprint_blocks(self):
+        for value in (None, "", "LIVE-ACCOUNT", "PAPER-OTHER"):
+            with self.subTest(value=value):
+                p = snapshot()
+                p["paper_account_fingerprint"] = value
+                self.check(p, "PORTFOLIO_ACCOUNT_MISMATCH")
+
+    def test_missing_context_account_fingerprint_blocks(self):
+        c = env()
+        c.pop("paper_account_fingerprint")
+        self.check(snapshot(), "PORTFOLIO_ACCOUNT_MISMATCH", context=c)
+
+    def test_invalid_snapshot_timestamp_blocks(self):
+        for value in (None, "", "not-a-time", "2026-11-01T12:00:00"):
+            with self.subTest(value=value):
+                p = snapshot()
+                p["snapshot_generated_at_utc"] = value
+                self.check(p, "INVALID_SNAPSHOT_TIMESTAMP")
+
+    def test_timestamp_older_than_limit_blocks(self):
+        p = snapshot()
+        p["snapshot_generated_at_utc"] = (NOW - timedelta(seconds=61)).isoformat()
+        self.check(p, "SNAPSHOT_TIMESTAMP_STALE")
+
+    def test_future_timestamp_blocks(self):
+        p = snapshot()
+        p["snapshot_generated_at_utc"] = (NOW + timedelta(seconds=1)).isoformat()
+        self.check(p, "SNAPSHOT_TIMESTAMP_STALE")
 
     def test_duplicate_key_blocks(self):
         p = snapshot()
