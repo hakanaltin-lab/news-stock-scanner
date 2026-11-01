@@ -1,0 +1,36 @@
+name: G6.12 Paper Intent Preflight Safety
+
+on:
+  push:
+    paths:
+      - 'engines/paper_intent_preflight.py'
+      - 'engines/paper_portfolio_risk.py'
+      - 'tests/test_paper_intent_preflight.py'
+      - 'tests/test_paper_portfolio_risk.py'
+      - '.github/workflows/g6-12-paper-intent-preflight.yml'
+  pull_request:
+    paths:
+      - 'engines/paper_intent_preflight.py'
+      - 'engines/paper_portfolio_risk.py'
+      - 'tests/test_paper_intent_preflight.py'
+      - 'tests/test_paper_portfolio_risk.py'
+      - '.github/workflows/g6-12-paper-intent-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile and run offline fail-closed tests
+        run: |
+          python -m py_compile engines/paper_intent_preflight.py engines/paper_portfolio_risk.py tests/test_paper_intent_preflight.py tests/test_paper_portfolio_risk.py
+          python -m unittest discover -s tests -p 'test_paper_intent_preflight.py' -v
+          python -m unittest discover -s tests -p 'test_paper_portfolio_risk.py' -v
