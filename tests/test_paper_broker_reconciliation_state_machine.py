@@ -86,6 +86,7 @@ def attempt(reservation_result, dispatched=True, local_failure=False):
         },
         "client_id": 82 if dispatched else None,
         "order_id": 1001 if dispatched else None,
+        "paper_account_evidence_token": "IBKR-EVID-ABCDEF1234567890",
         "automatic_retry_allowed": False,
         "live_execution_allowed": False,
     }
@@ -395,6 +396,82 @@ class ReconciliationStateMachineTests(unittest.TestCase):
         self.assertEqual(
             result["reason"],
             "BROKER_OBSERVATION_CONFLICTS_WITH_LOCAL_PRE_DISPATCH_FAILURE",
+        )
+        self.assert_never_retry(result)
+
+    def test_attempt_must_follow_reservation_and_not_be_future_dated(self):
+        clean = {
+            k: v for k, v in self.reservation.items()
+            if k != "_test_directory"
+        }
+        before = attempt(clean)
+        before["attempted_at"] = (NOW - timedelta(seconds=1)).isoformat()
+        result = reconcile_submission_attempt(
+            clean,
+            attempt=before,
+            broker_observation=None,
+            now=NOW + timedelta(seconds=3),
+        )
+        self.assertEqual(result["reason"], "ATTEMPT_PREDATES_RESERVATION")
+        self.assert_never_retry(result)
+
+        future = attempt(clean)
+        future["attempted_at"] = (NOW + timedelta(seconds=10)).isoformat()
+        result = reconcile_submission_attempt(
+            clean,
+            attempt=future,
+            broker_observation=None,
+            now=NOW + timedelta(seconds=3),
+        )
+        self.assertEqual(result["reason"], "ATTEMPT_TIMESTAMP_IN_FUTURE")
+        self.assert_never_retry(result)
+
+    def test_broker_observation_must_follow_attempt(self):
+        obs = observation(
+            generated_at=NOW,
+        )
+        result = self.evaluate(
+            broker_observation=obs,
+            now=NOW + timedelta(seconds=3),
+        )
+        self.assertEqual(
+            result["reason"],
+            "BROKER_OBSERVATION_PREDATES_ATTEMPT",
+        )
+        self.assert_never_retry(result)
+
+    def test_account_evidence_token_must_match_attempt(self):
+        obs = observation()
+        obs["paper_account_evidence_token"] = "IBKR-EVID-1234567890ABCDEF"
+        result = self.evaluate(broker_observation=obs)
+        self.assertEqual(
+            result["reason"],
+            "INVALID_OR_STALE_BROKER_OBSERVATION",
+        )
+        self.assert_never_retry(result)
+
+    def test_active_quantity_contradiction_blocks(self):
+        obs = observation(
+            status="Submitted",
+            filled=1,
+            remaining=0,
+        )
+        result = self.evaluate(broker_observation=obs)
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(result["reason"], "CONFLICTING_ACTIVE_QUANTITIES")
+        self.assert_never_retry(result)
+
+    def test_cancelled_with_remaining_quantity_blocks(self):
+        obs = observation(
+            status="Cancelled",
+            filled=0,
+            remaining=2,
+        )
+        result = self.evaluate(broker_observation=obs)
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["reason"],
+            "CONFLICTING_CANCELLED_QUANTITIES",
         )
         self.assert_never_retry(result)
 
