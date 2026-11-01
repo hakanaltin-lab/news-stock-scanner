@@ -102,11 +102,14 @@ CREATE TABLE IF NOT EXISTS reconciliation_events (
 
 
 def _canonical_digest(payload):
-    encoded = json.dumps(
-        payload if payload is not None else None,
-        sort_keys=True,
-        separators=(",", ":"),
-    ).encode("utf-8")
+    try:
+        encoded = json.dumps(
+            payload if payload is not None else None,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    except (TypeError, ValueError, OverflowError):
+        return None
     return hashlib.sha256(encoded).hexdigest()
 
 
@@ -256,6 +259,12 @@ class PaperReconciliationLedger:
 
         attempt_sha256 = _canonical_digest(attempt)
         observation_sha256 = _canonical_digest(broker_observation)
+        if attempt_sha256 is None or observation_sha256 is None:
+            return {
+                **_safe_base(),
+                "reason": "NON_CANONICAL_RECONCILIATION_ARTIFACT",
+            }
+
         event_payload = {
             **identity,
             "state": state,
@@ -271,6 +280,11 @@ class PaperReconciliationLedger:
             "observation_sha256": observation_sha256,
         }
         event_sha256 = _canonical_digest(event_payload)
+        if event_sha256 is None:
+            return {
+                **_safe_base(),
+                "reason": "NON_CANONICAL_RECONCILIATION_EVENT",
+            }
         recorded_at = current.isoformat()
 
         try:
