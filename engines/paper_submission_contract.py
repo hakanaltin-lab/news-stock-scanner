@@ -14,6 +14,7 @@ from uuid import UUID
 from engines.paper_intent_preflight import REQUIRED_INTENT_FIELDS
 
 
+CONTRACT_VERSION = "AURORA_G6_13_PAPER_SUBMISSION_CONTRACT_V1"
 DEFAULT_MAX_AUTH_RESULT_AGE_SECONDS = 120
 
 
@@ -239,7 +240,10 @@ def evaluate_paper_submission_contract(
     if failures:
         return _block("SUBMISSION_CONTRACT_INVALID", checks)
 
+    contract_generated_at = now.isoformat()
     contract_payload = {
+        "version": CONTRACT_VERSION,
+        "generated_at": contract_generated_at,
         "authorization_id": authorization_id,
         "intent_sha256": intent_sha256,
         "shadow_order_sha256": shadow_sha256,
@@ -250,6 +254,8 @@ def evaluate_paper_submission_contract(
         **_block("VALIDATED_NON_EXECUTABLE", checks),
         "status": "SUBMISSION_CONTRACT_VALIDATED_NON_EXECUTABLE",
         "reason": "ARTIFACTS_BOUND_BUT_BROKER_PERMISSION_NOT_GRANTED",
+        "version": CONTRACT_VERSION,
+        "generated_at": contract_generated_at,
         "authorization_id": authorization_id,
         "intent_sha256": intent_sha256,
         "shadow_order_sha256": shadow_sha256,
