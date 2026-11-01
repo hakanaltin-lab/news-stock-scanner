@@ -368,6 +368,24 @@ class ReconciliationLedgerTests(unittest.TestCase):
         self.assertFalse(self.path.exists())
         self.assert_safe(result)
 
+    def test_noncanonical_artifact_fails_closed_instead_of_raising(self):
+        noncanonical_attempt = dict(self.att)
+        noncanonical_attempt["attempted_at"] = NOW + timedelta(seconds=1)
+        result = self.ledger.record(
+            self.res,
+            noncanonical_attempt,
+            broker_observation=observation(
+                "Submitted", 0, 2, seconds=2
+            ),
+            now=NOW + timedelta(seconds=3),
+        )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["reason"],
+            "NON_CANONICAL_RECONCILIATION_ARTIFACT",
+        )
+        self.assert_safe(result)
+
     def test_ledger_unavailable_fails_closed(self):
         parent_file = Path(self.directory.name) / "not-a-directory"
         parent_file.write_text("x", encoding="utf-8")
