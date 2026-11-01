@@ -14,6 +14,16 @@ def _nonnegative_number(value):
     return type(value) in (int, float) and math.isfinite(value) and value >= 0
 
 
+def _valid_symbol(value):
+    return (isinstance(value, str) and value.isascii() and 1 <= len(value) <= 10
+            and all(c.isupper() or c.isdigit() or c in ".-" for c in value))
+
+
+def _valid_idempotency_key(value):
+    return (isinstance(value, str) and 8 <= len(value) <= 128 and value.isascii()
+            and all(c.isalnum() or c in "-_" for c in value))
+
+
 def _parse_utc_timestamp(value):
     if not isinstance(value, str) or not value.strip():
         return None
@@ -24,6 +34,50 @@ def _parse_utc_timestamp(value):
     if parsed.tzinfo is None:
         return None
     return parsed.astimezone(timezone.utc)
+
+
+def _reconcile_pending_orders(portfolio):
+    pending_orders = portfolio.get("pending_orders")
+    if not isinstance(pending_orders, list):
+        return None, "MISSING_PENDING_ORDER_EVIDENCE"
+
+    seen_keys = set()
+    pending_sell_quantity = {}
+    computed_notional = 0.0
+    for row in pending_orders:
+        if not isinstance(row, dict):
+            return None, "INVALID_PENDING_ORDER"
+        key = row.get("idempotency_key")
+        symbol = row.get("symbol")
+        side = row.get("side")
+        quantity = row.get("quantity")
+        price = row.get("limit_price")
+        if not _valid_idempotency_key(key):
+            return None, "INVALID_PENDING_ORDER_IDEMPOTENCY"
+        if key in seen_keys:
+            return None, "DUPLICATE_PENDING_ORDER_IDEMPOTENCY"
+        seen_keys.add(key)
+        if not _valid_symbol(symbol) or side not in ("BUY", "SELL"):
+            return None, "INVALID_PENDING_ORDER_IDENTITY"
+        if type(quantity) is not int or quantity <= 0:
+            return None, "INVALID_PENDING_ORDER_QUANTITY"
+        if type(price) not in (int, float) or not math.isfinite(price) or price <= 0:
+            return None, "INVALID_PENDING_ORDER_PRICE"
+        computed_notional += quantity * price
+        if side == "SELL":
+            pending_sell_quantity[symbol] = pending_sell_quantity.get(symbol, 0) + quantity
+
+    claimed_notional = portfolio.get("pending_notional_usd")
+    if not _nonnegative_number(claimed_notional):
+        return None, "INVALID_PORTFOLIO_VALUES"
+    if not math.isclose(computed_notional, claimed_notional, rel_tol=1e-12, abs_tol=1e-7):
+        return None, "PENDING_NOTIONAL_MISMATCH"
+
+    return {
+        "keys": seen_keys,
+        "pending_notional_usd": computed_notional,
+        "pending_sell_quantity_by_symbol": pending_sell_quantity,
+    }, None
 
 
 def evaluate_portfolio_intent(intent, context, portfolio, now_utc=None):
@@ -57,36 +111,40 @@ def evaluate_portfolio_intent(intent, context, portfolio, now_utc=None):
 
     equity = portfolio.get("equity_usd")
     gross = portfolio.get("gross_exposure_usd")
-    pending = portfolio.get("pending_notional_usd")
-    if not all(_nonnegative_number(x) for x in (equity, gross, pending)) or equity <= 0:
+    if not all(_nonnegative_number(x) for x in (equity, gross)) or equity <= 0:
         return {**base, "reason": "INVALID_PORTFOLIO_VALUES"}
+
+    pending_state, pending_error = _reconcile_pending_orders(portfolio)
+    if pending_error:
+        return {**base, "reason": pending_error}
+
     keys = portfolio.get("known_idempotency_keys")
     if not isinstance(keys, (list, tuple, set)) or not all(isinstance(k, str) for k in keys):
         return {**base, "reason": "INVALID_IDEMPOTENCY_HISTORY"}
     if len(keys) != len(set(keys)):
         return {**base, "reason": "CORRUPTED_IDEMPOTENCY_HISTORY"}
-    if intent["idempotency_key"] in keys:
+    if intent["idempotency_key"] in keys or intent["idempotency_key"] in pending_state["keys"]:
         return {**base, "reason": "DUPLICATE_ORDER_INTENT"}
-    # SELL intent requires explicit holdings and outstanding sell quantities.
-    # Both are caller-supplied diagnostics, never independently broker verified.
+
     if intent["side"] == "SELL":
         positions = portfolio.get("positions_by_symbol")
-        pending_sells = portfolio.get("pending_sell_quantity_by_symbol")
-        if not isinstance(positions, dict) or not isinstance(pending_sells, dict):
+        if not isinstance(positions, dict):
             return {**base, "reason": "MISSING_SELL_POSITION_EVIDENCE"}
-        if not all(isinstance(k, str) and type(v) is int and v >= 0
-                   for mapping in (positions, pending_sells)
-                   for k, v in mapping.items()):
+        if not all(_valid_symbol(k) and type(v) is int and v >= 0
+                   for k, v in positions.items()):
             return {**base, "reason": "INVALID_SELL_POSITION_EVIDENCE"}
         symbol = intent["symbol"]
         if symbol not in positions:
             return {**base, "reason": "UNKNOWN_SELL_POSITION"}
-        available = positions[symbol] - pending_sells.get(symbol, 0)
+        pending_sell = pending_state["pending_sell_quantity_by_symbol"].get(symbol, 0)
+        available = positions[symbol] - pending_sell
         if available < intent["quantity"]:
             return {**base, "reason": "INSUFFICIENT_AVAILABLE_SHARES"}
+
     # BUY is conservatively counted against exposure. SELL does not receive
     # automatic exposure relief because holdings and fills are unverified here.
     new_notional = intent["quantity"] * intent["limit_price"]
+    pending = pending_state["pending_notional_usd"]
     proposed = gross + pending + (new_notional if intent["side"] == "BUY" else 0)
     if proposed > equity:
         return {**base, "reason": "EXPOSURE_EXCEEDS_EQUITY"}
