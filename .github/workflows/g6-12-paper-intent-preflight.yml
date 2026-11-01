@@ -11,7 +11,9 @@ on:
   pull_request:
     paths:
       - 'engines/paper_intent_preflight.py'
+      - 'engines/paper_portfolio_risk.py'
       - 'tests/test_paper_intent_preflight.py'
+      - 'tests/test_paper_portfolio_risk.py'
       - '.github/workflows/g6-12-paper-intent-preflight.yml'
   workflow_dispatch:
 
