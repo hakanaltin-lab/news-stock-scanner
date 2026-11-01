@@ -49,6 +49,8 @@ class TestPortfolioRisk(unittest.TestCase):
         result = self.check(snapshot(), "PORTFOLIO_DIAGNOSTIC_ONLY_NO_EXECUTION")
         self.assertEqual(result["status"], "VALIDATED_READ_ONLY")
         self.assertEqual(result["snapshot_age_seconds"], 5.0)
+        self.assertEqual(len(result["intent_sha256"]), 64)
+        self.assertEqual(result["idempotency_key"], "paper-risk-0001")
 
     def test_missing_snapshot_blocks(self):
         self.check(None, "MISSING_PORTFOLIO_SNAPSHOT")
