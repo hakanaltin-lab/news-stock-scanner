@@ -14,6 +14,8 @@ on:
       - 'tests/test_paper_readonly_acceptance_validator.py'
       - 'scripts/vps_local_security_preflight.py'
       - 'tests/test_vps_local_security_preflight.py'
+      - 'scripts/run_g6_11_readonly_acceptance.py'
+      - 'tests/test_g6_11_readonly_acceptance_runner.py'
       - '.github/workflows/g6-correlation-guard.yml'
   push:
     branches:
@@ -36,4 +38,5 @@ jobs:
           python -m unittest discover -s tests -p 'test_ibkr_paper_readonly_probe.py' -v
           python -m unittest discover -s tests -p 'test_paper_readonly_acceptance_validator.py' -v
           python -m unittest discover -s tests -p 'test_vps_local_security_preflight.py' -v
-          python -m py_compile engines/ibkr_gateway_connector.py scripts/ibkr_paper_readonly_probe.py scripts/paper_readonly_acceptance_validator.py scripts/vps_local_security_preflight.py
+          python -m unittest discover -s tests -p 'test_g6_11_readonly_acceptance_runner.py' -v
+          python -m py_compile engines/ibkr_gateway_connector.py scripts/ibkr_paper_readonly_probe.py scripts/paper_readonly_acceptance_validator.py scripts/vps_local_security_preflight.py scripts/run_g6_11_readonly_acceptance.py
