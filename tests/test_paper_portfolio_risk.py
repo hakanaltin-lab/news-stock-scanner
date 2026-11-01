@@ -19,12 +19,20 @@ def env():
             "paper_account_fingerprint": "PAPER-REDACTED"}
 
 
+def pending(symbol="AMD", side="BUY", quantity=1, price=100.0,
+            key="existing-pending-0001"):
+    return {"symbol": symbol, "side": side, "quantity": quantity,
+            "limit_price": price, "idempotency_key": key}
+
+
 def snapshot():
     return {"snapshot_verified": True, "snapshot_fresh": True,
             "snapshot_generated_at_utc": (NOW - timedelta(seconds=5)).isoformat(),
             "paper_account_fingerprint": "PAPER-REDACTED",
             "equity_usd": 1000, "gross_exposure_usd": 300,
-            "pending_notional_usd": 100, "known_idempotency_keys": []}
+            "pending_notional_usd": 100,
+            "pending_orders": [pending()],
+            "known_idempotency_keys": []}
 
 
 class TestPortfolioRisk(unittest.TestCase):
@@ -89,14 +97,42 @@ class TestPortfolioRisk(unittest.TestCase):
         p["known_idempotency_keys"] = ["paper-risk-0001"]
         self.check(p, "DUPLICATE_ORDER_INTENT")
 
+    def test_duplicate_key_against_pending_order_blocks(self):
+        p = snapshot()
+        p["pending_orders"][0]["idempotency_key"] = "paper-risk-0001"
+        self.check(p, "DUPLICATE_ORDER_INTENT")
+
     def test_corrupted_history_blocks(self):
         p = snapshot()
         p["known_idempotency_keys"] = ["a", "a"]
         self.check(p, "CORRUPTED_IDEMPOTENCY_HISTORY")
 
+    def test_missing_pending_orders_blocks(self):
+        p = snapshot()
+        p.pop("pending_orders")
+        self.check(p, "MISSING_PENDING_ORDER_EVIDENCE")
+
+    def test_pending_notional_mismatch_blocks(self):
+        p = snapshot()
+        p["pending_notional_usd"] = 99
+        self.check(p, "PENDING_NOTIONAL_MISMATCH")
+
+    def test_duplicate_pending_order_idempotency_blocks(self):
+        p = snapshot()
+        p["pending_orders"] = [pending(), pending(symbol="GOOG")]
+        p["pending_notional_usd"] = 200
+        self.check(p, "DUPLICATE_PENDING_ORDER_IDEMPOTENCY")
+
+    def test_malformed_pending_order_blocks(self):
+        p = snapshot()
+        p["pending_orders"] = [{"symbol": "AMD"}]
+        p["pending_notional_usd"] = 0
+        self.check(p, "INVALID_PENDING_ORDER_IDEMPOTENCY")
+
     def test_pending_orders_count_toward_exposure(self):
         p = snapshot()
-        p["pending_notional_usd"] = 650
+        p["pending_orders"] = [pending(quantity=7)]
+        p["pending_notional_usd"] = 700
         self.check(p, "EXPOSURE_EXCEEDS_EQUITY")
 
     def test_invalid_values_block(self):
@@ -110,7 +146,6 @@ class TestPortfolioRisk(unittest.TestCase):
         p = snapshot()
         p["gross_exposure_usd"] = 1001
         p["positions_by_symbol"] = {"NVDA": 1}
-        p["pending_sell_quantity_by_symbol"] = {}
         o = order()
         o["side"] = "SELL"
         self.check(p, "EXPOSURE_EXCEEDS_EQUITY", intent=o)
@@ -125,7 +160,6 @@ class TestPortfolioRisk(unittest.TestCase):
         o["side"] = "SELL"
         p = snapshot()
         p["positions_by_symbol"] = {"AMD": 3}
-        p["pending_sell_quantity_by_symbol"] = {}
         self.check(p, "UNKNOWN_SELL_POSITION", intent=o)
 
     def test_sell_pending_quantity_prevents_oversell(self):
@@ -134,7 +168,8 @@ class TestPortfolioRisk(unittest.TestCase):
         o["quantity"] = 2
         p = snapshot()
         p["positions_by_symbol"] = {"NVDA": 3}
-        p["pending_sell_quantity_by_symbol"] = {"NVDA": 2}
+        p["pending_orders"] = [pending(symbol="NVDA", side="SELL", quantity=2)]
+        p["pending_notional_usd"] = 200
         self.check(p, "INSUFFICIENT_AVAILABLE_SHARES", intent=o)
 
     def test_sell_exact_available_shares_remains_non_executable(self):
@@ -143,7 +178,8 @@ class TestPortfolioRisk(unittest.TestCase):
         o["quantity"] = 2
         p = snapshot()
         p["positions_by_symbol"] = {"NVDA": 3}
-        p["pending_sell_quantity_by_symbol"] = {"NVDA": 1}
+        p["pending_orders"] = [pending(symbol="NVDA", side="SELL", quantity=1)]
+        p["pending_notional_usd"] = 100
         self.check(p, "PORTFOLIO_DIAGNOSTIC_ONLY_NO_EXECUTION", intent=o)
 
     def test_malformed_positions_block(self):
@@ -153,7 +189,6 @@ class TestPortfolioRisk(unittest.TestCase):
             with self.subTest(bad=bad):
                 p = snapshot()
                 p["positions_by_symbol"] = {"NVDA": bad}
-                p["pending_sell_quantity_by_symbol"] = {}
                 self.check(p, "INVALID_SELL_POSITION_EVIDENCE", intent=o)
 
     def test_live_mode_still_blocks(self):
