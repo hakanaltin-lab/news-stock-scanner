@@ -368,7 +368,7 @@ class ReconciliationStateMachineTests(unittest.TestCase):
         )
         result = self.evaluate(
             broker_observation=stale,
-            now=NOW,
+            now=NOW + timedelta(seconds=3),
         )
         self.assertEqual(
             result["reason"],
