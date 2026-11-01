@@ -19,17 +19,29 @@ AURORA_IBKR_PORT=4002 \
 python3 scripts/ibkr_paper_readonly_probe.py
 ```
 
-The tool prints a **whitelisted** JSON report and exits with code 0 only when the snapshot is connected, all required callbacks complete, Paper identity is verified, and the order-submission hard block is present. Exit 1 indicates not ready or error; exit 2 indicates disabled/unsafe operator configuration. Neither permits an order.
+The tool prints a **whitelisted** JSON report and exits with code 0 only when the snapshot is connected, all required callbacks complete, Paper identity is verified, exactly one sanitized Paper account fingerprint is present, the snapshot has a timezone-aware timestamp, and the order-submission hard block is present. Exit 1 indicates not ready or error; exit 2 indicates disabled/unsafe operator configuration. Neither permits an order.
 
 ## Acceptance evidence
-Record the UTC time, host alias (not public IP), Git commit, command exit code, and the sanitized JSON fields. Do not copy credentials, raw account identifiers, account balances, or broker error messages into GitHub issues or chat. A passing local probe proves only this particular read-only snapshot; it does **not** prove reliable execution, order routing, profitability, or Live readiness.
+Record the host alias (not public IP), Git commit, command exit code, and the sanitized JSON fields. The report includes `paper_account_fingerprint` in the form `IBKR-XXXXXXXXXX`, derived from a truncated SHA-256 digest, plus `snapshot_generated_at_utc`. These are intended to bind later diagnostic checks to the same Paper identity and snapshot time without exposing the raw IBKR account identifier.
+
+Do not copy credentials, raw account identifiers, account balances, or broker error messages into GitHub issues or chat. A passing local probe proves only this particular read-only snapshot; it does **not** authenticate a saved JSON file by itself and does **not** prove reliable execution, order routing, profitability, or Live readiness.
+
+The sanitized report can be checked offline with:
+
+```bash
+python3 scripts/paper_readonly_acceptance_validator.py sanitized_probe.json
+```
+
+A validator result of `READ_ONLY_SNAPSHOT_VALIDATED` confirms field consistency only. It deliberately keeps `evidence_authenticity_verified=false`, `broker_session_independently_verified=false`, `paper_order_submission_allowed=false`, `live_trading_allowed=false`, and `release_approved=false`.
 
 ## Acceptance matrix (record each case separately)
 Run these checks only on the existing approved VPS, without altering public firewall rules, opening trading permissions, or using a Live account.
 
 | Case | Expected outcome | Acceptance requirement |
 | --- | --- | --- |
-| Enabled Paper / localhost / port 4002, API in read-only mode | Exit 0 only with connected status, verified Paper identity, completed required requests and order hard-block evidence | Capture sanitized JSON, UTC timestamp, commit SHA and exit code; do not infer order readiness |
+| Enabled Paper / localhost / port 4002, API in read-only mode | Exit 0 only with connected status, verified Paper identity, one sanitized account fingerprint, timezone-aware snapshot time, completed required requests and order hard-block evidence | Capture sanitized JSON, commit SHA and exit code; do not infer order readiness |
+| Missing, malformed or multiple account fingerprints | Nonzero exit; no order | A single sanitized Paper identity is mandatory |
+| Missing or timezone-naive snapshot timestamp | Nonzero exit; no order | Snapshot time must be explicit and timezone-aware |
 | Probe disabled | Exit 2 / BLOCKED; no broker connection attempt | Must not silently enable |
 | Mode LIVE, host not localhost, port 4001, or missing required environment variable | Exit 2 / BLOCKED; no broker connection attempt | Every unsafe/missing configuration blocks |
 | IB Gateway unavailable / disconnected | Nonzero exit; no order | Connection failure is not readiness |
@@ -47,6 +59,7 @@ A successful CI run alone is **not** an acceptance decision. Before moving PR #4
 - Disabled or blocked: review environment variables and Paper-only endpoint; do not change to Live port 4001.
 - Not installed: install only the official IBKR TWS API in the approved host environment.
 - Incomplete snapshot: inspect Gateway session and API read-only settings locally; do not weaken safety gates.
+- Invalid fingerprint or timestamp: treat the evidence as unusable; do not substitute a raw account number or hand-edit the report.
 - Error: stop, investigate locally, and share only the sanitized report.
 
 **Go/no-go:** No Paper orders, no Live orders, and no production automation until separately reviewed and approved.
