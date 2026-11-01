@@ -23,7 +23,7 @@ def main():
         "AURORA_IBKR_PORT": "4002",
     }
     invalid = [key for key, expected in required.items()
-               if os.environ.get(key, expected) != expected]
+               if os.environ.get(key) != expected]
     if invalid or os.environ.get("AURORA_IBKR_ENABLED", "false").lower() != "true":
         print(json.dumps({"status": "BLOCKED", "reason": "PAPER_LOCAL_ONLY_CONFIGURATION_REQUIRED",
                           "order_submission_allowed": False}))
