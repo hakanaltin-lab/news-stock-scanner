@@ -19,6 +19,15 @@ class TestCorrelationGuard(unittest.TestCase):
     def test_unverified_account(self):
         a,b,c=fixture();b["paper_account_guard"]["paper_account_verified"]=False
         self.assertEqual(verify_correlations(a,b,c)["status"],"BLOCKED")
+    def test_malformed_account_guard_fails_closed(self):
+        for invalid in (None, [], [1], "verified", 123, True):
+            with self.subTest(value=repr(invalid)):
+                local,snapshot,mapping=fixture()
+                snapshot["paper_account_guard"]=invalid
+                result=verify_correlations(local,snapshot,mapping)
+                self.assertEqual(result["status"],"BLOCKED")
+                self.assertIs(result["paper_order_submission_allowed"],False)
+                self.assertIs(result["live_trading_allowed"],False)
     def test_invalid_account_fingerprints_block_without_exception(self):
         for invalid in (None, "", "  ", 42, [], {}, True):
             with self.subTest(value=repr(invalid)):
