@@ -61,6 +61,19 @@ class PaperProbeTests(unittest.TestCase):
         connector.assert_not_called()
         self.assertEqual(json.loads(output.getvalue())["status"], "BLOCKED")
 
+    def test_missing_required_paper_endpoint_env_never_calls_connector(self):
+        base = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
+                "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
+        for missing in ("AURORA_IBKR_MODE", "AURORA_IBKR_HOST", "AURORA_IBKR_PORT"):
+            with self.subTest(missing=missing):
+                env = dict(base)
+                env.pop(missing)
+                with patch.dict(os.environ, env, clear=True), patch.object(
+                    probe, "get_ibkr_read_only_snapshot"
+                ) as connector, contextlib.redirect_stdout(io.StringIO()):
+                    self.assertEqual(probe.main(), 2)
+                connector.assert_not_called()
+
     def test_live_port_never_calls_connector(self):
         env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
                "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4001"}
