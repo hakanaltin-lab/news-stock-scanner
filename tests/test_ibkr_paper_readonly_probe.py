@@ -13,7 +13,7 @@ from unittest.mock import patch
 from scripts import ibkr_paper_readonly_probe as probe
 
 
-EVIDENCE_KEY = "K" * 32
+EVIDENCE_KEY = "ab" * 32
 
 
 def paper_env():
@@ -52,6 +52,17 @@ class PaperProbeTests(unittest.TestCase):
         connector.assert_not_called()
         self.assertEqual(json.loads(output.getvalue())["reason"],
                          "EVIDENCE_HMAC_KEY_REQUIRED")
+
+    def test_invalid_evidence_keys_never_call_connector(self):
+        for bad in ("", "a" * 63, "g" * 64, "00" * 31):
+            with self.subTest(length=len(bad)):
+                env = paper_env()
+                env["AURORA_IBKR_EVIDENCE_HMAC_KEY"] = bad
+                with patch.dict(os.environ, env, clear=True), patch.object(
+                    probe, "get_ibkr_read_only_snapshot"
+                ) as connector, contextlib.redirect_stdout(io.StringIO()):
+                    self.assertEqual(probe.main(), 2)
+                connector.assert_not_called()
 
     def test_broker_exception_is_redacted(self):
         output = io.StringIO()
