@@ -2,78 +2,144 @@
 
 **Scope:** Operator-run verification only. This procedure does not authorize orders, cloud resource creation, firewall changes, or a live-trading transition.
 
-## Prerequisites (confirm, do not assume)
-- Existing approved VPS is running; use authenticated SSH. Do not expose TCP 4002 or 5902 to the internet.
-- IB Gateway is logged into the **Paper** account; its API socket is restricted to localhost, port 4002. Configure IB Gateway read-only API mode.
-- Official IBKR TWS Python API is installed on the same host, in the Python environment used for the probe.
-- Repository branch `aurora-g6-11-readonly-correlation` is checked out, and no unreviewed changes are present.
-- A local 256-bit HMAC evidence key, encoded as exactly 64 hexadecimal characters, is available as `AURORA_IBKR_EVIDENCE_HMAC_KEY`. Generate and store it only on the approved host; never commit it, paste it into GitHub, or include it in evidence.
+## Prerequisites
 
-## Operator-run command
-A suitable local key can be generated on the VPS, for example:
+- Use only the existing approved VPS through authenticated SSH.
+- Do not expose TCP 4002, 5902 or 6080 publicly.
+- IB Gateway must be logged into the **Paper** account.
+- API access must remain localhost-only on port 4002 and read-only.
+- The official IBKR TWS Python API must be installed in the Python environment used by AURORA.
+- Branch `aurora-g6-11-readonly-correlation` must be checked out with no unreviewed local modifications.
+- The raw Paper account identifier must stay only on the VPS in a protected local file or protected environment variable. Do not paste it into GitHub or chat.
 
-```bash
-python3 -c 'import secrets; print(secrets.token_hex(32))'
-```
+## One-time local account allowlist setup
 
-Store the generated value in a protected local file or secret store with owner-only permissions. Load it into the environment without typing the secret value directly into the probe command. Then run from the repository root:
+The acceptance runner automatically creates the 256-bit HMAC evidence key on the VPS with mode `0600`. The only manual local secret preparation is the Paper account allowlist.
 
-```bash
-export AURORA_IBKR_EVIDENCE_HMAC_KEY="$(cat /protected/path/aurora_ibkr_evidence_hmac.key)"
-AURORA_IBKR_ENABLED=true \
-AURORA_IBKR_MODE=PAPER \
-AURORA_IBKR_HOST=127.0.0.1 \
-AURORA_IBKR_PORT=4002 \
-python3 scripts/ibkr_paper_readonly_probe.py
-```
-
-The tool exits with code 0 only when the snapshot is connected, all required callbacks complete, Paper identity is verified, exactly one internal account fingerprint exists, a UTC snapshot timestamp is present, an opaque HMAC evidence token is generated, and the order-submission hard block is present. Exit 1 indicates not ready or error; exit 2 indicates disabled/unsafe operator configuration or a missing evidence key. Neither permits an order.
-
-## Acceptance evidence
-Record the host alias (not public IP), Git commit, command exit code, and the whitelisted JSON report. The external report contains `paper_account_evidence_token` in the form `IBKR-EVID-XXXXXXXXXXXXXXXX` and `snapshot_generated_at_utc`. The token is generated with HMAC-SHA256 using the local evidence key and the internal Paper identity fingerprint.
-
-The report must **not** expose the raw IBKR account identifier, the internal account fingerprint, the HMAC secret, account balances, credentials, or broker error messages. Do not copy any of those sensitive values into GitHub issues or chat.
-
-A passing local probe proves only this particular read-only snapshot. A saved JSON report does **not** prove its own broker origin and does **not** prove reliable execution, order routing, profitability, or Live readiness.
-
-The sanitized report can be checked offline with:
+Create the protected directory and enter the Paper account identifier without echoing it to the terminal:
 
 ```bash
-python3 scripts/paper_readonly_acceptance_validator.py sanitized_probe.json
+mkdir -p ~/.config/aurora
+chmod 700 ~/.config/aurora
+read -rsp "IBKR Paper account ID: " AURORA_PAPER_ACCOUNT
+printf '\n'
+printf '%s\n' "$AURORA_PAPER_ACCOUNT" > ~/.config/aurora/ibkr_paper_account_allowlist
+unset AURORA_PAPER_ACCOUNT
+chmod 600 ~/.config/aurora/ibkr_paper_account_allowlist
 ```
 
-A validator result of `READ_ONLY_SNAPSHOT_VALIDATED` confirms field consistency only. It deliberately keeps `evidence_authenticity_verified=false`, `broker_session_independently_verified=false`, `paper_order_submission_allowed=false`, `live_trading_allowed=false`, and `release_approved=false`.
+The file must remain owner-only. Never commit it.
 
-## Acceptance matrix (record each case separately)
-Run these checks only on the existing approved VPS, without altering public firewall rules, opening trading permissions, or using a Live account.
+## One-command acceptance run
 
-| Case | Expected outcome | Acceptance requirement |
-| --- | --- | --- |
-| Enabled Paper / localhost / port 4002, API in read-only mode, valid evidence key | Exit 0 only with connected status, verified Paper identity, opaque evidence token, UTC snapshot time, completed required requests and order-hard-block evidence | Capture sanitized JSON, commit SHA and exit code; do not infer order readiness |
-| Missing, non-hex, or non-256-bit HMAC evidence key | Exit 2 / BLOCKED; connector not called | Evidence generation must fail before broker access |
-| Missing, malformed or multiple internal account fingerprints | Nonzero exit; no order | A single verified Paper identity is mandatory |
-| Missing, timezone-naive or non-UTC snapshot timestamp | Nonzero exit; no order | Snapshot time must be explicit UTC |
-| Probe disabled | Exit 2 / BLOCKED; no broker connection attempt | Must not silently enable |
-| Mode LIVE, host not localhost, port 4001, or missing required environment variable | Exit 2 / BLOCKED; no broker connection attempt | Every unsafe/missing configuration blocks |
-| IB Gateway unavailable / disconnected | Nonzero exit; no order | Connection failure is not readiness |
-| Required callbacks incomplete, including executions | Nonzero exit; no order | A partial snapshot never passes |
-| Paper identity unverified, unsafe endpoint, read-only proof missing or order-hard-block missing | Nonzero exit; no order | Every individual safety requirement must pass |
+From the checked-out repository:
 
-**Evidence scope:** The read-only probe confirms connectivity and a bounded snapshot, not order-to-execution correlation. For G6.11 correlation acceptance, separately verify any existing Paper order mapping against broker-observed permanent ID, client ID, order ID, internal Paper account identity and execution records. **Do not place a new order to generate test evidence.** If no existing orders are available, record correlation acceptance as NOT TESTED, not PASS.
+```bash
+python3 scripts/run_g6_11_readonly_acceptance.py
+```
 
-**Security stop condition:** If unexpected orders, a Live account, exposed broker ports, credentials in output, identity mismatches or suspicious order identities are detected, stop the test, preserve only sanitized diagnostic evidence, and investigate before resuming. Do not change the broker to write-enabled mode to make a test pass.
+The runner performs these steps automatically:
+
+1. Verifies the current Git commit and local VPS security prerequisites.
+2. Creates or validates `~/.config/aurora/ibkr_evidence_hmac.key` as an exactly 256-bit hexadecimal key with mode `0600`.
+3. Loads the Paper account allowlist without printing it.
+4. Forces PAPER mode, localhost `127.0.0.1`, port `4002`.
+5. Runs the existing IBKR read-only probe.
+6. Captures only the whitelisted sanitized probe JSON.
+7. Runs the offline acceptance validator.
+8. Writes a sanitized evidence bundle under `runtime/g6_11_readonly_evidence/` with private file permissions.
+
+The runner never enables order submission and never changes firewall rules.
+
+## Successful result
+
+A successful console result is:
+
+`G6_11_READ_ONLY_EVIDENCE_CAPTURED`
+
+The bundle still deliberately contains:
+
+- `paper_order_submission_allowed=false`
+- `live_trading_allowed=false`
+- `release_approved=false`
+- `evidence_authenticity_verified=false`
+- `broker_session_independently_verified=false`
+
+This means the evidence is ready for independent review; it is **not** an execution release.
+
+## Sanitized evidence
+
+The bundle may contain:
+
+- current Git SHA;
+- local security report;
+- opaque `IBKR-EVID-XXXXXXXXXXXXXXXX` account evidence token;
+- UTC snapshot timestamp;
+- required callback completion flags;
+- order-submission hard-block evidence;
+- offline validation result.
+
+It must not contain:
+
+- raw IBKR account identifier;
+- HMAC secret;
+- credentials/passwords;
+- account balances;
+- raw broker errors containing sensitive identifiers.
+
+The runner tests explicitly check that the raw account identifier and HMAC key do not appear in written evidence.
+
+## Acceptance matrix
+
+| Case | Expected result |
+| --- | --- |
+| Paper Gateway connected, localhost 4002, read-only, allowlisted identity, all required callbacks | `G6_11_READ_ONLY_EVIDENCE_CAPTURED` |
+| Local VPS security prerequisites fail | BLOCKED before broker probe |
+| Missing/insecure allowlist file | BLOCKED before broker probe |
+| Missing HMAC key | Runner creates a new 256-bit local key with mode 0600 |
+| Existing HMAC key has unsafe permissions or invalid format | BLOCKED before broker probe |
+| LIVE mode / unsafe endpoint | Existing probe fails closed |
+| Gateway disconnected | BLOCKED; no order |
+| Required callback incomplete | BLOCKED; no order |
+| Paper account identity mismatch | BLOCKED; no order |
+| Probe exception or malformed output | Sanitized BLOCKED evidence; secrets are not exposed |
+
+## Correlation evidence scope
+
+The one-command runner proves a bounded **read-only snapshot** only. It does not prove order-to-execution correlation.
+
+For G6.11 correlation acceptance, any existing Paper order used as evidence must separately map to broker-observed:
+
+- permanent ID;
+- client ID;
+- order ID;
+- verified Paper account identity;
+- execution records where available.
+
+**Do not place a new order merely to manufacture correlation evidence.** If no suitable existing Paper order exists, record that correlation item as `NOT TESTED`, not PASS.
+
+## Security stop conditions
+
+Stop the acceptance run and investigate if any of the following appears:
+
+- a Live account;
+- unexpected orders;
+- exposed broker/VNC ports;
+- raw credentials or account identifiers in output;
+- mismatched account evidence;
+- conflicting broker order identities.
+
+Do not weaken read-only settings to make a test pass.
 
 ## Release gate
-A successful CI run alone is **not** an acceptance decision. Before moving PR #42 or dependent PR #43 out of Draft, require (1) current-head CI success, (2) independent code/security review, (3) sanitized real Paper read-only acceptance evidence from the approved VPS, and (4) documented disposition of any tests that cannot be executed, including unavailable order-correlation evidence. An untested acceptance item must not be described as passed.
 
-Paper order submission and Live trading stay disabled even after a read-only PASS until a separate execution release process is independently reviewed and explicitly authorized.
+Before PR #42 or its dependent execution-safety PRs can move out of Draft, require:
 
-## Failure response
-- Disabled or blocked: review environment variables and Paper-only endpoint; do not change to Live port 4001.
-- Missing/invalid evidence key: create or restore an exactly 64-hex-character (256-bit) protected local HMAC key; never weaken the check or commit the key.
-- Not installed: install only the official IBKR TWS API in the approved host environment.
-- Incomplete snapshot: inspect Gateway session and API read-only settings locally; do not weaken safety gates.
-- Invalid token or timestamp: treat the evidence as unusable; do not substitute a raw account number or hand-edit the report.
-- Error: stop, investigate locally, and share only the sanitized report.
+1. current-head CI success;
+2. independent code/security review;
+3. a sanitized real Paper read-only evidence bundle from the approved VPS;
+4. explicit disposition of any correlation cases that cannot be tested.
 
-**Go/no-go:** No Paper orders, no Live orders, and no production automation until separately reviewed and approved.
+Even after a read-only PASS, Paper order submission and LIVE trading remain disabled until separately reviewed and explicitly authorized by a later execution release process.
+
+**Go/no-go:** No Paper orders, no LIVE orders, and no production automation are authorized by this procedure.
