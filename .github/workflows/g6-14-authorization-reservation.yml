@@ -1,0 +1,40 @@
+name: G6.14 Authorization Reservation Ledger Safety
+
+on:
+  pull_request:
+    paths:
+      - 'engines/paper_authorization_reservation_ledger.py'
+      - 'tests/test_paper_authorization_reservation_ledger.py'
+      - 'engines/paper_submission_contract.py'
+      - 'tests/test_paper_submission_contract.py'
+      - 'docs/AURORA_G6_14_AUTHORIZATION_RESERVATION.md'
+      - '.github/workflows/g6-14-authorization-reservation.yml'
+  push:
+    branches:
+      - aurora-g6-14-authorization-reservation-ledger-clean
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-reservation-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test atomic non-executable reservation ledger
+        run: |
+          python -m py_compile engines/paper_authorization_reservation_ledger.py tests/test_paper_authorization_reservation_ledger.py
+          python -m unittest discover -s tests -p 'test_paper_authorization_reservation_ledger.py' -v
+          if grep -Eq '(^|[[:space:]])(from|import)[[:space:]]+ibapi' engines/paper_authorization_reservation_ledger.py; then
+            echo "Broker API import forbidden in G6.14 ledger"
+            exit 1
+          fi
+          if grep -q 'placeOrder' engines/paper_authorization_reservation_ledger.py; then
+            echo "Broker order call forbidden in G6.14 ledger"
+            exit 1
+          fi
