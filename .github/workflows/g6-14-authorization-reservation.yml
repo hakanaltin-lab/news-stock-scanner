@@ -11,7 +11,7 @@ on:
       - '.github/workflows/g6-14-authorization-reservation.yml'
   push:
     branches:
-      - aurora-g6-14-authorization-reservation-ledger
+      - aurora-g6-14-authorization-reservation-ledger-clean
   workflow_dispatch:
 
 permissions:
