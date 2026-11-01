@@ -5,7 +5,9 @@ def verify_correlations(local, snapshot, mapping):
         return {**base,"reason":"INVALID_INPUT"}
     guard=snapshot.get("paper_account_guard") or {}
     accounts=guard.get("verified_account_fingerprints")
-    if guard.get("paper_account_verified") is not True or not isinstance(accounts,list) or len(accounts)!=1:
+    if (guard.get("paper_account_verified") is not True or not isinstance(accounts,list)
+            or len(accounts)!=1 or not isinstance(accounts[0],str)
+            or not accounts[0].strip()):
         return {**base,"reason":"UNVERIFIED_ACCOUNT"}
     if not local or set(local)!=set(mapping):
         return {**base,"reason":"MISSING_MAPPING"}
