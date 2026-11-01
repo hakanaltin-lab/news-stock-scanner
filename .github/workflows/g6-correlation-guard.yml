@@ -7,6 +7,7 @@ on:
       - 'tests/test_ibkr_correlation_guard.py'
       - 'engines/ibkr_snapshot_correlation_bridge.py'
       - 'tests/test_ibkr_snapshot_correlation_bridge.py'
+      - 'tests/test_ibkr_correlation_review_regressions.py'
       - '.github/workflows/g6-correlation-guard.yml'
   push:
     branches:
@@ -25,4 +26,5 @@ jobs:
         run: |
           python -m unittest discover -s tests -p 'test_ibkr_correlation_guard.py' -v
           python -m unittest discover -s tests -p 'test_ibkr_snapshot_correlation_bridge.py' -v
+          python -m unittest discover -s tests -p 'test_ibkr_correlation_review_regressions.py' -v
           python -m py_compile engines/ibkr_gateway_connector.py
