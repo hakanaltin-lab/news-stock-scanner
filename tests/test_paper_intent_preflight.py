@@ -20,9 +20,46 @@ class TestPaperIntentPreflight(unittest.TestCase):
         self.assertEqual(result["reason"], expected)
         self.assertIs(result["paper_order_submission_allowed"], False)
         self.assertIs(result["live_trading_allowed"], False)
+        return result
 
-    def test_valid_intent_remains_non_executable(self):
-        self.check(intent(), context(), "DIAGNOSTIC_ONLY_NO_EXECUTION")
+    def test_valid_intent_remains_non_executable_and_digest_bound(self):
+        result = self.check(intent(), context(), "DIAGNOSTIC_ONLY_NO_EXECUTION")
+        self.assertEqual(result["status"], "VALIDATED_READ_ONLY")
+        self.assertEqual(len(result["intent_sha256"]), 64)
+        self.assertTrue(all(c in "0123456789abcdef" for c in result["intent_sha256"]))
+        self.assertEqual(result["order_type"], "LMT")
+        self.assertEqual(result["idempotency_key"], "paper-test-0001")
+
+    def test_semantically_equal_price_has_same_digest(self):
+        a = intent()
+        b = intent()
+        a["limit_price"] = 100
+        b["limit_price"] = 100.0
+        self.assertEqual(
+            validate_paper_intent(a, context())["intent_sha256"],
+            validate_paper_intent(b, context())["intent_sha256"],
+        )
+
+    def test_execution_relevant_mutation_changes_digest(self):
+        base = validate_paper_intent(intent(), context())["intent_sha256"]
+        for field, value in (("symbol", "AMD"), ("side", "SELL"),
+                             ("quantity", 2), ("limit_price", 101.0),
+                             ("idempotency_key", "paper-test-0002")):
+            with self.subTest(field=field):
+                changed = intent()
+                changed[field] = value
+                self.assertNotEqual(
+                    validate_paper_intent(changed, context())["intent_sha256"],
+                    base,
+                )
+
+    def test_extra_or_missing_fields_block(self):
+        extra = intent()
+        extra["note"] = "ignored-metadata"
+        self.check(extra, context(), "INVALID_INTENT_SCHEMA")
+        missing = intent()
+        missing.pop("order_type")
+        self.check(missing, context(), "INVALID_INTENT_SCHEMA")
 
     def test_live_mode_blocks(self):
         env = context()
@@ -68,10 +105,10 @@ class TestPaperIntentPreflight(unittest.TestCase):
         order["quantity"] = 6
         self.check(order, context(), "NOTIONAL_CAP_EXCEEDED")
 
-    def test_missing_idempotency_blocks(self):
+    def test_missing_idempotency_blocks_via_schema(self):
         order = intent()
         order.pop("idempotency_key")
-        self.check(order, context(), "INVALID_IDEMPOTENCY_KEY")
+        self.check(order, context(), "INVALID_INTENT_SCHEMA")
 
     def test_invalid_symbol_blocks(self):
         order = intent()
