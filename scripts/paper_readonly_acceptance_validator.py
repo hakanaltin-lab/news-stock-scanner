@@ -2,6 +2,7 @@
 
 No broker imports, network access, credentials, or order submission.
 Read a JSON diagnostic report from stdin or the first CLI file argument.
+A parsed report is untrusted input and does NOT prove the source is IBKR.
 """
 import json
 import sys
@@ -12,7 +13,8 @@ REQUIRED_REQUESTS = (
 
 def evaluate_report(report):
     base = {"status": "BLOCKED", "paper_order_submission_allowed": False,
-            "live_trading_allowed": False}
+            "live_trading_allowed": False, "evidence_authenticity_verified": False,
+            "broker_session_independently_verified": False, "release_approved": False}
     if not isinstance(report, dict):
         return {**base, "reason": "INVALID_REPORT"}
     if report.get("status") != "CONNECTED" or report.get("connection_status") != "CONNECTED":
@@ -40,7 +42,10 @@ def main(argv=None):
             report = json.load(sys.stdin)
     except (OSError, ValueError, UnicodeError):
         result = {"status": "BLOCKED", "reason": "INVALID_JSON_EVIDENCE",
-                  "paper_order_submission_allowed": False, "live_trading_allowed": False}
+                  "paper_order_submission_allowed": False, "live_trading_allowed": False,
+                  "evidence_authenticity_verified": False,
+                  "broker_session_independently_verified": False,
+                  "release_approved": False}
     else:
         result = evaluate_report(report)
     print(json.dumps(result, sort_keys=True))
