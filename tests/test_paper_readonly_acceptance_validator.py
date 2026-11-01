@@ -8,7 +8,7 @@ def valid_report():
         "status": "CONNECTED", "connection_status": "CONNECTED",
         "paper_endpoint_safe": True, "hard_blocked": True,
         "live_trading_allowed": False, "paper_account_verified": True,
-        "paper_account_fingerprint": "IBKR-ABCDEF1234",
+        "paper_account_evidence_token": "IBKR-EVID-ABCDEF1234567890",
         "snapshot_generated_at_utc": "2026-11-01T12:00:00+00:00",
         "requests_complete": {k: True for k in
             ("managed_accounts", "account_summary", "positions", "open_orders", "executions")}
@@ -25,7 +25,8 @@ class TestReadOnlyAcceptance(unittest.TestCase):
         self.assertIs(result["broker_session_independently_verified"], False)
         self.assertIs(result["release_approved"], False)
         self.assertIs(result["diagnostic_binding_fields_valid"], True)
-        self.assertEqual(result["paper_account_fingerprint"], "IBKR-ABCDEF1234")
+        self.assertEqual(result["paper_account_evidence_token"],
+                         "IBKR-EVID-ABCDEF1234567890")
 
     def test_invalid_reports_fail_closed(self):
         for report in (None, [], {}, True, "CONNECTED"):
@@ -45,17 +46,20 @@ class TestReadOnlyAcceptance(unittest.TestCase):
                 with self.subTest(key=key, value=value):
                     self.assertEqual(evaluate_report(report)["status"], "BLOCKED")
 
-    def test_invalid_fingerprint_fails_closed(self):
-        for value in (None, "", "DU1234567", "IBKR-abcdef1234",
-                      "IBKR-ABCDEF123", "IBKR-ABCDEF12345"):
+    def test_invalid_evidence_token_fails_closed(self):
+        for value in (None, "", "DU1234567", "IBKR-ABCDEF1234",
+                      "IBKR-EVID-abcdef1234567890",
+                      "IBKR-EVID-ABCDEF123456789",
+                      "IBKR-EVID-ABCDEF12345678901"):
             with self.subTest(value=value):
                 report = valid_report()
-                report["paper_account_fingerprint"] = value
+                report["paper_account_evidence_token"] = value
                 self.assertEqual(
-                    evaluate_report(report)["reason"], "INVALID_ACCOUNT_FINGERPRINT")
+                    evaluate_report(report)["reason"], "INVALID_ACCOUNT_EVIDENCE_TOKEN")
 
     def test_invalid_timestamp_fails_closed(self):
-        for value in (None, "", "not-a-time", "2026-11-01T12:00:00"):
+        for value in (None, "", "not-a-time", "2026-11-01T12:00:00",
+                      "2026-11-01T15:00:00+03:00"):
             with self.subTest(value=value):
                 report = valid_report()
                 report["snapshot_generated_at_utc"] = value
