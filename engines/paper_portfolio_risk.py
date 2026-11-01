@@ -150,5 +150,7 @@ def evaluate_portfolio_intent(intent, context, portfolio, now_utc=None):
         return {**base, "reason": "EXPOSURE_EXCEEDS_EQUITY"}
     return {**base, "status": "VALIDATED_READ_ONLY",
             "reason": "PORTFOLIO_DIAGNOSTIC_ONLY_NO_EXECUTION",
+            "intent_sha256": preliminary["intent_sha256"],
+            "idempotency_key": preliminary["idempotency_key"],
             "projected_gross_exposure_usd": proposed,
             "snapshot_age_seconds": age}
