@@ -47,7 +47,9 @@ A broker observation must be explicitly:
 - order submission hard-blocked;
 - snapshot verified;
 - fresh (60 seconds maximum by default);
-- associated with an opaque Paper account evidence token.
+- associated with an opaque Paper account evidence token that must exactly match the token recorded in the submission-attempt artifact.
+
+Chronology is also fail-closed: the submission attempt must occur after the G6.14 reservation, and broker observation evidence must be timestamped after the attempt.
 
 If an order is observed, G6.15 additionally requires positive permanent ID,
 client ID, order ID, symbol, side, total quantity, limit price, fill quantities
@@ -99,7 +101,7 @@ Examples:
 - `BROKER_WARNING_MANUAL_REVIEW`
 - `BROKER_STATUS_UNKNOWN_MANUAL_REVIEW`
 
-Contradictory identity, quantity, freshness or safety evidence is BLOCKED.
+Contradictory identity, chronology, account-token, quantity, freshness or safety evidence is BLOCKED. For active/pending states, filled plus remaining quantity must equal the original total. A confirmed Cancelled state must not still report remaining quantity.
 
 ## Retry policy
 
