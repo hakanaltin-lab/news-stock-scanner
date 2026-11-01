@@ -7,7 +7,7 @@
 - IB Gateway is logged into the **Paper** account; its API socket is restricted to localhost, port 4002. Configure IB Gateway read-only API mode.
 - Official IBKR TWS Python API is installed on the same host, in the Python environment used for the probe.
 - Repository branch `aurora-g6-11-readonly-correlation` is checked out, and no unreviewed changes are present.
-- A local HMAC evidence key of at least 32 characters is available as `AURORA_IBKR_EVIDENCE_HMAC_KEY`. Generate and store it only on the approved host; never commit it, paste it into GitHub, or include it in evidence.
+- A local 256-bit HMAC evidence key, encoded as exactly 64 hexadecimal characters, is available as `AURORA_IBKR_EVIDENCE_HMAC_KEY`. Generate and store it only on the approved host; never commit it, paste it into GitHub, or include it in evidence.
 
 ## Operator-run command
 A suitable local key can be generated on the VPS, for example:
@@ -16,14 +16,14 @@ A suitable local key can be generated on the VPS, for example:
 python3 -c 'import secrets; print(secrets.token_hex(32))'
 ```
 
-Store the generated value in a protected local environment or secret store. Then run from the repository root:
+Store the generated value in a protected local file or secret store with owner-only permissions. Load it into the environment without typing the secret value directly into the probe command. Then run from the repository root:
 
 ```bash
+export AURORA_IBKR_EVIDENCE_HMAC_KEY="$(cat /protected/path/aurora_ibkr_evidence_hmac.key)"
 AURORA_IBKR_ENABLED=true \
 AURORA_IBKR_MODE=PAPER \
 AURORA_IBKR_HOST=127.0.0.1 \
 AURORA_IBKR_PORT=4002 \
-AURORA_IBKR_EVIDENCE_HMAC_KEY='<local-secret>' \
 python3 scripts/ibkr_paper_readonly_probe.py
 ```
 
@@ -50,7 +50,7 @@ Run these checks only on the existing approved VPS, without altering public fire
 | Case | Expected outcome | Acceptance requirement |
 | --- | --- | --- |
 | Enabled Paper / localhost / port 4002, API in read-only mode, valid evidence key | Exit 0 only with connected status, verified Paper identity, opaque evidence token, UTC snapshot time, completed required requests and order-hard-block evidence | Capture sanitized JSON, commit SHA and exit code; do not infer order readiness |
-| Missing or short HMAC evidence key | Exit 2 / BLOCKED; connector not called | Evidence generation must fail before broker access |
+| Missing, non-hex, or non-256-bit HMAC evidence key | Exit 2 / BLOCKED; connector not called | Evidence generation must fail before broker access |
 | Missing, malformed or multiple internal account fingerprints | Nonzero exit; no order | A single verified Paper identity is mandatory |
 | Missing, timezone-naive or non-UTC snapshot timestamp | Nonzero exit; no order | Snapshot time must be explicit UTC |
 | Probe disabled | Exit 2 / BLOCKED; no broker connection attempt | Must not silently enable |
@@ -70,7 +70,7 @@ Paper order submission and Live trading stay disabled even after a read-only PAS
 
 ## Failure response
 - Disabled or blocked: review environment variables and Paper-only endpoint; do not change to Live port 4001.
-- Missing evidence key: create or restore the protected local HMAC key; never weaken the check or commit the key.
+- Missing/invalid evidence key: create or restore an exactly 64-hex-character (256-bit) protected local HMAC key; never weaken the check or commit the key.
 - Not installed: install only the official IBKR TWS API in the approved host environment.
 - Incomplete snapshot: inspect Gateway session and API read-only settings locally; do not weaken safety gates.
 - Invalid token or timestamp: treat the evidence as unusable; do not substitute a raw account number or hand-edit the report.
