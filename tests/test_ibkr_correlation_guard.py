@@ -40,6 +40,16 @@ class TestCorrelationGuard(unittest.TestCase):
     def test_invalid_permanent_id(self):
         a,b,c=fixture();c["key1"]["perm_id"]=0
         self.assertEqual(verify_correlations(a,b,c)["status"],"BLOCKED")
+    def test_malformed_idempotency_keys_block(self):
+        for invalid in (None, 123, True, "", "  "):
+            with self.subTest(value=repr(invalid)):
+                local,snapshot,mapping=fixture()
+                local={invalid: {"account":"PAPER-REDACTED","idempotency_key":invalid}}
+                mapping={invalid: mapping["key1"]}
+                result=verify_correlations(local,snapshot,mapping)
+                self.assertEqual(result["reason"],"INVALID_IDEMPOTENCY_KEY")
+                self.assertIs(result["paper_order_submission_allowed"],False)
+                self.assertIs(result["live_trading_allowed"],False)
     def test_idempotency_mismatch(self):
         a,b,c=fixture();a["key1"]["idempotency_key"]="other"
         self.assertEqual(verify_correlations(a,b,c)["status"],"BLOCKED")
