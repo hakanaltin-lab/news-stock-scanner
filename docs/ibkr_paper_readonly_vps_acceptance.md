@@ -24,6 +24,25 @@ The tool prints a **whitelisted** JSON report and exits with code 0 only when th
 ## Acceptance evidence
 Record the UTC time, host alias (not public IP), Git commit, command exit code, and the sanitized JSON fields. Do not copy credentials, raw account identifiers, account balances, or broker error messages into GitHub issues or chat. A passing local probe proves only this particular read-only snapshot; it does **not** prove reliable execution, order routing, profitability, or Live readiness.
 
+## Acceptance matrix (record each case separately)
+Run these checks only on the existing approved VPS, without altering public firewall rules, opening trading permissions, or using a Live account.
+
+| Case | Expected outcome | Acceptance requirement |
+| --- | --- | --- |
+| Enabled Paper / localhost / port 4002, API in read-only mode | Exit 0 only with connected status, verified Paper identity, completed required requests and order hard-block evidence | Capture sanitized JSON, UTC timestamp, commit SHA and exit code; do not infer order readiness |
+| Probe disabled | Exit 2 / BLOCKED; no broker connection attempt | Must not silently enable |
+| Mode LIVE, host not localhost, port 4001, or missing required environment variable | Exit 2 / BLOCKED; no broker connection attempt | Every unsafe/missing configuration blocks |
+| IB Gateway unavailable / disconnected | Nonzero exit; no order | Connection failure is not readiness |
+| Required callbacks incomplete, including executions | Nonzero exit; no order | A partial snapshot never passes |
+| Paper identity unverified, unsafe endpoint, read-only proof missing or order hard-block missing | Nonzero exit; no order | Every individual safety requirement must pass |
+
+**Evidence scope:** The read-only probe confirms connectivity and a bounded snapshot, not order-to-execution correlation. For G6.11 correlation acceptance, separately verify any existing Paper order mapping against broker-observed permanent ID, client ID, order ID, Paper account fingerprint and execution records. **Do not place a new order to generate test evidence.** If no existing orders are available, record correlation acceptance as NOT TESTED, not PASS.
+
+**Security stop condition:** If unexpected orders, a Live account, exposed broker ports, credentials in output, mismatched account fingerprints or suspicious order identities are detected, stop the test, preserve only sanitized diagnostic evidence, and investigate before resuming. Do not change the broker to write-enabled mode to make a test pass.
+
+## Release gate
+A successful CI run alone is **not** an acceptance decision. Before moving PR #42 or dependent PR #43 out of Draft, require (1) current-head CI success, (2) independent code/security review, (3) sanitized real Paper read-only acceptance evidence from the approved VPS, and (4) documented disposition of any tests that cannot be executed (including unavailable order correlation evidence). An untested acceptance item must not be described as passed. Paper order submission and Live trading stay disabled, even after a read-only PASS, until separate explicit authorization and a different execution release process.
+
 ## Failure response
 - Disabled or blocked: review environment variables and Paper-only endpoint; do not change to Live port 4001.
 - Not installed: install only the official IBKR TWS API in the approved host environment.
