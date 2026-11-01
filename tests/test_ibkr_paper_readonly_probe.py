@@ -87,10 +87,14 @@ class PaperProbeTests(unittest.TestCase):
         env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
                "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
         snapshot = {"status": "CONNECTED", "connection_status": "CONNECTED",
+                    "timestamp": "2026-11-01T12:00:00+00:00",
                     "config": {"endpoint_safe": True, "read_only": True, "mode": "PAPER"},
                     "live_trading_allowed": False,
                     "order_submission_hard_blocked": True,
-                    "paper_account_guard": {"paper_account_verified": True},
+                    "paper_account_guard": {
+                        "paper_account_verified": True,
+                        "verified_account_fingerprints": ["IBKR-ABCDEF1234"],
+                    },
                     "accounts": ["DU1234567"], "errors": [{"message": "SECRET"}],
                     "requests_complete": dict.fromkeys(
                         ("managed_accounts", "account_summary", "positions",
@@ -100,17 +104,69 @@ class PaperProbeTests(unittest.TestCase):
             probe, "get_ibkr_read_only_snapshot", return_value=snapshot
         ), contextlib.redirect_stdout(output):
             self.assertEqual(probe.main(), 0)
-        self.assertNotIn("DU1234567", output.getvalue())
-        self.assertNotIn("SECRET", output.getvalue())
-        self.assertTrue(json.loads(output.getvalue())["hard_blocked"])
+        rendered = output.getvalue()
+        report = json.loads(rendered)
+        self.assertNotIn("DU1234567", rendered)
+        self.assertNotIn("SECRET", rendered)
+        self.assertTrue(report["hard_blocked"])
+        self.assertEqual(report["paper_account_fingerprint"], "IBKR-ABCDEF1234")
+        self.assertEqual(report["snapshot_generated_at_utc"],
+                         "2026-11-01T12:00:00+00:00")
+
+    def test_missing_or_multiple_fingerprints_fail_closed(self):
+        env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
+               "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
+        base = {"status": "CONNECTED", "connection_status": "CONNECTED",
+                "timestamp": "2026-11-01T12:00:00+00:00",
+                "config": {"endpoint_safe": True, "read_only": True, "mode": "PAPER"},
+                "live_trading_allowed": False, "order_submission_hard_blocked": True,
+                "paper_account_guard": {"paper_account_verified": True},
+                "requests_complete": dict.fromkeys(
+                    ("managed_accounts", "account_summary", "positions",
+                     "open_orders", "executions"), True)}
+        for fingerprints in (None, [], ["IBKR-ABCDEF1234", "IBKR-1234567890"],
+                             ["DU1234567"], ["IBKR-nothex1234"]):
+            with self.subTest(fingerprints=fingerprints):
+                snapshot = dict(base)
+                snapshot["paper_account_guard"] = {
+                    "paper_account_verified": True,
+                    "verified_account_fingerprints": fingerprints,
+                }
+                with patch.dict(os.environ, env, clear=True), patch.object(
+                    probe, "get_ibkr_read_only_snapshot", return_value=snapshot
+                ), contextlib.redirect_stdout(io.StringIO()):
+                    self.assertEqual(probe.main(), 1)
+
+    def test_invalid_snapshot_timestamp_fails_closed(self):
+        env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
+               "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
+        snapshot = {"status": "CONNECTED", "connection_status": "CONNECTED",
+                    "timestamp": "2026-11-01T12:00:00",
+                    "config": {"endpoint_safe": True, "read_only": True, "mode": "PAPER"},
+                    "live_trading_allowed": False, "order_submission_hard_blocked": True,
+                    "paper_account_guard": {
+                        "paper_account_verified": True,
+                        "verified_account_fingerprints": ["IBKR-ABCDEF1234"],
+                    },
+                    "requests_complete": dict.fromkeys(
+                        ("managed_accounts", "account_summary", "positions",
+                         "open_orders", "executions"), True)}
+        with patch.dict(os.environ, env, clear=True), patch.object(
+            probe, "get_ibkr_read_only_snapshot", return_value=snapshot
+        ), contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(probe.main(), 1)
 
     def test_missing_live_disabled_evidence_fails_closed(self):
         env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
                "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
         snapshot = {"status": "CONNECTED",
+                    "timestamp": "2026-11-01T12:00:00+00:00",
                     "config": {"endpoint_safe": True, "read_only": True, "mode": "PAPER"},
                     "order_submission_hard_blocked": True,
-                    "paper_account_guard": {"paper_account_verified": True},
+                    "paper_account_guard": {
+                        "paper_account_verified": True,
+                        "verified_account_fingerprints": ["IBKR-ABCDEF1234"],
+                    },
                     "requests_complete": dict.fromkeys(
                         ("managed_accounts", "account_summary", "positions",
                          "open_orders", "executions"), True)}
@@ -122,9 +178,14 @@ class PaperProbeTests(unittest.TestCase):
     def test_incomplete_execution_snapshot_is_not_ready(self):
         env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
                "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
-        snapshot = {"status": "CONNECTED", "config": {"endpoint_safe": True},
+        snapshot = {"status": "CONNECTED", "timestamp": "2026-11-01T12:00:00+00:00",
+                    "config": {"endpoint_safe": True, "read_only": True, "mode": "PAPER"},
+                    "live_trading_allowed": False,
                     "order_submission_hard_blocked": True,
-                    "paper_account_guard": {"paper_account_verified": True},
+                    "paper_account_guard": {
+                        "paper_account_verified": True,
+                        "verified_account_fingerprints": ["IBKR-ABCDEF1234"],
+                    },
                     "requests_complete": {"managed_accounts": True,
                                           "account_summary": True,
                                           "positions": True, "open_orders": True,
