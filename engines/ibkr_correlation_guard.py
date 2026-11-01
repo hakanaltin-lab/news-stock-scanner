@@ -3,7 +3,9 @@ def verify_correlations(local, snapshot, mapping):
     base={"status":"BLOCKED","paper_order_submission_allowed":False,"live_trading_allowed":False}
     if not all(isinstance(x,dict) for x in (local,snapshot,mapping)):
         return {**base,"reason":"INVALID_INPUT"}
-    guard=snapshot.get("paper_account_guard") or {}
+    guard=snapshot.get("paper_account_guard")
+    if not isinstance(guard,dict):
+        return {**base,"reason":"INVALID_ACCOUNT_GUARD"}
     accounts=guard.get("verified_account_fingerprints")
     if (guard.get("paper_account_verified") is not True or not isinstance(accounts,list)
             or len(accounts)!=1 or not isinstance(accounts[0],str)
