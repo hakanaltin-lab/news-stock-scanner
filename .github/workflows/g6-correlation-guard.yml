@@ -8,6 +8,8 @@ on:
       - 'engines/ibkr_snapshot_correlation_bridge.py'
       - 'tests/test_ibkr_snapshot_correlation_bridge.py'
       - 'tests/test_ibkr_correlation_review_regressions.py'
+      - 'scripts/ibkr_paper_readonly_probe.py'
+      - 'tests/test_ibkr_paper_readonly_probe.py'
       - 'scripts/paper_readonly_acceptance_validator.py'
       - 'tests/test_paper_readonly_acceptance_validator.py'
       - 'scripts/vps_local_security_preflight.py'
@@ -31,6 +33,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_ibkr_correlation_guard.py' -v
           python -m unittest discover -s tests -p 'test_ibkr_snapshot_correlation_bridge.py' -v
           python -m unittest discover -s tests -p 'test_ibkr_correlation_review_regressions.py' -v
+          python -m unittest discover -s tests -p 'test_ibkr_paper_readonly_probe.py' -v
           python -m unittest discover -s tests -p 'test_paper_readonly_acceptance_validator.py' -v
           python -m unittest discover -s tests -p 'test_vps_local_security_preflight.py' -v
-          python -m py_compile engines/ibkr_gateway_connector.py scripts/paper_readonly_acceptance_validator.py scripts/vps_local_security_preflight.py
+          python -m py_compile engines/ibkr_gateway_connector.py scripts/ibkr_paper_readonly_probe.py scripts/paper_readonly_acceptance_validator.py scripts/vps_local_security_preflight.py
