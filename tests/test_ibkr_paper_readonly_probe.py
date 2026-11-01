@@ -13,6 +13,19 @@ from unittest.mock import patch
 from scripts import ibkr_paper_readonly_probe as probe
 
 
+EVIDENCE_KEY = "K" * 32
+
+
+def paper_env():
+    return {
+        "AURORA_IBKR_ENABLED": "true",
+        "AURORA_IBKR_MODE": "PAPER",
+        "AURORA_IBKR_HOST": "127.0.0.1",
+        "AURORA_IBKR_PORT": "4002",
+        "AURORA_IBKR_EVIDENCE_HMAC_KEY": EVIDENCE_KEY,
+    }
+
+
 class PaperProbeTests(unittest.TestCase):
     def test_direct_script_from_unrelated_directory_is_safely_disabled(self):
         script = Path(probe.__file__).resolve()
@@ -28,11 +41,21 @@ class PaperProbeTests(unittest.TestCase):
         self.assertEqual(result.returncode, 2, result.stderr)
         self.assertEqual(json.loads(result.stdout)["status"], "BLOCKED")
 
-    def test_broker_exception_is_redacted(self):
-        env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
-               "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
+    def test_missing_evidence_key_never_calls_connector(self):
+        env = paper_env()
+        env.pop("AURORA_IBKR_EVIDENCE_HMAC_KEY")
         output = io.StringIO()
         with patch.dict(os.environ, env, clear=True), patch.object(
+            probe, "get_ibkr_read_only_snapshot"
+        ) as connector, contextlib.redirect_stdout(output):
+            self.assertEqual(probe.main(), 2)
+        connector.assert_not_called()
+        self.assertEqual(json.loads(output.getvalue())["reason"],
+                         "EVIDENCE_HMAC_KEY_REQUIRED")
+
+    def test_broker_exception_is_redacted(self):
+        output = io.StringIO()
+        with patch.dict(os.environ, paper_env(), clear=True), patch.object(
             probe, "get_ibkr_read_only_snapshot",
             side_effect=RuntimeError("private-account-DU1234567")
         ), contextlib.redirect_stdout(output):
@@ -41,12 +64,12 @@ class PaperProbeTests(unittest.TestCase):
         self.assertEqual(json.loads(output.getvalue())["reason"], "SNAPSHOT_PROBE_FAILED")
 
     def test_malformed_snapshot_is_rejected(self):
-        env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
-               "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
         for snapshot in (None, [], {"status": "CONNECTED", "config": [],
                                     "paper_account_guard": [],
                                     "requests_complete": []}):
-            with self.subTest(snapshot=snapshot), patch.dict(os.environ, env, clear=True), patch.object(
+            with self.subTest(snapshot=snapshot), patch.dict(
+                os.environ, paper_env(), clear=True
+            ), patch.object(
                 probe, "get_ibkr_read_only_snapshot", return_value=snapshot
             ), contextlib.redirect_stdout(io.StringIO()):
                 self.assertEqual(probe.main(), 1)
@@ -62,8 +85,7 @@ class PaperProbeTests(unittest.TestCase):
         self.assertEqual(json.loads(output.getvalue())["status"], "BLOCKED")
 
     def test_missing_required_paper_endpoint_env_never_calls_connector(self):
-        base = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
-                "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
+        base = paper_env()
         for missing in ("AURORA_IBKR_MODE", "AURORA_IBKR_HOST", "AURORA_IBKR_PORT"):
             with self.subTest(missing=missing):
                 env = dict(base)
@@ -75,8 +97,8 @@ class PaperProbeTests(unittest.TestCase):
                 connector.assert_not_called()
 
     def test_live_port_never_calls_connector(self):
-        env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
-               "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4001"}
+        env = paper_env()
+        env["AURORA_IBKR_PORT"] = "4001"
         with patch.dict(os.environ, env, clear=True), patch.object(
             probe, "get_ibkr_read_only_snapshot"
         ) as connector, contextlib.redirect_stdout(io.StringIO()):
@@ -84,8 +106,6 @@ class PaperProbeTests(unittest.TestCase):
         connector.assert_not_called()
 
     def test_redacted_output_and_complete_paper_readiness(self):
-        env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
-               "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
         snapshot = {"status": "CONNECTED", "connection_status": "CONNECTED",
                     "timestamp": "2026-11-01T12:00:00+00:00",
                     "config": {"endpoint_safe": True, "read_only": True, "mode": "PAPER"},
@@ -100,22 +120,23 @@ class PaperProbeTests(unittest.TestCase):
                         ("managed_accounts", "account_summary", "positions",
                          "open_orders", "executions"), True)}
         output = io.StringIO()
-        with patch.dict(os.environ, env, clear=True), patch.object(
+        with patch.dict(os.environ, paper_env(), clear=True), patch.object(
             probe, "get_ibkr_read_only_snapshot", return_value=snapshot
         ), contextlib.redirect_stdout(output):
             self.assertEqual(probe.main(), 0)
         rendered = output.getvalue()
         report = json.loads(rendered)
+        expected_token = probe._evidence_token("IBKR-ABCDEF1234", EVIDENCE_KEY)
         self.assertNotIn("DU1234567", rendered)
         self.assertNotIn("SECRET", rendered)
+        self.assertNotIn("IBKR-ABCDEF1234", rendered)
+        self.assertNotIn(EVIDENCE_KEY, rendered)
         self.assertTrue(report["hard_blocked"])
-        self.assertEqual(report["paper_account_fingerprint"], "IBKR-ABCDEF1234")
+        self.assertEqual(report["paper_account_evidence_token"], expected_token)
         self.assertEqual(report["snapshot_generated_at_utc"],
                          "2026-11-01T12:00:00+00:00")
 
-    def test_missing_or_multiple_fingerprints_fail_closed(self):
-        env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
-               "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
+    def test_missing_or_multiple_internal_fingerprints_fail_closed(self):
         base = {"status": "CONNECTED", "connection_status": "CONNECTED",
                 "timestamp": "2026-11-01T12:00:00+00:00",
                 "config": {"endpoint_safe": True, "read_only": True, "mode": "PAPER"},
@@ -132,14 +153,12 @@ class PaperProbeTests(unittest.TestCase):
                     "paper_account_verified": True,
                     "verified_account_fingerprints": fingerprints,
                 }
-                with patch.dict(os.environ, env, clear=True), patch.object(
+                with patch.dict(os.environ, paper_env(), clear=True), patch.object(
                     probe, "get_ibkr_read_only_snapshot", return_value=snapshot
                 ), contextlib.redirect_stdout(io.StringIO()):
                     self.assertEqual(probe.main(), 1)
 
     def test_invalid_snapshot_timestamp_fails_closed(self):
-        env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
-               "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
         snapshot = {"status": "CONNECTED", "connection_status": "CONNECTED",
                     "timestamp": "2026-11-01T12:00:00",
                     "config": {"endpoint_safe": True, "read_only": True, "mode": "PAPER"},
@@ -151,14 +170,29 @@ class PaperProbeTests(unittest.TestCase):
                     "requests_complete": dict.fromkeys(
                         ("managed_accounts", "account_summary", "positions",
                          "open_orders", "executions"), True)}
-        with patch.dict(os.environ, env, clear=True), patch.object(
+        with patch.dict(os.environ, paper_env(), clear=True), patch.object(
+            probe, "get_ibkr_read_only_snapshot", return_value=snapshot
+        ), contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(probe.main(), 1)
+
+    def test_non_utc_snapshot_timestamp_fails_closed(self):
+        snapshot = {"status": "CONNECTED", "connection_status": "CONNECTED",
+                    "timestamp": "2026-11-01T15:00:00+03:00",
+                    "config": {"endpoint_safe": True, "read_only": True, "mode": "PAPER"},
+                    "live_trading_allowed": False, "order_submission_hard_blocked": True,
+                    "paper_account_guard": {
+                        "paper_account_verified": True,
+                        "verified_account_fingerprints": ["IBKR-ABCDEF1234"],
+                    },
+                    "requests_complete": dict.fromkeys(
+                        ("managed_accounts", "account_summary", "positions",
+                         "open_orders", "executions"), True)}
+        with patch.dict(os.environ, paper_env(), clear=True), patch.object(
             probe, "get_ibkr_read_only_snapshot", return_value=snapshot
         ), contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(probe.main(), 1)
 
     def test_missing_live_disabled_evidence_fails_closed(self):
-        env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
-               "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
         snapshot = {"status": "CONNECTED",
                     "timestamp": "2026-11-01T12:00:00+00:00",
                     "config": {"endpoint_safe": True, "read_only": True, "mode": "PAPER"},
@@ -170,15 +204,14 @@ class PaperProbeTests(unittest.TestCase):
                     "requests_complete": dict.fromkeys(
                         ("managed_accounts", "account_summary", "positions",
                          "open_orders", "executions"), True)}
-        with patch.dict(os.environ, env, clear=True), patch.object(
+        with patch.dict(os.environ, paper_env(), clear=True), patch.object(
             probe, "get_ibkr_read_only_snapshot", return_value=snapshot
         ), contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(probe.main(), 1)
 
     def test_incomplete_execution_snapshot_is_not_ready(self):
-        env = {"AURORA_IBKR_ENABLED": "true", "AURORA_IBKR_MODE": "PAPER",
-               "AURORA_IBKR_HOST": "127.0.0.1", "AURORA_IBKR_PORT": "4002"}
-        snapshot = {"status": "CONNECTED", "timestamp": "2026-11-01T12:00:00+00:00",
+        snapshot = {"status": "CONNECTED", "connection_status": "CONNECTED",
+                    "timestamp": "2026-11-01T12:00:00+00:00",
                     "config": {"endpoint_safe": True, "read_only": True, "mode": "PAPER"},
                     "live_trading_allowed": False,
                     "order_submission_hard_blocked": True,
@@ -190,7 +223,7 @@ class PaperProbeTests(unittest.TestCase):
                                           "account_summary": True,
                                           "positions": True, "open_orders": True,
                                           "executions": False}}
-        with patch.dict(os.environ, env, clear=True), patch.object(
+        with patch.dict(os.environ, paper_env(), clear=True), patch.object(
             probe, "get_ibkr_read_only_snapshot", return_value=snapshot
         ), contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(probe.main(), 1)
