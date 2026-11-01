@@ -16,6 +16,9 @@ import sqlite3
 from uuid import UUID, uuid4
 
 from engines.paper_submission_contract import CONTRACT_VERSION
+from engines.paper_authorization_reservation_ledger import (
+    LEDGER_VERSION as RESERVATION_LEDGER_VERSION,
+)
 
 
 JOURNAL_VERSION = "AURORA_G6_17_SUBMISSION_ATTEMPT_JOURNAL_V1"
@@ -231,6 +234,9 @@ def _validate_prepare_inputs(
         != "RESERVED_NON_EXECUTABLE"
         or reservation.get("paper_order_submission_allowed") is not False
         or reservation.get("live_execution_allowed") is not False
+        or reservation.get("broker_submission_allowed") is not False
+        or reservation.get("automatic_promotion_allowed") is not False
+        or reservation.get("real_money_trading_allowed") is not False
         or reservation.get("broker_order_object_allowed") is not False
     ):
         return None, "INVALID_RESERVATION"
@@ -271,7 +277,15 @@ def _validate_prepare_inputs(
         or submission_contract.get("contract_sha256") != contract_sha256
         or submission_contract.get("paper_order_submission_allowed") is not False
         or submission_contract.get("live_execution_allowed") is not False
+        or submission_contract.get("broker_submission_allowed") is not False
+        or submission_contract.get("automatic_promotion_allowed") is not False
+        or submission_contract.get("real_money_trading_allowed") is not False
         or submission_contract.get("broker_order_object_allowed") is not False
+        or submission_contract.get("next_gate")
+        != "PAPER_BROKER_ADAPTER_CODE_REVIEW_REQUIRED"
+        or submission_contract.get(
+            "authorization_id_must_be_atomically_consumed_before_submission"
+        ) is not True
     ):
         return None, "CONTRACT_RESERVATION_INTENT_MISMATCH"
 
@@ -308,14 +322,17 @@ def _validate_prepare_inputs(
         "expected_order": expected_order,
         "expected_order_sha256": expected_order_sha256,
         "paper_account_evidence_token": account_token,
+        "shadow_order_sha256": submission_contract.get("shadow_order_sha256"),
+        "contract_generated_at": submission_contract.get("generated_at"),
     }, None
 
 
 class PaperSubmissionAttemptJournal:
     """Immutable attempt registry plus append-only attempt lifecycle events."""
 
-    def __init__(self, path):
+    def __init__(self, path, reservation_ledger_path):
         self.path = Path(path)
+        self.reservation_ledger_path = Path(reservation_ledger_path)
 
     def _connect(self):
         self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -331,6 +348,89 @@ class PaperSubmissionAttemptJournal:
         connection.execute(EVENT_SCHEMA)
         os.chmod(self.path, 0o600)
         return connection
+
+    def _verify_persisted_reservation(self, reservation, prepared):
+        if not self.reservation_ledger_path.exists():
+            return False, "RESERVATION_LEDGER_EVIDENCE_REQUIRED"
+        try:
+            connection = sqlite3.connect(
+                f"file:{self.reservation_ledger_path}?mode=ro",
+                uri=True,
+                timeout=5.0,
+            )
+        except sqlite3.Error:
+            return False, "RESERVATION_LEDGER_UNAVAILABLE"
+        try:
+            row = connection.execute(
+                """
+                SELECT
+                    authorization_id,
+                    idempotency_key,
+                    shadow_order_sha256,
+                    intent_sha256,
+                    contract_sha256,
+                    contract_version,
+                    contract_generated_at,
+                    reservation_state,
+                    reserved_at,
+                    reservation_receipt_sha256
+                FROM paper_authorization_reservations
+                WHERE authorization_id = ?
+                """,
+                (prepared["authorization_id"],),
+            ).fetchone()
+        except sqlite3.Error:
+            return False, "RESERVATION_LEDGER_UNAVAILABLE"
+        finally:
+            connection.close()
+
+        if row is None:
+            return False, "RESERVATION_NOT_FOUND_IN_LEDGER"
+
+        (
+            authorization_id,
+            idempotency_key,
+            shadow_sha256,
+            intent_sha256,
+            contract_sha256,
+            contract_version,
+            contract_generated_at,
+            reservation_state,
+            reserved_at,
+            receipt_sha256,
+        ) = row
+
+        receipt_payload = {
+            "ledger_version": RESERVATION_LEDGER_VERSION,
+            "authorization_id": authorization_id,
+            "idempotency_key": idempotency_key,
+            "shadow_order_sha256": shadow_sha256,
+            "intent_sha256": intent_sha256,
+            "contract_sha256": contract_sha256,
+            "contract_version": contract_version,
+            "contract_generated_at": contract_generated_at,
+            "reservation_state": reservation_state,
+            "reserved_at": reserved_at,
+        }
+        expected_receipt = _digest(receipt_payload)
+        if expected_receipt is None or expected_receipt != receipt_sha256:
+            return False, "RESERVATION_LEDGER_RECEIPT_CORRUPTED"
+
+        if (
+            authorization_id != prepared["authorization_id"]
+            or idempotency_key != prepared["idempotency_key"]
+            or shadow_sha256 != prepared["shadow_order_sha256"]
+            or intent_sha256 != prepared["intent_sha256"]
+            or contract_sha256 != prepared["contract_sha256"]
+            or contract_version != CONTRACT_VERSION
+            or contract_generated_at != prepared["contract_generated_at"]
+            or reservation_state != "RESERVED_NON_EXECUTABLE"
+            or receipt_sha256 != prepared["reservation_receipt_sha256"]
+            or reserved_at != reservation.get("reserved_at")
+        ):
+            return False, "RESERVATION_LEDGER_BINDING_MISMATCH"
+
+        return True, None
 
     @staticmethod
     def _event_digest(attempt_id, event_type, client_id, order_id, evidence, event_time):
@@ -483,6 +583,16 @@ class PaperSubmissionAttemptJournal:
         )
         if error:
             return {**_safe_base(), "reason": error}
+
+        persisted, persisted_error = self._verify_persisted_reservation(
+            reservation,
+            prepared,
+        )
+        if not persisted:
+            return {
+                **_safe_base(),
+                "reason": persisted_error,
+            }
 
         requested_attempt_id = (
             _uuid4(attempt_id)
