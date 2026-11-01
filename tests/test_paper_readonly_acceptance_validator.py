@@ -17,6 +17,9 @@ class TestReadOnlyAcceptance(unittest.TestCase):
         self.assertEqual(result["status"], "READ_ONLY_SNAPSHOT_VALIDATED")
         self.assertIs(result["paper_order_submission_allowed"], False)
         self.assertIs(result["live_trading_allowed"], False)
+        self.assertIs(result["evidence_authenticity_verified"], False)
+        self.assertIs(result["broker_session_independently_verified"], False)
+        self.assertIs(result["release_approved"], False)
 
     def test_invalid_reports_fail_closed(self):
         for report in (None, [], {}, True, "CONNECTED"):
