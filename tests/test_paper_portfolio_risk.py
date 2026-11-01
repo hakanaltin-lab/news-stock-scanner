@@ -113,6 +113,47 @@ class TestPortfolioRisk(unittest.TestCase):
         o["side"] = "SELL"
         self.check(p, "EXPOSURE_EXCEEDS_EQUITY", intent=o)
 
+    def test_sell_without_positions_blocks(self):
+        o = order()
+        o["side"] = "SELL"
+        self.check(snapshot(), "MISSING_SELL_POSITION_EVIDENCE", intent=o)
+
+    def test_sell_missing_symbol_blocks(self):
+        o = order()
+        o["side"] = "SELL"
+        p = snapshot()
+        p["positions_by_symbol"] = {"AMD": 3}
+        p["pending_sell_quantity_by_symbol"] = {}
+        self.check(p, "UNKNOWN_SELL_POSITION", intent=o)
+
+    def test_sell_pending_quantity_prevents_oversell(self):
+        o = order()
+        o["side"] = "SELL"
+        o["quantity"] = 2
+        p = snapshot()
+        p["positions_by_symbol"] = {"NVDA": 3}
+        p["pending_sell_quantity_by_symbol"] = {"NVDA": 2}
+        self.check(p, "INSUFFICIENT_AVAILABLE_SHARES", intent=o)
+
+    def test_sell_exact_available_shares_remains_non_executable(self):
+        o = order()
+        o["side"] = "SELL"
+        o["quantity"] = 2
+        p = snapshot()
+        p["positions_by_symbol"] = {"NVDA": 3}
+        p["pending_sell_quantity_by_symbol"] = {"NVDA": 1}
+        self.check(p, "PORTFOLIO_DIAGNOSTIC_ONLY_NO_EXECUTION", intent=o)
+
+    def test_malformed_positions_block(self):
+        o = order()
+        o["side"] = "SELL"
+        for bad in (-1, True, 1.5):
+            with self.subTest(bad=bad):
+                p = snapshot()
+                p["positions_by_symbol"] = {"NVDA": bad}
+                p["pending_sell_quantity_by_symbol"] = {}
+                self.check(p, "INVALID_SELL_POSITION_EVIDENCE", intent=o)
+
     def test_live_mode_still_blocks(self):
         c = env()
         c["mode"] = "LIVE"
