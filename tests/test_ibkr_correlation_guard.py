@@ -28,7 +28,11 @@ class TestCorrelationGuard(unittest.TestCase):
     def test_duplicate_permanent_id(self):
         a,b,c=fixture();a["key2"]={"account":"PAPER-REDACTED","idempotency_key":"key2"}
         c["key2"]={**c["key1"]}
-        self.assertEqual(verify_correlations(a,b,c)["status"],"BLOCKED")
+        self.assertEqual(verify_correlations(a,b,c)["reason"],"DUPLICATE_PERM_ID")
+    def test_duplicate_client_order_id(self):
+        a,b,c=fixture();a["key2"]={"account":"PAPER-REDACTED","idempotency_key":"key2"}
+        c["key2"]={**c["key1"],"perm_id":5678}
+        self.assertEqual(verify_correlations(a,b,c)["reason"],"DUPLICATE_CLIENT_ORDER_ID")
     def test_live_account_mismatch(self):
         a,b,c=fixture();c["key1"]["account"]="LIVE"
         self.assertEqual(verify_correlations(a,b,c)["status"],"BLOCKED")
