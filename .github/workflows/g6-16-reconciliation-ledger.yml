@@ -1,0 +1,40 @@
+name: G6.16 Persistent Reconciliation Ledger Safety
+
+on:
+  pull_request:
+    paths:
+      - 'engines/paper_reconciliation_ledger.py'
+      - 'tests/test_paper_reconciliation_ledger.py'
+      - 'engines/paper_broker_reconciliation_state_machine.py'
+      - 'docs/AURORA_G6_16_RECONCILIATION_LEDGER.md'
+      - '.github/workflows/g6-16-reconciliation-ledger.yml'
+  push:
+    branches:
+      - aurora-g6-16-reconciliation-ledger
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-ledger-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile and test monotonic reconciliation persistence
+        run: |
+          python -m py_compile engines/paper_reconciliation_ledger.py tests/test_paper_reconciliation_ledger.py
+          python -m unittest discover -s tests -p 'test_paper_reconciliation_ledger.py' -v
+          if grep -Eq '(^|[[:space:]])(from|import)[[:space:]]+ibapi' engines/paper_reconciliation_ledger.py; then
+            echo "Broker API import forbidden in G6.16 ledger"
+            exit 1
+          fi
+          if grep -Eq 'placeOrder|cancelOrder|reqGlobalCancel' engines/paper_reconciliation_ledger.py; then
+            echo "Broker mutation call forbidden in G6.16 ledger"
+            exit 1
+          fi
+          grep -q '"automatic_retry_allowed": False' engines/paper_reconciliation_ledger.py
