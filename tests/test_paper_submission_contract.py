@@ -11,7 +11,10 @@ from engines.paper_order_authorization_gate import (
     evaluate_manual_paper_authorization,
 )
 from engines.paper_portfolio_risk import evaluate_portfolio_intent
-from engines.paper_submission_contract import evaluate_paper_submission_contract
+from engines.paper_submission_contract import (
+    CONTRACT_VERSION,
+    evaluate_paper_submission_contract,
+)
 
 
 NOW = datetime(2026, 11, 1, 13, 0, tzinfo=timezone.utc)
@@ -151,6 +154,8 @@ class PaperSubmissionContractTests(unittest.TestCase):
             "PAPER_BROKER_ADAPTER_CODE_REVIEW_REQUIRED",
         )
         self.assertEqual(len(result["contract_sha256"]), 64)
+        self.assertEqual(result["version"], CONTRACT_VERSION)
+        self.assertEqual(result["generated_at"], NOW.isoformat())
 
     def test_risk_artifact_is_real_g6_12_output(self):
         preflight = validate_paper_intent(
