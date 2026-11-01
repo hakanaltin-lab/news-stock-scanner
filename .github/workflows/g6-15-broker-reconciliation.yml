@@ -1,0 +1,41 @@
+name: G6.15 Broker Reconciliation State Machine Safety
+
+on:
+  pull_request:
+    paths:
+      - 'engines/paper_broker_reconciliation_state_machine.py'
+      - 'tests/test_paper_broker_reconciliation_state_machine.py'
+      - 'engines/paper_authorization_reservation_ledger.py'
+      - 'docs/AURORA_G6_15_BROKER_RECONCILIATION.md'
+      - '.github/workflows/g6-15-broker-reconciliation.yml'
+  push:
+    branches:
+      - aurora-g6-15-broker-reconciliation-state-machine
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-reconciliation-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile and test no-retry reconciliation state machine
+        run: |
+          python -m py_compile engines/paper_broker_reconciliation_state_machine.py tests/test_paper_broker_reconciliation_state_machine.py
+          python -m unittest discover -s tests -p 'test_paper_broker_reconciliation_state_machine.py' -v
+          if grep -Eq '(^|[[:space:]])(from|import)[[:space:]]+ibapi' engines/paper_broker_reconciliation_state_machine.py; then
+            echo "Broker API import forbidden in G6.15 state machine"
+            exit 1
+          fi
+          if grep -Eq 'placeOrder|cancelOrder|reqGlobalCancel' engines/paper_broker_reconciliation_state_machine.py; then
+            echo "Broker mutation call forbidden in G6.15 state machine"
+            exit 1
+          fi
+          grep -q '"automatic_retry_allowed": False' engines/paper_broker_reconciliation_state_machine.py
+          grep -q '"same_authorization_retry_allowed": False' engines/paper_broker_reconciliation_state_machine.py
