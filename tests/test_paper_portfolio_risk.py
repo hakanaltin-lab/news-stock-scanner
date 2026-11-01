@@ -109,6 +109,8 @@ class TestPortfolioRisk(unittest.TestCase):
     def test_sell_does_not_release_unverified_exposure(self):
         p = snapshot()
         p["gross_exposure_usd"] = 1001
+        p["positions_by_symbol"] = {"NVDA": 1}
+        p["pending_sell_quantity_by_symbol"] = {}
         o = order()
         o["side"] = "SELL"
         self.check(p, "EXPOSURE_EXCEEDS_EQUITY", intent=o)
