@@ -67,6 +67,23 @@ def evaluate_portfolio_intent(intent, context, portfolio, now_utc=None):
         return {**base, "reason": "CORRUPTED_IDEMPOTENCY_HISTORY"}
     if intent["idempotency_key"] in keys:
         return {**base, "reason": "DUPLICATE_ORDER_INTENT"}
+    # SELL intent requires explicit holdings and outstanding sell quantities.
+    # Both are caller-supplied diagnostics, never independently broker verified.
+    if intent["side"] == "SELL":
+        positions = portfolio.get("positions_by_symbol")
+        pending_sells = portfolio.get("pending_sell_quantity_by_symbol")
+        if not isinstance(positions, dict) or not isinstance(pending_sells, dict):
+            return {**base, "reason": "MISSING_SELL_POSITION_EVIDENCE"}
+        if not all(isinstance(k, str) and type(v) is int and v >= 0
+                   for mapping in (positions, pending_sells)
+                   for k, v in mapping.items()):
+            return {**base, "reason": "INVALID_SELL_POSITION_EVIDENCE"}
+        symbol = intent["symbol"]
+        if symbol not in positions:
+            return {**base, "reason": "UNKNOWN_SELL_POSITION"}
+        available = positions[symbol] - pending_sells.get(symbol, 0)
+        if available < intent["quantity"]:
+            return {**base, "reason": "INSUFFICIENT_AVAILABLE_SHARES"}
     # BUY is conservatively counted against exposure. SELL does not receive
     # automatic exposure relief because holdings and fills are unverified here.
     new_notional = intent["quantity"] * intent["limit_price"]
