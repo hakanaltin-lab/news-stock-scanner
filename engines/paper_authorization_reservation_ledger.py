@@ -264,7 +264,15 @@ class PaperAuthorizationReservationLedger:
         }
         receipt_sha256 = _digest(receipt_payload)
 
-        connection = self._connect()
+        try:
+            connection = self._connect()
+        except (OSError, sqlite3.Error):
+            return {
+                **_base("BLOCKED", "LEDGER_UNAVAILABLE"),
+                "authorization_id": authorization_id,
+                "idempotency_key": idempotency_key,
+            }
+
         try:
             connection.execute("BEGIN IMMEDIATE")
             try:
@@ -337,6 +345,16 @@ class PaperAuthorizationReservationLedger:
                     "existing_reservation_receipt_sha256": (
                         existing[6] if existing else None
                     ),
+                }
+            except sqlite3.Error:
+                try:
+                    connection.execute("ROLLBACK")
+                except sqlite3.Error:
+                    pass
+                return {
+                    **_base("BLOCKED", "LEDGER_UNAVAILABLE"),
+                    "authorization_id": authorization_id,
+                    "idempotency_key": idempotency_key,
                 }
         finally:
             connection.close()
