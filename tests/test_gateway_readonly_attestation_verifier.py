@@ -128,10 +128,10 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
     def test_dirty_repository_blocks_even_with_valid_signature(self):
         result = evaluate_gateway_readonly_attestation(
             artifact=artifact(),
-            policy=policy(b"reviewer-key"),
+            policy=policy(b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n"),
             current_git_sha=GIT_SHA,
             current_instance_name=INSTANCE,
-            public_key_bytes=b"reviewer-key",
+            public_key_bytes=b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n",
             signature_valid=True,
             repository_clean=False,
             now=NOW,
@@ -208,7 +208,7 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
         )
 
     def test_policy_key_pin_and_reviewer_must_match(self):
-        bad_policy = policy(b"reviewer-key")
+        bad_policy = policy(b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n")
         bad_policy["public_key_sha256"] = "d" * 64
         result = self.evaluate(policy_data=bad_policy)
         self.assertIn(
