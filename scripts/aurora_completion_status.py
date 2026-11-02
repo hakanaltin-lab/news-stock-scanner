@@ -337,6 +337,13 @@ def evaluate_completion_status(
             "readiness_evidence_run_id": readiness_run_id,
             "g4_evidence_run_id": g4_run_id,
             "g0_g1_proof_sha256": actual_g0_digest,
+            "gce_instance_id": (
+                g0_instance_id
+                if checks[
+                    "g0_control_plane_instance_bound_to_gateway_attestation"
+                ]
+                else None
+            ),
             "readiness_recorded_g0_g1_proof_sha256": (
                 readiness_g0_digest or None
             ),
