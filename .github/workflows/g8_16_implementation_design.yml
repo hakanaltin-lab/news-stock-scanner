@@ -6,6 +6,8 @@ on:
     paths:
       - "config/ibkr_paper_adapter_implementation_design_v1.json"
       - "engines/paper_adapter_implementation_design.py"
+      - "engines/paper_adapter_source_attestation.py"
+      - "engines/paper_adapter_source_review.py"
       - "scripts/g6_adapter_implementation_design_review.py"
       - "scripts/verify_adapter_source_attestation.py"
       - "broker_engine/ibkr_paper_adapter_review_skeleton.py"
