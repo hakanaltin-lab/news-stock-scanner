@@ -39,7 +39,11 @@ environment or CLI path overrides. It requires:
 - public-key material only — reviewer private-key material is rejected;
 - policy instance exactly `aurora-trading-vps`;
 - policy zone exactly `europe-west3-a`;
+- policy project exactly `project-ce9773ef-6814-469c-92b`;
+- policy immutable numeric GCE instance ID;
 - runtime hostname matching the approved instance;
+- live link-local GCE metadata matching project, instance name, zone and
+  immutable instance ID;
 - a valid current Git SHA;
 - no tracked Git modifications;
 - a fresh `runtime/gcp/latest.json` G0/G1 proof showing the approved project,
@@ -49,8 +53,8 @@ environment or CLI path overrides. It requires:
 - system OpenSSL available;
 - a valid policy freshness window and clock-skew limit.
 
-The output contains no broker account ID, balance, credential, or order
-authorization. The G0/G1 proof remains a preflight input, not Gateway Read-Only
+The output contains no broker account ID, balance, credential, service-account
+token, or order authorization. The G0/G1 proof remains a preflight input, not Gateway Read-Only
 evidence; the independent reviewer must still inspect the Gateway/TWS setting
 directly.
 
