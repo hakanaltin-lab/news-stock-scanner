@@ -1,11 +1,13 @@
 """AURORA V8.9.7 IBKR market-data connector safety tests."""
 
+import importlib.util
 import json
 import os
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import types
 import unittest
 from unittest.mock import patch
 
@@ -143,6 +145,84 @@ class IBKRMarketDataConfigTests(unittest.TestCase):
         self.assertFalse(
             config["paper_order_submission_allowed"]
         )
+        self.assertTrue(config["mode_valid"])
+        self.assertTrue(config["port_valid"])
+        self.assertTrue(config["client_id_valid"])
+        self.assertTrue(config["timeout_valid"])
+        self.assertTrue(config["read_only"])
+
+    def test_invalid_mode_blocks_before_network_access(self):
+        with patch.dict(os.environ, {
+            "AURORA_IBKR_MARKET_DATA_ENABLED": "true",
+            "AURORA_IBKR_MODE": "PAPRE",
+            "AURORA_IBKR_HOST": "127.0.0.1",
+            "AURORA_IBKR_PORT": "4002",
+        }, clear=True):
+            config = connector.load_ibkr_market_data_config()
+            result = connector.get_ibkr_realtime_quote("NVDA")
+
+        self.assertEqual(config["mode"], "INVALID")
+        self.assertFalse(config["mode_valid"])
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(result["connection_status"], "NOT_ATTEMPTED")
+        self.assertEqual(result["reason"], "INVALID_IBKR_MODE")
+
+    def test_invalid_port_blocks_without_safe_fallback(self):
+        for value in ("not-a-port", "0", "65536"):
+            with self.subTest(value=value), patch.dict(os.environ, {
+                "AURORA_IBKR_MARKET_DATA_ENABLED": "true",
+                "AURORA_IBKR_MODE": "PAPER",
+                "AURORA_IBKR_HOST": "127.0.0.1",
+                "AURORA_IBKR_PORT": value,
+            }, clear=True):
+                config = connector.load_ibkr_market_data_config()
+                result = connector.get_ibkr_realtime_quote("NVDA")
+
+            self.assertFalse(config["port_valid"])
+            self.assertEqual(result["status"], "BLOCKED")
+            self.assertEqual(result["connection_status"], "NOT_ATTEMPTED")
+            self.assertEqual(result["reason"], "INVALID_IBKR_PORT")
+
+    def test_invalid_or_zero_client_id_blocks_before_network_access(self):
+        for value in ("not-an-id", "-1", "0", "2147483648"):
+            with self.subTest(value=value), patch.dict(os.environ, {
+                "AURORA_IBKR_MARKET_DATA_ENABLED": "true",
+                "AURORA_IBKR_MODE": "PAPER",
+                "AURORA_IBKR_HOST": "127.0.0.1",
+                "AURORA_IBKR_PORT": "4002",
+                "AURORA_IBKR_MARKET_DATA_CLIENT_ID": value,
+            }, clear=True):
+                config = connector.load_ibkr_market_data_config()
+                result = connector.get_ibkr_realtime_quote("NVDA")
+
+            self.assertFalse(config["client_id_valid"])
+            self.assertEqual(result["status"], "BLOCKED")
+            self.assertEqual(result["connection_status"], "NOT_ATTEMPTED")
+            self.assertEqual(
+                result["reason"],
+                "INVALID_IBKR_MARKET_DATA_CLIENT_ID",
+            )
+
+    def test_invalid_timeout_blocks_without_safe_fallback(self):
+        for value in ("not-a-timeout", "nan", "inf", "-inf", "0", "31"):
+            with self.subTest(value=value), patch.dict(os.environ, {
+                "AURORA_IBKR_MARKET_DATA_ENABLED": "true",
+                "AURORA_IBKR_MODE": "PAPER",
+                "AURORA_IBKR_HOST": "127.0.0.1",
+                "AURORA_IBKR_PORT": "4002",
+                "AURORA_IBKR_MARKET_DATA_CLIENT_ID": "83",
+                "AURORA_IBKR_MARKET_DATA_TIMEOUT_SECONDS": value,
+            }, clear=True):
+                config = connector.load_ibkr_market_data_config()
+                result = connector.get_ibkr_realtime_quote("NVDA")
+
+            self.assertFalse(config["timeout_valid"])
+            self.assertEqual(result["status"], "BLOCKED")
+            self.assertEqual(result["connection_status"], "NOT_ATTEMPTED")
+            self.assertEqual(
+                result["reason"],
+                "INVALID_IBKR_MARKET_DATA_TIMEOUT",
+            )
 
     def test_live_port_is_unsafe(self):
         with patch.dict(os.environ, {
@@ -203,7 +283,6 @@ class IBKRMarketDataStaticSafetyTests(unittest.TestCase):
         ).read_text(encoding="utf-8")
 
         forbidden_tokens = [
-            "placeOrder",
             "reqIds(",
             "submit_order",
             "Order()",
@@ -216,6 +295,82 @@ class IBKRMarketDataStaticSafetyTests(unittest.TestCase):
 
         self.assertIn("reqTickByTickData", source)
         self.assertIn("tickByTickAllLast", source)
+
+    def test_broker_mutation_surface_is_hard_blocked_with_ibapi_available(self):
+        fake_ibapi = types.ModuleType("ibapi")
+        fake_client = types.ModuleType("ibapi.client")
+        fake_contract = types.ModuleType("ibapi.contract")
+        fake_wrapper = types.ModuleType("ibapi.wrapper")
+
+        class FakeClient:
+            def __init__(self, wrapper):
+                self.wrapper = wrapper
+
+        class FakeContract:
+            pass
+
+        class FakeWrapper:
+            def __init__(self):
+                pass
+
+        fake_client.EClient = FakeClient
+        fake_contract.Contract = FakeContract
+        fake_wrapper.EWrapper = FakeWrapper
+
+        module_path = (
+            REPOSITORY_ROOT
+            / "engines"
+            / "ibkr_market_data_connector.py"
+        )
+        specification = importlib.util.spec_from_file_location(
+            "ibkr_market_data_mutation_block_test",
+            module_path,
+        )
+        isolated = importlib.util.module_from_spec(specification)
+
+        with patch.dict(sys.modules, {
+            "ibapi": fake_ibapi,
+            "ibapi.client": fake_client,
+            "ibapi.contract": fake_contract,
+            "ibapi.wrapper": fake_wrapper,
+        }):
+            specification.loader.exec_module(isolated)
+
+        application = isolated._IBKRMarketDataApp()
+
+        for method_name in isolated.BROKER_MUTATION_METHODS_HARD_BLOCKED:
+            with self.subTest(method_name=method_name):
+                self.assertIn(
+                    method_name,
+                    isolated._IBKRMarketDataApp.__dict__,
+                )
+                with self.assertRaisesRegex(
+                    RuntimeError,
+                    "hard-blocked",
+                ):
+                    getattr(application, method_name)()
+
+    def test_disabled_snapshot_declares_mutation_hard_blocks(self):
+        with patch.dict(os.environ, {
+            "AURORA_IBKR_MARKET_DATA_ENABLED": "false",
+            "AURORA_IBKR_MODE": "PAPER",
+            "AURORA_IBKR_HOST": "127.0.0.1",
+            "AURORA_IBKR_PORT": "4002",
+            "AURORA_IBKR_MARKET_DATA_CLIENT_ID": "83",
+        }, clear=True):
+            result = connector.get_ibkr_realtime_quote("NVDA")
+
+        self.assertEqual(result["status"], "DISABLED")
+        self.assertTrue(
+            result["broker_mutation_surface_hard_blocked"]
+        )
+        self.assertTrue(
+            result["client_zero_binding_hard_blocked"]
+        )
+        self.assertEqual(
+            set(result["blocked_broker_mutation_methods"]),
+            set(connector.BROKER_MUTATION_METHODS_HARD_BLOCKED),
+        )
 
     def test_probe_preserves_wrapper_evidence_run_id(self):
         with tempfile.TemporaryDirectory() as directory:
