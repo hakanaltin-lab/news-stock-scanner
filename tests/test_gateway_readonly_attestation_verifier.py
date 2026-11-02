@@ -63,7 +63,13 @@ def policy(public_key_bytes):
 
 
 class GatewayReadOnlyAttestationTests(unittest.TestCase):
-    def evaluate(self, data=None, policy_data=None, public_key=b"reviewer-key", signature_valid=True):
+    def evaluate(
+        self,
+        data=None,
+        policy_data=None,
+        public_key=b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n",
+        signature_valid=True,
+    ):
         data = artifact() if data is None else data
         policy_data = policy(public_key) if policy_data is None else policy_data
         return evaluate_gateway_readonly_attestation(
@@ -106,10 +112,14 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
 
         result = evaluate_gateway_readonly_attestation(
             artifact=artifact(),
-            policy=policy(b"reviewer-key"),
+            policy=policy(
+                b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n"
+            ),
             current_git_sha=GIT_SHA,
             current_instance_name="different-vps",
-            public_key_bytes=b"reviewer-key",
+            public_key_bytes=(
+                b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n"
+            ),
             signature_valid=True,
             now=NOW,
         )
@@ -163,7 +173,10 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
             first["failure_reasons"],
         )
 
-        bad_policy = policy(b"reviewer-key")
+        public_key = (
+            b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n"
+        )
+        bad_policy = policy(public_key)
         bad_policy["policy_version"] = True
         second = self.evaluate(policy_data=bad_policy)
         self.assertIn(
@@ -209,6 +222,20 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
         self.assertIn(
             "reviewer_matches_policy",
             second["failure_reasons"],
+        )
+
+    def test_private_key_material_is_never_accepted_as_reviewer_key(self):
+        private_material = (
+            b"-----BEGIN PRIVATE KEY-----\nTEST\n-----END PRIVATE KEY-----\n"
+        )
+        result = self.evaluate(
+            public_key=private_material,
+            policy_data=policy(private_material),
+        )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn(
+            "reviewer_public_key_material_valid",
+            result["failure_reasons"],
         )
 
     def test_duplicate_json_keys_are_rejected_before_verification(self):
