@@ -44,6 +44,12 @@ def handoff(ready=True):
 def package(ready=True):
     return {
         **safe_flags(),
+        "package_type": (
+            status.RUNTIME_BOUND_PACKAGE_TYPE
+            if ready
+            else status.RUNTIME_BOUND_PACKAGE_TYPE
+        ),
+        "package_schema_version": 2,
         "status": (
             "READY_FOR_INDEPENDENT_REVIEW_PACKAGE"
             if ready
@@ -53,6 +59,16 @@ def package(ready=True):
         "attestation_verified": False,
         "gateway_read_only_configuration_independently_attested": False,
         "failure_reasons": [] if ready else ["BLOCKED"],
+        "g2_diagnostic_proof_sha256": (
+            "a" * 64
+            if ready
+            else None
+        ),
+        "g2_diagnostic_summary": (
+            {"diagnostic_read_only_ready": True}
+            if ready
+            else None
+        ),
     }
 
 
@@ -120,6 +136,25 @@ class GatewayReviewWorkflowStatusTests(unittest.TestCase):
         for name in status._PERMISSION_FLAGS:
             self.assertIs(result[name], False)
 
+    def test_signed_attestation_does_not_expire_with_pre_review_g2_window(self):
+        result = self.evaluate(
+            package_value=package(False),
+            attestation_value=attestation(True),
+        )
+
+        self.assertEqual(
+            result["status"],
+            "VERIFIED_FOR_G2_READ_ONLY_PROBE",
+        )
+        self.assertEqual(
+            result["workflow_stage"],
+            "SIGNED_ATTESTATION_VERIFIED",
+        )
+        self.assertFalse(result["review_package_ready"])
+        self.assertTrue(result["signed_attestation_verified"])
+        for name in status._PERMISSION_FLAGS:
+            self.assertIs(result[name], False)
+
     def test_each_earlier_stage_maps_to_one_safe_next_action(self):
         cases = (
             (
@@ -135,7 +170,7 @@ class GatewayReviewWorkflowStatusTests(unittest.TestCase):
             (
                 {"package_value": package(False)},
                 "REVIEW_PACKAGE",
-                "REPAIR_UNSIGNED_REVIEW_PACKAGE",
+                "RUN_FRESH_G2_DIAGNOSTIC_PRE_REVIEW",
             ),
         )
 
