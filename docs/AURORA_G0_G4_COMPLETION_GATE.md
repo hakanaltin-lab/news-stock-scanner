@@ -38,3 +38,19 @@ This means the infrastructure and complete pre-trade shadow chain have been
 validated. It does **not** authorize a Paper broker order, automatic promotion,
 LIVE execution, or real-money trading. Those flags remain false and the next
 gate is explicitly recorded as `MANUAL_PAPER_ORDER_AUTHORIZATION_NOT_GRANTED`.
+
+## G8.9 trusted completion evidence chain
+
+The final completion CLI now accepts G2, unified readiness, G4 shadow and
+ledger-audit artifacts only through the trusted owner-only `0600` JSON reader.
+Its final project-status artifact is written through the same atomic trusted
+writer.
+
+The completion gate also requires `real_money_trading_allowed=false` on the
+readiness, G4 and ledger-audit stages. Therefore a locally copied, symlinked,
+hard-linked, broadly readable or permission-regressed runtime artifact cannot
+be treated as a valid shadow-only completion chain.
+
+G0/G1 remains a separately verified control-plane proof and continues to be
+cryptographically bound through its SHA-256 digest and immutable GCE instance
+identity.
