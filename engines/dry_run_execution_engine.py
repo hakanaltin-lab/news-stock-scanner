@@ -50,6 +50,8 @@ class DryRunExecutionEngine:
             "broker_submission_allowed": False,
             "paper_order_submission_allowed": False,
             "live_execution_allowed": False,
+            "automatic_promotion_allowed": False,
+            "real_money_trading_allowed": False,
             **extra,
         }
 
@@ -300,6 +302,8 @@ class DryRunExecutionEngine:
             "broker_submission_allowed": False,
             "paper_order_submission_allowed": False,
             "live_execution_allowed": False,
+            "automatic_promotion_allowed": False,
+            "real_money_trading_allowed": False,
             "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
@@ -326,6 +330,8 @@ class DryRunExecutionEngine:
             "broker_submission_allowed": False,
             "paper_order_submission_allowed": False,
             "live_execution_allowed": False,
+            "automatic_promotion_allowed": False,
+            "real_money_trading_allowed": False,
             "shadow_orders": self.shadow_orders,
             "generated_at": datetime.now(timezone.utc).isoformat(),
         }
