@@ -1,30 +1,40 @@
-# AURORA G7.17 — Fresh Paper State-Risk Preflight
+# AURORA G7.17 — Post-Authorization Fresh Paper State-Risk Preflight
 
 G7.17 is a non-executable risk gate after the G5 manual Paper authorization preflight.
 
 It does not submit, reserve, stage, or construct a broker order.
 
-## Evidence contract
+## Two-proof evidence model
 
-The gate accepts only the exact G2 Paper read-only proof, exact G0-G4 completion status, exact completion-bound G4 shadow order, and validated G5 human-authorization result.
+The G2 proof embedded in G0-G4 completion remains the authorized provenance proof. Its SHA-256 must still match the completion binding.
 
-The G2 SHA-256 must match the completion binding. The shadow SHA-256 must match both completion and G5. The G5 completion SHA-256 must match the exact completion object. Human authorization timestamps are rechecked and must still be current.
+A second G2 read-only probe is required after human authorization. This fresh proof supplies the broker state used for risk decisions. It is not allowed to replace or rewrite the authorized G2 provenance.
 
-## Broker-state source
+The fresh G2 proof must:
 
-Portfolio state is not supplied by the caller. It is derived only from the fresh G2 read-only IBKR snapshot.
+- be no older than the fixed 60-second ceiling;
+- be captured after the G5 authorization was issued;
+- use READ_ONLY AURORA mode and Paper loopback 127.0.0.1:4002;
+- keep broker submission hard-blocked;
+- contain a READY_FOR_PAPER_READ_ONLY result;
+- carry the exact same independently verified signed Gateway/TWS attestation as the authorized G2 proof;
+- carry the same verified Paper account fingerprint as the authorized G2 proof.
 
-Required state includes READ_ONLY AURORA mode, Paper loopback endpoint 127.0.0.1:4002, hard-blocked order submission, independently verified Gateway/TWS Read-Only attestation, completed account-summary/position/open-order snapshots, and fresh G2 snapshot/readiness timestamps.
+This avoids forcing a human to approve within 60 seconds of the original G2 snapshot while still ensuring that the risk calculation uses current broker state.
 
-The caller cannot relax the default 60-second G2 freshness ceiling. An explicitly invalid reference clock blocks rather than falling back to wall time.
+## Exact evidence bindings
+
+The exact shadow SHA-256 must match both completion and G5. The G5 completion SHA-256 must match the exact completion object. Human authorization issue/expiry timestamps are rechecked and must still be current.
+
+The caller cannot relax the 60-second fresh-G2 ceiling. An explicitly invalid reference clock blocks rather than falling back to wall time.
 
 ## Risk rules
 
-For a BUY, the exact shadow order notional must be covered by the read-only AvailableFunds value. The readiness metric must match the raw snapshot value, and the snapshot currency must be USD.
+For a BUY, the exact shadow order notional must be covered by AvailableFunds from the fresh G2 snapshot. The readiness metric must equal the raw snapshot value and the currency must be USD.
 
-For a SELL, AURORA does not assume short-selling capacity. Available inventory is current positive broker position minus already-open SELL quantity for the same stock. The requested quantity must fit inside that remainder.
+For a SELL, AURORA does not assume short-selling capacity. Available inventory is the current positive broker position minus already-open SELL quantity for the same stock. The requested quantity must fit inside that remainder.
 
-Malformed positions/open orders, non-stock rows for the target symbol, non-finite quantities, stale state, evidence mismatch, non-USD funds, or expired human approval fail closed.
+Every position/open-order row used by the gate must belong to the verified Paper account. Malformed rows, non-stock rows for the target symbol, non-finite quantities, stale state, account or attestation drift, evidence mismatch, non-USD funds, or expired human approval fail closed.
 
 ## Output
 
