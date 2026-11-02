@@ -105,16 +105,18 @@ the same signed-attestation verifier.
 
 ## Operator/reviewer sequence
 
-1. Run the G7.6 handoff preflight on the approved VPS.
-2. Record the GCE numeric instance ID reported by the live metadata-bound
-   handoff.
-3. Install the reviewed V2 root policy containing that instance ID.
-4. The independent reviewer verifies Gateway/TWS Read-Only API configuration.
-5. The reviewer signs a V2 artifact containing the exact same project and
+1. On the approved VPS, run `python scripts/gce_identity_bootstrap.py`.
+2. Continue only if it reports `VERIFIED`; record the sanitized project,
+   instance name, zone and immutable numeric instance ID.
+3. Install the reviewed V2 root policy containing that exact instance ID.
+4. Run the G7.8 reviewer handoff preflight. It must cross-bind the root policy,
+   G0/G1 control-plane proof and live metadata to the same instance ID.
+5. The independent reviewer verifies Gateway/TWS Read-Only API configuration.
+6. The reviewer signs a V2 artifact containing the exact same project and
    instance ID, off the trading VPS.
-6. Install only the signed artifact on the VPS.
-7. Run `python scripts/verify_gateway_readonly_attestation.py`.
-8. Continue only if the verifier reports `VERIFIED`.
+7. Install only the signed artifact on the VPS.
+8. Run `python scripts/verify_gateway_readonly_attestation.py`.
+9. Continue only if the verifier reports `VERIFIED`.
 
 No broker order should be placed to prove any step above.
 
@@ -126,3 +128,13 @@ The reviewer handoff contract is upgraded to
 `request_schema_version=2`. V2 includes the immutable
 `g0_runtime_instance_id` from the G0/G1 control-plane proof. The handoff is
 blocked unless that ID matches both the root policy and live GCE metadata.
+
+
+## G7.9 safe pre-policy identity bootstrap
+
+`scripts/gce_identity_bootstrap.py` exists only to break the initial policy
+bootstrap dependency. It reads the already constrained G7.7 identity source and
+prints only project ID, VM name, zone and immutable instance ID. It does not
+write policy or attestation files and all broker/Paper/LIVE/real-money
+permission flags remain false. A blocked metadata read reveals no partial
+runtime identity fields.

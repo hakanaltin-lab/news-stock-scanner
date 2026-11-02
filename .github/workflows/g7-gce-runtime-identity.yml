@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - "engines/gce_runtime_identity.py"
+      - "scripts/gce_identity_bootstrap.py"
+      - "tests/test_gce_identity_bootstrap.py"
       - "engines/gateway_readonly_attestation_verifier.py"
       - "engines/gateway_attestation_handoff.py"
       - "tests/test_gce_runtime_identity.py"
@@ -34,6 +36,8 @@ jobs:
       - name: Compile G7.7 identity components
         run: |
           python -m py_compile engines/gce_runtime_identity.py
+          python -m py_compile scripts/gce_identity_bootstrap.py
+          python -m py_compile tests/test_gce_identity_bootstrap.py
           python -m py_compile engines/gateway_readonly_attestation_verifier.py
           python -m py_compile engines/gateway_attestation_handoff.py
           python -m py_compile tests/test_gce_runtime_identity.py
@@ -43,6 +47,10 @@ jobs:
       - name: Prove fixed link-local GCE identity boundary
         run: |
           python -m unittest discover -s tests -p 'test_gce_runtime_identity.py' -v
+
+      - name: Prove safe pre-policy GCE identity bootstrap
+        run: |
+          python -m unittest discover -s tests -p 'test_gce_identity_bootstrap.py' -v
 
       - name: Prove V2 signed attestation GCE binding
         run: |
