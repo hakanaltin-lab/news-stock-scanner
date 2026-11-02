@@ -7,6 +7,7 @@ import unittest
 
 from scripts.gateway_review_package import (
     PACKAGE_TYPE,
+    RUNTIME_BOUND_PACKAGE_SCHEMA_VERSION,
     RUNTIME_BOUND_PACKAGE_TYPE,
     _REQUIRED_G2_PASSED_CHECKS,
     build_runtime_bound_review_package,
@@ -66,6 +67,18 @@ def g2_diagnostic(timestamp=None):
         "run_mode": {
             "mode": "READ_ONLY",
             "live_execution_allowed": False,
+        },
+        "runtime_provenance": {
+            "verified": True,
+            "runtime_cloud_identity": {
+                "project_id": PROJECT_ID,
+                "instance_name": INSTANCE_NAME,
+                "zone": ZONE,
+                "instance_id": INSTANCE_ID,
+            },
+            "g0_runtime_proof_sha256": G0_SHA,
+            "failure_reasons": [],
+            **safe_permissions,
         },
         "snapshot": {
             "timestamp": timestamp,
@@ -365,7 +378,10 @@ class GatewayReviewPackageTests(unittest.TestCase):
             result["package_type"],
             RUNTIME_BOUND_PACKAGE_TYPE,
         )
-        self.assertEqual(result["package_schema_version"], 2)
+        self.assertEqual(
+            result["package_schema_version"],
+            RUNTIME_BOUND_PACKAGE_SCHEMA_VERSION,
+        )
         self.assertEqual(
             result["status"],
             "READY_FOR_INDEPENDENT_REVIEW_PACKAGE",
@@ -380,6 +396,14 @@ class GatewayReviewPackageTests(unittest.TestCase):
             [ACCOUNT_FINGERPRINT],
         )
         self.assertEqual(summary["git_sha"], GIT_SHA)
+        self.assertEqual(
+            summary["gcp_instance_id"],
+            INSTANCE_ID,
+        )
+        self.assertEqual(
+            summary["g0_runtime_proof_sha256"],
+            G0_SHA,
+        )
         self.assertEqual(
             summary["only_required_failure"],
             "gateway_read_only_configuration_independently_attested",
@@ -399,6 +423,58 @@ class GatewayReviewPackageTests(unittest.TestCase):
             "real_money_trading_allowed",
         ):
             self.assertIs(result[key], False)
+
+    def test_runtime_bound_package_rejects_cross_vm_provenance(self):
+        value = g2_diagnostic()
+        value["runtime_provenance"]["runtime_cloud_identity"][
+            "instance_id"
+        ] = "9876543210987654321"
+
+        result = build_runtime_bound_review_package(
+            safe_handoff(),
+            value,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["failure_reasons"],
+            ["G2_DIAGNOSTIC_GCE_IDENTITY_NOT_BOUND"],
+        )
+
+    def test_runtime_bound_package_rejects_different_g0_proof_digest(self):
+        value = g2_diagnostic()
+        value["runtime_provenance"][
+            "g0_runtime_proof_sha256"
+        ] = "b" * 64
+
+        result = build_runtime_bound_review_package(
+            safe_handoff(),
+            value,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["failure_reasons"],
+            ["G2_DIAGNOSTIC_G0_PROOF_NOT_BOUND"],
+        )
+
+    def test_runtime_bound_package_rejects_missing_runtime_provenance(self):
+        value = g2_diagnostic()
+        value.pop("runtime_provenance")
+
+        result = build_runtime_bound_review_package(
+            safe_handoff(),
+            value,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["failure_reasons"],
+            ["G2_DIAGNOSTIC_RUNTIME_PROVENANCE_INVALID"],
+        )
 
     def test_runtime_bound_package_rejects_stale_or_wrong_commit_g2(self):
         stale = g2_diagnostic(
