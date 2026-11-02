@@ -58,13 +58,28 @@ def g0_proof():
     }
 
 
+def runtime_cloud_identity():
+    return {
+        "engine": "AURORA G7.7 GCE Runtime Identity",
+        "status": "VERIFIED",
+        "verified": True,
+        "project_id": "project-ce9773ef-6814-469c-92b",
+        "instance_name": EXPECTED_INSTANCE_NAME,
+        "zone": EXPECTED_ZONE,
+        "instance_id": "1234567890123456789",
+        "failure_reasons": [],
+    }
+
+
 def policy():
     return {
-        "policy_version": 1,
+        "policy_version": 2,
         "reviewer_id": "aurora-independent-reviewer",
         "public_key_sha256": hashlib.sha256(PUBLIC_KEY).hexdigest(),
         "expected_instance_name": EXPECTED_INSTANCE_NAME,
         "expected_zone": EXPECTED_ZONE,
+        "expected_project_id": "project-ce9773ef-6814-469c-92b",
+        "expected_instance_id": "1234567890123456789",
         "max_attestation_age_seconds": 28800,
         "allowed_clock_skew_seconds": 60,
     }
@@ -80,6 +95,7 @@ class GatewayAttestationHandoffTests(unittest.TestCase):
             "repository_clean": True,
             "openssl_available": True,
             "g0_proof": g0_proof(),
+            "runtime_cloud_identity": runtime_cloud_identity(),
             "now": NOW,
         }
         arguments.update(overrides)
@@ -134,6 +150,14 @@ class GatewayAttestationHandoffTests(unittest.TestCase):
             request["signed_attestation_required"]
         )
         self.assertEqual(
+            request["gcp_project_id"],
+            "project-ce9773ef-6814-469c-92b",
+        )
+        self.assertEqual(
+            request["gcp_instance_id"],
+            "1234567890123456789",
+        )
+        self.assertEqual(
             request["g0_runtime_zone"],
             EXPECTED_ZONE,
         )
@@ -178,6 +202,28 @@ class GatewayAttestationHandoffTests(unittest.TestCase):
             verifier_result[
                 "gateway_read_only_configuration_independently_attested"
             ]
+        )
+
+    def test_live_gce_identity_is_required_for_handoff(self):
+        blocked = runtime_cloud_identity()
+        blocked["status"] = "BLOCKED"
+        blocked["verified"] = False
+        result = self.evaluate(
+            runtime_cloud_identity=blocked
+        )
+        self.assertIn(
+            "gce_runtime_identity_verified",
+            result["failure_reasons"],
+        )
+
+        clone = runtime_cloud_identity()
+        clone["instance_id"] = "9876543210987654321"
+        clone_result = self.evaluate(
+            runtime_cloud_identity=clone
+        )
+        self.assertIn(
+            "gce_runtime_instance_id_bound",
+            clone_result["failure_reasons"],
         )
 
     def test_dirty_repo_wrong_instance_or_missing_openssl_blocks(self):

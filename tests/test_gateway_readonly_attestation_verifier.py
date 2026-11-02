@@ -26,12 +26,14 @@ NOW = datetime(2026, 11, 2, 7, 0, tzinfo=timezone.utc)
 GIT_SHA = "a" * 40
 INSTANCE = "aurora-trading-vps"
 ZONE = "europe-west3-a"
+PROJECT_ID = "project-ce9773ef-6814-469c-92b"
+INSTANCE_ID = "1234567890123456789"
 REVIEWER = "aurora-independent-reviewer"
 
 
 def artifact():
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "attestation_id": "11111111-1111-4111-8111-111111111111",
         "attestation_type": ATTESTATION_TYPE,
         "decision": "ATTESTED",
@@ -41,6 +43,8 @@ def artifact():
         "git_sha": GIT_SHA,
         "instance_name": INSTANCE,
         "zone": ZONE,
+        "gcp_project_id": PROJECT_ID,
+        "gcp_instance_id": INSTANCE_ID,
         "broker_mode": "PAPER",
         "gateway_port": 4002,
         "read_only_api_enabled": True,
@@ -52,13 +56,28 @@ def artifact():
 
 def policy(public_key_bytes):
     return {
-        "policy_version": 1,
+        "policy_version": 2,
         "reviewer_id": REVIEWER,
         "public_key_sha256": hashlib.sha256(public_key_bytes).hexdigest(),
         "expected_instance_name": INSTANCE,
         "expected_zone": ZONE,
+        "expected_project_id": PROJECT_ID,
+        "expected_instance_id": INSTANCE_ID,
         "max_attestation_age_seconds": 7200,
         "allowed_clock_skew_seconds": 60,
+    }
+
+
+def runtime_identity():
+    return {
+        "engine": "AURORA G7.7 GCE Runtime Identity",
+        "status": "VERIFIED",
+        "verified": True,
+        "project_id": PROJECT_ID,
+        "instance_name": INSTANCE,
+        "zone": ZONE,
+        "instance_id": INSTANCE_ID,
+        "failure_reasons": [],
     }
 
 
@@ -79,6 +98,7 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
             current_instance_name=INSTANCE,
             public_key_bytes=public_key,
             signature_valid=signature_valid,
+            runtime_cloud_identity=runtime_identity(),
             now=NOW,
         )
 
@@ -121,6 +141,7 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
                 b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n"
             ),
             signature_valid=True,
+            runtime_cloud_identity=runtime_identity(),
             now=NOW,
         )
         self.assertIn("runtime_instance_bound", result["failure_reasons"])
@@ -134,10 +155,117 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
             public_key_bytes=b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n",
             signature_valid=True,
             repository_clean=False,
+            runtime_cloud_identity=runtime_identity(),
             now=NOW,
         )
         self.assertEqual(result["status"], "BLOCKED")
         self.assertIn("repository_clean", result["failure_reasons"])
+
+    def test_gce_runtime_identity_must_match_signed_artifact_and_policy(self):
+        wrong_instance = runtime_identity()
+        wrong_instance["instance_id"] = "9876543210987654321"
+        result = evaluate_gateway_readonly_attestation(
+            artifact=artifact(),
+            policy=policy(
+                b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n"
+            ),
+            current_git_sha=GIT_SHA,
+            current_instance_name=INSTANCE,
+            public_key_bytes=(
+                b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n"
+            ),
+            signature_valid=True,
+            runtime_cloud_identity=wrong_instance,
+            now=NOW,
+        )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn(
+            "gce_instance_id_runtime_bound",
+            result["failure_reasons"],
+        )
+
+        wrong_project = artifact()
+        wrong_project["gcp_project_id"] = "different-project"
+        second = self.evaluate(data=wrong_project)
+        self.assertIn(
+            "gcp_project_id_format",
+            second["failure_reasons"],
+        )
+
+        wrong_policy = policy(
+            b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n"
+        )
+        wrong_policy["expected_instance_id"] = "9876543210987654321"
+        third = self.evaluate(
+            policy_data=wrong_policy
+        )
+        self.assertIn(
+            "gcp_instance_matches_policy",
+            third["failure_reasons"],
+        )
+
+    def test_gcp_identity_fields_require_string_types(self):
+        numeric_artifact = artifact()
+        numeric_artifact["gcp_instance_id"] = 1234567890123456789
+        first = self.evaluate(
+            data=numeric_artifact
+        )
+        self.assertIn(
+            "gcp_instance_id_format",
+            first["failure_reasons"],
+        )
+
+        numeric_policy = policy(
+            b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n"
+        )
+        numeric_policy["expected_instance_id"] = 1234567890123456789
+        second = self.evaluate(
+            policy_data=numeric_policy
+        )
+        self.assertIn(
+            "policy_instance_id_format",
+            second["failure_reasons"],
+        )
+
+        numeric_project = artifact()
+        numeric_project["gcp_project_id"] = 123
+        third = self.evaluate(
+            data=numeric_project
+        )
+        self.assertIn(
+            "gcp_project_id_format",
+            third["failure_reasons"],
+        )
+
+    def test_missing_or_blocked_gce_runtime_identity_blocks(self):
+        for runtime_identity_value in (
+            {},
+            {
+                "status": "BLOCKED",
+                "verified": False,
+                "failure_reasons": ["metadata unavailable"],
+            },
+        ):
+            with self.subTest(runtime_identity=runtime_identity_value):
+                result = evaluate_gateway_readonly_attestation(
+                    artifact=artifact(),
+                    policy=policy(
+                        b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n"
+                    ),
+                    current_git_sha=GIT_SHA,
+                    current_instance_name=INSTANCE,
+                    public_key_bytes=(
+                        b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n"
+                    ),
+                    signature_valid=True,
+                    runtime_cloud_identity=runtime_identity_value,
+                    now=NOW,
+                )
+                self.assertEqual(result["status"], "BLOCKED")
+                self.assertIn(
+                    "gce_runtime_identity_verified",
+                    result["failure_reasons"],
+                )
 
     def test_expired_future_or_overlong_attestation_blocks(self):
         expired = artifact()

@@ -1,0 +1,71 @@
+name: G7.7 GCE Runtime Identity Safety
+
+on:
+  pull_request:
+    paths:
+      - "engines/gce_runtime_identity.py"
+      - "engines/gateway_readonly_attestation_verifier.py"
+      - "engines/gateway_attestation_handoff.py"
+      - "tests/test_gce_runtime_identity.py"
+      - "tests/test_gateway_readonly_attestation_verifier.py"
+      - "tests/test_gateway_attestation_handoff.py"
+      - "config/gateway_readonly_attestation_policy.example.json"
+      - "docs/gateway_readonly_attestation_artifact.example.json"
+      - "docs/AURORA_G7_5_GATEWAY_READONLY_ATTESTATION.md"
+      - "docs/AURORA_G7_6_REVIEWER_HANDOFF.md"
+      - "docs/AURORA_G7_7_GCE_RUNTIME_IDENTITY.md"
+      - ".github/workflows/g7-gce-runtime-identity.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gce-identity-fail-closed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile G7.7 identity components
+        run: |
+          python -m py_compile engines/gce_runtime_identity.py
+          python -m py_compile engines/gateway_readonly_attestation_verifier.py
+          python -m py_compile engines/gateway_attestation_handoff.py
+          python -m py_compile tests/test_gce_runtime_identity.py
+          python -m py_compile tests/test_gateway_readonly_attestation_verifier.py
+          python -m py_compile tests/test_gateway_attestation_handoff.py
+
+      - name: Prove fixed link-local GCE identity boundary
+        run: |
+          python -m unittest discover -s tests -p 'test_gce_runtime_identity.py' -v
+
+      - name: Prove V2 signed attestation GCE binding
+        run: |
+          python -m unittest discover -s tests -p 'test_gateway_readonly_attestation_verifier.py' -v
+
+      - name: Prove reviewer handoff GCE binding
+        run: |
+          python -m unittest discover -s tests -p 'test_gateway_attestation_handoff.py' -v
+
+      - name: Prove no service-account metadata paths are requested
+        run: |
+          python - <<'PY'
+          from engines.gce_runtime_identity import _METADATA_PATHS
+          values = set(_METADATA_PATHS.values())
+          assert values == {
+              "/project/project-id",
+              "/instance/name",
+              "/instance/zone",
+              "/instance/id",
+          }
+          for value in values:
+              lowered = value.lower()
+              assert "service-accounts" not in lowered
+              assert "token" not in lowered
+              assert "credential" not in lowered
+          PY

@@ -4,12 +4,14 @@ on:
   pull_request:
     paths:
       - "engines/gateway_readonly_attestation_verifier.py"
+      - "engines/gce_runtime_identity.py"
       - "scripts/verify_gateway_readonly_attestation.py"
       - "scripts/ibkr_paper_probe.py"
       - "scripts/aurora_readiness_summary.py"
       - "scripts/aurora_completion_status.py"
       - "main.py"
       - "tests/test_gateway_readonly_attestation_verifier.py"
+      - "tests/test_gce_runtime_identity.py"
       - "tests/test_aurora_readiness_summary.py"
       - "tests/test_aurora_completion_status.py"
       - "config/gateway_readonly_attestation_policy.example.json"
@@ -40,6 +42,7 @@ jobs:
       - name: Compile attestation components
         run: |
           python -m py_compile engines/gateway_readonly_attestation_verifier.py
+          python -m py_compile engines/gce_runtime_identity.py
           python -m py_compile scripts/verify_gateway_readonly_attestation.py
           python -m py_compile scripts/ibkr_paper_probe.py
           python -m py_compile scripts/aurora_readiness_summary.py
@@ -49,6 +52,7 @@ jobs:
 
       - name: Prove signed attestation fails closed
         run: |
+          python -m unittest discover -s tests -p 'test_gce_runtime_identity.py' -v
           python -m unittest discover -s tests -p 'test_gateway_readonly_attestation_verifier.py' -v
           python -m unittest tests.test_aurora_readiness_summary -v
           python -m unittest tests.test_aurora_completion_status -v

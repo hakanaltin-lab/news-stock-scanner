@@ -24,8 +24,13 @@ import subprocess
 import tempfile
 from uuid import UUID
 
+from engines.gce_runtime_identity import (
+    EXPECTED_PROJECT_ID,
+    read_gce_runtime_identity,
+)
 
-ENGINE_VERSION = "AURORA G7.5 Gateway Read-Only Attestation Verifier"
+
+ENGINE_VERSION = "AURORA G7.7 Gateway Read-Only Attestation Verifier"
 
 DEFAULT_POLICY_PATH = Path(
     "/etc/aurora/gateway-readonly-attestation-policy.json"
@@ -38,7 +43,7 @@ DEFAULT_ARTIFACT_PATH = Path(
 )
 OPENSSL_BIN = Path("/usr/bin/openssl")
 
-ATTESTATION_TYPE = "IBKR_GATEWAY_API_READ_ONLY_V1"
+ATTESTATION_TYPE = "IBKR_GATEWAY_API_READ_ONLY_V2"
 SIGNATURE_ALGORITHM = "ED25519"
 
 _ARTIFACT_FIELDS = {
@@ -52,6 +57,8 @@ _ARTIFACT_FIELDS = {
     "git_sha",
     "instance_name",
     "zone",
+    "gcp_project_id",
+    "gcp_instance_id",
     "broker_mode",
     "gateway_port",
     "read_only_api_enabled",
@@ -66,6 +73,8 @@ _POLICY_FIELDS = {
     "public_key_sha256",
     "expected_instance_name",
     "expected_zone",
+    "expected_project_id",
+    "expected_instance_id",
     "max_attestation_age_seconds",
     "allowed_clock_skew_seconds",
 }
@@ -75,6 +84,7 @@ _HEX_64 = re.compile(r"^[0-9a-f]{64}$")
 _REVIEWER_ID = re.compile(r"^[A-Za-z0-9._@+-]{3,128}$")
 _INSTANCE_NAME = re.compile(r"^[a-z][a-z0-9-]{0,62}$")
 _ZONE = re.compile(r"^[a-z0-9-]{3,64}$")
+_GCP_INSTANCE_ID = re.compile(r"^[1-9][0-9]{5,30}$")
 
 
 class DuplicateJsonKeyError(ValueError):
@@ -293,6 +303,7 @@ def evaluate_gateway_readonly_attestation(
     public_key_bytes,
     signature_valid,
     repository_clean=True,
+    runtime_cloud_identity=None,
     now=None,
 ):
     """Evaluate parsed, already-loaded evidence without trusting caller claims."""
@@ -332,12 +343,12 @@ def evaluate_gateway_readonly_attestation(
     require(
         "artifact_schema_version",
         type(artifact.get("schema_version")) is int
-        and artifact.get("schema_version") == 1,
+        and artifact.get("schema_version") == 2,
     )
     require(
         "policy_version",
         type(policy.get("policy_version")) is int
-        and policy.get("policy_version") == 1,
+        and policy.get("policy_version") == 2,
     )
     require(
         "attestation_id_uuid4",
@@ -413,6 +424,139 @@ def evaluate_gateway_readonly_attestation(
     require(
         "zone_matches_policy",
         zone == policy.get("expected_zone"),
+    )
+
+    artifact_project_value = artifact.get(
+        "gcp_project_id"
+    )
+    policy_project_value = policy.get(
+        "expected_project_id"
+    )
+    artifact_instance_id_value = artifact.get(
+        "gcp_instance_id"
+    )
+    policy_instance_id_value = policy.get(
+        "expected_instance_id"
+    )
+
+    gcp_project_id = (
+        artifact_project_value.strip()
+        if isinstance(
+            artifact_project_value,
+            str,
+        )
+        else ""
+    )
+    policy_project_id = (
+        policy_project_value.strip()
+        if isinstance(
+            policy_project_value,
+            str,
+        )
+        else ""
+    )
+    gcp_instance_id = (
+        artifact_instance_id_value.strip()
+        if isinstance(
+            artifact_instance_id_value,
+            str,
+        )
+        else ""
+    )
+    policy_instance_id = (
+        policy_instance_id_value.strip()
+        if isinstance(
+            policy_instance_id_value,
+            str,
+        )
+        else ""
+    )
+
+    require(
+        "gcp_project_id_format",
+        isinstance(
+            artifact_project_value,
+            str,
+        )
+        and gcp_project_id == EXPECTED_PROJECT_ID,
+    )
+    require(
+        "policy_project_id_format",
+        isinstance(
+            policy_project_value,
+            str,
+        )
+        and policy_project_id == EXPECTED_PROJECT_ID,
+    )
+    require(
+        "gcp_project_matches_policy",
+        gcp_project_id == policy_project_id,
+    )
+    require(
+        "gcp_instance_id_format",
+        isinstance(
+            artifact_instance_id_value,
+            str,
+        )
+        and bool(
+            _GCP_INSTANCE_ID.fullmatch(
+                gcp_instance_id
+            )
+        ),
+    )
+    require(
+        "policy_instance_id_format",
+        isinstance(
+            policy_instance_id_value,
+            str,
+        )
+        and bool(
+            _GCP_INSTANCE_ID.fullmatch(
+                policy_instance_id
+            )
+        ),
+    )
+    require(
+        "gcp_instance_matches_policy",
+        gcp_instance_id == policy_instance_id,
+    )
+
+    runtime_cloud_identity = (
+        runtime_cloud_identity
+        if isinstance(
+            runtime_cloud_identity,
+            dict,
+        )
+        else {}
+    )
+    require(
+        "gce_runtime_identity_verified",
+        runtime_cloud_identity.get("status") == "VERIFIED"
+        and runtime_cloud_identity.get("verified") is True,
+    )
+    require(
+        "gce_project_runtime_bound",
+        gcp_project_id
+        and gcp_project_id
+        == runtime_cloud_identity.get("project_id"),
+    )
+    require(
+        "gce_instance_name_runtime_bound",
+        instance_name
+        and instance_name
+        == runtime_cloud_identity.get("instance_name"),
+    )
+    require(
+        "gce_zone_runtime_bound",
+        zone
+        and zone
+        == runtime_cloud_identity.get("zone"),
+    )
+    require(
+        "gce_instance_id_runtime_bound",
+        gcp_instance_id
+        and gcp_instance_id
+        == runtime_cloud_identity.get("instance_id"),
     )
 
     require(
@@ -598,6 +742,16 @@ def evaluate_gateway_readonly_attestation(
             if verified
             else None
         ),
+        "gcp_project_id": (
+            gcp_project_id
+            if verified
+            else None
+        ),
+        "gcp_instance_id": (
+            gcp_instance_id
+            if verified
+            else None
+        ),
     }
 
 
@@ -741,6 +895,20 @@ def verify_installed_gateway_readonly_attestation(
             "ATTESTATION_INPUT_PARSE_FAILED"
         )
 
+    runtime_cloud_identity = (
+        read_gce_runtime_identity()
+    )
+    if (
+        runtime_cloud_identity.get("status")
+        !=
+        "VERIFIED"
+        or runtime_cloud_identity.get("verified")
+        is not True
+    ):
+        return _blocked(
+            "GCE_RUNTIME_IDENTITY_UNVERIFIED"
+        )
+
     current_git_sha = _current_git_sha(
         repository_root
     )
@@ -789,5 +957,6 @@ def verify_installed_gateway_readonly_attestation(
         public_key_bytes=public_key_bytes,
         signature_valid=signature_valid,
         repository_clean=repository_clean,
+        runtime_cloud_identity=runtime_cloud_identity,
         now=now,
     )

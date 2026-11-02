@@ -15,6 +15,10 @@ from pathlib import Path
 import re
 import socket
 
+from engines.gce_runtime_identity import (
+    read_gce_runtime_identity,
+)
+
 from engines.gateway_readonly_attestation_verifier import (
     ATTESTATION_TYPE,
     DEFAULT_POLICY_PATH,
@@ -41,6 +45,8 @@ _POLICY_FIELDS = {
     "public_key_sha256",
     "expected_instance_name",
     "expected_zone",
+    "expected_project_id",
+    "expected_instance_id",
     "max_attestation_age_seconds",
     "allowed_clock_skew_seconds",
 }
@@ -87,6 +93,7 @@ def evaluate_reviewer_handoff_preflight(
     repository_clean,
     openssl_available,
     g0_proof,
+    runtime_cloud_identity,
     now=None,
 ):
     """Evaluate whether the VPS is ready to hand off to an independent reviewer."""
@@ -117,7 +124,7 @@ def evaluate_reviewer_handoff_preflight(
     require(
         "policy_version",
         type(policy.get("policy_version")) is int
-        and policy.get("policy_version") == 1,
+        and policy.get("policy_version") == 2,
     )
 
     reviewer_id = policy.get("reviewer_id")
@@ -172,6 +179,82 @@ def evaluate_reviewer_handoff_preflight(
     require(
         "approved_zone_policy",
         expected_zone == EXPECTED_ZONE,
+    )
+
+    project_value = policy.get(
+        "expected_project_id"
+    )
+    instance_id_value = policy.get(
+        "expected_instance_id"
+    )
+    expected_project_id = (
+        project_value.strip()
+        if isinstance(
+            project_value,
+            str,
+        )
+        else ""
+    )
+    expected_instance_id = (
+        instance_id_value.strip()
+        if isinstance(
+            instance_id_value,
+            str,
+        )
+        else ""
+    )
+
+    require(
+        "approved_project_policy",
+        isinstance(
+            project_value,
+            str,
+        )
+        and expected_project_id == EXPECTED_PROJECT_ID,
+    )
+    require(
+        "expected_instance_id_valid",
+        isinstance(
+            instance_id_value,
+            str,
+        )
+        and expected_instance_id.isdigit()
+        and 6 <= len(expected_instance_id) <= 30
+        and expected_instance_id[0] != "0",
+    )
+
+    runtime_cloud_identity = (
+        runtime_cloud_identity
+        if isinstance(
+            runtime_cloud_identity,
+            dict,
+        )
+        else {}
+    )
+    require(
+        "gce_runtime_identity_verified",
+        runtime_cloud_identity.get("status") == "VERIFIED"
+        and runtime_cloud_identity.get("verified") is True,
+    )
+    require(
+        "gce_runtime_project_bound",
+        runtime_cloud_identity.get("project_id")
+        == expected_project_id,
+    )
+    require(
+        "gce_runtime_instance_name_bound",
+        runtime_cloud_identity.get("instance_name")
+        == expected_instance_name,
+    )
+    require(
+        "gce_runtime_zone_bound",
+        runtime_cloud_identity.get("zone")
+        == expected_zone,
+    )
+    require(
+        "gce_runtime_instance_id_bound",
+        runtime_cloud_identity.get("instance_id")
+        == expected_instance_id,
     )
 
     current_git_sha = str(
@@ -319,6 +402,8 @@ def evaluate_reviewer_handoff_preflight(
             "gateway_port": 4002,
             "reviewer_id": reviewer_id,
             "reviewer_public_key_sha256": public_key_sha256,
+            "gcp_project_id": expected_project_id,
+            "gcp_instance_id": expected_instance_id,
             "reviewer_policy_sha256": _canonical_sha256(
                 policy
             ),
@@ -420,6 +505,20 @@ def build_installed_reviewer_handoff(
             "G0_RUNTIME_PROOF_UNAVAILABLE"
         )
 
+    runtime_cloud_identity = (
+        read_gce_runtime_identity()
+    )
+    if (
+        runtime_cloud_identity.get("status")
+        !=
+        "VERIFIED"
+        or runtime_cloud_identity.get("verified")
+        is not True
+    ):
+        return _blocked(
+            "GCE_RUNTIME_IDENTITY_UNVERIFIED"
+        )
+
     current_git_sha = _current_git_sha(
         repository_root
     )
@@ -450,5 +549,6 @@ def build_installed_reviewer_handoff(
         repository_clean=repository_clean,
         openssl_available=openssl_available,
         g0_proof=g0_proof,
+        runtime_cloud_identity=runtime_cloud_identity,
         now=now,
     )
