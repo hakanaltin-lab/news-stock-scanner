@@ -40,6 +40,7 @@ def g0_proof():
         "gce_instance_id": "1234567890123456789",
         "status": "G0_G1_VERIFIED",
         "checks": {
+            "source_payloads_valid": True,
             "budget_guard_passed": True,
             "vm_identity": True,
             "vm_instance_id_valid": True,
