@@ -123,6 +123,136 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
         self.assertEqual(snapshot["connection_status"], "NOT_ATTEMPTED")
         self.assertFalse(snapshot["config"]["endpoint_safe"])
 
+    def test_invalid_port_never_falls_back_to_paper_port(self):
+        for value in ("not-a-port", "4002.0", "0", "65536"):
+            with self.subTest(value=value), patch.dict(os.environ, {
+                "AURORA_IBKR_ENABLED": "true",
+                "AURORA_IBKR_MODE": "PAPER",
+                "AURORA_IBKR_PORT": value,
+            }, clear=True):
+                config = connector.load_ibkr_config()
+                snapshot = connector.get_ibkr_read_only_snapshot()
+
+            self.assertFalse(config["port_valid"])
+            self.assertEqual(snapshot["status"], "BLOCKED")
+            self.assertEqual(snapshot["connection_status"], "NOT_ATTEMPTED")
+            self.assertEqual(snapshot["reason"], "INVALID_IBKR_PORT")
+
+    def test_invalid_client_id_blocks_before_network_access(self):
+        for value in ("not-an-id", "-1", "2147483648"):
+            with self.subTest(value=value), patch.dict(os.environ, {
+                "AURORA_IBKR_ENABLED": "true",
+                "AURORA_IBKR_MODE": "PAPER",
+                "AURORA_IBKR_HOST": "127.0.0.1",
+                "AURORA_IBKR_PORT": "4002",
+                "AURORA_IBKR_CLIENT_ID": value,
+            }, clear=True):
+                config = connector.load_ibkr_config()
+                snapshot = connector.get_ibkr_read_only_snapshot()
+
+            self.assertFalse(config["client_id_valid"])
+            self.assertEqual(snapshot["status"], "BLOCKED")
+            self.assertEqual(snapshot["connection_status"], "NOT_ATTEMPTED")
+            self.assertEqual(snapshot["reason"], "INVALID_IBKR_CLIENT_ID")
+
+    def test_invalid_timeout_blocks_before_network_access(self):
+        for value in ("not-a-timeout", "nan", "inf", "-inf", "0", "31"):
+            with self.subTest(value=value), patch.dict(os.environ, {
+                "AURORA_IBKR_ENABLED": "true",
+                "AURORA_IBKR_MODE": "PAPER",
+                "AURORA_IBKR_HOST": "127.0.0.1",
+                "AURORA_IBKR_PORT": "4002",
+                "AURORA_IBKR_CLIENT_ID": "82",
+                "AURORA_IBKR_TIMEOUT_SECONDS": value,
+            }, clear=True):
+                config = connector.load_ibkr_config()
+                snapshot = connector.get_ibkr_read_only_snapshot()
+
+            self.assertFalse(config["timeout_valid"])
+            self.assertEqual(snapshot["status"], "BLOCKED")
+            self.assertEqual(snapshot["connection_status"], "NOT_ATTEMPTED")
+            self.assertEqual(snapshot["reason"], "INVALID_IBKR_TIMEOUT_SECONDS")
+
+    def test_safe_float_rejects_non_finite_and_boolean_values(self):
+        for value in (float("nan"), float("inf"), float("-inf"), True, False):
+            with self.subTest(value=value):
+                self.assertIsNone(connector.safe_float(value))
+
+    def test_invalid_broker_numeric_callbacks_do_not_become_zero(self):
+        fake_ibapi = types.ModuleType("ibapi")
+        fake_client = types.ModuleType("ibapi.client")
+        fake_wrapper = types.ModuleType("ibapi.wrapper")
+
+        class FakeClient:
+            def __init__(self, wrapper):
+                self.wrapper = wrapper
+
+        class FakeWrapper:
+            def __init__(self):
+                pass
+
+        fake_client.EClient = FakeClient
+        fake_wrapper.EWrapper = FakeWrapper
+
+        module_path = REPOSITORY_ROOT / "engines/ibkr_gateway_connector.py"
+        specification = importlib.util.spec_from_file_location(
+            "ibkr_connector_numeric_fail_closed_test",
+            module_path,
+        )
+        isolated = importlib.util.module_from_spec(specification)
+
+        with patch.dict(sys.modules, {
+            "ibapi": fake_ibapi,
+            "ibapi.client": fake_client,
+            "ibapi.wrapper": fake_wrapper,
+        }):
+            specification.loader.exec_module(isolated)
+
+        application = isolated._IBKRSnapshotApp()
+
+        class Contract:
+            symbol = "NVDA"
+            secType = "STK"
+            currency = "USD"
+            exchange = "SMART"
+
+        application.position(
+            "DU-REDACTED",
+            Contract(),
+            float("nan"),
+            float("inf"),
+        )
+        self.assertIsNone(application.positions[0]["position"])
+        self.assertIsNone(application.positions[0]["average_cost"])
+
+        application.orderStatus(
+            1,
+            "Submitted",
+            float("nan"),
+            float("inf"),
+            "not-a-number",
+            10,
+            0,
+            0.0,
+            82,
+            "",
+            0.0,
+        )
+        self.assertIsNone(application.order_status_rows[0]["filled"])
+        self.assertIsNone(application.order_status_rows[0]["remaining"])
+        self.assertIsNone(application.order_status_rows[0]["average_fill_price"])
+
+        class Execution:
+            execId = "E1"
+            side = "BOT"
+            shares = float("nan")
+            price = float("inf")
+            time = "20261102 09:00:00"
+
+        application.execDetails(1, Contract(), Execution())
+        self.assertIsNone(application.execution_rows[0]["shares"])
+        self.assertIsNone(application.execution_rows[0]["price"])
+
     def test_account_identifiers_are_masked_in_errors(self):
         account = "DU1234567"
         sanitized = connector._sanitize_errors([{
