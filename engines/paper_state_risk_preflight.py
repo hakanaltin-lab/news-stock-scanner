@@ -250,7 +250,11 @@ def _verified_account_fingerprints(snapshot):
     )
 
     if (
-        not fingerprints
+        len(
+            fingerprints
+        )
+        !=
+        1
         or fingerprints
         !=
         canonical
