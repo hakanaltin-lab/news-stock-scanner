@@ -44,6 +44,15 @@ ENGINE_VERSION = "V8.9.7 IBKR Market Data Connector"
 LIVE_EXECUTION_ALLOWED = False
 PAPER_ORDER_SUBMISSION_ALLOWED = False
 
+BROKER_MUTATION_METHODS_HARD_BLOCKED = (
+    "placeOrder",
+    "cancelOrder",
+    "reqGlobalCancel",
+    "exerciseOptions",
+    "replaceFA",
+    "reqAutoOpenOrders",
+)
+
 MARKET_DATA_TYPES = {
     1: "REALTIME",
     2: "FROZEN",
@@ -77,10 +86,38 @@ def _env_bool(name, default=False):
 
 
 def load_ibkr_market_data_config():
+    requested_mode = os.getenv(
+        "AURORA_IBKR_MODE",
+        "PAPER",
+    ).strip().upper()
+
+    mode_valid = requested_mode in {
+        "PAPER",
+        "LIVE",
+    }
+    mode = (
+        requested_mode
+        if mode_valid
+        else "INVALID"
+    )
+
     try:
-        port = int(os.getenv("AURORA_IBKR_PORT", "4002"))
-    except Exception:
-        port = 4002
+        port = int(
+            os.getenv(
+                "AURORA_IBKR_PORT",
+                "4002",
+            )
+        )
+        port_valid = (
+            1 <= port <= 65535
+        )
+    except (
+        TypeError,
+        ValueError,
+        OverflowError,
+    ):
+        port = -1
+        port_valid = False
 
     try:
         client_id = int(
@@ -89,8 +126,18 @@ def load_ibkr_market_data_config():
                 "83",
             )
         )
-    except Exception:
-        client_id = 83
+        client_id_valid = (
+            1
+            <= client_id
+            <= 2147483647
+        )
+    except (
+        TypeError,
+        ValueError,
+        OverflowError,
+    ):
+        client_id = -1
+        client_id_valid = False
 
     try:
         timeout_seconds = float(
@@ -99,13 +146,19 @@ def load_ibkr_market_data_config():
                 "8",
             )
         )
-    except Exception:
-        timeout_seconds = 8.0
-
-    mode = os.getenv(
-        "AURORA_IBKR_MODE",
-        "PAPER",
-    ).strip().upper()
+        timeout_valid = (
+            math.isfinite(timeout_seconds)
+            and 2.0
+            <= timeout_seconds
+            <= 30.0
+        )
+    except (
+        TypeError,
+        ValueError,
+        OverflowError,
+    ):
+        timeout_seconds = -1.0
+        timeout_valid = False
 
     host = os.getenv(
         "AURORA_IBKR_HOST",
@@ -113,8 +166,10 @@ def load_ibkr_market_data_config():
     ).strip()
 
     endpoint_safe = (
-        mode == "PAPER"
+        mode_valid
+        and mode == "PAPER"
         and host == "127.0.0.1"
+        and port_valid
         and port == 4002
     )
 
@@ -124,13 +179,15 @@ def load_ibkr_market_data_config():
             False,
         ),
         "mode": mode,
+        "mode_valid": mode_valid,
         "host": host,
         "port": port,
+        "port_valid": port_valid,
         "client_id": client_id,
-        "timeout_seconds": max(
-            2.0,
-            min(timeout_seconds, 30.0),
-        ),
+        "client_id_valid": client_id_valid,
+        "timeout_seconds": timeout_seconds,
+        "timeout_valid": timeout_valid,
+        "read_only": True,
         "endpoint_safe": endpoint_safe,
         "live_execution_allowed": False,
         "paper_order_submission_allowed": False,
@@ -293,6 +350,69 @@ if IBAPI_AVAILABLE:
                 "last_price": None,
             }
 
+        def _hard_block_broker_mutation(
+            self,
+            operation,
+        ):
+            raise RuntimeError(
+                f"{operation} is hard-blocked by the AURORA "
+                "IBKR market-data connector."
+            )
+
+        def placeOrder(
+            self,
+            *args,
+            **kwargs,
+        ):
+            return self._hard_block_broker_mutation(
+                "placeOrder"
+            )
+
+        def cancelOrder(
+            self,
+            *args,
+            **kwargs,
+        ):
+            return self._hard_block_broker_mutation(
+                "cancelOrder"
+            )
+
+        def reqGlobalCancel(
+            self,
+            *args,
+            **kwargs,
+        ):
+            return self._hard_block_broker_mutation(
+                "reqGlobalCancel"
+            )
+
+        def exerciseOptions(
+            self,
+            *args,
+            **kwargs,
+        ):
+            return self._hard_block_broker_mutation(
+                "exerciseOptions"
+            )
+
+        def replaceFA(
+            self,
+            *args,
+            **kwargs,
+        ):
+            return self._hard_block_broker_mutation(
+                "replaceFA"
+            )
+
+        def reqAutoOpenOrders(
+            self,
+            *args,
+            **kwargs,
+        ):
+            return self._hard_block_broker_mutation(
+                "reqAutoOpenOrders"
+            )
+
         def nextValidId(self, orderId):
             self.connected_event.set()
 
@@ -385,13 +505,27 @@ def get_ibkr_realtime_quote(symbol):
         "config": {
             "enabled": config["enabled"],
             "mode": config["mode"],
+            "mode_valid": config["mode_valid"],
             "host": config["host"],
             "port": config["port"],
+            "port_valid": config["port_valid"],
             "client_id": config["client_id"],
+            "client_id_valid": config["client_id_valid"],
+            "timeout_seconds": config["timeout_seconds"],
+            "timeout_valid": config["timeout_valid"],
+            "read_only": True,
             "endpoint_safe": config["endpoint_safe"],
             "live_execution_allowed": False,
             "paper_order_submission_allowed": False,
         },
+        "broker_mutation_surface_hard_blocked": True,
+        "blocked_broker_mutation_methods": list(
+            BROKER_MUTATION_METHODS_HARD_BLOCKED
+        ),
+        "client_zero_binding_hard_blocked": (
+            config["client_id_valid"]
+            and config["client_id"] != 0
+        ),
     }
 
     if not symbol:
@@ -405,6 +539,30 @@ def get_ibkr_realtime_quote(symbol):
             **base,
             "status": "DISABLED",
             "reason": "IBKR_MARKET_DATA_CONNECTOR_DISABLED",
+        }
+
+    if not config["mode_valid"]:
+        return {
+            **base,
+            "reason": "INVALID_IBKR_MODE",
+        }
+
+    if not config["port_valid"]:
+        return {
+            **base,
+            "reason": "INVALID_IBKR_PORT",
+        }
+
+    if not config["client_id_valid"]:
+        return {
+            **base,
+            "reason": "INVALID_IBKR_MARKET_DATA_CLIENT_ID",
+        }
+
+    if not config["timeout_valid"]:
+        return {
+            **base,
+            "reason": "INVALID_IBKR_MARKET_DATA_TIMEOUT",
         }
 
     if not config["endpoint_safe"]:
