@@ -19,13 +19,29 @@ EVIDENCE_RUN_ID = "11111111-1111-4111-8111-111111111111"
 G2_REQUIRED_CHECKS = [
     "paper_mode_only",
     "safe_loopback_paper_endpoint",
+    "paper_account_allowlist_configured",
     "paper_account_identity_verified",
+    "verified_account_fingerprint_payload_valid",
+    "account_summary_accounts_match_managed_accounts",
+    "connector_read_only",
     "gateway_read_only_configuration_independently_attested",
     "order_submission_hard_blocked",
     "live_trading_hard_blocked",
+    "official_ibapi_available",
     "gateway_connected",
+    "managed_account_identity_consistent",
+    "managed_account_received",
     "single_managed_account_for_readiness",
-    "account_summary_accounts_match_managed_accounts",
+    "net_liquidation_available",
+    "cash_available",
+    "available_funds_available",
+    "managed_accounts_snapshot_complete",
+    "account_summary_snapshot_complete",
+    "positions_snapshot_complete",
+    "open_orders_snapshot_complete",
+    "open_orders_payload_valid",
+    "open_order_accounts_match_verified_paper_accounts",
+    "positions_payload_valid",
     "position_accounts_match_verified_paper_accounts",
 ]
 
@@ -197,6 +213,25 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
             for item in g2["readiness"]["checks"]
             if item["check"] != "order_submission_hard_blocked"
         ]
+        result = evaluate_readiness_bundle(
+            g2,
+            ready_g3(),
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        self.assertEqual(result["status"], "NOT_READY")
+        self.assertIn(
+            "g2_required_checks_consistent",
+            result["failure_reasons"],
+        )
+
+    def test_duplicate_g2_check_name_blocks(self):
+        g2 = ready_g2()
+        g2["readiness"]["checks"].append(
+            dict(
+                g2["readiness"]["checks"][0]
+            )
+        )
         result = evaluate_readiness_bundle(
             g2,
             ready_g3(),
