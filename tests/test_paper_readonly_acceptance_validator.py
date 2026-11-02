@@ -24,9 +24,28 @@ class TestReadOnlyAcceptance(unittest.TestCase):
         self.assertIs(result["evidence_authenticity_verified"], False)
         self.assertIs(result["broker_session_independently_verified"], False)
         self.assertIs(result["release_approved"], False)
+        self.assertIs(
+            result["gateway_read_only_configuration_independently_attested"],
+            False,
+        )
         self.assertIs(result["diagnostic_binding_fields_valid"], True)
         self.assertEqual(result["paper_account_evidence_token"],
                          "IBKR-EVID-ABCDEF1234567890")
+
+    def test_probe_cannot_self_attest_gateway_read_only_configuration(self):
+        report = valid_report()
+        report["gateway_read_only_configuration_independently_attested"] = True
+        report["broker_session_independently_verified"] = True
+        report["evidence_authenticity_verified"] = True
+        result = evaluate_report(report)
+        self.assertEqual(result["status"], "READ_ONLY_SNAPSHOT_VALIDATED")
+        self.assertIs(
+            result["gateway_read_only_configuration_independently_attested"],
+            False,
+        )
+        self.assertIs(result["broker_session_independently_verified"], False)
+        self.assertIs(result["evidence_authenticity_verified"], False)
+        self.assertIs(result["release_approved"], False)
 
     def test_invalid_reports_fail_closed(self):
         for report in (None, [], {}, True, "CONNECTED"):
