@@ -1,0 +1,24 @@
+name: G6 Paper Account Guard Tests
+
+on:
+  pull_request:
+    paths:
+      - 'engines/ibkr_account_guard.py'
+      - 'tests/test_ibkr_account_guard_g6.py'
+      - '.github/workflows/g6-paper-account-guard.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  account-guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run offline fail-closed account guard tests
+        run: python -m unittest discover -s tests -p 'test_ibkr_account_guard_g6.py' -v
