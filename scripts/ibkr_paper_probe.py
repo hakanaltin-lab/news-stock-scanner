@@ -12,6 +12,7 @@ import csv
 import json
 import os
 from pathlib import Path
+import subprocess
 import sys
 
 
@@ -90,6 +91,48 @@ def load_portfolio():
     return rows
 
 
+def _current_git_sha():
+    try:
+        completed = subprocess.run(
+            [
+                "/usr/bin/git",
+                "-C",
+                str(REPOSITORY_ROOT),
+                "rev-parse",
+                "HEAD",
+            ],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+            check=False,
+            timeout=3,
+            env={
+                "PATH": "/usr/bin:/bin",
+                "LANG": "C",
+                "LC_ALL": "C",
+            },
+        )
+    except (
+        OSError,
+        subprocess.SubprocessError,
+    ):
+        return None
+
+    value = completed.stdout.strip().lower()
+    if (
+        completed.returncode != 0
+        or len(value) != 40
+        or any(
+            character not in "0123456789abcdef"
+            for character in value
+        )
+    ):
+        return None
+
+    return value
+
+
 def main():
     run_mode = load_run_mode()
 
@@ -120,6 +163,9 @@ def main():
     )
 
     result = {
+        "git_sha":
+        _current_git_sha(),
+
         "evidence_run_id":
         os.getenv(
             "AURORA_EVIDENCE_RUN_ID",
