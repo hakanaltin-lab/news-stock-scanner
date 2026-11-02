@@ -1,12 +1,15 @@
 """G7.11 tests for the non-attesting reviewer package builder."""
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import inspect
 import json
 import unittest
 
 from scripts.gateway_review_package import (
     PACKAGE_TYPE,
+    RUNTIME_BOUND_PACKAGE_TYPE,
+    _REQUIRED_G2_PASSED_CHECKS,
+    build_runtime_bound_review_package,
     build_unsigned_review_package,
 )
 from engines.gateway_attestation_handoff import (
@@ -27,6 +30,119 @@ INSTANCE_NAME = "aurora-trading-vps"
 ZONE = "europe-west3-a"
 INSTANCE_ID = "1234567890123456789"
 REVIEWER = "aurora-independent-reviewer"
+ACCOUNT_FINGERPRINT = "IBKR-A1B2C3D4E5"
+EVIDENCE_RUN_ID = "11111111-1111-4111-8111-111111111111"
+
+
+def g2_diagnostic(timestamp=None):
+    timestamp = timestamp or (
+        NOW - timedelta(seconds=10)
+    ).isoformat()
+    safe_permissions = {
+        "broker_submission_allowed": False,
+        "paper_order_submission_allowed": False,
+        "live_execution_allowed": False,
+        "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
+    }
+    checks = [
+        {
+            "check": name,
+            "required": True,
+            "passed": True,
+        }
+        for name in sorted(_REQUIRED_G2_PASSED_CHECKS)
+    ]
+    checks.append({
+        "check": (
+            "gateway_read_only_configuration_independently_attested"
+        ),
+        "required": True,
+        "passed": False,
+    })
+    return {
+        "git_sha": GIT_SHA,
+        "evidence_run_id": EVIDENCE_RUN_ID,
+        "run_mode": {
+            "mode": "READ_ONLY",
+            "live_execution_allowed": False,
+        },
+        "snapshot": {
+            "timestamp": timestamp,
+            "status": "CONNECTED",
+            "connection_status": "CONNECTED",
+            "official_ibapi_available": True,
+            "config": {
+                "enabled": True,
+                "mode": "PAPER",
+                "mode_valid": True,
+                "host": "127.0.0.1",
+                "port": 4002,
+                "port_valid": True,
+                "endpoint_safe": True,
+                "read_only": True,
+                "client_id": 82,
+                "client_id_valid": True,
+            },
+            "order_submission_hard_blocked": True,
+            "broker_mutation_surface_hard_blocked": True,
+            "client_zero_binding_hard_blocked": True,
+            "open_order_observation_mode": (
+                "REQ_ALL_OPEN_ORDERS_NON_BINDING"
+            ),
+            "blocked_broker_mutation_methods": [
+                "placeOrder",
+                "cancelOrder",
+                "reqGlobalCancel",
+                "exerciseOptions",
+                "replaceFA",
+                "reqAutoOpenOrders",
+            ],
+            "live_trading_allowed": False,
+            "gateway_read_only_configuration_independently_attested": False,
+            "accounts": [ACCOUNT_FINGERPRINT],
+            "account_count": 1,
+            "account_summary_account_fingerprints": [
+                ACCOUNT_FINGERPRINT
+            ],
+            "paper_account_guard": {
+                "allowlist_configured": True,
+                "paper_account_verified": True,
+                "account_count": 1,
+                "verified_account_fingerprints": [
+                    ACCOUNT_FINGERPRINT
+                ],
+            },
+            "positions": [],
+            "open_orders": [],
+            "requests_complete": {
+                "managed_accounts": True,
+                "account_summary": True,
+                "positions": True,
+                "open_orders": True,
+            },
+        },
+        "gateway_read_only_attestation": {
+            "status": "BLOCKED",
+            "verified": False,
+            "gateway_read_only_configuration_independently_attested": False,
+            "failure_reasons": ["ATTESTATION_ARTIFACT_UNTRUSTED"],
+            **safe_permissions,
+        },
+        "readiness": {
+            "timestamp": timestamp,
+            "readiness": "NOT_READY",
+            "diagnostic_read_only_ready": True,
+            "required_failure_count": 1,
+            "checks": checks,
+            "gateway_read_only_configuration_independently_attested": False,
+            "paper_order_submission_allowed": False,
+            "live_execution_allowed": False,
+            "next_milestone": (
+                "INDEPENDENT_GATEWAY_READ_ONLY_ATTESTATION"
+            ),
+        },
+    }
 
 
 def handoff_request():
@@ -237,6 +353,176 @@ class GatewayReviewPackageTests(unittest.TestCase):
                 self.assertFalse(
                     result["paper_order_submission_allowed"]
                 )
+
+    def test_runtime_bound_package_requires_fresh_clean_g2_diagnostic(self):
+        result = build_runtime_bound_review_package(
+            safe_handoff(),
+            g2_diagnostic(),
+            now=NOW,
+        )
+
+        self.assertEqual(
+            result["package_type"],
+            RUNTIME_BOUND_PACKAGE_TYPE,
+        )
+        self.assertEqual(result["package_schema_version"], 2)
+        self.assertEqual(
+            result["status"],
+            "READY_FOR_INDEPENDENT_REVIEW_PACKAGE",
+        )
+        self.assertEqual(
+            len(result["g2_diagnostic_proof_sha256"]),
+            64,
+        )
+        summary = result["g2_diagnostic_summary"]
+        self.assertEqual(
+            summary["paper_account_fingerprints"],
+            [ACCOUNT_FINGERPRINT],
+        )
+        self.assertEqual(summary["git_sha"], GIT_SHA)
+        self.assertEqual(
+            summary["only_required_failure"],
+            "gateway_read_only_configuration_independently_attested",
+        )
+        self.assertIsNone(
+            result["unsigned_artifact_template"]["evidence_sha256"]
+        )
+        self.assertNotIn(
+            "DU1234567",
+            json.dumps(result),
+        )
+        for key in (
+            "broker_submission_allowed",
+            "paper_order_submission_allowed",
+            "live_execution_allowed",
+            "automatic_promotion_allowed",
+            "real_money_trading_allowed",
+        ):
+            self.assertIs(result[key], False)
+
+    def test_runtime_bound_package_rejects_stale_or_wrong_commit_g2(self):
+        stale = g2_diagnostic(
+            (NOW - timedelta(seconds=301)).isoformat()
+        )
+        stale_result = build_runtime_bound_review_package(
+            safe_handoff(),
+            stale,
+            now=NOW,
+        )
+        self.assertEqual(stale_result["status"], "BLOCKED")
+        self.assertEqual(
+            stale_result["failure_reasons"],
+            ["G2_DIAGNOSTIC_NOT_FRESH"],
+        )
+
+        wrong_commit = g2_diagnostic()
+        wrong_commit["git_sha"] = "b" * 40
+        wrong_result = build_runtime_bound_review_package(
+            safe_handoff(),
+            wrong_commit,
+            now=NOW,
+        )
+        self.assertEqual(wrong_result["status"], "BLOCKED")
+        self.assertEqual(
+            wrong_result["failure_reasons"],
+            ["G2_DIAGNOSTIC_GIT_SHA_NOT_BOUND"],
+        )
+
+    def test_runtime_bound_package_rejects_mutation_or_client_binding_regression(self):
+        cases = []
+
+        mutation_enabled = g2_diagnostic()
+        mutation_enabled["snapshot"][
+            "broker_mutation_surface_hard_blocked"
+        ] = False
+        cases.append(mutation_enabled)
+
+        binding_observation = g2_diagnostic()
+        binding_observation["snapshot"][
+            "open_order_observation_mode"
+        ] = "REQ_OPEN_ORDERS_BINDING"
+        cases.append(binding_observation)
+
+        client_zero = g2_diagnostic()
+        client_zero["snapshot"]["config"]["client_id"] = 0
+        client_zero["snapshot"]["config"]["client_id_valid"] = False
+        client_zero["snapshot"][
+            "client_zero_binding_hard_blocked"
+        ] = False
+        cases.append(client_zero)
+
+        for value in cases:
+            with self.subTest(value=value):
+                result = build_runtime_bound_review_package(
+                    safe_handoff(),
+                    value,
+                    now=NOW,
+                )
+                self.assertEqual(result["status"], "BLOCKED")
+                self.assertEqual(
+                    result["failure_reasons"],
+                    ["G2_DIAGNOSTIC_CONNECTOR_SAFETY_INVALID"],
+                )
+
+    def test_runtime_bound_package_rejects_raw_or_unverified_account_identity(self):
+        value = g2_diagnostic()
+        value["snapshot"]["accounts"] = ["DU1234567"]
+        value["snapshot"]["paper_account_guard"][
+            "verified_account_fingerprints"
+        ] = ["DU1234567"]
+
+        result = build_runtime_bound_review_package(
+            safe_handoff(),
+            value,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["failure_reasons"],
+            ["G2_DIAGNOSTIC_ACCOUNT_IDENTITY_INVALID"],
+        )
+        self.assertNotIn("DU1234567", json.dumps(result))
+
+    def test_runtime_bound_package_accepts_only_attestation_as_required_failure(self):
+        value = g2_diagnostic()
+        for item in value["readiness"]["checks"]:
+            if item["check"] == "gateway_connected":
+                item["passed"] = False
+                break
+        value["readiness"]["required_failure_count"] = 2
+
+        result = build_runtime_bound_review_package(
+            safe_handoff(),
+            value,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["failure_reasons"],
+            ["G2_DIAGNOSTIC_REQUIRED_CHECKS_NOT_CLEAN"],
+        )
+
+    def test_runtime_bound_package_rejects_pre_review_verified_attestation(self):
+        value = g2_diagnostic()
+        value["gateway_read_only_attestation"].update({
+            "status": "VERIFIED",
+            "verified": True,
+            "gateway_read_only_configuration_independently_attested": True,
+        })
+
+        result = build_runtime_bound_review_package(
+            safe_handoff(),
+            value,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["failure_reasons"],
+            ["G2_DIAGNOSTIC_PRE_REVIEW_ATTESTATION_STATE_INVALID"],
+        )
 
     def test_source_has_no_signing_private_key_or_file_mutation_path(self):
         import scripts.gateway_review_package as module

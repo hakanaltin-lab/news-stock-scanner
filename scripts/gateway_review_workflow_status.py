@@ -20,14 +20,16 @@ from engines.gateway_attestation_handoff import (
     build_installed_reviewer_handoff,
 )
 from scripts.gateway_review_package import (
-    build_unsigned_review_package,
+    RUNTIME_BOUND_PACKAGE_TYPE,
+    build_runtime_bound_review_package,
+    load_installed_g2_diagnostic_proof,
 )
 from engines.gateway_readonly_attestation_verifier import (
     verify_installed_gateway_readonly_attestation,
 )
 
 
-ENGINE_VERSION = "AURORA G7.14 Gateway Review Workflow Status"
+ENGINE_VERSION = "AURORA G8.2 Gateway Review Workflow Status"
 
 _PERMISSION_FLAGS = (
     "broker_submission_allowed",
@@ -184,25 +186,28 @@ def evaluate_gateway_review_workflow(
     review_package_ready = (
         review_package_result.get("status")
         == "READY_FOR_INDEPENDENT_REVIEW_PACKAGE"
+        and review_package_result.get("package_type")
+        == RUNTIME_BOUND_PACKAGE_TYPE
+        and review_package_result.get("package_schema_version") == 2
         and review_package_result.get("ready_for_independent_review") is True
         and review_package_result.get("attestation_verified") is False
         and review_package_result.get(
             "gateway_read_only_configuration_independently_attested"
         ) is False
         and review_package_result.get("failure_reasons") == []
-    )
-    if not review_package_ready:
-        return _result(
-            status="BLOCKED",
-            workflow_stage="REVIEW_PACKAGE",
-            next_action="REPAIR_UNSIGNED_REVIEW_PACKAGE",
-            human_action_required=True,
-            runtime_identity_verified=True,
-            handoff_ready=True,
-            review_package_ready=False,
-            signed_attestation_verified=False,
-            failure_reason="REVIEW_PACKAGE_NOT_READY",
+        and isinstance(
+            review_package_result.get("g2_diagnostic_proof_sha256"),
+            str,
         )
+        and len(
+            review_package_result.get("g2_diagnostic_proof_sha256")
+        )
+        == 64
+        and isinstance(
+            review_package_result.get("g2_diagnostic_summary"),
+            dict,
+        )
+    )
 
     signed_attestation_verified = (
         attestation_result.get("status") == "VERIFIED"
@@ -212,29 +217,45 @@ def evaluate_gateway_review_workflow(
         ) is True
         and attestation_result.get("failure_reasons") == []
     )
-    if not signed_attestation_verified:
+
+    # A valid signed attestation is stronger than a still-fresh pre-review
+    # package. Human review can legitimately outlast the G2 diagnostic window.
+    if signed_attestation_verified:
         return _result(
-            status="WAITING_FOR_INDEPENDENT_REVIEW",
-            workflow_stage="INDEPENDENT_REVIEW",
-            next_action=(
-                "COMPLETE_INDEPENDENT_REVIEW_AND_INSTALL_SIGNED_ATTESTATION"
-            ),
+            status="VERIFIED_FOR_G2_READ_ONLY_PROBE",
+            workflow_stage="SIGNED_ATTESTATION_VERIFIED",
+            next_action="RUN_G2_PAPER_READ_ONLY_PROBE",
+            human_action_required=False,
+            runtime_identity_verified=True,
+            handoff_ready=True,
+            review_package_ready=review_package_ready,
+            signed_attestation_verified=True,
+        )
+
+    if not review_package_ready:
+        return _result(
+            status="BLOCKED",
+            workflow_stage="REVIEW_PACKAGE",
+            next_action="RUN_FRESH_G2_DIAGNOSTIC_PRE_REVIEW",
             human_action_required=True,
             runtime_identity_verified=True,
             handoff_ready=True,
-            review_package_ready=True,
+            review_package_ready=False,
             signed_attestation_verified=False,
+            failure_reason="G2_DIAGNOSTIC_REVIEW_PACKAGE_NOT_READY",
         )
 
     return _result(
-        status="VERIFIED_FOR_G2_READ_ONLY_PROBE",
-        workflow_stage="SIGNED_ATTESTATION_VERIFIED",
-        next_action="RUN_G2_PAPER_READ_ONLY_PROBE",
-        human_action_required=False,
+        status="WAITING_FOR_INDEPENDENT_REVIEW",
+        workflow_stage="INDEPENDENT_REVIEW",
+        next_action=(
+            "COMPLETE_INDEPENDENT_REVIEW_AND_INSTALL_SIGNED_ATTESTATION"
+        ),
+        human_action_required=True,
         runtime_identity_verified=True,
         handoff_ready=True,
         review_package_ready=True,
-        signed_attestation_verified=True,
+        signed_attestation_verified=False,
     )
 
 
@@ -243,8 +264,9 @@ def build_installed_gateway_review_workflow_status():
     handoff = build_installed_reviewer_handoff(
         REPOSITORY_ROOT
     )
-    review_package = build_unsigned_review_package(
-        handoff
+    review_package = build_runtime_bound_review_package(
+        handoff,
+        load_installed_g2_diagnostic_proof(),
     )
     attestation = verify_installed_gateway_readonly_attestation(
         REPOSITORY_ROOT

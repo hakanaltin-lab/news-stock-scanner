@@ -1,17 +1,22 @@
 #!/usr/bin/env python3
-"""Build a sanitized unsigned Gateway Read-Only review package.
+"""Build sanitized unsigned Gateway Read-Only review packages.
 
-This command never signs evidence and never creates a positive attestation.
-It converts a verified G7.10 reviewer handoff into a REVIEW_REQUIRED template
-that an independent reviewer must complete and sign off the trading VPS.
+The legacy V1 builder validates only the trusted reviewer handoff. The G8.2
+runtime-bound V2 builder additionally requires a fresh, sanitized IBKR Paper
+diagnostic proof from the fixed G2 runtime path.
+
+Neither builder signs evidence, creates a positive attestation, nor enables any
+broker execution permission.
 """
 
 from __future__ import annotations
 
+from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
 import sys
+from uuid import UUID
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 if str(REPOSITORY_ROOT) not in sys.path:
@@ -28,6 +33,64 @@ from engines.gateway_readonly_attestation_verifier import (
 
 
 PACKAGE_TYPE = "IBKR_GATEWAY_READ_ONLY_REVIEW_PACKAGE_V1"
+RUNTIME_BOUND_PACKAGE_TYPE = "IBKR_GATEWAY_READ_ONLY_REVIEW_PACKAGE_V2"
+DEFAULT_G2_DIAGNOSTIC_PROOF = (
+    REPOSITORY_ROOT
+    / "runtime/ibkr_paper_read_only/latest.json"
+)
+DEFAULT_MAX_G2_DIAGNOSTIC_AGE_SECONDS = 300
+
+_PERMISSION_FLAGS = (
+    "broker_submission_allowed",
+    "paper_order_submission_allowed",
+    "live_execution_allowed",
+    "automatic_promotion_allowed",
+    "real_money_trading_allowed",
+)
+
+_REQUIRED_MUTATION_METHODS = {
+    "placeOrder",
+    "cancelOrder",
+    "reqGlobalCancel",
+    "exerciseOptions",
+    "replaceFA",
+    "reqAutoOpenOrders",
+}
+
+_REQUIRED_G2_PASSED_CHECKS = {
+    "paper_mode_only",
+    "safe_loopback_paper_endpoint",
+    "paper_account_allowlist_configured",
+    "paper_account_identity_verified",
+    "verified_account_fingerprint_payload_valid",
+    "account_summary_accounts_match_managed_accounts",
+    "connector_read_only",
+    "order_submission_hard_blocked",
+    "broker_mutation_surface_hard_blocked",
+    "nonbinding_open_order_observation",
+    "nonzero_api_client_id",
+    "live_trading_hard_blocked",
+    "official_ibapi_available",
+    "gateway_connected",
+    "managed_account_identity_consistent",
+    "managed_account_received",
+    "single_managed_account_for_readiness",
+    "net_liquidation_available",
+    "cash_available",
+    "available_funds_available",
+    "managed_accounts_snapshot_complete",
+    "account_summary_snapshot_complete",
+    "positions_snapshot_complete",
+    "open_orders_snapshot_complete",
+    "open_orders_payload_valid",
+    "open_order_accounts_match_verified_paper_accounts",
+    "positions_payload_valid",
+    "position_accounts_match_verified_paper_accounts",
+}
+
+_ATTESTATION_CHECK = (
+    "gateway_read_only_configuration_independently_attested"
+)
 
 _HANDOFF_REQUEST_FIELDS = {
     "request_schema_version",
@@ -61,6 +124,21 @@ _HANDOFF_REQUEST_FIELDS = {
 }
 
 
+class DuplicateJsonKeyError(ValueError):
+    pass
+
+
+def _reject_duplicate_keys(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise DuplicateJsonKeyError(
+                f"duplicate JSON key: {key}"
+            )
+        result[key] = value
+    return result
+
+
 def _canonical_sha256(payload):
     encoded = json.dumps(
         payload,
@@ -71,10 +149,15 @@ def _canonical_sha256(payload):
     return hashlib.sha256(encoded).hexdigest()
 
 
-def _blocked(reason):
+def _blocked(
+    reason,
+    *,
+    package_type=PACKAGE_TYPE,
+    package_schema_version=1,
+):
     return {
-        "package_type": PACKAGE_TYPE,
-        "package_schema_version": 1,
+        "package_type": package_type,
+        "package_schema_version": package_schema_version,
         "status": "BLOCKED",
         "ready_for_independent_review": False,
         "attestation_verified": False,
@@ -82,6 +165,8 @@ def _blocked(reason):
         "failure_reasons": [reason],
         "handoff_request_sha256": None,
         "handoff_request": None,
+        "g2_diagnostic_proof_sha256": None,
+        "g2_diagnostic_summary": None,
         "unsigned_artifact_template": None,
         "broker_submission_allowed": False,
         "paper_order_submission_allowed": False,
@@ -92,6 +177,8 @@ def _blocked(reason):
 
 
 def build_unsigned_review_package(handoff_result):
+    """Legacy V1 handoff-only builder kept for offline compatibility tests."""
+
     if not isinstance(handoff_result, dict):
         return _blocked("HANDOFF_RESULT_INVALID")
 
@@ -115,27 +202,17 @@ def build_unsigned_review_package(handoff_result):
         and request.get("signed_attestation_required") is True
         and all(
             handoff_result.get(name) is False
-            for name in (
-                "broker_submission_allowed",
-                "paper_order_submission_allowed",
-                "live_execution_allowed",
-                "automatic_promotion_allowed",
-                "real_money_trading_allowed",
-            )
+            for name in _PERMISSION_FLAGS
         )
         and all(
             request.get(name) is False
-            for name in (
-                "broker_submission_allowed",
-                "paper_order_submission_allowed",
-                "live_execution_allowed",
-                "automatic_promotion_allowed",
-                "real_money_trading_allowed",
-            )
+            for name in _PERMISSION_FLAGS
         )
     )
     if not safe_handoff:
-        return _blocked("HANDOFF_RESULT_NOT_SAFE_FOR_REVIEW_PACKAGE")
+        return _blocked(
+            "HANDOFF_RESULT_NOT_SAFE_FOR_REVIEW_PACKAGE"
+        )
 
     template = {
         "schema_version": 3,
@@ -171,6 +248,8 @@ def build_unsigned_review_package(handoff_result):
         "failure_reasons": [],
         "handoff_request_sha256": _canonical_sha256(request),
         "handoff_request": request,
+        "g2_diagnostic_proof_sha256": None,
+        "g2_diagnostic_summary": None,
         "unsigned_artifact_template": template,
         "reviewer_must_set": [
             "attestation_id",
@@ -189,12 +268,401 @@ def build_unsigned_review_package(handoff_result):
     }
 
 
+def _utc_datetime(value):
+    text = str(value or "").strip()
+    if not text:
+        return None
+    if text.endswith("Z"):
+        text = text[:-1] + "+00:00"
+    try:
+        parsed = datetime.fromisoformat(text)
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        return None
+    return parsed.astimezone(timezone.utc)
+
+
+def _uuid4(value):
+    text = str(value or "").strip()
+    try:
+        parsed = UUID(text)
+    except (ValueError, AttributeError):
+        return None
+    if parsed.version != 4 or str(parsed) != text:
+        return None
+    return text
+
+
+def _fingerprints(value):
+    if not isinstance(value, list) or not value:
+        return ()
+    normalized = tuple(str(item).strip() for item in value)
+    if tuple(sorted(set(normalized))) != normalized:
+        return ()
+    if any(
+        len(item) != 15
+        or not item.startswith("IBKR-")
+        or any(
+            character not in "0123456789ABCDEF"
+            for character in item[5:]
+        )
+        for item in normalized
+    ):
+        return ()
+    return normalized
+
+
+def _accounts_in_rows_are_verified(rows, fingerprints):
+    return (
+        isinstance(rows, list)
+        and all(
+            isinstance(row, dict)
+            and isinstance(row.get("account"), str)
+            and row.get("account") in fingerprints
+            for row in rows
+        )
+    )
+
+
+def _safe_attestation_absent(attestation):
+    return (
+        isinstance(attestation, dict)
+        and attestation.get("status") != "VERIFIED"
+        and attestation.get("verified") is False
+        and attestation.get(
+            "gateway_read_only_configuration_independently_attested"
+        ) is False
+        and all(
+            attestation.get(name) is False
+            for name in _PERMISSION_FLAGS
+        )
+    )
+
+
+def _validate_g2_diagnostic(
+    g2_proof,
+    handoff_request,
+    *,
+    now,
+    max_age_seconds,
+):
+    if not isinstance(g2_proof, dict):
+        return None, "G2_DIAGNOSTIC_PROOF_INVALID"
+
+    if (
+        type(max_age_seconds) is not int
+        or not 30 <= max_age_seconds <= 900
+    ):
+        return None, "G2_DIAGNOSTIC_MAX_AGE_INVALID"
+
+    evidence_run_id = _uuid4(
+        g2_proof.get("evidence_run_id")
+    )
+    if evidence_run_id is None:
+        return None, "G2_DIAGNOSTIC_EVIDENCE_RUN_ID_INVALID"
+
+    git_sha = str(g2_proof.get("git_sha") or "").strip().lower()
+    handoff_git_sha = str(
+        handoff_request.get("git_sha") or ""
+    ).strip().lower()
+    if (
+        len(git_sha) != 40
+        or any(character not in "0123456789abcdef" for character in git_sha)
+        or git_sha != handoff_git_sha
+    ):
+        return None, "G2_DIAGNOSTIC_GIT_SHA_NOT_BOUND"
+
+    run_mode = g2_proof.get("run_mode")
+    snapshot = g2_proof.get("snapshot")
+    readiness = g2_proof.get("readiness")
+    attestation = g2_proof.get("gateway_read_only_attestation")
+    if not all(
+        isinstance(value, dict)
+        for value in (
+            run_mode,
+            snapshot,
+            readiness,
+            attestation,
+        )
+    ):
+        return None, "G2_DIAGNOSTIC_STRUCTURE_INVALID"
+
+    if (
+        run_mode.get("mode") != "READ_ONLY"
+        or run_mode.get("live_execution_allowed") is not False
+    ):
+        return None, "G2_DIAGNOSTIC_RUN_MODE_UNSAFE"
+
+    config = snapshot.get("config")
+    if not isinstance(config, dict):
+        return None, "G2_DIAGNOSTIC_CONFIG_INVALID"
+
+    client_id = config.get("client_id")
+    mutation_methods = snapshot.get(
+        "blocked_broker_mutation_methods"
+    )
+    mutation_methods_safe = (
+        isinstance(mutation_methods, list)
+        and len(mutation_methods) == len(
+            _REQUIRED_MUTATION_METHODS
+        )
+        and all(
+            isinstance(method, str)
+            for method in mutation_methods
+        )
+        and set(mutation_methods)
+        == _REQUIRED_MUTATION_METHODS
+    )
+    config_safe = (
+        snapshot.get("status") == "CONNECTED"
+        and snapshot.get("connection_status") == "CONNECTED"
+        and snapshot.get("official_ibapi_available") is True
+        and config.get("enabled") is True
+        and config.get("mode") == "PAPER"
+        and config.get("mode_valid") is True
+        and config.get("host") == "127.0.0.1"
+        and config.get("port") == 4002
+        and config.get("port_valid") is True
+        and config.get("endpoint_safe") is True
+        and config.get("read_only") is True
+        and type(client_id) is int
+        and client_id > 0
+        and config.get("client_id_valid") is True
+        and snapshot.get("order_submission_hard_blocked") is True
+        and snapshot.get("broker_mutation_surface_hard_blocked") is True
+        and snapshot.get("client_zero_binding_hard_blocked") is True
+        and snapshot.get("open_order_observation_mode")
+        == "REQ_ALL_OPEN_ORDERS_NON_BINDING"
+        and mutation_methods_safe
+        and snapshot.get("live_trading_allowed") is False
+    )
+    if not config_safe:
+        return None, "G2_DIAGNOSTIC_CONNECTOR_SAFETY_INVALID"
+
+    account_guard = snapshot.get("paper_account_guard")
+    if not isinstance(account_guard, dict):
+        return None, "G2_DIAGNOSTIC_ACCOUNT_GUARD_INVALID"
+
+    fingerprints = _fingerprints(
+        account_guard.get("verified_account_fingerprints")
+    )
+    snapshot_fingerprints = _fingerprints(
+        snapshot.get("accounts")
+    )
+    summary_fingerprints = _fingerprints(
+        snapshot.get("account_summary_account_fingerprints")
+    )
+    account_safe = (
+        bool(fingerprints)
+        and len(fingerprints) == 1
+        and snapshot_fingerprints == fingerprints
+        and summary_fingerprints == fingerprints
+        and account_guard.get("allowlist_configured") is True
+        and account_guard.get("paper_account_verified") is True
+        and account_guard.get("account_count") == 1
+        and snapshot.get("account_count") == 1
+        and _accounts_in_rows_are_verified(
+            snapshot.get("positions"),
+            fingerprints,
+        )
+        and _accounts_in_rows_are_verified(
+            snapshot.get("open_orders"),
+            fingerprints,
+        )
+    )
+    if not account_safe:
+        return None, "G2_DIAGNOSTIC_ACCOUNT_IDENTITY_INVALID"
+
+    requests_complete = snapshot.get("requests_complete")
+    if (
+        not isinstance(requests_complete, dict)
+        or any(
+            requests_complete.get(name) is not True
+            for name in (
+                "managed_accounts",
+                "account_summary",
+                "positions",
+                "open_orders",
+            )
+        )
+    ):
+        return None, "G2_DIAGNOSTIC_REQUESTS_INCOMPLETE"
+
+    if not _safe_attestation_absent(attestation):
+        return None, "G2_DIAGNOSTIC_PRE_REVIEW_ATTESTATION_STATE_INVALID"
+
+    if (
+        snapshot.get(
+            "gateway_read_only_configuration_independently_attested"
+        ) is not False
+        or readiness.get(
+            "gateway_read_only_configuration_independently_attested"
+        ) is not False
+        or readiness.get("readiness") != "NOT_READY"
+        or readiness.get("diagnostic_read_only_ready") is not True
+        or readiness.get("next_milestone")
+        != "INDEPENDENT_GATEWAY_READ_ONLY_ATTESTATION"
+        or readiness.get("paper_order_submission_allowed") is not False
+        or readiness.get("live_execution_allowed") is not False
+    ):
+        return None, "G2_DIAGNOSTIC_READINESS_STATE_INVALID"
+
+    checks = readiness.get("checks")
+    if (
+        not isinstance(checks, list)
+        or not checks
+        or not all(
+            isinstance(item, dict)
+            and isinstance(item.get("check"), str)
+            and type(item.get("required")) is bool
+            and type(item.get("passed")) is bool
+            for item in checks
+        )
+    ):
+        return None, "G2_DIAGNOSTIC_CHECKS_INVALID"
+
+    check_names = [item["check"] for item in checks]
+    if len(check_names) != len(set(check_names)):
+        return None, "G2_DIAGNOSTIC_CHECKS_DUPLICATED"
+
+    required_failures = {
+        item["check"]
+        for item in checks
+        if item["required"] is True
+        and item["passed"] is False
+    }
+    passed_required = {
+        item["check"]
+        for item in checks
+        if item["required"] is True
+        and item["passed"] is True
+    }
+    if (
+        required_failures != {_ATTESTATION_CHECK}
+        or readiness.get("required_failure_count") != 1
+        or not _REQUIRED_G2_PASSED_CHECKS.issubset(
+            passed_required
+        )
+    ):
+        return None, "G2_DIAGNOSTIC_REQUIRED_CHECKS_NOT_CLEAN"
+
+    captured_at = _utc_datetime(
+        readiness.get("timestamp")
+        or snapshot.get("timestamp")
+    )
+    if captured_at is None:
+        return None, "G2_DIAGNOSTIC_TIMESTAMP_INVALID"
+
+    age_seconds = (now - captured_at).total_seconds()
+    if age_seconds < -2 or age_seconds > max_age_seconds:
+        return None, "G2_DIAGNOSTIC_NOT_FRESH"
+
+    summary = {
+        "evidence_run_id": evidence_run_id,
+        "captured_at_utc": captured_at.isoformat(),
+        "age_seconds": round(max(0.0, age_seconds), 3),
+        "git_sha": git_sha,
+        "snapshot_status": snapshot.get("status"),
+        "connection_status": snapshot.get("connection_status"),
+        "broker_mode": config.get("mode"),
+        "gateway_host": config.get("host"),
+        "gateway_port": config.get("port"),
+        "api_client_id": client_id,
+        "paper_account_fingerprints": list(fingerprints),
+        "diagnostic_read_only_ready": True,
+        "only_required_failure": _ATTESTATION_CHECK,
+        "broker_mutation_surface_hard_blocked": True,
+        "open_order_observation_mode": (
+            "REQ_ALL_OPEN_ORDERS_NON_BINDING"
+        ),
+        "client_zero_binding_hard_blocked": True,
+    }
+    return summary, None
+
+
+def build_runtime_bound_review_package(
+    handoff_result,
+    g2_proof,
+    *,
+    now=None,
+    max_age_seconds=DEFAULT_MAX_G2_DIAGNOSTIC_AGE_SECONDS,
+):
+    """Build V2 only from a safe handoff plus fresh pre-review G2 evidence."""
+
+    v1 = build_unsigned_review_package(
+        handoff_result
+    )
+    if (
+        v1.get("status")
+        != "READY_FOR_INDEPENDENT_REVIEW_PACKAGE"
+    ):
+        return _blocked(
+            "HANDOFF_RESULT_NOT_SAFE_FOR_RUNTIME_BOUND_PACKAGE",
+            package_type=RUNTIME_BOUND_PACKAGE_TYPE,
+            package_schema_version=2,
+        )
+
+    request = v1["handoff_request"]
+    current_time = (
+        now.astimezone(timezone.utc)
+        if isinstance(now, datetime)
+        and now.tzinfo is not None
+        else datetime.now(timezone.utc)
+    )
+    summary, failure = _validate_g2_diagnostic(
+        g2_proof,
+        request,
+        now=current_time,
+        max_age_seconds=max_age_seconds,
+    )
+    if failure:
+        return _blocked(
+            failure,
+            package_type=RUNTIME_BOUND_PACKAGE_TYPE,
+            package_schema_version=2,
+        )
+
+    return {
+        **v1,
+        "package_type": RUNTIME_BOUND_PACKAGE_TYPE,
+        "package_schema_version": 2,
+        "g2_diagnostic_proof_sha256": _canonical_sha256(
+            g2_proof
+        ),
+        "g2_diagnostic_summary": summary,
+    }
+
+
+def load_installed_g2_diagnostic_proof():
+    """Read only the fixed deployed G2 diagnostic path."""
+
+    try:
+        raw = DEFAULT_G2_DIAGNOSTIC_PROOF.read_text(
+            encoding="utf-8"
+        )
+        value = json.loads(
+            raw,
+            object_pairs_hook=_reject_duplicate_keys,
+        )
+    except (
+        OSError,
+        UnicodeDecodeError,
+        json.JSONDecodeError,
+        DuplicateJsonKeyError,
+    ):
+        return {}
+
+    return value if isinstance(value, dict) else {}
+
+
 def main():
     handoff = build_installed_reviewer_handoff(
         REPOSITORY_ROOT
     )
-    result = build_unsigned_review_package(
-        handoff
+    result = build_runtime_bound_review_package(
+        handoff,
+        load_installed_g2_diagnostic_proof(),
     )
     print(
         json.dumps(

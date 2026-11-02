@@ -8,6 +8,7 @@ on:
       - "scripts/gateway_readonly_attestation_handoff.py"
       - "scripts/gateway_review_package.py"
       - "scripts/gateway_review_workflow_status.py"
+      - "scripts/ibkr_paper_probe.py"
       - "tests/test_gateway_attestation_handoff.py"
       - "tests/test_gateway_review_package.py"
       - "tests/test_gateway_review_workflow_status.py"
@@ -38,6 +39,7 @@ jobs:
           python -m py_compile scripts/gateway_readonly_attestation_handoff.py
           python -m py_compile scripts/gateway_review_package.py
           python -m py_compile scripts/gateway_review_workflow_status.py
+          python -m py_compile scripts/ibkr_paper_probe.py
           python -m py_compile tests/test_gateway_attestation_handoff.py
           python -m py_compile tests/test_gateway_review_package.py
           python -m py_compile tests/test_gateway_review_workflow_status.py

@@ -74,18 +74,44 @@ The G7.5 attestation verifier rejects this request even if someone attempts to
 feed it back as an attestation. It has no `decision=ATTESTED`, no evidence
 hash, and no reviewer signature.
 
-## G7.11 unsigned reviewer package
+## G7.11 / G8.2 runtime-bound unsigned reviewer package
 
-After the G7.10 handoff reports `READY_FOR_INDEPENDENT_REVIEW`, run:
+After the G7.10 handoff reports `READY_FOR_INDEPENDENT_REVIEW`, first run the
+G2 diagnostic on the approved VPS in `READ_ONLY` mode. Before an independent
+attestation exists, the probe is expected to return a non-zero exit code while
+still writing sanitized runtime evidence when every non-attestation diagnostic
+check is healthy.
+
+The pre-review evidence must show:
+
+- a real connected IBKR Paper session on `127.0.0.1:4002`;
+- the official TWS API available;
+- exactly one allowlisted Paper account represented only by its fingerprint;
+- all managed-account, account-summary, position and open-order reads complete;
+- G8.1 broker-mutation hard blocks active;
+- non-binding `reqAllOpenOrders()` observation;
+- a non-zero API client ID;
+- `diagnostic_read_only_ready=true`;
+- the independent Gateway Read-Only attestation as the **only** required
+  failure;
+- the exact deployed Git SHA matching the reviewer handoff;
+- evidence no more than five minutes old.
+
+Then run:
 
 ```bash
 python scripts/gateway_review_package.py
 ```
 
-This prints a sanitized `IBKR_GATEWAY_READ_ONLY_REVIEW_PACKAGE_V1` to stdout.
-The package contains the exact V3 handoff request plus an
-`unsigned_artifact_template` with deployment identity and the signed-target
-`g0_runtime_proof_sha256` prefilled.
+The CLI now prints a sanitized
+`IBKR_GATEWAY_READ_ONLY_REVIEW_PACKAGE_V2`. It cryptographically digests the
+fresh G2 diagnostic proof and includes only a sanitized diagnostic summary,
+the exact V3 handoff request, and an `unsigned_artifact_template` with
+deployment identity and the signed-target `g0_runtime_proof_sha256`
+prefilled. The full G2 proof is not copied into the reviewer package.
+
+The legacy V1 handoff-only builder remains available for offline compatibility
+testing but is no longer the installed CLI path.
 
 AURORA deliberately leaves the security-sensitive reviewer fields unset:
 
@@ -184,10 +210,16 @@ Expected progression:
 ```text
 RUNTIME_IDENTITY
 -> TRUST_AND_HANDOFF
--> REVIEW_PACKAGE
+-> FRESH_G2_DIAGNOSTIC
+-> REVIEW_PACKAGE_V2
 -> INDEPENDENT_REVIEW
 -> SIGNED_ATTESTATION_VERIFIED
 ```
+
+If the runtime-bound package is not ready, the workflow returns
+`RUN_FRESH_G2_DIAGNOSTIC_PRE_REVIEW`. A valid signed attestation remains
+authoritative even if the five-minute pre-review G2 diagnostic window expires
+during the human review.
 
 At the final stage, the next action is only
 `RUN_G2_PAPER_READ_ONLY_PROBE`; order submission remains disabled. Missing or
