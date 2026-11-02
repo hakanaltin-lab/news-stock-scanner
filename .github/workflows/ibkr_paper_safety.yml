@@ -19,9 +19,13 @@ on:
       - "deployment_engine/vps_security_contract.json"
       - "main.py"
       - "scripts/ibkr_paper_probe.py"
+      - "scripts/g2_pre_review_status.py"
+      - "scripts/run_aurora_g2_pre_review.sh"
       - "scripts/verify_g0_g1_local.sh"
       - "tests/test_ibkr_paper_read_only.py"
       - "tests/test_v8_9_5_safety_hardening.py"
+      - "tests/test_g2_pre_review_status.py"
+      - "tests/test_v8_9_9_g2_vps_safety.py"
       - "config/ibkr_paper.env.example"
       - "config/aurora_runtime.env.example"
       - "docs/AURORA_G0_G1_DEPLOYMENT.md"
@@ -44,9 +48,13 @@ on:
       - "deployment_engine/vps_security_contract.json"
       - "main.py"
       - "scripts/ibkr_paper_probe.py"
+      - "scripts/g2_pre_review_status.py"
+      - "scripts/run_aurora_g2_pre_review.sh"
       - "scripts/verify_g0_g1_local.sh"
       - "tests/test_ibkr_paper_read_only.py"
       - "tests/test_v8_9_5_safety_hardening.py"
+      - "tests/test_g2_pre_review_status.py"
+      - "tests/test_v8_9_9_g2_vps_safety.py"
       - "config/ibkr_paper.env.example"
       - "config/aurora_runtime.env.example"
       - "docs/AURORA_G0_G1_DEPLOYMENT.md"
@@ -86,8 +94,12 @@ jobs:
           python -m py_compile deployment_engine/environment_manager.py
           python -m py_compile main.py
           python -m py_compile scripts/ibkr_paper_probe.py
+          python -m py_compile scripts/g2_pre_review_status.py
+          bash -n scripts/run_aurora_g2_pre_review.sh
           python -m py_compile tests/test_ibkr_paper_read_only.py
           python -m py_compile tests/test_v8_9_5_safety_hardening.py
+          python -m py_compile tests/test_g2_pre_review_status.py
+          python -m py_compile tests/test_v8_9_9_g2_vps_safety.py
 
       - name: Validate G0 G1 deployment artifacts
         run: |
@@ -102,4 +114,4 @@ jobs:
           AURORA_IBKR_MODE: "PAPER"
           AURORA_RUN_MODE: "SAFE_OFF"
         run: |
-          python -m unittest tests.test_ibkr_paper_read_only tests.test_v8_9_5_safety_hardening -v
+          python -m unittest tests.test_ibkr_paper_read_only tests.test_v8_9_5_safety_hardening tests.test_g2_pre_review_status tests.test_v8_9_9_g2_vps_safety -v
