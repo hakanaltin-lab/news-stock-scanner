@@ -8,6 +8,9 @@ from engines.market_data_quality_gate import (
 )
 
 
+_UNSET = object()
+
+
 class ExecutionMarketDataFailClosedTests(unittest.TestCase):
     def setUp(self):
         self.now = datetime(
@@ -28,9 +31,9 @@ class ExecutionMarketDataFailClosedTests(unittest.TestCase):
             "broker_market_timestamp_verified": True,
         }
 
-    def gate(self, payload=None, **kwargs):
+    def gate(self, payload=_UNSET, **kwargs):
         return evaluate_market_data_for_execution(
-            self.good if payload is None else payload,
+            self.good if payload is _UNSET else payload,
             now=kwargs.pop("now", self.now),
             **kwargs,
         )
