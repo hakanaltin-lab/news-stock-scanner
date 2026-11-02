@@ -165,3 +165,31 @@ The unsigned review package is convenience data only. It is not an attestation,
 cannot satisfy the V3 verifier, and cannot change any AURORA execution
 permission. The independent reviewer remains the only party that can turn a
 reviewed V3 payload into a valid signed artifact.
+
+
+## G7.12 fail-closed workflow status
+
+Run:
+
+```bash
+python scripts/gateway_review_workflow_status.py
+```
+
+This command is diagnostic only and prints one sanitized workflow stage plus one
+next safe action. It never writes policy, reviewer artifacts or runtime proofs,
+and it never enables Paper or LIVE execution.
+
+Expected progression:
+
+```text
+RUNTIME_IDENTITY
+-> TRUST_AND_HANDOFF
+-> REVIEW_PACKAGE
+-> INDEPENDENT_REVIEW
+-> SIGNED_ATTESTATION_VERIFIED
+```
+
+At the final stage, the next action is only
+`RUN_G2_PAPER_READ_ONLY_PROBE`; order submission remains disabled. Missing or
+true execution-permission flags in any upstream preparation result force
+`SAFETY_INVARIANT` and stop progression.
