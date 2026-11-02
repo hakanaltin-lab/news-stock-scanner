@@ -32,6 +32,10 @@ from engines.ibkr_gateway_connector import (
     get_ibkr_read_only_snapshot
 )
 
+from engines.gateway_readonly_attestation_verifier import (
+    verify_installed_gateway_readonly_attestation
+)
+
 from engines.ibkr_paper_readiness_engine import (
     evaluate_ibkr_paper_readiness
 )
@@ -93,6 +97,21 @@ def main():
         get_ibkr_read_only_snapshot()
     )
 
+    gateway_attestation = (
+        verify_installed_gateway_readonly_attestation(
+            REPOSITORY_ROOT
+        )
+    )
+
+    snapshot[
+        "gateway_read_only_configuration_independently_attested"
+    ] = (
+        gateway_attestation.get(
+            "gateway_read_only_configuration_independently_attested"
+        )
+        is True
+    )
+
     readiness = (
         evaluate_ibkr_paper_readiness(
             snapshot,
@@ -112,6 +131,9 @@ def main():
 
         "snapshot":
         snapshot,
+
+        "gateway_read_only_attestation":
+        gateway_attestation,
 
         "readiness":
         readiness
@@ -165,6 +187,16 @@ def main():
                 "readiness":
                 readiness.get(
                     "readiness"
+                ),
+
+                "gateway_attestation_status":
+                gateway_attestation.get(
+                    "status"
+                ),
+
+                "gateway_read_only_configuration_independently_attested":
+                gateway_attestation.get(
+                    "gateway_read_only_configuration_independently_attested"
                 ),
 
                 "required_failure_count":

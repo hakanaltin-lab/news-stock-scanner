@@ -9,7 +9,9 @@ import sys
 import tempfile
 import unittest
 
-from scripts.aurora_readiness_summary import evaluate_readiness_bundle
+from scripts.aurora_readiness_summary import (
+    evaluate_readiness_bundle as _evaluate_readiness_bundle,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -68,11 +70,39 @@ def verified_g0(timestamp=None):
     }
 
 
+def verified_gateway_attestation():
+    return {
+        "engine": "AURORA G7.5 Gateway Read-Only Attestation Verifier",
+        "verified": True,
+        "status": "VERIFIED",
+        "gateway_read_only_configuration_independently_attested": True,
+        "failure_reasons": [],
+        "attestation_id": "22222222-2222-4222-8222-222222222222",
+        "reviewer_id": "aurora-independent-reviewer",
+        "captured_at_utc": (NOW - timedelta(minutes=10)).isoformat(),
+        "expires_at_utc": (NOW + timedelta(hours=1)).isoformat(),
+        "git_sha": "a" * 40,
+        "evidence_sha256": "b" * 64,
+    }
+
+
+def evaluate_readiness_bundle(*args, **kwargs):
+    kwargs.setdefault(
+        "gateway_attestation_verification",
+        verified_gateway_attestation(),
+    )
+    return _evaluate_readiness_bundle(
+        *args,
+        **kwargs,
+    )
+
+
 def ready_g2(timestamp=None):
     timestamp = timestamp or (NOW - timedelta(seconds=5)).isoformat()
     return {
         "evidence_run_id": EVIDENCE_RUN_ID,
         "run_mode": {"mode": "READ_ONLY"},
+        "gateway_read_only_attestation": verified_gateway_attestation(),
         "snapshot": {
             "timestamp": timestamp,
             "order_submission_hard_blocked": True,
@@ -168,9 +198,52 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
             result["g3_market_data_proof_sha256"],
             digest(g3),
         )
+        self.assertEqual(
+            result["gateway_read_only_attestation_sha256"],
+            digest(verified_gateway_attestation()),
+        )
         self.assertFalse(result["paper_order_submission_allowed"])
         self.assertFalse(result["live_execution_allowed"])
         self.assertFalse(result["automatic_promotion_allowed"])
+
+    def test_runtime_reverification_blocks_forged_g2_attestation(self):
+        g2 = ready_g2()
+        g2["gateway_read_only_attestation"]["evidence_sha256"] = "c" * 64
+        result = evaluate_readiness_bundle(
+            g2,
+            ready_g3(),
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        self.assertEqual(result["status"], "NOT_READY")
+        self.assertIn(
+            "g2_gateway_attestation_runtime_bound",
+            result["failure_reasons"],
+        )
+
+    def test_runtime_attestation_verifier_must_itself_be_verified(self):
+        blocked = verified_gateway_attestation()
+        blocked["status"] = "BLOCKED"
+        blocked["verified"] = False
+        blocked[
+            "gateway_read_only_configuration_independently_attested"
+        ] = False
+        result = evaluate_readiness_bundle(
+            ready_g2(),
+            ready_g3(),
+            now=NOW,
+            g0_proof=verified_g0(),
+            gateway_attestation_verification=blocked,
+        )
+        self.assertEqual(result["status"], "NOT_READY")
+        self.assertIn(
+            "gateway_attestation_runtime_verified",
+            result["failure_reasons"],
+        )
+        self.assertIn(
+            "g2_gateway_attestation_runtime_bound",
+            result["failure_reasons"],
+        )
 
     def test_g2_gateway_read_only_attestation_is_independently_required(self):
         for location in ("snapshot", "readiness"):
