@@ -137,6 +137,10 @@ class GatewayAttestationHandoffTests(unittest.TestCase):
             HANDOFF_REQUEST_TYPE,
         )
         self.assertEqual(
+            request["request_schema_version"],
+            2,
+        )
+        self.assertEqual(
             request["requested_control"],
             ATTESTATION_TYPE,
         )
