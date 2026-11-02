@@ -479,6 +479,16 @@ class G6RuntimePrerequisiteTests(unittest.TestCase):
                 cli,
                 "verify_installed_gateway_readonly_attestation",
                 return_value=attestation,
+            ), patch.object(
+                cli,
+                "evaluate_g6_runtime_prerequisite",
+                side_effect=lambda *args, **kwargs: (
+                    evaluate_g6_runtime_prerequisite(
+                        *args,
+                        now=NOW,
+                        **kwargs,
+                    )
+                ),
             ):
                 code = cli.main([
                     "--authorization",
