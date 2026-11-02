@@ -24,7 +24,8 @@ fail() {
 declare -A seen_keys=()
 
 while IFS= read -r line || [[ -n "$line" ]]; do
-  [[ -z "$line" || "$line" == #* ]] && continue
+  [[ -z "$line" ]] && continue
+  [[ "${line:0:1}" == "#" ]] && continue
   [[ "$line" != *$'\r'* ]] || fail "Runtime env contains CR characters."
   [[ "$line" == *=* ]] || fail "Runtime env contains a malformed line."
 
