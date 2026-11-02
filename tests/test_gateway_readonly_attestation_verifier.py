@@ -115,6 +115,20 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
         )
         self.assertIn("runtime_instance_bound", result["failure_reasons"])
 
+    def test_dirty_repository_blocks_even_with_valid_signature(self):
+        result = evaluate_gateway_readonly_attestation(
+            artifact=artifact(),
+            policy=policy(b"reviewer-key"),
+            current_git_sha=GIT_SHA,
+            current_instance_name=INSTANCE,
+            public_key_bytes=b"reviewer-key",
+            signature_valid=True,
+            repository_clean=False,
+            now=NOW,
+        )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn("repository_clean", result["failure_reasons"])
+
     def test_expired_future_or_overlong_attestation_blocks(self):
         expired = artifact()
         expired["captured_at_utc"] = (NOW - timedelta(hours=3)).isoformat()
