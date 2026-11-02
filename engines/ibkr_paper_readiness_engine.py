@@ -45,26 +45,36 @@ def account_metric(
     snapshot,
     name
 ):
-    value = (
-        (
-            snapshot.get(
-                "account_summary",
-                {}
-            )
-            or
-            {}
-        ).get(
-            name,
-            {}
-        )
-        or
-        {}
-    ).get(
-        "value"
+    if not isinstance(
+        snapshot,
+        dict
+    ):
+        return None
+
+    summary = snapshot.get(
+        "account_summary"
     )
 
+    if not isinstance(
+        summary,
+        dict
+    ):
+        return None
+
+    metric = summary.get(
+        name
+    )
+
+    if not isinstance(
+        metric,
+        dict
+    ):
+        return None
+
     return safe_float(
-        value,
+        metric.get(
+            "value"
+        ),
         None
     )
 
@@ -74,7 +84,19 @@ def normalize_expected_positions(
 ):
     expected = {}
 
+    if not isinstance(
+        portfolio_rows,
+        list
+    ):
+        return expected
+
     for row in portfolio_rows:
+        if not isinstance(
+            row,
+            dict
+        ):
+            continue
+
         ticker = str(
             row.get(
                 "ticker",
@@ -104,14 +126,29 @@ def normalize_broker_positions(
 ):
     broker = {}
 
-    for row in (
-        snapshot.get(
-            "positions",
-            []
-        )
-        or
-        []
+    if not isinstance(
+        snapshot,
+        dict
     ):
+        return broker
+
+    positions = snapshot.get(
+        "positions"
+    )
+
+    if not isinstance(
+        positions,
+        list
+    ):
+        return broker
+
+    for row in positions:
+        if not isinstance(
+            row,
+            dict
+        ):
+            continue
+
         ticker = str(
             row.get(
                 "symbol",
@@ -264,24 +301,25 @@ def evaluate_ibkr_paper_readiness(
     broker_snapshot,
     portfolio_rows
 ):
-    broker_snapshot = (
-        broker_snapshot
-        or
-        {}
-    )
+    if not isinstance(
+        broker_snapshot,
+        dict
+    ):
+        broker_snapshot = {}
 
     status = broker_snapshot.get(
         "status"
     )
 
-    config = (
-        broker_snapshot.get(
-            "config",
-            {}
-        )
-        or
-        {}
+    config = broker_snapshot.get(
+        "config"
     )
+
+    if not isinstance(
+        config,
+        dict
+    ):
+        config = {}
 
     checks = []
 
@@ -339,14 +377,15 @@ def evaluate_ibkr_paper_readiness(
         )
     )
 
-    paper_account_guard = (
-        broker_snapshot.get(
-            "paper_account_guard",
-            {}
-        )
-        or
-        {}
+    paper_account_guard = broker_snapshot.get(
+        "paper_account_guard"
     )
+
+    if not isinstance(
+        paper_account_guard,
+        dict
+    ):
+        paper_account_guard = {}
 
     add_check(
         "paper_account_allowlist_configured",
@@ -385,18 +424,22 @@ def evaluate_ibkr_paper_readiness(
         if str(item).strip()
     })
 
-    account_summary_account_fingerprints = sorted({
-        str(item).strip()
-        for item in (
-            broker_snapshot.get(
-                "account_summary_account_fingerprints",
-                []
-            )
-            or
-            []
+    account_summary_fingerprint_rows = broker_snapshot.get(
+        "account_summary_account_fingerprints"
+    )
+
+    account_summary_account_fingerprints = (
+        sorted({
+            str(item).strip()
+            for item in account_summary_fingerprint_rows
+            if str(item).strip()
+        })
+        if isinstance(
+            account_summary_fingerprint_rows,
+            list
         )
-        if str(item).strip()
-    })
+        else []
+    )
 
     add_check(
         "account_summary_accounts_match_managed_accounts",
@@ -606,14 +649,15 @@ def evaluate_ibkr_paper_readiness(
         )
     )
 
-    requests_complete = (
-        broker_snapshot.get(
-            "requests_complete",
-            {}
-        )
-        or
-        {}
+    requests_complete = broker_snapshot.get(
+        "requests_complete"
     )
+
+    if not isinstance(
+        requests_complete,
+        dict
+    ):
+        requests_complete = {}
 
     add_check(
         "managed_accounts_snapshot_complete",
@@ -658,13 +702,66 @@ def evaluate_ibkr_paper_readiness(
         )
     )
 
-    open_orders = broker_snapshot.get("open_orders", []) or []
-    open_order_accounts_verified = (
-        isinstance(open_orders, list)
+    open_orders = broker_snapshot.get(
+        "open_orders"
+    )
+    open_orders_payload_valid = (
+        isinstance(
+            open_orders,
+            list
+        )
         and all(
-            isinstance(row, dict)
-            and isinstance(row.get("account"), str)
-            and row["account"] in verified_account_fingerprints
+            isinstance(
+                row,
+                dict
+            )
+            and type(
+                row.get(
+                    "order_id"
+                )
+            )
+            is int
+            and row.get(
+                "order_id"
+            )
+            >= 0
+            and isinstance(
+                row.get(
+                    "symbol"
+                ),
+                str
+            )
+            and bool(
+                row.get(
+                    "symbol"
+                ).strip()
+            )
+            for row in open_orders
+        )
+    )
+    add_check(
+        "open_orders_payload_valid",
+        open_orders_payload_valid,
+        True,
+        (
+            "Open-order payload must be an explicit list with valid "
+            "order identifiers and symbols."
+        ),
+    )
+
+    open_order_accounts_verified = (
+        open_orders_payload_valid
+        and all(
+            isinstance(
+                row.get(
+                    "account"
+                ),
+                str
+            )
+            and row[
+                "account"
+            ]
+            in verified_account_fingerprints
             for row in open_orders
         )
     )
@@ -675,13 +772,63 @@ def evaluate_ibkr_paper_readiness(
         "Every reported open order must originate from a verified Paper account.",
     )
 
-    positions = broker_snapshot.get("positions", []) or []
-    position_accounts_verified = (
-        isinstance(positions, list)
+    positions = broker_snapshot.get(
+        "positions"
+    )
+    positions_payload_valid = (
+        isinstance(
+            positions,
+            list
+        )
         and all(
-            isinstance(row, dict)
-            and isinstance(row.get("account"), str)
-            and row["account"] in verified_account_fingerprints
+            isinstance(
+                row,
+                dict
+            )
+            and isinstance(
+                row.get(
+                    "symbol"
+                ),
+                str
+            )
+            and bool(
+                row.get(
+                    "symbol"
+                ).strip()
+            )
+            and safe_float(
+                row.get(
+                    "position"
+                ),
+                None
+            )
+            is not None
+            for row in positions
+        )
+    )
+    add_check(
+        "positions_payload_valid",
+        positions_payload_valid,
+        True,
+        (
+            "Position payload must be an explicit list with valid symbols "
+            "and finite numeric quantities."
+        ),
+    )
+
+    position_accounts_verified = (
+        positions_payload_valid
+        and all(
+            isinstance(
+                row.get(
+                    "account"
+                ),
+                str
+            )
+            and row[
+                "account"
+            ]
+            in verified_account_fingerprints
             for row in positions
         )
     )
