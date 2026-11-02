@@ -5,9 +5,15 @@ on:
   pull_request:
     paths:
       - "engines/paper_order_authorization_gate.py"
+      - "engines/dry_run_execution_engine.py"
+      - "scripts/aurora_g4_shadow.py"
       - "tests/test_paper_order_authorization_gate.py"
+      - "tests/test_g4_g5_integration.py"
       - "docs/AURORA_G5_MANUAL_PAPER_AUTHORIZATION.md"
       - ".github/workflows/g5_manual_paper_authorization_safety.yml"
+
+permissions:
+  contents: read
 
 jobs:
   authorization-preflight-safety:
@@ -22,10 +28,14 @@ jobs:
       - name: Compile
         run: |
           python -m py_compile engines/paper_order_authorization_gate.py
+          python -m py_compile engines/dry_run_execution_engine.py
+          python -m py_compile scripts/aurora_g4_shadow.py
           python -m py_compile tests/test_paper_order_authorization_gate.py
+          python -m py_compile tests/test_g4_g5_integration.py
       - name: Prove fail-closed preflight behavior
         run: |
           python -m unittest tests.test_paper_order_authorization_gate -v
+          python -m unittest tests.test_g4_g5_integration -v
       - name: Prove no broker submission path exists
         run: |
           ! grep -E "placeOrder|submit_order|from ibapi|import ibapi|4001" engines/paper_order_authorization_gate.py

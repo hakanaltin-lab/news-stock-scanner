@@ -62,6 +62,7 @@ def _safe_flags(payload):
         "paper_order_submission_allowed",
         "live_execution_allowed",
         "automatic_promotion_allowed",
+        "real_money_trading_allowed",
     )
     return all(
         name in payload and payload.get(name) is False
