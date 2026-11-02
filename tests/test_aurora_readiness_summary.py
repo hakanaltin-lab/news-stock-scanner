@@ -18,6 +18,11 @@ ROOT = Path(__file__).resolve().parents[1]
 NOW = datetime(2026, 10, 30, 12, 0, tzinfo=timezone.utc)
 ACCOUNT_FINGERPRINT = "IBKR-A1B2C3D4E5"
 EVIDENCE_RUN_ID = "11111111-1111-4111-8111-111111111111"
+GIT_SHA = "a" * 40
+PROJECT_ID = "project-ce9773ef-6814-469c-92b"
+INSTANCE_NAME = "aurora-trading-vps"
+ZONE = "europe-west3-a"
+INSTANCE_ID = "1234567890123456789"
 G2_REQUIRED_CHECKS = [
     "paper_mode_only",
     "safe_loopback_paper_endpoint",
@@ -65,12 +70,36 @@ def verified_g0(timestamp=None):
     return {
         "generated_at": timestamp,
         "status": "G0_G1_VERIFIED",
-        "gce_instance_id": "1234567890123456789",
+        "project_id": PROJECT_ID,
+        "vm_name": INSTANCE_NAME,
+        "zone": ZONE,
+        "gce_instance_id": INSTANCE_ID,
         "failure_reasons": [],
         "broker_submission_allowed": False,
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
         "automatic_promotion_allowed": False,
+    }
+
+
+def runtime_provenance():
+    return {
+        "verified": True,
+        "runtime_cloud_identity": {
+            "project_id": PROJECT_ID,
+            "instance_name": INSTANCE_NAME,
+            "zone": ZONE,
+            "instance_id": INSTANCE_ID,
+        },
+        "g0_runtime_proof_sha256": digest(
+            verified_g0()
+        ),
+        "failure_reasons": [],
+        "broker_submission_allowed": False,
+        "paper_order_submission_allowed": False,
+        "live_execution_allowed": False,
+        "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
     }
 
 
@@ -85,7 +114,7 @@ def verified_gateway_attestation():
         "reviewer_id": "aurora-independent-reviewer",
         "captured_at_utc": (NOW - timedelta(minutes=10)).isoformat(),
         "expires_at_utc": (NOW + timedelta(hours=1)).isoformat(),
-        "git_sha": "a" * 40,
+        "git_sha": GIT_SHA,
         "evidence_sha256": "b" * 64,
         "g0_runtime_proof_sha256": digest(
             verified_g0()
@@ -109,7 +138,9 @@ def evaluate_readiness_bundle(*args, **kwargs):
 def ready_g2(timestamp=None):
     timestamp = timestamp or (NOW - timedelta(seconds=5)).isoformat()
     return {
+        "git_sha": GIT_SHA,
         "evidence_run_id": EVIDENCE_RUN_ID,
+        "runtime_provenance": runtime_provenance(),
         "run_mode": {"mode": "READ_ONLY"},
         "gateway_read_only_attestation": verified_gateway_attestation(),
         "snapshot": {
@@ -146,16 +177,34 @@ def ready_g2(timestamp=None):
 def ready_g3(timestamp=None):
     timestamp = timestamp or (NOW - timedelta(seconds=2)).isoformat()
     return {
+        "git_sha": GIT_SHA,
         "evidence_run_id": EVIDENCE_RUN_ID,
+        "runtime_provenance": runtime_provenance(),
         "symbol": "BKR",
         "snapshot": {
             "status": "REALTIME_READY",
             "config": {
                 "mode": "PAPER",
+                "mode_valid": True,
                 "endpoint_safe": True,
                 "host": "127.0.0.1",
                 "port": 4002,
+                "port_valid": True,
+                "client_id": 83,
+                "client_id_valid": True,
+                "timeout_valid": True,
+                "read_only": True,
             },
+            "broker_mutation_surface_hard_blocked": True,
+            "client_zero_binding_hard_blocked": True,
+            "blocked_broker_mutation_methods": [
+                "placeOrder",
+                "cancelOrder",
+                "reqGlobalCancel",
+                "exerciseOptions",
+                "replaceFA",
+                "reqAutoOpenOrders",
+            ],
             "paper_account_guard": {
                 "paper_account_verified": True,
                 "verified_account_fingerprints": [ACCOUNT_FINGERPRINT],
@@ -175,6 +224,8 @@ def ready_g3(timestamp=None):
         "broker_submission_allowed": False,
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
+        "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
     }
 
 
@@ -193,6 +244,13 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
         self.assertEqual(result["failure_reasons"], [])
         self.assertTrue(result["checks"]["g2_g3_paper_account_bound"])
         self.assertTrue(result["checks"]["g2_g3_same_evidence_run"])
+        self.assertTrue(result["checks"]["g2_g3_same_git_sha"])
+        self.assertTrue(result["checks"]["g2_runtime_provenance_bound"])
+        self.assertTrue(result["checks"]["g3_runtime_provenance_bound"])
+        self.assertTrue(result["checks"]["g2_g3_runtime_identity_bound"])
+        self.assertTrue(
+            result["checks"]["g3_broker_mutation_surface_blocked"]
+        )
         self.assertEqual(result["evidence_run_id"], EVIDENCE_RUN_ID)
         self.assertEqual(
             result["paper_account_fingerprints"],
@@ -217,6 +275,76 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
         self.assertFalse(result["paper_order_submission_allowed"])
         self.assertFalse(result["live_execution_allowed"])
         self.assertFalse(result["automatic_promotion_allowed"])
+
+    def test_g3_wrong_git_sha_blocks_bundle(self):
+        g3 = ready_g3()
+        g3["git_sha"] = "b" * 40
+        result = evaluate_readiness_bundle(
+            ready_g2(),
+            g3,
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        self.assertEqual(result["status"], "NOT_READY")
+        self.assertIn(
+            "g2_g3_same_git_sha",
+            result["failure_reasons"],
+        )
+
+    def test_g3_cross_vm_provenance_blocks_bundle(self):
+        g3 = ready_g3()
+        g3["runtime_provenance"]["runtime_cloud_identity"][
+            "instance_id"
+        ] = "9876543210987654321"
+        result = evaluate_readiness_bundle(
+            ready_g2(),
+            g3,
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        self.assertEqual(result["status"], "NOT_READY")
+        self.assertIn(
+            "g3_runtime_provenance_bound",
+            result["failure_reasons"],
+        )
+        self.assertIn(
+            "g2_g3_runtime_identity_bound",
+            result["failure_reasons"],
+        )
+
+    def test_g3_wrong_g0_digest_blocks_bundle(self):
+        g3 = ready_g3()
+        g3["runtime_provenance"][
+            "g0_runtime_proof_sha256"
+        ] = "b" * 64
+        result = evaluate_readiness_bundle(
+            ready_g2(),
+            g3,
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        self.assertEqual(result["status"], "NOT_READY")
+        self.assertIn(
+            "g3_runtime_provenance_bound",
+            result["failure_reasons"],
+        )
+
+    def test_g3_mutation_hard_block_is_required(self):
+        g3 = ready_g3()
+        g3["snapshot"][
+            "broker_mutation_surface_hard_blocked"
+        ] = False
+        result = evaluate_readiness_bundle(
+            ready_g2(),
+            g3,
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        self.assertEqual(result["status"], "NOT_READY")
+        self.assertIn(
+            "g3_broker_mutation_surface_blocked",
+            result["failure_reasons"],
+        )
 
     def test_missing_g2_mutation_hardening_blocks_bundle(self):
         g2 = ready_g2()
