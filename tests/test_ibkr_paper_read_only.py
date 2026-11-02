@@ -30,6 +30,7 @@ def ready_snapshot():
         },
         "official_ibapi_available": True,
         "order_submission_hard_blocked": True,
+        "gateway_read_only_configuration_independently_attested": True,
         "live_trading_allowed": False,
         "account_count": 1,
         "accounts": ["IBKR-TESTACCOUNT"],
@@ -492,6 +493,39 @@ class IBKRReadinessTests(unittest.TestCase):
         self.assertIn(
             "account_summary_accounts_match_managed_accounts",
             failed,
+        )
+
+    def test_gateway_read_only_requires_independent_attestation(self):
+        snapshot = ready_snapshot()
+        snapshot["gateway_read_only_configuration_independently_attested"] = False
+
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+        self.assertEqual(readiness["readiness"], "NOT_READY")
+        self.assertTrue(readiness["diagnostic_read_only_ready"])
+        self.assertEqual(
+            readiness["next_milestone"],
+            "INDEPENDENT_GATEWAY_READ_ONLY_ATTESTATION",
+        )
+        self.assertFalse(
+            readiness[
+                "gateway_read_only_configuration_independently_attested"
+            ]
+        )
+
+    def test_connector_cannot_self_attest_gateway_read_only(self):
+        with patch.dict(os.environ, {
+            "AURORA_IBKR_ENABLED": "false",
+            "AURORA_IBKR_MODE": "PAPER",
+            "AURORA_IBKR_GATEWAY_READ_ONLY_ATTESTED": "true",
+        }, clear=True):
+            snapshot = connector.get_ibkr_read_only_snapshot()
+
+        self.assertIs(
+            snapshot[
+                "gateway_read_only_configuration_independently_attested"
+            ],
+            False,
         )
 
     def test_missing_order_block_evidence_is_not_ready(self):
