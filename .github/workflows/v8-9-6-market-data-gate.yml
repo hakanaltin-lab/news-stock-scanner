@@ -1,0 +1,23 @@
+name: V8.9.6 execution data gate hardening
+
+on:
+  pull_request:
+    paths:
+      - 'engines/market_data_quality_gate.py'
+      - 'tests/test_v8_9_6_market_data_gate_hardening.py'
+      - '.github/workflows/v8-9-6-market-data-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-gate-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m unittest discover -s tests -p 'test_v8_9_6_market_data_gate_hardening.py' -v
