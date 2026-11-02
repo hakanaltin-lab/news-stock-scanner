@@ -1338,6 +1338,11 @@ def evaluate_paper_state_risk_preflight(
     open_orders = fresh_snapshot.get(
         "open_orders"
     )
+    fresh_account_fingerprints = set(
+        fresh_contract[
+            "account_fingerprints"
+        ]
+    )
 
     positions_valid = (
         isinstance(
@@ -1366,6 +1371,16 @@ def evaluate_paper_state_risk_preflight(
                 )
             )
             is not None
+            and isinstance(
+                row.get(
+                    "account"
+                ),
+                str,
+            )
+            and row.get(
+                "account"
+            )
+            in fresh_account_fingerprints
             for row in positions
         )
     )
@@ -1425,6 +1440,16 @@ def evaluate_paper_state_risk_preflight(
             )
             >
             0
+            and isinstance(
+                row.get(
+                    "account"
+                ),
+                str,
+            )
+            and row.get(
+                "account"
+            )
+            in fresh_account_fingerprints
             for row in open_orders
         )
     )
