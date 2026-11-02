@@ -14,6 +14,11 @@ import hmac
 import json
 from uuid import UUID
 
+from engines.gce_runtime_identity import (
+    EXPECTED_INSTANCE_NAME,
+    EXPECTED_PROJECT_ID,
+    EXPECTED_ZONE,
+)
 from engines.ibkr_paper_readiness_engine import (
     evaluate_ibkr_paper_readiness,
 )
@@ -356,6 +361,14 @@ def evaluate_g6_runtime_prerequisite(
     g2_git_sha = _git_sha(
         g2_proof.get("git_sha")
     )
+    g2_run_mode = (
+        g2_proof.get("run_mode")
+        if isinstance(
+            g2_proof.get("run_mode"),
+            dict,
+        )
+        else {}
+    )
     g2_snapshot = (
         g2_proof.get("snapshot")
         if isinstance(
@@ -410,14 +423,90 @@ def evaluate_g6_runtime_prerequisite(
         [],
     )
 
-    g2_timestamp = _utc_datetime(
-        g2_readiness_recorded.get("timestamp")
-        or g2_snapshot.get("timestamp")
+    g2_config = (
+        g2_snapshot.get("config")
+        if isinstance(
+            g2_snapshot.get("config"),
+            dict,
+        )
+        else {}
     )
-    g2_age_seconds = (
-        (now - g2_timestamp).total_seconds()
-        if g2_timestamp is not None
+
+    snapshot_timestamp = _utc_datetime(
+        g2_snapshot.get("timestamp")
+    )
+    readiness_timestamp = _utc_datetime(
+        g2_readiness_recorded.get("timestamp")
+    )
+    snapshot_age_seconds = (
+        (now - snapshot_timestamp).total_seconds()
+        if snapshot_timestamp is not None
         else None
+    )
+    readiness_age_seconds = (
+        (now - readiness_timestamp).total_seconds()
+        if readiness_timestamp is not None
+        else None
+    )
+    timestamp_chain_seconds = (
+        (readiness_timestamp - snapshot_timestamp).total_seconds()
+        if (
+            readiness_timestamp is not None
+            and snapshot_timestamp is not None
+        )
+        else None
+    )
+
+    recomputed_checks = (
+        g2_recomputed.get("checks")
+        if isinstance(
+            g2_recomputed.get("checks"),
+            list,
+        )
+        else []
+    )
+    recorded_checks = (
+        g2_readiness_recorded.get("checks")
+        if isinstance(
+            g2_readiness_recorded.get("checks"),
+            list,
+        )
+        else []
+    )
+
+    def _required_check_map(rows):
+        if not rows:
+            return None
+        result = {}
+        for item in rows:
+            if (
+                not isinstance(item, dict)
+                or not isinstance(
+                    item.get("check"),
+                    str,
+                )
+                or type(
+                    item.get("required")
+                )
+                is not bool
+                or type(
+                    item.get("passed")
+                )
+                is not bool
+            ):
+                return None
+            name = item["check"]
+            if name in result:
+                return None
+            if item["required"]:
+                result[name] = item["passed"]
+        return result
+
+    recomputed_required_checks = _required_check_map(
+        recomputed_checks
+    )
+    recorded_required_checks = _required_check_map(
+        recorded_checks
     )
 
     fingerprints = _verified_fingerprints(
@@ -490,6 +579,35 @@ def evaluate_g6_runtime_prerequisite(
             g5_run_id is not None
             and g5_run_id == g2_run_id
         ),
+        "g2_run_mode_read_only": (
+            g2_run_mode.get("mode") == "READ_ONLY"
+            and g2_run_mode.get("mode_valid") is True
+            and g2_run_mode.get("read_only") is True
+            and g2_run_mode.get("dry_run") is False
+            and g2_run_mode.get("safe_off") is False
+            and g2_run_mode.get(
+                "paper_order_submission_requested"
+            )
+            is False
+            and g2_run_mode.get(
+                "live_execution_allowed"
+            )
+            is False
+        ),
+        "g2_connector_config_exact": (
+            g2_config.get("enabled") is True
+            and g2_config.get("mode") == "PAPER"
+            and g2_config.get("mode_valid") is True
+            and g2_config.get("host") == "127.0.0.1"
+            and g2_config.get("port") == 4002
+            and g2_config.get("port_valid") is True
+            and g2_config.get("endpoint_safe") is True
+            and g2_config.get("read_only") is True
+            and type(g2_config.get("client_id")) is int
+            and g2_config.get("client_id") > 0
+            and g2_config.get("client_id_valid") is True
+            and g2_config.get("timeout_valid") is True
+        ),
         "g2_runtime_provenance_bound": (
             g2_provenance.get("verified") is True
             and g2_provenance.get(
@@ -497,6 +615,12 @@ def evaluate_g6_runtime_prerequisite(
             )
             == []
             and _safe_flags(g2_provenance)
+            and g2_identity.get("project_id")
+            == EXPECTED_PROJECT_ID
+            and g2_identity.get("instance_name")
+            == EXPECTED_INSTANCE_NAME
+            and g2_identity.get("zone")
+            == EXPECTED_ZONE
             and g5_instance_id.isdigit()
             and g5_instance_id
             == str(
@@ -512,9 +636,14 @@ def evaluate_g6_runtime_prerequisite(
             )
         ),
         "g2_fresh": (
-            g2_age_seconds is not None
-            and -2 <= g2_age_seconds
+            snapshot_age_seconds is not None
+            and readiness_age_seconds is not None
+            and timestamp_chain_seconds is not None
+            and -2 <= snapshot_age_seconds
             <= max_g2_age_seconds
+            and -2 <= readiness_age_seconds
+            <= max_g2_age_seconds
+            and 0 <= timestamp_chain_seconds <= 60
         ),
         "g2_readiness_recomputed": (
             g2_recomputed.get("readiness")
@@ -553,6 +682,23 @@ def evaluate_g6_runtime_prerequisite(
                 "live_execution_allowed"
             )
             is False
+        ),
+        "g2_recorded_required_checks_match_recomputed": (
+            isinstance(
+                recorded_required_checks,
+                dict,
+            )
+            and isinstance(
+                recomputed_required_checks,
+                dict,
+            )
+            and recorded_required_checks
+            == recomputed_required_checks
+            and bool(recorded_required_checks)
+            and all(
+                value is True
+                for value in recorded_required_checks.values()
+            )
         ),
         "paper_account_fingerprint_verified": (
             len(fingerprints) == 1
@@ -599,6 +745,10 @@ def evaluate_g6_runtime_prerequisite(
         "gateway_attestation_runtime_identity_bound": (
             g5_instance_id.isdigit()
             and gateway_attestation_verification.get(
+                "gcp_project_id"
+            )
+            == EXPECTED_PROJECT_ID
+            and gateway_attestation_verification.get(
                 "gcp_instance_id"
             )
             == g5_instance_id
@@ -606,6 +756,10 @@ def evaluate_g6_runtime_prerequisite(
                 "g0_runtime_proof_sha256"
             )
             == g5_g0_digest
+            and g2_attestation.get(
+                "gcp_project_id"
+            )
+            == EXPECTED_PROJECT_ID
             and g2_attestation.get(
                 "gcp_instance_id"
             )
@@ -672,7 +826,14 @@ def evaluate_g6_runtime_prerequisite(
         "g2_evidence_age_seconds": round(
             max(
                 0.0,
-                g2_age_seconds,
+                readiness_age_seconds,
+            ),
+            3,
+        ),
+        "g2_snapshot_age_seconds": round(
+            max(
+                0.0,
+                snapshot_age_seconds,
             ),
             3,
         ),
