@@ -38,7 +38,7 @@ def build_bootstrap_identity():
         "failure_reasons": (
             []
             if verified
-            else list(identity.get("failure_reasons") or ["GCE_RUNTIME_IDENTITY_UNVERIFIED"])
+            else ["GCE_RUNTIME_IDENTITY_UNVERIFIED"]
         ),
         "policy_write_allowed": False,
         "attestation_write_allowed": False,
