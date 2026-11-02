@@ -22,13 +22,29 @@ DEFAULT_MAX_G0_AGE_SECONDS = 86400
 EXPECTED_G2_REQUIRED_CHECKS = {
     "paper_mode_only",
     "safe_loopback_paper_endpoint",
+    "paper_account_allowlist_configured",
     "paper_account_identity_verified",
+    "verified_account_fingerprint_payload_valid",
+    "account_summary_accounts_match_managed_accounts",
+    "connector_read_only",
     "gateway_read_only_configuration_independently_attested",
     "order_submission_hard_blocked",
     "live_trading_hard_blocked",
+    "official_ibapi_available",
     "gateway_connected",
+    "managed_account_identity_consistent",
+    "managed_account_received",
     "single_managed_account_for_readiness",
-    "account_summary_accounts_match_managed_accounts",
+    "net_liquidation_available",
+    "cash_available",
+    "available_funds_available",
+    "managed_accounts_snapshot_complete",
+    "account_summary_snapshot_complete",
+    "positions_snapshot_complete",
+    "open_orders_snapshot_complete",
+    "open_orders_payload_valid",
+    "open_order_accounts_match_verified_paper_accounts",
+    "positions_payload_valid",
     "position_accounts_match_verified_paper_accounts",
 }
 
@@ -146,6 +162,28 @@ def evaluate_readiness_bundle(
             for item in g2_checks
         )
     )
+    g2_check_names = (
+        [
+            item["check"]
+            for item in g2_checks
+        ]
+        if g2_checks_well_formed
+        else []
+    )
+    g2_checks_unique = (
+        bool(
+            g2_check_names
+        )
+        and len(
+            g2_check_names
+        )
+        ==
+        len(
+            set(
+                g2_check_names
+            )
+        )
+    )
     g2_required_check_names = (
         {
             item["check"]
@@ -203,7 +241,10 @@ def evaluate_readiness_bundle(
         "g2_no_required_failures": g2_readiness.get("required_failure_count") == 0,
         "g2_required_checks_consistent": (
             g2_checks_well_formed
-            and EXPECTED_G2_REQUIRED_CHECKS.issubset(g2_required_check_names)
+            and g2_checks_unique
+            and g2_required_check_names
+            ==
+            EXPECTED_G2_REQUIRED_CHECKS
             and g2_computed_required_failures
             == g2_readiness.get("required_failure_count")
         ),
