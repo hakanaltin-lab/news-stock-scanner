@@ -1,0 +1,46 @@
+name: G8.12 G6 Runtime Prerequisite Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/paper_connector_review_prerequisite.py"
+      - "engines/paper_order_authorization_gate.py"
+      - "engines/ibkr_paper_readiness_engine.py"
+      - "scripts/g6_runtime_prerequisite.py"
+      - "scripts/gateway_review_package.py"
+      - "scripts/ibkr_paper_probe.py"
+      - "tests/test_g6_runtime_prerequisite.py"
+      - "docs/AURORA_G8_12_G6_RUNTIME_PREREQUISITE.md"
+      - ".github/workflows/g8_12_g6_runtime_prerequisite.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  broker-independent-runtime-binding:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile review-only components
+        run: |
+          python -m py_compile engines/paper_connector_review_prerequisite.py
+          python -m py_compile scripts/g6_runtime_prerequisite.py
+          python -m py_compile tests/test_g6_runtime_prerequisite.py
+
+      - name: Prove G5 to real Paper runtime binding fails closed
+        run: |
+          python -m unittest tests.test_g6_runtime_prerequisite -v
+
+      - name: Prove gate has no broker write path
+        run: |
+          ! grep -E "from ibapi|import ibapi|placeOrder|cancelOrder|reqGlobalCancel|exerciseOptions|replaceFA|reqAutoOpenOrders|submit_order|4001" \
+            engines/paper_connector_review_prerequisite.py \
+            scripts/g6_runtime_prerequisite.py
