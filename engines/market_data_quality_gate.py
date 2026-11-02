@@ -141,9 +141,6 @@ def evaluate_market_data_for_execution(
         market_data.get(
             "market_timestamp"
         )
-        or market_data.get(
-            "timestamp"
-        )
     )
 
     raw_price = market_data.get(
