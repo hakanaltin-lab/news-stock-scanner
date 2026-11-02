@@ -48,8 +48,12 @@ def proofs():
             "required_failure_count": 0,
             "paper_order_submission_allowed": False,
             "live_execution_allowed": False,
+            "gateway_read_only_configuration_independently_attested": True,
         },
-        "snapshot": {"order_submission_hard_blocked": True},
+        "snapshot": {
+            "order_submission_hard_blocked": True,
+            "gateway_read_only_configuration_independently_attested": True,
+        },
     }
     readiness = {
         **safe,
@@ -143,6 +147,29 @@ class AuroraCompletionStatusTests(unittest.TestCase):
             result["evidence_binding"]["readiness_evidence_run_id"],
             result["evidence_binding"]["g4_evidence_run_id"],
         )
+
+    def test_gateway_read_only_attestation_is_required_at_completion(self):
+        for location in ("snapshot", "readiness"):
+            with self.subTest(location=location):
+                g0, ready, g4, audit, g2 = proofs()
+                g2[location][
+                    "gateway_read_only_configuration_independently_attested"
+                ] = False
+                ready["g2_paper_read_only_proof_sha256"] = digest(g2)
+                g4["readiness_proof_sha256"] = digest(ready)
+                result = evaluate_completion_status(
+                    g0,
+                    ready,
+                    g4,
+                    audit,
+                    now=NOW,
+                    g2_proof=g2,
+                )
+                self.assertEqual(result["status"], "BLOCKED")
+                self.assertIn(
+                    "g2_gateway_read_only_independently_attested",
+                    result["failure_reasons"],
+                )
 
     def test_missing_or_mismatched_g4_evidence_run_id_blocks(self):
         g0, ready, g4, audit, g2 = proofs()
