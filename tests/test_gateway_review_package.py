@@ -219,12 +219,20 @@ class GatewayReviewPackageTests(unittest.TestCase):
         bad_request["handoff_request"]["request_type"] = "WRONG"
         cases.append(bad_request)
 
+        injected = safe_handoff()
+        injected["handoff_request"]["raw_account_id"] = "DU1234567"
+        cases.append(injected)
+
         for value in cases:
             with self.subTest(value=value):
                 result = build_unsigned_review_package(value)
                 self.assertEqual(result["status"], "BLOCKED")
                 self.assertIsNone(
                     result["unsigned_artifact_template"]
+                )
+                self.assertNotIn(
+                    "DU1234567",
+                    json.dumps(result),
                 )
                 self.assertFalse(
                     result["paper_order_submission_allowed"]
