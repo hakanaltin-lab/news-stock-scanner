@@ -142,6 +142,22 @@ def evaluate_completion_status(
     g4_run_id = _verified_evidence_run_id(
         g4_shadow.get("evidence_run_id")
     )
+    g2_snapshot = (
+        g2_proof.get("snapshot")
+        if isinstance(
+            g2_proof.get("snapshot"),
+            dict,
+        )
+        else {}
+    )
+    g2_readiness = (
+        g2_proof.get("readiness")
+        if isinstance(
+            g2_proof.get("readiness"),
+            dict,
+        )
+        else {}
+    )
     checks = {
         "g0_g1_verified": (
             g0_proof.get("status") == "G0_G1_VERIFIED"
@@ -163,6 +179,16 @@ def evaluate_completion_status(
                 readiness_g0_digest,
                 actual_g0_digest,
             )
+        ),
+        "g2_gateway_read_only_independently_attested": (
+            g2_snapshot.get(
+                "gateway_read_only_configuration_independently_attested"
+            )
+            is True
+            and g2_readiness.get(
+                "gateway_read_only_configuration_independently_attested"
+            )
+            is True
         ),
         "g2_readiness_proof_bound": (
             _is_sha256(readiness_g2_digest)
