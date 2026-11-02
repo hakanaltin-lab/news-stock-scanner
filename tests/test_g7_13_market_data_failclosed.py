@@ -101,6 +101,38 @@ class ExecutionMarketDataFailClosedTests(unittest.TestCase):
                     ],
                 )
 
+    def test_generic_timestamp_cannot_replace_broker_market_timestamp(self):
+        for market_timestamp in (
+            None,
+            "",
+            "bad",
+        ):
+            with self.subTest(
+                market_timestamp=market_timestamp
+            ):
+                quote = {
+                    **self.good,
+                    "market_timestamp":
+                    market_timestamp,
+                    "timestamp":
+                    self.now.isoformat(),
+                }
+
+                result = self.gate(
+                    payload=quote
+                )
+
+                self.assertEqual(
+                    result["decision"],
+                    "BLOCK",
+                )
+                self.assertIn(
+                    "timestamp_available",
+                    result[
+                        "failure_reasons"
+                    ],
+                )
+
     def test_invalid_reference_clock_never_falls_back_to_wall_clock(self):
         for value in (
             "bad-clock",
