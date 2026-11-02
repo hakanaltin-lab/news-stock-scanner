@@ -1,0 +1,24 @@
+name: G6.22 offline freshness
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/paper_readonly_evidence_freshness.py'
+      - 'tests/test_g6_22_evidence_freshness.py'
+      - '.github/workflows/g6-22-evidence-freshness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  freshness-diagnostic-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run offline freshness regression suite
+        run: python -m unittest discover -s tests -p 'test_g6_22_evidence_freshness.py' -v
