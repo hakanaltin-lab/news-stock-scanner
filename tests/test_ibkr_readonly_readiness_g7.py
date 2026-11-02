@@ -106,6 +106,21 @@ class G7ReadOnlyReadinessTests(unittest.TestCase):
                 data[key] = value
                 self.assertEqual(self.check(data)["readiness"], "NOT_READY")
 
+    def test_malformed_account_fingerprint_payloads_fail_closed(self):
+        for key, value in (
+            ("verified_account_fingerprints", "IBKR-TESTTOKEN"),
+            ("verified_account_fingerprints", [123]),
+            ("verified_account_fingerprints", []),
+        ):
+            with self.subTest(key=key, value=value):
+                data = snapshot()
+                data["paper_account_guard"][key] = value
+                self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
+        data = snapshot()
+        data["accounts"] = [123]
+        self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
     def test_non_dict_snapshot_fails_closed(self):
         for data in ([], "invalid", 123, True):
             with self.subTest(data=repr(data)):
