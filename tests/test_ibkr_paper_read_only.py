@@ -12,6 +12,7 @@ import unittest
 from unittest.mock import patch
 
 from engines import ibkr_gateway_connector as connector
+from scripts import ibkr_paper_probe as paper_probe
 from engines.ibkr_paper_readiness_engine import evaluate_ibkr_paper_readiness
 
 
@@ -597,6 +598,112 @@ class IBKRProbeEntrypointTests(unittest.TestCase):
             self.assertEqual(proof["evidence_run_id"], EVIDENCE_RUN_ID)
             self.assertEqual(proof["readiness"]["readiness"], "DISABLED")
             self.assertFalse(proof["readiness"]["live_execution_allowed"])
+
+
+
+
+class IBKRRuntimeProvenanceTests(unittest.TestCase):
+    INSTANCE_ID = "1234567890123456789"
+
+    def identity(self, instance_id=None):
+        return {
+            "status": "VERIFIED",
+            "verified": True,
+            "project_id": paper_probe.EXPECTED_PROJECT_ID,
+            "instance_name": paper_probe.EXPECTED_INSTANCE_NAME,
+            "zone": paper_probe.EXPECTED_ZONE,
+            "instance_id": instance_id or self.INSTANCE_ID,
+            "failure_reasons": [],
+        }
+
+    def g0_proof(self, instance_id=None):
+        return {
+            "engine": "AURORA V8.9.20 G0-G1 Runtime Proof",
+            "status": "G0_G1_VERIFIED",
+            "failure_reasons": [],
+            "project_id": paper_probe.EXPECTED_PROJECT_ID,
+            "vm_name": paper_probe.EXPECTED_INSTANCE_NAME,
+            "zone": paper_probe.EXPECTED_ZONE,
+            "gce_instance_id": instance_id or self.INSTANCE_ID,
+            "checks": {
+                name: True
+                for name in paper_probe._REQUIRED_G0_CHECKS
+            },
+            "broker_submission_allowed": False,
+            "paper_order_submission_allowed": False,
+            "live_execution_allowed": False,
+            "automatic_promotion_allowed": False,
+        }
+
+    def test_runtime_provenance_binds_verified_gce_identity_and_g0_digest(self):
+        g0 = self.g0_proof()
+        result = paper_probe.build_runtime_provenance(
+            self.identity(),
+            g0,
+        )
+
+        self.assertTrue(result["verified"])
+        self.assertEqual(result["failure_reasons"], [])
+        self.assertEqual(
+            result["runtime_cloud_identity"]["instance_id"],
+            self.INSTANCE_ID,
+        )
+        self.assertEqual(
+            result["g0_runtime_proof_sha256"],
+            paper_probe._canonical_sha256(g0),
+        )
+        self.assertFalse(result["paper_order_submission_allowed"])
+        self.assertFalse(result["live_execution_allowed"])
+
+    def test_runtime_provenance_rejects_cross_vm_g0_proof(self):
+        result = paper_probe.build_runtime_provenance(
+            self.identity(),
+            self.g0_proof("9876543210987654321"),
+        )
+
+        self.assertFalse(result["verified"])
+        self.assertIn(
+            "G0_RUNTIME_PROOF_UNVERIFIED",
+            result["failure_reasons"],
+        )
+        self.assertIsNone(result["g0_runtime_proof_sha256"])
+
+    def test_runtime_provenance_rejects_unverified_metadata_identity(self):
+        identity = self.identity()
+        identity["status"] = "BLOCKED"
+        identity["verified"] = False
+        identity["failure_reasons"] = [
+            "GCE_METADATA_IDENTITY_UNAVAILABLE"
+        ]
+
+        result = paper_probe.build_runtime_provenance(
+            identity,
+            self.g0_proof(),
+        )
+
+        self.assertFalse(result["verified"])
+        self.assertIn(
+            "GCE_RUNTIME_IDENTITY_UNVERIFIED",
+            result["failure_reasons"],
+        )
+        self.assertIsNone(result["runtime_cloud_identity"])
+        self.assertIsNone(result["g0_runtime_proof_sha256"])
+
+    def test_runtime_provenance_rejects_g0_permission_regression(self):
+        g0 = self.g0_proof()
+        g0["paper_order_submission_allowed"] = True
+
+        result = paper_probe.build_runtime_provenance(
+            self.identity(),
+            g0,
+        )
+
+        self.assertFalse(result["verified"])
+        self.assertIn(
+            "G0_RUNTIME_PROOF_UNVERIFIED",
+            result["failure_reasons"],
+        )
+        self.assertFalse(result["paper_order_submission_allowed"])
 
 
 if __name__ == "__main__":
