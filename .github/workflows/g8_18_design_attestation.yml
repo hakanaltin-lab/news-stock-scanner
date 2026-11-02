@@ -1,0 +1,63 @@
+name: G8.18 Signed Adapter Design Attestation Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/paper_adapter_implementation_design_attestation.py"
+      - "engines/paper_adapter_implementation_design_handoff.py"
+      - "engines/paper_adapter_implementation_design.py"
+      - "scripts/verify_adapter_design_attestation.py"
+      - "config/ibkr_paper_adapter_implementation_design_v1.json"
+      - "broker_engine/ibkr_paper_adapter_review_skeleton.py"
+      - "tests/test_paper_adapter_implementation_design_attestation.py"
+      - "docs/AURORA_G8_18_SIGNED_DESIGN_ATTESTATION.md"
+      - ".github/workflows/g8_18_design_attestation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  signed-design-attestation-fail-closed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Require system OpenSSL
+        run: |
+          test -x /usr/bin/openssl
+          /usr/bin/openssl version
+
+      - name: Compile design-attestation components
+        run: |
+          python -m py_compile engines/paper_adapter_implementation_design_attestation.py
+          python -m py_compile scripts/verify_adapter_design_attestation.py
+          python -m py_compile tests/test_paper_adapter_implementation_design_attestation.py
+
+      - name: Prove signed design attestation fails closed
+        run: |
+          python -m unittest tests.test_paper_adapter_implementation_design_attestation -v
+
+      - name: Prove passing review still cannot authorize implementation
+        run: |
+          python - <<'PY'
+          from engines.paper_adapter_implementation_design import PERMISSION_FLAGS
+          from tests.test_paper_adapter_implementation_design_attestation import (
+              DesignAttestationTests,
+          )
+
+          case = DesignAttestationTests()
+          result = case.evaluate()
+          assert result["verified"] is True
+          assert result["adapter_design_independently_attested"] is True
+          assert all(result[name] is False for name in PERMISSION_FLAGS)
+          assert result["next_gate"] == (
+              "NON_EXECUTABLE_ADAPTER_IMPLEMENTATION_CANDIDATE_REQUIRED"
+          )
+          PY
