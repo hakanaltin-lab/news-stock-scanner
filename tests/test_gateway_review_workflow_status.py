@@ -58,6 +58,7 @@ def package(ready=True):
 
 def attestation(verified=False):
     return {
+        **safe_flags(),
         "status": "VERIFIED" if verified else "BLOCKED",
         "verified": verified,
         "gateway_read_only_configuration_independently_attested": verified,
@@ -149,7 +150,7 @@ class GatewayReviewWorkflowStatusTests(unittest.TestCase):
                     self.assertIs(result[name], False)
 
     def test_any_execution_permission_true_forces_safety_block(self):
-        for component in ("identity", "handoff", "package"):
+        for component in ("identity", "handoff", "package", "attestation"):
             with self.subTest(component=component):
                 values = {
                     "identity_value": identity(),
@@ -200,6 +201,24 @@ class GatewayReviewWorkflowStatusTests(unittest.TestCase):
 
         result = self.evaluate(
             identity_value=unsafe
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["workflow_stage"],
+            "SAFETY_INVARIANT",
+        )
+        self.assertIn(
+            "EXECUTION_PERMISSION_INVARIANT_FAILED",
+            result["failure_reasons"],
+        )
+
+    def test_attestation_missing_permission_flag_is_not_treated_as_safe(self):
+        unsafe = attestation(True)
+        unsafe.pop("paper_order_submission_allowed")
+
+        result = self.evaluate(
+            attestation_value=unsafe
         )
 
         self.assertEqual(result["status"], "BLOCKED")
