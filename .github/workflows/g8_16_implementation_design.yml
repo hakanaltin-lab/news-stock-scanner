@@ -1,0 +1,78 @@
+name: G8.16 Adapter Implementation Design Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "config/ibkr_paper_adapter_implementation_design_v1.json"
+      - "engines/paper_adapter_implementation_design.py"
+      - "scripts/g6_adapter_implementation_design_review.py"
+      - "scripts/verify_adapter_source_attestation.py"
+      - "broker_engine/ibkr_paper_adapter_review_skeleton.py"
+      - "tests/test_paper_adapter_implementation_design.py"
+      - "docs/AURORA_G8_16_IMPLEMENTATION_DESIGN.md"
+      - ".github/workflows/g8_16_implementation_design.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  non-executable-design-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile design-gate components
+        run: |
+          python -m py_compile engines/paper_adapter_implementation_design.py
+          python -m py_compile scripts/g6_adapter_implementation_design_review.py
+          python -m py_compile tests/test_paper_adapter_implementation_design.py
+
+      - name: Prove design gate cannot authorize implementation or execution
+        run: |
+          python -m unittest tests.test_paper_adapter_implementation_design -v
+
+      - name: Prove frozen design keeps every permission false
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          design = json.loads(
+              Path(
+                  "config/ibkr_paper_adapter_implementation_design_v1.json"
+              ).read_text(encoding="utf-8")
+          )
+
+          false_fields = (
+              "implementation_allowed",
+              "connection_allowed",
+              "broker_request_materialization_allowed",
+              "broker_order_object_allowed",
+              "automatic_retry_allowed",
+              "automatic_cancel_allowed",
+              "automatic_modify_allowed",
+              "broker_submission_allowed",
+              "paper_order_submission_allowed",
+              "live_execution_allowed",
+              "automatic_promotion_allowed",
+              "real_money_trading_allowed",
+          )
+
+          assert all(design[name] is False for name in false_fields)
+          assert design["broker_mode"] == "PAPER"
+          assert design["host"] == "127.0.0.1"
+          assert design["port"] == 4002
+          assert design["market_order_allowed"] is False
+          assert design["short_selling_allowed"] is False
+          assert design["credentials_allowed"] is False
+          assert design["raw_account_id_allowed"] is False
+          assert design["requires_independent_design_review"] is True
+          assert design["signed_design_attestation_required"] is True
+          PY
