@@ -117,3 +117,12 @@ the same signed-attestation verifier.
 8. Continue only if the verifier reports `VERIFIED`.
 
 No broker order should be placed to prove any step above.
+
+
+## G7.8 control-plane cross-binding
+
+The reviewer handoff contract is upgraded to
+`IBKR_GATEWAY_READ_ONLY_REVIEW_REQUEST_V2` with
+`request_schema_version=2`. V2 includes the immutable
+`g0_runtime_instance_id` from the G0/G1 control-plane proof. The handoff is
+blocked unless that ID matches both the root policy and live GCE metadata.
