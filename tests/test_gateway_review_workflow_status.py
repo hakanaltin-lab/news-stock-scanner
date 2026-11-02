@@ -1,7 +1,9 @@
 """G7.12 tests for fail-closed independent-review workflow status."""
 
 import inspect
+import json
 import unittest
+from unittest.mock import patch
 
 import scripts.gateway_review_workflow_status as status
 
@@ -240,6 +242,25 @@ class GatewayReviewWorkflowStatusTests(unittest.TestCase):
         )
         self.assertNotIn("handoff_request", result)
         self.assertNotIn("failure_detail", result)
+
+    def test_cli_exit_zero_only_after_signed_attestation_verifies(self):
+        waiting = self.evaluate()
+        with patch.object(
+            status,
+            "build_installed_gateway_review_workflow_status",
+            return_value=waiting,
+        ), patch("builtins.print"):
+            self.assertEqual(status.main(), 2)
+
+        verified = self.evaluate(
+            attestation_value=attestation(True)
+        )
+        with patch.object(
+            status,
+            "build_installed_gateway_review_workflow_status",
+            return_value=verified,
+        ), patch("builtins.print"):
+            self.assertEqual(status.main(), 0)
 
     def test_source_has_no_write_sign_or_order_submission_path(self):
         source = inspect.getsource(status).lower()
