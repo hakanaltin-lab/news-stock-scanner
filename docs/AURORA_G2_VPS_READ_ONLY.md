@@ -167,3 +167,24 @@ unless these controls are present in fresh runtime evidence.
 These controls do not replace the independent Gateway/TWS Read-Only
 attestation and do not authorize Paper or LIVE order submission.
 
+## G8.4 trusted runtime evidence file
+
+The G2 probe now writes its runtime proof through an atomic temporary file
+with mode `0600`, flushes and fsyncs the file, replaces the target atomically,
+verifies that the final target is the exact same regular-file inode, and fsyncs
+the containing directory. Existing symlink or non-regular targets are rejected.
+
+The installed reviewer-package loader accepts the fixed
+`runtime/ibkr_paper_read_only/latest.json` only when it is:
+
+- a regular file opened with no symlink following;
+- owned by the current AURORA process user;
+- exactly mode `0600`;
+- a single-link file;
+- no larger than 1 MiB;
+- stable while being read;
+- valid UTF-8 JSON with no duplicate object keys.
+
+Any violation returns an empty proof and therefore blocks the independent-review
+workflow. A pre-G8.4 evidence file with broader permissions must be regenerated
+by the current probe. None of these controls authorizes Paper or LIVE orders.
