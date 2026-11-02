@@ -33,6 +33,7 @@ def evaluate_report(report):
     base = {"status": "BLOCKED", "paper_order_submission_allowed": False,
             "live_trading_allowed": False, "evidence_authenticity_verified": False,
             "broker_session_independently_verified": False, "release_approved": False,
+            "gateway_read_only_configuration_independently_attested": False,
             "diagnostic_binding_fields_valid": False}
     if not isinstance(report, dict):
         return {**base, "reason": "INVALID_REPORT"}
@@ -79,6 +80,7 @@ def main(argv=None):
                   "evidence_authenticity_verified": False,
                   "broker_session_independently_verified": False,
                   "release_approved": False,
+                  "gateway_read_only_configuration_independently_attested": False,
                   "diagnostic_binding_fields_valid": False}
     else:
         result = evaluate_report(report)
