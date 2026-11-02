@@ -1,0 +1,62 @@
+name: G8.19 Non-Executable Adapter Implementation Candidate Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "broker_engine/ibkr_paper_adapter_implementation_candidate.py"
+      - "engines/paper_adapter_implementation_candidate_review.py"
+      - "engines/paper_adapter_implementation_design_attestation.py"
+      - "scripts/g6_adapter_implementation_candidate_review.py"
+      - "tests/test_paper_adapter_implementation_candidate.py"
+      - "docs/AURORA_G8_19_IMPLEMENTATION_CANDIDATE.md"
+      - ".github/workflows/g8_19_implementation_candidate.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  non-executable-implementation-candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile candidate review components
+        run: |
+          python -m py_compile engines/paper_adapter_implementation_candidate_review.py
+          python -m py_compile scripts/g6_adapter_implementation_candidate_review.py
+          python -m py_compile tests/test_paper_adapter_implementation_candidate.py
+
+      - name: Prove candidate remains non-executable
+        run: |
+          python -m unittest tests.test_paper_adapter_implementation_candidate -v
+
+      - name: Prove candidate has no broker import or enabled permission
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from engines.paper_adapter_implementation_candidate_review import (
+              PERMISSION_FLAGS,
+              validate_candidate_source,
+          )
+
+          source = Path(
+              "broker_engine/ibkr_paper_adapter_implementation_candidate.py"
+          ).read_text(encoding="utf-8")
+
+          valid, reason = validate_candidate_source(source)
+          assert valid is True, reason
+          lowered = source.lower()
+          assert "import ibapi" not in lowered
+          assert "from ibapi" not in lowered
+          assert "placeorder" not in source
+          assert "reqglobalcancel" not in lowered
+          for name in PERMISSION_FLAGS:
+              assert f'"{name}": False' in source
+          PY
