@@ -10,7 +10,9 @@ import sys
 import tempfile
 import unittest
 
-from scripts.aurora_completion_status import evaluate_completion_status
+from scripts.aurora_completion_status import (
+    evaluate_completion_status as _evaluate_completion_status,
+)
 from engines.shadow_audit_verifier import receipt_binding_sha256
 
 
@@ -28,6 +30,33 @@ def digest(payload):
     return hashlib.sha256(canonical).hexdigest()
 
 
+def verified_gateway_attestation():
+    return {
+        "engine": "AURORA G7.5 Gateway Read-Only Attestation Verifier",
+        "verified": True,
+        "status": "VERIFIED",
+        "gateway_read_only_configuration_independently_attested": True,
+        "failure_reasons": [],
+        "attestation_id": "22222222-2222-4222-8222-222222222222",
+        "reviewer_id": "aurora-independent-reviewer",
+        "captured_at_utc": (NOW - timedelta(minutes=10)).isoformat(),
+        "expires_at_utc": (NOW + timedelta(hours=1)).isoformat(),
+        "git_sha": "a" * 40,
+        "evidence_sha256": "b" * 64,
+    }
+
+
+def evaluate_completion_status(*args, **kwargs):
+    kwargs.setdefault(
+        "gateway_attestation_verification",
+        verified_gateway_attestation(),
+    )
+    return _evaluate_completion_status(
+        *args,
+        **kwargs,
+    )
+
+
 def proofs():
     safe = {
         "broker_submission_allowed": False,
@@ -43,6 +72,7 @@ def proofs():
     }
     g2 = {
         "run_mode": {"mode": "READ_ONLY"},
+        "gateway_read_only_attestation": verified_gateway_attestation(),
         "readiness": {
             "readiness": "READY_FOR_PAPER_READ_ONLY",
             "required_failure_count": 0,
@@ -63,6 +93,9 @@ def proofs():
         "failure_reasons": [],
         "g0_g1_proof_sha256": digest(g0),
         "g2_paper_read_only_proof_sha256": digest(g2),
+        "gateway_read_only_attestation_sha256": digest(
+            verified_gateway_attestation()
+        ),
     }
     g4 = {
         **safe,
@@ -123,6 +156,15 @@ class AuroraCompletionStatusTests(unittest.TestCase):
             result["checks"]["g0_g1_readiness_proof_bound"]
         )
         self.assertTrue(result["checks"]["g2_readiness_proof_bound"])
+        self.assertTrue(
+            result["checks"]["gateway_attestation_runtime_verified"]
+        )
+        self.assertTrue(
+            result["checks"]["gateway_attestation_g2_runtime_bound"]
+        )
+        self.assertTrue(
+            result["checks"]["gateway_attestation_readiness_bound"]
+        )
         self.assertEqual(
             result["evidence_binding"]["g0_g1_proof_sha256"],
             result["evidence_binding"][
@@ -146,6 +188,63 @@ class AuroraCompletionStatusTests(unittest.TestCase):
         self.assertEqual(
             result["evidence_binding"]["readiness_evidence_run_id"],
             result["evidence_binding"]["g4_evidence_run_id"],
+        )
+
+    def test_completion_reverifies_signed_gateway_attestation(self):
+        g0, ready, g4, audit, g2 = proofs()
+        blocked = verified_gateway_attestation()
+        blocked["status"] = "BLOCKED"
+        blocked["verified"] = False
+        blocked[
+            "gateway_read_only_configuration_independently_attested"
+        ] = False
+        result = evaluate_completion_status(
+            g0,
+            ready,
+            g4,
+            audit,
+            now=NOW,
+            g2_proof=g2,
+            gateway_attestation_verification=blocked,
+        )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn(
+            "gateway_attestation_runtime_verified",
+            result["failure_reasons"],
+        )
+        self.assertIn(
+            "gateway_attestation_g2_runtime_bound",
+            result["failure_reasons"],
+        )
+        self.assertIn(
+            "gateway_attestation_readiness_bound",
+            result["failure_reasons"],
+        )
+
+    def test_forged_g2_attestation_is_rejected_even_with_recomputed_hashes(self):
+        g0, ready, g4, audit, g2 = proofs()
+        g2["gateway_read_only_attestation"]["evidence_sha256"] = "c" * 64
+        ready["g2_paper_read_only_proof_sha256"] = digest(g2)
+        ready["gateway_read_only_attestation_sha256"] = digest(
+            g2["gateway_read_only_attestation"]
+        )
+        g4["readiness_proof_sha256"] = digest(ready)
+        result = evaluate_completion_status(
+            g0,
+            ready,
+            g4,
+            audit,
+            now=NOW,
+            g2_proof=g2,
+        )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn(
+            "gateway_attestation_g2_runtime_bound",
+            result["failure_reasons"],
+        )
+        self.assertIn(
+            "gateway_attestation_readiness_bound",
+            result["failure_reasons"],
         )
 
     def test_gateway_read_only_attestation_is_required_at_completion(self):
