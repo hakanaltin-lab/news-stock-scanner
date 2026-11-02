@@ -1,0 +1,389 @@
+"""G7.13 offline regressions for execution market-data fail-closed behavior."""
+
+from datetime import datetime, timedelta, timezone
+import unittest
+
+from engines.market_data_quality_gate import (
+    evaluate_market_data_for_execution,
+)
+
+
+_UNSET = object()
+
+
+class ExecutionMarketDataFailClosedTests(unittest.TestCase):
+    def setUp(self):
+        self.now = datetime(
+            2026,
+            11,
+            2,
+            12,
+            0,
+            tzinfo=timezone.utc,
+        )
+        self.good = {
+            "source": "IBKR_REALTIME",
+            "market_timestamp": self.now.isoformat(),
+            "last_price": 123.45,
+            "data_points": 1,
+            "data_quality": "AVAILABLE",
+            "execution_eligible": True,
+            "broker_market_timestamp_verified": True,
+        }
+
+    def gate(
+        self,
+        payload=_UNSET,
+        **kwargs,
+    ):
+        return evaluate_market_data_for_execution(
+            (
+                self.good
+                if payload is _UNSET
+                else payload
+            ),
+            now=kwargs.pop(
+                "now",
+                self.now,
+            ),
+            **kwargs,
+        )
+
+    def test_valid_ibkr_shape_passes_data_gate_only(self):
+        result = self.gate()
+
+        self.assertEqual(
+            result["decision"],
+            "PASS",
+        )
+        self.assertTrue(
+            result["execution_eligible"]
+        )
+        self.assertTrue(
+            result["checks"][
+                "payload_shape_valid"
+            ]
+        )
+
+    def test_non_dict_market_data_blocks_without_exception(self):
+        for value in (
+            None,
+            "invalid",
+            [1],
+            42,
+            True,
+        ):
+            with self.subTest(
+                value=value
+            ):
+                result = self.gate(
+                    payload=value
+                )
+
+                self.assertEqual(
+                    result["decision"],
+                    "BLOCK",
+                )
+                self.assertFalse(
+                    result[
+                        "execution_eligible"
+                    ]
+                )
+                self.assertFalse(
+                    result["checks"][
+                        "payload_shape_valid"
+                    ]
+                )
+                self.assertIn(
+                    "payload_shape_valid",
+                    result[
+                        "failure_reasons"
+                    ],
+                )
+
+    def test_generic_timestamp_cannot_replace_broker_market_timestamp(self):
+        for market_timestamp in (
+            None,
+            "",
+            "bad",
+        ):
+            with self.subTest(
+                market_timestamp=market_timestamp
+            ):
+                quote = {
+                    **self.good,
+                    "market_timestamp":
+                    market_timestamp,
+                    "timestamp":
+                    self.now.isoformat(),
+                }
+
+                result = self.gate(
+                    payload=quote
+                )
+
+                self.assertEqual(
+                    result["decision"],
+                    "BLOCK",
+                )
+                self.assertIn(
+                    "timestamp_available",
+                    result[
+                        "failure_reasons"
+                    ],
+                )
+
+    def test_invalid_reference_clock_never_falls_back_to_wall_clock(self):
+        for value in (
+            "bad-clock",
+            "2026-11-02T12:00:00",
+            [],
+            True,
+        ):
+            with self.subTest(
+                value=value
+            ):
+                result = self.gate(
+                    now=value
+                )
+
+                self.assertEqual(
+                    result["decision"],
+                    "BLOCK",
+                )
+                self.assertEqual(
+                    result[
+                        "failure_reasons"
+                    ],
+                    [
+                        "INVALID_REFERENCE_CLOCK"
+                    ],
+                )
+
+    def test_invalid_max_age_configuration_blocks(self):
+        for value in (
+            None,
+            True,
+            False,
+            "bad",
+            float("nan"),
+            float("inf"),
+            float("-inf"),
+            -1,
+            0,
+            10.1,
+            999999,
+        ):
+            with self.subTest(
+                value=value
+            ):
+                result = self.gate(
+                    max_age_seconds=value,
+                )
+
+                self.assertEqual(
+                    result["decision"],
+                    "BLOCK",
+                )
+                self.assertEqual(
+                    result[
+                        "failure_reasons"
+                    ],
+                    [
+                        "INVALID_MAX_AGE_SECONDS"
+                    ],
+                )
+
+    def test_tighter_valid_max_age_is_allowed(self):
+        result = self.gate(
+            max_age_seconds=5,
+        )
+
+        self.assertEqual(
+            result["decision"],
+            "PASS",
+        )
+        self.assertEqual(
+            result["max_age_seconds"],
+            5.0,
+        )
+
+    def test_invalid_or_non_finite_price_blocks(self):
+        for value in (
+            True,
+            False,
+            "not-a-price",
+            float("nan"),
+            float("inf"),
+            float("-inf"),
+        ):
+            with self.subTest(
+                value=value
+            ):
+                quote = {
+                    **self.good,
+                    "last_price":
+                    value,
+                }
+
+                result = self.gate(
+                    payload=quote
+                )
+
+                self.assertEqual(
+                    result["decision"],
+                    "BLOCK",
+                )
+                self.assertIn(
+                    "positive_price",
+                    result[
+                        "failure_reasons"
+                    ],
+                )
+
+    def test_data_points_requires_positive_plain_integer(self):
+        for value in (
+            None,
+            True,
+            False,
+            float("nan"),
+            float("inf"),
+            1.0,
+            1.5,
+            "1",
+            "1.5",
+            -1,
+            0,
+        ):
+            with self.subTest(
+                value=value
+            ):
+                quote = {
+                    **self.good,
+                    "data_points":
+                    value,
+                }
+
+                result = self.gate(
+                    payload=quote
+                )
+
+                self.assertEqual(
+                    result["decision"],
+                    "BLOCK",
+                )
+                self.assertIn(
+                    "has_data_points",
+                    result[
+                        "failure_reasons"
+                    ],
+                )
+
+    def test_data_quality_requires_exact_available_string(self):
+        for value in (
+            None,
+            "",
+            "INCOMPLETE",
+            "GOOD",
+            "LIVE",
+            [],
+            {},
+            True,
+        ):
+            with self.subTest(
+                value=value
+            ):
+                quote = {
+                    **self.good,
+                    "data_quality":
+                    value,
+                }
+
+                result = self.gate(
+                    payload=quote
+                )
+
+                self.assertEqual(
+                    result["decision"],
+                    "BLOCK",
+                )
+                self.assertIn(
+                    "data_quality_valid",
+                    result[
+                        "failure_reasons"
+                    ],
+                )
+
+    def test_stale_and_future_quotes_block(self):
+        cases = (
+            (
+                self.now
+                -
+                timedelta(
+                    seconds=11
+                ),
+                "fresh",
+            ),
+            (
+                self.now
+                +
+                timedelta(
+                    seconds=3
+                ),
+                "clock_sane",
+            ),
+        )
+
+        for stamp, reason in cases:
+            with self.subTest(
+                stamp=stamp
+            ):
+                quote = {
+                    **self.good,
+                    "market_timestamp":
+                    stamp.isoformat(),
+                }
+
+                result = self.gate(
+                    payload=quote
+                )
+
+                self.assertEqual(
+                    result["decision"],
+                    "BLOCK",
+                )
+                self.assertIn(
+                    reason,
+                    result[
+                        "failure_reasons"
+                    ],
+                )
+
+    def test_caller_cannot_expand_execution_source_allowlist(self):
+        quote = {
+            **self.good,
+            "source":
+            "YFINANCE_15M",
+        }
+
+        result = self.gate(
+            payload=quote,
+            allowed_sources={
+                "YFINANCE_15M"
+            },
+        )
+
+        self.assertEqual(
+            result["decision"],
+            "BLOCK",
+        )
+        self.assertIn(
+            "source_allowed",
+            result[
+                "failure_reasons"
+            ],
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()
