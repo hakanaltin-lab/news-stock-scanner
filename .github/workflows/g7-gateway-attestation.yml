@@ -62,10 +62,12 @@ jobs:
           python - <<'PY'
           from engines.gateway_readonly_attestation_verifier import (
               DEFAULT_ARTIFACT_PATH,
+              DEFAULT_G0_PROOF_RELATIVE_PATH,
               DEFAULT_POLICY_PATH,
               DEFAULT_PUBLIC_KEY_PATH,
           )
           assert str(DEFAULT_POLICY_PATH) == "/etc/aurora/gateway-readonly-attestation-policy.json"
           assert str(DEFAULT_PUBLIC_KEY_PATH) == "/etc/aurora/gateway-readonly-reviewer-ed25519.pem"
           assert str(DEFAULT_ARTIFACT_PATH) == "/var/lib/aurora/gateway-readonly-attestation/latest.json"
+          assert str(DEFAULT_G0_PROOF_RELATIVE_PATH) == "runtime/gcp/latest.json"
           PY

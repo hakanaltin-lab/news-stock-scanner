@@ -217,6 +217,16 @@ def evaluate_completion_status(
             and g0_instance_id == g2_attested_instance_id
             == runtime_attested_instance_id
         ),
+        "g0_signed_proof_digest_bound": (
+            g2_gateway_attestation.get(
+                "g0_runtime_proof_sha256"
+            )
+            == actual_g0_digest
+            and gateway_attestation_verification.get(
+                "g0_runtime_proof_sha256"
+            )
+            == actual_g0_digest
+        ),
         "g2_g3_ready": (
             readiness.get("status") == "READY_FOR_CONTROLLED_DRY_RUN"
             and not readiness.get("failure_reasons")

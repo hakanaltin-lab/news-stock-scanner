@@ -29,11 +29,12 @@ ZONE = "europe-west3-a"
 PROJECT_ID = "project-ce9773ef-6814-469c-92b"
 INSTANCE_ID = "1234567890123456789"
 REVIEWER = "aurora-independent-reviewer"
+G0_PROOF_SHA256 = "c" * 64
 
 
 def artifact():
     return {
-        "schema_version": 2,
+        "schema_version": 3,
         "attestation_id": "11111111-1111-4111-8111-111111111111",
         "attestation_type": ATTESTATION_TYPE,
         "decision": "ATTESTED",
@@ -49,6 +50,7 @@ def artifact():
         "gateway_port": 4002,
         "read_only_api_enabled": True,
         "evidence_sha256": "b" * 64,
+        "g0_runtime_proof_sha256": G0_PROOF_SHA256,
         "signature_algorithm": SIGNATURE_ALGORITHM,
         "signature_b64": base64.b64encode(b"x" * 64).decode("ascii"),
     }
@@ -99,6 +101,7 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
             public_key_bytes=public_key,
             signature_valid=signature_valid,
             runtime_cloud_identity=runtime_identity(),
+            current_g0_proof_sha256=G0_PROOF_SHA256,
             now=NOW,
         )
 
@@ -113,6 +116,76 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
         )
         self.assertEqual(result["failure_reasons"], [])
         self.assertEqual(result["git_sha"], GIT_SHA)
+        self.assertEqual(
+            result["g0_runtime_proof_sha256"],
+            G0_PROOF_SHA256,
+        )
+
+    def test_v2_artifact_is_rejected_after_v3_upgrade(self):
+        legacy = artifact()
+        legacy["schema_version"] = 2
+        legacy["attestation_type"] = "IBKR_GATEWAY_API_READ_ONLY_V2"
+        legacy.pop("g0_runtime_proof_sha256")
+
+        result = self.evaluate(
+            data=legacy
+        )
+
+        self.assertEqual(
+            result["status"],
+            "BLOCKED",
+        )
+        self.assertIn(
+            "artifact_field_set_exact",
+            result["failure_reasons"],
+        )
+        self.assertIn(
+            "artifact_schema_version",
+            result["failure_reasons"],
+        )
+        self.assertIn(
+            "attestation_type",
+            result["failure_reasons"],
+        )
+
+    def test_g0_runtime_proof_digest_is_signed_and_runtime_bound(self):
+        missing = artifact()
+        missing.pop("g0_runtime_proof_sha256")
+        first = self.evaluate(data=missing)
+        self.assertEqual(first["status"], "BLOCKED")
+        self.assertIn(
+            "artifact_field_set_exact",
+            first["failure_reasons"],
+        )
+
+        malformed = artifact()
+        malformed["g0_runtime_proof_sha256"] = "not-a-digest"
+        second = self.evaluate(data=malformed)
+        self.assertIn(
+            "g0_runtime_proof_sha256_valid",
+            second["failure_reasons"],
+        )
+
+        mismatch = evaluate_gateway_readonly_attestation(
+            artifact=artifact(),
+            policy=policy(
+                b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n"
+            ),
+            current_git_sha=GIT_SHA,
+            current_instance_name=INSTANCE,
+            public_key_bytes=(
+                b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n"
+            ),
+            signature_valid=True,
+            runtime_cloud_identity=runtime_identity(),
+            current_g0_proof_sha256="d" * 64,
+            now=NOW,
+        )
+        self.assertEqual(mismatch["status"], "BLOCKED")
+        self.assertIn(
+            "g0_runtime_proof_bound",
+            mismatch["failure_reasons"],
+        )
 
     def test_signature_failure_blocks(self):
         result = self.evaluate(signature_valid=False)
@@ -142,6 +215,7 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
             ),
             signature_valid=True,
             runtime_cloud_identity=runtime_identity(),
+            current_g0_proof_sha256=G0_PROOF_SHA256,
             now=NOW,
         )
         self.assertIn("runtime_instance_bound", result["failure_reasons"])
@@ -156,6 +230,7 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
             signature_valid=True,
             repository_clean=False,
             runtime_cloud_identity=runtime_identity(),
+            current_g0_proof_sha256=G0_PROOF_SHA256,
             now=NOW,
         )
         self.assertEqual(result["status"], "BLOCKED")
@@ -176,6 +251,7 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
             ),
             signature_valid=True,
             runtime_cloud_identity=wrong_instance,
+            current_g0_proof_sha256=G0_PROOF_SHA256,
             now=NOW,
         )
         self.assertEqual(result["status"], "BLOCKED")
@@ -259,6 +335,7 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
                     ),
                     signature_valid=True,
                     runtime_cloud_identity=runtime_identity_value,
+                    current_g0_proof_sha256=G0_PROOF_SHA256,
                     now=NOW,
                 )
                 self.assertEqual(result["status"], "BLOCKED")

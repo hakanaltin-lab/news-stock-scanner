@@ -4,6 +4,8 @@ Security boundary:
 - AURORA never creates or self-asserts a positive attestation.
 - Production paths are fixed and cannot be overridden by environment variables.
 - Reviewer trust is rooted in root-owned policy/public-key files.
+- V3 signatures bind the exact canonical G0/G1 runtime proof SHA-256.
+- The deployed G0/G1 proof path is fixed under the repository runtime directory.
 - Only detached Ed25519 signatures verified by /usr/bin/openssl are accepted.
 - Any parsing, binding, freshness, filesystem, or signature failure is fail-closed.
 """
@@ -30,7 +32,7 @@ from engines.gce_runtime_identity import (
 )
 
 
-ENGINE_VERSION = "AURORA G7.7 Gateway Read-Only Attestation Verifier"
+ENGINE_VERSION = "AURORA G7.10 Gateway Read-Only Attestation Verifier"
 
 DEFAULT_POLICY_PATH = Path(
     "/etc/aurora/gateway-readonly-attestation-policy.json"
@@ -41,9 +43,12 @@ DEFAULT_PUBLIC_KEY_PATH = Path(
 DEFAULT_ARTIFACT_PATH = Path(
     "/var/lib/aurora/gateway-readonly-attestation/latest.json"
 )
+DEFAULT_G0_PROOF_RELATIVE_PATH = Path(
+    "runtime/gcp/latest.json"
+)
 OPENSSL_BIN = Path("/usr/bin/openssl")
 
-ATTESTATION_TYPE = "IBKR_GATEWAY_API_READ_ONLY_V2"
+ATTESTATION_TYPE = "IBKR_GATEWAY_API_READ_ONLY_V3"
 SIGNATURE_ALGORITHM = "ED25519"
 
 _ARTIFACT_FIELDS = {
@@ -63,6 +68,7 @@ _ARTIFACT_FIELDS = {
     "gateway_port",
     "read_only_api_enabled",
     "evidence_sha256",
+    "g0_runtime_proof_sha256",
     "signature_algorithm",
     "signature_b64",
 }
@@ -175,6 +181,18 @@ def _decode_signature(value):
 
 def _sha256_bytes(raw):
     return hashlib.sha256(raw).hexdigest()
+
+
+def _canonical_json_sha256(payload):
+    if not isinstance(payload, dict):
+        raise TypeError("canonical JSON proof must be an object")
+    encoded = json.dumps(
+        payload,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=True,
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
 
 
 def _trusted_root_file(path, max_bytes):
@@ -304,6 +322,7 @@ def evaluate_gateway_readonly_attestation(
     signature_valid,
     repository_clean=True,
     runtime_cloud_identity=None,
+    current_g0_proof_sha256=None,
     now=None,
 ):
     """Evaluate parsed, already-loaded evidence without trusting caller claims."""
@@ -343,7 +362,7 @@ def evaluate_gateway_readonly_attestation(
     require(
         "artifact_schema_version",
         type(artifact.get("schema_version")) is int
-        and artifact.get("schema_version") == 2,
+        and artifact.get("schema_version") == 3,
     )
     require(
         "policy_version",
@@ -582,6 +601,30 @@ def evaluate_gateway_readonly_attestation(
         and evidence_sha256 != ("0" * 64),
     )
 
+    g0_runtime_proof_sha256 = str(
+        artifact.get("g0_runtime_proof_sha256") or ""
+    ).strip().lower()
+    current_g0_proof_sha256 = str(
+        current_g0_proof_sha256 or ""
+    ).strip().lower()
+    require(
+        "g0_runtime_proof_sha256_valid",
+        bool(_HEX_64.fullmatch(g0_runtime_proof_sha256))
+        and g0_runtime_proof_sha256 != ("0" * 64),
+    )
+    require(
+        "current_g0_runtime_proof_sha256_valid",
+        bool(_HEX_64.fullmatch(current_g0_proof_sha256))
+        and current_g0_proof_sha256 != ("0" * 64),
+    )
+    require(
+        "g0_runtime_proof_bound",
+        bool(g0_runtime_proof_sha256)
+        and bool(current_g0_proof_sha256)
+        and g0_runtime_proof_sha256
+        == current_g0_proof_sha256,
+    )
+
     public_key_material_valid = (
         isinstance(
             public_key_bytes,
@@ -742,6 +785,11 @@ def evaluate_gateway_readonly_attestation(
             if verified
             else None
         ),
+        "g0_runtime_proof_sha256": (
+            g0_runtime_proof_sha256
+            if verified
+            else None
+        ),
         "gcp_project_id": (
             gcp_project_id
             if verified
@@ -768,6 +816,9 @@ def _blocked(reason):
         "expires_at_utc": None,
         "git_sha": None,
         "evidence_sha256": None,
+        "g0_runtime_proof_sha256": None,
+        "gcp_project_id": None,
+        "gcp_instance_id": None,
     }
 
 
@@ -884,6 +935,33 @@ def verify_installed_gateway_readonly_attestation(
 
         policy = _load_json_bytes(policy_bytes)
         artifact = _load_json_bytes(artifact_bytes)
+
+        g0_proof_path = (
+            Path(repository_root)
+            / DEFAULT_G0_PROOF_RELATIVE_PATH
+        )
+        g0_proof_safe, _ = _artifact_file_safe(
+            g0_proof_path,
+            max_bytes=65536,
+        )
+        if not g0_proof_safe:
+            return _blocked(
+                "G0_RUNTIME_PROOF_FILE_UNTRUSTED"
+            )
+        g0_proof = _load_json_bytes(
+            g0_proof_path.read_bytes()
+        )
+        if (
+            not isinstance(g0_proof, dict)
+            or g0_proof.get("status") != "G0_G1_VERIFIED"
+            or g0_proof.get("failure_reasons") != []
+        ):
+            return _blocked(
+                "G0_RUNTIME_PROOF_UNVERIFIED"
+            )
+        current_g0_proof_sha256 = (
+            _canonical_json_sha256(g0_proof)
+        )
     except (
         OSError,
         UnicodeDecodeError,
@@ -958,5 +1036,6 @@ def verify_installed_gateway_readonly_attestation(
         signature_valid=signature_valid,
         repository_clean=repository_clean,
         runtime_cloud_identity=runtime_cloud_identity,
+        current_g0_proof_sha256=current_g0_proof_sha256,
         now=now,
     )

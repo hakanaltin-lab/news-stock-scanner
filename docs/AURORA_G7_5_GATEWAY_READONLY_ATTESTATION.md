@@ -52,7 +52,7 @@ The verifier requires:
 
 - schema version 2;
 - canonical UUIDv4 attestation ID;
-- attestation type `IBKR_GATEWAY_API_READ_ONLY_V2`;
+- attestation type `IBKR_GATEWAY_API_READ_ONLY_V3`;
 - decision `ATTESTED`;
 - the exact reviewer ID pinned by policy;
 - an exact 40-character Git SHA matching the currently checked-out commit;
@@ -152,3 +152,24 @@ continuing.
 
 G7.5 validates evidence only. It does not authorize a Paper broker order,
 automatic promotion, or real-money trading.
+
+
+## G7.10 signed G0/G1 proof binding
+
+The V3 signed attestation adds `g0_runtime_proof_sha256`. The independent
+reviewer must copy this value from the sanitized reviewer handoff request into
+the artifact before signing. The field is part of the canonical Ed25519-signed
+payload.
+
+At verification time AURORA reads only the fixed
+`runtime/gcp/latest.json` path under the deployed repository, parses it with
+duplicate-key rejection, computes the same canonical SHA-256, and requires an
+exact match with the signed V3 field. A missing, malformed, stale/replaced or
+different G0/G1 proof therefore blocks the Gateway attestation.
+
+This does not authorize Paper or LIVE orders.
+
+
+The fixed deployed G0/G1 proof is also subject to a local file-safety gate:
+symlinks and non-regular/world-writable files are rejected, and the proof must
+be non-empty and no larger than 64 KiB before parsing or hashing.
