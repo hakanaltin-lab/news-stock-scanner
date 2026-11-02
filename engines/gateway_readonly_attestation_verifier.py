@@ -940,6 +940,14 @@ def verify_installed_gateway_readonly_attestation(
             Path(repository_root)
             / DEFAULT_G0_PROOF_RELATIVE_PATH
         )
+        g0_proof_safe, _ = _artifact_file_safe(
+            g0_proof_path,
+            max_bytes=65536,
+        )
+        if not g0_proof_safe:
+            return _blocked(
+                "G0_RUNTIME_PROOF_FILE_UNTRUSTED"
+            )
         g0_proof = _load_json_bytes(
             g0_proof_path.read_bytes()
         )
