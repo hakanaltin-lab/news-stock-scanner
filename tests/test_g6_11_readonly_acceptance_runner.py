@@ -91,6 +91,9 @@ class G611AcceptanceRunnerTests(unittest.TestCase):
         self.assertFalse(result["paper_order_submission_allowed"])
         self.assertFalse(result["live_trading_allowed"])
         self.assertFalse(result["release_approved"])
+        self.assertFalse(
+            result["gateway_read_only_configuration_independently_attested"]
+        )
 
         self.assertEqual(stat.S_IMODE(self.key_file.stat().st_mode), 0o600)
         self.assertEqual(stat.S_IMODE(self.evidence.stat().st_mode), 0o700)
@@ -117,6 +120,25 @@ class G611AcceptanceRunnerTests(unittest.TestCase):
         self.assertFalse(payload["release_approved"])
         self.assertFalse(payload["evidence_authenticity_verified"])
         self.assertFalse(payload["broker_session_independently_verified"])
+        self.assertFalse(
+            payload["gateway_read_only_configuration_independently_attested"]
+        )
+
+    def test_probe_cannot_self_attest_gateway_configuration(self):
+        probe_payload = valid_probe()
+        probe_payload["gateway_read_only_configuration_independently_attested"] = True
+        probe_payload["broker_session_independently_verified"] = True
+        result = self.run_with_probe(probe_payload)
+        self.assertFalse(
+            result["gateway_read_only_configuration_independently_attested"]
+        )
+        bundle = json.loads(
+            Path(result["bundle_path"]).read_text(encoding="utf-8")
+        )
+        self.assertFalse(
+            bundle["gateway_read_only_configuration_independently_attested"]
+        )
+        self.assertFalse(bundle["broker_session_independently_verified"])
 
     def test_environment_is_restored_after_probe(self):
         original = os.environ.get("AURORA_IBKR_MODE")
