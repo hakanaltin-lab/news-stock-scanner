@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 import hashlib
+import json
 import os
 from pathlib import Path
 import re
@@ -47,6 +48,18 @@ _POLICY_FIELDS = {
 _HEX_40 = re.compile(r"^[0-9a-f]{40}$")
 _HEX_64 = re.compile(r"^[0-9a-f]{64}$")
 _REVIEWER_ID = re.compile(r"^[A-Za-z0-9._@+-]{3,128}$")
+
+
+def _canonical_sha256(payload):
+    encoded = json.dumps(
+        payload or {},
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=True,
+    ).encode("utf-8")
+    return hashlib.sha256(
+        encoded
+    ).hexdigest()
 
 
 def _blocked(reason):
@@ -295,6 +308,12 @@ def evaluate_reviewer_handoff_preflight(
             "gateway_port": 4002,
             "reviewer_id": reviewer_id,
             "reviewer_public_key_sha256": public_key_sha256,
+            "reviewer_policy_sha256": _canonical_sha256(
+                policy
+            ),
+            "g0_runtime_proof_sha256": _canonical_sha256(
+                g0_proof
+            ),
             "g0_runtime_proof_generated_at": g0_proof.get("generated_at"),
             "g0_runtime_project_id": g0_proof.get("project_id"),
             "g0_runtime_zone": g0_proof.get("zone"),
