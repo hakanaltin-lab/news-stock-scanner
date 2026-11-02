@@ -806,11 +806,11 @@ def _read_trusted_runtime_evidence_bytes(path):
         )
 
 
-def load_installed_g2_diagnostic_proof():
-    """Read only the fixed owner-only deployed G2 diagnostic path."""
+def read_trusted_runtime_evidence_json(path):
+    """Read one owner-only trusted runtime JSON object."""
 
     raw = _read_trusted_runtime_evidence_bytes(
-        DEFAULT_G2_DIAGNOSTIC_PROOF
+        path
     )
     if raw is None:
         return {}
@@ -831,6 +831,14 @@ def load_installed_g2_diagnostic_proof():
         return {}
 
     return value if isinstance(value, dict) else {}
+
+
+def load_installed_g2_diagnostic_proof():
+    """Read only the fixed owner-only deployed G2 diagnostic path."""
+
+    return read_trusted_runtime_evidence_json(
+        DEFAULT_G2_DIAGNOSTIC_PROOF
+    )
 
 
 def main():

@@ -25,7 +25,12 @@ The final status is `READY_FOR_CONTROLLED_DRY_RUN` only when:
   current readiness engine contract;
 - the read-only connector still hard-blocks order submission;
 - G2 evidence is no more than five minutes old;
-- G3 uses `PAPER`, `127.0.0.1:4002`, and a verified Paper account;
+- G2 and G3 carry the exact same valid deployed Git SHA;
+- G2 and G3 runtime provenance binds to the same approved immutable GCE
+  instance and the exact current G0/G1 proof digest;
+- G3 uses a valid `PAPER`, `127.0.0.1:4002` configuration with a non-zero
+  client ID and a verified Paper account;
+- the G3 inherited broker-mutation surface is hard-blocked;
 - G2 and G3 report the exact same sanitized Paper-account fingerprint set;
 - the quote is explicitly `IBKR_REALTIME / REALTIME`;
 - the execution-data gate passes;
@@ -46,8 +51,15 @@ Missing or mismatched account fingerprints also fail closed, preventing G2
 account/position evidence from being combined with G3 market data obtained
 under a different allowlisted Paper account. Raw account IDs are never written.
 
-The wrapper still produces this fail-closed summary when either probe returns a
-non-zero status, then exits non-zero itself.
+The wrapper does not source the runtime env file. It accepts only approved
+keys from the owner-only `0600`, single-link file, creates one fresh UUIDv4
+evidence-run ID, and carries that same ID through strict G2 and G3. If strict
+G2 fails, G3 is not attempted. The G3 proof is forced to its fixed trusted
+runtime path and both G2/G3 proof files must pass the trusted evidence reader
+before the bundle can evaluate them.
+
+The wrapper still produces a fail-closed summary when G3 or the unified bundle
+returns a non-zero status, then exits non-zero itself.
 
 A connector-side `read_only=true` declaration cannot satisfy the independent
 Gateway/TWS Read-Only attestation requirement. Missing, false, duplicated, or
