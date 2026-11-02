@@ -65,7 +65,31 @@ Set these environment variables on the VPS:
     export AURORA_IBKR_TIMEOUT_SECONDS=8
     export AURORA_IBKR_PAPER_ACCOUNT_ALLOWLIST=<YOUR_PAPER_ACCOUNT_ID>
 
-Then run:
+For the **pre-review** stage, use the dedicated operator runner from the
+repository root instead of treating the expected unattested exit code as a
+generic failure:
+
+    bash scripts/run_aurora_g2_pre_review.sh
+
+The runner creates a fresh UUIDv4 evidence-run ID, forces the fixed trusted G2
+output path, verifies the runtime env file is a single-link owner-only 0600
+regular file, parses only approved environment keys without sourcing shell
+code, requires localhost Paper port 4002, and confirms that the Gateway is not
+publicly bound.
+
+The underlying probe is expected to exit with code `2` **before** independent
+attestation. G8.5 accepts that exit code only when the newly generated evidence
+has the exact same run ID and the V3 runtime-bound reviewer package proves:
+
+- the real Paper diagnostic is otherwise clean;
+- independent Gateway Read-Only attestation is the only required failure;
+- Git SHA, immutable GCE instance ID and G0/G1 proof digest all match;
+- all execution permissions remain false.
+
+A successful G8.5 pre-review status advances only to human independent review.
+It does not make G2 order-ready.
+
+For low-level diagnostics, the probe can still be run directly:
 
     python scripts/ibkr_paper_probe.py
 
@@ -114,6 +138,18 @@ For a service deployment, the output path can be overridden without changing
 the repository:
 
     export AURORA_IBKR_PROBE_OUTPUT=/var/lib/aurora/ibkr/latest.json
+
+## Post-review strict G2 proof
+
+After the independent reviewer has inspected Gateway/TWS Read-Only API,
+returned the signed artifact, and the production attestation verifier reports
+`VERIFIED`, run:
+
+    scripts/run_aurora_g2_readonly.sh
+
+Only this post-review strict path may return a successful
+`READY_FOR_PAPER_READ_ONLY` result. Paper and LIVE order submission remain
+disabled.
 
 ## Next milestone
 
