@@ -181,21 +181,45 @@ def evaluate_reviewer_handoff_preflight(
         expected_zone == EXPECTED_ZONE,
     )
 
-    expected_project_id = str(
-        policy.get("expected_project_id") or ""
-    ).strip()
-    expected_instance_id = str(
-        policy.get("expected_instance_id") or ""
-    ).strip()
+    project_value = policy.get(
+        "expected_project_id"
+    )
+    instance_id_value = policy.get(
+        "expected_instance_id"
+    )
+    expected_project_id = (
+        project_value.strip()
+        if isinstance(
+            project_value,
+            str,
+        )
+        else ""
+    )
+    expected_instance_id = (
+        instance_id_value.strip()
+        if isinstance(
+            instance_id_value,
+            str,
+        )
+        else ""
+    )
 
     require(
         "approved_project_policy",
-        expected_project_id == EXPECTED_PROJECT_ID,
+        isinstance(
+            project_value,
+            str,
+        )
+        and expected_project_id == EXPECTED_PROJECT_ID,
     )
     require(
         "expected_instance_id_valid",
-        expected_instance_id.isdigit()
-        and len(expected_instance_id) >= 6
+        isinstance(
+            instance_id_value,
+            str,
+        )
+        and expected_instance_id.isdigit()
+        and 6 <= len(expected_instance_id) <= 30
         and expected_instance_id[0] != "0",
     )
 
