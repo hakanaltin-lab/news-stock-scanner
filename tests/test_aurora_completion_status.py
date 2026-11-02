@@ -158,6 +158,10 @@ class AuroraCompletionStatusTests(unittest.TestCase):
         self.assertTrue(
             result["checks"]["g0_g1_readiness_proof_bound"]
         )
+        self.assertEqual(
+            result["evidence_binding"]["gce_instance_id"],
+            "1234567890123456789",
+        )
         self.assertTrue(result["checks"]["g2_readiness_proof_bound"])
         self.assertTrue(
             result["checks"]["gateway_attestation_runtime_verified"]
