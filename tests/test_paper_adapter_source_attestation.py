@@ -539,7 +539,7 @@ class SourceAttestationTests(unittest.TestCase):
             "-----begin private key-----",
             "-sign",
             "pkeyutl -sign",
-            "decision": "attested",
+            '"decision": "attested"',
             "placeorder",
             "submit_order(",
         ):
