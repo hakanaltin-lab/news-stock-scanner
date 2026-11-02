@@ -35,7 +35,8 @@ def safe_float(
         )
     except (
         TypeError,
-        ValueError
+        ValueError,
+        OverflowError
     ):
         return default
 
@@ -417,18 +418,48 @@ def evaluate_ibkr_paper_readiness(
         )
     )
 
-    verified_account_fingerprints = sorted({
-        str(item).strip()
-        for item in (
-            paper_account_guard.get(
-                "verified_account_fingerprints",
-                []
-            )
-            or
-            []
+    verified_account_rows = paper_account_guard.get(
+        "verified_account_fingerprints"
+    )
+
+    verified_account_fingerprints_valid = (
+        isinstance(
+            verified_account_rows,
+            list
         )
-        if str(item).strip()
-    })
+        and bool(
+            verified_account_rows
+        )
+        and all(
+            isinstance(
+                item,
+                str
+            )
+            and bool(
+                item.strip()
+            )
+            for item in verified_account_rows
+        )
+    )
+
+    verified_account_fingerprints = (
+        sorted({
+            item.strip()
+            for item in verified_account_rows
+        })
+        if verified_account_fingerprints_valid
+        else []
+    )
+
+    add_check(
+        "verified_account_fingerprint_payload_valid",
+        verified_account_fingerprints_valid,
+        True,
+        (
+            "Verified Paper account fingerprints must be a non-empty "
+            "list of non-empty strings."
+        )
+    )
 
     account_summary_fingerprint_rows = broker_snapshot.get(
         "account_summary_account_fingerprints"
@@ -539,20 +570,40 @@ def evaluate_ibkr_paper_readiness(
         -1
     )
     snapshot_accounts = broker_snapshot.get("accounts")
+    snapshot_accounts_valid = (
+        isinstance(
+            snapshot_accounts,
+            list
+        )
+        and bool(
+            snapshot_accounts
+        )
+        and all(
+            isinstance(
+                item,
+                str
+            )
+            and bool(
+                item.strip()
+            )
+            for item in snapshot_accounts
+        )
+    )
+
     snapshot_account_fingerprints = (
         sorted({
-            str(item).strip()
+            item.strip()
             for item in snapshot_accounts
-            if str(item).strip()
         })
-        if isinstance(snapshot_accounts, list)
+        if snapshot_accounts_valid
         else []
     )
 
     add_check(
         "managed_account_identity_consistent",
         (
-            bool(verified_account_fingerprints)
+            verified_account_fingerprints_valid
+            and snapshot_accounts_valid
             and snapshot_account_fingerprints
             == verified_account_fingerprints
             and account_count
