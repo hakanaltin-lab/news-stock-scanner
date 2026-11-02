@@ -29,6 +29,7 @@ def snapshot():
         },
         "official_ibapi_available": True,
         "order_submission_hard_blocked": True,
+        "gateway_read_only_configuration_independently_attested": True,
         "live_trading_allowed": False,
         "requests_complete": {
             "managed_accounts": True, "account_summary": True,
@@ -48,6 +49,24 @@ class G7ReadOnlyReadinessTests(unittest.TestCase):
         self.assertEqual(result["readiness"], "READY_FOR_PAPER_READ_ONLY")
         self.assertFalse(result["paper_order_submission_allowed"])
         self.assertFalse(result["live_execution_allowed"])
+
+    def test_missing_gateway_read_only_attestation_blocks(self):
+        data = snapshot()
+        data.pop("gateway_read_only_configuration_independently_attested")
+        result = self.check(data)
+        self.assertEqual(result["readiness"], "NOT_READY")
+        self.assertTrue(result["diagnostic_read_only_ready"])
+        self.assertEqual(
+            result["next_milestone"],
+            "INDEPENDENT_GATEWAY_READ_ONLY_ATTESTATION",
+        )
+
+    def test_false_gateway_read_only_attestation_blocks(self):
+        data = snapshot()
+        data["gateway_read_only_configuration_independently_attested"] = False
+        result = self.check(data)
+        self.assertEqual(result["readiness"], "NOT_READY")
+        self.assertTrue(result["diagnostic_read_only_ready"])
 
     def test_live_mode_blocks(self):
         data = snapshot()

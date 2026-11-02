@@ -897,6 +897,9 @@ def get_ibkr_read_only_snapshot():
         "order_submission_hard_blocked":
         True,
 
+        "gateway_read_only_configuration_independently_attested":
+        False,
+
         "live_trading_allowed":
         False
     }

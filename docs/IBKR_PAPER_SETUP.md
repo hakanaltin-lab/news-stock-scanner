@@ -73,11 +73,26 @@ The module form is also supported:
 
     python -m scripts.ibkr_paper_probe
 
-Expected first successful milestone:
+A successful broker diagnostic is not, by itself, G2 readiness. The connector
+cannot independently attest the IB Gateway/TWS **Read-Only API** setting.
+
+Before independent attestation is bound, an otherwise complete diagnostic is:
+
+    readiness = NOT_READY
+    diagnostic_read_only_ready = true
+    next_milestone = INDEPENDENT_GATEWAY_READ_ONLY_ATTESTATION
+    gateway_read_only_configuration_independently_attested = false
+
+Only after separate operator/reviewer evidence confirms the Gateway/TWS Read-Only
+API configuration may G2 reach:
 
     readiness = READY_FOR_PAPER_READ_ONLY
+    gateway_read_only_configuration_independently_attested = true
     live_execution_allowed = false
     paper_order_submission_allowed = false
+
+Do not use an environment variable or probe-supplied flag to self-attest this
+control. AURORA intentionally ignores such a shortcut.
 
 The probe should also return masked account information, account metrics,
 positions and open orders. The raw paper account ID is used only for the
@@ -88,9 +103,10 @@ Yahoo Finance 15-minute data is research-only in V8.9.5 and is explicitly
 marked execution_eligible=false. Any future paper-order path must use a
 separately validated real-time execution source such as IBKR real-time data.
 
-The command exits with code `0` only when all required read-only checks pass.
-Disabled, incomplete, invalid-mode, missing-API and connection-failure states
-exit with code `2`. The full sanitized proof is written atomically to:
+The command exits with code `0` only when every required read-only check,
+including independently bound Gateway/TWS Read-Only attestation, passes.
+Disabled, incomplete, unattested, invalid-mode, missing-API and
+connection-failure states exit with code `2`. The full sanitized proof is written atomically to:
 
     runtime/ibkr_paper_read_only/latest.json
 
