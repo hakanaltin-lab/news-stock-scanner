@@ -269,6 +269,7 @@ def evaluate_gateway_readonly_attestation(
     current_instance_name,
     public_key_bytes,
     signature_valid,
+    repository_clean=True,
     now=None,
 ):
     """Evaluate parsed, already-loaded evidence without trusting caller claims."""
@@ -356,6 +357,10 @@ def evaluate_gateway_readonly_attestation(
         "git_sha_bound",
         bool(git_sha)
         and git_sha == current_git_sha,
+    )
+    require(
+        "repository_clean",
+        repository_clean is True,
     )
 
     instance_name = artifact.get("instance_name")
@@ -610,6 +615,41 @@ def _current_git_sha(repository_root):
     return value
 
 
+def _repository_is_clean(repository_root):
+    try:
+        completed = subprocess.run(
+            [
+                "/usr/bin/git",
+                "-C",
+                str(Path(repository_root)),
+                "status",
+                "--porcelain",
+                "--untracked-files=no",
+            ],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+            check=False,
+            timeout=3,
+            env={
+                "PATH": "/usr/bin:/bin",
+                "LANG": "C",
+                "LC_ALL": "C",
+            },
+        )
+    except (
+        OSError,
+        subprocess.SubprocessError,
+    ):
+        return False
+
+    return (
+        completed.returncode == 0
+        and completed.stdout.strip() == ""
+    )
+
+
 def verify_installed_gateway_readonly_attestation(
     repository_root,
     now=None,
@@ -671,6 +711,14 @@ def verify_installed_gateway_readonly_attestation(
             "CURRENT_GIT_SHA_UNAVAILABLE"
         )
 
+    repository_clean = _repository_is_clean(
+        repository_root
+    )
+    if not repository_clean:
+        return _blocked(
+            "REPOSITORY_NOT_CLEAN"
+        )
+
     signature = _decode_signature(
         artifact.get("signature_b64")
         if isinstance(artifact, dict)
@@ -702,5 +750,6 @@ def verify_installed_gateway_readonly_attestation(
         current_instance_name=socket.gethostname().split(".")[0],
         public_key_bytes=public_key_bytes,
         signature_valid=signature_valid,
+        repository_clean=repository_clean,
         now=now,
     )
