@@ -277,14 +277,26 @@ def evaluate_paper_state_risk_preflight(
     now=None,
     max_g2_age_seconds=DEFAULT_MAX_G2_AGE_SECONDS,
 ):
-    now = (
-        _utc_datetime(
-            now
-        )
-        or datetime.now(
+    if now is None:
+        now_utc = datetime.now(
             timezone.utc
         )
-    )
+        reference_clock_valid = True
+    else:
+        now_utc = _utc_datetime(
+            now
+        )
+        reference_clock_valid = (
+            now_utc
+            is not None
+        )
+
+        if now_utc is None:
+            now_utc = datetime.now(
+                timezone.utc
+            )
+
+    now = now_utc
 
     input_shapes_valid = all(
         isinstance(
@@ -1236,8 +1248,18 @@ def evaluate_paper_state_risk_preflight(
             "value"
         )
     )
+    available_funds_currency = str(
+        raw_available_funds.get(
+            "currency"
+        )
+        or ""
+    ).strip().upper()
 
     available_funds_cross_checked = (
+        available_funds_currency
+        ==
+        "USD"
+        and
         available_funds
         is not None
         and available_funds
@@ -1304,6 +1326,9 @@ def evaluate_paper_state_risk_preflight(
     checks = {
         "input_shapes_valid":
         input_shapes_valid,
+
+        "reference_clock_valid":
+        reference_clock_valid,
 
         "risk_policy_valid":
         risk_policy_valid,
