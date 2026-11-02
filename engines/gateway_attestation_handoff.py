@@ -30,6 +30,9 @@ ENGINE_VERSION = "AURORA G7.6 Gateway Read-Only Reviewer Handoff Preflight"
 HANDOFF_REQUEST_TYPE = "IBKR_GATEWAY_READ_ONLY_REVIEW_REQUEST_V1"
 EXPECTED_INSTANCE_NAME = "aurora-trading-vps"
 EXPECTED_ZONE = "europe-west3-a"
+EXPECTED_PROJECT_ID = "project-ce9773ef-6814-469c-92b"
+DEFAULT_G0_PROOF_RELATIVE_PATH = Path("runtime/gcp/latest.json")
+MAX_G0_PROOF_AGE_SECONDS = 86400
 
 _POLICY_FIELDS = {
     "policy_version",
@@ -70,6 +73,7 @@ def evaluate_reviewer_handoff_preflight(
     current_instance_name,
     repository_clean,
     openssl_available,
+    g0_proof,
     now=None,
 ):
     """Evaluate whether the VPS is ready to hand off to an independent reviewer."""
@@ -173,6 +177,95 @@ def evaluate_reviewer_handoff_preflight(
         openssl_available is True,
     )
 
+    g0_is_dict = isinstance(g0_proof, dict)
+    require(
+        "g0_proof_is_object",
+        g0_is_dict,
+    )
+    if not g0_is_dict:
+        g0_proof = {}
+
+    g0_generated_at = str(
+        g0_proof.get("generated_at") or ""
+    ).strip()
+    g0_timestamp = None
+    if g0_generated_at:
+        text = g0_generated_at
+        if text.endswith("Z"):
+            text = text[:-1] + "+00:00"
+        try:
+            parsed = datetime.fromisoformat(text)
+            if parsed.tzinfo is not None:
+                g0_timestamp = parsed.astimezone(
+                    timezone.utc
+                )
+        except ValueError:
+            g0_timestamp = None
+
+    g0_age_seconds = (
+        (now - g0_timestamp).total_seconds()
+        if g0_timestamp is not None
+        else None
+    )
+
+    g0_checks = (
+        g0_proof.get("checks")
+        if isinstance(
+            g0_proof.get("checks"),
+            dict,
+        )
+        else {}
+    )
+    required_g0_checks = (
+        "budget_guard_passed",
+        "vm_identity",
+        "vm_running",
+        "vm_hardened",
+        "network_contract",
+        "iap_ssh_only_rule",
+        "public_private_ports_denied",
+        "no_public_allow_for_sensitive_ports",
+    )
+
+    require(
+        "g0_runtime_verified",
+        g0_proof.get("status") == "G0_G1_VERIFIED"
+        and not g0_proof.get("failure_reasons"),
+    )
+    require(
+        "g0_runtime_identity_bound",
+        g0_proof.get("project_id") == EXPECTED_PROJECT_ID
+        and g0_proof.get("zone") == EXPECTED_ZONE
+        and g0_proof.get("vm_name") == EXPECTED_INSTANCE_NAME,
+    )
+    require(
+        "g0_runtime_checks_complete",
+        bool(g0_checks)
+        and all(
+            g0_checks.get(name) is True
+            for name in required_g0_checks
+        ),
+    )
+    require(
+        "g0_runtime_proof_fresh",
+        g0_age_seconds is not None
+        and -2
+        <= g0_age_seconds
+        <= MAX_G0_PROOF_AGE_SECONDS,
+    )
+    require(
+        "g0_order_permissions_blocked",
+        all(
+            g0_proof.get(name) is False
+            for name in (
+                "broker_submission_allowed",
+                "paper_order_submission_allowed",
+                "live_execution_allowed",
+                "automatic_promotion_allowed",
+            )
+        ),
+    )
+
     max_age = policy.get("max_attestation_age_seconds")
     clock_skew = policy.get("allowed_clock_skew_seconds")
     require(
@@ -202,6 +295,10 @@ def evaluate_reviewer_handoff_preflight(
             "gateway_port": 4002,
             "reviewer_id": reviewer_id,
             "reviewer_public_key_sha256": public_key_sha256,
+            "g0_runtime_proof_generated_at": g0_proof.get("generated_at"),
+            "g0_runtime_project_id": g0_proof.get("project_id"),
+            "g0_runtime_zone": g0_proof.get("zone"),
+            "g0_runtime_vm_name": g0_proof.get("vm_name"),
             "operator_asserts_gateway_read_only": False,
             "requires_human_gateway_configuration_review": True,
             "signed_attestation_required": True,
@@ -275,6 +372,24 @@ def build_installed_reviewer_handoff(
             "TRUST_ROOT_PARSE_FAILED"
         )
 
+    g0_proof_path = (
+        Path(repository_root)
+        / DEFAULT_G0_PROOF_RELATIVE_PATH
+    )
+    try:
+        g0_proof = _load_json_bytes(
+            g0_proof_path.read_bytes()
+        )
+    except (
+        OSError,
+        UnicodeDecodeError,
+        ValueError,
+        TypeError,
+    ):
+        return _blocked(
+            "G0_RUNTIME_PROOF_UNAVAILABLE"
+        )
+
     current_git_sha = _current_git_sha(
         repository_root
     )
@@ -304,5 +419,6 @@ def build_installed_reviewer_handoff(
         ),
         repository_clean=repository_clean,
         openssl_available=openssl_available,
+        g0_proof=g0_proof,
         now=now,
     )
