@@ -11,6 +11,8 @@ on:
       - "scripts/download_ibgateway_stable.sh"
       - "scripts/launch_ibgateway_vnc.sh"
       - "scripts/run_aurora_g2_readonly.sh"
+      - "scripts/g2_post_review_status.py"
+      - "tests/test_g2_post_review_status.py"
       - "tests/test_v8_9_9_g2_vps_safety.py"
       - "docs/AURORA_G2_VPS_READ_ONLY.md"
       - ".github/workflows/g2_vps_safety.yml"
@@ -23,6 +25,8 @@ on:
       - "scripts/download_ibgateway_stable.sh"
       - "scripts/launch_ibgateway_vnc.sh"
       - "scripts/run_aurora_g2_readonly.sh"
+      - "scripts/g2_post_review_status.py"
+      - "tests/test_g2_post_review_status.py"
       - "tests/test_v8_9_9_g2_vps_safety.py"
       - "docs/AURORA_G2_VPS_READ_ONLY.md"
       - ".github/workflows/g2_vps_safety.yml"
@@ -56,8 +60,10 @@ jobs:
 
       - name: Compile safety tests
         run: |
+          python -m py_compile scripts/g2_post_review_status.py
+          python -m py_compile tests/test_g2_post_review_status.py
           python -m py_compile tests/test_v8_9_9_g2_vps_safety.py
 
       - name: Prove G2 deployment safety contract
         run: |
-          python -m unittest tests.test_v8_9_9_g2_vps_safety -v
+          python -m unittest tests.test_g2_post_review_status tests.test_v8_9_9_g2_vps_safety -v

@@ -60,6 +60,22 @@ class G2VPSSafetyTests(unittest.TestCase):
         self.assertIn('AURORA_IBKR_PORT:-}" == "4002"', self.probe)
         self.assertIn("IBKR TCP/4002 is publicly bound", self.probe)
 
+    def test_strict_runner_does_not_source_runtime_env(self):
+        self.assertNotIn('source "$ENV_FILE"', self.probe)
+        self.assertIn('stat -c %a "$ENV_FILE"', self.probe)
+        self.assertIn('stat -c %h "$ENV_FILE"', self.probe)
+        self.assertIn('verify_gateway_readonly_attestation.py', self.probe)
+        self.assertIn('g2_post_review_status.py', self.probe)
+        self.assertIn('AURORA_EVIDENCE_RUN_ID', self.probe)
+        self.assertIn(
+            'export AURORA_IBKR_PROBE_OUTPUT="$FIXED_G2_OUTPUT"',
+            self.probe,
+        )
+        self.assertLess(
+            self.probe.index("verify_gateway_readonly_attestation.py"),
+            self.probe.index("scripts/ibkr_paper_probe.py"),
+        )
+
     def test_pre_review_runner_does_not_source_runtime_env(self):
         self.assertNotIn('source "$ENV_FILE"', self.pre_review)
         self.assertIn('stat -c %a "$ENV_FILE"', self.pre_review)
