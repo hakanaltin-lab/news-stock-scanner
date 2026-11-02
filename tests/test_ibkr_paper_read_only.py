@@ -50,6 +50,7 @@ def ready_snapshot():
             "BuyingPower": {"value": 180000.0, "currency": "USD"},
         },
         "positions": [],
+        "open_orders": [],
         "requests_complete": {
             "managed_accounts": True,
             "account_summary": True,
