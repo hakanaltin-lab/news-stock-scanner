@@ -11,7 +11,6 @@ import json
 import os
 from pathlib import Path
 import sys
-import tempfile
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
@@ -24,6 +23,15 @@ from engines.ibkr_market_data_connector import (
 from engines.market_data_quality_gate import (
     evaluate_market_data_for_execution,
 )
+from engines.gce_runtime_identity import (
+    read_gce_runtime_identity,
+)
+from scripts.ibkr_paper_probe import (
+    _current_git_sha,
+    build_runtime_provenance,
+    load_g0_runtime_proof,
+    write_runtime_evidence_atomic,
+)
 
 
 DEFAULT_OUTPUT = (
@@ -31,39 +39,16 @@ DEFAULT_OUTPUT = (
 )
 
 
-def _write_atomic(path, payload):
-    target = Path(path)
-    target.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    with tempfile.NamedTemporaryFile(
-        mode="w",
-        encoding="utf-8",
-        dir=str(target.parent),
-        delete=False,
-    ) as handle:
-        json.dump(
-            payload,
-            handle,
-            indent=2,
-            sort_keys=True,
-        )
-        handle.write("\n")
-        temp_name = handle.name
-
-    os.replace(
-        temp_name,
-        target,
-    )
-
-
 def main():
     symbol = (
         sys.argv[1].strip().upper()
         if len(sys.argv) > 1
         else ""
+    )
+
+    runtime_provenance = build_runtime_provenance(
+        read_gce_runtime_identity(),
+        load_g0_runtime_proof(),
     )
 
     snapshot = get_ibkr_realtime_quote(symbol)
@@ -92,16 +77,20 @@ def main():
             "AURORA V8.9.7 G3 "
             "IBKR Market Data Probe"
         ),
+        "git_sha": _current_git_sha(),
         "evidence_run_id": os.getenv(
             "AURORA_EVIDENCE_RUN_ID",
             "",
         ).strip() or None,
+        "runtime_provenance": runtime_provenance,
         "symbol": symbol or None,
         "snapshot": snapshot,
         "execution_market_data_gate": execution_gate,
         "broker_submission_allowed": False,
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
+        "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
     }
 
     output = os.getenv(
@@ -109,14 +98,38 @@ def main():
         DEFAULT_OUTPUT,
     )
 
-    _write_atomic(
-        output,
-        proof,
-    )
+    try:
+        write_runtime_evidence_atomic(
+            output,
+            proof,
+        )
+    except (
+        OSError,
+        RuntimeError,
+        ValueError,
+    ):
+        print(json.dumps(
+            {
+                "status": "RUNTIME_EVIDENCE_WRITE_FAILED",
+                "runtime_provenance_verified": (
+                    runtime_provenance.get("verified")
+                ),
+                "broker_submission_allowed": False,
+                "paper_order_submission_allowed": False,
+                "live_execution_allowed": False,
+                "output": output,
+            },
+            indent=2,
+            sort_keys=True,
+        ))
+        return 2
 
     print(json.dumps(
         {
             "symbol": proof["symbol"],
+            "runtime_provenance_verified": (
+                runtime_provenance.get("verified")
+            ),
             "snapshot_status": snapshot.get(
                 "status"
             ),
@@ -139,7 +152,9 @@ def main():
     return (
         0
         if (
-            snapshot.get("status")
+            runtime_provenance.get("verified")
+            is True
+            and snapshot.get("status")
             == "REALTIME_READY"
             and execution_gate.get(
                 "execution_eligible"
