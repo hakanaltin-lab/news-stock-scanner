@@ -7,11 +7,14 @@ import unittest
 
 from engines.paper_order_authorization_gate import (
     AUTH_VERSION,
+    REQUIRED_COMPLETION_CHECKS,
     evaluate_manual_paper_authorization,
 )
 
 
 NOW = datetime(2026, 10, 31, 18, 0, tzinfo=timezone.utc)
+EVIDENCE_RUN_ID = "11111111-1111-4111-8111-111111111111"
+INSTANCE_ID = "1234567890123456789"
 
 
 def digest(payload):
@@ -42,14 +45,31 @@ def shadow():
 def completion(order=None):
     order = order if order is not None else shadow()
     return {
+        "engine": "AURORA V8.9.29 G0-G4 Completion Gate",
         "status": "PAPER_RUNTIME_VALIDATED_SHADOW_ONLY",
         "next_gate": "MANUAL_PAPER_ORDER_AUTHORIZATION_NOT_GRANTED",
         "checks": {
-            "g4_shadow_order_payload_valid": True,
-            "g4_shadow_order_ledger_payload_bound": True,
+            name: True
+            for name in REQUIRED_COMPLETION_CHECKS
         },
         "evidence_binding": {
+            "readiness_evidence_run_id": EVIDENCE_RUN_ID,
+            "g4_evidence_run_id": EVIDENCE_RUN_ID,
+            "g0_g1_proof_sha256": "a" * 64,
+            "gce_instance_id": INSTANCE_ID,
+            "readiness_recorded_g0_g1_proof_sha256": "a" * 64,
+            "g2_paper_read_only_proof_sha256": "b" * 64,
+            "readiness_recorded_g2_proof_sha256": "b" * 64,
+            "g2_gateway_read_only_attestation_sha256": "c" * 64,
+            "runtime_gateway_read_only_attestation_sha256": "c" * 64,
+            "readiness_recorded_gateway_attestation_sha256": "c" * 64,
+            "readiness_proof_sha256": "d" * 64,
+            "g4_recorded_readiness_proof_sha256": "d" * 64,
             "g4_shadow_order_sha256": digest(order),
+            "g4_ledger_payload_sha256": "e" * 64,
+            "g4_recomputed_ledger_payload_sha256": "e" * 64,
+            "g4_ledger_receipt_sha256": "f" * 64,
+            "audited_ledger_receipt_sha256": "f" * 64,
         },
         "failure_reasons": [],
         "broker_submission_allowed": False,
@@ -107,6 +127,26 @@ class ManualPaperAuthorizationTests(unittest.TestCase):
         )
         self.assertTrue(
             result["checks"]["completion_shadow_order_digest_bound"]
+        )
+        self.assertTrue(
+            result["checks"][
+                "completion_check_set_exact_and_passed"
+            ]
+        )
+        self.assertTrue(
+            result["checks"]["completion_runtime_binding_valid"]
+        )
+        self.assertEqual(
+            result["evidence_run_id"],
+            EVIDENCE_RUN_ID,
+        )
+        self.assertEqual(
+            result["gce_instance_id"],
+            INSTANCE_ID,
+        )
+        self.assertEqual(
+            len(result["authorization_artifact_sha256"]),
+            64,
         )
         self.assertEqual(
             result["authorization_issued_at"],
@@ -182,6 +222,48 @@ class ManualPaperAuthorizationTests(unittest.TestCase):
                         "authorization_permissions_non_executable"
                     ]
                 )
+
+    def test_incomplete_completion_check_set_blocks(self):
+        order = shadow()
+        comp = completion(order)
+        comp["checks"].pop("ledger_audit_fresh")
+        auth = authorization(comp, order)
+
+        result = evaluate_manual_paper_authorization(
+            comp,
+            order,
+            auth,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertFalse(
+            result["checks"][
+                "completion_check_set_exact_and_passed"
+            ]
+        )
+
+    def test_completion_runtime_binding_mismatch_blocks(self):
+        order = shadow()
+        comp = completion(order)
+        comp["evidence_binding"][
+            "g4_evidence_run_id"
+        ] = "22222222-2222-4222-8222-222222222222"
+        auth = authorization(comp, order)
+
+        result = evaluate_manual_paper_authorization(
+            comp,
+            order,
+            auth,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertFalse(
+            result["checks"][
+                "completion_runtime_binding_valid"
+            ]
+        )
 
     def test_missing_human_approval_blocks(self):
         comp = completion()
