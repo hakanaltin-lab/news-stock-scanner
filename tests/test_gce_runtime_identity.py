@@ -138,6 +138,102 @@ class GCERuntimeIdentityTests(unittest.TestCase):
             source,
         )
 
+    def test_metadata_value_reader_enforces_url_header_and_size(self):
+        approved_path = "/instance/name"
+        approved_url = (
+            identity.METADATA_BASE_URL
+            + approved_path
+        )
+
+        class FakeResponse:
+            def __init__(
+                self,
+                value=b"aurora-trading-vps",
+                url=approved_url,
+                flavor="Google",
+            ):
+                self.value = value
+                self.url = url
+                self.headers = {
+                    "Metadata-Flavor":
+                    flavor
+                }
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return False
+
+            def geturl(self):
+                return self.url
+
+            def read(self, size):
+                return self.value[:size]
+
+        class FakeOpener:
+            def __init__(self, response):
+                self.response = response
+                self.requests = []
+
+            def open(self, request, timeout):
+                self.requests.append(
+                    (request, timeout)
+                )
+                return self.response
+
+        opener = FakeOpener(
+            FakeResponse()
+        )
+        value = identity._read_metadata_value(
+            opener,
+            approved_path,
+        )
+        self.assertEqual(
+            value,
+            "aurora-trading-vps",
+        )
+        self.assertEqual(
+            opener.requests[0][1],
+            1.0,
+        )
+
+        with self.assertRaises(
+            ValueError
+        ):
+            identity._read_metadata_value(
+                FakeOpener(
+                    FakeResponse(
+                        url="http://example.invalid/",
+                    )
+                ),
+                approved_path,
+            )
+
+        with self.assertRaises(
+            ValueError
+        ):
+            identity._read_metadata_value(
+                FakeOpener(
+                    FakeResponse(
+                        flavor="NotGoogle",
+                    )
+                ),
+                approved_path,
+            )
+
+        with self.assertRaises(
+            ValueError
+        ):
+            identity._read_metadata_value(
+                FakeOpener(
+                    FakeResponse(
+                        value=b"x" * 1025,
+                    )
+                ),
+                approved_path,
+            )
+
     def test_unapproved_metadata_path_is_rejected_before_network(self):
         class NeverUsed:
             def open(self, *args, **kwargs):
