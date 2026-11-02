@@ -1,0 +1,49 @@
+name: G7.6 Gateway Reviewer Handoff Safety
+
+on:
+  pull_request:
+    paths:
+      - "engines/gateway_attestation_handoff.py"
+      - "scripts/gateway_readonly_attestation_handoff.py"
+      - "tests/test_gateway_attestation_handoff.py"
+      - "docs/AURORA_G7_6_REVIEWER_HANDOFF.md"
+      - "scripts/gcp_runtime_proof.py"
+      - ".github/workflows/g7-reviewer-handoff.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reviewer-handoff-fail-closed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile G7.6 components
+        run: |
+          python -m py_compile engines/gateway_attestation_handoff.py
+          python -m py_compile scripts/gateway_readonly_attestation_handoff.py
+          python -m py_compile tests/test_gateway_attestation_handoff.py
+          python -m py_compile scripts/gcp_runtime_proof.py
+
+      - name: Prove handoff cannot self-attest or authorize orders
+        run: |
+          python -m unittest discover -s tests -p 'test_gateway_attestation_handoff.py' -v
+          python -m unittest discover -s tests -p 'test_gcp_runtime_proof.py' -v
+
+      - name: Prove production trust paths remain fixed
+        run: |
+          python - <<'PY'
+          from engines.gateway_readonly_attestation_verifier import (
+              DEFAULT_POLICY_PATH,
+              DEFAULT_PUBLIC_KEY_PATH,
+          )
+          assert str(DEFAULT_POLICY_PATH) == "/etc/aurora/gateway-readonly-attestation-policy.json"
+          assert str(DEFAULT_PUBLIC_KEY_PATH) == "/etc/aurora/gateway-readonly-reviewer-ed25519.pem"
+          PY
