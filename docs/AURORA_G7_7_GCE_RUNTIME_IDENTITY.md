@@ -50,8 +50,8 @@ attestation policy and then into the reviewer-signed V2 artifact.
 G7.7 upgrades the signed attestation contract to:
 
 ```text
-schema_version = 2
-attestation_type = IBKR_GATEWAY_API_READ_ONLY_V2
+schema_version = 3
+attestation_type = IBKR_GATEWAY_API_READ_ONLY_V3
 ```
 
 The signature now covers both:
@@ -108,11 +108,11 @@ the same signed-attestation verifier.
 1. On the approved VPS, run `python scripts/gce_identity_bootstrap.py`.
 2. Continue only if it reports `VERIFIED`; record the sanitized project,
    instance name, zone and immutable numeric instance ID.
-3. Install the reviewed V2 root policy containing that exact instance ID.
+3. Install the reviewed root policy containing that exact instance ID.
 4. Run the G7.8 reviewer handoff preflight. It must cross-bind the root policy,
    G0/G1 control-plane proof and live metadata to the same instance ID.
 5. The independent reviewer verifies Gateway/TWS Read-Only API configuration.
-6. The reviewer signs a V2 artifact containing the exact same project and
+6. The reviewer signs a V3 artifact containing the exact same project and
    instance ID, off the trading VPS.
 7. Install only the signed artifact on the VPS.
 8. Run `python scripts/verify_gateway_readonly_attestation.py`.
@@ -138,3 +138,11 @@ prints only project ID, VM name, zone and immutable instance ID. It does not
 write policy or attestation files and all broker/Paper/LIVE/real-money
 permission flags remain false. A blocked metadata read reveals no partial
 runtime identity fields.
+
+
+## G7.10 proof-integrity extension
+
+In addition to project and immutable instance identity, the reviewer-signed V3
+artifact binds the exact canonical SHA-256 of the G0/G1 cloud-control proof.
+This prevents replacing `runtime/gcp/latest.json` after independent review and
+then merely recomputing downstream readiness hashes.
