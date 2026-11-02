@@ -22,6 +22,7 @@ install an unofficial PyPI ibapi package.
 """
 
 from datetime import datetime, timezone
+import math
 import os
 import threading
 import time
@@ -81,15 +82,29 @@ def safe_float(
     value,
     default=None
 ):
+    if isinstance(
+        value,
+        bool
+    ):
+        return default
+
     try:
-        return float(
+        parsed = float(
             value
         )
     except (
         TypeError,
-        ValueError
+        ValueError,
+        OverflowError
     ):
         return default
+
+    if not math.isfinite(
+        parsed
+    ):
+        return default
+
+    return parsed
 
 
 def mask_account(
@@ -135,9 +150,21 @@ def load_ibkr_config():
                 )
             )
         )
+        port_valid = (
+            1
+            <=
+            port
+            <=
+            65535
+        )
 
-    except Exception:
-        port = default_port
+    except (
+        TypeError,
+        ValueError,
+        OverflowError
+    ):
+        port = -1
+        port_valid = False
 
     try:
         client_id = int(
@@ -146,9 +173,21 @@ def load_ibkr_config():
                 "82"
             )
         )
+        client_id_valid = (
+            0
+            <=
+            client_id
+            <=
+            2147483647
+        )
 
-    except Exception:
-        client_id = 82
+    except (
+        TypeError,
+        ValueError,
+        OverflowError
+    ):
+        client_id = -1
+        client_id_valid = False
 
     try:
         timeout_seconds = float(
@@ -157,9 +196,25 @@ def load_ibkr_config():
                 "8"
             )
         )
+        timeout_valid = (
+            math.isfinite(
+                timeout_seconds
+            )
+            and
+            2.0
+            <=
+            timeout_seconds
+            <=
+            30.0
+        )
 
-    except Exception:
-        timeout_seconds = 8.0
+    except (
+        TypeError,
+        ValueError,
+        OverflowError
+    ):
+        timeout_seconds = -1.0
+        timeout_valid = False
 
     return {
         "enabled":
@@ -183,17 +238,20 @@ def load_ibkr_config():
         "port":
         port,
 
+        "port_valid":
+        port_valid,
+
         "client_id":
         client_id,
 
+        "client_id_valid":
+        client_id_valid,
+
         "timeout_seconds":
-        max(
-            2.0,
-            min(
-                timeout_seconds,
-                30.0
-            )
-        ),
+        timeout_seconds,
+
+        "timeout_valid":
+        timeout_valid,
 
         "read_only":
         True,
@@ -798,9 +856,29 @@ def get_ibkr_read_only_snapshot():
                 "port"
             ),
 
+            "port_valid":
+            config.get(
+                "port_valid"
+            ),
+
             "client_id":
             config.get(
                 "client_id"
+            ),
+
+            "client_id_valid":
+            config.get(
+                "client_id_valid"
+            ),
+
+            "timeout_seconds":
+            config.get(
+                "timeout_seconds"
+            ),
+
+            "timeout_valid":
+            config.get(
+                "timeout_valid"
             ),
 
             "read_only":
@@ -865,6 +943,22 @@ def get_ibkr_read_only_snapshot():
             )
         }
 
+    if config.get(
+        "port_valid"
+    ) is not True:
+        return {
+            **base,
+
+            "status":
+            "BLOCKED",
+
+            "connection_status":
+            "NOT_ATTEMPTED",
+
+            "reason":
+            "INVALID_IBKR_PORT"
+        }
+
     if not endpoint_safe:
         return {
             **base,
@@ -880,6 +974,38 @@ def get_ibkr_read_only_snapshot():
                 "CONFIG_SAFETY_BLOCK: IBKR paper read-only access is "
                 "restricted to 127.0.0.1:4002."
             )
+        }
+
+    if config.get(
+        "client_id_valid"
+    ) is not True:
+        return {
+            **base,
+
+            "status":
+            "BLOCKED",
+
+            "connection_status":
+            "NOT_ATTEMPTED",
+
+            "reason":
+            "INVALID_IBKR_CLIENT_ID"
+        }
+
+    if config.get(
+        "timeout_valid"
+    ) is not True:
+        return {
+            **base,
+
+            "status":
+            "BLOCKED",
+
+            "connection_status":
+            "NOT_ATTEMPTED",
+
+            "reason":
+            "INVALID_IBKR_TIMEOUT_SECONDS"
         }
 
     if not IBAPI_AVAILABLE:
