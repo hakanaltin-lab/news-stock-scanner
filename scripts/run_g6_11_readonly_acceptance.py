@@ -48,6 +48,7 @@ def _safe_result(status, reason, **extra):
         "paper_order_submission_allowed": False,
         "live_trading_allowed": False,
         "release_approved": False,
+        "gateway_read_only_configuration_independently_attested": False,
         **extra,
     }
 
@@ -264,6 +265,7 @@ def run(
         "release_approved": False,
         "evidence_authenticity_verified": False,
         "broker_session_independently_verified": False,
+        "gateway_read_only_configuration_independently_attested": False,
     }
     bundle_path = evidence_dir / _artifact_name("acceptance_bundle", captured_at)
     try:
