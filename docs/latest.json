@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-02T12:02:53.489093",
+  "generated": "2026-11-02T12:17:52.264199",
   "scanner_version": "V8.6",
   "aurora_run_mode": {
     "requested_mode": "SAFE_OFF",
@@ -19,7 +19,7 @@
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-11-02T11:59:49.878237",
+      "timestamp": "2026-11-02T12:15:25.430543",
       "holding": {
         "shares": "10",
         "avg_cost": "140.16",
@@ -29,7 +29,7 @@
       },
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-11-02T11:59:48.843417+00:00",
+        "timestamp": "2026-11-02T12:15:24.581807+00:00",
         "last_price": 505.18,
         "vwap": 537.97,
         "momentum": -16.08,
@@ -48,7 +48,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 231288.843,
+        "data_age_seconds": 232224.582,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -73,7 +73,7 @@
       },
       "tactical_market": {
         "ticker": "AMD",
-        "timestamp": "2026-11-02T11:59:48.843417+00:00",
+        "timestamp": "2026-11-02T12:15:24.581807+00:00",
         "last_price": 505.18,
         "vwap": 537.97,
         "momentum": -16.08,
@@ -307,7 +307,7 @@
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-11-02T11:59:50.778937",
+      "timestamp": "2026-11-02T12:15:26.039733",
       "holding": {
         "shares": "35",
         "avg_cost": "147.95",
@@ -317,7 +317,7 @@
       },
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-11-02T11:59:50.046967+00:00",
+        "timestamp": "2026-11-02T12:15:25.553859+00:00",
         "last_price": 168.86,
         "vwap": 179.72,
         "momentum": -5.11,
@@ -336,7 +336,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 231290.047,
+        "data_age_seconds": 232225.554,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -361,7 +361,7 @@
       },
       "tactical_market": {
         "ticker": "ANET",
-        "timestamp": "2026-11-02T11:59:50.046967+00:00",
+        "timestamp": "2026-11-02T12:15:25.553859+00:00",
         "last_price": 168.86,
         "vwap": 179.72,
         "momentum": -5.11,
@@ -603,7 +603,7 @@
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-11-02T11:59:51.600398",
+      "timestamp": "2026-11-02T12:15:26.607854",
       "holding": {
         "shares": "3",
         "avg_cost": "676.38",
@@ -613,7 +613,7 @@
       },
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-11-02T11:59:50.961328+00:00",
+        "timestamp": "2026-11-02T12:15:26.180880+00:00",
         "last_price": 1565.23,
         "vwap": 1617.97,
         "momentum": -29.74,
@@ -632,7 +632,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 231290.961,
+        "data_age_seconds": 232226.181,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -657,7 +657,7 @@
       },
       "tactical_market": {
         "ticker": "ASML",
-        "timestamp": "2026-11-02T11:59:50.961328+00:00",
+        "timestamp": "2026-11-02T12:15:26.180880+00:00",
         "last_price": 1565.23,
         "vwap": 1617.97,
         "momentum": -29.74,
@@ -899,7 +899,7 @@
     },
     {
       "ticker": "BKR",
-      "timestamp": "2026-11-02T11:59:52.719688",
+      "timestamp": "2026-11-02T12:15:27.481018",
       "holding": {
         "shares": "13",
         "avg_cost": "57.80",
@@ -909,7 +909,7 @@
       },
       "market": {
         "ticker": "BKR",
-        "timestamp": "2026-11-02T11:59:51.789596+00:00",
+        "timestamp": "2026-11-02T12:15:26.762822+00:00",
         "last_price": 55.23,
         "vwap": 55.94,
         "momentum": -0.37,
@@ -928,7 +928,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 231291.79,
+        "data_age_seconds": 232226.763,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -953,7 +953,7 @@
       },
       "tactical_market": {
         "ticker": "BKR",
-        "timestamp": "2026-11-02T11:59:51.789596+00:00",
+        "timestamp": "2026-11-02T12:15:26.762822+00:00",
         "last_price": 55.23,
         "vwap": 55.94,
         "momentum": -0.37,
@@ -1206,7 +1206,7 @@
     },
     {
       "ticker": "CCLD",
-      "timestamp": "2026-11-02T11:59:53.756047",
+      "timestamp": "2026-11-02T12:15:28.449208",
       "holding": {
         "shares": "490",
         "avg_cost": "2.04",
@@ -1216,7 +1216,7 @@
       },
       "market": {
         "ticker": "CCLD",
-        "timestamp": "2026-11-02T11:59:52.889870+00:00",
+        "timestamp": "2026-11-02T12:15:27.601243+00:00",
         "last_price": 1.76,
         "vwap": 1.75,
         "momentum": 0.02,
@@ -1235,7 +1235,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 231292.89,
+        "data_age_seconds": 232227.601,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -1260,7 +1260,7 @@
       },
       "tactical_market": {
         "ticker": "CCLD",
-        "timestamp": "2026-11-02T11:59:52.889870+00:00",
+        "timestamp": "2026-11-02T12:15:27.601243+00:00",
         "last_price": 1.76,
         "vwap": 1.75,
         "momentum": 0.02,
@@ -1498,7 +1498,7 @@
     },
     {
       "ticker": "CTAS",
-      "timestamp": "2026-11-02T11:59:54.985731",
+      "timestamp": "2026-11-02T12:15:29.249718",
       "holding": {
         "shares": "4",
         "avg_cost": "196.26",
@@ -1508,7 +1508,7 @@
       },
       "market": {
         "ticker": "CTAS",
-        "timestamp": "2026-11-02T11:59:53.943214+00:00",
+        "timestamp": "2026-11-02T12:15:28.592295+00:00",
         "last_price": 219.83,
         "vwap": 216.51,
         "momentum": -4.83,
@@ -1527,7 +1527,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 231293.943,
+        "data_age_seconds": 232228.592,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -1552,7 +1552,7 @@
       },
       "tactical_market": {
         "ticker": "CTAS",
-        "timestamp": "2026-11-02T11:59:53.943214+00:00",
+        "timestamp": "2026-11-02T12:15:28.592295+00:00",
         "last_price": 219.83,
         "vwap": 216.51,
         "momentum": -4.83,
@@ -1786,7 +1786,7 @@
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-11-02T11:59:56.124572",
+      "timestamp": "2026-11-02T12:15:30.059106",
       "holding": {
         "shares": "20",
         "avg_cost": "207.68",
@@ -1796,7 +1796,7 @@
       },
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-11-02T11:59:55.157047+00:00",
+        "timestamp": "2026-11-02T12:15:29.381228+00:00",
         "last_price": 278.21,
         "vwap": 291.07,
         "momentum": -36.79,
@@ -1815,7 +1815,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 231295.157,
+        "data_age_seconds": 232229.381,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -1840,7 +1840,7 @@
       },
       "tactical_market": {
         "ticker": "GOOG",
-        "timestamp": "2026-11-02T11:59:55.157047+00:00",
+        "timestamp": "2026-11-02T12:15:29.381228+00:00",
         "last_price": 278.21,
         "vwap": 291.07,
         "momentum": -36.79,
@@ -1964,7 +1964,7 @@
         "ticker": "GOOG",
         "news_score": 50,
         "events": [],
-        "article_count": 10,
+        "article_count": 9,
         "data_quality": "LIVE"
       },
       "catalyst": {
@@ -1972,7 +1972,7 @@
         "catalyst_score": 50,
         "catalyst_signal": "NEUTRAL",
         "catalysts": [],
-        "article_count": 10,
+        "article_count": 9,
         "data_quality": "LIVE"
       },
       "sector": {
@@ -2077,7 +2077,7 @@
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-11-02T11:59:57.007044",
+      "timestamp": "2026-11-02T12:15:30.546956",
       "holding": {
         "shares": "44",
         "avg_cost": "171.81",
@@ -2087,7 +2087,7 @@
       },
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-11-02T11:59:56.297295+00:00",
+        "timestamp": "2026-11-02T12:15:30.184174+00:00",
         "last_price": 154.1,
         "vwap": 165.19,
         "momentum": 3.64,
@@ -2106,7 +2106,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 231296.297,
+        "data_age_seconds": 232230.184,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -2131,7 +2131,7 @@
       },
       "tactical_market": {
         "ticker": "NBIS",
-        "timestamp": "2026-11-02T11:59:56.297295+00:00",
+        "timestamp": "2026-11-02T12:15:30.184174+00:00",
         "last_price": 154.1,
         "vwap": 165.19,
         "momentum": 3.64,
@@ -2255,7 +2255,7 @@
         "events": [
           "ai"
         ],
-        "article_count": 10,
+        "article_count": 9,
         "data_quality": "LIVE"
       },
       "catalyst": {
@@ -2269,7 +2269,7 @@
             "impact": 6
           }
         ],
-        "article_count": 10,
+        "article_count": 9,
         "data_quality": "LIVE"
       },
       "sector": {
@@ -2374,7 +2374,7 @@
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-11-02T11:59:57.837406",
+      "timestamp": "2026-11-02T12:15:31.017691",
       "holding": {
         "shares": "24",
         "avg_cost": "160.96",
@@ -2384,7 +2384,7 @@
       },
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-11-02T11:59:57.180770+00:00",
+        "timestamp": "2026-11-02T12:15:30.680246+00:00",
         "last_price": 204.81,
         "vwap": 211.97,
         "momentum": -10.06,
@@ -2403,7 +2403,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 231297.181,
+        "data_age_seconds": 232230.68,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -2428,7 +2428,7 @@
       },
       "tactical_market": {
         "ticker": "NVDA",
-        "timestamp": "2026-11-02T11:59:57.180770+00:00",
+        "timestamp": "2026-11-02T12:15:30.680246+00:00",
         "last_price": 204.81,
         "vwap": 211.97,
         "momentum": -10.06,
@@ -2670,7 +2670,7 @@
     },
     {
       "ticker": "OMDA",
-      "timestamp": "2026-11-02T11:59:58.632771",
+      "timestamp": "2026-11-02T12:15:31.612280",
       "holding": {
         "shares": "10",
         "avg_cost": "20.45",
@@ -2680,7 +2680,7 @@
       },
       "market": {
         "ticker": "OMDA",
-        "timestamp": "2026-11-02T11:59:58.020433+00:00",
+        "timestamp": "2026-11-02T12:15:31.143125+00:00",
         "last_price": 18.74,
         "vwap": 19.14,
         "momentum": -0.11,
@@ -2699,7 +2699,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 231298.02,
+        "data_age_seconds": 232231.143,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -2724,7 +2724,7 @@
       },
       "tactical_market": {
         "ticker": "OMDA",
-        "timestamp": "2026-11-02T11:59:58.020433+00:00",
+        "timestamp": "2026-11-02T12:15:31.143125+00:00",
         "last_price": 18.74,
         "vwap": 19.14,
         "momentum": -0.11,
@@ -2958,7 +2958,7 @@
     },
     {
       "ticker": "UNH",
-      "timestamp": "2026-11-02T11:59:59.395352",
+      "timestamp": "2026-11-02T12:15:32.328439",
       "holding": {
         "shares": "2",
         "avg_cost": "369.93",
@@ -2968,7 +2968,7 @@
       },
       "market": {
         "ticker": "UNH",
-        "timestamp": "2026-11-02T11:59:58.823946+00:00",
+        "timestamp": "2026-11-02T12:15:31.759964+00:00",
         "last_price": 406.96,
         "vwap": 410.0,
         "momentum": -9.9,
@@ -2987,7 +2987,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 231298.824,
+        "data_age_seconds": 232231.76,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -3012,7 +3012,7 @@
       },
       "tactical_market": {
         "ticker": "UNH",
-        "timestamp": "2026-11-02T11:59:58.823946+00:00",
+        "timestamp": "2026-11-02T12:15:31.759964+00:00",
         "last_price": 406.96,
         "vwap": 410.0,
         "momentum": -9.9,
@@ -3246,7 +3246,7 @@
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-11-02T12:00:00.239501",
+      "timestamp": "2026-11-02T12:15:32.918163",
       "holding": {
         "shares": "11",
         "avg_cost": "316.20",
@@ -3256,7 +3256,7 @@
       },
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-11-02T11:59:59.589759+00:00",
+        "timestamp": "2026-11-02T12:15:32.461306+00:00",
         "last_price": 232.59,
         "vwap": 230.69,
         "momentum": 35.97,
@@ -3275,7 +3275,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 231299.59,
+        "data_age_seconds": 232232.461,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -3300,7 +3300,7 @@
       },
       "tactical_market": {
         "ticker": "VRT",
-        "timestamp": "2026-11-02T11:59:59.589759+00:00",
+        "timestamp": "2026-11-02T12:15:32.461306+00:00",
         "last_price": 232.59,
         "vwap": 230.69,
         "momentum": 35.97,
@@ -3545,7 +3545,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-11-02T11:59:48.275652+00:00",
+      "retrieved_at": "2026-11-02T12:15:24.177738+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3564,7 +3564,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-11-02T11:59:49.878249+00:00",
+      "retrieved_at": "2026-11-02T12:15:25.430555+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3583,7 +3583,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-11-02T11:59:50.778949+00:00",
+      "retrieved_at": "2026-11-02T12:15:26.039745+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3602,7 +3602,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-11-02T11:59:51.600411+00:00",
+      "retrieved_at": "2026-11-02T12:15:26.607866+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3621,7 +3621,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-11-02T11:59:52.719700+00:00",
+      "retrieved_at": "2026-11-02T12:15:27.481030+00:00",
       "data_points": 113,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3640,7 +3640,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-11-02T11:59:53.756059+00:00",
+      "retrieved_at": "2026-11-02T12:15:28.449220+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3659,7 +3659,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-11-02T11:59:54.985743+00:00",
+      "retrieved_at": "2026-11-02T12:15:29.249730+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3678,7 +3678,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-11-02T11:59:56.124593+00:00",
+      "retrieved_at": "2026-11-02T12:15:30.059130+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3697,7 +3697,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-11-02T11:59:57.007054+00:00",
+      "retrieved_at": "2026-11-02T12:15:30.546968+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3716,7 +3716,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-11-02T11:59:57.837417+00:00",
+      "retrieved_at": "2026-11-02T12:15:31.017702+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3735,7 +3735,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-11-02T11:59:58.632781+00:00",
+      "retrieved_at": "2026-11-02T12:15:31.612291+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3754,7 +3754,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-11-02T11:59:59.395364+00:00",
+      "retrieved_at": "2026-11-02T12:15:32.328450+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -4425,7 +4425,7 @@
         },
         "market": {
           "ticker": "GILD",
-          "timestamp": "2026-11-02T12:00:04.746897+00:00",
+          "timestamp": "2026-11-02T12:15:36.262326+00:00",
           "last_price": 170.8,
           "vwap": 164.01,
           "momentum": 11.77,
@@ -4566,7 +4566,7 @@
         },
         "market": {
           "ticker": "MA",
-          "timestamp": "2026-11-02T12:00:08.187420+00:00",
+          "timestamp": "2026-11-02T12:15:38.894596+00:00",
           "last_price": 638.01,
           "vwap": 626.09,
           "momentum": 19.78,
@@ -4715,7 +4715,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-11-02T12:00:06.225538+00:00",
+          "timestamp": "2026-11-02T12:15:37.266144+00:00",
           "last_price": 154.05,
           "vwap": 150.46,
           "momentum": 3.1,
@@ -4858,7 +4858,7 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-11-02T12:00:08.852495+00:00",
+          "timestamp": "2026-11-02T12:15:39.485126+00:00",
           "last_price": 413.62,
           "vwap": 406.04,
           "momentum": 8.3,
@@ -5003,7 +5003,7 @@
         },
         "market": {
           "ticker": "LLY",
-          "timestamp": "2026-11-02T12:00:04.005291+00:00",
+          "timestamp": "2026-11-02T12:15:35.822578+00:00",
           "last_price": 1416.54,
           "vwap": 1358.36,
           "momentum": 132.06,
@@ -5127,7 +5127,7 @@
         },
         "market": {
           "ticker": "AMGN",
-          "timestamp": "2026-11-02T12:00:06.875987+00:00",
+          "timestamp": "2026-11-02T12:15:37.793527+00:00",
           "last_price": 466.05,
           "vwap": 456.33,
           "momentum": 19.73,
@@ -5251,7 +5251,7 @@
         },
         "market": {
           "ticker": "WMT",
-          "timestamp": "2026-11-02T12:00:07.328554+00:00",
+          "timestamp": "2026-11-02T12:15:38.253962+00:00",
           "last_price": 123.52,
           "vwap": 121.08,
           "momentum": 2.97,
@@ -5375,7 +5375,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-11-02T12:00:05.470199+00:00",
+          "timestamp": "2026-11-02T12:15:36.766656+00:00",
           "last_price": 637.06,
           "vwap": 633.75,
           "momentum": 19.34,
@@ -5502,7 +5502,7 @@
         },
         "market": {
           "ticker": "GILD",
-          "timestamp": "2026-11-02T12:00:04.746897+00:00",
+          "timestamp": "2026-11-02T12:15:36.262326+00:00",
           "last_price": 170.8,
           "vwap": 164.01,
           "momentum": 11.77,
@@ -5643,7 +5643,7 @@
         },
         "market": {
           "ticker": "MA",
-          "timestamp": "2026-11-02T12:00:08.187420+00:00",
+          "timestamp": "2026-11-02T12:15:38.894596+00:00",
           "last_price": 638.01,
           "vwap": 626.09,
           "momentum": 19.78,
@@ -5792,7 +5792,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-11-02T12:00:06.225538+00:00",
+          "timestamp": "2026-11-02T12:15:37.266144+00:00",
           "last_price": 154.05,
           "vwap": 150.46,
           "momentum": 3.1,
@@ -5935,7 +5935,7 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-11-02T12:00:08.852495+00:00",
+          "timestamp": "2026-11-02T12:15:39.485126+00:00",
           "last_price": 413.62,
           "vwap": 406.04,
           "momentum": 8.3,
@@ -6078,7 +6078,7 @@
         },
         "market": {
           "ticker": "LLY",
-          "timestamp": "2026-11-02T12:00:04.005291+00:00",
+          "timestamp": "2026-11-02T12:15:35.822578+00:00",
           "last_price": 1416.54,
           "vwap": 1358.36,
           "momentum": 132.06,
@@ -6202,7 +6202,7 @@
         },
         "market": {
           "ticker": "AMGN",
-          "timestamp": "2026-11-02T12:00:06.875987+00:00",
+          "timestamp": "2026-11-02T12:15:37.793527+00:00",
           "last_price": 466.05,
           "vwap": 456.33,
           "momentum": 19.73,
@@ -6326,7 +6326,7 @@
         },
         "market": {
           "ticker": "WMT",
-          "timestamp": "2026-11-02T12:00:07.328554+00:00",
+          "timestamp": "2026-11-02T12:15:38.253962+00:00",
           "last_price": 123.52,
           "vwap": 121.08,
           "momentum": 2.97,
@@ -6450,7 +6450,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-11-02T12:00:05.470199+00:00",
+          "timestamp": "2026-11-02T12:15:36.766656+00:00",
           "last_price": 637.06,
           "vwap": 633.75,
           "momentum": 19.34,
@@ -6563,7 +6563,7 @@
   },
   "market_regime": {
     "engine": "V7.4 Market Regime Engine",
-    "timestamp": "2026-11-02T12:00:09.899921+00:00",
+    "timestamp": "2026-11-02T12:15:40.502360+00:00",
     "market_date": "2026-10-30",
     "regime": "BEAR",
     "regime_score": 30.0,
@@ -6629,17 +6629,17 @@
         "ticker": "^VIX",
         "status": "OK",
         "market_date": "2026-11-02",
-        "last_price": 18.99,
-        "return_5d_pct": 3.26,
-        "return_20d_pct": 22.36,
-        "return_60d_pct": 22.83,
-        "sma20": 17.17,
+        "last_price": 19.15,
+        "return_5d_pct": 4.13,
+        "return_20d_pct": 23.39,
+        "return_60d_pct": 23.87,
+        "sma20": 17.18,
         "sma50": 16.25,
         "sma200": 18.25,
         "above_sma20": true,
         "above_sma50": true,
         "above_sma200": true,
-        "realized_volatility_20d_pct": 122.52
+        "realized_volatility_20d_pct": 122.24
       }
     },
     "reasons": [
@@ -6647,13 +6647,13 @@
       "SPY 20D momentum negative",
       "SPY 60D momentum negative",
       "QQQ/IWM above SMA50: 0/2",
-      "VIX level: 18.99",
+      "VIX level: 19.15",
       "Defensive capital policy activated"
     ]
   },
   "event_risk": {
     "engine": "V7.5 Earnings & Event Risk Engine",
-    "generated": "2026-11-02T12:00:18.515608+00:00",
+    "generated": "2026-11-02T12:15:48.816835+00:00",
     "reference_date": "2026-11-02",
     "macro_event_risk": {
       "reference_date": "2026-11-02",
@@ -7745,7 +7745,7 @@
   },
   "correlation_allocation_gate": {
     "engine": "V7.7 Correlation-Aware Capital Allocation Gate",
-    "timestamp": "2026-11-02T12:00:20.223564+00:00",
+    "timestamp": "2026-11-02T12:15:50.101345+00:00",
     "existing_position_count": 8,
     "actionable_candidate_count": 4,
     "portfolio_factor_profile": {
@@ -8357,7 +8357,7 @@
   },
   "portfolio_correlation_factor_risk": {
     "engine": "V7.6 Portfolio Correlation & Factor Risk Engine",
-    "timestamp": "2026-11-02T12:00:20.248410+00:00",
+    "timestamp": "2026-11-02T12:15:50.121460+00:00",
     "position_count": 8,
     "data_coverage": {
       "positions_with_market_history": 8,
@@ -12356,7 +12356,7 @@
   },
   "shadow_policy_monitor": {
     "engine": "V8.2 Shadow Policy Monitor",
-    "timestamp": "2026-11-02T12:00:23.247237+00:00",
+    "timestamp": "2026-11-02T12:15:52.277837+00:00",
     "status": "ACTIVE_SHADOW",
     "candidate_policy": "MOMENTUM_FRIENDLY",
     "live_policy": "V7.9 DEFAULT",
@@ -12554,7 +12554,7 @@
   "fresh_forward_promotion_gate": {
     "engine": "V8.4.8 Independent-Cohort Fresh Forward Promotion Gate",
     "gate_signature": "V8.4.8",
-    "generated": "2026-11-02T12:00:23.247795+00:00",
+    "generated": "2026-11-02T12:15:52.278342+00:00",
     "status": "WAITING_FOR_FRESH_EVIDENCE",
     "verdict": "PROMOTION_BLOCKED",
     "candidate_policy": "MOMENTUM_FRIENDLY",
@@ -12706,7 +12706,7 @@
   },
   "ibkr_paper_snapshot": {
     "engine": "V8.9.5 IBKR Gateway Connector",
-    "timestamp": "2026-11-02T11:59:48.275456+00:00",
+    "timestamp": "2026-11-02T12:15:24.177572+00:00",
     "config": {
       "enabled": false,
       "mode": "PAPER",
@@ -12724,6 +12724,17 @@
     },
     "official_ibapi_available": false,
     "order_submission_hard_blocked": true,
+    "broker_mutation_surface_hard_blocked": true,
+    "blocked_broker_mutation_methods": [
+      "placeOrder",
+      "cancelOrder",
+      "reqGlobalCancel",
+      "exerciseOptions",
+      "replaceFA",
+      "reqAutoOpenOrders"
+    ],
+    "open_order_observation_mode": "REQ_ALL_OPEN_ORDERS_NON_BINDING",
+    "client_zero_binding_hard_blocked": true,
     "gateway_read_only_configuration_independently_attested": false,
     "live_trading_allowed": false,
     "status": "DISABLED",
@@ -12755,7 +12766,7 @@
   },
   "ibkr_paper_readiness": {
     "engine": "V8.9.5 IBKR Paper Readiness Safety Gate",
-    "timestamp": "2026-11-02T11:59:48.275643+00:00",
+    "timestamp": "2026-11-02T12:15:24.177731+00:00",
     "readiness": "DISABLED",
     "live_execution_allowed": false,
     "paper_order_submission_allowed": false,
@@ -12816,6 +12827,24 @@
         "passed": true,
         "required": true,
         "detail": "The connector must hard-block every placeOrder call."
+      },
+      {
+        "check": "broker_mutation_surface_hard_blocked",
+        "passed": true,
+        "required": true,
+        "detail": "The read-only connector must hard-block order placement, cancellation, global cancellation, option exercise, FA replacement and automatic TWS-order binding."
+      },
+      {
+        "check": "nonbinding_open_order_observation",
+        "passed": true,
+        "required": true,
+        "detail": "Open-order observation must use reqAllOpenOrders so the probe does not bind TWS orders to the API client."
+      },
+      {
+        "check": "nonzero_api_client_id",
+        "passed": true,
+        "required": true,
+        "detail": "Read-only diagnostics must never use special IBKR clientId 0."
       },
       {
         "check": "live_trading_hard_blocked",
@@ -20109,7 +20138,7 @@
     "validation_signature": "V8.6.2",
     "status": "COMPLETE",
     "cache_status": "FRESH",
-    "generated": "2026-11-02T12:02:53.466939+00:00",
+    "generated": "2026-11-02T12:17:52.240267+00:00",
     "test_period": {
       "start": "2022-06-01",
       "end": "2026-06-05"
@@ -20189,7 +20218,7 @@
         "mode": "TOP12_FULL",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 113557.51,
+          "ending_value": 113557.49,
           "total_return_pct": 13.67,
           "cagr_pct": 3.26,
           "annualized_volatility_pct": 13.29,
@@ -20956,7 +20985,7 @@
         "mode": "TOP12_RISK_OVERLAY",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 113557.51,
+          "ending_value": 113557.49,
           "total_return_pct": 13.67,
           "cagr_pct": 3.26,
           "annualized_volatility_pct": 13.29,
@@ -22261,7 +22290,7 @@
         "mode": "TOP12_FULL",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 102973.17,
+          "ending_value": 102973.14,
           "total_return_pct": 3.08,
           "cagr_pct": 0.76,
           "annualized_volatility_pct": 15.48,
@@ -22273,7 +22302,7 @@
           "spy_total_return_pct": 136.3,
           "spy_cagr_pct": 24.04,
           "cagr_alpha_vs_spy_pct": -23.28,
-          "total_trading_costs": 4590.11,
+          "total_trading_costs": 4590.1,
           "trading_cost_pct_of_starting_capital": 4.59,
           "annualized_turnover_x": 11.5,
           "trading_days": 1006,
@@ -23028,7 +23057,7 @@
         "mode": "TOP12_RISK_OVERLAY",
         "performance": {
           "starting_value": 99910.42,
-          "ending_value": 103980.75,
+          "ending_value": 103980.72,
           "total_return_pct": 4.07,
           "cagr_pct": 1.01,
           "annualized_volatility_pct": 14.86,
@@ -24342,7 +24371,7 @@
   },
   "thesis_exit_shadow": {
     "engine": "V8.5.2 Thesis-Aware Exit Shadow Journal",
-    "timestamp": "2026-11-02T12:00:23.543722+00:00",
+    "timestamp": "2026-11-02T12:15:52.482330+00:00",
     "status": "ACTIVE_SHADOW",
     "live_actions_changed": false,
     "reviewed_sell_count": 5,
@@ -24459,7 +24488,7 @@
   },
   "recommendation_performance": {
     "engine": "V7.8 Recommendation Performance Journal",
-    "generated": "2026-11-02T12:02:54.315514+00:00",
+    "generated": "2026-11-02T12:17:52.784115+00:00",
     "total_signals": 189,
     "bootstrap_signals_added": 0,
     "new_signals_added": 0,
