@@ -105,6 +105,12 @@ The sanitized proof is written atomically to:
 runtime/ibkr_market_data/latest.json
 ```
 
+G8.8 applies the same trusted evidence-file boundary used by G2: the proof is
+written as an owner-only `0600` regular file via atomic replacement and is
+rejected if the output target is a symlink or other unsafe file shape. The G3
+proof also records the deployed Git SHA plus sanitized GCE/G0 provenance. G3
+cannot pass unless live GCE metadata and the canonical G0/G1 proof verify.
+
 ## Gate rule
 
 G3 passes only when:
@@ -136,4 +142,21 @@ before network access when mode, port, client ID, or timeout validation fails.
 
 These controls do not authorize Paper orders. They only make the real-time
 market-data reader incapable of using the broker mutation surface.
+
+## G8.8 G2/G3 provenance and trusted evidence binding
+
+The unified G2/G3 readiness bundle now requires both proofs to carry the exact
+same canonical Git SHA and the exact same verified runtime provenance. That
+provenance must bind to the current G0/G1 proof and approved immutable GCE
+instance ID. A G3 proof copied from another VM, produced against a different
+G0/G1 network proof, or created from different deployed code fails closed.
+
+The G2/G3 wrapper no longer `source`s the runtime environment as shell code.
+It reads only approved keys from the owner-only `0600`, single-link runtime
+file, generates one fresh UUIDv4 run ID for the entire G2→G3 chain, preserves
+that ID through strict G2, and forces the G3 proof to the fixed trusted runtime
+path. G2 and G3 use distinct non-zero IBKR API client IDs.
+
+Passing G3 still authorizes only the controlled G4 dry-run gate; all broker
+order permissions remain false.
 
