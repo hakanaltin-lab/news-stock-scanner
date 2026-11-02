@@ -42,12 +42,8 @@ def _all_permissions_false(payload):
     return (
         isinstance(payload, dict)
         and all(
-            payload.get(name) is False
-            for name in _PERMISSION_FLAGS
-            if name in payload
-        )
-        and not any(
-            payload.get(name) is True
+            name in payload
+            and payload.get(name) is False
             for name in _PERMISSION_FLAGS
         )
     )
@@ -141,6 +137,7 @@ def evaluate_gateway_review_workflow(
     runtime_identity_verified = (
         identity_result.get("status") == "VERIFIED"
         and identity_result.get("verified") is True
+        and identity_result.get("failure_reasons") == []
     )
     if not runtime_identity_verified:
         return _result(
@@ -162,6 +159,7 @@ def evaluate_gateway_review_workflow(
         and handoff_result.get(
             "gateway_read_only_configuration_independently_attested"
         ) is False
+        and handoff_result.get("failure_reasons") == []
     )
     if not handoff_ready:
         return _result(
@@ -186,6 +184,7 @@ def evaluate_gateway_review_workflow(
         and review_package_result.get(
             "gateway_read_only_configuration_independently_attested"
         ) is False
+        and review_package_result.get("failure_reasons") == []
     )
     if not review_package_ready:
         return _result(
@@ -206,6 +205,7 @@ def evaluate_gateway_review_workflow(
         and attestation_result.get(
             "gateway_read_only_configuration_independently_attested"
         ) is True
+        and attestation_result.get("failure_reasons") == []
     )
     if not signed_attestation_verified:
         return _result(
