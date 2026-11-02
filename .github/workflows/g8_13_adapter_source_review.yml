@@ -1,0 +1,69 @@
+name: G8.13 Adapter Source Review Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "broker_engine/ibkr_paper_adapter_review_skeleton.py"
+      - "engines/paper_adapter_source_review.py"
+      - "engines/paper_connector_review_prerequisite.py"
+      - "scripts/g6_adapter_source_review.py"
+      - "scripts/gateway_review_package.py"
+      - "scripts/ibkr_paper_probe.py"
+      - "tests/test_paper_adapter_source_review.py"
+      - "docs/AURORA_G8_13_ADAPTER_SOURCE_REVIEW.md"
+      - ".github/workflows/g8_13_adapter_source_review.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  non-executable-source-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile review-only components
+        run: |
+          python -m py_compile broker_engine/ibkr_paper_adapter_review_skeleton.py
+          python -m py_compile engines/paper_adapter_source_review.py
+          python -m py_compile scripts/g6_adapter_source_review.py
+          python -m py_compile tests/test_paper_adapter_source_review.py
+
+      - name: Prove G8.12-bound source policy fails closed
+        run: |
+          python -m unittest tests.test_paper_adapter_source_review -v
+
+      - name: Prove review skeleton has no imports or executable broker path
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+
+          path = Path("broker_engine/ibkr_paper_adapter_review_skeleton.py")
+          source = path.read_text(encoding="utf-8")
+          tree = ast.parse(source)
+          assert not any(
+              isinstance(node, (ast.Import, ast.ImportFrom))
+              for node in ast.walk(tree)
+          )
+          forbidden = (
+              "ibapi",
+              "placeOrder",
+              "cancelOrder",
+              "reqGlobalCancel",
+              "exerciseOptions",
+              "replaceFA",
+              "reqAutoOpenOrders",
+              "AURORA_IBKR_MODE=LIVE",
+              "4001",
+          )
+          for token in forbidden:
+              assert token not in source
+          PY
