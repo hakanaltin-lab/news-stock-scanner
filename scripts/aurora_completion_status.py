@@ -18,6 +18,9 @@ if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
 from engines.shadow_audit_verifier import receipt_binding_sha256
+from engines.gateway_readonly_attestation_verifier import (
+    verify_installed_gateway_readonly_attestation,
+)
 
 
 DEFAULT_G0_PROOF = "runtime/gcp/latest.json"
@@ -103,6 +106,7 @@ def evaluate_completion_status(
     ledger_audit,
     now=None,
     g2_proof=None,
+    gateway_attestation_verification=None,
 ):
     now = _utc_datetime(now) or datetime.now(timezone.utc)
     g0_proof = g0_proof or {}
@@ -110,6 +114,14 @@ def evaluate_completion_status(
     g4_shadow = g4_shadow or {}
     ledger_audit = ledger_audit or {}
     g2_proof = g2_proof or {}
+    gateway_attestation_verification = (
+        gateway_attestation_verification
+        if isinstance(
+            gateway_attestation_verification,
+            dict,
+        )
+        else {}
+    )
 
     ages = {
         "g0_seconds": _age_seconds(g0_proof.get("generated_at"), now),
@@ -127,6 +139,27 @@ def evaluate_completion_status(
     actual_readiness_digest = _digest(readiness)
     actual_g0_digest = _digest(g0_proof)
     actual_g2_digest = _digest(g2_proof)
+    g2_gateway_attestation = (
+        g2_proof.get("gateway_read_only_attestation")
+        if isinstance(
+            g2_proof.get("gateway_read_only_attestation"),
+            dict,
+        )
+        else {}
+    )
+    actual_g2_gateway_attestation_digest = (
+        _digest(g2_gateway_attestation)
+        if g2_gateway_attestation
+        else None
+    )
+    actual_runtime_gateway_attestation_digest = (
+        _digest(gateway_attestation_verification)
+        if gateway_attestation_verification
+        else None
+    )
+    readiness_gateway_attestation_digest = str(
+        readiness.get("gateway_read_only_attestation_sha256") or ""
+    ).strip().lower()
     readiness_g0_digest = str(
         readiness.get("g0_g1_proof_sha256") or ""
     ).strip().lower()
@@ -189,6 +222,36 @@ def evaluate_completion_status(
                 "gateway_read_only_configuration_independently_attested"
             )
             is True
+        ),
+        "gateway_attestation_runtime_verified": (
+            gateway_attestation_verification.get("status") == "VERIFIED"
+            and gateway_attestation_verification.get("verified") is True
+            and gateway_attestation_verification.get(
+                "gateway_read_only_configuration_independently_attested"
+            )
+            is True
+        ),
+        "gateway_attestation_g2_runtime_bound": (
+            bool(g2_gateway_attestation)
+            and actual_g2_gateway_attestation_digest
+            is not None
+            and actual_runtime_gateway_attestation_digest
+            is not None
+            and hmac.compare_digest(
+                actual_g2_gateway_attestation_digest,
+                actual_runtime_gateway_attestation_digest,
+            )
+        ),
+        "gateway_attestation_readiness_bound": (
+            _is_sha256(
+                readiness_gateway_attestation_digest
+            )
+            and actual_runtime_gateway_attestation_digest
+            is not None
+            and hmac.compare_digest(
+                readiness_gateway_attestation_digest,
+                actual_runtime_gateway_attestation_digest,
+            )
         ),
         "g2_readiness_proof_bound": (
             _is_sha256(readiness_g2_digest)
@@ -265,6 +328,15 @@ def evaluate_completion_status(
             "readiness_recorded_g2_proof_sha256": (
                 readiness_g2_digest or None
             ),
+            "g2_gateway_read_only_attestation_sha256": (
+                actual_g2_gateway_attestation_digest
+            ),
+            "runtime_gateway_read_only_attestation_sha256": (
+                actual_runtime_gateway_attestation_digest
+            ),
+            "readiness_recorded_gateway_attestation_sha256": (
+                readiness_gateway_attestation_digest or None
+            ),
             "readiness_proof_sha256": actual_readiness_digest,
             "g4_recorded_readiness_proof_sha256": (
                 recorded_readiness_digest or None
@@ -319,12 +391,21 @@ def main(argv=None):
     parser.add_argument("--ledger-audit", default=DEFAULT_LEDGER_AUDIT)
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
     args = parser.parse_args(argv)
+    gateway_attestation_verification = (
+        verify_installed_gateway_readonly_attestation(
+            REPOSITORY_ROOT
+        )
+    )
+
     result = evaluate_completion_status(
         _read_json(args.g0_proof),
         _read_json(args.readiness),
         _read_json(args.g4_shadow),
         _read_json(args.ledger_audit),
         g2_proof=_read_json(args.g2_proof),
+        gateway_attestation_verification=(
+            gateway_attestation_verification
+        ),
     )
     _write_atomic(args.output, result)
     print(json.dumps(result, indent=2, sort_keys=True))
