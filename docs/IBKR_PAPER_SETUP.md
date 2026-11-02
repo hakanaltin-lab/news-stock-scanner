@@ -148,8 +148,18 @@ returned the signed artifact, and the production attestation verifier reports
     scripts/run_aurora_g2_readonly.sh
 
 Only this post-review strict path may return a successful
-`READY_FOR_PAPER_READ_ONLY` result. Paper and LIVE order submission remain
-disabled.
+`READY_FOR_PAPER_READ_ONLY` result. G8.6 verifies the signed attestation
+**before** opening the broker diagnostic, parses the runtime env file without
+sourcing shell code, preserves an inherited UUIDv4 evidence-run ID from the
+G2/G3 orchestrator (or creates a fresh one for standalone G2), forces the fixed
+trusted G2 evidence path, and then independently recomputes Paper readiness
+from the broker snapshot.
+
+The strict status gate does not trust a stored `readiness=READY` string by
+itself. Account identity, cash metrics, positions/open orders, loopback Paper
+endpoint, mutation hard blocks and the Gateway Read-Only attestation must all
+recompute cleanly. A successful strict G2 result advances only to G3 verified
+real-time market data. Paper and LIVE order submission remain disabled.
 
 ## Next milestone
 
