@@ -74,16 +74,44 @@ The G7.5 attestation verifier rejects this request even if someone attempts to
 feed it back as an attestation. It has no `decision=ATTESTED`, no evidence
 hash, and no reviewer signature.
 
+## G7.11 unsigned reviewer package
+
+After the G7.10 handoff reports `READY_FOR_INDEPENDENT_REVIEW`, run:
+
+```bash
+python scripts/gateway_review_package.py
+```
+
+This prints a sanitized `IBKR_GATEWAY_READ_ONLY_REVIEW_PACKAGE_V1` to stdout.
+The package contains the exact V3 handoff request plus an
+`unsigned_artifact_template` with deployment identity and the signed-target
+`g0_runtime_proof_sha256` prefilled.
+
+AURORA deliberately leaves the security-sensitive reviewer fields unset:
+
+- `attestation_id`;
+- `decision` remains `REVIEW_REQUIRED`;
+- `captured_at_utc` and `expires_at_utc`;
+- `read_only_api_enabled`;
+- reviewer evidence SHA-256;
+- `signature_b64`.
+
+Even if the unsigned template is fed directly to the production verifier and a
+caller falsely claims the signature is valid, it remains BLOCKED. The builder
+does not write files, invoke OpenSSL, access a private key, or authorize any
+order.
+
 ## Independent reviewer procedure
 
-The independent reviewer should use the handoff request only to identify the
-deployment being reviewed. The reviewer then independently verifies the
+The independent reviewer should use the handoff request and unsigned review
+package only to identify the deployment being reviewed. The reviewer then independently verifies the
 Gateway/TWS API configuration on the approved VPS, including the Read-Only API
 setting, Paper mode, loopback API endpoint and port 4002.
 
-The reviewer captures sanitized evidence, computes its SHA-256, creates the G7.5
-attestation for the exact Git SHA/VPS, and signs it **off the trading VPS** with
-the reviewer private Ed25519 key.
+The reviewer captures sanitized evidence, computes its SHA-256, completes the
+V3 artifact only after the independent review, preserves the exact prefilled
+Git SHA/VPS/G0 proof digest, and signs it **off the trading VPS** with the
+reviewer private Ed25519 key.
 
 Never copy the reviewer private key to the AURORA VPS, repository, GitHub,
 shell history, runtime files, or ChatGPT conversation.
@@ -129,3 +157,11 @@ The V3 handoff includes the canonical `g0_runtime_proof_sha256`. The reviewer
 must transfer that exact digest into the V3 Gateway Read-Only attestation
 artifact before signing. The production verifier independently recomputes the
 digest from the fixed deployed G0/G1 proof path and rejects any mismatch.
+
+
+## G7.11 safety invariant
+
+The unsigned review package is convenience data only. It is not an attestation,
+cannot satisfy the V3 verifier, and cannot change any AURORA execution
+permission. The independent reviewer remains the only party that can turn a
+reviewed V3 payload into a valid signed artifact.
