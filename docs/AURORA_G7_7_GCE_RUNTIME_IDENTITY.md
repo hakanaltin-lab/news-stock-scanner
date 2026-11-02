@@ -70,6 +70,12 @@ A positive attestation therefore requires equality across all three sources:
 2. root-controlled reviewer policy;
 3. live GCE link-local metadata.
 
+The G7.6 reviewer handoff additionally cross-checks the same immutable instance ID
+against the sanitized G0/G1 control-plane proof generated from
+`gcloud compute instances describe`. This creates an independent second runtime
+identity source before reviewer handoff: GCP control-plane VM JSON and in-guest
+link-local metadata must agree with the policy-pinned instance ID.
+
 Hostname equality remains an additional defense but is no longer the primary VM
 identity control.
 
