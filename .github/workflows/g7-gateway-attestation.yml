@@ -6,6 +6,7 @@ on:
       - "engines/gateway_readonly_attestation_verifier.py"
       - "scripts/verify_gateway_readonly_attestation.py"
       - "scripts/ibkr_paper_probe.py"
+      - "main.py"
       - "tests/test_gateway_readonly_attestation_verifier.py"
       - "config/gateway_readonly_attestation_policy.example.json"
       - "docs/gateway_readonly_attestation_artifact.example.json"
@@ -37,6 +38,7 @@ jobs:
           python -m py_compile engines/gateway_readonly_attestation_verifier.py
           python -m py_compile scripts/verify_gateway_readonly_attestation.py
           python -m py_compile scripts/ibkr_paper_probe.py
+          python -m py_compile main.py
           python -m py_compile tests/test_gateway_readonly_attestation_verifier.py
 
       - name: Prove signed attestation fails closed
