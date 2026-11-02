@@ -40,14 +40,24 @@ It also requires:
 
 - the exact G2 proof SHA-256 recorded by G5;
 - the exact same UUIDv4 evidence-run ID;
-- verified GCE runtime provenance and the same immutable instance ID;
+- the G2 process to have been explicitly in `READ_ONLY` run mode with Paper
+  submission not requested and LIVE execution false;
+- exact Paper connector configuration: enabled, `PAPER`, loopback
+  `127.0.0.1:4002`, read-only, valid non-zero API client ID and valid timeout;
+- verified GCE runtime provenance for the approved project, VM name, zone and
+  the same immutable instance ID;
 - the exact same canonical G0/G1 proof digest;
-- fresh G2 Paper Read-Only evidence;
+- both the broker snapshot and readiness record to be fresh, with the
+  readiness timestamp following the snapshot within the bounded diagnostic
+  window;
 - G2 readiness to recompute as `READY_FOR_PAPER_READ_ONLY`;
+- the recorded required G2 check map to exactly match the freshly recomputed
+  required check map with every required check passing;
 - exactly one verified sanitized Paper account fingerprint;
 - the exact same signed Gateway Read-Only attestation in G2 and the runtime
   verifier;
-- the attestation to bind the same Git SHA, GCE instance and G0/G1 proof.
+- the attestation to bind the approved project, same Git SHA, GCE instance and
+  G0/G1 proof.
 
 ## Passing status
 
