@@ -81,7 +81,7 @@ class G7ReadOnlyReadinessTests(unittest.TestCase):
 
     def test_non_finite_required_account_metrics_block(self):
         for metric in ("NetLiquidation", "TotalCashValue", "AvailableFunds"):
-            for value in (float("nan"), float("inf"), float("-inf")):
+            for value in (float("nan"), float("inf"), float("-inf"), True, False):
                 with self.subTest(metric=metric, value=value):
                     data = snapshot()
                     data["account_summary"][metric]["value"] = value
@@ -123,6 +123,7 @@ class G7ReadOnlyReadinessTests(unittest.TestCase):
             {"account": "IBKR-TESTTOKEN", "symbol": "", "position": 1},
             {"account": "IBKR-TESTTOKEN", "symbol": "NVDA", "position": float("nan")},
             {"account": "IBKR-TESTTOKEN", "symbol": "NVDA", "position": "not-a-number"},
+            {"account": "IBKR-TESTTOKEN", "symbol": "NVDA", "position": True},
         ):
             with self.subTest(row=row):
                 data = snapshot()
