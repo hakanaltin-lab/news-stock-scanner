@@ -1,0 +1,54 @@
+name: G8.20 Adapter Implementation Candidate Handoff Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "broker_engine/ibkr_paper_adapter_implementation_candidate.py"
+      - "engines/paper_adapter_implementation_candidate_review.py"
+      - "engines/paper_adapter_implementation_candidate_handoff.py"
+      - "scripts/g6_adapter_implementation_candidate_review.py"
+      - "scripts/g6_adapter_implementation_candidate_handoff.py"
+      - "tests/test_paper_adapter_implementation_candidate_handoff.py"
+      - "docs/AURORA_G8_20_IMPLEMENTATION_CANDIDATE_HANDOFF.md"
+      - ".github/workflows/g8_20_implementation_candidate_handoff.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  non-attesting-candidate-handoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile candidate-handoff components
+        run: |
+          python -m py_compile engines/paper_adapter_implementation_candidate_handoff.py
+          python -m py_compile scripts/g6_adapter_implementation_candidate_handoff.py
+          python -m py_compile tests/test_paper_adapter_implementation_candidate_handoff.py
+
+      - name: Prove handoff cannot self-attest or authorize implementation
+        run: |
+          python -m unittest tests.test_paper_adapter_implementation_candidate_handoff -v
+
+      - name: Prove all execution permissions remain disabled
+        run: |
+          python - <<'PY'
+          from engines.paper_adapter_implementation_candidate_review import PERMISSION_FLAGS
+          from tests.test_paper_adapter_implementation_candidate_handoff import (
+              ImplementationCandidateHandoffTests,
+          )
+
+          case = ImplementationCandidateHandoffTests()
+          result = case.evaluate()
+          assert result["candidate_attestation_verified"] is False
+          assert result["operator_asserts_candidate_safe"] is False
+          assert all(result[name] is False for name in PERMISSION_FLAGS)
+          PY
