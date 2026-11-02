@@ -29,6 +29,37 @@ from engines.gateway_readonly_attestation_verifier import (
 
 PACKAGE_TYPE = "IBKR_GATEWAY_READ_ONLY_REVIEW_PACKAGE_V1"
 
+_HANDOFF_REQUEST_FIELDS = {
+    "request_schema_version",
+    "request_type",
+    "requested_control",
+    "generated_at_utc",
+    "git_sha",
+    "instance_name",
+    "zone",
+    "broker_mode",
+    "gateway_port",
+    "reviewer_id",
+    "reviewer_public_key_sha256",
+    "gcp_project_id",
+    "gcp_instance_id",
+    "reviewer_policy_sha256",
+    "g0_runtime_proof_sha256",
+    "g0_runtime_proof_generated_at",
+    "g0_runtime_project_id",
+    "g0_runtime_zone",
+    "g0_runtime_vm_name",
+    "g0_runtime_instance_id",
+    "operator_asserts_gateway_read_only",
+    "requires_human_gateway_configuration_review",
+    "signed_attestation_required",
+    "broker_submission_allowed",
+    "paper_order_submission_allowed",
+    "live_execution_allowed",
+    "automatic_promotion_allowed",
+    "real_money_trading_allowed",
+}
+
 
 def _canonical_sha256(payload):
     encoded = json.dumps(
@@ -73,6 +104,7 @@ def build_unsigned_review_package(handoff_result):
             "gateway_read_only_configuration_independently_attested"
         ) is False
         and isinstance(request, dict)
+        and set(request) == _HANDOFF_REQUEST_FIELDS
         and request.get("request_schema_version") == 3
         and request.get("request_type") == HANDOFF_REQUEST_TYPE
         and request.get("requested_control") == ATTESTATION_TYPE
