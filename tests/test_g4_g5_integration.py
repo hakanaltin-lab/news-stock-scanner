@@ -82,10 +82,18 @@ def intent():
     }
 
 
-def completion():
+def completion(shadow_order):
     return {
         "status": "PAPER_RUNTIME_VALIDATED_SHADOW_ONLY",
         "next_gate": "MANUAL_PAPER_ORDER_AUTHORIZATION_NOT_GRANTED",
+        "checks": {
+            "g4_shadow_order_payload_valid": True,
+            "g4_shadow_order_ledger_payload_bound": True,
+        },
+        "evidence_binding": {
+            "g4_shadow_order_sha256": digest(shadow_order),
+        },
+        "failure_reasons": [],
         "broker_submission_allowed": False,
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
@@ -125,7 +133,7 @@ class G4G5IntegrationTests(unittest.TestCase):
             self.assertIn(name, shadow)
             self.assertIs(shadow[name], False)
 
-        comp = completion()
+        comp = completion(shadow)
         auth = {
             "version": AUTH_VERSION,
             "authorization_id": "11111111-1111-4111-8111-111111111111",
