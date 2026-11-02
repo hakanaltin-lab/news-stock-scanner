@@ -113,9 +113,15 @@ gateway_read_only_configuration_independently_attested = true
 
 Every other result returns exit code 2 and keeps the attestation false.
 
-The normal G2 probe calls the same fixed-path verifier automatically. If the
-broker diagnostics are otherwise healthy but the signed attestation is absent
-or invalid, G2 remains:
+The normal G2 probe calls the same fixed-path verifier automatically. The
+G0-G3 readiness summary and G0-G4 completion gate independently call the same
+verifier again and require the cryptographic attestation digest to match the
+attestation embedded in G2 evidence. Editing G2 JSON, changing its boolean
+flags, or recomputing downstream proof hashes cannot substitute for the signed
+fixed-path artifact.
+
+If the broker diagnostics are otherwise healthy but the signed attestation is
+absent or invalid, G2 remains:
 
 ```text
 readiness = NOT_READY
