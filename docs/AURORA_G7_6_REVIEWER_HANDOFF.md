@@ -193,3 +193,10 @@ At the final stage, the next action is only
 `RUN_G2_PAPER_READ_ONLY_PROBE`; order submission remains disabled. Missing or
 true execution-permission flags in any upstream preparation result force
 `SAFETY_INVARIANT` and stop progression.
+
+
+G7.12 CLI exit semantics are fail-closed: exit code `0` is returned only when
+the signed independent attestation is VERIFIED and the next action is the G2
+Paper read-only probe. Waiting for review and every blocked state return a
+non-zero exit code, so shell automation cannot treat pending human review as a
+passed gate.
