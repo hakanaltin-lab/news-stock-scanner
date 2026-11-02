@@ -231,6 +231,28 @@ class GatewayAttestationHandoffTests(unittest.TestCase):
             missing["failure_reasons"],
         )
 
+        malformed = g0_proof()
+        malformed["failure_reasons"] = "none"
+        malformed_result = self.evaluate(
+            g0_proof=malformed
+        )
+        self.assertIn(
+            "g0_runtime_verified",
+            malformed_result["failure_reasons"],
+        )
+
+        exposed = g0_proof()
+        exposed["public_sensitive_allow_rules"] = [
+            {"name": "bad-rule", "ports": [4002]}
+        ]
+        exposed_result = self.evaluate(
+            g0_proof=exposed
+        )
+        self.assertIn(
+            "g0_runtime_verified",
+            exposed_result["failure_reasons"],
+        )
+
         wrong_zone = g0_proof()
         wrong_zone["zone"] = "us-central1-a"
         zone_result = self.evaluate(
