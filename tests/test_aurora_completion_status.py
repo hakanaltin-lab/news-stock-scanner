@@ -118,20 +118,48 @@ def proofs():
             signed_gateway_attestation
         ),
     }
+    shadow_order = {
+        "shadow_order_id": "shadow-001",
+        "idempotency_key": "intent-001",
+        "symbol": "BKR",
+        "status": "SHADOW_ACCEPTED",
+        "broker_submission_allowed": False,
+        "paper_order_submission_allowed": False,
+        "live_execution_allowed": False,
+        "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
+    }
+    recorded_at = (NOW - timedelta(seconds=10)).isoformat()
+    g4_evidence = {
+        "evidence_run_id": EVIDENCE_RUN_ID,
+        "readiness_proof_sha256": digest(readiness),
+        "market_data_proof_sha256": "a" * 64,
+    }
+    ledger_payload_sha256 = digest({
+        "shadow_order": shadow_order,
+        "evidence": g4_evidence,
+        "recorded_at": recorded_at,
+    })
     g4 = {
         **safe,
         "evidence_run_id": EVIDENCE_RUN_ID,
-        "generated_at": (NOW - timedelta(seconds=10)).isoformat(),
+        "generated_at": recorded_at,
         "status": "SHADOW_ACCEPTED",
-        "readiness_proof_sha256": digest(readiness),
+        "readiness_proof_sha256": g4_evidence[
+            "readiness_proof_sha256"
+        ],
+        "market_data_proof_sha256": g4_evidence[
+            "market_data_proof_sha256"
+        ],
+        "shadow_order": shadow_order,
         "ledger_receipt": {
             "recorded": True,
             "duplicate": False,
             "idempotency_key": "intent-001",
             "shadow_order_id": "shadow-001",
             "symbol": "BKR",
-            "payload_sha256": "c" * 64,
-            "recorded_at": (NOW - timedelta(seconds=10)).isoformat(),
+            "payload_sha256": ledger_payload_sha256,
+            "recorded_at": recorded_at,
         },
     }
     audit = {
@@ -173,6 +201,22 @@ class AuroraCompletionStatusTests(unittest.TestCase):
         self.assertTrue(result["checks"]["g4_readiness_proof_bound"])
         self.assertTrue(result["checks"]["g4_evidence_run_bound"])
         self.assertTrue(result["checks"]["g4_ledger_receipt_bound"])
+        self.assertTrue(
+            result["checks"]["g4_shadow_order_payload_valid"]
+        )
+        self.assertTrue(
+            result["checks"]["g4_shadow_order_ledger_payload_bound"]
+        )
+        self.assertEqual(
+            result["evidence_binding"]["g4_shadow_order_sha256"],
+            digest(g4["shadow_order"]),
+        )
+        self.assertEqual(
+            result["evidence_binding"]["g4_ledger_payload_sha256"],
+            result["evidence_binding"][
+                "g4_recomputed_ledger_payload_sha256"
+            ],
+        )
         self.assertTrue(
             result["checks"]["g0_g1_readiness_proof_bound"]
         )
@@ -433,6 +477,25 @@ class AuroraCompletionStatusTests(unittest.TestCase):
             mismatched["failure_reasons"],
         )
         self.assertFalse(mismatched["paper_order_submission_allowed"])
+
+    def test_nested_shadow_mutation_breaks_ledger_binding(self):
+        g0, ready, g4, audit, g2 = proofs()
+        g4["shadow_order"]["symbol"] = "AMD"
+
+        result = evaluate_completion_status(
+            g0,
+            ready,
+            g4,
+            audit,
+            now=NOW,
+            g2_proof=g2,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn(
+            "g4_shadow_order_ledger_payload_bound",
+            result["failure_reasons"],
+        )
 
     def test_unsafe_flag_or_duplicate_receipt_blocks(self):
         g0, ready, g4, audit, g2 = proofs()

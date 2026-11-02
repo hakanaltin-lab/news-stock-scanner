@@ -99,6 +99,24 @@ def _flags_safe(payload, include_automatic=True):
     return all(payload.get(name) is False for name in names)
 
 
+def _shadow_flags_safe(payload):
+    names = (
+        "broker_submission_allowed",
+        "paper_order_submission_allowed",
+        "live_execution_allowed",
+        "automatic_promotion_allowed",
+        "real_money_trading_allowed",
+    )
+    return (
+        isinstance(payload, dict)
+        and all(
+            name in payload
+            and payload.get(name) is False
+            for name in names
+        )
+    )
+
+
 def evaluate_completion_status(
     g0_proof,
     readiness,
@@ -133,6 +151,45 @@ def evaluate_completion_status(
     }
     receipt = g4_shadow.get("ledger_receipt") or {}
     actual_receipt_digest = receipt_binding_sha256(receipt)
+
+    g4_shadow_order = (
+        g4_shadow.get("shadow_order")
+        if isinstance(
+            g4_shadow.get("shadow_order"),
+            dict,
+        )
+        else {}
+    )
+    actual_g4_shadow_order_digest = (
+        _digest(g4_shadow_order)
+        if g4_shadow_order
+        else None
+    )
+    g4_market_digest = str(
+        g4_shadow.get("market_data_proof_sha256") or ""
+    ).strip().lower()
+    g4_ledger_evidence = {
+        "evidence_run_id": g4_shadow.get("evidence_run_id"),
+        "readiness_proof_sha256": str(
+            g4_shadow.get("readiness_proof_sha256") or ""
+        ).strip().lower(),
+        "market_data_proof_sha256": g4_market_digest,
+    }
+    receipt_recorded_at = receipt.get("recorded_at")
+    expected_g4_ledger_payload_digest = (
+        _digest({
+            "shadow_order": g4_shadow_order,
+            "evidence": g4_ledger_evidence,
+            "recorded_at": receipt_recorded_at,
+        })
+        if g4_shadow_order
+        and isinstance(receipt_recorded_at, str)
+        and receipt_recorded_at.strip()
+        else None
+    )
+    receipt_payload_digest = str(
+        receipt.get("payload_sha256") or ""
+    ).strip().lower()
     audited_receipt_digest = str(
         ledger_audit.get("expected_receipt_sha256") or ""
     ).strip().lower()
@@ -296,6 +353,41 @@ def evaluate_completion_status(
             and receipt.get("recorded") is True
             and receipt.get("duplicate") is False
         ),
+        "g4_shadow_order_payload_valid": (
+            bool(g4_shadow_order)
+            and g4_shadow_order.get("status") == "SHADOW_ACCEPTED"
+            and _shadow_flags_safe(g4_shadow_order)
+            and bool(
+                str(
+                    g4_shadow_order.get("shadow_order_id") or ""
+                ).strip()
+            )
+            and bool(
+                str(
+                    g4_shadow_order.get("idempotency_key") or ""
+                ).strip()
+            )
+            and bool(
+                str(
+                    g4_shadow_order.get("symbol") or ""
+                ).strip()
+            )
+        ),
+        "g4_shadow_order_ledger_payload_bound": (
+            actual_g4_shadow_order_digest is not None
+            and expected_g4_ledger_payload_digest is not None
+            and _is_sha256(receipt_payload_digest)
+            and hmac.compare_digest(
+                receipt_payload_digest,
+                expected_g4_ledger_payload_digest,
+            )
+            and receipt.get("shadow_order_id")
+            == g4_shadow_order.get("shadow_order_id")
+            and receipt.get("idempotency_key")
+            == g4_shadow_order.get("idempotency_key")
+            and str(receipt.get("symbol") or "").strip().upper()
+            == str(g4_shadow_order.get("symbol") or "").strip().upper()
+        ),
         "g4_evidence_fresh": (
             ages["g4_seconds"] is not None
             and ages["g4_seconds"] <= 60
@@ -373,6 +465,15 @@ def evaluate_completion_status(
             "readiness_proof_sha256": actual_readiness_digest,
             "g4_recorded_readiness_proof_sha256": (
                 recorded_readiness_digest or None
+            ),
+            "g4_shadow_order_sha256": (
+                actual_g4_shadow_order_digest
+            ),
+            "g4_ledger_payload_sha256": (
+                receipt_payload_digest or None
+            ),
+            "g4_recomputed_ledger_payload_sha256": (
+                expected_g4_ledger_payload_digest
             ),
             "g4_ledger_receipt_sha256": actual_receipt_digest,
             "audited_ledger_receipt_sha256": (

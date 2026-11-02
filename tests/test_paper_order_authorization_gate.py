@@ -23,18 +23,6 @@ def digest(payload):
     return hashlib.sha256(canonical).hexdigest()
 
 
-def completion():
-    return {
-        "status": "PAPER_RUNTIME_VALIDATED_SHADOW_ONLY",
-        "next_gate": "MANUAL_PAPER_ORDER_AUTHORIZATION_NOT_GRANTED",
-        "broker_submission_allowed": False,
-        "paper_order_submission_allowed": False,
-        "live_execution_allowed": False,
-        "automatic_promotion_allowed": False,
-        "real_money_trading_allowed": False,
-    }
-
-
 def shadow():
     return {
         "status": "SHADOW_ACCEPTED",
@@ -51,9 +39,30 @@ def shadow():
     }
 
 
+def completion(order=None):
+    order = order if order is not None else shadow()
+    return {
+        "status": "PAPER_RUNTIME_VALIDATED_SHADOW_ONLY",
+        "next_gate": "MANUAL_PAPER_ORDER_AUTHORIZATION_NOT_GRANTED",
+        "checks": {
+            "g4_shadow_order_payload_valid": True,
+            "g4_shadow_order_ledger_payload_bound": True,
+        },
+        "evidence_binding": {
+            "g4_shadow_order_sha256": digest(order),
+        },
+        "failure_reasons": [],
+        "broker_submission_allowed": False,
+        "paper_order_submission_allowed": False,
+        "live_execution_allowed": False,
+        "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
+    }
+
+
 def authorization(comp=None, order=None):
-    comp = comp or completion()
     order = order or shadow()
+    comp = comp or completion(order)
     return {
         "version": AUTH_VERSION,
         "authorization_id": "11111111-1111-4111-8111-111111111111",
@@ -86,6 +95,17 @@ class ManualPaperAuthorizationTests(unittest.TestCase):
         self.assertFalse(result["broker_submission_allowed"])
         self.assertFalse(result["paper_order_submission_allowed"])
         self.assertFalse(result["live_execution_allowed"])
+        self.assertTrue(
+            result["checks"]["completion_shadow_order_digest_bound"]
+        )
+        self.assertEqual(
+            result["authorization_issued_at"],
+            (NOW - timedelta(seconds=10)).isoformat(),
+        )
+        self.assertEqual(
+            result["authorization_expires_at"],
+            (NOW + timedelta(minutes=5)).isoformat(),
+        )
         self.assertEqual(
             result["next_gate"],
             "PAPER_EXECUTION_CONNECTOR_REVIEW_REQUIRED",
@@ -101,6 +121,24 @@ class ManualPaperAuthorizationTests(unittest.TestCase):
         )
         self.assertEqual(result["status"], "BLOCKED")
         self.assertFalse(result["checks"]["explicit_human_approval"])
+
+    def test_completion_bound_to_different_shadow_blocks(self):
+        order = shadow()
+        different = dict(order, symbol="AMD")
+        comp = completion(different)
+        auth = authorization(comp, order)
+
+        result = evaluate_manual_paper_authorization(
+            comp,
+            order,
+            auth,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertFalse(
+            result["checks"]["completion_shadow_order_digest_bound"]
+        )
 
     def test_replayed_or_modified_evidence_blocks(self):
         comp = completion()

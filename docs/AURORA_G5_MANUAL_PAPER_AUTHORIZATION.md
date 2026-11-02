@@ -46,3 +46,22 @@ test-only fixtures from drifting away from the actual G4 output contract.
 A passing G5 result remains pre-execution only. No broker request, Paper order,
 LIVE execution, automatic promotion or real-money trading permission is
 created by this compatibility fix.
+
+
+## G7.16 exact shadow-order evidence binding
+
+The G0-G4 completion gate now recomputes the persistent shadow-ledger payload
+hash from the exact nested G4 `shadow_order`, its evidence digests and the
+receipt timestamp. The receipt identity and payload hash must match that
+recomputation.
+
+Completion publishes `g4_shadow_order_sha256`. G5 independently recomputes
+the SHA-256 of the exact shadow order presented for human authorization and
+requires it to equal the completion binding. A valid completion generated for
+one shadow order therefore cannot be paired with a different shadow order.
+
+G5 validated output also carries the original authorization issue and expiry
+timestamps so later non-executable gates can re-check that the human approval
+has not expired.
+
+All execution permission flags remain false.
