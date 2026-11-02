@@ -34,6 +34,26 @@ class SafeGCEIdentityBootstrapTests(unittest.TestCase):
 
         self.assertEqual(result["status"], "VERIFIED")
         self.assertEqual(result["instance_id"], "1234567890123456789")
+        self.assertEqual(
+            set(result),
+            {
+                "engine",
+                "status",
+                "verified",
+                "project_id",
+                "instance_name",
+                "zone",
+                "instance_id",
+                "failure_reasons",
+                "policy_write_allowed",
+                "attestation_write_allowed",
+                "broker_submission_allowed",
+                "paper_order_submission_allowed",
+                "live_execution_allowed",
+                "automatic_promotion_allowed",
+                "real_money_trading_allowed",
+            },
+        )
         for key in (
             "policy_write_allowed",
             "attestation_write_allowed",
@@ -50,7 +70,9 @@ class SafeGCEIdentityBootstrapTests(unittest.TestCase):
         blocked.update({
             "status": "BLOCKED",
             "verified": False,
-            "failure_reasons": ["GCE_METADATA_IDENTITY_UNAVAILABLE"],
+            "failure_reasons": [
+                "private-upstream-detail-should-not-leak"
+            ],
         })
         with patch.object(
             bootstrap,
@@ -62,6 +84,14 @@ class SafeGCEIdentityBootstrapTests(unittest.TestCase):
         self.assertEqual(result["status"], "BLOCKED")
         for key in ("project_id", "instance_name", "zone", "instance_id"):
             self.assertIsNone(result[key])
+        self.assertEqual(
+            result["failure_reasons"],
+            ["GCE_RUNTIME_IDENTITY_UNVERIFIED"],
+        )
+        self.assertNotIn(
+            "private-upstream-detail-should-not-leak",
+            json.dumps(result),
+        )
         self.assertFalse(result["paper_order_submission_allowed"])
 
     def test_bootstrap_source_has_no_mutation_or_secret_metadata_path(self):
