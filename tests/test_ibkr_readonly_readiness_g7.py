@@ -92,6 +92,54 @@ class G7ReadOnlyReadinessTests(unittest.TestCase):
         data["account_count"] = float("nan")
         self.assertEqual(self.check(data)["readiness"], "NOT_READY")
 
+    def test_malformed_nested_snapshot_sections_fail_closed(self):
+        for key, value in (
+            ("config", []),
+            ("paper_account_guard", "invalid"),
+            ("account_summary", []),
+            ("requests_complete", "invalid"),
+            ("positions", "invalid"),
+            ("open_orders", {"not": "a-list"}),
+        ):
+            with self.subTest(key=key):
+                data = snapshot()
+                data[key] = value
+                self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
+    def test_non_dict_snapshot_fails_closed(self):
+        for data in ([], "invalid", 123, True):
+            with self.subTest(data=repr(data)):
+                self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
+    def test_missing_position_or_open_order_payload_blocks(self):
+        for key in ("positions", "open_orders"):
+            with self.subTest(key=key):
+                data = snapshot()
+                data.pop(key)
+                self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
+    def test_malformed_position_quantity_or_symbol_blocks(self):
+        for row in (
+            {"account": "IBKR-TESTTOKEN", "symbol": "", "position": 1},
+            {"account": "IBKR-TESTTOKEN", "symbol": "NVDA", "position": float("nan")},
+            {"account": "IBKR-TESTTOKEN", "symbol": "NVDA", "position": "not-a-number"},
+        ):
+            with self.subTest(row=row):
+                data = snapshot()
+                data["positions"] = [row]
+                self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
+    def test_malformed_open_order_identity_blocks(self):
+        for row in (
+            {"account": "IBKR-TESTTOKEN", "symbol": "NVDA", "order_id": -1},
+            {"account": "IBKR-TESTTOKEN", "symbol": "", "order_id": 1},
+            {"account": "IBKR-TESTTOKEN", "symbol": "NVDA", "order_id": True},
+        ):
+            with self.subTest(row=row):
+                data = snapshot()
+                data["open_orders"] = [row]
+                self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
 
 if __name__ == "__main__":
     unittest.main()
