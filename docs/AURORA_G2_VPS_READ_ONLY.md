@@ -150,3 +150,20 @@ Paper account identity matches the runtime allowlist.
 
 The next runtime test is G3: verified real-time market data. G3 still does not
 authorize Paper orders. Paper order submission remains a separate later gate.
+
+## G8.1 read-only mutation-surface hardening
+
+The runtime probe now treats broker mutation as a wider surface than order
+placement alone. The IBKR snapshot client hard-blocks `placeOrder`,
+`cancelOrder`, `reqGlobalCancel`, `exerciseOptions`, `replaceFA` and
+`reqAutoOpenOrders` locally before any inherited EClient implementation can
+run.
+
+The probe also refuses IBKR `clientId=0` and observes open orders with
+`reqAllOpenOrders()`, which does not associate returned orders with the
+requesting API client. G2 readiness and the G0-G3 readiness bundle fail closed
+unless these controls are present in fresh runtime evidence.
+
+These controls do not replace the independent Gateway/TWS Read-Only
+attestation and do not authorize Paper or LIVE order submission.
+

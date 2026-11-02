@@ -28,6 +28,9 @@ G2_REQUIRED_CHECKS = [
     "connector_read_only",
     "gateway_read_only_configuration_independently_attested",
     "order_submission_hard_blocked",
+    "broker_mutation_surface_hard_blocked",
+    "nonbinding_open_order_observation",
+    "nonzero_api_client_id",
     "live_trading_hard_blocked",
     "official_ibapi_available",
     "gateway_connected",
@@ -112,6 +115,9 @@ def ready_g2(timestamp=None):
         "snapshot": {
             "timestamp": timestamp,
             "order_submission_hard_blocked": True,
+            "broker_mutation_surface_hard_blocked": True,
+            "open_order_observation_mode": "REQ_ALL_OPEN_ORDERS_NON_BINDING",
+            "client_zero_binding_hard_blocked": True,
             "gateway_read_only_configuration_independently_attested": True,
             "paper_account_guard": {
                 "paper_account_verified": True,
@@ -211,6 +217,21 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
         self.assertFalse(result["paper_order_submission_allowed"])
         self.assertFalse(result["live_execution_allowed"])
         self.assertFalse(result["automatic_promotion_allowed"])
+
+    def test_missing_g2_mutation_hardening_blocks_bundle(self):
+        g2 = ready_g2()
+        g2["snapshot"]["broker_mutation_surface_hard_blocked"] = False
+        result = evaluate_readiness_bundle(
+            g2,
+            ready_g3(),
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        self.assertEqual(result["status"], "NOT_READY")
+        self.assertIn(
+            "g2_order_submission_blocked",
+            result["failure_reasons"],
+        )
 
     def test_runtime_reverification_blocks_forged_g2_attestation(self):
         g2 = ready_g2()

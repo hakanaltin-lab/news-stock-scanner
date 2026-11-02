@@ -56,6 +56,19 @@ ENGINE_VERSION = (
 
 LIVE_TRADING_ALLOWED = False
 
+BROKER_MUTATION_METHODS_HARD_BLOCKED = (
+    "placeOrder",
+    "cancelOrder",
+    "reqGlobalCancel",
+    "exerciseOptions",
+    "replaceFA",
+    "reqAutoOpenOrders",
+)
+
+OPEN_ORDER_OBSERVATION_MODE = (
+    "REQ_ALL_OPEN_ORDERS_NON_BINDING"
+)
+
 
 def env_bool(
     name,
@@ -174,7 +187,7 @@ def load_ibkr_config():
             )
         )
         client_id_valid = (
-            0
+            1
             <=
             client_id
             <=
@@ -345,15 +358,73 @@ if IBAPI_AVAILABLE:
             self.managed_accounts_event.set()
 
 
-        def placeOrder(
+        def _hard_block_broker_mutation(
             self,
-            orderId,
-            contract,
-            order
+            operation
         ):
             raise RuntimeError(
-                "Order submission is hard-blocked by the AURORA "
+                f"{operation} is hard-blocked by the AURORA "
                 "IBKR read-only connector."
+            )
+
+
+        def placeOrder(
+            self,
+            *args,
+            **kwargs
+        ):
+            return self._hard_block_broker_mutation(
+                "placeOrder"
+            )
+
+
+        def cancelOrder(
+            self,
+            *args,
+            **kwargs
+        ):
+            return self._hard_block_broker_mutation(
+                "cancelOrder"
+            )
+
+
+        def reqGlobalCancel(
+            self,
+            *args,
+            **kwargs
+        ):
+            return self._hard_block_broker_mutation(
+                "reqGlobalCancel"
+            )
+
+
+        def exerciseOptions(
+            self,
+            *args,
+            **kwargs
+        ):
+            return self._hard_block_broker_mutation(
+                "exerciseOptions"
+            )
+
+
+        def replaceFA(
+            self,
+            *args,
+            **kwargs
+        ):
+            return self._hard_block_broker_mutation(
+                "replaceFA"
+            )
+
+
+        def reqAutoOpenOrders(
+            self,
+            *args,
+            **kwargs
+        ):
+            return self._hard_block_broker_mutation(
+                "reqAutoOpenOrders"
             )
 
 
@@ -897,6 +968,31 @@ def get_ibkr_read_only_snapshot():
         "order_submission_hard_blocked":
         True,
 
+        "broker_mutation_surface_hard_blocked":
+        True,
+
+        "blocked_broker_mutation_methods":
+        list(
+            BROKER_MUTATION_METHODS_HARD_BLOCKED
+        ),
+
+        "open_order_observation_mode":
+        OPEN_ORDER_OBSERVATION_MODE,
+
+        "client_zero_binding_hard_blocked":
+        (
+            config.get(
+                "client_id_valid"
+            )
+            is True
+            and
+            config.get(
+                "client_id"
+            )
+            !=
+            0
+        ),
+
         "gateway_read_only_configuration_independently_attested":
         False,
 
@@ -1107,7 +1203,7 @@ def get_ibkr_read_only_snapshot():
 
         app.reqPositions()
 
-        app.reqOpenOrders()
+        app.reqAllOpenOrders()
 
         deadline = (
             time.time()

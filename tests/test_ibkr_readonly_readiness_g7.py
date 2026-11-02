@@ -11,7 +11,14 @@ def snapshot():
     account = "IBKR-TESTTOKEN"
     return {
         "status": "CONNECTED",
-        "config": {"mode": "PAPER", "mode_valid": True, "endpoint_safe": True, "read_only": True},
+        "config": {
+            "mode": "PAPER",
+            "mode_valid": True,
+            "endpoint_safe": True,
+            "read_only": True,
+            "client_id": 82,
+            "client_id_valid": True,
+        },
         "paper_account_guard": {
             "allowlist_configured": True,
             "paper_account_verified": True,
@@ -29,6 +36,9 @@ def snapshot():
         },
         "official_ibapi_available": True,
         "order_submission_hard_blocked": True,
+        "broker_mutation_surface_hard_blocked": True,
+        "open_order_observation_mode": "REQ_ALL_OPEN_ORDERS_NON_BINDING",
+        "client_zero_binding_hard_blocked": True,
         "gateway_read_only_configuration_independently_attested": True,
         "live_trading_allowed": False,
         "requests_complete": {
@@ -67,6 +77,22 @@ class G7ReadOnlyReadinessTests(unittest.TestCase):
         result = self.check(data)
         self.assertEqual(result["readiness"], "NOT_READY")
         self.assertTrue(result["diagnostic_read_only_ready"])
+
+    def test_missing_mutation_hard_block_blocks(self):
+        data = snapshot()
+        data["broker_mutation_surface_hard_blocked"] = False
+        self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
+    def test_binding_open_order_mode_blocks(self):
+        data = snapshot()
+        data["open_order_observation_mode"] = "REQ_OPEN_ORDERS_BINDING"
+        self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
+    def test_client_zero_blocks(self):
+        data = snapshot()
+        data["config"]["client_id"] = 0
+        data["config"]["client_id_valid"] = False
+        self.assertEqual(self.check(data)["readiness"], "NOT_READY")
 
     def test_live_mode_blocks(self):
         data = snapshot()

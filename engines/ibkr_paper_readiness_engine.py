@@ -564,6 +564,61 @@ def evaluate_ibkr_paper_readiness(
     )
 
     add_check(
+        "broker_mutation_surface_hard_blocked",
+        broker_snapshot.get(
+            "broker_mutation_surface_hard_blocked"
+        )
+        is True,
+        True,
+        (
+            "The read-only connector must hard-block order placement, "
+            "cancellation, global cancellation, option exercise, FA "
+            "replacement and automatic TWS-order binding."
+        )
+    )
+
+    add_check(
+        "nonbinding_open_order_observation",
+        broker_snapshot.get(
+            "open_order_observation_mode"
+        )
+        ==
+        "REQ_ALL_OPEN_ORDERS_NON_BINDING",
+        True,
+        (
+            "Open-order observation must use reqAllOpenOrders so the "
+            "probe does not bind TWS orders to the API client."
+        )
+    )
+
+    add_check(
+        "nonzero_api_client_id",
+        (
+            config.get(
+                "client_id_valid"
+            )
+            is True
+            and
+            type(
+                config.get(
+                    "client_id"
+                )
+            )
+            is int
+            and
+            config.get(
+                "client_id"
+            )
+            >
+            0
+        ),
+        True,
+        (
+            "Read-only diagnostics must never use special IBKR clientId 0."
+        )
+    )
+
+    add_check(
         "live_trading_hard_blocked",
         broker_snapshot.get(
             "live_trading_allowed"
