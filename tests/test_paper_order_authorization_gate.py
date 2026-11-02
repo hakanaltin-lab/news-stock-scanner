@@ -31,6 +31,7 @@ def completion():
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
         "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
     }
 
 
@@ -134,6 +135,41 @@ class ManualPaperAuthorizationTests(unittest.TestCase):
         self.assertEqual(result["status"], "BLOCKED")
         self.assertFalse(result["checks"]["paper_mode_only"])
         self.assertFalse(result["checks"]["single_order_scope"])
+
+    def test_missing_real_money_permission_flag_blocks_upstream(self):
+        comp = completion()
+        comp.pop("real_money_trading_allowed")
+        order = shadow()
+        auth = authorization(comp, order)
+
+        result = evaluate_manual_paper_authorization(
+            comp,
+            order,
+            auth,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertFalse(
+            result["checks"]["completion_validated_shadow_only"]
+        )
+
+        comp = completion()
+        order = shadow()
+        order["real_money_trading_allowed"] = True
+        auth = authorization(comp, order)
+
+        result = evaluate_manual_paper_authorization(
+            comp,
+            order,
+            auth,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertFalse(
+            result["checks"]["shadow_order_accepted"]
+        )
 
     def test_unsafe_or_missing_upstream_flags_block(self):
         comp = completion()
