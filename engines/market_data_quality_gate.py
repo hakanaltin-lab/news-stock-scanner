@@ -1,7 +1,8 @@
-"""AURORA V8.9.5 execution-grade market-data safety gate.
+"""AURORA execution-grade market-data safety gate.
 
 Research/scanner data may be useful without being eligible for order execution.
-Execution requires a specifically allowed real-time source and fresh timestamps.
+Execution requires a specifically allowed real-time source, verified broker
+timestamps, strict payload types, and fresh data.
 """
 
 from datetime import datetime, timezone
@@ -30,7 +31,7 @@ def _to_utc_datetime(value):
             return None
 
     if parsed.tzinfo is None:
-        return None  # Ambiguous timestamps must never authorize an order.
+        return None
 
     return parsed.astimezone(timezone.utc)
 
@@ -41,66 +42,238 @@ def evaluate_market_data_for_execution(
     max_age_seconds=DEFAULT_EXECUTION_MAX_AGE_SECONDS,
     allowed_sources=None,
 ):
-    market_data = market_data or {}
-    allowed_sources = set(DEFAULT_EXECUTION_SOURCES)
-    # Caller-supplied allowlists must not expand the execution trust boundary.
-    now_utc = _to_utc_datetime(now) or datetime.now(timezone.utc)
+    """Return PASS only for strict, fresh, execution-grade IBKR data."""
 
-    source = str(market_data.get("source") or "").strip().upper()
-    timestamp = _to_utc_datetime(
-        market_data.get("market_timestamp")
-        or market_data.get("timestamp")
+    payload_shape_valid = isinstance(
+        market_data,
+        dict,
+    )
+    if not payload_shape_valid:
+        market_data = {}
+
+    # Caller-supplied allowlists must never expand the execution trust boundary.
+    allowed_sources = set(
+        DEFAULT_EXECUTION_SOURCES
     )
 
-    try:
-        price = float(
-            market_data.get("last_price")
-            if market_data.get("last_price") is not None
-            else 0
+    now_utc = (
+        datetime.now(timezone.utc)
+        if now is None
+        else _to_utc_datetime(now)
+    )
+    if now_utc is None:
+        return {
+            "execution_eligible": False,
+            "decision": "BLOCK",
+            "failure_reasons": [
+                "INVALID_REFERENCE_CLOCK",
+            ],
+            "checks": {
+                "reference_clock_valid": False,
+            },
+            "source": None,
+            "market_timestamp": None,
+            "data_age_seconds": None,
+            "future_skew_seconds": None,
+            "max_age_seconds": None,
+        }
+
+    if isinstance(
+        max_age_seconds,
+        bool,
+    ):
+        configured_max_age = None
+    else:
+        try:
+            configured_max_age = float(
+                max_age_seconds
+            )
+        except (
+            TypeError,
+            ValueError,
+            OverflowError,
+        ):
+            configured_max_age = None
+
+    if (
+        configured_max_age is None
+        or not math.isfinite(
+            configured_max_age
         )
-    except (TypeError, ValueError):
-        price = 0.0
+        or not (
+            0
+            <
+            configured_max_age
+            <=
+            DEFAULT_EXECUTION_MAX_AGE_SECONDS
+        )
+    ):
+        return {
+            "execution_eligible": False,
+            "decision": "BLOCK",
+            "failure_reasons": [
+                "INVALID_MAX_AGE_SECONDS",
+            ],
+            "checks": {
+                "reference_clock_valid": True,
+                "max_age_configuration_valid": False,
+            },
+            "source": None,
+            "market_timestamp": None,
+            "data_age_seconds": None,
+            "future_skew_seconds": None,
+            "max_age_seconds": None,
+        }
 
-    data_quality = str(
-        market_data.get("data_quality") or ""
-    ).strip().upper()
+    raw_source = market_data.get(
+        "source"
+    )
+    source = (
+        raw_source.strip().upper()
+        if isinstance(
+            raw_source,
+            str,
+        )
+        else ""
+    )
 
-    try:
-        data_points = int(market_data.get("data_points") or 0)
-    except (TypeError, ValueError):
-        data_points = 0
+    timestamp = _to_utc_datetime(
+        market_data.get(
+            "market_timestamp"
+        )
+        or market_data.get(
+            "timestamp"
+        )
+    )
+
+    raw_price = market_data.get(
+        "last_price"
+    )
+    if isinstance(
+        raw_price,
+        bool,
+    ):
+        price = float("nan")
+    else:
+        try:
+            price = float(
+                raw_price
+                if raw_price is not None
+                else 0
+            )
+        except (
+            TypeError,
+            ValueError,
+            OverflowError,
+        ):
+            price = float("nan")
+
+    raw_data_quality = market_data.get(
+        "data_quality"
+    )
+    data_quality = (
+        raw_data_quality.strip().upper()
+        if isinstance(
+            raw_data_quality,
+            str,
+        )
+        else ""
+    )
+
+    raw_points = market_data.get(
+        "data_points"
+    )
+    data_points = (
+        raw_points
+        if type(raw_points) is int
+        and raw_points > 0
+        else 0
+    )
 
     age_seconds = None
     future_skew_seconds = None
+
     if timestamp is not None:
-        raw_age_seconds = (now_utc - timestamp).total_seconds()
-        age_seconds = max(0.0, raw_age_seconds)
-        future_skew_seconds = max(0.0, -raw_age_seconds)
+        raw_age_seconds = (
+            now_utc
+            -
+            timestamp
+        ).total_seconds()
+
+        age_seconds = max(
+            0.0,
+            raw_age_seconds,
+        )
+        future_skew_seconds = max(
+            0.0,
+            -raw_age_seconds,
+        )
 
     checks = {
-        "source_allowed": source in allowed_sources,
-        "timestamp_available": timestamp is not None,
-        "fresh": (
-            age_seconds is not None
-            and age_seconds <= float(max_age_seconds)
+        "payload_shape_valid":
+        payload_shape_valid,
+
+        "source_allowed":
+        source
+        in
+        allowed_sources,
+
+        "timestamp_available":
+        timestamp
+        is not None,
+
+        "fresh":
+        (
+            age_seconds
+            is not None
+            and
+            age_seconds
+            <=
+            configured_max_age
         ),
-        "clock_sane": (
-            future_skew_seconds is not None
-            and future_skew_seconds <= 2.0
+
+        "clock_sane":
+        (
+            future_skew_seconds
+            is not None
+            and
+            future_skew_seconds
+            <=
+            2.0
         ),
-        "positive_price": math.isfinite(price) and price > 0,
-        "explicit_execution_eligibility": market_data.get("execution_eligible") is True,
-        "broker_timestamp_verified": (
-            market_data.get("broker_market_timestamp_verified") is True
+
+        "positive_price":
+        (
+            math.isfinite(
+                price
+            )
+            and
+            price
+            >
+            0
         ),
-        "data_quality_valid": data_quality not in {
-            "",
-            "NO_DATA",
-            "ERROR",
-            "INVALID",
-            "UNVERIFIED",
-        },
-        "has_data_points": data_points > 0,
+
+        "explicit_execution_eligibility":
+        market_data.get(
+            "execution_eligible"
+        )
+        is True,
+
+        "broker_timestamp_verified":
+        market_data.get(
+            "broker_market_timestamp_verified"
+        )
+        is True,
+
+        "data_quality_valid":
+        data_quality
+        ==
+        "AVAILABLE",
+
+        "has_data_points":
+        data_points
+        >
+        0,
     }
 
     failures = [
@@ -110,27 +283,55 @@ def evaluate_market_data_for_execution(
     ]
 
     return {
-        "execution_eligible": not failures,
-        "source": source or None,
-        "market_timestamp": (
+        "execution_eligible":
+        not failures,
+
+        "source":
+        source
+        or
+        None,
+
+        "market_timestamp":
+        (
             timestamp.isoformat()
-            if timestamp is not None
+            if timestamp
+            is not None
             else None
         ),
-        "data_age_seconds": (
-            round(age_seconds, 3)
-            if age_seconds is not None
+
+        "data_age_seconds":
+        (
+            round(
+                age_seconds,
+                3,
+            )
+            if age_seconds
+            is not None
             else None
         ),
-        "future_skew_seconds": (
-            round(future_skew_seconds, 3)
-            if future_skew_seconds is not None
+
+        "future_skew_seconds":
+        (
+            round(
+                future_skew_seconds,
+                3,
+            )
+            if future_skew_seconds
+            is not None
             else None
         ),
-        "max_age_seconds": float(max_age_seconds),
-        "checks": checks,
-        "failure_reasons": failures,
-        "decision": (
+
+        "max_age_seconds":
+        configured_max_age,
+
+        "checks":
+        checks,
+
+        "failure_reasons":
+        failures,
+
+        "decision":
+        (
             "PASS"
             if not failures
             else "BLOCK"
