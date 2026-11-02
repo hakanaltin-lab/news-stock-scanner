@@ -13,8 +13,10 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import stat
 import subprocess
 import sys
+import tempfile
 
 
 REPOSITORY_ROOT = Path(
@@ -102,6 +104,9 @@ _PERMISSION_FLAGS = (
     "live_execution_allowed",
     "automatic_promotion_allowed",
 )
+
+MAX_RUNTIME_EVIDENCE_BYTES = 1024 * 1024
+RUNTIME_EVIDENCE_MODE = 0o600
 
 
 class DuplicateJsonKeyError(ValueError):
@@ -242,6 +247,136 @@ def build_runtime_provenance(
     }
 
 
+def _runtime_evidence_bytes(payload):
+    encoded = (
+        json.dumps(
+            payload,
+            indent=2,
+            sort_keys=True,
+        )
+        +
+        "\n"
+    ).encode("utf-8")
+
+    if (
+        not encoded
+        or len(encoded) > MAX_RUNTIME_EVIDENCE_BYTES
+    ):
+        raise ValueError(
+            "runtime evidence size invalid"
+        )
+
+    return encoded
+
+
+def write_runtime_evidence_atomic(
+    path,
+    payload,
+):
+    target = Path(path)
+    target.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    if target.parent.is_symlink():
+        raise RuntimeError(
+            "runtime evidence parent symlink forbidden"
+        )
+
+    try:
+        existing = target.lstat()
+    except FileNotFoundError:
+        existing = None
+
+    if existing is not None:
+        if (
+            stat.S_ISLNK(existing.st_mode)
+            or not stat.S_ISREG(existing.st_mode)
+        ):
+            raise RuntimeError(
+                "runtime evidence target type invalid"
+            )
+
+    encoded = _runtime_evidence_bytes(
+        payload
+    )
+
+    temporary_name = None
+
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="wb",
+            dir=str(target.parent),
+            prefix=".aurora-g2-",
+            suffix=".tmp",
+            delete=False,
+        ) as handle:
+            temporary_name = handle.name
+            os.fchmod(
+                handle.fileno(),
+                RUNTIME_EVIDENCE_MODE,
+            )
+            handle.write(encoded)
+            handle.flush()
+            os.fsync(
+                handle.fileno()
+            )
+
+        os.replace(
+            temporary_name,
+            target,
+        )
+        temporary_name = None
+
+        os.chmod(
+            target,
+            RUNTIME_EVIDENCE_MODE,
+        )
+
+        final_stat = target.stat()
+        if (
+            not stat.S_ISREG(final_stat.st_mode)
+            or stat.S_IMODE(final_stat.st_mode)
+            != RUNTIME_EVIDENCE_MODE
+            or final_stat.st_nlink != 1
+        ):
+            raise RuntimeError(
+                "runtime evidence final file unsafe"
+            )
+
+        directory_flags = (
+            os.O_RDONLY
+            |
+            getattr(
+                os,
+                "O_DIRECTORY",
+                0,
+            )
+        )
+        directory_fd = os.open(
+            target.parent,
+            directory_flags,
+        )
+        try:
+            os.fsync(
+                directory_fd
+            )
+        finally:
+            os.close(
+                directory_fd
+            )
+
+    finally:
+        if temporary_name is not None:
+            try:
+                Path(
+                    temporary_name
+                ).unlink()
+            except FileNotFoundError:
+                pass
+
+
 def load_portfolio():
     rows = []
 
@@ -365,32 +500,37 @@ def main():
         readiness
     }
 
-    RUNTIME_OUTPUT_FILE.parent.mkdir(
-        parents=True,
-        exist_ok=True
-    )
-
-    temporary_output = (
-        RUNTIME_OUTPUT_FILE.with_suffix(
-            RUNTIME_OUTPUT_FILE.suffix
-            +
-            ".tmp"
-        )
-    )
-
-    temporary_output.write_text(
-        json.dumps(
+    try:
+        write_runtime_evidence_atomic(
+            RUNTIME_OUTPUT_FILE,
             result,
-            indent=2
         )
-        +
-        "\n",
-        encoding="utf-8"
-    )
+    except (
+        OSError,
+        RuntimeError,
+        ValueError,
+    ):
+        print(
+            json.dumps(
+                {
+                    "status":
+                    "RUNTIME_EVIDENCE_WRITE_FAILED",
 
-    temporary_output.replace(
-        RUNTIME_OUTPUT_FILE
-    )
+                    "runtime_output":
+                    str(
+                        RUNTIME_OUTPUT_FILE
+                    ),
+
+                    "paper_order_submission_allowed":
+                    False,
+
+                    "live_execution_allowed":
+                    False,
+                },
+                indent=2,
+            )
+        )
+        return 2
 
     print(
         json.dumps(
