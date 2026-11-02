@@ -87,6 +87,8 @@ def broker_snapshot():
             "read_only": True,
             "client_id": 82,
             "client_id_valid": True,
+            "timeout_seconds": 8.0,
+            "timeout_valid": True,
         },
         "official_ibapi_available": True,
         "order_submission_hard_blocked": True,
@@ -152,9 +154,14 @@ def g2_proof():
         "git_sha": GIT_SHA,
         "evidence_run_id": EVIDENCE_RUN_ID,
         "run_mode": {
+            "requested_mode": "READ_ONLY",
             "mode": "READ_ONLY",
+            "mode_valid": True,
             "live_execution_allowed": False,
             "paper_order_submission_requested": False,
+            "dry_run": False,
+            "read_only": True,
+            "safe_off": False,
         },
         "runtime_provenance": {
             "verified": True,
@@ -323,6 +330,115 @@ class G6RuntimePrerequisiteTests(unittest.TestCase):
             "real_money_trading_allowed",
         ):
             self.assertIs(result[name], False)
+
+    def test_non_read_only_run_mode_blocks(self):
+        g5, comp, g4, auth, g2, attestation = full_chain()
+        g2["run_mode"]["mode"] = "DRY_RUN"
+        g2["run_mode"]["read_only"] = False
+        g2["run_mode"]["dry_run"] = True
+
+        result = evaluate_g6_runtime_prerequisite(
+            g5,
+            comp,
+            g4,
+            auth,
+            g2,
+            attestation,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertFalse(
+            result["checks"]["g2_run_mode_read_only"]
+        )
+
+    def test_non_exact_paper_endpoint_blocks(self):
+        g5, comp, g4, auth, g2, attestation = full_chain()
+        g2["snapshot"]["config"]["host"] = "127.0.0.2"
+
+        result = evaluate_g6_runtime_prerequisite(
+            g5,
+            comp,
+            g4,
+            auth,
+            g2,
+            attestation,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertFalse(
+            result["checks"]["g2_connector_config_exact"]
+        )
+
+    def test_wrong_project_in_g2_provenance_blocks(self):
+        g5, comp, g4, auth, g2, attestation = full_chain()
+        g2["runtime_provenance"][
+            "runtime_cloud_identity"
+        ]["project_id"] = "wrong-project"
+
+        result = evaluate_g6_runtime_prerequisite(
+            g5,
+            comp,
+            g4,
+            auth,
+            g2,
+            attestation,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertFalse(
+            result["checks"]["g2_runtime_provenance_bound"]
+        )
+
+    def test_stale_snapshot_with_fresh_readiness_blocks(self):
+        g5, comp, g4, auth, g2, attestation = full_chain()
+        g2["snapshot"]["timestamp"] = (
+            NOW - timedelta(minutes=6)
+        ).isoformat()
+        g2["readiness"]["timestamp"] = (
+            NOW - timedelta(seconds=5)
+        ).isoformat()
+
+        result = evaluate_g6_runtime_prerequisite(
+            g5,
+            comp,
+            g4,
+            auth,
+            g2,
+            attestation,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertFalse(
+            result["checks"]["g2_fresh"]
+        )
+
+    def test_recorded_required_check_drift_blocks(self):
+        g5, comp, g4, auth, g2, attestation = full_chain()
+        for item in g2["readiness"]["checks"]:
+            if item["check"] == "gateway_connected":
+                item["passed"] = False
+                break
+
+        result = evaluate_g6_runtime_prerequisite(
+            g5,
+            comp,
+            g4,
+            auth,
+            g2,
+            attestation,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertFalse(
+            result["checks"][
+                "g2_recorded_required_checks_match_recomputed"
+            ]
+        )
 
     def test_modified_g2_after_g5_validation_blocks(self):
         g5, comp, g4, auth, g2, attestation = full_chain()
