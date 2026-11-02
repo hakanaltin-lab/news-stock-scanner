@@ -8,6 +8,7 @@ on:
       - "engines/ibkr_account_guard.py"
       - "engines/market_data_quality_gate.py"
       - "scripts/ibkr_market_data_probe.py"
+      - "scripts/ibkr_paper_probe.py"
       - "tests/test_v8_9_7_ibkr_market_data.py"
       - "config/aurora_runtime.env.example"
       - "docs/AURORA_G3_IBKR_MARKET_DATA.md"
@@ -18,6 +19,7 @@ on:
       - "engines/ibkr_account_guard.py"
       - "engines/market_data_quality_gate.py"
       - "scripts/ibkr_market_data_probe.py"
+      - "scripts/ibkr_paper_probe.py"
       - "tests/test_v8_9_7_ibkr_market_data.py"
       - "config/aurora_runtime.env.example"
       - "docs/AURORA_G3_IBKR_MARKET_DATA.md"
@@ -44,6 +46,7 @@ jobs:
         run: |
           python -m py_compile engines/ibkr_market_data_connector.py
           python -m py_compile scripts/ibkr_market_data_probe.py
+          python -m py_compile scripts/ibkr_paper_probe.py
           python -m py_compile tests/test_v8_9_7_ibkr_market_data.py
 
       - name: Validate safe defaults
