@@ -268,10 +268,7 @@ def main():
     return (
         0
         if result["status"]
-        in {
-            "WAITING_FOR_INDEPENDENT_REVIEW",
-            "VERIFIED_FOR_G2_READ_ONLY_PROBE",
-        }
+        == "VERIFIED_FOR_G2_READ_ONLY_PROBE"
         else 2
     )
 
