@@ -325,17 +325,34 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                 value,
             )
 
-        serialized = json.dumps(
+        def collect_keys(value):
+            keys = set()
+
+            if isinstance(value, dict):
+                for key, child in value.items():
+                    keys.add(key)
+                    keys.update(
+                        collect_keys(child)
+                    )
+            elif isinstance(value, list):
+                for child in value:
+                    keys.update(
+                        collect_keys(child)
+                    )
+
+            return keys
+
+        output_keys = collect_keys(
             result
-        ).lower()
+        )
 
         self.assertNotIn(
             "available_funds",
-            serialized,
+            output_keys,
         )
         self.assertNotIn(
             "account_summary",
-            serialized,
+            output_keys,
         )
 
     def test_buy_insufficient_funds_blocks(self):
@@ -638,6 +655,49 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
         self.assertIn(
             "authorization_validated",
             second["failure_reasons"],
+        )
+
+    def test_invalid_reference_clock_blocks_instead_of_falling_back(self):
+        result = self.evaluate(
+            now="not-a-clock",
+        )
+
+        self.assertEqual(
+            result["status"],
+            "BLOCKED",
+        )
+        self.assertIn(
+            "reference_clock_valid",
+            result["failure_reasons"],
+        )
+
+    def test_non_usd_available_funds_blocks_buy_comparison(self):
+        g2_value = g2()
+        g2_value[
+            "snapshot"
+        ][
+            "account_summary"
+        ][
+            "AvailableFunds"
+        ][
+            "currency"
+        ] = "QAR"
+
+        result = self.evaluate(
+            g2_value=g2_value,
+        )
+
+        self.assertEqual(
+            result["status"],
+            "BLOCKED",
+        )
+        self.assertIn(
+            "broker_state_payload_valid",
+            result["failure_reasons"],
+        )
+        self.assertIn(
+            "buy_available_funds_sufficient",
+            result["failure_reasons"],
         )
 
     def test_caller_cannot_relax_g2_freshness(self):
