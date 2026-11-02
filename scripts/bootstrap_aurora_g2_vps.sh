@@ -115,7 +115,11 @@ Next:
      $REPO_DIR/scripts/install_ibkr_official_api.sh <official-api-zip>
   5. Configure the Paper account runtime allowlist:
      $REPO_DIR/scripts/configure_aurora_g2_runtime.sh
-  6. Run the G2 read-only proof:
+  6. Generate the fresh pre-review G2 diagnostic:
+     bash $REPO_DIR/scripts/run_aurora_g2_pre_review.sh
+  7. Complete the independent Gateway/TWS Read-Only review and install the
+     signed attestation.
+  8. Only after the signed attestation verifies, run the strict G2 proof:
      $REPO_DIR/scripts/run_aurora_g2_readonly.sh
 
 LIVE trading: DISABLED
