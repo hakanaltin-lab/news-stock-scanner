@@ -315,6 +315,7 @@ def evaluate_reviewer_handoff_preflight(
     required_g0_checks = (
         "budget_guard_passed",
         "vm_identity",
+        "vm_instance_id_valid",
         "vm_running",
         "vm_hardened",
         "network_contract",
@@ -344,6 +345,16 @@ def evaluate_reviewer_handoff_preflight(
         g0_proof.get("project_id") == EXPECTED_PROJECT_ID
         and g0_proof.get("zone") == EXPECTED_ZONE
         and g0_proof.get("vm_name") == EXPECTED_INSTANCE_NAME,
+    )
+    require(
+        "g0_control_plane_instance_id_bound",
+        isinstance(
+            g0_proof.get("gce_instance_id"),
+            str,
+        )
+        and g0_proof.get("gce_instance_id")
+        == expected_instance_id
+        == runtime_cloud_identity.get("instance_id"),
     )
     require(
         "g0_runtime_checks_complete",
@@ -414,6 +425,7 @@ def evaluate_reviewer_handoff_preflight(
             "g0_runtime_project_id": g0_proof.get("project_id"),
             "g0_runtime_zone": g0_proof.get("zone"),
             "g0_runtime_vm_name": g0_proof.get("vm_name"),
+            "g0_runtime_instance_id": g0_proof.get("gce_instance_id"),
             "operator_asserts_gateway_read_only": False,
             "requires_human_gateway_configuration_review": True,
             "signed_attestation_required": True,
