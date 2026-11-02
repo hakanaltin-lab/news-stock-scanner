@@ -121,6 +121,10 @@ class G7ReadOnlyReadinessTests(unittest.TestCase):
         data["accounts"] = [123]
         self.assertEqual(self.check(data)["readiness"], "NOT_READY")
 
+        data = snapshot()
+        data["account_summary_account_fingerprints"] = [123]
+        self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
     def test_non_dict_snapshot_fails_closed(self):
         for data in ([], "invalid", 123, True):
             with self.subTest(data=repr(data)):
