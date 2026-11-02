@@ -125,6 +125,29 @@ class G7ReadOnlyReadinessTests(unittest.TestCase):
         data["account_summary_account_fingerprints"] = [123]
         self.assertEqual(self.check(data)["readiness"], "NOT_READY")
 
+    def test_duplicate_or_count_mismatched_account_identity_blocks(self):
+        data = snapshot()
+        data["paper_account_guard"]["verified_account_fingerprints"] = [
+            "IBKR-TESTTOKEN",
+            "IBKR-TESTTOKEN",
+        ]
+        self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
+        data = snapshot()
+        data["accounts"] = ["IBKR-TESTTOKEN", "IBKR-TESTTOKEN"]
+        self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
+        data = snapshot()
+        data["account_summary_account_fingerprints"] = [
+            "IBKR-TESTTOKEN",
+            "IBKR-TESTTOKEN",
+        ]
+        self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
+        data = snapshot()
+        data["account_count"] = 2
+        self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
     def test_non_dict_snapshot_fails_closed(self):
         for data in ([], "invalid", 123, True):
             with self.subTest(data=repr(data)):
