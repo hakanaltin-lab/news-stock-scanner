@@ -8,6 +8,7 @@ on:
       - "broker_engine/broker_execution_connector.py"
       - "engines/ibkr_gateway_connector.py"
       - "tests/test_broker_order_path_audit.py"
+      - "tests/test_ibkr_paper_read_only.py"
       - ".github/workflows/broker-order-safety.yml"
   workflow_dispatch:
 
@@ -28,4 +29,6 @@ jobs:
         with:
           python-version: "3.11"
       - name: Check broker safety regressions (no broker network)
-        run: python -m unittest discover -s tests -p test_broker_order_path_audit.py -v
+        run: |
+          python -m unittest discover -s tests -p test_broker_order_path_audit.py -v
+          python -m unittest discover -s tests -p test_ibkr_paper_read_only.py -v
