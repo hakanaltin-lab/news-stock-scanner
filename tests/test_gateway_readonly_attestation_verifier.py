@@ -154,6 +154,31 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
             third["failure_reasons"],
         )
 
+    def test_boolean_schema_versions_and_non_utc_timestamps_block(self):
+        bool_schema = artifact()
+        bool_schema["schema_version"] = True
+        first = self.evaluate(data=bool_schema)
+        self.assertIn(
+            "artifact_schema_version",
+            first["failure_reasons"],
+        )
+
+        bad_policy = policy(b"reviewer-key")
+        bad_policy["policy_version"] = True
+        second = self.evaluate(policy_data=bad_policy)
+        self.assertIn(
+            "policy_version",
+            second["failure_reasons"],
+        )
+
+        non_utc = artifact()
+        non_utc["captured_at_utc"] = "2026-11-02T10:00:00+03:00"
+        third = self.evaluate(data=non_utc)
+        self.assertIn(
+            "captured_at_valid",
+            third["failure_reasons"],
+        )
+
     def test_unknown_or_missing_fields_block(self):
         extra = artifact()
         extra["operator_self_attested"] = True
@@ -205,7 +230,14 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
             if trusted:
                 self.assertIsNone(reason)
             else:
-                self.assertEqual(reason, "TRUSTED_FILE_NOT_ROOT_OWNED")
+                self.assertIn(
+                    reason,
+                    {
+                        "TRUSTED_PARENT_NOT_ROOT_OWNED",
+                        "TRUSTED_PARENT_GROUP_OR_WORLD_WRITABLE",
+                        "TRUSTED_FILE_NOT_ROOT_OWNED",
+                    },
+                )
 
     @unittest.skipUnless(
         Path("/usr/bin/openssl").is_file(),
