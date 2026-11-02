@@ -440,6 +440,14 @@ def evaluate_ibkr_paper_readiness(
             )
             for item in verified_account_rows
         )
+        and len({
+            item.strip()
+            for item in verified_account_rows
+        })
+        ==
+        len(
+            verified_account_rows
+        )
     )
 
     verified_account_fingerprints = (
@@ -482,6 +490,14 @@ def evaluate_ibkr_paper_readiness(
                 item.strip()
             )
             for item in account_summary_fingerprint_rows
+        )
+        and len({
+            item.strip()
+            for item in account_summary_fingerprint_rows
+        })
+        ==
+        len(
+            account_summary_fingerprint_rows
         )
     )
 
@@ -602,6 +618,14 @@ def evaluate_ibkr_paper_readiness(
             )
             for item in snapshot_accounts
         )
+        and len({
+            item.strip()
+            for item in snapshot_accounts
+        })
+        ==
+        len(
+            snapshot_accounts
+        )
     )
 
     snapshot_account_fingerprints = (
@@ -623,6 +647,7 @@ def evaluate_ibkr_paper_readiness(
             and account_count
             == guard_account_count
             == len(verified_account_fingerprints)
+            == len(snapshot_accounts)
         ),
         True,
         (
