@@ -4,6 +4,8 @@ Security boundary:
 - AURORA never creates or self-asserts a positive attestation.
 - Production paths are fixed and cannot be overridden by environment variables.
 - Reviewer trust is rooted in root-owned policy/public-key files.
+- V3 signatures bind the exact canonical G0/G1 runtime proof SHA-256.
+- The deployed G0/G1 proof path is fixed under the repository runtime directory.
 - Only detached Ed25519 signatures verified by /usr/bin/openssl are accepted.
 - Any parsing, binding, freshness, filesystem, or signature failure is fail-closed.
 """
