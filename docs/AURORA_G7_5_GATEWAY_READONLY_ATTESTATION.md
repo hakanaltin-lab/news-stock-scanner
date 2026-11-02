@@ -168,3 +168,8 @@ exact match with the signed V3 field. A missing, malformed, stale/replaced or
 different G0/G1 proof therefore blocks the Gateway attestation.
 
 This does not authorize Paper or LIVE orders.
+
+
+The fixed deployed G0/G1 proof is also subject to a local file-safety gate:
+symlinks and non-regular/world-writable files are rejected, and the proof must
+be non-empty and no larger than 64 KiB before parsing or hashing.
