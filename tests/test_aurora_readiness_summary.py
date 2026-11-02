@@ -84,6 +84,9 @@ def verified_gateway_attestation():
         "expires_at_utc": (NOW + timedelta(hours=1)).isoformat(),
         "git_sha": "a" * 40,
         "evidence_sha256": "b" * 64,
+        "g0_runtime_proof_sha256": digest(
+            verified_g0()
+        ),
         "gcp_project_id": "project-ce9773ef-6814-469c-92b",
         "gcp_instance_id": "1234567890123456789",
     }
@@ -266,6 +269,26 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
                     "g2_gateway_read_only_independently_attested",
                     result["failure_reasons"],
                 )
+
+    def test_g0_proof_digest_must_match_signed_gateway_attestation(self):
+        g0 = verified_g0()
+        g0["extra_unreviewed_field"] = "tampered-after-review"
+
+        result = evaluate_readiness_bundle(
+            ready_g2(),
+            ready_g3(),
+            now=NOW,
+            g0_proof=g0,
+        )
+
+        self.assertEqual(
+            result["status"],
+            "NOT_READY",
+        )
+        self.assertIn(
+            "g0_signed_proof_digest_bound",
+            result["failure_reasons"],
+        )
 
     def test_g0_instance_id_must_match_signed_gateway_attestation(self):
         g0 = verified_g0()
