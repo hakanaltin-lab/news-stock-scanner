@@ -123,6 +123,61 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
         self.assertEqual(snapshot["connection_status"], "NOT_ATTEMPTED")
         self.assertFalse(snapshot["config"]["endpoint_safe"])
 
+    def test_invalid_port_never_falls_back_to_paper_port(self):
+        for value in ("not-a-port", "4002.0", "0", "65536"):
+            with self.subTest(value=value), patch.dict(os.environ, {
+                "AURORA_IBKR_ENABLED": "true",
+                "AURORA_IBKR_MODE": "PAPER",
+                "AURORA_IBKR_PORT": value,
+            }, clear=True):
+                config = connector.load_ibkr_config()
+                snapshot = connector.get_ibkr_read_only_snapshot()
+
+            self.assertFalse(config["port_valid"])
+            self.assertEqual(snapshot["status"], "BLOCKED")
+            self.assertEqual(snapshot["connection_status"], "NOT_ATTEMPTED")
+            self.assertEqual(snapshot["reason"], "INVALID_IBKR_PORT")
+
+    def test_invalid_client_id_blocks_before_network_access(self):
+        for value in ("not-an-id", "-1", "2147483648"):
+            with self.subTest(value=value), patch.dict(os.environ, {
+                "AURORA_IBKR_ENABLED": "true",
+                "AURORA_IBKR_MODE": "PAPER",
+                "AURORA_IBKR_HOST": "127.0.0.1",
+                "AURORA_IBKR_PORT": "4002",
+                "AURORA_IBKR_CLIENT_ID": value,
+            }, clear=True):
+                config = connector.load_ibkr_config()
+                snapshot = connector.get_ibkr_read_only_snapshot()
+
+            self.assertFalse(config["client_id_valid"])
+            self.assertEqual(snapshot["status"], "BLOCKED")
+            self.assertEqual(snapshot["connection_status"], "NOT_ATTEMPTED")
+            self.assertEqual(snapshot["reason"], "INVALID_IBKR_CLIENT_ID")
+
+    def test_invalid_timeout_blocks_before_network_access(self):
+        for value in ("not-a-timeout", "nan", "inf", "-inf", "0", "31"):
+            with self.subTest(value=value), patch.dict(os.environ, {
+                "AURORA_IBKR_ENABLED": "true",
+                "AURORA_IBKR_MODE": "PAPER",
+                "AURORA_IBKR_HOST": "127.0.0.1",
+                "AURORA_IBKR_PORT": "4002",
+                "AURORA_IBKR_CLIENT_ID": "82",
+                "AURORA_IBKR_TIMEOUT_SECONDS": value,
+            }, clear=True):
+                config = connector.load_ibkr_config()
+                snapshot = connector.get_ibkr_read_only_snapshot()
+
+            self.assertFalse(config["timeout_valid"])
+            self.assertEqual(snapshot["status"], "BLOCKED")
+            self.assertEqual(snapshot["connection_status"], "NOT_ATTEMPTED")
+            self.assertEqual(snapshot["reason"], "INVALID_IBKR_TIMEOUT_SECONDS")
+
+    def test_safe_float_rejects_non_finite_and_boolean_values(self):
+        for value in (float("nan"), float("inf"), float("-inf"), True, False):
+            with self.subTest(value=value):
+                self.assertIsNone(connector.safe_float(value))
+
     def test_account_identifiers_are_masked_in_errors(self):
         account = "DU1234567"
         sanitized = connector._sanitize_errors([{
