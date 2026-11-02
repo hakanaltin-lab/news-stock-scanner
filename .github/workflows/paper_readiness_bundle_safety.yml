@@ -15,6 +15,7 @@ on:
       - "engines/ibkr_market_data_connector.py"
       - "engines/ibkr_account_guard.py"
       - "engines/ibkr_paper_readiness_engine.py"
+      - "engines/gateway_readonly_attestation_verifier.py"
       - "tests/test_v8_9_5_safety_hardening.py"
       - ".github/workflows/paper_readiness_bundle_safety.yml"
   push:
@@ -30,6 +31,7 @@ on:
       - "engines/ibkr_market_data_connector.py"
       - "engines/ibkr_account_guard.py"
       - "engines/ibkr_paper_readiness_engine.py"
+      - "engines/gateway_readonly_attestation_verifier.py"
       - "tests/test_v8_9_5_safety_hardening.py"
       - ".github/workflows/paper_readiness_bundle_safety.yml"
 
@@ -53,11 +55,13 @@ jobs:
           python -m py_compile scripts/ibkr_paper_probe.py
           python -m py_compile scripts/ibkr_market_data_probe.py
           python -m py_compile engines/ibkr_account_guard.py
+          python -m py_compile engines/gateway_readonly_attestation_verifier.py
           python -m py_compile tests/test_aurora_readiness_summary.py
           bash -n scripts/run_aurora_g2_g3_readiness.sh
       - name: Prove fail-closed bundle behavior
         run: |
           python -m unittest \
+            tests.test_gateway_readonly_attestation_verifier \
             tests.test_aurora_readiness_summary \
             tests.test_ibkr_paper_read_only.IBKRProbeEntrypointTests \
             tests.test_v8_9_7_ibkr_market_data.IBKRMarketDataStaticSafetyTests \
