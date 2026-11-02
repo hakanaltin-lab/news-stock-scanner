@@ -254,3 +254,15 @@ the package before independent review. This provenance binding is defense in
 depth; it does not replace the independent human inspection of the Gateway/TWS
 Read-Only setting and does not authorize any order.
 
+## G8.4 reviewer evidence file trust boundary
+
+Before the V3 reviewer package is built, the fixed G2 diagnostic proof must
+pass the G8.4 local file trust boundary. The reviewer loader does not follow
+symlinks or accept hard-linked, group/world-accessible, oversized, changing, or
+duplicate-key JSON evidence. The probe itself creates the file atomically with
+owner-only `0600` permissions.
+
+This protects the sanitized Paper account summary, positions and runtime
+provenance from accidental disclosure and prevents an unsafe local file shape
+from being treated as reviewer input. The independent signed Gateway/TWS
+Read-Only attestation remains the actual trust decision.

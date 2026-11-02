@@ -4,6 +4,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import stat
 import subprocess
 import sys
 import tempfile
@@ -600,6 +601,81 @@ class IBKRProbeEntrypointTests(unittest.TestCase):
             self.assertFalse(proof["readiness"]["live_execution_allowed"])
 
 
+
+
+class IBKRRuntimeEvidenceFileTests(unittest.TestCase):
+    def test_atomic_runtime_writer_creates_owner_only_regular_file(self):
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "latest.json"
+            payload = {
+                "status": "SAFE",
+                "paper_order_submission_allowed": False,
+                "live_execution_allowed": False,
+            }
+
+            paper_probe.write_runtime_evidence_atomic(
+                target,
+                payload,
+            )
+
+            metadata = target.stat()
+            self.assertTrue(
+                stat.S_ISREG(metadata.st_mode)
+            )
+            self.assertEqual(
+                stat.S_IMODE(metadata.st_mode),
+                paper_probe.RUNTIME_EVIDENCE_MODE,
+            )
+            self.assertEqual(metadata.st_nlink, 1)
+            self.assertEqual(
+                json.loads(target.read_text(encoding="utf-8")),
+                payload,
+            )
+            leftovers = [
+                item.name
+                for item in target.parent.iterdir()
+                if item.name.startswith(".aurora-g2-")
+            ]
+            self.assertEqual(leftovers, [])
+
+    def test_atomic_runtime_writer_refuses_existing_symlink_target(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            victim = root / "victim.json"
+            victim.write_text(
+                '{"unchanged":true}',
+                encoding="utf-8",
+            )
+            target = root / "latest.json"
+            target.symlink_to(victim)
+
+            with self.assertRaisesRegex(
+                RuntimeError,
+                "target type invalid",
+            ):
+                paper_probe.write_runtime_evidence_atomic(
+                    target,
+                    {"safe": True},
+                )
+
+            self.assertEqual(
+                victim.read_text(encoding="utf-8"),
+                '{"unchanged":true}',
+            )
+
+    def test_atomic_runtime_writer_refuses_directory_target(self):
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "latest.json"
+            target.mkdir()
+
+            with self.assertRaisesRegex(
+                RuntimeError,
+                "target type invalid",
+            ):
+                paper_probe.write_runtime_evidence_atomic(
+                    target,
+                    {"safe": True},
+                )
 
 
 class IBKRRuntimeProvenanceTests(unittest.TestCase):
