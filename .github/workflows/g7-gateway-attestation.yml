@@ -1,0 +1,57 @@
+name: G7.5 Gateway Read-only Attestation Safety
+
+on:
+  pull_request:
+    paths:
+      - "engines/gateway_readonly_attestation_verifier.py"
+      - "scripts/verify_gateway_readonly_attestation.py"
+      - "scripts/ibkr_paper_probe.py"
+      - "tests/test_gateway_readonly_attestation_verifier.py"
+      - "config/gateway_readonly_attestation_policy.example.json"
+      - "docs/gateway_readonly_attestation_artifact.example.json"
+      - "docs/AURORA_G7_5_GATEWAY_READONLY_ATTESTATION.md"
+      - ".github/workflows/g7-gateway-attestation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  attestation-fail-closed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Require system OpenSSL
+        run: |
+          test -x /usr/bin/openssl
+          /usr/bin/openssl version
+
+      - name: Compile attestation components
+        run: |
+          python -m py_compile engines/gateway_readonly_attestation_verifier.py
+          python -m py_compile scripts/verify_gateway_readonly_attestation.py
+          python -m py_compile scripts/ibkr_paper_probe.py
+          python -m py_compile tests/test_gateway_readonly_attestation_verifier.py
+
+      - name: Prove signed attestation fails closed
+        run: |
+          python -m unittest tests.test_gateway_readonly_attestation_verifier -v
+
+      - name: Prove production trust paths are fixed
+        run: |
+          python - <<'PY'
+          from engines.gateway_readonly_attestation_verifier import (
+              DEFAULT_ARTIFACT_PATH,
+              DEFAULT_POLICY_PATH,
+              DEFAULT_PUBLIC_KEY_PATH,
+          )
+          assert str(DEFAULT_POLICY_PATH) == "/etc/aurora/gateway-readonly-attestation-policy.json"
+          assert str(DEFAULT_PUBLIC_KEY_PATH) == "/etc/aurora/gateway-readonly-reviewer-ed25519.pem"
+          assert str(DEFAULT_ARTIFACT_PATH) == "/var/lib/aurora/gateway-readonly-attestation/latest.json"
+          PY
