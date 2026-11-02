@@ -21,6 +21,26 @@ IAP_RULE = "aurora-allow-iap-ssh"
 DENY_RULE = "aurora-deny-public-private-ports"
 
 
+def _canonical_instance_id(value):
+    if isinstance(value, bool):
+        return None
+
+    if not isinstance(value, (str, int)):
+        return None
+
+    text = str(value).strip()
+
+    if (
+        not text.isdigit()
+        or len(text) < 6
+        or len(text) > 30
+        or text[0] == "0"
+    ):
+        return None
+
+    return text
+
+
 def _suffix(value, expected):
     return str(value or "").endswith("/" + expected)
 
@@ -92,6 +112,9 @@ def evaluate_gcp_runtime_proof(vm, firewall_rules, budget_proof):
     }
     tags = set((vm.get("tags") or {}).get("items") or [])
     nic = (vm.get("networkInterfaces") or [{}])[0]
+    gce_instance_id = _canonical_instance_id(
+        vm.get("id")
+    )
 
     checks = {
         "budget_guard_passed": (
@@ -104,6 +127,9 @@ def evaluate_gcp_runtime_proof(vm, firewall_rules, budget_proof):
             vm.get("name") == VM_NAME
             and _suffix(vm.get("zone"), ZONE)
             and _suffix(vm.get("machineType"), MACHINE_TYPE)
+        ),
+        "vm_instance_id_valid": (
+            gce_instance_id is not None
         ),
         "vm_running": vm.get("status") == "RUNNING",
         "vm_hardened": (
@@ -160,6 +186,11 @@ def evaluate_gcp_runtime_proof(vm, firewall_rules, budget_proof):
         "project_id": PROJECT_ID,
         "zone": ZONE,
         "vm_name": VM_NAME,
+        "gce_instance_id": (
+            gce_instance_id
+            if gce_instance_id is not None
+            else None
+        ),
         "status": "G0_G1_VERIFIED" if not failures else "BLOCKED",
         "checks": checks,
         "failure_reasons": failures,
