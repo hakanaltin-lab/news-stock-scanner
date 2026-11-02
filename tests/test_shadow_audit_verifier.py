@@ -23,6 +23,8 @@ def safe_shadow():
         "broker_submission_allowed": False,
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
+        "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
     }
 
 
@@ -55,6 +57,7 @@ class ShadowAuditVerifierTests(unittest.TestCase):
             receipt_binding_sha256(receipt),
         )
         self.assertFalse(result["paper_order_submission_allowed"])
+        self.assertFalse(result["real_money_trading_allowed"])
 
     def test_missing_expected_receipt_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -94,6 +97,41 @@ class ShadowAuditVerifierTests(unittest.TestCase):
             )
         self.assertEqual(result["status"], "BLOCKED")
         self.assertEqual(result["failure_reasons"], ["LEDGER_NOT_FOUND"])
+
+    def test_symlink_or_hardlink_ledger_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path, receipt = self.create_ledger(directory)
+
+            symlink = root / "symlink.sqlite3"
+            symlink.symlink_to(path)
+            symlink_result = verify_shadow_ledger(
+                symlink,
+                receipt,
+            )
+            self.assertEqual(
+                symlink_result["status"],
+                "BLOCKED",
+            )
+            self.assertEqual(
+                symlink_result["failure_reasons"],
+                ["LEDGER_FILE_UNTRUSTED"],
+            )
+
+            hardlink = root / "hardlink.sqlite3"
+            hardlink.hardlink_to(path)
+            hardlink_result = verify_shadow_ledger(
+                hardlink,
+                receipt,
+            )
+            self.assertEqual(
+                hardlink_result["status"],
+                "BLOCKED",
+            )
+            self.assertEqual(
+                hardlink_result["failure_reasons"],
+                ["LEDGER_FILE_UNTRUSTED"],
+            )
 
     def test_payload_hash_tampering_is_detected(self):
         with tempfile.TemporaryDirectory() as directory:
