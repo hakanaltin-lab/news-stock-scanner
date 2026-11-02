@@ -8,8 +8,16 @@ It does not submit orders.
 - PAPER endpoint only: `127.0.0.1:4002`
 - Real Paper account must match the runtime allowlist
 - Market-data connector is disabled by default
-- Separate market-data client ID: `83`
-- No `placeOrder`, `Order()`, or broker submission path exists
+- Separate non-zero market-data client ID: `83`; client ID `0` is forbidden
+- Invalid mode, port, client ID, or timeout values fail closed instead of
+  falling back to a safe-looking default
+- The connector hard-blocks broker mutation methods at the EClient boundary:
+  `placeOrder`, `cancelOrder`, `reqGlobalCancel`, `exerciseOptions`,
+  `replaceFA`, and `reqAutoOpenOrders`
+- Market-data subscription cleanup (`cancelMktData` and
+  `cancelTickByTickData`) is permitted because it only cancels data requests,
+  not broker orders
+- No `Order()` object or broker submission path exists
 - Paper and LIVE order submission remain disabled
 
 ## IBKR data-type policy
@@ -106,6 +114,26 @@ G3 passes only when:
 3. Market-data type is explicitly `1 / REALTIME`.
 4. Bid, ask and last price are valid.
 5. The generic execution market-data quality gate also passes.
-6. No broker-order path exists in the connector or probe.
+6. The broker mutation surface is hard-blocked at the connector class
+   boundary and client ID `0` is forbidden.
+7. Invalid broker configuration fails closed before any API connection.
+8. No broker-order object or submission path exists in the probe.
 
 Passing G3 does not authorize Paper orders or real-money trading.
+
+## G8.7 market-data connector hardening
+
+G8.7 brings the G3 connector to the same fail-closed mutation boundary used by
+G2. A market-data client that inherits Interactive Brokers' `EClient` can
+otherwise inherit order-changing methods even when the application source
+never calls them. AURORA therefore overrides the mutation methods locally and
+raises before any inherited implementation can run.
+
+Configuration parsing is also fail closed. Invalid numeric values are retained
+as invalid sentinel values and cannot silently fall back to port 4002, client
+ID 83, or timeout 8. The connector returns a blocked, not-attempted result
+before network access when mode, port, client ID, or timeout validation fails.
+
+These controls do not authorize Paper orders. They only make the real-time
+market-data reader incapable of using the broker mutation surface.
+
