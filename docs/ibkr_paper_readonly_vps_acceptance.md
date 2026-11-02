@@ -64,8 +64,26 @@ The bundle still deliberately contains:
 - `release_approved=false`
 - `evidence_authenticity_verified=false`
 - `broker_session_independently_verified=false`
+- `gateway_read_only_configuration_independently_attested=false`
 
 This means the evidence is ready for independent review; it is **not** an execution release.
+
+## Gateway Read-Only attestation boundary
+
+The connector's `config.read_only=true` field and its local `placeOrder` hard block are
+software-side safety controls only. They do **not** prove that the IB Gateway/TWS
+application itself has its API **Read-Only** setting enabled.
+
+The probe, validator, environment variables, or any field supplied by the probe are
+not allowed to self-attest that external configuration. The generated evidence
+therefore keeps
+`gateway_read_only_configuration_independently_attested=false` by construction.
+
+Before G6.11 can be accepted, an operator and an independent reviewer must separately
+verify the Gateway/TWS Read-Only API configuration on the approved Paper VPS and
+record sanitized evidence with the UTC timestamp and exact Git SHA. Do not include
+credentials or raw account identifiers, and do not place an order merely to prove
+the setting.
 
 ## Sanitized evidence
 
@@ -93,7 +111,7 @@ The runner tests explicitly check that the raw account identifier and HMAC key d
 
 | Case | Expected result |
 | --- | --- |
-| Paper Gateway connected, localhost 4002, read-only, allowlisted identity, all required callbacks | `G6_11_READ_ONLY_EVIDENCE_CAPTURED` |
+| Paper Gateway connected, localhost 4002, allowlisted identity, all required callbacks | `G6_11_READ_ONLY_EVIDENCE_CAPTURED` (diagnostic only; Gateway Read-Only still requires independent attestation) |
 | Local VPS security prerequisites fail | BLOCKED before broker probe |
 | Missing/insecure allowlist file | BLOCKED before broker probe |
 | Missing HMAC key | Runner creates a new 256-bit local key with mode 0600 |
@@ -138,7 +156,8 @@ Before PR #42 or its dependent execution-safety PRs can move out of Draft, requi
 1. current-head CI success;
 2. independent code/security review;
 3. a sanitized real Paper read-only evidence bundle from the approved VPS;
-4. explicit disposition of any correlation cases that cannot be tested.
+4. independent operator/reviewer attestation that IB Gateway/TWS API Read-Only is enabled;
+5. explicit disposition of any correlation cases that cannot be tested.
 
 Even after a read-only PASS, Paper order submission and LIVE trading remain disabled until separately reviewed and explicitly authorized by a later execution release process.
 
