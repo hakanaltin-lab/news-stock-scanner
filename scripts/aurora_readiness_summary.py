@@ -8,7 +8,17 @@ import json
 import os
 from pathlib import Path
 import tempfile
+import sys
 from uuid import UUID
+
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
+
+from engines.gateway_readonly_attestation_verifier import (
+    verify_installed_gateway_readonly_attestation,
+)
 
 
 DEFAULT_G0_PROOF = "runtime/gcp/latest.json"
@@ -124,15 +134,32 @@ def evaluate_readiness_bundle(
     max_g3_age_seconds=DEFAULT_MAX_G3_AGE_SECONDS,
     g0_proof=None,
     max_g0_age_seconds=DEFAULT_MAX_G0_AGE_SECONDS,
+    gateway_attestation_verification=None,
 ):
     now = _utc_datetime(now) or datetime.now(timezone.utc)
     g2_proof = g2_proof or {}
     g3_proof = g3_proof or {}
     g0_proof = g0_proof or {}
+    gateway_attestation_verification = (
+        gateway_attestation_verification
+        if isinstance(
+            gateway_attestation_verification,
+            dict,
+        )
+        else {}
+    )
 
     g2_run_mode = g2_proof.get("run_mode") or {}
     g2_readiness = g2_proof.get("readiness") or {}
     g2_snapshot = g2_proof.get("snapshot") or {}
+    g2_gateway_attestation = (
+        g2_proof.get("gateway_read_only_attestation")
+        if isinstance(
+            g2_proof.get("gateway_read_only_attestation"),
+            dict,
+        )
+        else {}
+    )
     g2_account_guard = g2_snapshot.get("paper_account_guard") or {}
     g3_snapshot = g3_proof.get("snapshot") or {}
     g3_config = g3_snapshot.get("config") or {}
@@ -258,6 +285,29 @@ def evaluate_readiness_bundle(
             )
             is True
         ),
+        "g2_signed_gateway_attestation_verified": (
+            g2_gateway_attestation.get("status") == "VERIFIED"
+            and g2_gateway_attestation.get("verified") is True
+            and g2_gateway_attestation.get(
+                "gateway_read_only_configuration_independently_attested"
+            )
+            is True
+        ),
+        "gateway_attestation_runtime_verified": (
+            gateway_attestation_verification.get("status") == "VERIFIED"
+            and gateway_attestation_verification.get("verified") is True
+            and gateway_attestation_verification.get(
+                "gateway_read_only_configuration_independently_attested"
+            )
+            is True
+        ),
+        "g2_gateway_attestation_runtime_bound": (
+            bool(g2_gateway_attestation)
+            and bool(gateway_attestation_verification)
+            and _digest(g2_gateway_attestation)
+            ==
+            _digest(gateway_attestation_verification)
+        ),
         "g2_order_submission_blocked": (
             g2_readiness.get("paper_order_submission_allowed") is False
             and g2_readiness.get("live_execution_allowed") is False
@@ -328,6 +378,13 @@ def evaluate_readiness_bundle(
         "g0_g1_proof_sha256": _digest(g0_proof),
         "g2_paper_read_only_proof_sha256": _digest(g2_proof),
         "g3_market_data_proof_sha256": _digest(g3_proof),
+        "gateway_read_only_attestation_sha256": (
+            _digest(gateway_attestation_verification)
+            if checks["g2_signed_gateway_attestation_verified"]
+            and checks["gateway_attestation_runtime_verified"]
+            and checks["g2_gateway_attestation_runtime_bound"]
+            else None
+        ),
         "paper_account_fingerprints": (
             list(g2_account_fingerprints)
             if checks["g2_g3_paper_account_bound"]
@@ -375,10 +432,19 @@ def main(argv=None):
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
     args = parser.parse_args(argv)
 
+    gateway_attestation_verification = (
+        verify_installed_gateway_readonly_attestation(
+            REPOSITORY_ROOT
+        )
+    )
+
     result = evaluate_readiness_bundle(
         _read_json(args.g2_proof),
         _read_json(args.g3_proof),
         g0_proof=_read_json(args.g0_proof),
+        gateway_attestation_verification=(
+            gateway_attestation_verification
+        ),
     )
     _write_atomic(args.output, result)
     print(json.dumps(result, indent=2, sort_keys=True))
