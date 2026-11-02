@@ -204,6 +204,39 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
             third["failure_reasons"],
         )
 
+    def test_gcp_identity_fields_require_string_types(self):
+        numeric_artifact = artifact()
+        numeric_artifact["gcp_instance_id"] = 1234567890123456789
+        first = self.evaluate(
+            data=numeric_artifact
+        )
+        self.assertIn(
+            "gcp_instance_id_format",
+            first["failure_reasons"],
+        )
+
+        numeric_policy = policy(
+            b"-----BEGIN PUBLIC KEY-----\nTEST\n-----END PUBLIC KEY-----\n"
+        )
+        numeric_policy["expected_instance_id"] = 1234567890123456789
+        second = self.evaluate(
+            policy_data=numeric_policy
+        )
+        self.assertIn(
+            "policy_instance_id_format",
+            second["failure_reasons"],
+        )
+
+        numeric_project = artifact()
+        numeric_project["gcp_project_id"] = 123
+        third = self.evaluate(
+            data=numeric_project
+        )
+        self.assertIn(
+            "gcp_project_id_format",
+            third["failure_reasons"],
+        )
+
     def test_missing_or_blocked_gce_runtime_identity_blocks(self):
         for runtime_identity_value in (
             {},
