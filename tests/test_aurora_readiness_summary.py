@@ -710,7 +710,18 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
         self.assertIn("uuid.uuid4()", source)
         self.assertIn("export AURORA_EVIDENCE_RUN_ID", source)
         self.assertIn("summary_status=0", source)
-        self.assertIn("g2_status != 0 || g3_status != 0", source)
+        self.assertIn("g3_status != 0 || summary_status != 0", source)
+        self.assertNotIn('source "$ENV_FILE"', source)
+        self.assertIn('stat -c %a "$ENV_FILE"', source)
+        self.assertIn('stat -c %h "$ENV_FILE"', source)
+        self.assertIn(
+            'AURORA_IBKR_MARKET_DATA_PROBE_OUTPUT="$FIXED_G3_OUTPUT"',
+            source,
+        )
+        self.assertIn(
+            "G2 and G3 must use distinct API client IDs",
+            source,
+        )
 
 
 if __name__ == "__main__":
