@@ -15,7 +15,9 @@ from __future__ import annotations
 from datetime import datetime, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
+import stat
 import sys
 from uuid import UUID
 
@@ -41,6 +43,8 @@ DEFAULT_G2_DIAGNOSTIC_PROOF = (
     / "runtime/ibkr_paper_read_only/latest.json"
 )
 DEFAULT_MAX_G2_DIAGNOSTIC_AGE_SECONDS = 300
+MAX_G2_DIAGNOSTIC_PROOF_BYTES = 1024 * 1024
+TRUSTED_G2_EVIDENCE_MODE = 0o600
 
 _PERMISSION_FLAGS = (
     "broker_submission_allowed",
@@ -695,19 +699,131 @@ def build_runtime_bound_review_package(
     }
 
 
-def load_installed_g2_diagnostic_proof():
-    """Read only the fixed deployed G2 diagnostic path."""
+def _read_trusted_runtime_evidence_bytes(path):
+    """Read one owner-only regular file without following symlinks."""
+
+    nofollow = getattr(
+        os,
+        "O_NOFOLLOW",
+        0,
+    )
+    if not nofollow:
+        return None
+
+    flags = (
+        os.O_RDONLY
+        |
+        nofollow
+        |
+        getattr(
+            os,
+            "O_CLOEXEC",
+            0,
+        )
+    )
 
     try:
-        raw = DEFAULT_G2_DIAGNOSTIC_PROOF.read_text(
-            encoding="utf-8"
+        descriptor = os.open(
+            Path(path),
+            flags,
         )
+    except OSError:
+        return None
+
+    try:
+        before = os.fstat(
+            descriptor
+        )
+        mode = stat.S_IMODE(
+            before.st_mode
+        )
+
+        trusted = (
+            stat.S_ISREG(before.st_mode)
+            and before.st_uid == os.geteuid()
+            and before.st_nlink == 1
+            and mode == TRUSTED_G2_EVIDENCE_MODE
+            and 0 < before.st_size
+            <= MAX_G2_DIAGNOSTIC_PROOF_BYTES
+        )
+        if not trusted:
+            return None
+
+        chunks = []
+        remaining = (
+            MAX_G2_DIAGNOSTIC_PROOF_BYTES
+            + 1
+        )
+
+        while remaining > 0:
+            chunk = os.read(
+                descriptor,
+                min(
+                    65536,
+                    remaining,
+                ),
+            )
+            if not chunk:
+                break
+            chunks.append(
+                chunk
+            )
+            remaining -= len(
+                chunk
+            )
+
+        raw = b"".join(
+            chunks
+        )
+        after = os.fstat(
+            descriptor
+        )
+
+        stable = (
+            before.st_dev == after.st_dev
+            and before.st_ino == after.st_ino
+            and before.st_size == after.st_size
+            and before.st_mtime_ns == after.st_mtime_ns
+            and before.st_ctime_ns == after.st_ctime_ns
+            and after.st_nlink == 1
+            and stat.S_IMODE(after.st_mode)
+            == TRUSTED_G2_EVIDENCE_MODE
+            and len(raw) == before.st_size
+            and len(raw)
+            <= MAX_G2_DIAGNOSTIC_PROOF_BYTES
+        )
+        if not stable:
+            return None
+
+        return raw
+
+    except OSError:
+        return None
+
+    finally:
+        os.close(
+            descriptor
+        )
+
+
+def load_installed_g2_diagnostic_proof():
+    """Read only the fixed owner-only deployed G2 diagnostic path."""
+
+    raw = _read_trusted_runtime_evidence_bytes(
+        DEFAULT_G2_DIAGNOSTIC_PROOF
+    )
+    if raw is None:
+        return {}
+
+    try:
         value = json.loads(
-            raw,
+            raw.decode(
+                "utf-8",
+                errors="strict",
+            ),
             object_pairs_hook=_reject_duplicate_keys,
         )
     except (
-        OSError,
         UnicodeDecodeError,
         json.JSONDecodeError,
         DuplicateJsonKeyError,
