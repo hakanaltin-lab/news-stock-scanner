@@ -70,6 +70,12 @@ A positive attestation therefore requires equality across all three sources:
 2. root-controlled reviewer policy;
 3. live GCE link-local metadata.
 
+The G7.6 reviewer handoff additionally cross-checks the same immutable instance ID
+against the sanitized G0/G1 control-plane proof generated from
+`gcloud compute instances describe`. This creates an independent second runtime
+identity source before reviewer handoff: GCP control-plane VM JSON and in-guest
+link-local metadata must agree with the policy-pinned instance ID.
+
 Hostname equality remains an additional defense but is no longer the primary VM
 identity control.
 
@@ -111,3 +117,12 @@ the same signed-attestation verifier.
 8. Continue only if the verifier reports `VERIFIED`.
 
 No broker order should be placed to prove any step above.
+
+
+## G7.8 control-plane cross-binding
+
+The reviewer handoff contract is upgraded to
+`IBKR_GATEWAY_READ_ONLY_REVIEW_REQUEST_V2` with
+`request_schema_version=2`. V2 includes the immutable
+`g0_runtime_instance_id` from the G0/G1 control-plane proof. The handoff is
+blocked unless that ID matches both the root policy and live GCE metadata.

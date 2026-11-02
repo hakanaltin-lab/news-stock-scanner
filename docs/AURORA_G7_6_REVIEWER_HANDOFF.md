@@ -56,14 +56,15 @@ environment or CLI path overrides. It requires:
 The output contains no broker account ID, balance, credential, service-account
 token, or order authorization. The G0/G1 proof remains a preflight input, not Gateway Read-Only
 evidence; the independent reviewer must still inspect the Gateway/TWS setting
-directly.
+directly. G7.8 additionally binds the handoff to the immutable GCE instance ID from the sanitized G0/G1 control-plane proof; this must match both root policy and live GCE metadata.
 
 ## Handoff request is deliberately not an attestation
 
 The generated `handoff_request` uses a distinct schema:
 
 ```text
-request_type = IBKR_GATEWAY_READ_ONLY_REVIEW_REQUEST_V1
+request_schema_version = 2
+request_type = IBKR_GATEWAY_READ_ONLY_REVIEW_REQUEST_V2
 operator_asserts_gateway_read_only = false
 requires_human_gateway_configuration_review = true
 signed_attestation_required = true

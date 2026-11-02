@@ -21,6 +21,26 @@ IAP_RULE = "aurora-allow-iap-ssh"
 DENY_RULE = "aurora-deny-public-private-ports"
 
 
+def _canonical_instance_id(value):
+    if isinstance(value, bool):
+        return None
+
+    if not isinstance(value, (str, int)):
+        return None
+
+    text = str(value).strip()
+
+    if (
+        not text.isdigit()
+        or len(text) < 6
+        or len(text) > 30
+        or text[0] == "0"
+    ):
+        return None
+
+    return text
+
+
 def _suffix(value, expected):
     return str(value or "").endswith("/" + expected)
 
@@ -76,24 +96,85 @@ def _public_allow_rules(firewall_rules):
 
 
 def evaluate_gcp_runtime_proof(vm, firewall_rules, budget_proof):
-    vm = vm or {}
-    firewall_rules = firewall_rules or []
-    budget_proof = budget_proof or {}
+    source_payloads_valid = (
+        isinstance(vm, dict)
+        and isinstance(firewall_rules, list)
+        and all(
+            isinstance(item, dict)
+            for item in firewall_rules
+        )
+        and isinstance(budget_proof, dict)
+    )
+
+    vm = vm if isinstance(vm, dict) else {}
+    firewall_rules = (
+        firewall_rules
+        if isinstance(firewall_rules, list)
+        and all(
+            isinstance(item, dict)
+            for item in firewall_rules
+        )
+        else []
+    )
+    budget_proof = (
+        budget_proof
+        if isinstance(budget_proof, dict)
+        else {}
+    )
+
     rules_by_name = {
         item.get("name"): item
         for item in firewall_rules
-        if isinstance(item, dict)
     }
     iap = rules_by_name.get(IAP_RULE) or {}
     deny = rules_by_name.get(DENY_RULE) or {}
+
+    metadata_block = (
+        vm.get("metadata")
+        if isinstance(vm.get("metadata"), dict)
+        else {}
+    )
+    metadata_items = (
+        metadata_block.get("items")
+        if isinstance(metadata_block.get("items"), list)
+        else []
+    )
     metadata = {
         item.get("key"): item.get("value")
-        for item in (vm.get("metadata") or {}).get("items") or []
+        for item in metadata_items
+        if isinstance(item, dict)
     }
-    tags = set((vm.get("tags") or {}).get("items") or [])
-    nic = (vm.get("networkInterfaces") or [{}])[0]
+
+    tags_block = (
+        vm.get("tags")
+        if isinstance(vm.get("tags"), dict)
+        else {}
+    )
+    tag_items = (
+        tags_block.get("items")
+        if isinstance(tags_block.get("items"), list)
+        else []
+    )
+    tags = set(
+        item
+        for item in tag_items
+        if isinstance(item, str)
+    )
+
+    network_interfaces = vm.get("networkInterfaces")
+    nic = (
+        network_interfaces[0]
+        if isinstance(network_interfaces, list)
+        and network_interfaces
+        and isinstance(network_interfaces[0], dict)
+        else {}
+    )
+    gce_instance_id = _canonical_instance_id(
+        vm.get("id")
+    )
 
     checks = {
+        "source_payloads_valid": source_payloads_valid,
         "budget_guard_passed": (
             budget_proof.get("status") == "PASS"
             and budget_proof.get("paid_resource_creation_allowed") is True
@@ -104,6 +185,9 @@ def evaluate_gcp_runtime_proof(vm, firewall_rules, budget_proof):
             vm.get("name") == VM_NAME
             and _suffix(vm.get("zone"), ZONE)
             and _suffix(vm.get("machineType"), MACHINE_TYPE)
+        ),
+        "vm_instance_id_valid": (
+            gce_instance_id is not None
         ),
         "vm_running": vm.get("status") == "RUNNING",
         "vm_hardened": (
@@ -160,6 +244,11 @@ def evaluate_gcp_runtime_proof(vm, firewall_rules, budget_proof):
         "project_id": PROJECT_ID,
         "zone": ZONE,
         "vm_name": VM_NAME,
+        "gce_instance_id": (
+            gce_instance_id
+            if gce_instance_id is not None
+            else None
+        ),
         "status": "G0_G1_VERIFIED" if not failures else "BLOCKED",
         "checks": checks,
         "failure_reasons": failures,

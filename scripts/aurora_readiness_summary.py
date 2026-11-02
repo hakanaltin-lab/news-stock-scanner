@@ -235,6 +235,16 @@ def evaluate_readiness_bundle(
         g3_account_guard
     )
 
+    g0_instance_id = str(
+        g0_proof.get("gce_instance_id") or ""
+    ).strip()
+    g2_attested_instance_id = str(
+        g2_gateway_attestation.get("gcp_instance_id") or ""
+    ).strip()
+    runtime_attested_instance_id = str(
+        gateway_attestation_verification.get("gcp_instance_id") or ""
+    ).strip()
+
     g0_age = _age_seconds(g0_proof.get("generated_at"), now)
     g2_age = _age_seconds(
         g2_readiness.get("timestamp") or g2_snapshot.get("timestamp"),
@@ -262,6 +272,12 @@ def evaluate_readiness_bundle(
         "g0_g1_evidence_current": (
             g0_age is not None
             and g0_age <= float(max_g0_age_seconds)
+        ),
+        "g0_control_plane_instance_bound_to_gateway_attestation": (
+            bool(g0_instance_id)
+            and g0_instance_id.isdigit()
+            and g0_instance_id == g2_attested_instance_id
+            == runtime_attested_instance_id
         ),
         "g2_read_only_mode": g2_run_mode.get("mode") == "READ_ONLY",
         "g2_ready": g2_readiness.get("readiness") == "READY_FOR_PAPER_READ_ONLY",
@@ -376,6 +392,13 @@ def evaluate_readiness_bundle(
             else None
         ),
         "g0_g1_proof_sha256": _digest(g0_proof),
+        "gce_instance_id": (
+            g0_instance_id
+            if checks[
+                "g0_control_plane_instance_bound_to_gateway_attestation"
+            ]
+            else None
+        ),
         "g2_paper_read_only_proof_sha256": _digest(g2_proof),
         "g3_market_data_proof_sha256": _digest(g3_proof),
         "gateway_read_only_attestation_sha256": (

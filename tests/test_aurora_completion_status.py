@@ -43,6 +43,8 @@ def verified_gateway_attestation():
         "expires_at_utc": (NOW + timedelta(hours=1)).isoformat(),
         "git_sha": "a" * 40,
         "evidence_sha256": "b" * 64,
+        "gcp_project_id": "project-ce9773ef-6814-469c-92b",
+        "gcp_instance_id": "1234567890123456789",
     }
 
 
@@ -68,6 +70,7 @@ def proofs():
         **safe,
         "generated_at": (NOW - timedelta(minutes=5)).isoformat(),
         "status": "G0_G1_VERIFIED",
+        "gce_instance_id": "1234567890123456789",
         "failure_reasons": [],
     }
     g2 = {
@@ -155,6 +158,10 @@ class AuroraCompletionStatusTests(unittest.TestCase):
         self.assertTrue(
             result["checks"]["g0_g1_readiness_proof_bound"]
         )
+        self.assertEqual(
+            result["evidence_binding"]["gce_instance_id"],
+            "1234567890123456789",
+        )
         self.assertTrue(result["checks"]["g2_readiness_proof_bound"])
         self.assertTrue(
             result["checks"]["gateway_attestation_runtime_verified"]
@@ -188,6 +195,30 @@ class AuroraCompletionStatusTests(unittest.TestCase):
         self.assertEqual(
             result["evidence_binding"]["readiness_evidence_run_id"],
             result["evidence_binding"]["g4_evidence_run_id"],
+        )
+
+    def test_completion_binds_g0_instance_id_to_signed_attestation(self):
+        g0, ready, g4, audit, g2 = proofs()
+        g0["gce_instance_id"] = "9876543210987654321"
+        ready["g0_g1_proof_sha256"] = digest(g0)
+        g4["readiness_proof_sha256"] = digest(ready)
+
+        result = evaluate_completion_status(
+            g0,
+            ready,
+            g4,
+            audit,
+            now=NOW,
+            g2_proof=g2,
+        )
+
+        self.assertEqual(
+            result["status"],
+            "BLOCKED",
+        )
+        self.assertIn(
+            "g0_control_plane_instance_bound_to_gateway_attestation",
+            result["failure_reasons"],
         )
 
     def test_completion_reverifies_signed_gateway_attestation(self):

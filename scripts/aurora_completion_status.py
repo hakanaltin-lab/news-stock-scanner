@@ -191,6 +191,16 @@ def evaluate_completion_status(
         )
         else {}
     )
+    g0_instance_id = str(
+        g0_proof.get("gce_instance_id") or ""
+    ).strip()
+    g2_attested_instance_id = str(
+        g2_gateway_attestation.get("gcp_instance_id") or ""
+    ).strip()
+    runtime_attested_instance_id = str(
+        gateway_attestation_verification.get("gcp_instance_id") or ""
+    ).strip()
+
     checks = {
         "g0_g1_verified": (
             g0_proof.get("status") == "G0_G1_VERIFIED"
@@ -200,6 +210,12 @@ def evaluate_completion_status(
         "g0_g1_evidence_current": (
             ages["g0_seconds"] is not None
             and ages["g0_seconds"] <= 86400
+        ),
+        "g0_control_plane_instance_bound_to_gateway_attestation": (
+            bool(g0_instance_id)
+            and g0_instance_id.isdigit()
+            and g0_instance_id == g2_attested_instance_id
+            == runtime_attested_instance_id
         ),
         "g2_g3_ready": (
             readiness.get("status") == "READY_FOR_CONTROLLED_DRY_RUN"
@@ -321,6 +337,13 @@ def evaluate_completion_status(
             "readiness_evidence_run_id": readiness_run_id,
             "g4_evidence_run_id": g4_run_id,
             "g0_g1_proof_sha256": actual_g0_digest,
+            "gce_instance_id": (
+                g0_instance_id
+                if checks[
+                    "g0_control_plane_instance_bound_to_gateway_attestation"
+                ]
+                else None
+            ),
             "readiness_recorded_g0_g1_proof_sha256": (
                 readiness_g0_digest or None
             ),

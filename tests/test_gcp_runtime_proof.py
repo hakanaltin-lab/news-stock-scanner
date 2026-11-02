@@ -8,6 +8,7 @@ from scripts.gcp_runtime_proof import evaluate_gcp_runtime_proof
 def vm():
     return {
         "name": "aurora-trading-vps",
+        "id": "1234567890123456789",
         "zone": "projects/p/zones/europe-west3-a",
         "machineType": "projects/p/zones/europe-west3-a/machineTypes/e2-medium",
         "status": "RUNNING",
@@ -66,6 +67,13 @@ class GCPRuntimeProofTests(unittest.TestCase):
         result = evaluate_gcp_runtime_proof(vm(), rules(), budget())
         self.assertEqual(result["status"], "G0_G1_VERIFIED")
         self.assertTrue(result["external_ip_present"])
+        self.assertEqual(
+            result["gce_instance_id"],
+            "1234567890123456789",
+        )
+        self.assertTrue(
+            result["checks"]["vm_instance_id_valid"]
+        )
         self.assertNotIn("natIP", result)
         self.assertFalse(result["paper_order_submission_allowed"])
 
@@ -81,6 +89,111 @@ class GCPRuntimeProofTests(unittest.TestCase):
         self.assertIn(
             "vm_identity",
             evaluate_gcp_runtime_proof(bad_vm, rules(), budget())["failure_reasons"],
+        )
+
+    def test_malformed_top_level_cloud_payloads_fail_closed(self):
+        cases = (
+            ([], rules(), budget()),
+            ("invalid", rules(), budget()),
+            (vm(), "invalid", budget()),
+            (vm(), [None], budget()),
+            (vm(), rules(), []),
+        )
+        for vm_payload, firewall_payload, budget_payload in cases:
+            with self.subTest(
+                vm_type=type(vm_payload).__name__,
+                firewall_type=type(firewall_payload).__name__,
+                budget_type=type(budget_payload).__name__,
+            ):
+                result = evaluate_gcp_runtime_proof(
+                    vm_payload,
+                    firewall_payload,
+                    budget_payload,
+                )
+                self.assertEqual(
+                    result["status"],
+                    "BLOCKED",
+                )
+                self.assertIn(
+                    "source_payloads_valid",
+                    result["failure_reasons"],
+                )
+
+    def test_malformed_nested_vm_payloads_do_not_raise(self):
+        candidate = vm()
+        candidate["metadata"] = []
+        candidate["tags"] = "invalid"
+        candidate["networkInterfaces"] = "invalid"
+
+        result = evaluate_gcp_runtime_proof(
+            candidate,
+            rules(),
+            budget(),
+        )
+
+        self.assertEqual(
+            result["status"],
+            "BLOCKED",
+        )
+        self.assertIn(
+            "vm_hardened",
+            result["failure_reasons"],
+        )
+        self.assertIn(
+            "network_contract",
+            result["failure_reasons"],
+        )
+
+    def test_missing_or_invalid_immutable_instance_id_blocks(self):
+        for value in (
+            None,
+            "",
+            "0",
+            "000123456",
+            "abc123456",
+            "12345",
+            True,
+        ):
+            with self.subTest(value=value):
+                candidate = vm()
+                if value is None:
+                    candidate.pop("id")
+                else:
+                    candidate["id"] = value
+
+                result = evaluate_gcp_runtime_proof(
+                    candidate,
+                    rules(),
+                    budget(),
+                )
+
+                self.assertEqual(
+                    result["status"],
+                    "BLOCKED",
+                )
+                self.assertIn(
+                    "vm_instance_id_valid",
+                    result["failure_reasons"],
+                )
+                self.assertIsNone(
+                    result["gce_instance_id"]
+                )
+
+    def test_integer_instance_id_is_canonicalized_without_loss(self):
+        candidate = vm()
+        candidate["id"] = 1234567890123456789
+        result = evaluate_gcp_runtime_proof(
+            candidate,
+            rules(),
+            budget(),
+        )
+        self.assertEqual(
+            result["status"],
+            "G0_G1_VERIFIED",
+        )
+        self.assertEqual(
+            result["gce_instance_id"],
+            "1234567890123456789",
         )
 
     def test_public_sensitive_allow_rule_blocks(self):

@@ -31,8 +31,8 @@ from engines.gateway_readonly_attestation_verifier import (
 )
 
 
-ENGINE_VERSION = "AURORA G7.6 Gateway Read-Only Reviewer Handoff Preflight"
-HANDOFF_REQUEST_TYPE = "IBKR_GATEWAY_READ_ONLY_REVIEW_REQUEST_V1"
+ENGINE_VERSION = "AURORA G7.8 Gateway Read-Only Reviewer Handoff Preflight"
+HANDOFF_REQUEST_TYPE = "IBKR_GATEWAY_READ_ONLY_REVIEW_REQUEST_V2"
 EXPECTED_INSTANCE_NAME = "aurora-trading-vps"
 EXPECTED_ZONE = "europe-west3-a"
 EXPECTED_PROJECT_ID = "project-ce9773ef-6814-469c-92b"
@@ -313,8 +313,10 @@ def evaluate_reviewer_handoff_preflight(
         else {}
     )
     required_g0_checks = (
+        "source_payloads_valid",
         "budget_guard_passed",
         "vm_identity",
+        "vm_instance_id_valid",
         "vm_running",
         "vm_hardened",
         "network_contract",
@@ -344,6 +346,16 @@ def evaluate_reviewer_handoff_preflight(
         g0_proof.get("project_id") == EXPECTED_PROJECT_ID
         and g0_proof.get("zone") == EXPECTED_ZONE
         and g0_proof.get("vm_name") == EXPECTED_INSTANCE_NAME,
+    )
+    require(
+        "g0_control_plane_instance_id_bound",
+        isinstance(
+            g0_proof.get("gce_instance_id"),
+            str,
+        )
+        and g0_proof.get("gce_instance_id")
+        == expected_instance_id
+        == runtime_cloud_identity.get("instance_id"),
     )
     require(
         "g0_runtime_checks_complete",
@@ -391,7 +403,7 @@ def evaluate_reviewer_handoff_preflight(
     handoff_request = None
     if ready:
         handoff_request = {
-            "request_schema_version": 1,
+            "request_schema_version": 2,
             "request_type": HANDOFF_REQUEST_TYPE,
             "requested_control": ATTESTATION_TYPE,
             "generated_at_utc": now.isoformat(),
@@ -414,6 +426,7 @@ def evaluate_reviewer_handoff_preflight(
             "g0_runtime_project_id": g0_proof.get("project_id"),
             "g0_runtime_zone": g0_proof.get("zone"),
             "g0_runtime_vm_name": g0_proof.get("vm_name"),
+            "g0_runtime_instance_id": g0_proof.get("gce_instance_id"),
             "operator_asserts_gateway_read_only": False,
             "requires_human_gateway_configuration_review": True,
             "signed_attestation_required": True,

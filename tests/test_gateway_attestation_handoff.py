@@ -37,10 +37,13 @@ def g0_proof():
         "project_id": "project-ce9773ef-6814-469c-92b",
         "zone": EXPECTED_ZONE,
         "vm_name": EXPECTED_INSTANCE_NAME,
+        "gce_instance_id": "1234567890123456789",
         "status": "G0_G1_VERIFIED",
         "checks": {
+            "source_payloads_valid": True,
             "budget_guard_passed": True,
             "vm_identity": True,
+            "vm_instance_id_valid": True,
             "vm_running": True,
             "vm_hardened": True,
             "network_contract": True,
@@ -135,6 +138,10 @@ class GatewayAttestationHandoffTests(unittest.TestCase):
             HANDOFF_REQUEST_TYPE,
         )
         self.assertEqual(
+            request["request_schema_version"],
+            2,
+        )
+        self.assertEqual(
             request["requested_control"],
             ATTESTATION_TYPE,
         )
@@ -155,6 +162,10 @@ class GatewayAttestationHandoffTests(unittest.TestCase):
         )
         self.assertEqual(
             request["gcp_instance_id"],
+            "1234567890123456789",
+        )
+        self.assertEqual(
+            request["g0_runtime_instance_id"],
             "1234567890123456789",
         )
         self.assertEqual(
@@ -224,6 +235,37 @@ class GatewayAttestationHandoffTests(unittest.TestCase):
         self.assertIn(
             "gce_runtime_instance_id_bound",
             clone_result["failure_reasons"],
+        )
+
+    def test_g0_control_plane_instance_id_must_match_policy_and_metadata(self):
+        missing = g0_proof()
+        missing.pop("gce_instance_id")
+        missing_result = self.evaluate(
+            g0_proof=missing
+        )
+        self.assertIn(
+            "g0_control_plane_instance_id_bound",
+            missing_result["failure_reasons"],
+        )
+
+        clone = g0_proof()
+        clone["gce_instance_id"] = "9876543210987654321"
+        clone_result = self.evaluate(
+            g0_proof=clone
+        )
+        self.assertIn(
+            "g0_control_plane_instance_id_bound",
+            clone_result["failure_reasons"],
+        )
+
+        weakened = g0_proof()
+        weakened["checks"]["vm_instance_id_valid"] = False
+        weakened_result = self.evaluate(
+            g0_proof=weakened
+        )
+        self.assertIn(
+            "g0_runtime_checks_complete",
+            weakened_result["failure_reasons"],
         )
 
     def test_dirty_repo_wrong_instance_or_missing_openssl_blocks(self):

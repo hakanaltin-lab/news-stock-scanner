@@ -62,6 +62,7 @@ def verified_g0(timestamp=None):
     return {
         "generated_at": timestamp,
         "status": "G0_G1_VERIFIED",
+        "gce_instance_id": "1234567890123456789",
         "failure_reasons": [],
         "broker_submission_allowed": False,
         "paper_order_submission_allowed": False,
@@ -83,6 +84,8 @@ def verified_gateway_attestation():
         "expires_at_utc": (NOW + timedelta(hours=1)).isoformat(),
         "git_sha": "a" * 40,
         "evidence_sha256": "b" * 64,
+        "gcp_project_id": "project-ce9773ef-6814-469c-92b",
+        "gcp_instance_id": "1234567890123456789",
     }
 
 
@@ -263,6 +266,29 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
                     "g2_gateway_read_only_independently_attested",
                     result["failure_reasons"],
                 )
+
+    def test_g0_instance_id_must_match_signed_gateway_attestation(self):
+        g0 = verified_g0()
+        g0["gce_instance_id"] = "9876543210987654321"
+
+        result = evaluate_readiness_bundle(
+            ready_g2(),
+            ready_g3(),
+            now=NOW,
+            g0_proof=g0,
+        )
+
+        self.assertEqual(
+            result["status"],
+            "NOT_READY",
+        )
+        self.assertIn(
+            "g0_control_plane_instance_bound_to_gateway_attestation",
+            result["failure_reasons"],
+        )
+        self.assertIsNone(
+            result["gce_instance_id"]
+        )
 
     def test_g2_required_failure_count_must_match_checks(self):
         g2 = ready_g2()
