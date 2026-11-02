@@ -27,9 +27,14 @@ def ready_snapshot():
             "mode_valid": True,
             "read_only": True,
             "endpoint_safe": True,
+            "client_id": 82,
+            "client_id_valid": True,
         },
         "official_ibapi_available": True,
         "order_submission_hard_blocked": True,
+        "broker_mutation_surface_hard_blocked": True,
+        "open_order_observation_mode": "REQ_ALL_OPEN_ORDERS_NON_BINDING",
+        "client_zero_binding_hard_blocked": True,
         "gateway_read_only_configuration_independently_attested": True,
         "live_trading_allowed": False,
         "account_count": 1,
@@ -73,6 +78,11 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
         self.assertEqual(snapshot["connection_status"], "NOT_ATTEMPTED")
         self.assertFalse(snapshot["live_trading_allowed"])
         self.assertTrue(snapshot["order_submission_hard_blocked"])
+        self.assertTrue(snapshot["broker_mutation_surface_hard_blocked"])
+        self.assertEqual(
+            snapshot["open_order_observation_mode"],
+            "REQ_ALL_OPEN_ORDERS_NON_BINDING",
+        )
 
     def test_live_mode_is_blocked_before_api_or_network_access(self):
         with patch.dict(os.environ, {
@@ -140,7 +150,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             self.assertEqual(snapshot["reason"], "INVALID_IBKR_PORT")
 
     def test_invalid_client_id_blocks_before_network_access(self):
-        for value in ("not-an-id", "-1", "2147483648"):
+        for value in ("not-an-id", "-1", "0", "2147483648"):
             with self.subTest(value=value), patch.dict(os.environ, {
                 "AURORA_IBKR_ENABLED": "true",
                 "AURORA_IBKR_MODE": "PAPER",
@@ -283,7 +293,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
         )
         self.assertNotIn("DU1234567", fingerprints)
 
-    def test_place_order_is_hard_blocked_even_with_ibapi_available(self):
+    def test_broker_mutation_surface_is_hard_blocked_even_with_ibapi_available(self):
         fake_ibapi = types.ModuleType("ibapi")
         fake_client = types.ModuleType("ibapi.client")
         fake_wrapper = types.ModuleType("ibapi.wrapper")
@@ -301,7 +311,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
 
         module_path = REPOSITORY_ROOT / "engines/ibkr_gateway_connector.py"
         specification = importlib.util.spec_from_file_location(
-            "ibkr_connector_order_block_test",
+            "ibkr_connector_mutation_block_test",
             module_path,
         )
         isolated = importlib.util.module_from_spec(specification)
@@ -315,8 +325,23 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
 
         application = isolated._IBKRSnapshotApp()
 
-        with self.assertRaisesRegex(RuntimeError, "hard-blocked"):
-            application.placeOrder(1, object(), object())
+        for method_name in isolated.BROKER_MUTATION_METHODS_HARD_BLOCKED:
+            with self.subTest(method_name=method_name):
+                self.assertIn(
+                    method_name,
+                    isolated._IBKRSnapshotApp.__dict__,
+                )
+                with self.assertRaisesRegex(RuntimeError, "hard-blocked"):
+                    getattr(application, method_name)()
+
+    def test_open_order_probe_uses_nonbinding_request(self):
+        source = (
+            REPOSITORY_ROOT
+            / "engines/ibkr_gateway_connector.py"
+        ).read_text(encoding="utf-8")
+
+        self.assertIn("app.reqAllOpenOrders()", source)
+        self.assertNotIn("app.reqOpenOrders()", source)
 
 
 class IBKRReadinessTests(unittest.TestCase):
