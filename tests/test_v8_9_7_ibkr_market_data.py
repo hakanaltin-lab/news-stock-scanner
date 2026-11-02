@@ -4,6 +4,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import stat
 import subprocess
 import sys
 import tempfile
@@ -402,6 +403,59 @@ class IBKRMarketDataStaticSafetyTests(unittest.TestCase):
             proof = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual(proof["evidence_run_id"], EVIDENCE_RUN_ID)
             self.assertFalse(proof["broker_submission_allowed"])
+            self.assertIn("git_sha", proof)
+            self.assertIsInstance(
+                proof.get("runtime_provenance"),
+                dict,
+            )
+            self.assertEqual(
+                stat.S_IMODE(output.stat().st_mode),
+                0o600,
+            )
+            self.assertEqual(output.stat().st_nlink, 1)
+
+
+    def test_probe_refuses_symlink_evidence_target(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            victim = root / "victim.json"
+            victim.write_text(
+                '{"unchanged":true}',
+                encoding="utf-8",
+            )
+            output = root / "g3-proof.json"
+            output.symlink_to(victim)
+
+            environment = os.environ.copy()
+            environment.update({
+                "AURORA_IBKR_MARKET_DATA_ENABLED": "false",
+                "AURORA_IBKR_MODE": "PAPER",
+                "AURORA_IBKR_MARKET_DATA_PROBE_OUTPUT": str(output),
+                "AURORA_EVIDENCE_RUN_ID": EVIDENCE_RUN_ID,
+            })
+
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    str(
+                        REPOSITORY_ROOT
+                        / "scripts"
+                        / "ibkr_market_data_probe.py"
+                    ),
+                    "NVDA",
+                ],
+                cwd=directory,
+                env=environment,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+
+            self.assertEqual(completed.returncode, 2)
+            self.assertEqual(
+                victim.read_text(encoding="utf-8"),
+                '{"unchanged":true}',
+            )
 
 
 if __name__ == "__main__":
