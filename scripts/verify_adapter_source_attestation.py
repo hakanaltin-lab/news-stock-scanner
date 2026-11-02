@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify the fixed-path independently signed G8.15 adapter source attestation.
 
-This command never signs evidence and has no reviewer private-key path.
+This command never signs evidence and has no reviewer signing-secret path.
 """
 
 from __future__ import annotations
