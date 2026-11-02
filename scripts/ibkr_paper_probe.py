@@ -322,6 +322,9 @@ def write_runtime_evidence_atomic(
             os.fsync(
                 handle.fileno()
             )
+            temporary_stat = os.fstat(
+                handle.fileno()
+            )
 
         os.replace(
             temporary_name,
@@ -329,17 +332,14 @@ def write_runtime_evidence_atomic(
         )
         temporary_name = None
 
-        os.chmod(
-            target,
-            RUNTIME_EVIDENCE_MODE,
-        )
-
-        final_stat = target.stat()
+        final_stat = target.lstat()
         if (
             not stat.S_ISREG(final_stat.st_mode)
             or stat.S_IMODE(final_stat.st_mode)
             != RUNTIME_EVIDENCE_MODE
             or final_stat.st_nlink != 1
+            or final_stat.st_dev != temporary_stat.st_dev
+            or final_stat.st_ino != temporary_stat.st_ino
         ):
             raise RuntimeError(
                 "runtime evidence final file unsafe"
