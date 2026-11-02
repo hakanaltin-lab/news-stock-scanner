@@ -105,6 +105,11 @@ def _utc_datetime(value):
     text = str(value or "").strip()
     if not text:
         return None
+    if not (
+        text.endswith("Z")
+        or text.endswith("+00:00")
+    ):
+        return None
     if text.endswith("Z"):
         text = text[:-1] + "+00:00"
     try:
@@ -326,11 +331,13 @@ def evaluate_gateway_readonly_attestation(
 
     require(
         "artifact_schema_version",
-        artifact.get("schema_version") == 1,
+        type(artifact.get("schema_version")) is int
+        and artifact.get("schema_version") == 1,
     )
     require(
         "policy_version",
-        policy.get("policy_version") == 1,
+        type(policy.get("policy_version")) is int
+        and policy.get("policy_version") == 1,
     )
     require(
         "attestation_id_uuid4",
