@@ -11,7 +11,9 @@ It validates that a human-created authorization artifact is:
 - bound by SHA-256 to the exact G0-G4 completion artifact;
 - bound by SHA-256 to the exact accepted G4 shadow order;
 - identified by a canonical UUIDv4;
-- unable to authorize LIVE trading or automatic promotion.
+- unable to authorize any broker submission, Paper submission, LIVE trading,
+  automatic promotion, or real-money trading;
+- an exact V2 schema with no additional or missing fields.
 
 A passing result is:
 
@@ -65,3 +67,46 @@ timestamps so later non-executable gates can re-check that the human approval
 has not expired.
 
 All execution permission flags remain false.
+
+## G8.10 trusted authorization artifact boundary
+
+G8.10 upgrades the manual authorization schema to
+`AURORA_G5_PAPER_AUTHORIZATION_V2`. The human authorization artifact must
+contain exactly these safety fields as `false`:
+
+- `broker_submission_allowed`
+- `paper_order_submission_allowed`
+- `live_execution_allowed`
+- `automatic_promotion_allowed`
+- `real_money_trading_allowed`
+
+The human approval remains represented separately by `approved=true`; this
+means only “the reviewed shadow order is approved for the next pre-execution
+review gate.” It does **not** turn on Paper order submission.
+
+The operational preflight is:
+
+```bash
+python scripts/g5_manual_authorization_preflight.py \
+  --authorization /path/to/human-authorization.json
+```
+
+By default it reads the fixed trusted completion and G4 shadow artifacts and
+writes:
+
+```text
+runtime/aurora_g5_authorization/latest.json
+```
+
+The completion artifact, G4 shadow artifact, and human authorization file must
+all pass the trusted owner-only runtime JSON boundary: regular file, current
+user owner, exact `0600` mode, one hard link, no symlink following, bounded
+size, stable read, valid UTF-8 JSON, and no duplicate object keys. The output
+is written atomically as owner-only `0600` evidence.
+
+A successful CLI result is still
+`MANUAL_PAPER_AUTHORIZATION_VALIDATED`, carries
+`authorization_is_pre_execution_only=true`, and leaves every execution
+permission false. Its next gate remains
+`PAPER_EXECUTION_CONNECTOR_REVIEW_REQUIRED`.
+
