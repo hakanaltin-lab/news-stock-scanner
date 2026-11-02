@@ -41,10 +41,63 @@ def evaluate_market_data_for_execution(
     max_age_seconds=DEFAULT_EXECUTION_MAX_AGE_SECONDS,
     allowed_sources=None,
 ):
-    market_data = market_data or {}
+    if not isinstance(market_data, dict):
+        market_data = {}
+
     allowed_sources = set(DEFAULT_EXECUTION_SOURCES)
     # Caller-supplied allowlists must not expand the execution trust boundary.
-    now_utc = _to_utc_datetime(now) or datetime.now(timezone.utc)
+
+    now_utc = (
+        datetime.now(timezone.utc)
+        if now is None
+        else _to_utc_datetime(now)
+    )
+    if now_utc is None:
+        return {
+            "execution_eligible": False,
+            "decision": "BLOCK",
+            "failure_reasons": ["INVALID_REFERENCE_CLOCK"],
+            "checks": {
+                "reference_clock_valid": False,
+            },
+            "source": None,
+            "market_timestamp": None,
+            "data_age_seconds": None,
+            "future_skew_seconds": None,
+            "max_age_seconds": None,
+        }
+
+    if isinstance(max_age_seconds, bool):
+        configured_max_age = None
+    else:
+        try:
+            configured_max_age = float(max_age_seconds)
+        except (
+            TypeError,
+            ValueError,
+            OverflowError,
+        ):
+            configured_max_age = None
+
+    if (
+        configured_max_age is None
+        or not math.isfinite(configured_max_age)
+        or not 0 < configured_max_age <= DEFAULT_EXECUTION_MAX_AGE_SECONDS
+    ):
+        return {
+            "execution_eligible": False,
+            "decision": "BLOCK",
+            "failure_reasons": ["INVALID_MAX_AGE_SECONDS"],
+            "checks": {
+                "reference_clock_valid": True,
+                "max_age_configuration_valid": False,
+            },
+            "source": None,
+            "market_timestamp": None,
+            "data_age_seconds": None,
+            "future_skew_seconds": None,
+            "max_age_seconds": None,
+        }
 
     source = str(market_data.get("source") or "").strip().upper()
     timestamp = _to_utc_datetime(
@@ -52,23 +105,34 @@ def evaluate_market_data_for_execution(
         or market_data.get("timestamp")
     )
 
-    try:
-        price = float(
-            market_data.get("last_price")
-            if market_data.get("last_price") is not None
-            else 0
-        )
-    except (TypeError, ValueError):
-        price = 0.0
+    raw_price = market_data.get("last_price")
+    if isinstance(raw_price, bool):
+        price = float("nan")
+    else:
+        try:
+            price = float(
+                raw_price
+                if raw_price is not None
+                else 0
+            )
+        except (
+            TypeError,
+            ValueError,
+            OverflowError,
+        ):
+            price = float("nan")
 
     data_quality = str(
         market_data.get("data_quality") or ""
     ).strip().upper()
 
-    try:
-        data_points = int(market_data.get("data_points") or 0)
-    except (TypeError, ValueError):
-        data_points = 0
+    raw_points = market_data.get("data_points")
+    data_points = (
+        raw_points
+        if type(raw_points) is int
+        and raw_points > 0
+        else 0
+    )
 
     age_seconds = None
     future_skew_seconds = None
@@ -82,7 +146,7 @@ def evaluate_market_data_for_execution(
         "timestamp_available": timestamp is not None,
         "fresh": (
             age_seconds is not None
-            and age_seconds <= float(max_age_seconds)
+            and age_seconds <= configured_max_age
         ),
         "clock_sane": (
             future_skew_seconds is not None
@@ -127,7 +191,7 @@ def evaluate_market_data_for_execution(
             if future_skew_seconds is not None
             else None
         ),
-        "max_age_seconds": float(max_age_seconds),
+        "max_age_seconds": configured_max_age,
         "checks": checks,
         "failure_reasons": failures,
         "decision": (
