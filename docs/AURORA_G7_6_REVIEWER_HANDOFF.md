@@ -42,11 +42,17 @@ environment or CLI path overrides. It requires:
 - runtime hostname matching the approved instance;
 - a valid current Git SHA;
 - no tracked Git modifications;
+- a fresh `runtime/gcp/latest.json` G0/G1 proof showing the approved project,
+  `aurora-trading-vps`, `europe-west3-a`, the hardened VM/network contract,
+  IAP SSH rule and public denial of ports 4002/5902;
+- all G0/G1 order-permission flags still false;
 - system OpenSSL available;
 - a valid policy freshness window and clock-skew limit.
 
 The output contains no broker account ID, balance, credential, or order
-authorization.
+authorization. The G0/G1 proof remains a preflight input, not Gateway Read-Only
+evidence; the independent reviewer must still inspect the Gateway/TWS setting
+directly.
 
 ## Handoff request is deliberately not an attestation
 
