@@ -100,6 +100,51 @@ class ShadowAuditLedgerTests(unittest.TestCase):
                 "PERSISTENT_DUPLICATE_ORDER_INTENT",
             )
 
+    def test_symlink_or_hardlink_ledger_target_fails_closed(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            victim = root / "victim.sqlite3"
+            victim.write_bytes(b"unchanged")
+            victim.chmod(0o600)
+
+            symlink = root / "symlink.sqlite3"
+            symlink.symlink_to(victim)
+            with self.assertRaisesRegex(
+                RuntimeError,
+                "SHADOW_LEDGER_FILE_UNTRUSTED",
+            ):
+                ShadowAuditLedger(
+                    symlink
+                ).record_shadow_order(
+                    {
+                        "shadow_order_id": "shadow-001",
+                        "idempotency_key": "intent-symlink",
+                        "symbol": "BKR",
+                    },
+                    {},
+                )
+            self.assertEqual(
+                victim.read_bytes(),
+                b"unchanged",
+            )
+
+            hardlink = root / "hardlink.sqlite3"
+            hardlink.hardlink_to(victim)
+            with self.assertRaisesRegex(
+                RuntimeError,
+                "SHADOW_LEDGER_FILE_UNTRUSTED",
+            ):
+                ShadowAuditLedger(
+                    hardlink
+                ).record_shadow_order(
+                    {
+                        "shadow_order_id": "shadow-002",
+                        "idempotency_key": "intent-hardlink",
+                        "symbol": "BKR",
+                    },
+                    {},
+                )
+
     def test_unavailable_ledger_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:
             blocked_path = Path(directory) / "as-directory"
