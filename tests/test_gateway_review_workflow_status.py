@@ -21,6 +21,7 @@ def identity(verified=True):
         **safe_flags(),
         "status": "VERIFIED" if verified else "BLOCKED",
         "verified": verified,
+        "failure_reasons": [] if verified else ["BLOCKED"],
     }
 
 
@@ -35,6 +36,7 @@ def handoff(ready=True):
         "ready_for_independent_review": ready,
         "attestation_verified": False,
         "gateway_read_only_configuration_independently_attested": False,
+        "failure_reasons": [] if ready else ["BLOCKED"],
     }
 
 
@@ -49,6 +51,7 @@ def package(ready=True):
         "ready_for_independent_review": ready,
         "attestation_verified": False,
         "gateway_read_only_configuration_independently_attested": False,
+        "failure_reasons": [] if ready else ["BLOCKED"],
     }
 
 
@@ -57,6 +60,7 @@ def attestation(verified=False):
         "status": "VERIFIED" if verified else "BLOCKED",
         "verified": verified,
         "gateway_read_only_configuration_independently_attested": verified,
+        "failure_reasons": [] if verified else ["BLOCKED"],
     }
 
 
@@ -170,6 +174,38 @@ class GatewayReviewWorkflowStatusTests(unittest.TestCase):
                     "EXECUTION_PERMISSION_INVARIANT_FAILED",
                     result["failure_reasons"],
                 )
+
+    def test_missing_permission_flag_is_not_treated_as_safe(self):
+        unsafe = identity()
+        unsafe.pop("paper_order_submission_allowed")
+
+        result = self.evaluate(
+            identity_value=unsafe
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["workflow_stage"],
+            "SAFETY_INVARIANT",
+        )
+        self.assertIn(
+            "EXECUTION_PERMISSION_INVARIANT_FAILED",
+            result["failure_reasons"],
+        )
+
+    def test_contradictory_ready_payload_with_failures_is_blocked(self):
+        contradictory = handoff()
+        contradictory["failure_reasons"] = ["unexpected"]
+
+        result = self.evaluate(
+            handoff_value=contradictory
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["workflow_stage"],
+            "TRUST_AND_HANDOFF",
+        )
 
     def test_invalid_input_fails_closed_without_leaking_component_details(self):
         result = status.evaluate_gateway_review_workflow(
