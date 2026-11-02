@@ -1,7 +1,6 @@
 """G7.12 tests for fail-closed independent-review workflow status."""
 
 import inspect
-import json
 import unittest
 from unittest.mock import patch
 
