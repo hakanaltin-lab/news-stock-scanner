@@ -11,6 +11,7 @@ This engine does not place orders.
 """
 
 from datetime import datetime, timezone
+import math
 
 
 ENGINE_VERSION = (
@@ -23,7 +24,7 @@ def safe_float(
     default=None
 ):
     try:
-        return float(
+        parsed = float(
             value
         )
     except (
@@ -31,6 +32,13 @@ def safe_float(
         ValueError
     ):
         return default
+
+    if not math.isfinite(
+        parsed
+    ):
+        return default
+
+    return parsed
 
 
 def account_metric(
