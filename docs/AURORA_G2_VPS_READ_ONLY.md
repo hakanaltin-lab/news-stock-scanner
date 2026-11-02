@@ -120,17 +120,31 @@ printed back to the terminal.
 ~/aurora/news-stock-scanner/scripts/run_aurora_g2_readonly.sh
 ```
 
-G2 passes only if the existing probe returns:
+The raw connector probe cannot self-certify the IB Gateway/TWS **Read-Only API**
+setting. Even when all broker diagnostics pass, G2 remains blocked until that
+external configuration has been independently reviewed and bound to the G2
+evidence:
 
 ```text
+diagnostic_read_only_ready = true
+gateway_read_only_configuration_independently_attested = false
+readiness = NOT_READY
+next_milestone = INDEPENDENT_GATEWAY_READ_ONLY_ATTESTATION
+```
+
+G2 passes only after the independently reviewed evidence is present:
+
+```text
+gateway_read_only_configuration_independently_attested = true
 readiness = READY_FOR_PAPER_READ_ONLY
 paper_order_submission_allowed = false
 live_execution_allowed = false
 ```
 
-The probe also requires managed account, account summary, positions and open
-orders to complete successfully while the Paper account identity matches the
-runtime allowlist.
+Do not use an environment variable, connector flag, or order attempt as a
+substitute for this attestation. The probe also requires managed account,
+account summary, positions and open orders to complete successfully while the
+Paper account identity matches the runtime allowlist.
 
 ## 8. Only after G2 PASS
 
