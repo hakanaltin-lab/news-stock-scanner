@@ -110,6 +110,22 @@ def evaluate_manual_paper_authorization(
 
     completion_digest = _digest(completion_status)
     shadow_digest = _digest(shadow_order)
+    completion_checks = (
+        completion_status.get("checks")
+        if isinstance(
+            completion_status.get("checks"),
+            dict,
+        )
+        else {}
+    )
+    completion_binding = (
+        completion_status.get("evidence_binding")
+        if isinstance(
+            completion_status.get("evidence_binding"),
+            dict,
+        )
+        else {}
+    )
 
     checks = {
         "completion_validated_shadow_only": (
@@ -117,7 +133,14 @@ def evaluate_manual_paper_authorization(
             == "PAPER_RUNTIME_VALIDATED_SHADOW_ONLY"
             and completion_status.get("next_gate")
             == "MANUAL_PAPER_ORDER_AUTHORIZATION_NOT_GRANTED"
+            and completion_status.get("failure_reasons") == []
             and _safe_flags(completion_status)
+            and completion_checks.get(
+                "g4_shadow_order_payload_valid"
+            ) is True
+            and completion_checks.get(
+                "g4_shadow_order_ledger_payload_bound"
+            ) is True
         ),
         "shadow_order_accepted": (
             shadow_order.get("status") == "SHADOW_ACCEPTED"
@@ -154,6 +177,15 @@ def evaluate_manual_paper_authorization(
             str(authorization.get("shadow_order_sha256") or "").lower(),
             shadow_digest,
         ),
+        "completion_shadow_order_digest_bound": hmac.compare_digest(
+            str(
+                completion_binding.get(
+                    "g4_shadow_order_sha256"
+                )
+                or ""
+            ).lower(),
+            shadow_digest,
+        ),
         "no_live_or_automatic_promotion": (
             authorization.get("live_execution_allowed") is False
             and authorization.get("automatic_promotion_allowed") is False
@@ -171,6 +203,8 @@ def evaluate_manual_paper_authorization(
         "authorization_id": authorization_id,
         "scope": "ONE_PAPER_ORDER",
         "mode": "PAPER",
+        "authorization_issued_at": issued_at.isoformat(),
+        "authorization_expires_at": expires_at.isoformat(),
         "completion_status_sha256": completion_digest,
         "shadow_order_sha256": shadow_digest,
         "checks": checks,
