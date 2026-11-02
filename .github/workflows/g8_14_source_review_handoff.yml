@@ -1,0 +1,96 @@
+name: G8.14 Adapter Source Review Handoff Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/paper_adapter_source_handoff.py"
+      - "engines/paper_adapter_source_review.py"
+      - "broker_engine/ibkr_paper_adapter_review_skeleton.py"
+      - "scripts/g6_adapter_source_review_handoff.py"
+      - "scripts/g6_adapter_source_review.py"
+      - "tests/test_paper_adapter_source_handoff.py"
+      - "docs/AURORA_G8_14_SOURCE_REVIEW_HANDOFF.md"
+      - ".github/workflows/g8_14_source_review_handoff.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  non-attesting-source-handoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile handoff components
+        run: |
+          python -m py_compile engines/paper_adapter_source_handoff.py
+          python -m py_compile scripts/g6_adapter_source_review_handoff.py
+          python -m py_compile tests/test_paper_adapter_source_handoff.py
+
+      - name: Prove handoff cannot self-attest or authorize execution
+        run: |
+          python -m unittest tests.test_paper_adapter_source_handoff -v
+
+      - name: Prove no broker or signing path exists
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+
+          files = (
+              Path("engines/paper_adapter_source_handoff.py"),
+              Path("scripts/g6_adapter_source_review_handoff.py"),
+          )
+          forbidden_text = (
+              "from ibapi",
+              "import ibapi",
+              "placeOrder",
+              "cancelOrder",
+              "reqGlobalCancel",
+              "exerciseOptions",
+              "replaceFA",
+              "reqAutoOpenOrders",
+              "submit_order(",
+              "private key",
+              "PRIVATE KEY",
+              "pkeyutl",
+              "signature_valid=True",
+              '"decision": "ATTESTED"',
+          )
+
+          for path in files:
+              source = path.read_text(encoding="utf-8")
+              for token in forbidden_text:
+                  assert token not in source, (str(path), token)
+
+              tree = ast.parse(source)
+              imports = []
+              for node in ast.walk(tree):
+                  if isinstance(node, ast.Import):
+                      imports.extend(
+                          alias.name.split(".")[0]
+                          for alias in node.names
+                      )
+                  elif isinstance(node, ast.ImportFrom):
+                      imports.append(
+                          (node.module or "").split(".")[0]
+                      )
+
+              for root in (
+                  "ibapi",
+                  "socket",
+                  "requests",
+                  "httpx",
+                  "aiohttp",
+                  "websockets",
+                  "paramiko",
+              ):
+                  assert root not in imports, (str(path), root)
+          PY
