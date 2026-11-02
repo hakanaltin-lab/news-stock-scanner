@@ -29,6 +29,23 @@ DEFAULT_MAX_G2_AGE_SECONDS = 300
 DEFAULT_MAX_G3_AGE_SECONDS = 60
 DEFAULT_MAX_G0_AGE_SECONDS = 86400
 
+_PERMISSION_FLAGS = (
+    "broker_submission_allowed",
+    "paper_order_submission_allowed",
+    "live_execution_allowed",
+    "automatic_promotion_allowed",
+    "real_money_trading_allowed",
+)
+
+EXPECTED_G3_MUTATION_METHODS = {
+    "placeOrder",
+    "cancelOrder",
+    "reqGlobalCancel",
+    "exerciseOptions",
+    "replaceFA",
+    "reqAutoOpenOrders",
+}
+
 EXPECTED_G2_REQUIRED_CHECKS = {
     "paper_mode_only",
     "safe_loopback_paper_endpoint",
@@ -117,6 +134,89 @@ def _verified_account_fingerprints(account_guard):
     return fingerprints
 
 
+def _verified_git_sha(value):
+    text = str(value or "").strip().lower()
+    if (
+        len(text) != 40
+        or any(
+            character not in "0123456789abcdef"
+            for character in text
+        )
+    ):
+        return None
+    return text
+
+
+def _runtime_provenance(payload):
+    if not isinstance(payload, dict):
+        return None
+
+    identity = payload.get(
+        "runtime_cloud_identity"
+    )
+    digest = str(
+        payload.get(
+            "g0_runtime_proof_sha256"
+        )
+        or
+        ""
+    ).strip().lower()
+
+    if (
+        payload.get("verified") is not True
+        or payload.get("failure_reasons") != []
+        or not all(
+            payload.get(name) is False
+            for name in _PERMISSION_FLAGS
+        )
+        or not isinstance(identity, dict)
+        or not isinstance(
+            identity.get("project_id"),
+            str,
+        )
+        or not identity.get("project_id")
+        or not isinstance(
+            identity.get("instance_name"),
+            str,
+        )
+        or not identity.get("instance_name")
+        or not isinstance(
+            identity.get("zone"),
+            str,
+        )
+        or not identity.get("zone")
+    ):
+        return None
+
+    instance_id = str(
+        identity.get(
+            "instance_id"
+        )
+        or
+        ""
+    ).strip()
+
+    if (
+        not instance_id.isdigit()
+        or not 6 <= len(instance_id) <= 30
+        or instance_id[0] == "0"
+        or len(digest) != 64
+        or any(
+            character not in "0123456789abcdef"
+            for character in digest
+        )
+    ):
+        return None
+
+    return {
+        "project_id": identity["project_id"],
+        "instance_name": identity["instance_name"],
+        "zone": identity["zone"],
+        "instance_id": instance_id,
+        "g0_runtime_proof_sha256": digest,
+    }
+
+
 def _verified_evidence_run_id(value):
     text = str(value or "").strip()
     try:
@@ -154,6 +254,18 @@ def evaluate_readiness_bundle(
 
     g2_run_mode = g2_proof.get("run_mode") or {}
     g2_readiness = g2_proof.get("readiness") or {}
+    g2_git_sha = _verified_git_sha(
+        g2_proof.get("git_sha")
+    )
+    g3_git_sha = _verified_git_sha(
+        g3_proof.get("git_sha")
+    )
+    g2_provenance = _runtime_provenance(
+        g2_proof.get("runtime_provenance")
+    )
+    g3_provenance = _runtime_provenance(
+        g3_proof.get("runtime_provenance")
+    )
     g2_snapshot = g2_proof.get("snapshot") or {}
     g2_gateway_attestation = (
         g2_proof.get("gateway_read_only_attestation")
@@ -364,12 +476,80 @@ def evaluate_readiness_bundle(
             g2_evidence_run_id is not None
             and g2_evidence_run_id == g3_evidence_run_id
         ),
+        "g2_g3_same_git_sha": (
+            g2_git_sha is not None
+            and g2_git_sha == g3_git_sha
+        ),
+        "g2_runtime_provenance_bound": (
+            g2_provenance is not None
+            and g2_provenance.get("project_id")
+            == g0_proof.get("project_id")
+            and g2_provenance.get("instance_name")
+            == g0_proof.get("vm_name")
+            and g2_provenance.get("zone")
+            == g0_proof.get("zone")
+            and g2_provenance.get("instance_id")
+            == g0_instance_id
+            and g2_provenance.get(
+                "g0_runtime_proof_sha256"
+            )
+            == g0_proof_sha256
+        ),
+        "g3_runtime_provenance_bound": (
+            g3_provenance is not None
+            and g3_provenance.get("project_id")
+            == g0_proof.get("project_id")
+            and g3_provenance.get("instance_name")
+            == g0_proof.get("vm_name")
+            and g3_provenance.get("zone")
+            == g0_proof.get("zone")
+            and g3_provenance.get("instance_id")
+            == g0_instance_id
+            and g3_provenance.get(
+                "g0_runtime_proof_sha256"
+            )
+            == g0_proof_sha256
+        ),
+        "g2_g3_runtime_identity_bound": (
+            g2_provenance is not None
+            and g2_provenance == g3_provenance
+        ),
         "g3_realtime_ready": g3_snapshot.get("status") == "REALTIME_READY",
         "g3_paper_loopback_endpoint": (
             g3_config.get("mode") == "PAPER"
+            and g3_config.get("mode_valid") is True
             and g3_config.get("endpoint_safe") is True
             and g3_config.get("host") == "127.0.0.1"
             and g3_config.get("port") == 4002
+            and g3_config.get("port_valid") is True
+            and type(g3_config.get("client_id")) is int
+            and g3_config.get("client_id") > 0
+            and g3_config.get("client_id_valid") is True
+            and g3_config.get("timeout_valid") is True
+            and g3_config.get("read_only") is True
+        ),
+        "g3_broker_mutation_surface_blocked": (
+            g3_snapshot.get(
+                "broker_mutation_surface_hard_blocked"
+            )
+            is True
+            and g3_snapshot.get(
+                "client_zero_binding_hard_blocked"
+            )
+            is True
+            and isinstance(
+                g3_snapshot.get(
+                    "blocked_broker_mutation_methods"
+                ),
+                list,
+            )
+            and set(
+                g3_snapshot.get(
+                    "blocked_broker_mutation_methods"
+                )
+            )
+            ==
+            EXPECTED_G3_MUTATION_METHODS
         ),
         "g3_paper_account_verified": (
             g3_account_guard.get("paper_account_verified") is True
@@ -394,6 +574,8 @@ def evaluate_readiness_bundle(
             g3_proof.get("broker_submission_allowed") is False
             and g3_proof.get("paper_order_submission_allowed") is False
             and g3_proof.get("live_execution_allowed") is False
+            and g3_proof.get("automatic_promotion_allowed") is False
+            and g3_proof.get("real_money_trading_allowed") is False
         ),
         "g3_evidence_fresh": (
             g3_age is not None
@@ -416,6 +598,11 @@ def evaluate_readiness_bundle(
         "evidence_run_id": (
             g2_evidence_run_id
             if checks["g2_g3_same_evidence_run"]
+            else None
+        ),
+        "git_sha": (
+            g2_git_sha
+            if checks["g2_g3_same_git_sha"]
             else None
         ),
         "g0_g1_proof_sha256": g0_proof_sha256,
