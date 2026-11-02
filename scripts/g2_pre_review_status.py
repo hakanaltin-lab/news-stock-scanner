@@ -142,22 +142,9 @@ def evaluate_pre_review_status(
             expected_run_id,
         )
 
-    summary = package.get(
-        "g2_diagnostic_summary"
-    )
-    if not isinstance(summary, dict):
-        return _blocked(
-            "G2_DIAGNOSTIC_SUMMARY_INVALID",
-            expected_run_id,
-        )
-
-    package_ready = (
+    basic_package_ready = (
         package.get("status")
         == "READY_FOR_INDEPENDENT_REVIEW_PACKAGE"
-        and package.get("package_type")
-        == RUNTIME_BOUND_PACKAGE_TYPE
-        and package.get("package_schema_version")
-        == RUNTIME_BOUND_PACKAGE_SCHEMA_VERSION
         and package.get("ready_for_independent_review")
         is True
         and package.get("attestation_verified")
@@ -167,15 +154,8 @@ def evaluate_pre_review_status(
         )
         is False
         and package.get("failure_reasons") == []
-        and _uuid4(
-            summary.get(
-                "evidence_run_id"
-            )
-        )
-        ==
-        expected_run_id
     )
-    if not package_ready:
+    if not basic_package_ready:
         reason = "REVIEW_PACKAGE_NOT_READY"
         failures = package.get(
             "failure_reasons"
@@ -189,6 +169,34 @@ def evaluate_pre_review_status(
             reason = failures[0]
         return _blocked(
             reason,
+            expected_run_id,
+        )
+
+    summary = package.get(
+        "g2_diagnostic_summary"
+    )
+    if not isinstance(summary, dict):
+        return _blocked(
+            "G2_DIAGNOSTIC_SUMMARY_INVALID",
+            expected_run_id,
+        )
+
+    package_binding_ready = (
+        package.get("package_type")
+        == RUNTIME_BOUND_PACKAGE_TYPE
+        and package.get("package_schema_version")
+        == RUNTIME_BOUND_PACKAGE_SCHEMA_VERSION
+        and _uuid4(
+            summary.get(
+                "evidence_run_id"
+            )
+        )
+        ==
+        expected_run_id
+    )
+    if not package_binding_ready:
+        return _blocked(
+            "REVIEW_PACKAGE_NOT_READY",
             expected_run_id,
         )
 
