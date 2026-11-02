@@ -139,7 +139,7 @@ class GatewayAttestationHandoffTests(unittest.TestCase):
         )
         self.assertEqual(
             request["request_schema_version"],
-            2,
+            3,
         )
         self.assertEqual(
             request["requested_control"],
