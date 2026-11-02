@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import sqlite3
+import stat
 
 
 SCHEMA = """
@@ -26,17 +27,108 @@ class ShadowAuditLedger:
     def __init__(self, path):
         self.path = Path(path)
 
+    def _prepare_trusted_file(self):
+        self.path.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        if self.path.parent.is_symlink():
+            raise RuntimeError(
+                "SHADOW_LEDGER_PARENT_SYMLINK_FORBIDDEN"
+            )
+
+        nofollow = getattr(
+            os,
+            "O_NOFOLLOW",
+            0,
+        )
+        if not nofollow:
+            raise RuntimeError(
+                "SHADOW_LEDGER_NOFOLLOW_UNAVAILABLE"
+            )
+
+        try:
+            metadata = self.path.lstat()
+        except FileNotFoundError:
+            flags = (
+                os.O_RDWR
+                |
+                os.O_CREAT
+                |
+                os.O_EXCL
+                |
+                nofollow
+                |
+                getattr(
+                    os,
+                    "O_CLOEXEC",
+                    0,
+                )
+            )
+            descriptor = os.open(
+                self.path,
+                flags,
+                0o600,
+            )
+            try:
+                os.fchmod(
+                    descriptor,
+                    0o600,
+                )
+                os.fsync(
+                    descriptor
+                )
+            finally:
+                os.close(
+                    descriptor
+                )
+            metadata = self.path.lstat()
+
+        trusted = (
+            stat.S_ISREG(metadata.st_mode)
+            and metadata.st_uid == os.geteuid()
+            and stat.S_IMODE(metadata.st_mode) == 0o600
+            and metadata.st_nlink == 1
+        )
+        if not trusted:
+            raise RuntimeError(
+                "SHADOW_LEDGER_FILE_UNTRUSTED"
+            )
+
+        return (
+            metadata.st_dev,
+            metadata.st_ino,
+        )
+
     def _connect(self):
-        self.path.parent.mkdir(parents=True, exist_ok=True)
+        expected_dev, expected_ino = (
+            self._prepare_trusted_file()
+        )
+
         connection = sqlite3.connect(
             str(self.path),
             timeout=10.0,
             isolation_level=None,
         )
+
+        current = self.path.lstat()
+        if (
+            not stat.S_ISREG(current.st_mode)
+            or current.st_dev != expected_dev
+            or current.st_ino != expected_ino
+            or current.st_uid != os.geteuid()
+            or stat.S_IMODE(current.st_mode) != 0o600
+            or current.st_nlink != 1
+        ):
+            connection.close()
+            raise RuntimeError(
+                "SHADOW_LEDGER_FILE_CHANGED_DURING_OPEN"
+            )
+
         connection.execute("PRAGMA busy_timeout = 10000")
         connection.execute("PRAGMA synchronous = FULL")
         connection.execute(SCHEMA)
-        os.chmod(self.path, 0o600)
         return connection
 
     @staticmethod

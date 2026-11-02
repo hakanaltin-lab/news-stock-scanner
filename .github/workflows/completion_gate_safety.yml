@@ -5,30 +5,40 @@ on:
   pull_request:
     paths:
       - "scripts/aurora_completion_status.py"
+      - "scripts/audit_aurora_g4_ledger.py"
+      - "scripts/gateway_review_package.py"
+      - "scripts/ibkr_paper_probe.py"
       - "scripts/aurora_g4_shadow.py"
       - "scripts/run_aurora_completion_gate.sh"
       - "scripts/gcp_runtime_proof.py"
       - "scripts/aurora_readiness_summary.py"
       - "engines/shadow_audit_verifier.py"
+      - "engines/shadow_audit_ledger.py"
       - "engines/gateway_readonly_attestation_verifier.py"
       - "engines/paper_order_authorization_gate.py"
       - "tests/test_aurora_completion_status.py"
       - "tests/test_aurora_readiness_summary.py"
       - "tests/test_shadow_audit_verifier.py"
+      - "tests/test_shadow_audit_ledger.py"
       - "tests/test_paper_order_authorization_gate.py"
       - ".github/workflows/completion_gate_safety.yml"
   push:
     paths:
       - "scripts/aurora_completion_status.py"
+      - "scripts/audit_aurora_g4_ledger.py"
+      - "scripts/gateway_review_package.py"
+      - "scripts/ibkr_paper_probe.py"
       - "scripts/aurora_g4_shadow.py"
       - "scripts/run_aurora_completion_gate.sh"
       - "scripts/gcp_runtime_proof.py"
       - "scripts/aurora_readiness_summary.py"
       - "engines/shadow_audit_verifier.py"
+      - "engines/shadow_audit_ledger.py"
       - "engines/gateway_readonly_attestation_verifier.py"
       - "tests/test_aurora_completion_status.py"
       - "tests/test_aurora_readiness_summary.py"
       - "tests/test_shadow_audit_verifier.py"
+      - "tests/test_shadow_audit_ledger.py"
       - ".github/workflows/completion_gate_safety.yml"
 
 permissions:
@@ -48,11 +58,15 @@ jobs:
       - name: Compile and check shell
         run: |
           python -m py_compile scripts/aurora_completion_status.py
+          python -m py_compile scripts/audit_aurora_g4_ledger.py
+          python -m py_compile scripts/gateway_review_package.py
+          python -m py_compile scripts/ibkr_paper_probe.py
           python -m py_compile scripts/aurora_g4_shadow.py
           python -m py_compile scripts/aurora_readiness_summary.py
           python -m py_compile tests/test_aurora_completion_status.py
           python -m py_compile tests/test_aurora_readiness_summary.py
           python -m py_compile engines/shadow_audit_verifier.py
+          python -m py_compile engines/shadow_audit_ledger.py
           python -m py_compile engines/gateway_readonly_attestation_verifier.py
           python -m py_compile engines/paper_order_authorization_gate.py
           python -m py_compile tests/test_paper_order_authorization_gate.py
@@ -63,5 +77,6 @@ jobs:
           python -m unittest tests.test_aurora_completion_status -v
           python -m unittest tests.test_aurora_readiness_summary -v
           python -m unittest tests.test_shadow_audit_verifier -v
+          python -m unittest tests.test_shadow_audit_ledger -v
           python -m unittest tests.test_paper_order_authorization_gate -v
           ! grep -E "placeOrder|submit_order|from ibapi|import ibapi|4001" engines/paper_order_authorization_gate.py

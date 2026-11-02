@@ -7,7 +7,6 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import tempfile
 import sys
 from uuid import UUID
 
@@ -21,6 +20,9 @@ from engines.gateway_readonly_attestation_verifier import (
 )
 from scripts.gateway_review_package import (
     read_trusted_runtime_evidence_json,
+)
+from scripts.ibkr_paper_probe import (
+    write_runtime_evidence_atomic,
 )
 
 
@@ -634,6 +636,7 @@ def evaluate_readiness_bundle(
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
         "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
         "next_milestone": (
             "G4_CONTROLLED_DRY_RUN"
             if ready
@@ -647,21 +650,6 @@ def _read_json(path):
         return json.loads(Path(path).read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return {}
-
-
-def _write_atomic(path, payload):
-    target = Path(path)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(
-        mode="w",
-        encoding="utf-8",
-        dir=str(target.parent),
-        delete=False,
-    ) as handle:
-        json.dump(payload, handle, indent=2, sort_keys=True)
-        handle.write("\n")
-        temporary = handle.name
-    os.replace(temporary, target)
 
 
 def main(argv=None):
@@ -690,7 +678,26 @@ def main(argv=None):
             gateway_attestation_verification
         ),
     )
-    _write_atomic(args.output, result)
+    try:
+        write_runtime_evidence_atomic(
+            args.output,
+            result,
+        )
+    except (
+        OSError,
+        RuntimeError,
+        ValueError,
+    ):
+        print(json.dumps({
+            "status": "RUNTIME_EVIDENCE_WRITE_FAILED",
+            "broker_submission_allowed": False,
+            "paper_order_submission_allowed": False,
+            "live_execution_allowed": False,
+            "automatic_promotion_allowed": False,
+            "real_money_trading_allowed": False,
+        }, indent=2, sort_keys=True))
+        return 2
+
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if result["status"] == "READY_FOR_CONTROLLED_DRY_RUN" else 2
 

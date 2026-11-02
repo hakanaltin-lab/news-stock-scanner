@@ -32,3 +32,15 @@ Missing, unreadable, malformed, altered, or unrelated receipts return
 `BLOCKED`. The
 verifier opens SQLite in read-only mode and exposes no insert, update, delete,
 broker, Paper-order, or LIVE-order path.
+
+## G8.9 trusted ledger audit boundary
+
+The read-only ledger verifier now requires the SQLite ledger itself to remain
+a single-link, owner-only `0600` regular file and verifies that the inode does
+not change while it is opened. Symlink, hardlink, wrong-owner or broad-mode
+ledger files are blocked.
+
+The G4 shadow input to the audit and the resulting
+`ledger_audit.json` are also processed through the trusted runtime JSON
+boundary. The audit report carries all broker/Paper/LIVE/automatic/real-money
+permissions as false.

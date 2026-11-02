@@ -86,6 +86,7 @@ def proofs():
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
         "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
     }
     g0 = g0_proof()
     signed_gateway_attestation = verified_gateway_attestation(
@@ -497,6 +498,38 @@ class AuroraCompletionStatusTests(unittest.TestCase):
             result["failure_reasons"],
         )
 
+    def test_real_money_flag_regression_blocks_each_runtime_stage(self):
+        for stage in ("readiness", "g4", "audit"):
+            with self.subTest(stage=stage):
+                g0, ready, g4, audit, g2 = proofs()
+                target = {
+                    "readiness": ready,
+                    "g4": g4,
+                    "audit": audit,
+                }[stage]
+                target["real_money_trading_allowed"] = True
+                if stage == "readiness":
+                    g4["readiness_proof_sha256"] = digest(
+                        ready
+                    )
+
+                result = evaluate_completion_status(
+                    g0,
+                    ready,
+                    g4,
+                    audit,
+                    now=NOW,
+                    g2_proof=g2,
+                )
+
+                self.assertEqual(
+                    result["status"],
+                    "BLOCKED",
+                )
+                self.assertFalse(
+                    result["real_money_trading_allowed"]
+                )
+
     def test_unsafe_flag_or_duplicate_receipt_blocks(self):
         g0, ready, g4, audit, g2 = proofs()
         g4["paper_order_submission_allowed"] = True
@@ -580,6 +613,11 @@ class AuroraCompletionStatusTests(unittest.TestCase):
             payload = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual(payload["status"], "BLOCKED")
             self.assertFalse(payload["paper_order_submission_allowed"])
+            self.assertFalse(payload["real_money_trading_allowed"])
+            self.assertEqual(
+                output.stat().st_mode & 0o777,
+                0o600,
+            )
 
     def test_completion_components_have_no_submission_path(self):
         sources = [

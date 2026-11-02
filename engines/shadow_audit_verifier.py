@@ -4,8 +4,10 @@ import hashlib
 import hmac
 import json
 from datetime import datetime, timezone
+import os
 from pathlib import Path
 import sqlite3
+import stat
 
 
 REQUIRED_COLUMNS = {
@@ -74,6 +76,7 @@ def _blocked(reason, **extra):
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
         "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
         **extra,
     }
 
@@ -84,16 +87,45 @@ def verify_shadow_ledger(path, expected_receipt=None):
         return _blocked("EXPECTED_LEDGER_RECEIPT_REQUIRED")
 
     target = Path(path)
-    if not target.is_file():
+
+    try:
+        metadata = target.lstat()
+    except OSError:
         return _blocked("LEDGER_NOT_FOUND")
+
+    trusted_file = (
+        stat.S_ISREG(metadata.st_mode)
+        and metadata.st_uid == os.geteuid()
+        and stat.S_IMODE(metadata.st_mode) == 0o600
+        and metadata.st_nlink == 1
+    )
+    if not trusted_file:
+        return _blocked("LEDGER_FILE_UNTRUSTED")
+
+    expected_dev = metadata.st_dev
+    expected_ino = metadata.st_ino
 
     connection = None
     try:
         connection = sqlite3.connect(
-            f"file:{target.resolve().as_posix()}?mode=ro",
+            f"file:{target.absolute().as_posix()}?mode=ro",
             uri=True,
             timeout=10.0,
         )
+
+        current = target.lstat()
+        if (
+            not stat.S_ISREG(current.st_mode)
+            or current.st_dev != expected_dev
+            or current.st_ino != expected_ino
+            or current.st_uid != os.geteuid()
+            or stat.S_IMODE(current.st_mode) != 0o600
+            or current.st_nlink != 1
+        ):
+            return _blocked(
+                "LEDGER_FILE_CHANGED_DURING_OPEN"
+            )
+
         integrity_rows = connection.execute(
             "PRAGMA integrity_check"
         ).fetchall()
@@ -199,6 +231,8 @@ def verify_shadow_ledger(path, expected_receipt=None):
                 "broker_submission_allowed",
                 "paper_order_submission_allowed",
                 "live_execution_allowed",
+                "automatic_promotion_allowed",
+                "real_money_trading_allowed",
             )
         ):
             failures.append(f"{prefix}_SUBMISSION_FLAGS_NOT_SAFE")
@@ -234,4 +268,5 @@ def verify_shadow_ledger(path, expected_receipt=None):
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
         "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
     }

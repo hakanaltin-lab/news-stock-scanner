@@ -40,6 +40,7 @@ def readiness(timestamp=None, market=None):
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
         "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
     }
 
 
@@ -68,6 +69,8 @@ def market_proof(timestamp=None):
         "broker_submission_allowed": False,
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
+        "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
     }
 
 
@@ -103,6 +106,7 @@ class AuroraG4ShadowTests(unittest.TestCase):
         self.assertFalse(result["broker_submission_allowed"])
         self.assertFalse(result["paper_order_submission_allowed"])
         self.assertFalse(result["live_execution_allowed"])
+        self.assertFalse(result["real_money_trading_allowed"])
         self.assertEqual(
             result["shadow_order"]["status"],
             "SHADOW_ACCEPTED",
@@ -224,6 +228,11 @@ class AuroraG4ShadowTests(unittest.TestCase):
             payload = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual(payload["status"], "BLOCKED")
             self.assertFalse(payload["paper_order_submission_allowed"])
+            self.assertFalse(payload["real_money_trading_allowed"])
+            self.assertEqual(
+                output.stat().st_mode & 0o777,
+                0o600,
+            )
 
     def test_runtime_components_contain_no_broker_submission_path(self):
         python_source = (
@@ -237,6 +246,9 @@ class AuroraG4ShadowTests(unittest.TestCase):
             self.assertNotIn(token, wrapper_source)
         self.assertIn("AURORA_RUN_MODE=DRY_RUN", wrapper_source)
         self.assertIn("run_aurora_g2_g3_readiness.sh", wrapper_source)
+        self.assertIn('stat -c %a "$INTENT_INPUT"', wrapper_source)
+        self.assertIn('stat -c %h "$INTENT_INPUT"', wrapper_source)
+        self.assertIn('! -L "$INTENT_INPUT"', wrapper_source)
 
 
 if __name__ == "__main__":

@@ -9,7 +9,6 @@ import json
 import os
 from pathlib import Path
 import sys
-import tempfile
 from uuid import UUID
 
 
@@ -20,6 +19,12 @@ if str(REPOSITORY_ROOT) not in sys.path:
 from engines.shadow_audit_verifier import receipt_binding_sha256
 from engines.gateway_readonly_attestation_verifier import (
     verify_installed_gateway_readonly_attestation,
+)
+from scripts.gateway_review_package import (
+    read_trusted_runtime_evidence_json,
+)
+from scripts.ibkr_paper_probe import (
+    write_runtime_evidence_atomic,
 )
 
 
@@ -88,7 +93,11 @@ def _age_seconds(value, now):
     return round(max(age, 0.0), 3)
 
 
-def _flags_safe(payload, include_automatic=True):
+def _flags_safe(
+    payload,
+    include_automatic=True,
+    include_real_money=False,
+):
     names = [
         "broker_submission_allowed",
         "paper_order_submission_allowed",
@@ -96,7 +105,13 @@ def _flags_safe(payload, include_automatic=True):
     ]
     if include_automatic:
         names.append("automatic_promotion_allowed")
-    return all(payload.get(name) is False for name in names)
+    if include_real_money:
+        names.append("real_money_trading_allowed")
+    return all(
+        name in payload
+        and payload.get(name) is False
+        for name in names
+    )
 
 
 def _shadow_flags_safe(payload):
@@ -287,7 +302,10 @@ def evaluate_completion_status(
         "g2_g3_ready": (
             readiness.get("status") == "READY_FOR_CONTROLLED_DRY_RUN"
             and not readiness.get("failure_reasons")
-            and _flags_safe(readiness)
+            and _flags_safe(
+                readiness,
+                include_real_money=True,
+            )
         ),
         "g0_g1_readiness_proof_bound": (
             _is_sha256(readiness_g0_digest)
@@ -349,7 +367,10 @@ def evaluate_completion_status(
         ),
         "g4_shadow_accepted": (
             g4_shadow.get("status") == "SHADOW_ACCEPTED"
-            and _flags_safe(g4_shadow)
+            and _flags_safe(
+                g4_shadow,
+                include_real_money=True,
+            )
             and receipt.get("recorded") is True
             and receipt.get("duplicate") is False
         ),
@@ -407,7 +428,10 @@ def evaluate_completion_status(
             ledger_audit.get("status") == "LEDGER_VERIFIED"
             and not ledger_audit.get("failure_reasons")
             and (ledger_audit.get("record_count") or 0) >= 1
-            and _flags_safe(ledger_audit)
+            and _flags_safe(
+                ledger_audit,
+                include_real_money=True,
+            )
         ),
         "g4_ledger_receipt_bound": (
             actual_receipt_digest is not None
@@ -501,21 +525,6 @@ def _read_json(path):
         return {}
 
 
-def _write_atomic(path, payload):
-    target = Path(path)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(
-        mode="w",
-        encoding="utf-8",
-        dir=str(target.parent),
-        delete=False,
-    ) as handle:
-        json.dump(payload, handle, indent=2, sort_keys=True)
-        handle.write("\n")
-        temporary = handle.name
-    os.replace(temporary, target)
-
-
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--g0-proof", default=DEFAULT_G0_PROOF)
@@ -533,15 +542,42 @@ def main(argv=None):
 
     result = evaluate_completion_status(
         _read_json(args.g0_proof),
-        _read_json(args.readiness),
-        _read_json(args.g4_shadow),
-        _read_json(args.ledger_audit),
-        g2_proof=_read_json(args.g2_proof),
+        read_trusted_runtime_evidence_json(
+            args.readiness
+        ),
+        read_trusted_runtime_evidence_json(
+            args.g4_shadow
+        ),
+        read_trusted_runtime_evidence_json(
+            args.ledger_audit
+        ),
+        g2_proof=read_trusted_runtime_evidence_json(
+            args.g2_proof
+        ),
         gateway_attestation_verification=(
             gateway_attestation_verification
         ),
     )
-    _write_atomic(args.output, result)
+    try:
+        write_runtime_evidence_atomic(
+            args.output,
+            result,
+        )
+    except (
+        OSError,
+        RuntimeError,
+        ValueError,
+    ):
+        print(json.dumps({
+            "status": "RUNTIME_EVIDENCE_WRITE_FAILED",
+            "broker_submission_allowed": False,
+            "paper_order_submission_allowed": False,
+            "live_execution_allowed": False,
+            "automatic_promotion_allowed": False,
+            "real_money_trading_allowed": False,
+        }, indent=2, sort_keys=True))
+        return 2
+
     print(json.dumps(result, indent=2, sort_keys=True))
     return (
         0
