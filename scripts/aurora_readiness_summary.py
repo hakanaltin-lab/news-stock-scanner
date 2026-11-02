@@ -39,6 +39,9 @@ EXPECTED_G2_REQUIRED_CHECKS = {
     "connector_read_only",
     "gateway_read_only_configuration_independently_attested",
     "order_submission_hard_blocked",
+    "broker_mutation_surface_hard_blocked",
+    "nonbinding_open_order_observation",
+    "nonzero_api_client_id",
     "live_trading_hard_blocked",
     "official_ibapi_available",
     "gateway_connected",
@@ -339,6 +342,19 @@ def evaluate_readiness_bundle(
             g2_readiness.get("paper_order_submission_allowed") is False
             and g2_readiness.get("live_execution_allowed") is False
             and g2_snapshot.get("order_submission_hard_blocked") is True
+            and g2_snapshot.get(
+                "broker_mutation_surface_hard_blocked"
+            )
+            is True
+            and g2_snapshot.get(
+                "open_order_observation_mode"
+            )
+            ==
+            "REQ_ALL_OPEN_ORDERS_NON_BINDING"
+            and g2_snapshot.get(
+                "client_zero_binding_hard_blocked"
+            )
+            is True
         ),
         "g2_evidence_fresh": (
             g2_age is not None
