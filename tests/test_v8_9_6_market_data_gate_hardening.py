@@ -36,6 +36,15 @@ class MarketDataGateHardeningTests(unittest.TestCase):
                 quote = {**self.quote, "data_points": value}
                 self.assertIn("has_data_points", evaluate_market_data_for_execution(quote, now=self.now)["failure_reasons"])
 
+    def test_invalid_max_age_configuration_blocks(self):
+        for value in (None, "bad", float("nan"), float("inf"), -1, 0, 999999):
+            with self.subTest(value=value):
+                result = evaluate_market_data_for_execution(
+                    self.quote, now=self.now, max_age_seconds=value
+                )
+                self.assertEqual(result["decision"], "BLOCK")
+                self.assertIn("INVALID_MAX_AGE_SECONDS", result["failure_reasons"])
+
     def test_yahoo_never_execution_grade(self):
         quote = {**self.quote, "source": "YFINANCE_15M"}
         self.assertEqual(evaluate_market_data_for_execution(quote, now=self.now)["decision"], "BLOCK")
