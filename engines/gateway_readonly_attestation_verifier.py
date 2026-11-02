@@ -32,7 +32,7 @@ from engines.gce_runtime_identity import (
 )
 
 
-ENGINE_VERSION = "AURORA G7.10 Gateway Read-Only Attestation Verifier"
+ENGINE_VERSION = "AURORA G7.14 Gateway Read-Only Attestation Verifier"
 
 DEFAULT_POLICY_PATH = Path(
     "/etc/aurora/gateway-readonly-attestation-policy.json"
@@ -800,6 +800,11 @@ def evaluate_gateway_readonly_attestation(
             if verified
             else None
         ),
+        "broker_submission_allowed": False,
+        "paper_order_submission_allowed": False,
+        "live_execution_allowed": False,
+        "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
     }
 
 
@@ -819,6 +824,11 @@ def _blocked(reason):
         "g0_runtime_proof_sha256": None,
         "gcp_project_id": None,
         "gcp_instance_id": None,
+        "broker_submission_allowed": False,
+        "paper_order_submission_allowed": False,
+        "live_execution_allowed": False,
+        "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
     }
 
 

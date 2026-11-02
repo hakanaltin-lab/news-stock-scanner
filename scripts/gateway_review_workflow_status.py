@@ -27,7 +27,7 @@ from engines.gateway_readonly_attestation_verifier import (
 )
 
 
-ENGINE_VERSION = "AURORA G7.12 Gateway Review Workflow Status"
+ENGINE_VERSION = "AURORA G7.14 Gateway Review Workflow Status"
 
 _PERMISSION_FLAGS = (
     "broker_submission_allowed",
@@ -118,18 +118,14 @@ def evaluate_gateway_review_workflow(
             failure_reason="WORKFLOW_INPUT_INVALID",
         )
 
-    attestation_permission_invariant = all(
-        name not in attestation_result
-        or attestation_result.get(name) is False
-        for name in _PERMISSION_FLAGS
-    )
-
     if (
         not all(
             _all_permissions_false(payload)
-            for payload in payloads
+            for payload in (
+                *payloads,
+                attestation_result,
+            )
         )
-        or not attestation_permission_invariant
     ):
         return _result(
             status="BLOCKED",
