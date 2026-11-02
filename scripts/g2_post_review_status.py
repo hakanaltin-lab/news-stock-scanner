@@ -19,6 +19,9 @@ from scripts.aurora_readiness_summary import (
 from scripts.gateway_review_package import (
     load_installed_g2_diagnostic_proof,
 )
+from engines.ibkr_paper_readiness_engine import (
+    evaluate_ibkr_paper_readiness,
+)
 
 
 ENGINE_VERSION = "AURORA G8.6 Strict G2 Post-Review Status"
@@ -285,6 +288,66 @@ def evaluate_post_review_g2_status(
             expected_run_id,
         )
 
+    recomputed = evaluate_ibkr_paper_readiness(
+        snapshot,
+        [],
+    )
+    recomputed_checks = recomputed.get(
+        "checks"
+    )
+    recomputed_required_names = (
+        {
+            item["check"]
+            for item in recomputed_checks
+            if (
+                isinstance(item, dict)
+                and item.get("required") is True
+            )
+        }
+        if isinstance(
+            recomputed_checks,
+            list,
+        )
+        else set()
+    )
+    recomputed_safe = (
+        recomputed.get("readiness")
+        == "READY_FOR_PAPER_READ_ONLY"
+        and recomputed.get(
+            "required_failure_count"
+        )
+        == 0
+        and recomputed.get(
+            "diagnostic_read_only_ready"
+        )
+        is True
+        and recomputed.get(
+            "gateway_read_only_configuration_independently_attested"
+        )
+        is True
+        and recomputed.get(
+            "paper_order_submission_allowed"
+        )
+        is False
+        and recomputed.get(
+            "live_execution_allowed"
+        )
+        is False
+        and recomputed_required_names
+        ==
+        EXPECTED_G2_REQUIRED_CHECKS
+        and all(
+            item.get("passed") is True
+            for item in recomputed_checks
+            if item.get("required") is True
+        )
+    )
+    if not recomputed_safe:
+        return _blocked(
+            "G2_RECOMPUTED_READINESS_NOT_CLEAN",
+            expected_run_id,
+        )
+
     checks = readiness.get(
         "checks"
     )
@@ -351,8 +414,12 @@ def evaluate_post_review_g2_status(
 
     readiness_safe = (
         readiness.get("readiness")
+        == recomputed.get("readiness")
         == "READY_FOR_PAPER_READ_ONLY"
         and readiness.get(
+            "required_failure_count"
+        )
+        == recomputed.get(
             "required_failure_count"
         )
         == 0
