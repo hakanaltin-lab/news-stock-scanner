@@ -1,0 +1,56 @@
+name: G8.22 Offline Order Request Materializer Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "config/offline_order_request_materializer_design_v1.json"
+      - "engines/offline_order_request_materializer.py"
+      - "scripts/build_offline_order_request_preview.py"
+      - "tests/test_offline_order_request_materializer.py"
+      - "docs/AURORA_G8_22_OFFLINE_ORDER_REQUEST_MATERIALIZER.md"
+      - ".github/workflows/g8_22_offline_order_request_materializer.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  offline-materializer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile offline materializer components
+        run: |
+          python -m py_compile engines/offline_order_request_materializer.py
+          python -m py_compile scripts/build_offline_order_request_preview.py
+          python -m py_compile tests/test_offline_order_request_materializer.py
+
+      - name: Prove materializer is pure offline and fail closed
+        run: |
+          python -m unittest tests.test_offline_order_request_materializer -v
+
+      - name: Prove no IBKR object or transmit path exists
+        run: |
+          python - <<'PY'
+          from tests.test_offline_order_request_materializer import (
+              OfflineOrderRequestMaterializerTests,
+          )
+
+          case = OfflineOrderRequestMaterializerTests()
+          result = case.evaluate()
+          assert result["offline_request_materialized"] is True
+          assert result["broker_request_materialized"] is False
+          assert result["broker_order_object_created"] is False
+          assert result["network_accessed"] is False
+          assert result["transmit"] is False
+          assert result["request"]["transmit"] is False
+          assert result["paper_order_submission_allowed"] is False
+          assert result["live_execution_allowed"] is False
+          PY
