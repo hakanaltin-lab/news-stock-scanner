@@ -49,7 +49,7 @@ def package(ready=True):
             if ready
             else status.RUNTIME_BOUND_PACKAGE_TYPE
         ),
-        "package_schema_version": 2,
+        "package_schema_version": status.RUNTIME_BOUND_PACKAGE_SCHEMA_VERSION,
         "status": (
             "READY_FOR_INDEPENDENT_REVIEW_PACKAGE"
             if ready

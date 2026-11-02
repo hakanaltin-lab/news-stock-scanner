@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Build sanitized unsigned Gateway Read-Only review packages.
 
-The legacy V1 builder validates only the trusted reviewer handoff. The G8.2
-runtime-bound V2 builder additionally requires a fresh, sanitized IBKR Paper
-diagnostic proof from the fixed G2 runtime path.
+The legacy V1 builder validates only the trusted reviewer handoff. The G8.3
+runtime-bound V3 builder additionally requires a fresh, sanitized IBKR Paper
+diagnostic proof from the fixed G2 runtime path and binds it to the same live
+GCE instance plus the same G0/G1 control-plane proof used by the handoff.
 
 Neither builder signs evidence, creates a positive attestation, nor enables any
 broker execution permission.
@@ -33,7 +34,8 @@ from engines.gateway_readonly_attestation_verifier import (
 
 
 PACKAGE_TYPE = "IBKR_GATEWAY_READ_ONLY_REVIEW_PACKAGE_V1"
-RUNTIME_BOUND_PACKAGE_TYPE = "IBKR_GATEWAY_READ_ONLY_REVIEW_PACKAGE_V2"
+RUNTIME_BOUND_PACKAGE_TYPE = "IBKR_GATEWAY_READ_ONLY_REVIEW_PACKAGE_V3"
+RUNTIME_BOUND_PACKAGE_SCHEMA_VERSION = 3
 DEFAULT_G2_DIAGNOSTIC_PROOF = (
     REPOSITORY_ROOT
     / "runtime/ibkr_paper_read_only/latest.json"
@@ -373,6 +375,58 @@ def _validate_g2_diagnostic(
     ):
         return None, "G2_DIAGNOSTIC_GIT_SHA_NOT_BOUND"
 
+    provenance = g2_proof.get("runtime_provenance")
+    if not isinstance(provenance, dict):
+        return None, "G2_DIAGNOSTIC_RUNTIME_PROVENANCE_INVALID"
+
+    provenance_identity = provenance.get(
+        "runtime_cloud_identity"
+    )
+    if not isinstance(provenance_identity, dict):
+        return None, "G2_DIAGNOSTIC_GCE_IDENTITY_NOT_BOUND"
+
+    handoff_instance_id = str(
+        handoff_request.get("gcp_instance_id") or ""
+    ).strip()
+    provenance_identity_safe = (
+        provenance.get("verified") is True
+        and provenance.get("failure_reasons") == []
+        and provenance_identity.get("project_id")
+        == handoff_request.get("gcp_project_id")
+        and provenance_identity.get("instance_name")
+        == handoff_request.get("instance_name")
+        and provenance_identity.get("zone")
+        == handoff_request.get("zone")
+        and provenance_identity.get("instance_id")
+        == handoff_instance_id
+        and handoff_instance_id.isdigit()
+        and 6 <= len(handoff_instance_id) <= 30
+        and handoff_instance_id[0] != "0"
+        and all(
+            provenance.get(name) is False
+            for name in _PERMISSION_FLAGS
+        )
+    )
+    if not provenance_identity_safe:
+        return None, "G2_DIAGNOSTIC_GCE_IDENTITY_NOT_BOUND"
+
+    provenance_g0_sha256 = str(
+        provenance.get("g0_runtime_proof_sha256") or ""
+    ).strip().lower()
+    handoff_g0_sha256 = str(
+        handoff_request.get("g0_runtime_proof_sha256") or ""
+    ).strip().lower()
+    provenance_g0_safe = (
+        len(provenance_g0_sha256) == 64
+        and all(
+            character in "0123456789abcdef"
+            for character in provenance_g0_sha256
+        )
+        and provenance_g0_sha256 == handoff_g0_sha256
+    )
+    if not provenance_g0_safe:
+        return None, "G2_DIAGNOSTIC_G0_PROOF_NOT_BOUND"
+
     run_mode = g2_proof.get("run_mode")
     snapshot = g2_proof.get("snapshot")
     readiness = g2_proof.get("readiness")
@@ -563,6 +617,13 @@ def _validate_g2_diagnostic(
         "captured_at_utc": captured_at.isoformat(),
         "age_seconds": round(max(0.0, age_seconds), 3),
         "git_sha": git_sha,
+        "gcp_project_id": provenance_identity.get(
+            "project_id"
+        ),
+        "gcp_instance_id": provenance_identity.get(
+            "instance_id"
+        ),
+        "g0_runtime_proof_sha256": provenance_g0_sha256,
         "snapshot_status": snapshot.get("status"),
         "connection_status": snapshot.get("connection_status"),
         "broker_mode": config.get("mode"),
@@ -588,7 +649,7 @@ def build_runtime_bound_review_package(
     now=None,
     max_age_seconds=DEFAULT_MAX_G2_DIAGNOSTIC_AGE_SECONDS,
 ):
-    """Build V2 only from a safe handoff plus fresh pre-review G2 evidence."""
+    """Build V3 only from a safe handoff plus deployment-bound G2 evidence."""
 
     v1 = build_unsigned_review_package(
         handoff_result
@@ -600,7 +661,7 @@ def build_runtime_bound_review_package(
         return _blocked(
             "HANDOFF_RESULT_NOT_SAFE_FOR_RUNTIME_BOUND_PACKAGE",
             package_type=RUNTIME_BOUND_PACKAGE_TYPE,
-            package_schema_version=2,
+            package_schema_version=RUNTIME_BOUND_PACKAGE_SCHEMA_VERSION,
         )
 
     request = v1["handoff_request"]
@@ -626,7 +687,7 @@ def build_runtime_bound_review_package(
     return {
         **v1,
         "package_type": RUNTIME_BOUND_PACKAGE_TYPE,
-        "package_schema_version": 2,
+        "package_schema_version": RUNTIME_BOUND_PACKAGE_SCHEMA_VERSION,
         "g2_diagnostic_proof_sha256": _canonical_sha256(
             g2_proof
         ),

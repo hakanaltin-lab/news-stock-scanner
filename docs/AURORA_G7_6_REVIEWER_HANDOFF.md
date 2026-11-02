@@ -74,7 +74,7 @@ The G7.5 attestation verifier rejects this request even if someone attempts to
 feed it back as an attestation. It has no `decision=ATTESTED`, no evidence
 hash, and no reviewer signature.
 
-## G7.11 / G8.2 runtime-bound unsigned reviewer package
+## G7.11 / G8.2 / G8.3 runtime-bound unsigned reviewer package
 
 After the G7.10 handoff reports `READY_FOR_INDEPENDENT_REVIEW`, first run the
 G2 diagnostic on the approved VPS in `READ_ONLY` mode. Before an independent
@@ -95,6 +95,9 @@ The pre-review evidence must show:
 - the independent Gateway Read-Only attestation as the **only** required
   failure;
 - the exact deployed Git SHA matching the reviewer handoff;
+- live GCE metadata matching the same approved project, VM name, zone and
+  immutable instance ID as the handoff;
+- the exact same canonical G0/G1 runtime proof digest used by the handoff;
 - evidence no more than five minutes old.
 
 Then run:
@@ -104,7 +107,7 @@ python scripts/gateway_review_package.py
 ```
 
 The CLI now prints a sanitized
-`IBKR_GATEWAY_READ_ONLY_REVIEW_PACKAGE_V2`. It cryptographically digests the
+`IBKR_GATEWAY_READ_ONLY_REVIEW_PACKAGE_V3`. It cryptographically digests the
 fresh G2 diagnostic proof and includes only a sanitized diagnostic summary,
 the exact V3 handoff request, and an `unsigned_artifact_template` with
 deployment identity and the signed-target `g0_runtime_proof_sha256`
@@ -211,7 +214,7 @@ Expected progression:
 RUNTIME_IDENTITY
 -> TRUST_AND_HANDOFF
 -> FRESH_G2_DIAGNOSTIC
--> REVIEW_PACKAGE_V2
+-> REVIEW_PACKAGE_V3
 -> INDEPENDENT_REVIEW
 -> SIGNED_ATTESTATION_VERIFIED
 ```
@@ -232,3 +235,22 @@ the signed independent attestation is VERIFIED and the next action is the G2
 Paper read-only probe. Waiting for review and every blocked state return a
 non-zero exit code, so shell automation cannot treat pending human review as a
 passed gate.
+
+## G8.3 deployment provenance binding
+
+G8.3 prevents a fresh G2 diagnostic generated on a different VM or against a
+different G0/G1 network proof from being reused for this deployment. The G2
+probe records only sanitized provenance:
+
+- approved GCP project ID;
+- approved VM name and zone;
+- immutable numeric GCE instance ID read from the link-local metadata service;
+- canonical SHA-256 of the fixed `runtime/gcp/latest.json` proof.
+
+The reviewer-package builder requires those values to match the G7.10 handoff
+exactly. A cross-VM instance ID, changed G0/G1 proof digest, unverified metadata
+identity, malformed provenance, or any execution-permission regression blocks
+the package before independent review. This provenance binding is defense in
+depth; it does not replace the independent human inspection of the Gateway/TWS
+Read-Only setting and does not authorize any order.
+

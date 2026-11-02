@@ -20,6 +20,7 @@ from engines.gateway_attestation_handoff import (
     build_installed_reviewer_handoff,
 )
 from scripts.gateway_review_package import (
+    RUNTIME_BOUND_PACKAGE_SCHEMA_VERSION,
     RUNTIME_BOUND_PACKAGE_TYPE,
     build_runtime_bound_review_package,
     load_installed_g2_diagnostic_proof,
@@ -188,7 +189,8 @@ def evaluate_gateway_review_workflow(
         == "READY_FOR_INDEPENDENT_REVIEW_PACKAGE"
         and review_package_result.get("package_type")
         == RUNTIME_BOUND_PACKAGE_TYPE
-        and review_package_result.get("package_schema_version") == 2
+        and review_package_result.get("package_schema_version")
+        == RUNTIME_BOUND_PACKAGE_SCHEMA_VERSION
         and review_package_result.get("ready_for_independent_review") is True
         and review_package_result.get("attestation_verified") is False
         and review_package_result.get(
