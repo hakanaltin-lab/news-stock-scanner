@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-31T17:51:24.562628",
+  "generated": "2026-11-02T06:50:32.713402",
   "scanner_version": "V8.6",
   "aurora_run_mode": {
     "requested_mode": "SAFE_OFF",
@@ -19,7 +19,7 @@
   "portfolio": [
     {
       "ticker": "AMD",
-      "timestamp": "2026-10-31T17:48:40.522311",
+      "timestamp": "2026-11-02T06:47:59.335630",
       "holding": {
         "shares": "10",
         "avg_cost": "140.16",
@@ -29,7 +29,7 @@
       },
       "market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-31T17:48:39.717911+00:00",
+        "timestamp": "2026-11-02T06:47:58.605627+00:00",
         "last_price": 505.18,
         "vwap": 538.95,
         "momentum": -16.08,
@@ -48,7 +48,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 79419.718,
+        "data_age_seconds": 212578.606,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -72,7 +72,7 @@
       },
       "tactical_market": {
         "ticker": "AMD",
-        "timestamp": "2026-10-31T17:48:39.717911+00:00",
+        "timestamp": "2026-11-02T06:47:58.605627+00:00",
         "last_price": 505.18,
         "vwap": 538.95,
         "momentum": -16.08,
@@ -118,9 +118,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-31T06:07:23.871620+00:00",
+        "timestamp": "2026-11-02T06:47:59.335112+00:00",
         "ticker": "AMD",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -135,7 +135,7 @@
           "cash_flow": 64.5,
           "balance_sheet": 83.3,
           "valuation": 57.9,
-          "revisions": 81.8
+          "revisions": 82.3
         },
         "fundamentals": {
           "revenue_growth_pct": 50.1,
@@ -152,14 +152,14 @@
           "current_ratio": 2.609
         },
         "valuation": {
-          "forward_pe": 31.736631,
-          "peg_ratio": 0.56
+          "forward_pe": 31.551458,
+          "peg_ratio": 0.5
         },
         "analyst_revision_context": {
-          "target_mean_price": 640.208,
-          "analyst_upside_pct": 26.73,
+          "target_mean_price": 645.82446,
+          "analyst_upside_pct": 27.84,
           "recommendation_mean": 1.49091,
-          "analyst_count": 50.0,
+          "analyst_count": 49.0,
           "eps_revisions": {
             "up_7d": 9,
             "up_30d": 14,
@@ -314,7 +314,7 @@
     },
     {
       "ticker": "ANET",
-      "timestamp": "2026-10-31T17:48:41.258259",
+      "timestamp": "2026-11-02T06:48:00.146632",
       "holding": {
         "shares": "35",
         "avg_cost": "147.95",
@@ -324,7 +324,7 @@
       },
       "market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-31T17:48:40.641387+00:00",
+        "timestamp": "2026-11-02T06:47:59.473713+00:00",
         "last_price": 168.86,
         "vwap": 179.72,
         "momentum": -5.11,
@@ -343,7 +343,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 79420.641,
+        "data_age_seconds": 212579.474,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -367,7 +367,7 @@
       },
       "tactical_market": {
         "ticker": "ANET",
-        "timestamp": "2026-10-31T17:48:40.641387+00:00",
+        "timestamp": "2026-11-02T06:47:59.473713+00:00",
         "last_price": 168.86,
         "vwap": 179.72,
         "momentum": -5.11,
@@ -413,9 +413,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-31T06:07:25.087467+00:00",
+        "timestamp": "2026-11-02T06:48:00.146073+00:00",
         "ticker": "ANET",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -448,7 +448,7 @@
         },
         "valuation": {
           "forward_pe": 32.333916,
-          "peg_ratio": 1.36
+          "peg_ratio": 1.25
         },
         "analyst_revision_context": {
           "target_mean_price": 243.58655,
@@ -609,7 +609,7 @@
     },
     {
       "ticker": "ASML",
-      "timestamp": "2026-10-31T17:48:41.750771",
+      "timestamp": "2026-11-02T06:48:00.820550",
       "holding": {
         "shares": "3",
         "avg_cost": "676.38",
@@ -619,7 +619,7 @@
       },
       "market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-31T17:48:41.390804+00:00",
+        "timestamp": "2026-11-02T06:48:00.279138+00:00",
         "last_price": 1565.23,
         "vwap": 1617.97,
         "momentum": -29.74,
@@ -638,7 +638,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 79421.391,
+        "data_age_seconds": 212580.279,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -662,7 +662,7 @@
       },
       "tactical_market": {
         "ticker": "ASML",
-        "timestamp": "2026-10-31T17:48:41.390804+00:00",
+        "timestamp": "2026-11-02T06:48:00.279138+00:00",
         "last_price": 1565.23,
         "vwap": 1617.97,
         "momentum": -29.74,
@@ -708,14 +708,14 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-31T06:07:26.009789+00:00",
+        "timestamp": "2026-11-02T06:48:00.819944+00:00",
         "ticker": "ASML",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
         "coverage_ratio": 1.0,
-        "thesis_score": 83.8,
+        "thesis_score": 83.9,
         "thesis_health": "STRONG",
         "hard_break_count": 0,
         "hard_breaks": [],
@@ -725,7 +725,7 @@
           "cash_flow": 66.3,
           "balance_sheet": 76.7,
           "valuation": 64.6,
-          "revisions": 89.6
+          "revisions": 89.7
         },
         "fundamentals": {
           "revenue_growth_pct": 55.2,
@@ -743,11 +743,11 @@
         },
         "valuation": {
           "forward_pe": 24.922112,
-          "peg_ratio": 0.9
+          "peg_ratio": 0.84
         },
         "analyst_revision_context": {
-          "target_mean_price": 2141.547,
-          "analyst_upside_pct": 36.82,
+          "target_mean_price": 2145.38,
+          "analyst_upside_pct": 37.06,
           "recommendation_mean": 1.36585,
           "analyst_count": 17.0,
           "eps_revisions": {
@@ -770,39 +770,33 @@
       "signal": "BEARISH",
       "scores": {
         "market_score": 32.4,
-        "news_score": 66,
-        "catalyst_score": 62,
+        "news_score": 58,
+        "catalyst_score": 56,
         "sector_score": 1.7,
         "risk_score": 69.9,
-        "alpha_score": 44.57,
+        "alpha_score": 43.07,
         "strategic_trend_score": 37.0,
         "strategic_risk_score": 32.7,
-        "strategic_composite_score": 33.3,
-        "fundamental_thesis_score": 83.8
+        "strategic_composite_score": 32.7,
+        "fundamental_thesis_score": 83.9
       },
       "news": {
         "ticker": "ASML",
-        "news_score": 66,
+        "news_score": 58,
         "events": [
-          "ai",
-          "artificial intelligence"
+          "ai"
         ],
         "article_count": 10,
         "data_quality": "LIVE"
       },
       "catalyst": {
         "ticker": "ASML",
-        "catalyst_score": 62,
+        "catalyst_score": 56,
         "catalyst_signal": "NEUTRAL",
         "catalysts": [
           {
             "type": "POSITIVE",
             "catalyst": "ai",
-            "impact": 6
-          },
-          {
-            "type": "POSITIVE",
-            "catalyst": "artificial intelligence",
             "impact": 6
           }
         ],
@@ -846,7 +840,7 @@
       "entry_action": "AVOID",
       "entry_decision": {
         "action": "AVOID",
-        "confidence": 48.5,
+        "confidence": 46.9,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -878,7 +872,7 @@
           "unrealized_pnl": 2666.55,
           "unrealized_pnl_pct": 131.41
         },
-        "strategic_composite_score": 33.3,
+        "strategic_composite_score": 32.7,
         "strategic_signal": "MIXED",
         "tactical_add_status": "DO_NOT_ADD_NOW",
         "reasons": [
@@ -897,12 +891,12 @@
           "above_sma100": false,
           "above_sma200": false,
           "sector_score": 1.7,
-          "catalyst_score": 62
+          "catalyst_score": 56
         },
         "tactical_inputs": {
           "signal": "BEARISH",
           "entry_action": "AVOID",
-          "confidence": 48.5
+          "confidence": 46.9
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -910,7 +904,7 @@
     },
     {
       "ticker": "BKR",
-      "timestamp": "2026-10-31T17:48:42.864244",
+      "timestamp": "2026-11-02T06:48:01.670759",
       "holding": {
         "shares": "13",
         "avg_cost": "57.80",
@@ -920,7 +914,7 @@
       },
       "market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-31T17:48:41.929125+00:00",
+        "timestamp": "2026-11-02T06:48:00.961698+00:00",
         "last_price": 55.23,
         "vwap": 55.94,
         "momentum": -0.37,
@@ -939,7 +933,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 79421.929,
+        "data_age_seconds": 212580.962,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -963,7 +957,7 @@
       },
       "tactical_market": {
         "ticker": "BKR",
-        "timestamp": "2026-10-31T17:48:41.929125+00:00",
+        "timestamp": "2026-11-02T06:48:00.961698+00:00",
         "last_price": 55.23,
         "vwap": 55.94,
         "momentum": -0.37,
@@ -1009,14 +1003,14 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-31T06:07:27.263912+00:00",
+        "timestamp": "2026-11-02T06:48:01.670039+00:00",
         "ticker": "BKR",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
         "coverage_ratio": 1.0,
-        "thesis_score": 61.7,
+        "thesis_score": 62.8,
         "thesis_health": "BROKEN",
         "hard_break_count": 2,
         "hard_breaks": [
@@ -1025,28 +1019,28 @@
         ],
         "component_scores": {
           "growth": 43.8,
-          "profitability": 56.2,
-          "cash_flow": 80.6,
-          "balance_sheet": 58.3,
-          "valuation": 72.3,
+          "profitability": 56.4,
+          "cash_flow": 83.3,
+          "balance_sheet": 59.4,
+          "valuation": 75.0,
           "revisions": 64.3
         },
         "fundamentals": {
           "revenue_growth_pct": 14.5,
           "earnings_growth_pct": -32.8,
-          "operating_margin_pct": 10.98,
+          "operating_margin_pct": 11.29,
           "profit_margin_pct": 10.08,
           "return_on_equity_pct": 15.06,
-          "free_cash_flow": 3901625088.0,
+          "free_cash_flow": 5079750144.0,
           "operating_cash_flow": 4512000000.0,
-          "fcf_yield_pct": 7.11,
-          "total_cash": 4068000000.0,
+          "fcf_yield_pct": 9.26,
+          "total_cash": 5377999872.0,
           "total_debt": 18264000512.0,
           "debt_to_equity": 88.828,
           "current_ratio": 1.238
         },
         "valuation": {
-          "forward_pe": 19.026718,
+          "forward_pe": 19.084774,
           "peg_ratio": 1.57
         },
         "analyst_revision_context": {
@@ -1074,20 +1068,21 @@
       "signal": "BEARISH",
       "scores": {
         "market_score": 46.1,
-        "news_score": 57,
-        "catalyst_score": 57,
+        "news_score": 67,
+        "catalyst_score": 67,
         "sector_score": 93.5,
         "risk_score": 68.6,
-        "alpha_score": 61.56,
+        "alpha_score": 64.06,
         "strategic_trend_score": 10.0,
         "strategic_risk_score": 33.6,
-        "strategic_composite_score": 31.9,
-        "fundamental_thesis_score": 61.7
+        "strategic_composite_score": 32.9,
+        "fundamental_thesis_score": 62.8
       },
       "news": {
         "ticker": "BKR",
-        "news_score": 57,
+        "news_score": 67,
         "events": [
+          "earnings beat",
           "contract"
         ],
         "article_count": 10,
@@ -1095,9 +1090,14 @@
       },
       "catalyst": {
         "ticker": "BKR",
-        "catalyst_score": 57,
-        "catalyst_signal": "NEUTRAL",
+        "catalyst_score": 67,
+        "catalyst_signal": "POSITIVE",
         "catalysts": [
+          {
+            "type": "POSITIVE",
+            "catalyst": "earnings beat",
+            "impact": 10
+          },
           {
             "type": "POSITIVE",
             "catalyst": "contract",
@@ -1144,7 +1144,7 @@
       "entry_action": "WATCH",
       "entry_decision": {
         "action": "WATCH",
-        "confidence": 58.8,
+        "confidence": 61.6,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -1177,7 +1177,7 @@
           "unrealized_pnl": -33.41,
           "unrealized_pnl_pct": -4.45
         },
-        "strategic_composite_score": 31.9,
+        "strategic_composite_score": 32.9,
         "strategic_signal": "DOWNTREND",
         "tactical_add_status": "WAIT_FOR_CONFIRMATION",
         "reasons": [
@@ -1197,12 +1197,12 @@
           "above_sma100": false,
           "above_sma200": false,
           "sector_score": 93.5,
-          "catalyst_score": 57
+          "catalyst_score": 67
         },
         "tactical_inputs": {
           "signal": "BEARISH",
           "entry_action": "WATCH",
-          "confidence": 58.8
+          "confidence": 61.6
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -1210,7 +1210,7 @@
     },
     {
       "ticker": "CCLD",
-      "timestamp": "2026-10-31T17:48:43.679718",
+      "timestamp": "2026-11-02T06:48:03.233207",
       "holding": {
         "shares": "490",
         "avg_cost": "2.04",
@@ -1220,7 +1220,7 @@
       },
       "market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-31T17:48:43.011183+00:00",
+        "timestamp": "2026-11-02T06:48:01.779136+00:00",
         "last_price": 1.76,
         "vwap": 1.75,
         "momentum": 0.02,
@@ -1239,7 +1239,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 79423.011,
+        "data_age_seconds": 212581.779,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -1263,7 +1263,7 @@
       },
       "tactical_market": {
         "ticker": "CCLD",
-        "timestamp": "2026-10-31T17:48:43.011183+00:00",
+        "timestamp": "2026-11-02T06:48:01.779136+00:00",
         "last_price": 1.76,
         "vwap": 1.75,
         "momentum": 0.02,
@@ -1309,9 +1309,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-31T06:07:28.465169+00:00",
+        "timestamp": "2026-11-02T06:48:03.232493+00:00",
         "ticker": "CCLD",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -1387,16 +1387,16 @@
         "ticker": "CCLD",
         "news_score": 50,
         "events": [],
-        "article_count": 10,
-        "data_quality": "LIVE"
+        "article_count": 0,
+        "data_quality": "NO_NEWS"
       },
       "catalyst": {
         "ticker": "CCLD",
         "catalyst_score": 50,
         "catalyst_signal": "NEUTRAL",
         "catalysts": [],
-        "article_count": 10,
-        "data_quality": "LIVE"
+        "article_count": 0,
+        "data_quality": "NO_NEWS"
       },
       "sector": {
         "ticker": "CCLD",
@@ -1501,7 +1501,7 @@
     },
     {
       "ticker": "CTAS",
-      "timestamp": "2026-10-31T17:48:44.454436",
+      "timestamp": "2026-11-02T06:48:04.006860",
       "holding": {
         "shares": "4",
         "avg_cost": "196.26",
@@ -1511,7 +1511,7 @@
       },
       "market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-31T17:48:43.827963+00:00",
+        "timestamp": "2026-11-02T06:48:03.365025+00:00",
         "last_price": 219.83,
         "vwap": 216.51,
         "momentum": -4.83,
@@ -1530,7 +1530,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 79423.828,
+        "data_age_seconds": 212583.365,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -1554,7 +1554,7 @@
       },
       "tactical_market": {
         "ticker": "CTAS",
-        "timestamp": "2026-10-31T17:48:43.827963+00:00",
+        "timestamp": "2026-11-02T06:48:03.365025+00:00",
         "last_price": 219.83,
         "vwap": 216.51,
         "momentum": -4.83,
@@ -1600,9 +1600,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-31T06:07:29.686893+00:00",
+        "timestamp": "2026-11-02T06:48:04.006057+00:00",
         "ticker": "CTAS",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -1635,7 +1635,7 @@
         },
         "valuation": {
           "forward_pe": 35.679504,
-          "peg_ratio": 3.42
+          "peg_ratio": 3.45
         },
         "analyst_revision_context": {
           "target_mean_price": 218.4375,
@@ -1788,7 +1788,7 @@
     },
     {
       "ticker": "GOOG",
-      "timestamp": "2026-10-31T17:48:45.068817",
+      "timestamp": "2026-11-02T06:48:04.725626",
       "holding": {
         "shares": "20",
         "avg_cost": "207.68",
@@ -1798,7 +1798,7 @@
       },
       "market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-31T17:48:44.570311+00:00",
+        "timestamp": "2026-11-02T06:48:04.132538+00:00",
         "last_price": 278.24,
         "vwap": 291.07,
         "momentum": -36.76,
@@ -1817,7 +1817,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 79424.57,
+        "data_age_seconds": 212584.132,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -1841,7 +1841,7 @@
       },
       "tactical_market": {
         "ticker": "GOOG",
-        "timestamp": "2026-10-31T17:48:44.570311+00:00",
+        "timestamp": "2026-11-02T06:48:04.132538+00:00",
         "last_price": 278.24,
         "vwap": 291.07,
         "momentum": -36.76,
@@ -1887,50 +1887,50 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-31T06:07:30.939747+00:00",
+        "timestamp": "2026-11-02T06:48:04.724775+00:00",
         "ticker": "GOOG",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
         "coverage_ratio": 1.0,
-        "thesis_score": 73.9,
+        "thesis_score": 70.2,
         "thesis_health": "DETERIORATING",
         "hard_break_count": 1,
         "hard_breaks": [
           "Earnings growth below -20%"
         ],
         "component_scores": {
-          "growth": 54.3,
+          "growth": 54.6,
           "profitability": 93.6,
-          "cash_flow": 62.1,
+          "cash_flow": 43.2,
           "balance_sheet": 83.3,
-          "valuation": 65.4,
-          "revisions": 85.7
+          "valuation": 64.9,
+          "revisions": 85.9
         },
         "fundamentals": {
           "revenue_growth_pct": 24.7,
-          "earnings_growth_pct": -26.0,
+          "earnings_growth_pct": -25.3,
           "operating_margin_pct": 31.8,
           "profit_margin_pct": 50.03,
           "return_on_equity_pct": 44.29,
-          "free_cash_flow": 5517000192.0,
+          "free_cash_flow": -1162499968.0,
           "operating_cash_flow": 179550994432.0,
-          "fcf_yield_pct": 0.16,
+          "fcf_yield_pct": -0.03,
           "total_cash": 265098002432.0,
-          "total_debt": 141916995584.0,
-          "debt_to_equity": 20.946,
+          "total_debt": 150330998784.0,
+          "debt_to_equity": 22.187,
           "current_ratio": 2.786
         },
         "valuation": {
-          "forward_pe": 18.378113,
+          "forward_pe": 18.332497,
           "peg_ratio": 0.98
         },
         "analyst_revision_context": {
-          "target_mean_price": 403.86667,
-          "analyst_upside_pct": 45.15,
-          "recommendation_mean": 1.4,
-          "analyst_count": 15.0,
+          "target_mean_price": 405.3125,
+          "analyst_upside_pct": 45.67,
+          "recommendation_mean": 1.38333,
+          "analyst_count": 16.0,
           "eps_revisions": {
             "up_7d": 5,
             "up_30d": 5,
@@ -1959,7 +1959,7 @@
         "strategic_trend_score": 10.0,
         "strategic_risk_score": 27.5,
         "strategic_composite_score": 16.6,
-        "fundamental_thesis_score": 73.9
+        "fundamental_thesis_score": 70.2
       },
       "news": {
         "ticker": "GOOG",
@@ -2086,7 +2086,7 @@
     },
     {
       "ticker": "NBIS",
-      "timestamp": "2026-10-31T17:48:45.538652",
+      "timestamp": "2026-11-02T06:48:05.329150",
       "holding": {
         "shares": "44",
         "avg_cost": "171.81",
@@ -2096,7 +2096,7 @@
       },
       "market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-31T17:48:45.185394+00:00",
+        "timestamp": "2026-11-02T06:48:04.837270+00:00",
         "last_price": 154.1,
         "vwap": 165.19,
         "momentum": 3.64,
@@ -2115,7 +2115,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 79425.185,
+        "data_age_seconds": 212584.837,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -2139,7 +2139,7 @@
       },
       "tactical_market": {
         "ticker": "NBIS",
-        "timestamp": "2026-10-31T17:48:45.185394+00:00",
+        "timestamp": "2026-11-02T06:48:04.837270+00:00",
         "last_price": 154.1,
         "vwap": 165.19,
         "momentum": 3.64,
@@ -2185,9 +2185,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-31T06:07:31.902464+00:00",
+        "timestamp": "2026-11-02T06:48:05.328208+00:00",
         "ticker": "NBIS",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -2220,7 +2220,7 @@
         },
         "valuation": {
           "forward_pe": -42.84249,
-          "peg_ratio": 0.38
+          "peg_ratio": 0.34
         },
         "analyst_revision_context": {
           "target_mean_price": 281.0,
@@ -2382,7 +2382,7 @@
     },
     {
       "ticker": "NVDA",
-      "timestamp": "2026-10-31T17:48:46.141254",
+      "timestamp": "2026-11-02T06:48:05.825664",
       "holding": {
         "shares": "24",
         "avg_cost": "160.96",
@@ -2392,7 +2392,7 @@
       },
       "market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-31T17:48:45.697280+00:00",
+        "timestamp": "2026-11-02T06:48:05.460649+00:00",
         "last_price": 204.81,
         "vwap": 212.25,
         "momentum": -10.06,
@@ -2411,7 +2411,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 79425.697,
+        "data_age_seconds": 212585.461,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -2435,7 +2435,7 @@
       },
       "tactical_market": {
         "ticker": "NVDA",
-        "timestamp": "2026-10-31T17:48:45.697280+00:00",
+        "timestamp": "2026-11-02T06:48:05.460649+00:00",
         "last_price": 204.81,
         "vwap": 212.25,
         "momentum": -10.06,
@@ -2481,9 +2481,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-31T06:07:32.822828+00:00",
+        "timestamp": "2026-11-02T06:48:05.824667+00:00",
         "ticker": "NVDA",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -2516,7 +2516,7 @@
         },
         "valuation": {
           "forward_pe": 12.858633,
-          "peg_ratio": 0.26
+          "peg_ratio": 0.25
         },
         "analyst_revision_context": {
           "target_mean_price": 328.95346,
@@ -2543,28 +2543,36 @@
       "signal": "BEARISH",
       "scores": {
         "market_score": 21.6,
-        "news_score": 50,
-        "catalyst_score": 50,
+        "news_score": 58,
+        "catalyst_score": 56,
         "sector_score": 1.7,
         "risk_score": 71.8,
-        "alpha_score": 38.27,
+        "alpha_score": 39.77,
         "strategic_trend_score": 35.0,
         "strategic_risk_score": 41.2,
-        "strategic_composite_score": 32.7,
+        "strategic_composite_score": 33.3,
         "fundamental_thesis_score": 85.3
       },
       "news": {
         "ticker": "NVDA",
-        "news_score": 50,
-        "events": [],
+        "news_score": 58,
+        "events": [
+          "ai"
+        ],
         "article_count": 10,
         "data_quality": "LIVE"
       },
       "catalyst": {
         "ticker": "NVDA",
-        "catalyst_score": 50,
+        "catalyst_score": 56,
         "catalyst_signal": "NEUTRAL",
-        "catalysts": [],
+        "catalysts": [
+          {
+            "type": "POSITIVE",
+            "catalyst": "ai",
+            "impact": 6
+          }
+        ],
         "article_count": 10,
         "data_quality": "LIVE"
       },
@@ -2605,7 +2613,7 @@
       "entry_action": "AVOID",
       "entry_decision": {
         "action": "AVOID",
-        "confidence": 41.7,
+        "confidence": 43.4,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -2637,7 +2645,7 @@
           "unrealized_pnl": 1052.4,
           "unrealized_pnl_pct": 27.24
         },
-        "strategic_composite_score": 32.7,
+        "strategic_composite_score": 33.3,
         "strategic_signal": "MIXED",
         "tactical_add_status": "DO_NOT_ADD_NOW",
         "reasons": [
@@ -2656,12 +2664,12 @@
           "above_sma100": false,
           "above_sma200": true,
           "sector_score": 1.7,
-          "catalyst_score": 50
+          "catalyst_score": 56
         },
         "tactical_inputs": {
           "signal": "BEARISH",
           "entry_action": "AVOID",
-          "confidence": 41.7
+          "confidence": 43.4
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -2669,7 +2677,7 @@
     },
     {
       "ticker": "OMDA",
-      "timestamp": "2026-10-31T17:48:46.785509",
+      "timestamp": "2026-11-02T06:48:06.435829",
       "holding": {
         "shares": "10",
         "avg_cost": "20.45",
@@ -2679,7 +2687,7 @@
       },
       "market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-31T17:48:46.321016+00:00",
+        "timestamp": "2026-11-02T06:48:05.934976+00:00",
         "last_price": 18.74,
         "vwap": 19.14,
         "momentum": -0.11,
@@ -2698,7 +2706,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 79426.321,
+        "data_age_seconds": 212585.935,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -2722,7 +2730,7 @@
       },
       "tactical_market": {
         "ticker": "OMDA",
-        "timestamp": "2026-10-31T17:48:46.321016+00:00",
+        "timestamp": "2026-11-02T06:48:05.934976+00:00",
         "last_price": 18.74,
         "vwap": 19.14,
         "momentum": -0.11,
@@ -2768,9 +2776,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-31T06:07:33.934210+00:00",
+        "timestamp": "2026-11-02T06:48:06.434770+00:00",
         "ticker": "OMDA",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -2956,7 +2964,7 @@
     },
     {
       "ticker": "UNH",
-      "timestamp": "2026-10-31T17:48:47.417124",
+      "timestamp": "2026-11-02T06:48:06.989148",
       "holding": {
         "shares": "2",
         "avg_cost": "369.93",
@@ -2966,7 +2974,7 @@
       },
       "market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-31T17:48:46.922650+00:00",
+        "timestamp": "2026-11-02T06:48:06.571901+00:00",
         "last_price": 406.96,
         "vwap": 410.0,
         "momentum": -9.9,
@@ -2985,7 +2993,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 79426.923,
+        "data_age_seconds": 212586.572,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -3009,7 +3017,7 @@
       },
       "tactical_market": {
         "ticker": "UNH",
-        "timestamp": "2026-10-31T17:48:46.922650+00:00",
+        "timestamp": "2026-11-02T06:48:06.571901+00:00",
         "last_price": 406.96,
         "vwap": 410.0,
         "momentum": -9.9,
@@ -3055,9 +3063,9 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-31T06:07:35.028533+00:00",
+        "timestamp": "2026-11-02T06:48:06.988019+00:00",
         "ticker": "UNH",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
@@ -3090,7 +3098,7 @@
         },
         "valuation": {
           "forward_pe": 17.476942,
-          "peg_ratio": 1.04
+          "peg_ratio": 1.03
         },
         "analyst_revision_context": {
           "target_mean_price": 476.64,
@@ -3251,7 +3259,7 @@
     },
     {
       "ticker": "VRT",
-      "timestamp": "2026-10-31T17:48:48.004121",
+      "timestamp": "2026-11-02T06:48:07.944332",
       "holding": {
         "shares": "11",
         "avg_cost": "316.20",
@@ -3261,7 +3269,7 @@
       },
       "market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-31T17:48:47.560245+00:00",
+        "timestamp": "2026-11-02T06:48:07.106174+00:00",
         "last_price": 232.59,
         "vwap": 230.69,
         "momentum": 35.97,
@@ -3280,7 +3288,7 @@
         "execution_eligible": false,
         "source": "YFINANCE_15M",
         "market_timestamp": "2026-10-30T19:45:00+00:00",
-        "data_age_seconds": 79427.56,
+        "data_age_seconds": 212587.106,
         "future_skew_seconds": 0.0,
         "max_age_seconds": 10.0,
         "checks": {
@@ -3304,7 +3312,7 @@
       },
       "tactical_market": {
         "ticker": "VRT",
-        "timestamp": "2026-10-31T17:48:47.560245+00:00",
+        "timestamp": "2026-11-02T06:48:07.106174+00:00",
         "last_price": 232.59,
         "vwap": 230.69,
         "momentum": 35.97,
@@ -3350,42 +3358,42 @@
       "fundamental_thesis": {
         "engine": "V8.5 Fundamental Thesis & Valuation Engine",
         "fundamental_signature": "V8.5.1",
-        "timestamp": "2026-10-31T06:07:36.140846+00:00",
+        "timestamp": "2026-11-02T06:48:07.943129+00:00",
         "ticker": "VRT",
-        "cache_status": "REUSED",
+        "cache_status": "FRESH",
         "data_source": "YAHOO_FINANCE_CURRENT_SNAPSHOT",
         "point_in_time_historical": false,
         "data_quality": "GOOD",
         "coverage_ratio": 1.0,
-        "thesis_score": 81.0,
+        "thesis_score": 81.1,
         "thesis_health": "STRONG",
         "hard_break_count": 0,
         "hard_breaks": [],
         "component_scores": {
           "growth": 100.0,
-          "profitability": 77.6,
+          "profitability": 78.0,
           "cash_flow": 70.5,
           "balance_sheet": 71.7,
-          "valuation": 68.9,
+          "valuation": 68.8,
           "revisions": 91.9
         },
         "fundamentals": {
           "revenue_growth_pct": 61.2,
           "earnings_growth_pct": 91.2,
-          "operating_margin_pct": 22.98,
+          "operating_margin_pct": 23.77,
           "profit_margin_pct": 16.0,
           "return_on_equity_pct": 46.57,
-          "free_cash_flow": 2976574976.0,
+          "free_cash_flow": 2962249984.0,
           "operating_cash_flow": 3665499904.0,
-          "fcf_yield_pct": 3.32,
+          "fcf_yield_pct": 3.31,
           "total_cash": 3711699968.0,
-          "total_debt": 3268199936.0,
-          "debt_to_equity": 59.4,
+          "total_debt": 3356900096.0,
+          "debt_to_equity": 61.012,
           "current_ratio": 1.392
         },
         "valuation": {
           "forward_pe": 23.864634,
-          "peg_ratio": 0.81
+          "peg_ratio": 0.73
         },
         "analyst_revision_context": {
           "target_mean_price": 339.07144,
@@ -3412,36 +3420,28 @@
       "signal": "BULLISH",
       "scores": {
         "market_score": 75.8,
-        "news_score": 58,
-        "catalyst_score": 56,
+        "news_score": 50,
+        "catalyst_score": 50,
         "sector_score": 43.5,
         "risk_score": 59.1,
-        "alpha_score": 61.83,
+        "alpha_score": 60.33,
         "strategic_trend_score": 10.0,
         "strategic_risk_score": 10.0,
-        "strategic_composite_score": 19.6,
-        "fundamental_thesis_score": 81.0
+        "strategic_composite_score": 19.0,
+        "fundamental_thesis_score": 81.1
       },
       "news": {
         "ticker": "VRT",
-        "news_score": 58,
-        "events": [
-          "ai"
-        ],
+        "news_score": 50,
+        "events": [],
         "article_count": 10,
         "data_quality": "LIVE"
       },
       "catalyst": {
         "ticker": "VRT",
-        "catalyst_score": 56,
+        "catalyst_score": 50,
         "catalyst_signal": "NEUTRAL",
-        "catalysts": [
-          {
-            "type": "POSITIVE",
-            "catalyst": "ai",
-            "impact": 6
-          }
-        ],
+        "catalysts": [],
         "article_count": 10,
         "data_quality": "LIVE"
       },
@@ -3482,7 +3482,7 @@
       "entry_action": "WATCH",
       "entry_decision": {
         "action": "WATCH",
-        "confidence": 63.3,
+        "confidence": 61.7,
         "entry_zone": null,
         "stop_loss": null,
         "target_price": null,
@@ -3515,7 +3515,7 @@
           "unrealized_pnl": -919.71,
           "unrealized_pnl_pct": -26.44
         },
-        "strategic_composite_score": 19.6,
+        "strategic_composite_score": 19.0,
         "strategic_signal": "DOWNTREND",
         "tactical_add_status": "WAIT_FOR_CONFIRMATION",
         "reasons": [
@@ -3535,12 +3535,12 @@
           "above_sma100": false,
           "above_sma200": false,
           "sector_score": 43.5,
-          "catalyst_score": 56
+          "catalyst_score": 50
         },
         "tactical_inputs": {
           "signal": "BULLISH",
           "entry_action": "WATCH",
-          "confidence": 63.3
+          "confidence": 61.7
         },
         "data_quality": "DAILY_3M_12M"
       },
@@ -3557,7 +3557,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-10-31T17:48:39.379544+00:00",
+      "retrieved_at": "2026-11-02T06:47:58.356740+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3576,7 +3576,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-10-31T17:48:40.522323+00:00",
+      "retrieved_at": "2026-11-02T06:47:59.335643+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3595,7 +3595,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-10-31T17:48:41.258270+00:00",
+      "retrieved_at": "2026-11-02T06:48:00.146644+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3614,7 +3614,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-10-31T17:48:41.750783+00:00",
+      "retrieved_at": "2026-11-02T06:48:00.820562+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3633,7 +3633,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-10-31T17:48:42.864256+00:00",
+      "retrieved_at": "2026-11-02T06:48:01.670772+00:00",
       "data_points": 113,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3652,7 +3652,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-10-31T17:48:43.679729+00:00",
+      "retrieved_at": "2026-11-02T06:48:03.233220+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3671,7 +3671,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-10-31T17:48:44.454447+00:00",
+      "retrieved_at": "2026-11-02T06:48:04.006872+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3690,7 +3690,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-10-31T17:48:45.068837+00:00",
+      "retrieved_at": "2026-11-02T06:48:04.725647+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3709,7 +3709,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-10-31T17:48:45.538663+00:00",
+      "retrieved_at": "2026-11-02T06:48:05.329162+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3728,7 +3728,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-10-31T17:48:46.141264+00:00",
+      "retrieved_at": "2026-11-02T06:48:05.825675+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3747,7 +3747,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-10-31T17:48:46.785519+00:00",
+      "retrieved_at": "2026-11-02T06:48:06.435840+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -3766,7 +3766,7 @@
       "data_scope": "RESEARCH_ONLY",
       "data_quality": "AVAILABLE",
       "market_timestamp": "2026-10-30T15:45:00-04:00",
-      "retrieved_at": "2026-10-31T17:48:47.417142+00:00",
+      "retrieved_at": "2026-11-02T06:48:06.989160+00:00",
       "data_points": 130,
       "execution_gate_decision": "BLOCK",
       "execution_gate_failures": [
@@ -4417,8 +4417,8 @@
   "opportunity_analysis": {
     "candidates_received": 15,
     "deep_analyzed": 8,
-    "actionable_count": 4,
-    "watch_count": 4,
+    "actionable_count": 3,
+    "watch_count": 5,
     "safety_blocked_count": 2,
     "top_actionable": [
       {
@@ -4437,7 +4437,7 @@
         },
         "market": {
           "ticker": "AMGN",
-          "timestamp": "2026-10-31T17:48:52.871214+00:00",
+          "timestamp": "2026-11-02T06:48:12.439101+00:00",
           "last_price": 466.05,
           "vwap": 456.33,
           "momentum": 19.73,
@@ -4580,7 +4580,7 @@
         },
         "market": {
           "ticker": "GILD",
-          "timestamp": "2026-10-31T17:48:51.164474+00:00",
+          "timestamp": "2026-11-02T06:48:10.993771+00:00",
           "last_price": 170.8,
           "vwap": 164.01,
           "momentum": 11.77,
@@ -4706,149 +4706,6 @@
         "data_quality": "LIVE"
       },
       {
-        "ticker": "WMT",
-        "sector": "Consumer Defensive",
-        "industry": "Discount Stores",
-        "fast_scan": {
-          "opportunity_score": 82.2,
-          "opportunity_signal": "HIGH_POTENTIAL",
-          "return_5d_pct": 3.02,
-          "return_20d_pct": 18.46,
-          "return_60d_pct": 10.47,
-          "relative_strength_20d": 20.27,
-          "volume_ratio": 0.87,
-          "overextension_pct": 6.52
-        },
-        "market": {
-          "ticker": "WMT",
-          "timestamp": "2026-10-31T17:48:53.357580+00:00",
-          "last_price": 123.52,
-          "vwap": 121.13,
-          "momentum": 2.97,
-          "momentum_pct": 2.46,
-          "vwap_distance_pct": 1.97,
-          "volume": 62780677,
-          "volume_ratio": 1.99,
-          "data_points": 130,
-          "data_quality": "UNVERIFIED",
-          "source": null,
-          "market_timestamp": null,
-          "data_scope": "RESEARCH_ONLY",
-          "execution_eligible": false
-        },
-        "market_signal": "BULLISH",
-        "scores": {
-          "market_score": 67.0,
-          "news_score": 58,
-          "catalyst_score": 56,
-          "sector_score": 94.0,
-          "risk_score": 90.3,
-          "alpha_score": 74.12
-        },
-        "news": {
-          "ticker": "WMT",
-          "news_score": 58,
-          "events": [
-            "ai"
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "catalyst": {
-          "ticker": "WMT",
-          "catalyst_score": 56,
-          "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "POSITIVE",
-              "catalyst": "ai",
-              "impact": 6
-            }
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "sector_analysis": {
-          "ticker": "WMT",
-          "sector": "Consumer Defensive",
-          "industry": "Discount Stores",
-          "sector_etf": "XLP",
-          "sector_score": 94.0,
-          "sector_signal": "STRONG",
-          "metrics": {
-            "sector_momentum_20d": 11.04,
-            "sector_momentum_5d": 1.31,
-            "market_momentum_20d": -1.81,
-            "relative_strength": 12.85,
-            "volatility_pct": 0.98,
-            "trend_above_sma20": true
-          },
-          "data_quality": "LIVE"
-        },
-        "risk": {
-          "ticker": "WMT",
-          "risk_score": 90.3,
-          "risk_signal": "LOW_RISK",
-          "volatility_pct": 0.24,
-          "max_drawdown_pct": 2.69,
-          "trend_pct": 2.46,
-          "average_dollar_volume": 58496044.0,
-          "components": {
-            "volatility_score": 93.9,
-            "drawdown_score": 78.5,
-            "liquidity_score": 100,
-            "downside_momentum_score": 100
-          },
-          "data_quality": "LIVE"
-        },
-        "rating": "STRONG",
-        "action": "ACCUMULATE",
-        "base_decision": {
-          "action": "ACCUMULATE",
-          "confidence": 72.4,
-          "entry_zone": {
-            "low": 118.58,
-            "high": 123.52
-          },
-          "stop_loss": 112.4,
-          "target_price": 142.05,
-          "risk_reward": 1.67,
-          "setup_quality": "POSITIVE",
-          "reasons": [
-            "Positive alpha score",
-            "Technical confirmation present",
-            "Catalyst confirmation present",
-            "Risk profile acceptable"
-          ]
-        },
-        "decision": {
-          "action": "ACCUMULATE",
-          "confidence": 72.4,
-          "entry_zone": {
-            "low": 118.58,
-            "high": 123.52
-          },
-          "stop_loss": 112.4,
-          "target_price": 142.05,
-          "risk_reward": 1.67,
-          "setup_quality": "POSITIVE",
-          "reasons": [
-            "Positive alpha score",
-            "Technical confirmation present",
-            "Catalyst confirmation present",
-            "Risk profile acceptable"
-          ],
-          "safety_gate": {
-            "triggered": false,
-            "original_action": "ACCUMULATE",
-            "final_action": "ACCUMULATE",
-            "reasons": []
-          }
-        },
-        "status": "ANALYZED",
-        "data_quality": "LIVE"
-      },
-      {
         "ticker": "COP",
         "sector": "Energy",
         "industry": "Oil & Gas",
@@ -4864,7 +4721,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-31T17:48:52.329847+00:00",
+          "timestamp": "2026-11-02T06:48:11.958834+00:00",
           "last_price": 154.05,
           "vwap": 150.46,
           "momentum": 3.1,
@@ -4894,7 +4751,7 @@
           "events": [
             "ai"
           ],
-          "article_count": 10,
+          "article_count": 9,
           "data_quality": "LIVE"
         },
         "catalyst": {
@@ -4908,7 +4765,7 @@
               "impact": 6
             }
           ],
-          "article_count": 10,
+          "article_count": 9,
           "data_quality": "LIVE"
         },
         "sector_analysis": {
@@ -5009,7 +4866,7 @@
         },
         "market": {
           "ticker": "LLY",
-          "timestamp": "2026-10-31T17:48:50.648678+00:00",
+          "timestamp": "2026-11-02T06:48:10.506090+00:00",
           "last_price": 1416.3,
           "vwap": 1358.33,
           "momentum": 131.82,
@@ -5039,7 +4896,7 @@
           "events": [
             "guidance raise"
           ],
-          "article_count": 9,
+          "article_count": 10,
           "data_quality": "LIVE"
         },
         "catalyst": {
@@ -5053,7 +4910,7 @@
               "impact": 10
             }
           ],
-          "article_count": 9,
+          "article_count": 10,
           "data_quality": "LIVE"
         },
         "sector_analysis": {
@@ -5134,6 +4991,268 @@
         "data_quality": "LIVE"
       },
       {
+        "ticker": "WMT",
+        "sector": "Consumer Defensive",
+        "industry": "Discount Stores",
+        "fast_scan": {
+          "opportunity_score": 82.2,
+          "opportunity_signal": "HIGH_POTENTIAL",
+          "return_5d_pct": 3.02,
+          "return_20d_pct": 18.46,
+          "return_60d_pct": 10.47,
+          "relative_strength_20d": 20.27,
+          "volume_ratio": 0.87,
+          "overextension_pct": 6.52
+        },
+        "market": {
+          "ticker": "WMT",
+          "timestamp": "2026-11-02T06:48:12.874657+00:00",
+          "last_price": 123.52,
+          "vwap": 121.13,
+          "momentum": 2.97,
+          "momentum_pct": 2.46,
+          "vwap_distance_pct": 1.97,
+          "volume": 62780677,
+          "volume_ratio": 1.99,
+          "data_points": 130,
+          "data_quality": "UNVERIFIED",
+          "source": null,
+          "market_timestamp": null,
+          "data_scope": "RESEARCH_ONLY",
+          "execution_eligible": false
+        },
+        "market_signal": "BULLISH",
+        "scores": {
+          "market_score": 67.0,
+          "news_score": 50,
+          "catalyst_score": 50,
+          "sector_score": 94.0,
+          "risk_score": 90.3,
+          "alpha_score": 72.62
+        },
+        "news": {
+          "ticker": "WMT",
+          "news_score": 50,
+          "events": [],
+          "article_count": 9,
+          "data_quality": "LIVE"
+        },
+        "catalyst": {
+          "ticker": "WMT",
+          "catalyst_score": 50,
+          "catalyst_signal": "NEUTRAL",
+          "catalysts": [],
+          "article_count": 9,
+          "data_quality": "LIVE"
+        },
+        "sector_analysis": {
+          "ticker": "WMT",
+          "sector": "Consumer Defensive",
+          "industry": "Discount Stores",
+          "sector_etf": "XLP",
+          "sector_score": 94.0,
+          "sector_signal": "STRONG",
+          "metrics": {
+            "sector_momentum_20d": 11.04,
+            "sector_momentum_5d": 1.31,
+            "market_momentum_20d": -1.81,
+            "relative_strength": 12.85,
+            "volatility_pct": 0.98,
+            "trend_above_sma20": true
+          },
+          "data_quality": "LIVE"
+        },
+        "risk": {
+          "ticker": "WMT",
+          "risk_score": 90.3,
+          "risk_signal": "LOW_RISK",
+          "volatility_pct": 0.24,
+          "max_drawdown_pct": 2.69,
+          "trend_pct": 2.46,
+          "average_dollar_volume": 58496044.0,
+          "components": {
+            "volatility_score": 93.9,
+            "drawdown_score": 78.5,
+            "liquidity_score": 100,
+            "downside_momentum_score": 100
+          },
+          "data_quality": "LIVE"
+        },
+        "rating": "STRONG",
+        "action": "WATCH",
+        "base_decision": {
+          "action": "WATCH",
+          "confidence": 70.8,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
+          "reasons": [
+            "Setup has potential",
+            "Further confirmation required"
+          ]
+        },
+        "decision": {
+          "action": "WATCH",
+          "confidence": 70.8,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
+          "reasons": [
+            "Setup has potential",
+            "Further confirmation required"
+          ],
+          "safety_gate": {
+            "triggered": false,
+            "original_action": "WATCH",
+            "reasons": []
+          }
+        },
+        "status": "ANALYZED",
+        "data_quality": "LIVE"
+      },
+      {
+        "ticker": "MA",
+        "sector": "Financials",
+        "industry": "Credit Services",
+        "fast_scan": {
+          "opportunity_score": 81.8,
+          "opportunity_signal": "HIGH_POTENTIAL",
+          "return_5d_pct": 2.31,
+          "return_20d_pct": 15.7,
+          "return_60d_pct": 10.94,
+          "relative_strength_20d": 17.51,
+          "volume_ratio": 1.21,
+          "overextension_pct": 5.26
+        },
+        "market": {
+          "ticker": "MA",
+          "timestamp": "2026-11-02T06:48:13.434387+00:00",
+          "last_price": 638.01,
+          "vwap": 624.27,
+          "momentum": 19.78,
+          "momentum_pct": 3.2,
+          "vwap_distance_pct": 2.2,
+          "volume": 14738266,
+          "volume_ratio": 1.23,
+          "data_points": 130,
+          "data_quality": "UNVERIFIED",
+          "source": null,
+          "market_timestamp": null,
+          "data_scope": "RESEARCH_ONLY",
+          "execution_eligible": false
+        },
+        "market_signal": "BULLISH",
+        "scores": {
+          "market_score": 65.8,
+          "news_score": 52,
+          "catalyst_score": 52,
+          "sector_score": 89.9,
+          "risk_score": 90.5,
+          "alpha_score": 72.14
+        },
+        "news": {
+          "ticker": "MA",
+          "news_score": 52,
+          "events": [
+            "earnings beat",
+            "lawsuit"
+          ],
+          "article_count": 10,
+          "data_quality": "LIVE"
+        },
+        "catalyst": {
+          "ticker": "MA",
+          "catalyst_score": 52,
+          "catalyst_signal": "NEUTRAL",
+          "catalysts": [
+            {
+              "type": "POSITIVE",
+              "catalyst": "earnings beat",
+              "impact": 10
+            },
+            {
+              "type": "NEGATIVE",
+              "catalyst": "lawsuit",
+              "impact": -8
+            }
+          ],
+          "article_count": 10,
+          "data_quality": "LIVE"
+        },
+        "sector_analysis": {
+          "ticker": "MA",
+          "sector": "Financial Services",
+          "industry": "Credit Services",
+          "sector_etf": "XLF",
+          "sector_score": 89.9,
+          "sector_signal": "STRONG",
+          "metrics": {
+            "sector_momentum_20d": 5.65,
+            "sector_momentum_5d": 1.09,
+            "market_momentum_20d": -1.81,
+            "relative_strength": 7.45,
+            "volatility_pct": 0.78,
+            "trend_above_sma20": true
+          },
+          "data_quality": "LIVE"
+        },
+        "risk": {
+          "ticker": "MA",
+          "risk_score": 90.5,
+          "risk_signal": "LOW_RISK",
+          "volatility_pct": 0.42,
+          "max_drawdown_pct": 2.09,
+          "trend_pct": 3.2,
+          "average_dollar_volume": 70773836.6,
+          "components": {
+            "volatility_score": 89.6,
+            "drawdown_score": 83.3,
+            "liquidity_score": 100,
+            "downside_momentum_score": 100
+          },
+          "data_quality": "LIVE"
+        },
+        "rating": "STRONG",
+        "action": "WATCH",
+        "base_decision": {
+          "action": "WATCH",
+          "confidence": 70.6,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
+          "reasons": [
+            "Setup has potential",
+            "Further confirmation required"
+          ]
+        },
+        "decision": {
+          "action": "WATCH",
+          "confidence": 70.6,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
+          "reasons": [
+            "Setup has potential",
+            "Further confirmation required"
+          ],
+          "safety_gate": {
+            "triggered": false,
+            "original_action": "WATCH",
+            "reasons": []
+          }
+        },
+        "status": "ANALYZED",
+        "data_quality": "LIVE"
+      },
+      {
         "ticker": "V",
         "sector": "Financials",
         "industry": "Credit Services",
@@ -5149,7 +5268,7 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-10-31T17:48:54.627373+00:00",
+          "timestamp": "2026-11-02T06:48:13.907797+00:00",
           "last_price": 413.62,
           "vwap": 406.04,
           "momentum": 8.3,
@@ -5258,138 +5377,6 @@
         "data_quality": "LIVE"
       },
       {
-        "ticker": "MA",
-        "sector": "Financials",
-        "industry": "Credit Services",
-        "fast_scan": {
-          "opportunity_score": 81.8,
-          "opportunity_signal": "HIGH_POTENTIAL",
-          "return_5d_pct": 2.31,
-          "return_20d_pct": 15.7,
-          "return_60d_pct": 10.94,
-          "relative_strength_20d": 17.51,
-          "volume_ratio": 1.21,
-          "overextension_pct": 5.26
-        },
-        "market": {
-          "ticker": "MA",
-          "timestamp": "2026-10-31T17:48:54.104219+00:00",
-          "last_price": 638.01,
-          "vwap": 624.27,
-          "momentum": 19.78,
-          "momentum_pct": 3.2,
-          "vwap_distance_pct": 2.2,
-          "volume": 14738266,
-          "volume_ratio": 1.23,
-          "data_points": 130,
-          "data_quality": "UNVERIFIED",
-          "source": null,
-          "market_timestamp": null,
-          "data_scope": "RESEARCH_ONLY",
-          "execution_eligible": false
-        },
-        "market_signal": "BULLISH",
-        "scores": {
-          "market_score": 65.8,
-          "news_score": 42,
-          "catalyst_score": 42,
-          "sector_score": 89.9,
-          "risk_score": 90.5,
-          "alpha_score": 69.64
-        },
-        "news": {
-          "ticker": "MA",
-          "news_score": 42,
-          "events": [
-            "lawsuit"
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "catalyst": {
-          "ticker": "MA",
-          "catalyst_score": 42,
-          "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "NEGATIVE",
-              "catalyst": "lawsuit",
-              "impact": -8
-            }
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "sector_analysis": {
-          "ticker": "MA",
-          "sector": "Financial Services",
-          "industry": "Credit Services",
-          "sector_etf": "XLF",
-          "sector_score": 89.9,
-          "sector_signal": "STRONG",
-          "metrics": {
-            "sector_momentum_20d": 5.65,
-            "sector_momentum_5d": 1.09,
-            "market_momentum_20d": -1.81,
-            "relative_strength": 7.45,
-            "volatility_pct": 0.78,
-            "trend_above_sma20": true
-          },
-          "data_quality": "LIVE"
-        },
-        "risk": {
-          "ticker": "MA",
-          "risk_score": 90.5,
-          "risk_signal": "LOW_RISK",
-          "volatility_pct": 0.42,
-          "max_drawdown_pct": 2.09,
-          "trend_pct": 3.2,
-          "average_dollar_volume": 70773836.6,
-          "components": {
-            "volatility_score": 89.6,
-            "drawdown_score": 83.3,
-            "liquidity_score": 100,
-            "downside_momentum_score": 100
-          },
-          "data_quality": "LIVE"
-        },
-        "rating": "POSITIVE",
-        "action": "WATCH",
-        "base_decision": {
-          "action": "WATCH",
-          "confidence": 67.9,
-          "entry_zone": null,
-          "stop_loss": null,
-          "target_price": null,
-          "risk_reward": null,
-          "setup_quality": "DEVELOPING",
-          "reasons": [
-            "Setup has potential",
-            "Further confirmation required"
-          ]
-        },
-        "decision": {
-          "action": "WATCH",
-          "confidence": 67.9,
-          "entry_zone": null,
-          "stop_loss": null,
-          "target_price": null,
-          "risk_reward": null,
-          "setup_quality": "DEVELOPING",
-          "reasons": [
-            "Setup has potential",
-            "Further confirmation required"
-          ],
-          "safety_gate": {
-            "triggered": false,
-            "original_action": "WATCH",
-            "reasons": []
-          }
-        },
-        "status": "ANALYZED",
-        "data_quality": "LIVE"
-      },
-      {
         "ticker": "LMT",
         "sector": "Industrials",
         "industry": "Aerospace & Defense",
@@ -5405,7 +5392,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-31T17:48:51.801533+00:00",
+          "timestamp": "2026-11-02T06:48:11.414727+00:00",
           "last_price": 637.06,
           "vwap": 633.25,
           "momentum": 19.34,
@@ -5547,7 +5534,7 @@
         },
         "market": {
           "ticker": "LLY",
-          "timestamp": "2026-10-31T17:48:50.648678+00:00",
+          "timestamp": "2026-11-02T06:48:10.506090+00:00",
           "last_price": 1416.3,
           "vwap": 1358.33,
           "momentum": 131.82,
@@ -5577,7 +5564,7 @@
           "events": [
             "guidance raise"
           ],
-          "article_count": 9,
+          "article_count": 10,
           "data_quality": "LIVE"
         },
         "catalyst": {
@@ -5591,7 +5578,7 @@
               "impact": 10
             }
           ],
-          "article_count": 9,
+          "article_count": 10,
           "data_quality": "LIVE"
         },
         "sector_analysis": {
@@ -5687,7 +5674,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-31T17:48:51.801533+00:00",
+          "timestamp": "2026-11-02T06:48:11.414727+00:00",
           "last_price": 637.06,
           "vwap": 633.25,
           "momentum": 19.34,
@@ -5829,7 +5816,7 @@
         },
         "market": {
           "ticker": "AMGN",
-          "timestamp": "2026-10-31T17:48:52.871214+00:00",
+          "timestamp": "2026-11-02T06:48:12.439101+00:00",
           "last_price": 466.05,
           "vwap": 456.33,
           "momentum": 19.73,
@@ -5972,7 +5959,7 @@
         },
         "market": {
           "ticker": "GILD",
-          "timestamp": "2026-10-31T17:48:51.164474+00:00",
+          "timestamp": "2026-11-02T06:48:10.993771+00:00",
           "last_price": 170.8,
           "vwap": 164.01,
           "momentum": 11.77,
@@ -6098,149 +6085,6 @@
         "data_quality": "LIVE"
       },
       {
-        "ticker": "WMT",
-        "sector": "Consumer Defensive",
-        "industry": "Discount Stores",
-        "fast_scan": {
-          "opportunity_score": 82.2,
-          "opportunity_signal": "HIGH_POTENTIAL",
-          "return_5d_pct": 3.02,
-          "return_20d_pct": 18.46,
-          "return_60d_pct": 10.47,
-          "relative_strength_20d": 20.27,
-          "volume_ratio": 0.87,
-          "overextension_pct": 6.52
-        },
-        "market": {
-          "ticker": "WMT",
-          "timestamp": "2026-10-31T17:48:53.357580+00:00",
-          "last_price": 123.52,
-          "vwap": 121.13,
-          "momentum": 2.97,
-          "momentum_pct": 2.46,
-          "vwap_distance_pct": 1.97,
-          "volume": 62780677,
-          "volume_ratio": 1.99,
-          "data_points": 130,
-          "data_quality": "UNVERIFIED",
-          "source": null,
-          "market_timestamp": null,
-          "data_scope": "RESEARCH_ONLY",
-          "execution_eligible": false
-        },
-        "market_signal": "BULLISH",
-        "scores": {
-          "market_score": 67.0,
-          "news_score": 58,
-          "catalyst_score": 56,
-          "sector_score": 94.0,
-          "risk_score": 90.3,
-          "alpha_score": 74.12
-        },
-        "news": {
-          "ticker": "WMT",
-          "news_score": 58,
-          "events": [
-            "ai"
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "catalyst": {
-          "ticker": "WMT",
-          "catalyst_score": 56,
-          "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "POSITIVE",
-              "catalyst": "ai",
-              "impact": 6
-            }
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "sector_analysis": {
-          "ticker": "WMT",
-          "sector": "Consumer Defensive",
-          "industry": "Discount Stores",
-          "sector_etf": "XLP",
-          "sector_score": 94.0,
-          "sector_signal": "STRONG",
-          "metrics": {
-            "sector_momentum_20d": 11.04,
-            "sector_momentum_5d": 1.31,
-            "market_momentum_20d": -1.81,
-            "relative_strength": 12.85,
-            "volatility_pct": 0.98,
-            "trend_above_sma20": true
-          },
-          "data_quality": "LIVE"
-        },
-        "risk": {
-          "ticker": "WMT",
-          "risk_score": 90.3,
-          "risk_signal": "LOW_RISK",
-          "volatility_pct": 0.24,
-          "max_drawdown_pct": 2.69,
-          "trend_pct": 2.46,
-          "average_dollar_volume": 58496044.0,
-          "components": {
-            "volatility_score": 93.9,
-            "drawdown_score": 78.5,
-            "liquidity_score": 100,
-            "downside_momentum_score": 100
-          },
-          "data_quality": "LIVE"
-        },
-        "rating": "STRONG",
-        "action": "ACCUMULATE",
-        "base_decision": {
-          "action": "ACCUMULATE",
-          "confidence": 72.4,
-          "entry_zone": {
-            "low": 118.58,
-            "high": 123.52
-          },
-          "stop_loss": 112.4,
-          "target_price": 142.05,
-          "risk_reward": 1.67,
-          "setup_quality": "POSITIVE",
-          "reasons": [
-            "Positive alpha score",
-            "Technical confirmation present",
-            "Catalyst confirmation present",
-            "Risk profile acceptable"
-          ]
-        },
-        "decision": {
-          "action": "ACCUMULATE",
-          "confidence": 72.4,
-          "entry_zone": {
-            "low": 118.58,
-            "high": 123.52
-          },
-          "stop_loss": 112.4,
-          "target_price": 142.05,
-          "risk_reward": 1.67,
-          "setup_quality": "POSITIVE",
-          "reasons": [
-            "Positive alpha score",
-            "Technical confirmation present",
-            "Catalyst confirmation present",
-            "Risk profile acceptable"
-          ],
-          "safety_gate": {
-            "triggered": false,
-            "original_action": "ACCUMULATE",
-            "final_action": "ACCUMULATE",
-            "reasons": []
-          }
-        },
-        "status": "ANALYZED",
-        "data_quality": "LIVE"
-      },
-      {
         "ticker": "COP",
         "sector": "Energy",
         "industry": "Oil & Gas",
@@ -6256,7 +6100,7 @@
         },
         "market": {
           "ticker": "COP",
-          "timestamp": "2026-10-31T17:48:52.329847+00:00",
+          "timestamp": "2026-11-02T06:48:11.958834+00:00",
           "last_price": 154.05,
           "vwap": 150.46,
           "momentum": 3.1,
@@ -6286,7 +6130,7 @@
           "events": [
             "ai"
           ],
-          "article_count": 10,
+          "article_count": 9,
           "data_quality": "LIVE"
         },
         "catalyst": {
@@ -6300,7 +6144,7 @@
               "impact": 6
             }
           ],
-          "article_count": 10,
+          "article_count": 9,
           "data_quality": "LIVE"
         },
         "sector_analysis": {
@@ -6399,7 +6243,7 @@
         },
         "market": {
           "ticker": "LLY",
-          "timestamp": "2026-10-31T17:48:50.648678+00:00",
+          "timestamp": "2026-11-02T06:48:10.506090+00:00",
           "last_price": 1416.3,
           "vwap": 1358.33,
           "momentum": 131.82,
@@ -6429,7 +6273,7 @@
           "events": [
             "guidance raise"
           ],
-          "article_count": 9,
+          "article_count": 10,
           "data_quality": "LIVE"
         },
         "catalyst": {
@@ -6443,7 +6287,7 @@
               "impact": 10
             }
           ],
-          "article_count": 9,
+          "article_count": 10,
           "data_quality": "LIVE"
         },
         "sector_analysis": {
@@ -6524,6 +6368,268 @@
         "data_quality": "LIVE"
       },
       {
+        "ticker": "WMT",
+        "sector": "Consumer Defensive",
+        "industry": "Discount Stores",
+        "fast_scan": {
+          "opportunity_score": 82.2,
+          "opportunity_signal": "HIGH_POTENTIAL",
+          "return_5d_pct": 3.02,
+          "return_20d_pct": 18.46,
+          "return_60d_pct": 10.47,
+          "relative_strength_20d": 20.27,
+          "volume_ratio": 0.87,
+          "overextension_pct": 6.52
+        },
+        "market": {
+          "ticker": "WMT",
+          "timestamp": "2026-11-02T06:48:12.874657+00:00",
+          "last_price": 123.52,
+          "vwap": 121.13,
+          "momentum": 2.97,
+          "momentum_pct": 2.46,
+          "vwap_distance_pct": 1.97,
+          "volume": 62780677,
+          "volume_ratio": 1.99,
+          "data_points": 130,
+          "data_quality": "UNVERIFIED",
+          "source": null,
+          "market_timestamp": null,
+          "data_scope": "RESEARCH_ONLY",
+          "execution_eligible": false
+        },
+        "market_signal": "BULLISH",
+        "scores": {
+          "market_score": 67.0,
+          "news_score": 50,
+          "catalyst_score": 50,
+          "sector_score": 94.0,
+          "risk_score": 90.3,
+          "alpha_score": 72.62
+        },
+        "news": {
+          "ticker": "WMT",
+          "news_score": 50,
+          "events": [],
+          "article_count": 9,
+          "data_quality": "LIVE"
+        },
+        "catalyst": {
+          "ticker": "WMT",
+          "catalyst_score": 50,
+          "catalyst_signal": "NEUTRAL",
+          "catalysts": [],
+          "article_count": 9,
+          "data_quality": "LIVE"
+        },
+        "sector_analysis": {
+          "ticker": "WMT",
+          "sector": "Consumer Defensive",
+          "industry": "Discount Stores",
+          "sector_etf": "XLP",
+          "sector_score": 94.0,
+          "sector_signal": "STRONG",
+          "metrics": {
+            "sector_momentum_20d": 11.04,
+            "sector_momentum_5d": 1.31,
+            "market_momentum_20d": -1.81,
+            "relative_strength": 12.85,
+            "volatility_pct": 0.98,
+            "trend_above_sma20": true
+          },
+          "data_quality": "LIVE"
+        },
+        "risk": {
+          "ticker": "WMT",
+          "risk_score": 90.3,
+          "risk_signal": "LOW_RISK",
+          "volatility_pct": 0.24,
+          "max_drawdown_pct": 2.69,
+          "trend_pct": 2.46,
+          "average_dollar_volume": 58496044.0,
+          "components": {
+            "volatility_score": 93.9,
+            "drawdown_score": 78.5,
+            "liquidity_score": 100,
+            "downside_momentum_score": 100
+          },
+          "data_quality": "LIVE"
+        },
+        "rating": "STRONG",
+        "action": "WATCH",
+        "base_decision": {
+          "action": "WATCH",
+          "confidence": 70.8,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
+          "reasons": [
+            "Setup has potential",
+            "Further confirmation required"
+          ]
+        },
+        "decision": {
+          "action": "WATCH",
+          "confidence": 70.8,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
+          "reasons": [
+            "Setup has potential",
+            "Further confirmation required"
+          ],
+          "safety_gate": {
+            "triggered": false,
+            "original_action": "WATCH",
+            "reasons": []
+          }
+        },
+        "status": "ANALYZED",
+        "data_quality": "LIVE"
+      },
+      {
+        "ticker": "MA",
+        "sector": "Financials",
+        "industry": "Credit Services",
+        "fast_scan": {
+          "opportunity_score": 81.8,
+          "opportunity_signal": "HIGH_POTENTIAL",
+          "return_5d_pct": 2.31,
+          "return_20d_pct": 15.7,
+          "return_60d_pct": 10.94,
+          "relative_strength_20d": 17.51,
+          "volume_ratio": 1.21,
+          "overextension_pct": 5.26
+        },
+        "market": {
+          "ticker": "MA",
+          "timestamp": "2026-11-02T06:48:13.434387+00:00",
+          "last_price": 638.01,
+          "vwap": 624.27,
+          "momentum": 19.78,
+          "momentum_pct": 3.2,
+          "vwap_distance_pct": 2.2,
+          "volume": 14738266,
+          "volume_ratio": 1.23,
+          "data_points": 130,
+          "data_quality": "UNVERIFIED",
+          "source": null,
+          "market_timestamp": null,
+          "data_scope": "RESEARCH_ONLY",
+          "execution_eligible": false
+        },
+        "market_signal": "BULLISH",
+        "scores": {
+          "market_score": 65.8,
+          "news_score": 52,
+          "catalyst_score": 52,
+          "sector_score": 89.9,
+          "risk_score": 90.5,
+          "alpha_score": 72.14
+        },
+        "news": {
+          "ticker": "MA",
+          "news_score": 52,
+          "events": [
+            "earnings beat",
+            "lawsuit"
+          ],
+          "article_count": 10,
+          "data_quality": "LIVE"
+        },
+        "catalyst": {
+          "ticker": "MA",
+          "catalyst_score": 52,
+          "catalyst_signal": "NEUTRAL",
+          "catalysts": [
+            {
+              "type": "POSITIVE",
+              "catalyst": "earnings beat",
+              "impact": 10
+            },
+            {
+              "type": "NEGATIVE",
+              "catalyst": "lawsuit",
+              "impact": -8
+            }
+          ],
+          "article_count": 10,
+          "data_quality": "LIVE"
+        },
+        "sector_analysis": {
+          "ticker": "MA",
+          "sector": "Financial Services",
+          "industry": "Credit Services",
+          "sector_etf": "XLF",
+          "sector_score": 89.9,
+          "sector_signal": "STRONG",
+          "metrics": {
+            "sector_momentum_20d": 5.65,
+            "sector_momentum_5d": 1.09,
+            "market_momentum_20d": -1.81,
+            "relative_strength": 7.45,
+            "volatility_pct": 0.78,
+            "trend_above_sma20": true
+          },
+          "data_quality": "LIVE"
+        },
+        "risk": {
+          "ticker": "MA",
+          "risk_score": 90.5,
+          "risk_signal": "LOW_RISK",
+          "volatility_pct": 0.42,
+          "max_drawdown_pct": 2.09,
+          "trend_pct": 3.2,
+          "average_dollar_volume": 70773836.6,
+          "components": {
+            "volatility_score": 89.6,
+            "drawdown_score": 83.3,
+            "liquidity_score": 100,
+            "downside_momentum_score": 100
+          },
+          "data_quality": "LIVE"
+        },
+        "rating": "STRONG",
+        "action": "WATCH",
+        "base_decision": {
+          "action": "WATCH",
+          "confidence": 70.6,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
+          "reasons": [
+            "Setup has potential",
+            "Further confirmation required"
+          ]
+        },
+        "decision": {
+          "action": "WATCH",
+          "confidence": 70.6,
+          "entry_zone": null,
+          "stop_loss": null,
+          "target_price": null,
+          "risk_reward": null,
+          "setup_quality": "DEVELOPING",
+          "reasons": [
+            "Setup has potential",
+            "Further confirmation required"
+          ],
+          "safety_gate": {
+            "triggered": false,
+            "original_action": "WATCH",
+            "reasons": []
+          }
+        },
+        "status": "ANALYZED",
+        "data_quality": "LIVE"
+      },
+      {
         "ticker": "V",
         "sector": "Financials",
         "industry": "Credit Services",
@@ -6539,7 +6645,7 @@
         },
         "market": {
           "ticker": "V",
-          "timestamp": "2026-10-31T17:48:54.627373+00:00",
+          "timestamp": "2026-11-02T06:48:13.907797+00:00",
           "last_price": 413.62,
           "vwap": 406.04,
           "momentum": 8.3,
@@ -6648,138 +6754,6 @@
         "data_quality": "LIVE"
       },
       {
-        "ticker": "MA",
-        "sector": "Financials",
-        "industry": "Credit Services",
-        "fast_scan": {
-          "opportunity_score": 81.8,
-          "opportunity_signal": "HIGH_POTENTIAL",
-          "return_5d_pct": 2.31,
-          "return_20d_pct": 15.7,
-          "return_60d_pct": 10.94,
-          "relative_strength_20d": 17.51,
-          "volume_ratio": 1.21,
-          "overextension_pct": 5.26
-        },
-        "market": {
-          "ticker": "MA",
-          "timestamp": "2026-10-31T17:48:54.104219+00:00",
-          "last_price": 638.01,
-          "vwap": 624.27,
-          "momentum": 19.78,
-          "momentum_pct": 3.2,
-          "vwap_distance_pct": 2.2,
-          "volume": 14738266,
-          "volume_ratio": 1.23,
-          "data_points": 130,
-          "data_quality": "UNVERIFIED",
-          "source": null,
-          "market_timestamp": null,
-          "data_scope": "RESEARCH_ONLY",
-          "execution_eligible": false
-        },
-        "market_signal": "BULLISH",
-        "scores": {
-          "market_score": 65.8,
-          "news_score": 42,
-          "catalyst_score": 42,
-          "sector_score": 89.9,
-          "risk_score": 90.5,
-          "alpha_score": 69.64
-        },
-        "news": {
-          "ticker": "MA",
-          "news_score": 42,
-          "events": [
-            "lawsuit"
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "catalyst": {
-          "ticker": "MA",
-          "catalyst_score": 42,
-          "catalyst_signal": "NEUTRAL",
-          "catalysts": [
-            {
-              "type": "NEGATIVE",
-              "catalyst": "lawsuit",
-              "impact": -8
-            }
-          ],
-          "article_count": 10,
-          "data_quality": "LIVE"
-        },
-        "sector_analysis": {
-          "ticker": "MA",
-          "sector": "Financial Services",
-          "industry": "Credit Services",
-          "sector_etf": "XLF",
-          "sector_score": 89.9,
-          "sector_signal": "STRONG",
-          "metrics": {
-            "sector_momentum_20d": 5.65,
-            "sector_momentum_5d": 1.09,
-            "market_momentum_20d": -1.81,
-            "relative_strength": 7.45,
-            "volatility_pct": 0.78,
-            "trend_above_sma20": true
-          },
-          "data_quality": "LIVE"
-        },
-        "risk": {
-          "ticker": "MA",
-          "risk_score": 90.5,
-          "risk_signal": "LOW_RISK",
-          "volatility_pct": 0.42,
-          "max_drawdown_pct": 2.09,
-          "trend_pct": 3.2,
-          "average_dollar_volume": 70773836.6,
-          "components": {
-            "volatility_score": 89.6,
-            "drawdown_score": 83.3,
-            "liquidity_score": 100,
-            "downside_momentum_score": 100
-          },
-          "data_quality": "LIVE"
-        },
-        "rating": "POSITIVE",
-        "action": "WATCH",
-        "base_decision": {
-          "action": "WATCH",
-          "confidence": 67.9,
-          "entry_zone": null,
-          "stop_loss": null,
-          "target_price": null,
-          "risk_reward": null,
-          "setup_quality": "DEVELOPING",
-          "reasons": [
-            "Setup has potential",
-            "Further confirmation required"
-          ]
-        },
-        "decision": {
-          "action": "WATCH",
-          "confidence": 67.9,
-          "entry_zone": null,
-          "stop_loss": null,
-          "target_price": null,
-          "risk_reward": null,
-          "setup_quality": "DEVELOPING",
-          "reasons": [
-            "Setup has potential",
-            "Further confirmation required"
-          ],
-          "safety_gate": {
-            "triggered": false,
-            "original_action": "WATCH",
-            "reasons": []
-          }
-        },
-        "status": "ANALYZED",
-        "data_quality": "LIVE"
-      },
-      {
         "ticker": "LMT",
         "sector": "Industrials",
         "industry": "Aerospace & Defense",
@@ -6795,7 +6769,7 @@
         },
         "market": {
           "ticker": "LMT",
-          "timestamp": "2026-10-31T17:48:51.801533+00:00",
+          "timestamp": "2026-11-02T06:48:11.414727+00:00",
           "last_price": 637.06,
           "vwap": 633.25,
           "momentum": 19.34,
@@ -6924,7 +6898,7 @@
   },
   "market_regime": {
     "engine": "V7.4 Market Regime Engine",
-    "timestamp": "2026-10-31T17:48:55.471855+00:00",
+    "timestamp": "2026-11-02T06:48:14.713925+00:00",
     "market_date": "2026-10-30",
     "regime": "BEAR",
     "regime_score": 30.0,
@@ -7014,17 +6988,17 @@
   },
   "event_risk": {
     "engine": "V7.5 Earnings & Event Risk Engine",
-    "generated": "2026-10-31T17:49:03.077631+00:00",
-    "reference_date": "2026-10-31",
+    "generated": "2026-11-02T06:48:21.859256+00:00",
+    "reference_date": "2026-11-02",
     "macro_event_risk": {
-      "reference_date": "2026-10-31",
+      "reference_date": "2026-11-02",
       "nearest_event": {
         "event_type": "EMPLOYMENT",
         "name": "Employment Situation",
         "date": "2026-11-06",
         "source": "U.S. Bureau of Labor Statistics",
         "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-        "days_until_event": 6,
+        "days_until_event": 4,
         "risk_level": "ELEVATED",
         "new_entry_policy": "REDUCE_SIZE",
         "position_size_multiplier": 0.75
@@ -7036,7 +7010,7 @@
           "date": "2026-11-06",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 6,
+          "days_until_event": 4,
           "risk_level": "ELEVATED",
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.75
@@ -7047,7 +7021,7 @@
           "date": "2026-11-10",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 10,
+          "days_until_event": 8,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -7058,7 +7032,7 @@
           "date": "2026-11-13",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 13,
+          "days_until_event": 11,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -7069,7 +7043,7 @@
           "date": "2026-12-04",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 34,
+          "days_until_event": 32,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -7080,7 +7054,7 @@
           "date": "2026-12-09",
           "source": "Federal Reserve",
           "source_url": "https://www.federalreserve.gov/newsevents/2026-december.htm",
-          "days_until_event": 39,
+          "days_until_event": 37,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -7091,7 +7065,7 @@
           "date": "2026-12-10",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 40,
+          "days_until_event": 38,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -7102,7 +7076,7 @@
           "date": "2026-12-15",
           "source": "U.S. Bureau of Labor Statistics",
           "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-          "days_until_event": 45,
+          "days_until_event": 43,
           "risk_level": "LOW",
           "new_entry_policy": "ALLOW",
           "position_size_multiplier": 1.0
@@ -7122,7 +7096,7 @@
         "earnings": {
           "ticker": "AMD",
           "next_earnings_date": "2026-11-03",
-          "days_until_earnings": 3,
+          "days_until_earnings": 1,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7133,20 +7107,20 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
           }
         },
         "combined": {
-          "risk_level": "HIGH",
+          "risk_level": "CRITICAL",
           "dominant_risk_source": "EARNINGS",
-          "new_entry_policy": "REDUCE_SIZE",
-          "position_size_multiplier": 0.5,
+          "new_entry_policy": "BLOCK",
+          "position_size_multiplier": 0.0,
           "reasons": [
-            "Earnings event is within 5 calendar days",
-            "EMPLOYMENT in 6 calendar days"
+            "Earnings event is within 2 calendar days",
+            "EMPLOYMENT in 4 calendar days"
           ]
         }
       },
@@ -7155,7 +7129,7 @@
         "earnings": {
           "ticker": "ANET",
           "next_earnings_date": "2026-11-03",
-          "days_until_earnings": 3,
+          "days_until_earnings": 1,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7166,20 +7140,20 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
           }
         },
         "combined": {
-          "risk_level": "HIGH",
+          "risk_level": "CRITICAL",
           "dominant_risk_source": "EARNINGS",
-          "new_entry_policy": "REDUCE_SIZE",
-          "position_size_multiplier": 0.5,
+          "new_entry_policy": "BLOCK",
+          "position_size_multiplier": 0.0,
           "reasons": [
-            "Earnings event is within 5 calendar days",
-            "EMPLOYMENT in 6 calendar days"
+            "Earnings event is within 2 calendar days",
+            "EMPLOYMENT in 4 calendar days"
           ]
         }
       },
@@ -7188,38 +7162,6 @@
         "earnings": {
           "ticker": "ASML",
           "next_earnings_date": "2027-01-27",
-          "days_until_earnings": 88,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "ELEVATED",
-          "nearest_event": {
-            "event_type": "EMPLOYMENT",
-            "name": "Employment Situation",
-            "date": "2026-11-06",
-            "source": "U.S. Bureau of Labor Statistics",
-            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
-            "risk_level": "ELEVATED",
-            "new_entry_policy": "REDUCE_SIZE",
-            "position_size_multiplier": 0.75
-          }
-        },
-        "combined": {
-          "risk_level": "ELEVATED",
-          "dominant_risk_source": "MACRO",
-          "new_entry_policy": "REDUCE_SIZE",
-          "position_size_multiplier": 0.75,
-          "reasons": [
-            "EMPLOYMENT in 6 calendar days"
-          ]
-        }
-      },
-      "BKR": {
-        "ticker": "BKR",
-        "earnings": {
-          "ticker": "BKR",
-          "next_earnings_date": "2027-01-25",
           "days_until_earnings": 86,
           "date_status": "AVAILABLE"
         },
@@ -7231,7 +7173,7 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
@@ -7243,7 +7185,39 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.75,
           "reasons": [
-            "EMPLOYMENT in 6 calendar days"
+            "EMPLOYMENT in 4 calendar days"
+          ]
+        }
+      },
+      "BKR": {
+        "ticker": "BKR",
+        "earnings": {
+          "ticker": "BKR",
+          "next_earnings_date": "2027-01-25",
+          "days_until_earnings": 84,
+          "date_status": "AVAILABLE"
+        },
+        "macro": {
+          "risk_level": "ELEVATED",
+          "nearest_event": {
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 4,
+            "risk_level": "ELEVATED",
+            "new_entry_policy": "REDUCE_SIZE",
+            "position_size_multiplier": 0.75
+          }
+        },
+        "combined": {
+          "risk_level": "ELEVATED",
+          "dominant_risk_source": "MACRO",
+          "new_entry_policy": "REDUCE_SIZE",
+          "position_size_multiplier": 0.75,
+          "reasons": [
+            "EMPLOYMENT in 4 calendar days"
           ]
         }
       },
@@ -7252,7 +7226,7 @@
         "earnings": {
           "ticker": "CCLD",
           "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 5,
+          "days_until_earnings": 3,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7263,7 +7237,7 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
@@ -7276,7 +7250,7 @@
           "position_size_multiplier": 0.5,
           "reasons": [
             "Earnings event is within 5 calendar days",
-            "EMPLOYMENT in 6 calendar days"
+            "EMPLOYMENT in 4 calendar days"
           ]
         }
       },
@@ -7285,7 +7259,7 @@
         "earnings": {
           "ticker": "CTAS",
           "next_earnings_date": "2026-12-17",
-          "days_until_earnings": 47,
+          "days_until_earnings": 45,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7296,7 +7270,7 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
@@ -7308,7 +7282,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.75,
           "reasons": [
-            "EMPLOYMENT in 6 calendar days"
+            "EMPLOYMENT in 4 calendar days"
           ]
         }
       },
@@ -7317,7 +7291,7 @@
         "earnings": {
           "ticker": "GOOG",
           "next_earnings_date": "2027-02-03",
-          "days_until_earnings": 95,
+          "days_until_earnings": 93,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7328,7 +7302,7 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
@@ -7340,7 +7314,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.75,
           "reasons": [
-            "EMPLOYMENT in 6 calendar days"
+            "EMPLOYMENT in 4 calendar days"
           ]
         }
       },
@@ -7349,7 +7323,7 @@
         "earnings": {
           "ticker": "NBIS",
           "next_earnings_date": "2026-11-12",
-          "days_until_earnings": 12,
+          "days_until_earnings": 10,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7360,7 +7334,7 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
@@ -7372,7 +7346,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.75,
           "reasons": [
-            "EMPLOYMENT in 6 calendar days"
+            "EMPLOYMENT in 4 calendar days"
           ]
         }
       },
@@ -7381,7 +7355,7 @@
         "earnings": {
           "ticker": "NVDA",
           "next_earnings_date": "2026-11-17",
-          "days_until_earnings": 17,
+          "days_until_earnings": 15,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7392,7 +7366,7 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
@@ -7404,7 +7378,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.75,
           "reasons": [
-            "EMPLOYMENT in 6 calendar days"
+            "EMPLOYMENT in 4 calendar days"
           ]
         }
       },
@@ -7413,7 +7387,7 @@
         "earnings": {
           "ticker": "OMDA",
           "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 5,
+          "days_until_earnings": 3,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7424,7 +7398,7 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
@@ -7437,7 +7411,7 @@
           "position_size_multiplier": 0.5,
           "reasons": [
             "Earnings event is within 5 calendar days",
-            "EMPLOYMENT in 6 calendar days"
+            "EMPLOYMENT in 4 calendar days"
           ]
         }
       },
@@ -7446,7 +7420,7 @@
         "earnings": {
           "ticker": "UNH",
           "next_earnings_date": "2027-01-12",
-          "days_until_earnings": 73,
+          "days_until_earnings": 71,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7457,7 +7431,7 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
@@ -7469,7 +7443,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.75,
           "reasons": [
-            "EMPLOYMENT in 6 calendar days"
+            "EMPLOYMENT in 4 calendar days"
           ]
         }
       },
@@ -7478,7 +7452,7 @@
         "earnings": {
           "ticker": "VRT",
           "next_earnings_date": "2027-02-10",
-          "days_until_earnings": 102,
+          "days_until_earnings": 100,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7489,7 +7463,7 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
@@ -7501,7 +7475,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.75,
           "reasons": [
-            "EMPLOYMENT in 6 calendar days"
+            "EMPLOYMENT in 4 calendar days"
           ]
         }
       },
@@ -7510,7 +7484,7 @@
         "earnings": {
           "ticker": "AMGN",
           "next_earnings_date": "2026-11-03",
-          "days_until_earnings": 3,
+          "days_until_earnings": 1,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7521,20 +7495,20 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
           }
         },
         "combined": {
-          "risk_level": "HIGH",
+          "risk_level": "CRITICAL",
           "dominant_risk_source": "EARNINGS",
-          "new_entry_policy": "REDUCE_SIZE",
-          "position_size_multiplier": 0.5,
+          "new_entry_policy": "BLOCK",
+          "position_size_multiplier": 0.0,
           "reasons": [
-            "Earnings event is within 5 calendar days",
-            "EMPLOYMENT in 6 calendar days"
+            "Earnings event is within 2 calendar days",
+            "EMPLOYMENT in 4 calendar days"
           ]
         }
       },
@@ -7543,7 +7517,7 @@
         "earnings": {
           "ticker": "GILD",
           "next_earnings_date": "2027-02-09",
-          "days_until_earnings": 101,
+          "days_until_earnings": 99,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7554,7 +7528,7 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
@@ -7566,39 +7540,7 @@
           "new_entry_policy": "REDUCE_SIZE",
           "position_size_multiplier": 0.75,
           "reasons": [
-            "EMPLOYMENT in 6 calendar days"
-          ]
-        }
-      },
-      "WMT": {
-        "ticker": "WMT",
-        "earnings": {
-          "ticker": "WMT",
-          "next_earnings_date": "2026-11-19",
-          "days_until_earnings": 19,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "ELEVATED",
-          "nearest_event": {
-            "event_type": "EMPLOYMENT",
-            "name": "Employment Situation",
-            "date": "2026-11-06",
-            "source": "U.S. Bureau of Labor Statistics",
-            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
-            "risk_level": "ELEVATED",
-            "new_entry_policy": "REDUCE_SIZE",
-            "position_size_multiplier": 0.75
-          }
-        },
-        "combined": {
-          "risk_level": "ELEVATED",
-          "dominant_risk_source": "MACRO",
-          "new_entry_policy": "REDUCE_SIZE",
-          "position_size_multiplier": 0.75,
-          "reasons": [
-            "EMPLOYMENT in 6 calendar days"
+            "EMPLOYMENT in 4 calendar days"
           ]
         }
       },
@@ -7607,7 +7549,7 @@
         "earnings": {
           "ticker": "COP",
           "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 5,
+          "days_until_earnings": 3,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7618,7 +7560,7 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
@@ -7631,7 +7573,7 @@
           "position_size_multiplier": 0.5,
           "reasons": [
             "Earnings event is within 5 calendar days",
-            "EMPLOYMENT in 6 calendar days"
+            "EMPLOYMENT in 4 calendar days"
           ]
         }
       }
@@ -7640,12 +7582,12 @@
     "portfolio_alerts": [
       {
         "ticker": "AMD",
-        "risk_level": "HIGH",
-        "event_policy": "REDUCE_SIZE",
+        "risk_level": "CRITICAL",
+        "event_policy": "BLOCK",
         "earnings": {
           "ticker": "AMD",
           "next_earnings_date": "2026-11-03",
-          "days_until_earnings": 3,
+          "days_until_earnings": 1,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7656,25 +7598,25 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
           }
         },
         "reasons": [
-          "Earnings event is within 5 calendar days",
-          "EMPLOYMENT in 6 calendar days"
+          "Earnings event is within 2 calendar days",
+          "EMPLOYMENT in 4 calendar days"
         ]
       },
       {
         "ticker": "ANET",
-        "risk_level": "HIGH",
-        "event_policy": "REDUCE_SIZE",
+        "risk_level": "CRITICAL",
+        "event_policy": "BLOCK",
         "earnings": {
           "ticker": "ANET",
           "next_earnings_date": "2026-11-03",
-          "days_until_earnings": 3,
+          "days_until_earnings": 1,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -7685,15 +7627,15 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
           }
         },
         "reasons": [
-          "Earnings event is within 5 calendar days",
-          "EMPLOYMENT in 6 calendar days"
+          "Earnings event is within 2 calendar days",
+          "EMPLOYMENT in 4 calendar days"
         ]
       },
       {
@@ -7703,34 +7645,6 @@
         "earnings": {
           "ticker": "ASML",
           "next_earnings_date": "2027-01-27",
-          "days_until_earnings": 88,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "ELEVATED",
-          "nearest_event": {
-            "event_type": "EMPLOYMENT",
-            "name": "Employment Situation",
-            "date": "2026-11-06",
-            "source": "U.S. Bureau of Labor Statistics",
-            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
-            "risk_level": "ELEVATED",
-            "new_entry_policy": "REDUCE_SIZE",
-            "position_size_multiplier": 0.75
-          }
-        },
-        "reasons": [
-          "EMPLOYMENT in 6 calendar days"
-        ]
-      },
-      {
-        "ticker": "BKR",
-        "risk_level": "ELEVATED",
-        "event_policy": "REDUCE_SIZE",
-        "earnings": {
-          "ticker": "BKR",
-          "next_earnings_date": "2027-01-25",
           "days_until_earnings": 86,
           "date_status": "AVAILABLE"
         },
@@ -7742,14 +7656,42 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
           }
         },
         "reasons": [
-          "EMPLOYMENT in 6 calendar days"
+          "EMPLOYMENT in 4 calendar days"
+        ]
+      },
+      {
+        "ticker": "BKR",
+        "risk_level": "ELEVATED",
+        "event_policy": "REDUCE_SIZE",
+        "earnings": {
+          "ticker": "BKR",
+          "next_earnings_date": "2027-01-25",
+          "days_until_earnings": 84,
+          "date_status": "AVAILABLE"
+        },
+        "macro": {
+          "risk_level": "ELEVATED",
+          "nearest_event": {
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 4,
+            "risk_level": "ELEVATED",
+            "new_entry_policy": "REDUCE_SIZE",
+            "position_size_multiplier": 0.75
+          }
+        },
+        "reasons": [
+          "EMPLOYMENT in 4 calendar days"
         ]
       },
       {
@@ -7759,237 +7701,6 @@
         "earnings": {
           "ticker": "CCLD",
           "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 5,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "ELEVATED",
-          "nearest_event": {
-            "event_type": "EMPLOYMENT",
-            "name": "Employment Situation",
-            "date": "2026-11-06",
-            "source": "U.S. Bureau of Labor Statistics",
-            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
-            "risk_level": "ELEVATED",
-            "new_entry_policy": "REDUCE_SIZE",
-            "position_size_multiplier": 0.75
-          }
-        },
-        "reasons": [
-          "Earnings event is within 5 calendar days",
-          "EMPLOYMENT in 6 calendar days"
-        ]
-      },
-      {
-        "ticker": "CTAS",
-        "risk_level": "ELEVATED",
-        "event_policy": "REDUCE_SIZE",
-        "earnings": {
-          "ticker": "CTAS",
-          "next_earnings_date": "2026-12-17",
-          "days_until_earnings": 47,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "ELEVATED",
-          "nearest_event": {
-            "event_type": "EMPLOYMENT",
-            "name": "Employment Situation",
-            "date": "2026-11-06",
-            "source": "U.S. Bureau of Labor Statistics",
-            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
-            "risk_level": "ELEVATED",
-            "new_entry_policy": "REDUCE_SIZE",
-            "position_size_multiplier": 0.75
-          }
-        },
-        "reasons": [
-          "EMPLOYMENT in 6 calendar days"
-        ]
-      },
-      {
-        "ticker": "GOOG",
-        "risk_level": "ELEVATED",
-        "event_policy": "REDUCE_SIZE",
-        "earnings": {
-          "ticker": "GOOG",
-          "next_earnings_date": "2027-02-03",
-          "days_until_earnings": 95,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "ELEVATED",
-          "nearest_event": {
-            "event_type": "EMPLOYMENT",
-            "name": "Employment Situation",
-            "date": "2026-11-06",
-            "source": "U.S. Bureau of Labor Statistics",
-            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
-            "risk_level": "ELEVATED",
-            "new_entry_policy": "REDUCE_SIZE",
-            "position_size_multiplier": 0.75
-          }
-        },
-        "reasons": [
-          "EMPLOYMENT in 6 calendar days"
-        ]
-      },
-      {
-        "ticker": "NBIS",
-        "risk_level": "ELEVATED",
-        "event_policy": "REDUCE_SIZE",
-        "earnings": {
-          "ticker": "NBIS",
-          "next_earnings_date": "2026-11-12",
-          "days_until_earnings": 12,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "ELEVATED",
-          "nearest_event": {
-            "event_type": "EMPLOYMENT",
-            "name": "Employment Situation",
-            "date": "2026-11-06",
-            "source": "U.S. Bureau of Labor Statistics",
-            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
-            "risk_level": "ELEVATED",
-            "new_entry_policy": "REDUCE_SIZE",
-            "position_size_multiplier": 0.75
-          }
-        },
-        "reasons": [
-          "EMPLOYMENT in 6 calendar days"
-        ]
-      },
-      {
-        "ticker": "NVDA",
-        "risk_level": "ELEVATED",
-        "event_policy": "REDUCE_SIZE",
-        "earnings": {
-          "ticker": "NVDA",
-          "next_earnings_date": "2026-11-17",
-          "days_until_earnings": 17,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "ELEVATED",
-          "nearest_event": {
-            "event_type": "EMPLOYMENT",
-            "name": "Employment Situation",
-            "date": "2026-11-06",
-            "source": "U.S. Bureau of Labor Statistics",
-            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
-            "risk_level": "ELEVATED",
-            "new_entry_policy": "REDUCE_SIZE",
-            "position_size_multiplier": 0.75
-          }
-        },
-        "reasons": [
-          "EMPLOYMENT in 6 calendar days"
-        ]
-      },
-      {
-        "ticker": "OMDA",
-        "risk_level": "HIGH",
-        "event_policy": "REDUCE_SIZE",
-        "earnings": {
-          "ticker": "OMDA",
-          "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 5,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "ELEVATED",
-          "nearest_event": {
-            "event_type": "EMPLOYMENT",
-            "name": "Employment Situation",
-            "date": "2026-11-06",
-            "source": "U.S. Bureau of Labor Statistics",
-            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
-            "risk_level": "ELEVATED",
-            "new_entry_policy": "REDUCE_SIZE",
-            "position_size_multiplier": 0.75
-          }
-        },
-        "reasons": [
-          "Earnings event is within 5 calendar days",
-          "EMPLOYMENT in 6 calendar days"
-        ]
-      },
-      {
-        "ticker": "UNH",
-        "risk_level": "ELEVATED",
-        "event_policy": "REDUCE_SIZE",
-        "earnings": {
-          "ticker": "UNH",
-          "next_earnings_date": "2027-01-12",
-          "days_until_earnings": 73,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "ELEVATED",
-          "nearest_event": {
-            "event_type": "EMPLOYMENT",
-            "name": "Employment Situation",
-            "date": "2026-11-06",
-            "source": "U.S. Bureau of Labor Statistics",
-            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
-            "risk_level": "ELEVATED",
-            "new_entry_policy": "REDUCE_SIZE",
-            "position_size_multiplier": 0.75
-          }
-        },
-        "reasons": [
-          "EMPLOYMENT in 6 calendar days"
-        ]
-      },
-      {
-        "ticker": "VRT",
-        "risk_level": "ELEVATED",
-        "event_policy": "REDUCE_SIZE",
-        "earnings": {
-          "ticker": "VRT",
-          "next_earnings_date": "2027-02-10",
-          "days_until_earnings": 102,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "ELEVATED",
-          "nearest_event": {
-            "event_type": "EMPLOYMENT",
-            "name": "Employment Situation",
-            "date": "2026-11-06",
-            "source": "U.S. Bureau of Labor Statistics",
-            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
-            "risk_level": "ELEVATED",
-            "new_entry_policy": "REDUCE_SIZE",
-            "position_size_multiplier": 0.75
-          }
-        },
-        "reasons": [
-          "EMPLOYMENT in 6 calendar days"
-        ]
-      }
-    ],
-    "actionable_alert_count": 4,
-    "actionable_alerts": [
-      {
-        "ticker": "AMGN",
-        "base_action": "BUY",
-        "risk_level": "HIGH",
-        "event_policy": "REDUCE_SIZE",
-        "size_multiplier": 0.5,
-        "earnings": {
-          "ticker": "AMGN",
-          "next_earnings_date": "2026-11-03",
           "days_until_earnings": 3,
           "date_status": "AVAILABLE"
         },
@@ -8001,7 +7712,7 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
@@ -8009,7 +7720,238 @@
         },
         "reasons": [
           "Earnings event is within 5 calendar days",
-          "EMPLOYMENT in 6 calendar days"
+          "EMPLOYMENT in 4 calendar days"
+        ]
+      },
+      {
+        "ticker": "CTAS",
+        "risk_level": "ELEVATED",
+        "event_policy": "REDUCE_SIZE",
+        "earnings": {
+          "ticker": "CTAS",
+          "next_earnings_date": "2026-12-17",
+          "days_until_earnings": 45,
+          "date_status": "AVAILABLE"
+        },
+        "macro": {
+          "risk_level": "ELEVATED",
+          "nearest_event": {
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 4,
+            "risk_level": "ELEVATED",
+            "new_entry_policy": "REDUCE_SIZE",
+            "position_size_multiplier": 0.75
+          }
+        },
+        "reasons": [
+          "EMPLOYMENT in 4 calendar days"
+        ]
+      },
+      {
+        "ticker": "GOOG",
+        "risk_level": "ELEVATED",
+        "event_policy": "REDUCE_SIZE",
+        "earnings": {
+          "ticker": "GOOG",
+          "next_earnings_date": "2027-02-03",
+          "days_until_earnings": 93,
+          "date_status": "AVAILABLE"
+        },
+        "macro": {
+          "risk_level": "ELEVATED",
+          "nearest_event": {
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 4,
+            "risk_level": "ELEVATED",
+            "new_entry_policy": "REDUCE_SIZE",
+            "position_size_multiplier": 0.75
+          }
+        },
+        "reasons": [
+          "EMPLOYMENT in 4 calendar days"
+        ]
+      },
+      {
+        "ticker": "NBIS",
+        "risk_level": "ELEVATED",
+        "event_policy": "REDUCE_SIZE",
+        "earnings": {
+          "ticker": "NBIS",
+          "next_earnings_date": "2026-11-12",
+          "days_until_earnings": 10,
+          "date_status": "AVAILABLE"
+        },
+        "macro": {
+          "risk_level": "ELEVATED",
+          "nearest_event": {
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 4,
+            "risk_level": "ELEVATED",
+            "new_entry_policy": "REDUCE_SIZE",
+            "position_size_multiplier": 0.75
+          }
+        },
+        "reasons": [
+          "EMPLOYMENT in 4 calendar days"
+        ]
+      },
+      {
+        "ticker": "NVDA",
+        "risk_level": "ELEVATED",
+        "event_policy": "REDUCE_SIZE",
+        "earnings": {
+          "ticker": "NVDA",
+          "next_earnings_date": "2026-11-17",
+          "days_until_earnings": 15,
+          "date_status": "AVAILABLE"
+        },
+        "macro": {
+          "risk_level": "ELEVATED",
+          "nearest_event": {
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 4,
+            "risk_level": "ELEVATED",
+            "new_entry_policy": "REDUCE_SIZE",
+            "position_size_multiplier": 0.75
+          }
+        },
+        "reasons": [
+          "EMPLOYMENT in 4 calendar days"
+        ]
+      },
+      {
+        "ticker": "OMDA",
+        "risk_level": "HIGH",
+        "event_policy": "REDUCE_SIZE",
+        "earnings": {
+          "ticker": "OMDA",
+          "next_earnings_date": "2026-11-05",
+          "days_until_earnings": 3,
+          "date_status": "AVAILABLE"
+        },
+        "macro": {
+          "risk_level": "ELEVATED",
+          "nearest_event": {
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 4,
+            "risk_level": "ELEVATED",
+            "new_entry_policy": "REDUCE_SIZE",
+            "position_size_multiplier": 0.75
+          }
+        },
+        "reasons": [
+          "Earnings event is within 5 calendar days",
+          "EMPLOYMENT in 4 calendar days"
+        ]
+      },
+      {
+        "ticker": "UNH",
+        "risk_level": "ELEVATED",
+        "event_policy": "REDUCE_SIZE",
+        "earnings": {
+          "ticker": "UNH",
+          "next_earnings_date": "2027-01-12",
+          "days_until_earnings": 71,
+          "date_status": "AVAILABLE"
+        },
+        "macro": {
+          "risk_level": "ELEVATED",
+          "nearest_event": {
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 4,
+            "risk_level": "ELEVATED",
+            "new_entry_policy": "REDUCE_SIZE",
+            "position_size_multiplier": 0.75
+          }
+        },
+        "reasons": [
+          "EMPLOYMENT in 4 calendar days"
+        ]
+      },
+      {
+        "ticker": "VRT",
+        "risk_level": "ELEVATED",
+        "event_policy": "REDUCE_SIZE",
+        "earnings": {
+          "ticker": "VRT",
+          "next_earnings_date": "2027-02-10",
+          "days_until_earnings": 100,
+          "date_status": "AVAILABLE"
+        },
+        "macro": {
+          "risk_level": "ELEVATED",
+          "nearest_event": {
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 4,
+            "risk_level": "ELEVATED",
+            "new_entry_policy": "REDUCE_SIZE",
+            "position_size_multiplier": 0.75
+          }
+        },
+        "reasons": [
+          "EMPLOYMENT in 4 calendar days"
+        ]
+      }
+    ],
+    "actionable_alert_count": 3,
+    "actionable_alerts": [
+      {
+        "ticker": "AMGN",
+        "base_action": "BUY",
+        "risk_level": "CRITICAL",
+        "event_policy": "BLOCK",
+        "size_multiplier": 0.0,
+        "earnings": {
+          "ticker": "AMGN",
+          "next_earnings_date": "2026-11-03",
+          "days_until_earnings": 1,
+          "date_status": "AVAILABLE"
+        },
+        "macro": {
+          "risk_level": "ELEVATED",
+          "nearest_event": {
+            "event_type": "EMPLOYMENT",
+            "name": "Employment Situation",
+            "date": "2026-11-06",
+            "source": "U.S. Bureau of Labor Statistics",
+            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "days_until_event": 4,
+            "risk_level": "ELEVATED",
+            "new_entry_policy": "REDUCE_SIZE",
+            "position_size_multiplier": 0.75
+          }
+        },
+        "reasons": [
+          "Earnings event is within 2 calendar days",
+          "EMPLOYMENT in 4 calendar days"
         ]
       },
       {
@@ -8021,7 +7963,7 @@
         "earnings": {
           "ticker": "GILD",
           "next_earnings_date": "2027-02-09",
-          "days_until_earnings": 101,
+          "days_until_earnings": 99,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -8032,44 +7974,14 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
           }
         },
         "reasons": [
-          "EMPLOYMENT in 6 calendar days"
-        ]
-      },
-      {
-        "ticker": "WMT",
-        "base_action": "ACCUMULATE",
-        "risk_level": "ELEVATED",
-        "event_policy": "REDUCE_SIZE",
-        "size_multiplier": 0.75,
-        "earnings": {
-          "ticker": "WMT",
-          "next_earnings_date": "2026-11-19",
-          "days_until_earnings": 19,
-          "date_status": "AVAILABLE"
-        },
-        "macro": {
-          "risk_level": "ELEVATED",
-          "nearest_event": {
-            "event_type": "EMPLOYMENT",
-            "name": "Employment Situation",
-            "date": "2026-11-06",
-            "source": "U.S. Bureau of Labor Statistics",
-            "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
-            "risk_level": "ELEVATED",
-            "new_entry_policy": "REDUCE_SIZE",
-            "position_size_multiplier": 0.75
-          }
-        },
-        "reasons": [
-          "EMPLOYMENT in 6 calendar days"
+          "EMPLOYMENT in 4 calendar days"
         ]
       },
       {
@@ -8081,7 +7993,7 @@
         "earnings": {
           "ticker": "COP",
           "next_earnings_date": "2026-11-05",
-          "days_until_earnings": 5,
+          "days_until_earnings": 3,
           "date_status": "AVAILABLE"
         },
         "macro": {
@@ -8092,7 +8004,7 @@
             "date": "2026-11-06",
             "source": "U.S. Bureau of Labor Statistics",
             "source_url": "https://www.bls.gov/schedule/news_release/bls.ics",
-            "days_until_event": 6,
+            "days_until_event": 4,
             "risk_level": "ELEVATED",
             "new_entry_policy": "REDUCE_SIZE",
             "position_size_multiplier": 0.75
@@ -8100,7 +8012,7 @@
         },
         "reasons": [
           "Earnings event is within 5 calendar days",
-          "EMPLOYMENT in 6 calendar days"
+          "EMPLOYMENT in 4 calendar days"
         ]
       }
     ],
@@ -8108,9 +8020,9 @@
   },
   "correlation_allocation_gate": {
     "engine": "V7.7 Correlation-Aware Capital Allocation Gate",
-    "timestamp": "2026-10-31T17:49:04.480769+00:00",
+    "timestamp": "2026-11-02T06:48:22.986885+00:00",
     "existing_position_count": 8,
-    "actionable_candidate_count": 4,
+    "actionable_candidate_count": 3,
     "portfolio_factor_profile": {
       "MARKET": {
         "proxy": "SPY",
@@ -8147,12 +8059,12 @@
         "policy": "ALLOW",
         "risk_level": "LOW",
         "size_multiplier": 1.0,
-        "provisional_target_weight_pct": 1.88,
+        "provisional_target_weight_pct": 0.0,
         "candidate_portfolio_correlation": -0.028,
         "max_pair_correlation": 0.303,
         "max_pair_ticker": "CTAS",
         "high_correlation_existing_weight_pct": 0,
-        "projected_cluster_weight_pct": 1.88,
+        "projected_cluster_weight_pct": 0.0,
         "high_correlation_holdings": [],
         "factor_profile": {
           "MARKET": {
@@ -8234,52 +8146,6 @@
           "No material correlation concentration detected"
         ]
       },
-      "WMT": {
-        "ticker": "WMT",
-        "policy": "ALLOW",
-        "risk_level": "LOW",
-        "size_multiplier": 1.0,
-        "provisional_target_weight_pct": 2.25,
-        "candidate_portfolio_correlation": -0.196,
-        "max_pair_correlation": 0.252,
-        "max_pair_ticker": "CTAS",
-        "high_correlation_existing_weight_pct": 0,
-        "projected_cluster_weight_pct": 2.25,
-        "high_correlation_holdings": [],
-        "factor_profile": {
-          "MARKET": {
-            "proxy": "SPY",
-            "correlation": -0.023
-          },
-          "GROWTH_TECH": {
-            "proxy": "QQQ",
-            "correlation": -0.148
-          },
-          "SEMICONDUCTOR": {
-            "proxy": "SMH",
-            "correlation": -0.231
-          },
-          "ENERGY": {
-            "proxy": "XLE",
-            "correlation": 0.063
-          }
-        },
-        "dominant_factor": {
-          "factor": "SEMICONDUCTOR",
-          "proxy": "SMH",
-          "correlation": -0.231
-        },
-        "portfolio_dominant_factor": {
-          "factor": "SEMICONDUCTOR",
-          "proxy": "SMH",
-          "beta": 0.48,
-          "correlation": 0.932
-        },
-        "factor_overlap": false,
-        "reasons": [
-          "No material correlation concentration detected"
-        ]
-      },
       "COP": {
         "ticker": "COP",
         "policy": "ALLOW",
@@ -8343,7 +8209,7 @@
     "correlation_blocked_count": 0,
     "correlation_reduced_count": 0,
     "event_risk_engine": "V7.5 Earnings & Event Risk Engine",
-    "actionable_event_alert_count": 4,
+    "actionable_event_alert_count": 3,
     "market_regime": "BEAR",
     "market_regime_score": 30.0,
     "regime_policy": {
@@ -8374,13 +8240,13 @@
         "alpha_score": 76.05,
         "confidence": 74.3,
         "risk_score": 89.0,
-        "target_weight_pct": 1.88,
-        "target_value": 730.08,
+        "target_weight_pct": 0.0,
+        "target_value": 0.0,
         "suggested_shares": 0,
         "allocated_value": 0.0,
         "projected_weight_pct": 0.0,
-        "allocation_status": "REGIME_BLOCK",
-        "reason": "Alpha score is below the current market-regime threshold",
+        "allocation_status": "EVENT_BLOCK",
+        "reason": "Earnings event is within 2 calendar days; EMPLOYMENT in 4 calendar days",
         "entry_zone": {
           "low": 456.73,
           "high": 470.71
@@ -8388,22 +8254,22 @@
         "stop_loss": 433.43,
         "target_price": 549.94,
         "risk_reward": 2.57,
-        "event_policy": "REDUCE_SIZE",
-        "event_risk_level": "HIGH",
-        "event_size_multiplier": 0.5,
+        "event_policy": "BLOCK",
+        "event_risk_level": "CRITICAL",
+        "event_size_multiplier": 0.0,
         "event_reasons": [
-          "Earnings event is within 5 calendar days",
-          "EMPLOYMENT in 6 calendar days"
+          "Earnings event is within 2 calendar days",
+          "EMPLOYMENT in 4 calendar days"
         ],
         "next_earnings_date": "2026-11-03",
-        "days_until_earnings": 3,
+        "days_until_earnings": 1,
         "correlation_policy": "ALLOW",
         "correlation_risk_level": "LOW",
         "correlation_size_multiplier": 1.0,
         "candidate_portfolio_correlation": -0.028,
         "max_pair_correlation": 0.303,
         "max_pair_ticker": "CTAS",
-        "projected_cluster_weight_pct": 1.88,
+        "projected_cluster_weight_pct": 0.0,
         "candidate_dominant_factor": "ENERGY",
         "correlation_reasons": [
           "No material correlation concentration detected"
@@ -8435,57 +8301,15 @@
         "event_risk_level": "ELEVATED",
         "event_size_multiplier": 0.75,
         "event_reasons": [
-          "EMPLOYMENT in 6 calendar days"
+          "EMPLOYMENT in 4 calendar days"
         ],
         "next_earnings_date": "2027-02-09",
-        "days_until_earnings": 101,
+        "days_until_earnings": 99,
         "correlation_policy": "ALLOW",
         "correlation_risk_level": "LOW",
         "correlation_size_multiplier": 1.0,
         "candidate_portfolio_correlation": -0.147,
         "max_pair_correlation": 0.335,
-        "max_pair_ticker": "CTAS",
-        "projected_cluster_weight_pct": 2.25,
-        "candidate_dominant_factor": "SEMICONDUCTOR",
-        "correlation_reasons": [
-          "No material correlation concentration detected"
-        ]
-      },
-      {
-        "ticker": "WMT",
-        "action": "ACCUMULATE",
-        "sector": "Consumer Defensive",
-        "price": 123.52,
-        "alpha_score": 74.12,
-        "confidence": 72.4,
-        "risk_score": 90.3,
-        "target_weight_pct": 2.25,
-        "target_value": 876.1,
-        "suggested_shares": 0,
-        "allocated_value": 0.0,
-        "projected_weight_pct": 0.0,
-        "allocation_status": "REGIME_BLOCK",
-        "reason": "Alpha score is below the current market-regime threshold",
-        "entry_zone": {
-          "low": 118.58,
-          "high": 123.52
-        },
-        "stop_loss": 112.4,
-        "target_price": 142.05,
-        "risk_reward": 1.67,
-        "event_policy": "REDUCE_SIZE",
-        "event_risk_level": "ELEVATED",
-        "event_size_multiplier": 0.75,
-        "event_reasons": [
-          "EMPLOYMENT in 6 calendar days"
-        ],
-        "next_earnings_date": "2026-11-19",
-        "days_until_earnings": 19,
-        "correlation_policy": "ALLOW",
-        "correlation_risk_level": "LOW",
-        "correlation_size_multiplier": 1.0,
-        "candidate_portfolio_correlation": -0.196,
-        "max_pair_correlation": 0.252,
         "max_pair_ticker": "CTAS",
         "projected_cluster_weight_pct": 2.25,
         "candidate_dominant_factor": "SEMICONDUCTOR",
@@ -8520,10 +8344,10 @@
         "event_size_multiplier": 0.5,
         "event_reasons": [
           "Earnings event is within 5 calendar days",
-          "EMPLOYMENT in 6 calendar days"
+          "EMPLOYMENT in 4 calendar days"
         ],
         "next_earnings_date": "2026-11-05",
-        "days_until_earnings": 5,
+        "days_until_earnings": 3,
         "correlation_policy": "ALLOW",
         "correlation_risk_level": "LOW",
         "correlation_size_multiplier": 1.0,
@@ -8721,7 +8545,7 @@
   },
   "portfolio_correlation_factor_risk": {
     "engine": "V7.6 Portfolio Correlation & Factor Risk Engine",
-    "timestamp": "2026-10-31T17:49:04.505431+00:00",
+    "timestamp": "2026-11-02T06:48:23.011160+00:00",
     "position_count": 8,
     "data_coverage": {
       "positions_with_market_history": 8,
@@ -12720,7 +12544,7 @@
   },
   "shadow_policy_monitor": {
     "engine": "V8.2 Shadow Policy Monitor",
-    "timestamp": "2026-10-31T17:49:06.493010+00:00",
+    "timestamp": "2026-11-02T06:48:24.685515+00:00",
     "status": "ACTIVE_SHADOW",
     "candidate_policy": "MOMENTUM_FRIENDLY",
     "live_policy": "V7.9 DEFAULT",
@@ -12918,7 +12742,7 @@
   "fresh_forward_promotion_gate": {
     "engine": "V8.4.8 Independent-Cohort Fresh Forward Promotion Gate",
     "gate_signature": "V8.4.8",
-    "generated": "2026-10-31T17:49:06.493573+00:00",
+    "generated": "2026-11-02T06:48:24.686030+00:00",
     "status": "WAITING_FOR_FRESH_EVIDENCE",
     "verdict": "PROMOTION_BLOCKED",
     "candidate_policy": "MOMENTUM_FRIENDLY",
@@ -13070,7 +12894,7 @@
   },
   "ibkr_paper_snapshot": {
     "engine": "V8.9.5 IBKR Gateway Connector",
-    "timestamp": "2026-10-31T17:48:39.379438+00:00",
+    "timestamp": "2026-11-02T06:47:58.356640+00:00",
     "config": {
       "enabled": false,
       "mode": "PAPER",
@@ -13091,7 +12915,7 @@
   },
   "ibkr_paper_readiness": {
     "engine": "V8.9.5 IBKR Paper Readiness Safety Gate",
-    "timestamp": "2026-10-31T17:48:39.379537+00:00",
+    "timestamp": "2026-11-02T06:47:58.356733+00:00",
     "readiness": "DISABLED",
     "live_execution_allowed": false,
     "paper_order_submission_allowed": false,
@@ -13345,9 +13169,9 @@
   "historical_evidence_recovery": {
     "engine": "V8.4 Historical Evidence Recovery Engine",
     "recovery_signature": "V8.4.1",
-    "generated": "2026-10-31T06:08:04.644878+00:00",
+    "generated": "2026-11-02T06:48:27.105807+00:00",
     "status": "COMPLETE",
-    "cache_status": "REUSED",
+    "cache_status": "FRESH",
     "record_count": 138,
     "directional_record_count": 138,
     "oldest_signal_date": "2026-05-29",
@@ -13364,7 +13188,7 @@
         "records": 21
       },
       "modern_json": {
-        "scanned_dates": 86,
+        "scanned_dates": 87,
         "usable_dates": 6,
         "records": 18,
         "excluded_foundation_snapshots": 77
@@ -20419,7 +20243,7 @@
     "validation_signature": "V8.6.2",
     "status": "COMPLETE",
     "cache_status": "FRESH",
-    "generated": "2026-10-31T17:51:24.539587+00:00",
+    "generated": "2026-11-02T06:50:32.690745+00:00",
     "test_period": {
       "start": "2022-06-01",
       "end": "2026-06-05"
@@ -20499,7 +20323,7 @@
         "mode": "TOP12_FULL",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 113557.5,
+          "ending_value": 113557.49,
           "total_return_pct": 13.67,
           "cagr_pct": 3.26,
           "annualized_volatility_pct": 13.29,
@@ -21266,7 +21090,7 @@
         "mode": "TOP12_RISK_OVERLAY",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 113557.5,
+          "ending_value": 113557.49,
           "total_return_pct": 13.67,
           "cagr_pct": 3.26,
           "annualized_volatility_pct": 13.29,
@@ -22571,7 +22395,7 @@
         "mode": "TOP12_FULL",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 102973.16,
+          "ending_value": 102973.17,
           "total_return_pct": 3.08,
           "cagr_pct": 0.76,
           "annualized_volatility_pct": 15.48,
@@ -24105,7 +23929,7 @@
         "mode": "UNIVERSE_EQUAL_WEIGHT",
         "performance": {
           "starting_value": 99900.0,
-          "ending_value": 184738.25,
+          "ending_value": 184738.24,
           "total_return_pct": 84.92,
           "cagr_pct": 16.65,
           "annualized_volatility_pct": 20.19,
@@ -24652,7 +24476,7 @@
   },
   "thesis_exit_shadow": {
     "engine": "V8.5.2 Thesis-Aware Exit Shadow Journal",
-    "timestamp": "2026-10-31T17:49:06.803795+00:00",
+    "timestamp": "2026-11-02T06:48:24.880392+00:00",
     "status": "ACTIVE_SHADOW",
     "live_actions_changed": false,
     "reviewed_sell_count": 5,
@@ -24671,7 +24495,7 @@
         "thesis_shadow_action": "EXIT",
         "review_status": "CONFIRMED",
         "thesis_health": "BROKEN",
-        "fundamental_score": 61.7,
+        "fundamental_score": 62.8,
         "live_exposure": 0.0,
         "shadow_exposure": 0.0,
         "exposure_difference": 0.0,
@@ -24697,7 +24521,7 @@
         "thesis_shadow_action": "REDUCE",
         "review_status": "CONFIRMED_PARTIAL",
         "thesis_health": "DETERIORATING",
-        "fundamental_score": 73.9,
+        "fundamental_score": 70.2,
         "live_exposure": 0.5,
         "shadow_exposure": 0.5,
         "exposure_difference": 0.0,
@@ -24723,7 +24547,7 @@
         "thesis_shadow_action": "HOLD",
         "review_status": "CONTRADICTED",
         "thesis_health": "STRONG",
-        "fundamental_score": 81.0,
+        "fundamental_score": 81.1,
         "live_exposure": 0.0,
         "shadow_exposure": 1.0,
         "exposure_difference": 1.0,
@@ -24769,7 +24593,7 @@
   },
   "recommendation_performance": {
     "engine": "V7.8 Recommendation Performance Journal",
-    "generated": "2026-10-31T17:51:25.136047+00:00",
+    "generated": "2026-11-02T06:50:33.249505+00:00",
     "total_signals": 189,
     "bootstrap_signals_added": 0,
     "new_signals_added": 0,
