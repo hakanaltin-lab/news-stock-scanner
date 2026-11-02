@@ -539,6 +539,19 @@ def evaluate_ibkr_paper_readiness(
     )
 
     add_check(
+        "gateway_read_only_configuration_independently_attested",
+        broker_snapshot.get(
+            "gateway_read_only_configuration_independently_attested"
+        )
+        is True,
+        True,
+        (
+            "IB Gateway/TWS API Read-Only configuration must be independently "
+            "attested; connector-side flags cannot self-attest this control."
+        )
+    )
+
+    add_check(
         "order_submission_hard_blocked",
         broker_snapshot.get(
             "order_submission_hard_blocked"
@@ -969,6 +982,26 @@ def evaluate_ibkr_paper_readiness(
         )
     ]
 
+    attestation_check_name = (
+        "gateway_read_only_configuration_independently_attested"
+    )
+    non_attestation_required_failures = [
+        item
+        for item in required_failures
+        if item.get(
+            "check"
+        )
+        !=
+        attestation_check_name
+    ]
+    diagnostic_read_only_ready = (
+        status
+        !=
+        "DISABLED"
+        and
+        not non_attestation_required_failures
+    )
+
     if status == "DISABLED":
         readiness = (
             "DISABLED"
@@ -1002,6 +1035,15 @@ def evaluate_ibkr_paper_readiness(
         "paper_order_submission_allowed":
         False,
 
+        "gateway_read_only_configuration_independently_attested":
+        broker_snapshot.get(
+            "gateway_read_only_configuration_independently_attested"
+        )
+        is True,
+
+        "diagnostic_read_only_ready":
+        diagnostic_read_only_ready,
+
         "required_failure_count":
         len(
             required_failures
@@ -1034,6 +1076,11 @@ def evaluate_ibkr_paper_readiness(
             ==
             "READY_FOR_PAPER_READ_ONLY"
             else
-            "ESTABLISH_PAPER_READ_ONLY_CONNECTION"
+            (
+                "INDEPENDENT_GATEWAY_READ_ONLY_ATTESTATION"
+                if diagnostic_read_only_ready
+                else
+                "ESTABLISH_PAPER_READ_ONLY_CONNECTION"
+            )
         )
     }
