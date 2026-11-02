@@ -121,6 +121,33 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
             G0_PROOF_SHA256,
         )
 
+    def test_v2_artifact_is_rejected_after_v3_upgrade(self):
+        legacy = artifact()
+        legacy["schema_version"] = 2
+        legacy["attestation_type"] = "IBKR_GATEWAY_API_READ_ONLY_V2"
+        legacy.pop("g0_runtime_proof_sha256")
+
+        result = self.evaluate(
+            data=legacy
+        )
+
+        self.assertEqual(
+            result["status"],
+            "BLOCKED",
+        )
+        self.assertIn(
+            "artifact_field_set_exact",
+            result["failure_reasons"],
+        )
+        self.assertIn(
+            "artifact_schema_version",
+            result["failure_reasons"],
+        )
+        self.assertIn(
+            "attestation_type",
+            result["failure_reasons"],
+        )
+
     def test_g0_runtime_proof_digest_is_signed_and_runtime_bound(self):
         missing = artifact()
         missing.pop("g0_runtime_proof_sha256")
