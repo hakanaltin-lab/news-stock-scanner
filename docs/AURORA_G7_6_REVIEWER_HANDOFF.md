@@ -1,0 +1,112 @@
+# AURORA G7.6 — Operator / Independent Reviewer Handoff
+
+G7.6 prepares the approved Paper VPS for a human review of the IB Gateway/TWS
+**Read-Only API** setting. It does not create an attestation, does not sign
+anything, and does not authorize a Paper or LIVE order.
+
+## Purpose
+
+After G7.5, AURORA accepts Read-Only attestation only from an independently
+signed Ed25519 artifact. G7.6 gives the operator and reviewer a sanitized
+handoff request that is cryptographically and operationally bound to the
+reviewer trust root and deployed code, while keeping the final decision outside
+AURORA.
+
+Run on the approved VPS from the repository root:
+
+```bash
+python scripts/gateway_readonly_attestation_handoff.py
+```
+
+Exit code 0 means only:
+
+```text
+status = READY_FOR_INDEPENDENT_REVIEW
+ready_for_independent_review = true
+attestation_verified = false
+gateway_read_only_configuration_independently_attested = false
+```
+
+It never means G2 is ready and never authorizes an order.
+
+## What the preflight verifies
+
+The preflight uses the same fixed production trust paths as G7.5 and refuses
+environment or CLI path overrides. It requires:
+
+- root-controlled reviewer policy and public-key files;
+- the reviewer public-key fingerprint to match the policy;
+- public-key material only — reviewer private-key material is rejected;
+- policy instance exactly `aurora-trading-vps`;
+- policy zone exactly `europe-west3-a`;
+- runtime hostname matching the approved instance;
+- a valid current Git SHA;
+- no tracked Git modifications;
+- system OpenSSL available;
+- a valid policy freshness window and clock-skew limit.
+
+The output contains no broker account ID, balance, credential, or order
+authorization.
+
+## Handoff request is deliberately not an attestation
+
+The generated `handoff_request` uses a distinct schema:
+
+```text
+request_type = IBKR_GATEWAY_READ_ONLY_REVIEW_REQUEST_V1
+operator_asserts_gateway_read_only = false
+requires_human_gateway_configuration_review = true
+signed_attestation_required = true
+```
+
+The G7.5 attestation verifier rejects this request even if someone attempts to
+feed it back as an attestation. It has no `decision=ATTESTED`, no evidence
+hash, and no reviewer signature.
+
+## Independent reviewer procedure
+
+The independent reviewer should use the handoff request only to identify the
+deployment being reviewed. The reviewer then independently verifies the
+Gateway/TWS API configuration on the approved VPS, including the Read-Only API
+setting, Paper mode, loopback API endpoint and port 4002.
+
+The reviewer captures sanitized evidence, computes its SHA-256, creates the G7.5
+attestation for the exact Git SHA/VPS, and signs it **off the trading VPS** with
+the reviewer private Ed25519 key.
+
+Never copy the reviewer private key to the AURORA VPS, repository, GitHub,
+shell history, runtime files, or ChatGPT conversation.
+
+## Operator installation after review
+
+Only the signed artifact is returned to the operator. The operator installs it
+at:
+
+```text
+/var/lib/aurora/gateway-readonly-attestation/latest.json
+```
+
+The reviewer public key and reviewed policy remain at their G7.5 fixed
+root-controlled paths.
+
+Then run:
+
+```bash
+python scripts/verify_gateway_readonly_attestation.py
+```
+
+Only `status=VERIFIED` from that verifier can satisfy the cryptographic
+attestation gate. The G2 probe, G0-G3 readiness bundle and G0-G4 completion
+gate reverify the same artifact independently.
+
+## Safety boundary
+
+G7.6 is administrative readiness only. Throughout this workflow:
+
+- broker submission remains disabled;
+- Paper order submission remains disabled;
+- LIVE execution remains disabled;
+- automatic promotion remains disabled;
+- real-money trading remains disabled.
+
+No order should be placed merely to prove Read-Only configuration.
