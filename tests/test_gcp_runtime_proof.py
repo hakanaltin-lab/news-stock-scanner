@@ -91,6 +91,59 @@ class GCPRuntimeProofTests(unittest.TestCase):
             evaluate_gcp_runtime_proof(bad_vm, rules(), budget())["failure_reasons"],
         )
 
+    def test_malformed_top_level_cloud_payloads_fail_closed(self):
+        cases = (
+            ([], rules(), budget()),
+            ("invalid", rules(), budget()),
+            (vm(), "invalid", budget()),
+            (vm(), [None], budget()),
+            (vm(), rules(), []),
+        )
+        for vm_payload, firewall_payload, budget_payload in cases:
+            with self.subTest(
+                vm_type=type(vm_payload).__name__,
+                firewall_type=type(firewall_payload).__name__,
+                budget_type=type(budget_payload).__name__,
+            ):
+                result = evaluate_gcp_runtime_proof(
+                    vm_payload,
+                    firewall_payload,
+                    budget_payload,
+                )
+                self.assertEqual(
+                    result["status"],
+                    "BLOCKED",
+                )
+                self.assertIn(
+                    "source_payloads_valid",
+                    result["failure_reasons"],
+                )
+
+    def test_malformed_nested_vm_payloads_do_not_raise(self):
+        candidate = vm()
+        candidate["metadata"] = []
+        candidate["tags"] = "invalid"
+        candidate["networkInterfaces"] = "invalid"
+
+        result = evaluate_gcp_runtime_proof(
+            candidate,
+            rules(),
+            budget(),
+        )
+
+        self.assertEqual(
+            result["status"],
+            "BLOCKED",
+        )
+        self.assertIn(
+            "vm_hardened",
+            result["failure_reasons"],
+        )
+        self.assertIn(
+            "network_contract",
+            result["failure_reasons"],
+        )
+
     def test_missing_or_invalid_immutable_instance_id_blocks(self):
         for value in (
             None,
