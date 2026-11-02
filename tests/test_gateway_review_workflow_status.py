@@ -175,6 +175,24 @@ class GatewayReviewWorkflowStatusTests(unittest.TestCase):
                     result["failure_reasons"],
                 )
 
+    def test_attestation_cannot_inject_execution_permission(self):
+        injected = attestation(True)
+        injected["paper_order_submission_allowed"] = True
+
+        result = self.evaluate(
+            attestation_value=injected
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["workflow_stage"],
+            "SAFETY_INVARIANT",
+        )
+        self.assertIn(
+            "EXECUTION_PERMISSION_INVARIANT_FAILED",
+            result["failure_reasons"],
+        )
+
     def test_missing_permission_flag_is_not_treated_as_safe(self):
         unsafe = identity()
         unsafe.pop("paper_order_submission_allowed")
