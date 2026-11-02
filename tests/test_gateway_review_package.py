@@ -3,7 +3,12 @@
 from datetime import datetime, timedelta, timezone
 import inspect
 import json
+from pathlib import Path
+import tempfile
 import unittest
+from unittest.mock import patch
+
+from scripts import gateway_review_package as review_package
 
 from scripts.gateway_review_package import (
     PACKAGE_TYPE,
@@ -599,6 +604,103 @@ class GatewayReviewPackageTests(unittest.TestCase):
             result["failure_reasons"],
             ["G2_DIAGNOSTIC_PRE_REVIEW_ATTESTATION_STATE_INVALID"],
         )
+
+    def test_installed_g2_loader_accepts_owner_only_regular_file(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "latest.json"
+            payload = {"safe": True}
+            path.write_text(
+                json.dumps(payload),
+                encoding="utf-8",
+            )
+            path.chmod(0o600)
+
+            with patch.object(
+                review_package,
+                "DEFAULT_G2_DIAGNOSTIC_PROOF",
+                path,
+            ):
+                loaded = (
+                    review_package.load_installed_g2_diagnostic_proof()
+                )
+
+        self.assertEqual(loaded, payload)
+
+    def test_installed_g2_loader_rejects_group_or_world_access(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "latest.json"
+            path.write_text(
+                json.dumps({"safe": True}),
+                encoding="utf-8",
+            )
+            path.chmod(0o644)
+
+            with patch.object(
+                review_package,
+                "DEFAULT_G2_DIAGNOSTIC_PROOF",
+                path,
+            ):
+                loaded = (
+                    review_package.load_installed_g2_diagnostic_proof()
+                )
+
+        self.assertEqual(loaded, {})
+
+    def test_installed_g2_loader_rejects_symlink_and_hardlink(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            target = root / "target.json"
+            target.write_text(
+                json.dumps({"safe": True}),
+                encoding="utf-8",
+            )
+            target.chmod(0o600)
+
+            symlink = root / "symlink.json"
+            symlink.symlink_to(target)
+
+            with patch.object(
+                review_package,
+                "DEFAULT_G2_DIAGNOSTIC_PROOF",
+                symlink,
+            ):
+                self.assertEqual(
+                    review_package.load_installed_g2_diagnostic_proof(),
+                    {},
+                )
+
+            hardlink = root / "hardlink.json"
+            hardlink.hardlink_to(target)
+
+            with patch.object(
+                review_package,
+                "DEFAULT_G2_DIAGNOSTIC_PROOF",
+                hardlink,
+            ):
+                self.assertEqual(
+                    review_package.load_installed_g2_diagnostic_proof(),
+                    {},
+                )
+
+    def test_installed_g2_loader_rejects_duplicate_json_keys(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "latest.json"
+            path.write_text(
+                '{"safe":true,"safe":false}',
+                encoding="utf-8",
+            )
+            path.chmod(0o600)
+
+            with patch.object(
+                review_package,
+                "DEFAULT_G2_DIAGNOSTIC_PROOF",
+                path,
+            ):
+                loaded = (
+                    review_package.load_installed_g2_diagnostic_proof()
+                )
+
+        self.assertEqual(loaded, {})
 
     def test_source_has_no_signing_private_key_or_file_mutation_path(self):
         import scripts.gateway_review_package as module
