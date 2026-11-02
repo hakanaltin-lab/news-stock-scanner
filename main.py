@@ -206,6 +206,11 @@ from engines.ibkr_gateway_connector import (
 )
 
 
+from engines.gateway_readonly_attestation_verifier import (
+    verify_installed_gateway_readonly_attestation
+)
+
+
 from engines.ibkr_paper_readiness_engine import (
     evaluate_ibkr_paper_readiness
 )
@@ -356,6 +361,25 @@ def run_scanner():
             get_ibkr_read_only_snapshot()
         )
 
+        ibkr_gateway_readonly_attestation = (
+            verify_installed_gateway_readonly_attestation(
+                os.path.dirname(
+                    os.path.abspath(
+                        __file__
+                    )
+                )
+            )
+        )
+
+        ibkr_paper_snapshot[
+            "gateway_read_only_configuration_independently_attested"
+        ] = (
+            ibkr_gateway_readonly_attestation.get(
+                "gateway_read_only_configuration_independently_attested"
+            )
+            is True
+        )
+
         ibkr_paper_readiness = (
             evaluate_ibkr_paper_readiness(
                 ibkr_paper_snapshot,
@@ -364,6 +388,24 @@ def run_scanner():
         )
 
     except Exception as error:
+        ibkr_gateway_readonly_attestation = {
+            "engine":
+            "AURORA G7.5 Gateway Read-Only Attestation Verifier",
+
+            "status":
+            "BLOCKED",
+
+            "verified":
+            False,
+
+            "gateway_read_only_configuration_independently_attested":
+            False,
+
+            "failure_reasons": [
+                "MAIN_RUNTIME_ATTESTATION_EVALUATION_FAILED"
+            ]
+        }
+
         ibkr_paper_snapshot = {
             "engine":
             "V8.9.5 IBKR Gateway Connector",
@@ -1256,6 +1298,9 @@ def run_scanner():
 
         "ibkr_paper_snapshot":
         ibkr_paper_snapshot,
+
+        "ibkr_gateway_readonly_attestation":
+        ibkr_gateway_readonly_attestation,
 
         "ibkr_paper_readiness":
         ibkr_paper_readiness,
