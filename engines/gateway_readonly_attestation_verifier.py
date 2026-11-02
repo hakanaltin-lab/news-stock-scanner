@@ -438,6 +438,19 @@ def evaluate_gateway_readonly_attestation(
         and evidence_sha256 != ("0" * 64),
     )
 
+    public_key_material_valid = (
+        isinstance(
+            public_key_bytes,
+            bytes,
+        )
+        and b"-----BEGIN PUBLIC KEY-----" in public_key_bytes
+        and b"PRIVATE KEY" not in public_key_bytes
+    )
+    require(
+        "reviewer_public_key_material_valid",
+        public_key_material_valid,
+    )
+
     public_key_sha256 = (
         _sha256_bytes(public_key_bytes)
         if isinstance(public_key_bytes, bytes)
