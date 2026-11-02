@@ -487,6 +487,14 @@ def evaluate_source_review_handoff(
         },
     }
 
+    review_request_sha256 = _canonical_digest(
+        review_request
+    )
+    if review_request_sha256 is None:
+        return _blocked(
+            "SOURCE_REVIEW_REQUEST_DIGEST_UNAVAILABLE"
+        )
+
     unsigned_template = {
         "schema_version": 1,
         "attestation_type": ATTESTATION_TYPE,
@@ -499,6 +507,7 @@ def evaluate_source_review_handoff(
         "source_review_artifact_sha256": (
             source_review_artifact_sha256
         ),
+        "review_request_sha256": review_request_sha256,
         "runtime_prerequisite_sha256": source_review.get(
             "runtime_prerequisite_sha256"
         ),
@@ -526,9 +535,7 @@ def evaluate_source_review_handoff(
         "source_review_artifact_sha256": (
             source_review_artifact_sha256
         ),
-        "review_request_sha256": _canonical_digest(
-            review_request
-        ),
+        "review_request_sha256": review_request_sha256,
         "review_request": review_request,
         "unsigned_attestation_template": (
             unsigned_template
