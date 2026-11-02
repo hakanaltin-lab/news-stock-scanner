@@ -698,6 +698,11 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
             payload = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual(payload["status"], "NOT_READY")
             self.assertFalse(payload["paper_order_submission_allowed"])
+            self.assertFalse(payload["real_money_trading_allowed"])
+            self.assertEqual(
+                output.stat().st_mode & 0o777,
+                0o600,
+            )
             self.assertFalse(payload["live_execution_allowed"])
 
     def test_wrapper_contains_no_order_submission_path(self):
