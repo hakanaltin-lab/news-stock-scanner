@@ -63,8 +63,8 @@ directly. G7.8 additionally binds the handoff to the immutable GCE instance ID f
 The generated `handoff_request` uses a distinct schema:
 
 ```text
-request_schema_version = 2
-request_type = IBKR_GATEWAY_READ_ONLY_REVIEW_REQUEST_V2
+request_schema_version = 3
+request_type = IBKR_GATEWAY_READ_ONLY_REVIEW_REQUEST_V3
 operator_asserts_gateway_read_only = false
 requires_human_gateway_configuration_review = true
 signed_attestation_required = true
@@ -121,3 +121,11 @@ G7.6 is administrative readiness only. Throughout this workflow:
 - real-money trading remains disabled.
 
 No order should be placed merely to prove Read-Only configuration.
+
+
+## G7.10 handoff-to-signature binding
+
+The V3 handoff includes the canonical `g0_runtime_proof_sha256`. The reviewer
+must transfer that exact digest into the V3 Gateway Read-Only attestation
+artifact before signing. The production verifier independently recomputes the
+digest from the fixed deployed G0/G1 proof path and rejects any mismatch.
