@@ -69,7 +69,7 @@ class SafeGCEIdentityBootstrapTests(unittest.TestCase):
         for token in (
             "service-accounts",
             "/token",
-            "credential",
+            "metadata/identity",
             "placeorder",
             "submit_order",
             "chmod",
