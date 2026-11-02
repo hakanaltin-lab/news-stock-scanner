@@ -16,8 +16,25 @@ import json
 from uuid import UUID
 
 
-AUTH_VERSION = "AURORA_G5_PAPER_AUTHORIZATION_V1"
+AUTH_VERSION = "AURORA_G5_PAPER_AUTHORIZATION_V2"
 DEFAULT_MAX_AUTH_AGE_SECONDS = 600
+
+AUTHORIZATION_FIELDS = {
+    "version",
+    "authorization_id",
+    "approved",
+    "mode",
+    "scope",
+    "issued_at",
+    "expires_at",
+    "completion_status_sha256",
+    "shadow_order_sha256",
+    "broker_submission_allowed",
+    "paper_order_submission_allowed",
+    "live_execution_allowed",
+    "automatic_promotion_allowed",
+    "real_money_trading_allowed",
+}
 
 
 def _digest(payload):
@@ -128,6 +145,9 @@ def evaluate_manual_paper_authorization(
     )
 
     checks = {
+        "authorization_field_set_exact": (
+            set(authorization) == AUTHORIZATION_FIELDS
+        ),
         "completion_validated_shadow_only": (
             completion_status.get("status")
             == "PAPER_RUNTIME_VALIDATED_SHADOW_ONLY"
@@ -186,9 +206,8 @@ def evaluate_manual_paper_authorization(
             ).lower(),
             shadow_digest,
         ),
-        "no_live_or_automatic_promotion": (
-            authorization.get("live_execution_allowed") is False
-            and authorization.get("automatic_promotion_allowed") is False
+        "authorization_permissions_non_executable": (
+            _safe_flags(authorization)
         ),
     }
 
@@ -209,6 +228,7 @@ def evaluate_manual_paper_authorization(
         "shadow_order_sha256": shadow_digest,
         "checks": checks,
         "authorization_can_be_consumed_once": True,
+        "authorization_is_pre_execution_only": True,
         "broker_submission_allowed": False,
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
