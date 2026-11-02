@@ -189,7 +189,7 @@ def authorized_g2():
             NOW
             -
             timedelta(
-                seconds=20
+                seconds=120
             )
         ),
         run_id=AUTHORIZED_RUN_ID,
@@ -369,6 +369,11 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
         self.assertTrue(
             result["checks"][
                 "fresh_g2_post_authorization"
+            ]
+        )
+        self.assertTrue(
+            result["checks"][
+                "authorized_g2_contract_valid"
             ]
         )
         self.assertTrue(
