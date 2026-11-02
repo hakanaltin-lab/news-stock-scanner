@@ -12,6 +12,9 @@ import hashlib
 import json
 from uuid import UUID
 
+from engines.paper_adapter_source_attestation import (
+    ENGINE_VERSION as SOURCE_ATTESTATION_ENGINE_VERSION,
+)
 from engines.paper_adapter_source_review import (
     EXPECTED_CLASS,
     SKELETON_VERSION,
@@ -232,7 +235,7 @@ def evaluate_implementation_design(
     checks = source_attestation.get("checks")
     source_verified = (
         source_attestation.get("engine")
-        == "AURORA G8.15 Adapter Source Attestation Verifier"
+        == SOURCE_ATTESTATION_ENGINE_VERSION
         and source_attestation.get("status") == "VERIFIED"
         and source_attestation.get("verified") is True
         and source_attestation.get(
