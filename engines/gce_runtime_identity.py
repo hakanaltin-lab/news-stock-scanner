@@ -6,7 +6,6 @@ are rejected, and only non-secret instance identity attributes are read.
 
 from __future__ import annotations
 
-from http.client import HTTPResponse
 from urllib.error import HTTPError, URLError
 from urllib.request import (
     HTTPRedirectHandler,
