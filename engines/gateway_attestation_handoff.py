@@ -242,8 +242,19 @@ def evaluate_reviewer_handoff_preflight(
 
     require(
         "g0_runtime_verified",
-        g0_proof.get("status") == "G0_G1_VERIFIED"
-        and not g0_proof.get("failure_reasons"),
+        g0_proof.get("engine")
+        == "AURORA V8.9.20 G0-G1 Runtime Proof"
+        and g0_proof.get("status") == "G0_G1_VERIFIED"
+        and isinstance(
+            g0_proof.get("failure_reasons"),
+            list,
+        )
+        and g0_proof.get("failure_reasons") == []
+        and isinstance(
+            g0_proof.get("public_sensitive_allow_rules"),
+            list,
+        )
+        and g0_proof.get("public_sensitive_allow_rules") == [],
     )
     require(
         "g0_runtime_identity_bound",
