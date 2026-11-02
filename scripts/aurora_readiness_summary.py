@@ -235,6 +235,7 @@ def evaluate_readiness_bundle(
         g3_account_guard
     )
 
+    g0_proof_sha256 = _digest(g0_proof)
     g0_instance_id = str(
         g0_proof.get("gce_instance_id") or ""
     ).strip()
@@ -278,6 +279,16 @@ def evaluate_readiness_bundle(
             and g0_instance_id.isdigit()
             and g0_instance_id == g2_attested_instance_id
             == runtime_attested_instance_id
+        ),
+        "g0_signed_proof_digest_bound": (
+            g2_gateway_attestation.get(
+                "g0_runtime_proof_sha256"
+            )
+            == g0_proof_sha256
+            and gateway_attestation_verification.get(
+                "g0_runtime_proof_sha256"
+            )
+            == g0_proof_sha256
         ),
         "g2_read_only_mode": g2_run_mode.get("mode") == "READ_ONLY",
         "g2_ready": g2_readiness.get("readiness") == "READY_FOR_PAPER_READ_ONLY",
@@ -391,7 +402,7 @@ def evaluate_readiness_bundle(
             if checks["g2_g3_same_evidence_run"]
             else None
         ),
-        "g0_g1_proof_sha256": _digest(g0_proof),
+        "g0_g1_proof_sha256": g0_proof_sha256,
         "gce_instance_id": (
             g0_instance_id
             if checks[
