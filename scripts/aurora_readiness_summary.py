@@ -19,6 +19,9 @@ if str(REPOSITORY_ROOT) not in sys.path:
 from engines.gateway_readonly_attestation_verifier import (
     verify_installed_gateway_readonly_attestation,
 )
+from scripts.gateway_review_package import (
+    read_trusted_runtime_evidence_json,
+)
 
 
 DEFAULT_G0_PROOF = "runtime/gcp/latest.json"
@@ -676,8 +679,12 @@ def main(argv=None):
     )
 
     result = evaluate_readiness_bundle(
-        _read_json(args.g2_proof),
-        _read_json(args.g3_proof),
+        read_trusted_runtime_evidence_json(
+            args.g2_proof
+        ),
+        read_trusted_runtime_evidence_json(
+            args.g3_proof
+        ),
         g0_proof=_read_json(args.g0_proof),
         gateway_attestation_verification=(
             gateway_attestation_verification
