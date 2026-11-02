@@ -31,8 +31,8 @@ from engines.gateway_readonly_attestation_verifier import (
 )
 
 
-ENGINE_VERSION = "AURORA G7.6 Gateway Read-Only Reviewer Handoff Preflight"
-HANDOFF_REQUEST_TYPE = "IBKR_GATEWAY_READ_ONLY_REVIEW_REQUEST_V1"
+ENGINE_VERSION = "AURORA G7.8 Gateway Read-Only Reviewer Handoff Preflight"
+HANDOFF_REQUEST_TYPE = "IBKR_GATEWAY_READ_ONLY_REVIEW_REQUEST_V2"
 EXPECTED_INSTANCE_NAME = "aurora-trading-vps"
 EXPECTED_ZONE = "europe-west3-a"
 EXPECTED_PROJECT_ID = "project-ce9773ef-6814-469c-92b"
@@ -402,7 +402,7 @@ def evaluate_reviewer_handoff_preflight(
     handoff_request = None
     if ready:
         handoff_request = {
-            "request_schema_version": 1,
+            "request_schema_version": 2,
             "request_type": HANDOFF_REQUEST_TYPE,
             "requested_control": ATTESTATION_TYPE,
             "generated_at_utc": now.isoformat(),
