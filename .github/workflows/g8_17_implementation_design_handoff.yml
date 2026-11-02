@@ -1,0 +1,54 @@
+name: G8.17 Adapter Implementation Design Handoff Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/paper_adapter_implementation_design.py"
+      - "engines/paper_adapter_implementation_design_handoff.py"
+      - "scripts/g6_adapter_implementation_design_review.py"
+      - "scripts/g6_adapter_implementation_design_handoff.py"
+      - "config/ibkr_paper_adapter_implementation_design_v1.json"
+      - "tests/test_paper_adapter_implementation_design_handoff.py"
+      - "docs/AURORA_G8_17_IMPLEMENTATION_DESIGN_HANDOFF.md"
+      - ".github/workflows/g8_17_implementation_design_handoff.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  non-attesting-design-handoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile handoff components
+        run: |
+          python -m py_compile engines/paper_adapter_implementation_design_handoff.py
+          python -m py_compile scripts/g6_adapter_implementation_design_handoff.py
+          python -m py_compile tests/test_paper_adapter_implementation_design_handoff.py
+
+      - name: Prove handoff cannot self-attest or authorize implementation
+        run: |
+          python -m unittest tests.test_paper_adapter_implementation_design_handoff -v
+
+      - name: Prove no execution path is introduced
+        run: |
+          python - <<'PY'
+          from engines.paper_adapter_implementation_design import PERMISSION_FLAGS
+          from tests.test_paper_adapter_implementation_design_handoff import (
+              AdapterImplementationDesignHandoffTests,
+          )
+
+          case = AdapterImplementationDesignHandoffTests()
+          result = case.evaluate()
+          assert result["design_attestation_verified"] is False
+          assert result["operator_asserts_design_safe"] is False
+          assert all(result[name] is False for name in PERMISSION_FLAGS)
+          PY
