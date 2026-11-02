@@ -1,0 +1,58 @@
+name: G8.21 Signed Adapter Candidate Attestation Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/paper_adapter_implementation_candidate_attestation.py"
+      - "engines/paper_adapter_implementation_candidate_handoff.py"
+      - "engines/paper_adapter_implementation_candidate_review.py"
+      - "scripts/verify_adapter_candidate_attestation.py"
+      - "broker_engine/ibkr_paper_adapter_implementation_candidate.py"
+      - "tests/test_paper_adapter_implementation_candidate_attestation.py"
+      - "docs/AURORA_G8_21_SIGNED_CANDIDATE_ATTESTATION.md"
+      - ".github/workflows/g8_21_candidate_attestation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  signed-candidate-attestation-fail-closed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Require system OpenSSL
+        run: |
+          test -x /usr/bin/openssl
+          /usr/bin/openssl version
+
+      - name: Compile candidate-attestation components
+        run: |
+          python -m py_compile engines/paper_adapter_implementation_candidate_attestation.py
+          python -m py_compile scripts/verify_adapter_candidate_attestation.py
+          python -m py_compile tests/test_paper_adapter_implementation_candidate_attestation.py
+
+      - name: Prove signed candidate attestation fails closed
+        run: |
+          python -m unittest tests.test_paper_adapter_implementation_candidate_attestation -v
+
+      - name: Prove PASS still cannot authorize broker execution
+        run: |
+          python - <<'PY'
+          from engines.paper_adapter_implementation_candidate_review import PERMISSION_FLAGS
+          from tests.test_paper_adapter_implementation_candidate_attestation import CandidateAttestationTests
+
+          case = CandidateAttestationTests()
+          result = case.evaluate()
+          assert result["verified"] is True
+          assert result["adapter_candidate_independently_attested"] is True
+          assert all(result[name] is False for name in PERMISSION_FLAGS)
+          assert result["next_gate"] == "OFFLINE_ORDER_REQUEST_MATERIALIZER_DESIGN_REQUIRED"
+          PY
