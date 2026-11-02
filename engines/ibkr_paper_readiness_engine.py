@@ -23,6 +23,12 @@ def safe_float(
     value,
     default=None
 ):
+    if isinstance(
+        value,
+        bool
+    ):
+        return default
+
     try:
         parsed = float(
             value
