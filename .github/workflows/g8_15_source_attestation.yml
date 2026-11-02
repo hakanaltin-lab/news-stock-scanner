@@ -1,0 +1,100 @@
+name: G8.15 Signed Adapter Source Attestation Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/paper_adapter_source_attestation.py"
+      - "engines/paper_adapter_source_handoff.py"
+      - "engines/paper_adapter_source_review.py"
+      - "broker_engine/ibkr_paper_adapter_review_skeleton.py"
+      - "scripts/verify_adapter_source_attestation.py"
+      - "scripts/g6_adapter_source_review_handoff.py"
+      - "scripts/g6_adapter_source_review.py"
+      - "tests/test_paper_adapter_source_attestation.py"
+      - "tests/test_paper_adapter_source_handoff.py"
+      - "docs/AURORA_G8_15_SIGNED_SOURCE_ATTESTATION.md"
+      - ".github/workflows/g8_15_source_attestation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  signed-source-attestation-fail-closed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Require system OpenSSL
+        run: |
+          test -x /usr/bin/openssl
+          /usr/bin/openssl version
+
+      - name: Compile source-attestation components
+        run: |
+          python -m py_compile engines/paper_adapter_source_attestation.py
+          python -m py_compile engines/paper_adapter_source_handoff.py
+          python -m py_compile scripts/verify_adapter_source_attestation.py
+          python -m py_compile tests/test_paper_adapter_source_attestation.py
+          python -m py_compile tests/test_paper_adapter_source_handoff.py
+
+      - name: Prove signed source attestation fails closed
+        run: |
+          python -m unittest tests.test_paper_adapter_source_attestation -v
+          python -m unittest tests.test_paper_adapter_source_handoff -v
+
+      - name: Prove fixed distinct trust paths
+        run: |
+          python - <<'PY'
+          from scripts.verify_adapter_source_attestation import (
+              DEFAULT_ARTIFACT_PATH,
+              DEFAULT_POLICY_PATH,
+              DEFAULT_PUBLIC_KEY_PATH,
+          )
+
+          assert str(DEFAULT_POLICY_PATH) == (
+              "/etc/aurora/adapter-source-review-policy.json"
+          )
+          assert str(DEFAULT_PUBLIC_KEY_PATH) == (
+              "/etc/aurora/adapter-source-reviewer-ed25519.pem"
+          )
+          assert str(DEFAULT_ARTIFACT_PATH) == (
+              "/var/lib/aurora/adapter-source-review-attestation/latest.json"
+          )
+          PY
+
+      - name: Prove verifier has no broker submission or signing implementation
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          paths = (
+              Path("engines/paper_adapter_source_attestation.py"),
+              Path("scripts/verify_adapter_source_attestation.py"),
+          )
+          forbidden = (
+              "from ibapi",
+              "import ibapi",
+              "placeOrder",
+              "cancelOrder",
+              "reqGlobalCancel",
+              "exerciseOptions",
+              "replaceFA",
+              "reqAutoOpenOrders",
+              "submit_order(",
+              "BEGIN PRIVATE KEY",
+              "pkeyutl -sign",
+              '"decision": "ATTESTED"',
+          )
+
+          for path in paths:
+              source = path.read_text(encoding="utf-8")
+              for token in forbidden:
+                  assert token not in source, (str(path), token)
+          PY
