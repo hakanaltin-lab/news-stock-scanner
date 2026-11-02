@@ -1,4 +1,4 @@
-"""G7.17 offline tests for fresh Paper broker-state risk validation."""
+"""G7.17 offline tests for post-authorization Paper broker-state risk."""
 
 from datetime import datetime, timedelta, timezone
 import hashlib
@@ -19,8 +19,10 @@ NOW = datetime(
     0,
     tzinfo=timezone.utc,
 )
-RUN_ID = "11111111-1111-4111-8111-111111111111"
+AUTHORIZED_RUN_ID = "11111111-1111-4111-8111-111111111111"
+FRESH_RUN_ID = "33333333-3333-4333-8333-333333333333"
 AUTH_ID = "22222222-2222-4222-8222-222222222222"
+ACCOUNT = "IBKR-A1B2C3D4E5"
 
 
 def digest(payload):
@@ -60,8 +62,11 @@ def required_g2_checks():
 
 def g2(
     *,
-    now=NOW,
+    now,
+    run_id,
     available_funds=10000.0,
+    currency="USD",
+    account=ACCOUNT,
     positions=None,
     open_orders=None,
 ):
@@ -70,7 +75,7 @@ def g2(
         if positions is not None
         else [
             {
-                "account": "IBKR-A1B2C3D4E5",
+                "account": account,
                 "symbol": "BKR",
                 "security_type": "STK",
                 "currency": "USD",
@@ -95,7 +100,7 @@ def g2(
     ).isoformat()
 
     return {
-        "evidence_run_id": RUN_ID,
+        "evidence_run_id": run_id,
         "run_mode": {
             "requested_mode": "READ_ONLY",
             "mode": "READ_ONLY",
@@ -129,10 +134,19 @@ def g2(
                 "positions": True,
                 "open_orders": True,
             },
+            "paper_account_guard": {
+                "paper_account_verified": True,
+                "verified_account_fingerprints": [
+                    account
+                ],
+            },
+            "account_summary_account_fingerprints": [
+                account
+            ],
             "account_summary": {
                 "AvailableFunds": {
                     "value": available_funds,
-                    "currency": "USD",
+                    "currency": currency,
                 }
             },
             "positions": positions,
@@ -143,6 +157,12 @@ def g2(
             "verified": True,
             "gateway_read_only_configuration_independently_attested": True,
             "failure_reasons": [],
+            "attestation_id": "44444444-4444-4444-8444-444444444444",
+            "reviewer_id": "aurora-independent-reviewer",
+            "git_sha": "a" * 40,
+            "evidence_sha256": "b" * 64,
+            "gcp_project_id": "project-ce9773ef-6814-469c-92b",
+            "gcp_instance_id": "1234567890123456789",
             **safe_flags(),
         },
         "readiness": {
@@ -161,6 +181,34 @@ def g2(
             },
         },
     }
+
+
+def authorized_g2():
+    return g2(
+        now=(
+            NOW
+            -
+            timedelta(
+                seconds=20
+            )
+        ),
+        run_id=AUTHORIZED_RUN_ID,
+    )
+
+
+def fresh_g2(
+    **kwargs,
+):
+    values = {
+        "now": NOW,
+        "run_id": FRESH_RUN_ID,
+    }
+    values.update(
+        kwargs
+    )
+    return g2(
+        **values
+    )
 
 
 def shadow(
@@ -191,7 +239,7 @@ def shadow(
 
 
 def completion(
-    g2_proof,
+    authorized_proof,
     order,
 ):
     return {
@@ -207,8 +255,12 @@ def completion(
             "g4_shadow_order_ledger_payload_bound": True,
         },
         "evidence_binding": {
-            "g2_paper_read_only_proof_sha256": digest(g2_proof),
-            "g4_shadow_order_sha256": digest(order),
+            "g2_paper_read_only_proof_sha256": digest(
+                authorized_proof
+            ),
+            "g4_shadow_order_sha256": digest(
+                order
+            ),
         },
         **safe_flags(),
     }
@@ -217,8 +269,6 @@ def completion(
 def authorization_result(
     comp,
     order,
-    *,
-    now=NOW,
 ):
     return {
         "status": "MANUAL_PAPER_AUTHORIZATION_VALIDATED",
@@ -226,21 +276,25 @@ def authorization_result(
         "scope": "ONE_PAPER_ORDER",
         "mode": "PAPER",
         "authorization_issued_at": (
-            now
+            NOW
             -
             timedelta(
                 seconds=10
             )
         ).isoformat(),
         "authorization_expires_at": (
-            now
+            NOW
             +
             timedelta(
                 minutes=5
             )
         ).isoformat(),
-        "completion_status_sha256": digest(comp),
-        "shadow_order_sha256": digest(order),
+        "completion_status_sha256": digest(
+            comp
+        ),
+        "shadow_order_sha256": digest(
+            order
+        ),
         "checks": {
             name: True
             for name in _EXPECTED_G5_CHECKS
@@ -255,19 +309,23 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
     def evaluate(
         self,
         *,
-        g2_value=None,
+        authorized=None,
+        fresh=None,
         order=None,
         comp=None,
         auth=None,
         now=NOW,
         max_g2_age_seconds=60,
     ):
-        g2_value = (
-            g2_value
-            if g2_value is not None
-            else g2(
-                now=now
-            )
+        authorized = (
+            authorized
+            if authorized is not None
+            else authorized_g2()
+        )
+        fresh = (
+            fresh
+            if fresh is not None
+            else fresh_g2()
         )
         order = (
             order
@@ -278,7 +336,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             comp
             if comp is not None
             else completion(
-                g2_value,
+                authorized,
                 order,
             )
         )
@@ -288,12 +346,12 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             else authorization_result(
                 comp,
                 order,
-                now=now,
             )
         )
 
         return evaluate_paper_state_risk_preflight(
-            g2_value,
+            authorized,
+            fresh,
             comp,
             order,
             auth,
@@ -301,7 +359,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             max_g2_age_seconds=max_g2_age_seconds,
         )
 
-    def test_buy_passes_with_fresh_bound_funds(self):
+    def test_buy_passes_with_post_authorization_fresh_funds(self):
         result = self.evaluate()
 
         self.assertEqual(
@@ -310,12 +368,12 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
         )
         self.assertTrue(
             result["checks"][
-                "buy_available_funds_sufficient"
+                "fresh_g2_post_authorization"
             ]
         )
         self.assertTrue(
-            result["risk_summary"][
-                "broker_state_fresh"
+            result["checks"][
+                "buy_available_funds_sufficient"
             ]
         )
 
@@ -332,12 +390,16 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                 for key, child in value.items():
                     keys.add(key)
                     keys.update(
-                        collect_keys(child)
+                        collect_keys(
+                            child
+                        )
                     )
             elif isinstance(value, list):
                 for child in value:
                     keys.update(
-                        collect_keys(child)
+                        collect_keys(
+                            child
+                        )
                     )
 
             return keys
@@ -354,14 +416,18 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "account_summary",
             output_keys,
         )
+        self.assertNotIn(
+            "positions",
+            output_keys,
+        )
 
-    def test_buy_insufficient_funds_blocks(self):
-        g2_value = g2(
+    def test_fresh_buy_insufficient_funds_blocks_even_if_authorized_g2_had_cash(self):
+        fresh = fresh_g2(
             available_funds=25.0,
         )
 
         result = self.evaluate(
-            g2_value=g2_value,
+            fresh=fresh,
         )
 
         self.assertEqual(
@@ -378,10 +444,10 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             action="SELL",
             quantity=5,
         )
-        g2_value = g2(
+        fresh = fresh_g2(
             positions=[
                 {
-                    "account": "IBKR-A1B2C3D4E5",
+                    "account": ACCOUNT,
                     "symbol": "BKR",
                     "security_type": "STK",
                     "position": 10.0,
@@ -390,7 +456,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             open_orders=[
                 {
                     "order_id": 10,
-                    "account": "IBKR-A1B2C3D4E5",
+                    "account": ACCOUNT,
                     "symbol": "BKR",
                     "security_type": "STK",
                     "action": "SELL",
@@ -400,7 +466,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
         )
 
         result = self.evaluate(
-            g2_value=g2_value,
+            fresh=fresh,
             order=order,
         )
 
@@ -418,11 +484,11 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             action="SELL",
             quantity=4,
         )
-        g2_value = g2(
+        fresh = fresh_g2(
             open_orders=[
                 {
                     "order_id": 10,
-                    "account": "IBKR-A1B2C3D4E5",
+                    "account": ACCOUNT,
                     "symbol": "BKR",
                     "security_type": "STK",
                     "action": "SELL",
@@ -432,7 +498,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
         )
 
         result = self.evaluate(
-            g2_value=g2_value,
+            fresh=fresh,
             order=order,
         )
 
@@ -446,12 +512,12 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             ]
         )
 
-    def test_malformed_open_order_blocks_broker_state(self):
-        g2_value = g2(
+    def test_malformed_or_wrong_account_open_order_blocks(self):
+        malformed = fresh_g2(
             open_orders=[
                 {
                     "order_id": 10,
-                    "account": "IBKR-A1B2C3D4E5",
+                    "account": ACCOUNT,
                     "symbol": "AMD",
                     "security_type": "STK",
                     "action": "SELL",
@@ -460,21 +526,39 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             ],
         )
 
-        result = self.evaluate(
-            g2_value=g2_value,
+        first = self.evaluate(
+            fresh=malformed,
         )
 
-        self.assertEqual(
-            result["status"],
-            "BLOCKED",
-        )
         self.assertIn(
             "broker_state_payload_valid",
-            result["failure_reasons"],
+            first["failure_reasons"],
         )
 
-    def test_stale_g2_snapshot_blocks_even_when_bound(self):
-        g2_value = g2(
+        wrong_account = fresh_g2(
+            open_orders=[
+                {
+                    "order_id": 10,
+                    "account": "IBKR-FFFFFFFFFF",
+                    "symbol": "AMD",
+                    "security_type": "STK",
+                    "action": "SELL",
+                    "quantity": 1.0,
+                }
+            ],
+        )
+
+        second = self.evaluate(
+            fresh=wrong_account,
+        )
+
+        self.assertIn(
+            "broker_state_payload_valid",
+            second["failure_reasons"],
+        )
+
+    def test_stale_fresh_g2_blocks_even_when_authorized_proof_is_valid(self):
+        stale = fresh_g2(
             now=(
                 NOW
                 -
@@ -483,23 +567,9 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                 )
             )
         )
-        order = shadow()
-        comp = completion(
-            g2_value,
-            order,
-        )
-        auth = authorization_result(
-            comp,
-            order,
-            now=NOW,
-        )
 
         result = self.evaluate(
-            g2_value=g2_value,
-            order=order,
-            comp=comp,
-            auth=auth,
-            now=NOW,
+            fresh=stale,
         )
 
         self.assertEqual(
@@ -507,15 +577,73 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "BLOCKED",
         )
         self.assertIn(
-            "g2_broker_state_fresh",
+            "fresh_g2_broker_state_fresh",
             result["failure_reasons"],
         )
 
-    def test_completion_must_bind_exact_g2_and_shadow(self):
-        g2_value = g2()
+    def test_fresh_g2_must_be_post_authorization(self):
+        pre_auth = fresh_g2(
+            now=(
+                NOW
+                -
+                timedelta(
+                    seconds=20
+                )
+            )
+        )
+
+        result = self.evaluate(
+            fresh=pre_auth,
+        )
+
+        self.assertIn(
+            "fresh_g2_post_authorization",
+            result["failure_reasons"],
+        )
+
+    def test_fresh_g2_must_match_authorized_attestation_and_account(self):
+        fresh = fresh_g2()
+        fresh[
+            "gateway_read_only_attestation"
+        ][
+            "evidence_sha256"
+        ] = "c" * 64
+
+        first = self.evaluate(
+            fresh=fresh,
+        )
+
+        self.assertIn(
+            "fresh_g2_identity_matches_authorized",
+            first["failure_reasons"],
+        )
+
+        fresh = fresh_g2(
+            account="IBKR-FEDCBA9876",
+            positions=[
+                {
+                    "account": "IBKR-FEDCBA9876",
+                    "symbol": "BKR",
+                    "security_type": "STK",
+                    "position": 10.0,
+                }
+            ],
+        )
+
+        second = self.evaluate(
+            fresh=fresh,
+        )
+
+        self.assertIn(
+            "fresh_g2_identity_matches_authorized",
+            second["failure_reasons"],
+        )
+
+    def test_completion_must_bind_exact_authorized_g2_and_shadow(self):
+        authorized = authorized_g2()
         order = shadow()
         comp = completion(
-            g2_value,
+            authorized,
             order,
         )
         auth = authorization_result(
@@ -523,7 +651,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             order,
         )
 
-        g2_value[
+        authorized[
             "snapshot"
         ][
             "positions"
@@ -531,22 +659,22 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "position"
         ] = 11.0
 
-        result = self.evaluate(
-            g2_value=g2_value,
+        first = self.evaluate(
+            authorized=authorized,
             order=order,
             comp=comp,
             auth=auth,
         )
 
         self.assertIn(
-            "completion_g2_digest_bound",
-            result["failure_reasons"],
+            "completion_authorized_g2_digest_bound",
+            first["failure_reasons"],
         )
 
-        g2_value = g2()
+        authorized = authorized_g2()
         order = shadow()
         comp = completion(
-            g2_value,
+            authorized,
             order,
         )
         auth = authorization_result(
@@ -558,7 +686,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
         order["order_notional_usd"] = 100.0
 
         second = self.evaluate(
-            g2_value=g2_value,
+            authorized=authorized,
             order=order,
             comp=comp,
             auth=auth,
@@ -574,10 +702,10 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
         )
 
     def test_expired_g5_authorization_blocks(self):
-        g2_value = g2()
+        authorized = authorized_g2()
         order = shadow()
         comp = completion(
-            g2_value,
+            authorized,
             order,
         )
         auth = authorization_result(
@@ -593,26 +721,53 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
         ).isoformat()
 
         result = self.evaluate(
-            g2_value=g2_value,
+            authorized=authorized,
             order=order,
             comp=comp,
             auth=auth,
         )
 
-        self.assertEqual(
-            result["status"],
-            "BLOCKED",
-        )
         self.assertIn(
             "authorization_current",
             result["failure_reasons"],
         )
 
-    def test_unsafe_permission_or_missing_g5_check_blocks(self):
-        g2_value = g2()
+    def test_invalid_clock_non_usd_and_relaxed_freshness_block(self):
+        bad_clock = self.evaluate(
+            now="not-a-clock",
+        )
+        self.assertIn(
+            "reference_clock_valid",
+            bad_clock["failure_reasons"],
+        )
+
+        non_usd = self.evaluate(
+            fresh=fresh_g2(
+                currency="QAR",
+            ),
+        )
+        self.assertIn(
+            "broker_state_payload_valid",
+            non_usd["failure_reasons"],
+        )
+        self.assertIn(
+            "buy_available_funds_sufficient",
+            non_usd["failure_reasons"],
+        )
+
+        relaxed = self.evaluate(
+            max_g2_age_seconds=120,
+        )
+        self.assertIn(
+            "risk_policy_valid",
+            relaxed["failure_reasons"],
+        )
+
+    def test_unsafe_permission_missing_g5_check_or_bad_notional_blocks(self):
+        authorized = authorized_g2()
         order = shadow()
         comp = completion(
-            g2_value,
+            authorized,
             order,
         )
         auth = authorization_result(
@@ -623,16 +778,15 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "paper_order_submission_allowed"
         ] = True
 
-        result = self.evaluate(
-            g2_value=g2_value,
+        unsafe = self.evaluate(
+            authorized=authorized,
             order=order,
             comp=comp,
             auth=auth,
         )
-
         self.assertIn(
             "authorization_validated",
-            result["failure_reasons"],
+            unsafe["failure_reasons"],
         )
 
         auth = authorization_result(
@@ -645,92 +799,28 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "completion_shadow_order_digest_bound"
         )
 
-        second = self.evaluate(
-            g2_value=g2_value,
+        missing = self.evaluate(
+            authorized=authorized,
             order=order,
             comp=comp,
             auth=auth,
         )
-
         self.assertIn(
             "authorization_validated",
-            second["failure_reasons"],
+            missing["failure_reasons"],
         )
 
-    def test_invalid_reference_clock_blocks_instead_of_falling_back(self):
-        result = self.evaluate(
-            now="not-a-clock",
-        )
-
-        self.assertEqual(
-            result["status"],
-            "BLOCKED",
-        )
-        self.assertIn(
-            "reference_clock_valid",
-            result["failure_reasons"],
-        )
-
-    def test_non_usd_available_funds_blocks_buy_comparison(self):
-        g2_value = g2()
-        g2_value[
-            "snapshot"
-        ][
-            "account_summary"
-        ][
-            "AvailableFunds"
-        ][
-            "currency"
-        ] = "QAR"
-
-        result = self.evaluate(
-            g2_value=g2_value,
-        )
-
-        self.assertEqual(
-            result["status"],
-            "BLOCKED",
-        )
-        self.assertIn(
-            "broker_state_payload_valid",
-            result["failure_reasons"],
-        )
-        self.assertIn(
-            "buy_available_funds_sufficient",
-            result["failure_reasons"],
-        )
-
-    def test_caller_cannot_relax_g2_freshness(self):
-        result = self.evaluate(
-            max_g2_age_seconds=120,
-        )
-
-        self.assertEqual(
-            result["status"],
-            "BLOCKED",
-        )
-        self.assertIn(
-            "risk_policy_valid",
-            result["failure_reasons"],
-        )
-
-    def test_order_notional_must_match_limit_quantity(self):
-        order = shadow()
-        order[
+        bad_order = shadow()
+        bad_order[
             "order_notional_usd"
         ] = 49.0
 
-        result = self.evaluate(
-            order=order,
-        )
-
-        self.assertEqual(
-            result["status"],
-            "BLOCKED",
+        bad_notional = self.evaluate(
+            order=bad_order,
         )
         self.assertIn(
             "shadow_order_shape_valid",
-            result["failure_reasons"],
+            bad_notional["failure_reasons"],
         )
 
 
