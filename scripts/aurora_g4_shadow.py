@@ -14,7 +14,6 @@ import json
 import os
 from pathlib import Path
 import sys
-import tempfile
 from uuid import UUID
 
 
@@ -24,6 +23,12 @@ if str(REPOSITORY_ROOT) not in sys.path:
 
 from engines.dry_run_execution_engine import DryRunExecutionEngine
 from engines.shadow_audit_ledger import ShadowAuditLedger
+from scripts.gateway_review_package import (
+    read_trusted_runtime_evidence_json,
+)
+from scripts.ibkr_paper_probe import (
+    write_runtime_evidence_atomic,
+)
 
 
 DEFAULT_READINESS_PROOF = "runtime/aurora_readiness/latest.json"
@@ -91,6 +96,7 @@ def _block(reason, **extra):
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
         "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
         **extra,
     }
 
@@ -135,6 +141,7 @@ def evaluate_runtime_shadow(
             "paper_order_submission_allowed",
             "live_execution_allowed",
             "automatic_promotion_allowed",
+            "real_money_trading_allowed",
         )
     )
     if not readiness_flags_safe:
@@ -146,6 +153,8 @@ def evaluate_runtime_shadow(
             "broker_submission_allowed",
             "paper_order_submission_allowed",
             "live_execution_allowed",
+            "automatic_promotion_allowed",
+            "real_money_trading_allowed",
         )
     )
     if not market_flags_safe:
@@ -258,30 +267,9 @@ def evaluate_runtime_shadow(
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
         "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
         "next_milestone": "G4_OPERATOR_REVIEW",
     }
-
-
-def _read_json(path):
-    try:
-        return json.loads(Path(path).read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return {}
-
-
-def _write_atomic(path, payload):
-    target = Path(path)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(
-        mode="w",
-        encoding="utf-8",
-        dir=str(target.parent),
-        delete=False,
-    ) as handle:
-        json.dump(payload, handle, indent=2, sort_keys=True)
-        handle.write("\n")
-        temporary = handle.name
-    os.replace(temporary, target)
 
 
 def main(argv=None):
@@ -297,12 +285,38 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     result = evaluate_runtime_shadow(
-        _read_json(args.readiness_proof),
-        _read_json(args.market_data_proof),
-        _read_json(args.intent),
+        read_trusted_runtime_evidence_json(
+            args.readiness_proof
+        ),
+        read_trusted_runtime_evidence_json(
+            args.market_data_proof
+        ),
+        read_trusted_runtime_evidence_json(
+            args.intent
+        ),
         ledger_path=args.ledger,
     )
-    _write_atomic(args.output, result)
+
+    try:
+        write_runtime_evidence_atomic(
+            args.output,
+            result,
+        )
+    except (
+        OSError,
+        RuntimeError,
+        ValueError,
+    ):
+        print(json.dumps({
+            "status": "RUNTIME_EVIDENCE_WRITE_FAILED",
+            "broker_submission_allowed": False,
+            "paper_order_submission_allowed": False,
+            "live_execution_allowed": False,
+            "automatic_promotion_allowed": False,
+            "real_money_trading_allowed": False,
+        }, indent=2, sort_keys=True))
+        return 2
+
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if result.get("status") == "SHADOW_ACCEPTED" else 2
 
