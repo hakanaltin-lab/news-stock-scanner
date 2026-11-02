@@ -3,10 +3,8 @@
 
 import argparse
 import json
-import os
 from pathlib import Path
 import sys
-import tempfile
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
@@ -14,33 +12,17 @@ if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
 from engines.shadow_audit_verifier import verify_shadow_ledger
+from scripts.gateway_review_package import (
+    read_trusted_runtime_evidence_json,
+)
+from scripts.ibkr_paper_probe import (
+    write_runtime_evidence_atomic,
+)
 
 
 DEFAULT_LEDGER = "runtime/aurora_g4_shadow/shadow_audit.sqlite3"
 DEFAULT_OUTPUT = "runtime/aurora_g4_shadow/ledger_audit.json"
 DEFAULT_G4_SHADOW = "runtime/aurora_g4_shadow/latest.json"
-
-
-def _read_json(path):
-    try:
-        return json.loads(Path(path).read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return {}
-
-
-def _write_atomic(path, payload):
-    target = Path(path)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(
-        mode="w",
-        encoding="utf-8",
-        dir=str(target.parent),
-        delete=False,
-    ) as handle:
-        json.dump(payload, handle, indent=2, sort_keys=True)
-        handle.write("\n")
-        temporary = handle.name
-    os.replace(temporary, target)
 
 
 def main(argv=None):
@@ -50,12 +32,33 @@ def main(argv=None):
     parser.add_argument("--g4-shadow", default=DEFAULT_G4_SHADOW)
     args = parser.parse_args(argv)
 
-    g4_shadow = _read_json(args.g4_shadow)
+    g4_shadow = read_trusted_runtime_evidence_json(
+        args.g4_shadow
+    )
     result = verify_shadow_ledger(
         args.ledger,
         expected_receipt=g4_shadow.get("ledger_receipt"),
     )
-    _write_atomic(args.output, result)
+    try:
+        write_runtime_evidence_atomic(
+            args.output,
+            result,
+        )
+    except (
+        OSError,
+        RuntimeError,
+        ValueError,
+    ):
+        print(json.dumps({
+            "status": "RUNTIME_EVIDENCE_WRITE_FAILED",
+            "broker_submission_allowed": False,
+            "paper_order_submission_allowed": False,
+            "live_execution_allowed": False,
+            "automatic_promotion_allowed": False,
+            "real_money_trading_allowed": False,
+        }, indent=2, sort_keys=True))
+        return 2
+
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if result.get("status") == "LEDGER_VERIFIED" else 2
 
