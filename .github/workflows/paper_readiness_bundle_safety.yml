@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - "scripts/aurora_readiness_summary.py"
+      - "scripts/gateway_review_package.py"
       - "scripts/ibkr_paper_probe.py"
       - "scripts/ibkr_market_data_probe.py"
       - "scripts/run_aurora_g2_g3_readiness.sh"
@@ -21,6 +22,7 @@ on:
   push:
     paths:
       - "scripts/aurora_readiness_summary.py"
+      - "scripts/gateway_review_package.py"
       - "scripts/ibkr_paper_probe.py"
       - "scripts/ibkr_market_data_probe.py"
       - "scripts/run_aurora_g2_g3_readiness.sh"
@@ -52,6 +54,7 @@ jobs:
       - name: Compile and check shell
         run: |
           python -m py_compile scripts/aurora_readiness_summary.py
+          python -m py_compile scripts/gateway_review_package.py
           python -m py_compile scripts/ibkr_paper_probe.py
           python -m py_compile scripts/ibkr_market_data_probe.py
           python -m py_compile engines/ibkr_account_guard.py
