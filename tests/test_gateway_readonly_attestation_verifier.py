@@ -120,6 +120,14 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
             result["g0_runtime_proof_sha256"],
             G0_PROOF_SHA256,
         )
+        for name in (
+            "broker_submission_allowed",
+            "paper_order_submission_allowed",
+            "live_execution_allowed",
+            "automatic_promotion_allowed",
+            "real_money_trading_allowed",
+        ):
+            self.assertIs(result[name], False)
 
     def test_v2_artifact_is_rejected_after_v3_upgrade(self):
         legacy = artifact()
@@ -196,6 +204,14 @@ class GatewayReadOnlyAttestationTests(unittest.TestCase):
                 "gateway_read_only_configuration_independently_attested"
             ]
         )
+        for name in (
+            "broker_submission_allowed",
+            "paper_order_submission_allowed",
+            "live_execution_allowed",
+            "automatic_promotion_allowed",
+            "real_money_trading_allowed",
+        ):
+            self.assertIs(result[name], False)
 
     def test_wrong_git_sha_or_instance_blocks(self):
         wrong_sha = self.evaluate(
