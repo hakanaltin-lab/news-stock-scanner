@@ -7,6 +7,7 @@ on:
       - "scripts/gateway_readonly_attestation_handoff.py"
       - "tests/test_gateway_attestation_handoff.py"
       - "docs/AURORA_G7_6_REVIEWER_HANDOFF.md"
+      - "scripts/gcp_runtime_proof.py"
       - ".github/workflows/g7-reviewer-handoff.yml"
   workflow_dispatch:
 
@@ -29,10 +30,12 @@ jobs:
           python -m py_compile engines/gateway_attestation_handoff.py
           python -m py_compile scripts/gateway_readonly_attestation_handoff.py
           python -m py_compile tests/test_gateway_attestation_handoff.py
+          python -m py_compile scripts/gcp_runtime_proof.py
 
       - name: Prove handoff cannot self-attest or authorize orders
         run: |
           python -m unittest discover -s tests -p 'test_gateway_attestation_handoff.py' -v
+          python -m unittest discover -s tests -p 'test_gcp_runtime_proof.py' -v
 
       - name: Prove production trust paths remain fixed
         run: |
