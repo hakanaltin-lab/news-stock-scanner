@@ -7,8 +7,10 @@ on:
       - "engines/gce_runtime_identity.py"
       - "scripts/gateway_readonly_attestation_handoff.py"
       - "scripts/gateway_review_package.py"
+      - "scripts/gateway_review_workflow_status.py"
       - "tests/test_gateway_attestation_handoff.py"
       - "tests/test_gateway_review_package.py"
+      - "tests/test_gateway_review_workflow_status.py"
       - "tests/test_gce_runtime_identity.py"
       - "docs/AURORA_G7_6_REVIEWER_HANDOFF.md"
       - "scripts/gcp_runtime_proof.py"
@@ -35,8 +37,10 @@ jobs:
           python -m py_compile engines/gce_runtime_identity.py
           python -m py_compile scripts/gateway_readonly_attestation_handoff.py
           python -m py_compile scripts/gateway_review_package.py
+          python -m py_compile scripts/gateway_review_workflow_status.py
           python -m py_compile tests/test_gateway_attestation_handoff.py
           python -m py_compile tests/test_gateway_review_package.py
+          python -m py_compile tests/test_gateway_review_workflow_status.py
           python -m py_compile scripts/gcp_runtime_proof.py
 
       - name: Prove handoff cannot self-attest or authorize orders
@@ -44,6 +48,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_gce_runtime_identity.py' -v
           python -m unittest discover -s tests -p 'test_gateway_attestation_handoff.py' -v
           python -m unittest discover -s tests -p 'test_gateway_review_package.py' -v
+          python -m unittest discover -s tests -p 'test_gateway_review_workflow_status.py' -v
           python -m unittest discover -s tests -p 'test_gcp_runtime_proof.py' -v
 
       - name: Prove production trust paths remain fixed
