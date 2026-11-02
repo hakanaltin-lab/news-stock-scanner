@@ -73,8 +73,11 @@ def authorization(comp=None, order=None):
         "expires_at": (NOW + timedelta(minutes=5)).isoformat(),
         "completion_status_sha256": digest(comp),
         "shadow_order_sha256": digest(order),
+        "broker_submission_allowed": False,
+        "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
         "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
     }
 
 
@@ -95,6 +98,13 @@ class ManualPaperAuthorizationTests(unittest.TestCase):
         self.assertFalse(result["broker_submission_allowed"])
         self.assertFalse(result["paper_order_submission_allowed"])
         self.assertFalse(result["live_execution_allowed"])
+        self.assertFalse(result["real_money_trading_allowed"])
+        self.assertTrue(
+            result["checks"]["authorization_field_set_exact"]
+        )
+        self.assertTrue(
+            result["checks"]["authorization_permissions_non_executable"]
+        )
         self.assertTrue(
             result["checks"]["completion_shadow_order_digest_bound"]
         )
@@ -110,6 +120,68 @@ class ManualPaperAuthorizationTests(unittest.TestCase):
             result["next_gate"],
             "PAPER_EXECUTION_CONNECTOR_REVIEW_REQUIRED",
         )
+
+    def test_authorization_extra_or_missing_field_blocks(self):
+        comp = completion()
+        order = shadow()
+
+        extra = authorization(comp, order)
+        extra["unexpected"] = "value"
+        extra_result = evaluate_manual_paper_authorization(
+            comp,
+            order,
+            extra,
+            now=NOW,
+        )
+        self.assertEqual(extra_result["status"], "BLOCKED")
+        self.assertFalse(
+            extra_result["checks"]["authorization_field_set_exact"]
+        )
+
+        missing = authorization(comp, order)
+        missing.pop("real_money_trading_allowed")
+        missing_result = evaluate_manual_paper_authorization(
+            comp,
+            order,
+            missing,
+            now=NOW,
+        )
+        self.assertEqual(missing_result["status"], "BLOCKED")
+        self.assertFalse(
+            missing_result["checks"]["authorization_field_set_exact"]
+        )
+        self.assertFalse(
+            missing_result["checks"][
+                "authorization_permissions_non_executable"
+            ]
+        )
+
+    def test_authorization_permission_regression_blocks(self):
+        comp = completion()
+        order = shadow()
+
+        for name in (
+            "broker_submission_allowed",
+            "paper_order_submission_allowed",
+            "live_execution_allowed",
+            "automatic_promotion_allowed",
+            "real_money_trading_allowed",
+        ):
+            with self.subTest(name=name):
+                auth = authorization(comp, order)
+                auth[name] = True
+                result = evaluate_manual_paper_authorization(
+                    comp,
+                    order,
+                    auth,
+                    now=NOW,
+                )
+                self.assertEqual(result["status"], "BLOCKED")
+                self.assertFalse(
+                    result["checks"][
+                        "authorization_permissions_non_executable"
+                    ]
+                )
 
     def test_missing_human_approval_blocks(self):
         comp = completion()

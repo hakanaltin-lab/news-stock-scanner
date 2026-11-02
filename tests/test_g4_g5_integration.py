@@ -147,8 +147,11 @@ class G4G5IntegrationTests(unittest.TestCase):
             "expires_at": (now + timedelta(minutes=5)).isoformat(),
             "completion_status_sha256": digest(comp),
             "shadow_order_sha256": digest(shadow),
+            "broker_submission_allowed": False,
+            "paper_order_submission_allowed": False,
             "live_execution_allowed": False,
             "automatic_promotion_allowed": False,
+            "real_money_trading_allowed": False,
         }
 
         result = evaluate_manual_paper_authorization(
