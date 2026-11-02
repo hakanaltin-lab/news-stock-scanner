@@ -426,22 +426,67 @@ def evaluate_gateway_readonly_attestation(
         zone == policy.get("expected_zone"),
     )
 
-    gcp_project_id = str(
-        artifact.get("gcp_project_id") or ""
-    ).strip()
-    policy_project_id = str(
-        policy.get("expected_project_id") or ""
-    ).strip()
-    gcp_instance_id = str(
-        artifact.get("gcp_instance_id") or ""
-    ).strip()
-    policy_instance_id = str(
-        policy.get("expected_instance_id") or ""
-    ).strip()
+    artifact_project_value = artifact.get(
+        "gcp_project_id"
+    )
+    policy_project_value = policy.get(
+        "expected_project_id"
+    )
+    artifact_instance_id_value = artifact.get(
+        "gcp_instance_id"
+    )
+    policy_instance_id_value = policy.get(
+        "expected_instance_id"
+    )
+
+    gcp_project_id = (
+        artifact_project_value.strip()
+        if isinstance(
+            artifact_project_value,
+            str,
+        )
+        else ""
+    )
+    policy_project_id = (
+        policy_project_value.strip()
+        if isinstance(
+            policy_project_value,
+            str,
+        )
+        else ""
+    )
+    gcp_instance_id = (
+        artifact_instance_id_value.strip()
+        if isinstance(
+            artifact_instance_id_value,
+            str,
+        )
+        else ""
+    )
+    policy_instance_id = (
+        policy_instance_id_value.strip()
+        if isinstance(
+            policy_instance_id_value,
+            str,
+        )
+        else ""
+    )
 
     require(
         "gcp_project_id_format",
-        gcp_project_id == EXPECTED_PROJECT_ID,
+        isinstance(
+            artifact_project_value,
+            str,
+        )
+        and gcp_project_id == EXPECTED_PROJECT_ID,
+    )
+    require(
+        "policy_project_id_format",
+        isinstance(
+            policy_project_value,
+            str,
+        )
+        and policy_project_id == EXPECTED_PROJECT_ID,
     )
     require(
         "gcp_project_matches_policy",
@@ -449,9 +494,25 @@ def evaluate_gateway_readonly_attestation(
     )
     require(
         "gcp_instance_id_format",
-        bool(
+        isinstance(
+            artifact_instance_id_value,
+            str,
+        )
+        and bool(
             _GCP_INSTANCE_ID.fullmatch(
                 gcp_instance_id
+            )
+        ),
+    )
+    require(
+        "policy_instance_id_format",
+        isinstance(
+            policy_instance_id_value,
+            str,
+        )
+        and bool(
+            _GCP_INSTANCE_ID.fullmatch(
+                policy_instance_id
             )
         ),
     )
