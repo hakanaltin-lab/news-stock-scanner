@@ -30,6 +30,34 @@ PUBLIC_KEY = (
 GIT_SHA = "a" * 40
 
 
+def g0_proof():
+    return {
+        "engine": "AURORA V8.9.20 G0-G1 Runtime Proof",
+        "generated_at": NOW.isoformat(),
+        "project_id": "project-ce9773ef-6814-469c-92b",
+        "zone": EXPECTED_ZONE,
+        "vm_name": EXPECTED_INSTANCE_NAME,
+        "status": "G0_G1_VERIFIED",
+        "checks": {
+            "budget_guard_passed": True,
+            "vm_identity": True,
+            "vm_running": True,
+            "vm_hardened": True,
+            "network_contract": True,
+            "iap_ssh_only_rule": True,
+            "public_private_ports_denied": True,
+            "no_public_allow_for_sensitive_ports": True,
+        },
+        "failure_reasons": [],
+        "external_ip_present": True,
+        "public_sensitive_allow_rules": [],
+        "broker_submission_allowed": False,
+        "paper_order_submission_allowed": False,
+        "live_execution_allowed": False,
+        "automatic_promotion_allowed": False,
+    }
+
+
 def policy():
     return {
         "policy_version": 1,
@@ -51,6 +79,7 @@ class GatewayAttestationHandoffTests(unittest.TestCase):
             "current_instance_name": EXPECTED_INSTANCE_NAME,
             "repository_clean": True,
             "openssl_available": True,
+            "g0_proof": g0_proof(),
             "now": NOW,
         }
         arguments.update(overrides)
@@ -103,6 +132,14 @@ class GatewayAttestationHandoffTests(unittest.TestCase):
         )
         self.assertTrue(
             request["signed_attestation_required"]
+        )
+        self.assertEqual(
+            request["g0_runtime_zone"],
+            EXPECTED_ZONE,
+        )
+        self.assertEqual(
+            request["g0_runtime_vm_name"],
+            EXPECTED_INSTANCE_NAME,
         )
 
     def test_handoff_request_cannot_be_reused_as_attestation(self):
@@ -172,6 +209,61 @@ class GatewayAttestationHandoffTests(unittest.TestCase):
                     expected_failure,
                     result["failure_reasons"],
                 )
+
+    def test_g0_runtime_proof_is_required_and_bound(self):
+        missing = self.evaluate(
+            g0_proof={}
+        )
+        self.assertEqual(
+            missing["status"],
+            "BLOCKED",
+        )
+        self.assertIn(
+            "g0_runtime_verified",
+            missing["failure_reasons"],
+        )
+
+        wrong_zone = g0_proof()
+        wrong_zone["zone"] = "us-central1-a"
+        zone_result = self.evaluate(
+            g0_proof=wrong_zone
+        )
+        self.assertIn(
+            "g0_runtime_identity_bound",
+            zone_result["failure_reasons"],
+        )
+
+        weakened = g0_proof()
+        weakened["checks"][
+            "public_private_ports_denied"
+        ] = False
+        weakened_result = self.evaluate(
+            g0_proof=weakened
+        )
+        self.assertIn(
+            "g0_runtime_checks_complete",
+            weakened_result["failure_reasons"],
+        )
+
+        stale = g0_proof()
+        stale["generated_at"] = "2026-10-31T07:59:00+00:00"
+        stale_result = self.evaluate(
+            g0_proof=stale
+        )
+        self.assertIn(
+            "g0_runtime_proof_fresh",
+            stale_result["failure_reasons"],
+        )
+
+        unsafe = g0_proof()
+        unsafe["paper_order_submission_allowed"] = True
+        unsafe_result = self.evaluate(
+            g0_proof=unsafe
+        )
+        self.assertIn(
+            "g0_order_permissions_blocked",
+            unsafe_result["failure_reasons"],
+        )
 
     def test_unapproved_zone_or_instance_policy_blocks(self):
         for key, value, expected_failure in (
