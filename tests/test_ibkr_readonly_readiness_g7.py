@@ -79,6 +79,19 @@ class G7ReadOnlyReadinessTests(unittest.TestCase):
         del data["account_summary"]["TotalCashValue"]
         self.assertEqual(self.check(data)["readiness"], "NOT_READY")
 
+    def test_non_finite_required_account_metrics_block(self):
+        for metric in ("NetLiquidation", "TotalCashValue", "AvailableFunds"):
+            for value in (float("nan"), float("inf"), float("-inf")):
+                with self.subTest(metric=metric, value=value):
+                    data = snapshot()
+                    data["account_summary"][metric]["value"] = value
+                    self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
+    def test_non_finite_account_count_blocks(self):
+        data = snapshot()
+        data["account_count"] = float("nan")
+        self.assertEqual(self.check(data)["readiness"], "NOT_READY")
+
 
 if __name__ == "__main__":
     unittest.main()
