@@ -20,6 +20,7 @@ G2_REQUIRED_CHECKS = [
     "paper_mode_only",
     "safe_loopback_paper_endpoint",
     "paper_account_identity_verified",
+    "gateway_read_only_configuration_independently_attested",
     "order_submission_hard_blocked",
     "live_trading_hard_blocked",
     "gateway_connected",
@@ -59,6 +60,7 @@ def ready_g2(timestamp=None):
         "snapshot": {
             "timestamp": timestamp,
             "order_submission_hard_blocked": True,
+            "gateway_read_only_configuration_independently_attested": True,
             "paper_account_guard": {
                 "paper_account_verified": True,
                 "verified_account_fingerprints": [ACCOUNT_FINGERPRINT],
@@ -78,6 +80,7 @@ def ready_g2(timestamp=None):
             ],
             "paper_order_submission_allowed": False,
             "live_execution_allowed": False,
+            "gateway_read_only_configuration_independently_attested": True,
         },
     }
 
@@ -152,6 +155,25 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
         self.assertFalse(result["paper_order_submission_allowed"])
         self.assertFalse(result["live_execution_allowed"])
         self.assertFalse(result["automatic_promotion_allowed"])
+
+    def test_g2_gateway_read_only_attestation_is_independently_required(self):
+        for location in ("snapshot", "readiness"):
+            with self.subTest(location=location):
+                g2 = ready_g2()
+                g2[location][
+                    "gateway_read_only_configuration_independently_attested"
+                ] = False
+                result = evaluate_readiness_bundle(
+                    g2,
+                    ready_g3(),
+                    now=NOW,
+                    g0_proof=verified_g0(),
+                )
+                self.assertEqual(result["status"], "NOT_READY")
+                self.assertIn(
+                    "g2_gateway_read_only_independently_attested",
+                    result["failure_reasons"],
+                )
 
     def test_g2_required_failure_count_must_match_checks(self):
         g2 = ready_g2()
