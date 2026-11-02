@@ -18,9 +18,11 @@ class G2VPSSafetyTests(unittest.TestCase):
         cls.gateway_download = read("scripts/download_ibgateway_stable.sh")
         cls.gateway_launch = read("scripts/launch_ibgateway_vnc.sh")
         cls.probe = read("scripts/run_aurora_g2_readonly.sh")
+        cls.pre_review = read("scripts/run_aurora_g2_pre_review.sh")
         cls.all_scripts = "\n".join([
             cls.bootstrap, cls.vnc, cls.configure, cls.api_install,
             cls.gateway_download, cls.gateway_launch, cls.probe,
+            cls.pre_review,
         ])
 
     def test_bootstrap_defaults_to_read_only_and_disabled_broker(self):
@@ -57,6 +59,26 @@ class G2VPSSafetyTests(unittest.TestCase):
         self.assertIn('AURORA_IBKR_HOST:-}" == "127.0.0.1"', self.probe)
         self.assertIn('AURORA_IBKR_PORT:-}" == "4002"', self.probe)
         self.assertIn("IBKR TCP/4002 is publicly bound", self.probe)
+
+    def test_pre_review_runner_does_not_source_runtime_env(self):
+        self.assertNotIn('source "$ENV_FILE"', self.pre_review)
+        self.assertIn('stat -c %a "$ENV_FILE"', self.pre_review)
+        self.assertIn('stat -c %h "$ENV_FILE"', self.pre_review)
+        self.assertIn('AURORA_EVIDENCE_RUN_ID', self.pre_review)
+        self.assertIn('g2_pre_review_status.py', self.pre_review)
+        self.assertIn('[[ "$probe_rc" -eq 2 ]]', self.pre_review)
+        self.assertNotIn('cat "$ENV_FILE"', self.pre_review)
+        self.assertNotIn('echo "$AURORA_IBKR_PAPER_ACCOUNT_ALLOWLIST"', self.pre_review)
+
+    def test_pre_review_runner_forces_fixed_evidence_output(self):
+        self.assertIn(
+            'FIXED_G2_OUTPUT="$REPO_DIR/runtime/ibkr_paper_read_only/latest.json"',
+            self.pre_review,
+        )
+        self.assertIn(
+            'export AURORA_IBKR_PROBE_OUTPUT="$FIXED_G2_OUTPUT"',
+            self.pre_review,
+        )
 
     def test_no_script_contains_order_submission_path(self):
         forbidden = [
