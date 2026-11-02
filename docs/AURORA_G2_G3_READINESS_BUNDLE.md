@@ -19,6 +19,10 @@ The final status is `READY_FOR_CONTROLLED_DRY_RUN` only when:
 - the local sanitized G0/G1 infrastructure proof is verified, safe, and no
   more than 24 hours old;
 - G2 is `READY_FOR_PAPER_READ_ONLY` with no required failure;
+- both the G2 snapshot and readiness record state
+  `gateway_read_only_configuration_independently_attested=true`;
+- the G2 required-check list is complete, unique, and exactly matches the
+  current readiness engine contract;
 - the read-only connector still hard-blocks order submission;
 - G2 evidence is no more than five minutes old;
 - G3 uses `PAPER`, `127.0.0.1:4002`, and a verified Paper account;
@@ -44,6 +48,10 @@ under a different allowlisted Paper account. Raw account IDs are never written.
 
 The wrapper still produces this fail-closed summary when either probe returns a
 non-zero status, then exits non-zero itself.
+
+A connector-side `read_only=true` declaration cannot satisfy the independent
+Gateway/TWS Read-Only attestation requirement. Missing, false, duplicated, or
+incomplete G2 safety evidence fails closed.
 
 Passing this bundle authorizes only the next **G4 controlled dry-run**. It does
 not authorize a Paper broker order, real-money order, or automatic promotion.
