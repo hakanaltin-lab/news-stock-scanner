@@ -52,6 +52,8 @@ def market_proof(now):
         "broker_submission_allowed": False,
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
+        "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
     }
 
 
@@ -65,6 +67,7 @@ def readiness(now, market):
         "paper_order_submission_allowed": False,
         "live_execution_allowed": False,
         "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
     }
 
 
