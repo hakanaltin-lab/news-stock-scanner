@@ -32,6 +32,12 @@ jobs:
         run: |
           python -m unittest tests.test_paper_state_risk_preflight -v
 
+      - name: Prove upstream G2 completion and G5 contracts still pass
+        run: |
+          python -m unittest tests.test_ibkr_readonly_readiness_g7 -v
+          python -m unittest tests.test_aurora_completion_status -v
+          python -m unittest tests.test_paper_order_authorization_gate -v
+
       - name: Prove G7.17 has no execution or persistence path
         run: |
           ! grep -E "placeOrder|submit_order|from ibapi|import ibapi|PAPER_ENABLED|4001|write_text|write_bytes|os\.replace|sqlite3" engines/paper_state_risk_preflight.py
