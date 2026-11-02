@@ -110,3 +110,37 @@ A successful CLI result is still
 permission false. Its next gate remains
 `PAPER_EXECUTION_CONNECTOR_REVIEW_REQUIRED`.
 
+## G8.11 full G0-G4 provenance binding
+
+G5 no longer accepts a completion object merely because it says
+`PAPER_RUNTIME_VALIDATED_SHADOW_ONLY`. The completion artifact must use the
+expected completion-gate engine, contain the exact complete safety-check set,
+and every required completion check must be `true`.
+
+G5 independently validates the completion evidence-binding graph before
+accepting a human authorization:
+
+- readiness and G4 use the same canonical UUIDv4 evidence-run ID;
+- the immutable GCE instance ID is well formed;
+- the G0/G1 digest equals the digest recorded by readiness;
+- the G2 Paper Read-Only digest equals the digest recorded by readiness;
+- G2, runtime and readiness Gateway Read-Only attestation digests are equal;
+- the readiness digest equals the digest recorded by G4;
+- the exact reviewed shadow-order digest is bound;
+- persisted and recomputed G4 ledger payload digests are equal;
+- recorded and audited ledger-receipt digests are equal.
+
+A successful G5 result publishes sanitized handoff identity for the later G6
+review boundary:
+
+- `authorization_version`;
+- `authorization_artifact_sha256`;
+- `evidence_run_id`;
+- `gce_instance_id`;
+- G0/G1, G2, Gateway-attestation, readiness, shadow-order and ledger-receipt
+  SHA-256 bindings.
+
+This lets a future broker-independent G6 review gate verify the exact human
+authorization and exact runtime evidence chain without trusting a caller-
+supplied summary. It still grants no execution permission.
+

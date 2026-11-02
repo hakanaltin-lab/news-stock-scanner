@@ -13,6 +13,7 @@ import unittest
 
 from engines.paper_order_authorization_gate import (
     AUTH_VERSION,
+    REQUIRED_COMPLETION_CHECKS,
 )
 from scripts.g5_manual_authorization_preflight import (
     evaluate_trusted_g5_preflight,
@@ -21,6 +22,8 @@ from scripts.g5_manual_authorization_preflight import (
 
 ROOT = Path(__file__).resolve().parents[1]
 NOW = datetime(2026, 11, 2, 13, 30, tzinfo=timezone.utc)
+EVIDENCE_RUN_ID = "11111111-1111-4111-8111-111111111111"
+INSTANCE_ID = "1234567890123456789"
 
 
 def digest(payload):
@@ -68,17 +71,38 @@ def g4_shadow(order=None):
 def completion(order=None):
     order = order or shadow_order()
     return {
+        "engine": "AURORA V8.9.29 G0-G4 Completion Gate",
         "status": "PAPER_RUNTIME_VALIDATED_SHADOW_ONLY",
         "next_gate": "MANUAL_PAPER_ORDER_AUTHORIZATION_NOT_GRANTED",
         "checks": {
-            "g4_shadow_order_payload_valid": True,
-            "g4_shadow_order_ledger_payload_bound": True,
+            name: True
+            for name in REQUIRED_COMPLETION_CHECKS
         },
         "evidence_binding": {
+            "readiness_evidence_run_id": EVIDENCE_RUN_ID,
+            "g4_evidence_run_id": EVIDENCE_RUN_ID,
+            "g0_g1_proof_sha256": "a" * 64,
+            "gce_instance_id": INSTANCE_ID,
+            "readiness_recorded_g0_g1_proof_sha256": "a" * 64,
+            "g2_paper_read_only_proof_sha256": "b" * 64,
+            "readiness_recorded_g2_proof_sha256": "b" * 64,
+            "g2_gateway_read_only_attestation_sha256": "c" * 64,
+            "runtime_gateway_read_only_attestation_sha256": "c" * 64,
+            "readiness_recorded_gateway_attestation_sha256": "c" * 64,
+            "readiness_proof_sha256": "d" * 64,
+            "g4_recorded_readiness_proof_sha256": "d" * 64,
             "g4_shadow_order_sha256": digest(order),
+            "g4_ledger_payload_sha256": "e" * 64,
+            "g4_recomputed_ledger_payload_sha256": "e" * 64,
+            "g4_ledger_receipt_sha256": "f" * 64,
+            "audited_ledger_receipt_sha256": "f" * 64,
         },
         "failure_reasons": [],
-        **safe_flags(),
+        "broker_submission_allowed": False,
+        "paper_order_submission_allowed": False,
+        "live_execution_allowed": False,
+        "automatic_promotion_allowed": False,
+        "real_money_trading_allowed": False,
     }
 
 
@@ -140,6 +164,18 @@ class TrustedG5AuthorizationTests(unittest.TestCase):
         self.assertEqual(
             result["next_gate"],
             "PAPER_EXECUTION_CONNECTOR_REVIEW_REQUIRED",
+        )
+        self.assertEqual(
+            result["evidence_run_id"],
+            EVIDENCE_RUN_ID,
+        )
+        self.assertEqual(
+            result["gce_instance_id"],
+            INSTANCE_ID,
+        )
+        self.assertEqual(
+            result["g0_g1_proof_sha256"],
+            "a" * 64,
         )
         for name, value in safe_flags().items():
             self.assertIs(result[name], value)

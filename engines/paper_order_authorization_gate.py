@@ -19,6 +19,30 @@ from uuid import UUID
 AUTH_VERSION = "AURORA_G5_PAPER_AUTHORIZATION_V2"
 DEFAULT_MAX_AUTH_AGE_SECONDS = 600
 
+REQUIRED_COMPLETION_CHECKS = {
+    "g0_g1_verified",
+    "g0_g1_evidence_current",
+    "g0_control_plane_instance_bound_to_gateway_attestation",
+    "g0_signed_proof_digest_bound",
+    "g2_g3_ready",
+    "g0_g1_readiness_proof_bound",
+    "g2_gateway_read_only_independently_attested",
+    "gateway_attestation_runtime_verified",
+    "gateway_attestation_g2_runtime_bound",
+    "gateway_attestation_readiness_bound",
+    "g2_readiness_proof_bound",
+    "g2_g3_evidence_fresh",
+    "g4_shadow_accepted",
+    "g4_shadow_order_payload_valid",
+    "g4_shadow_order_ledger_payload_bound",
+    "g4_evidence_fresh",
+    "g4_readiness_proof_bound",
+    "g4_evidence_run_bound",
+    "shadow_ledger_verified",
+    "g4_ledger_receipt_bound",
+    "ledger_audit_fresh",
+}
+
 AUTHORIZATION_FIELDS = {
     "version",
     "authorization_id",
@@ -71,6 +95,30 @@ def _uuid4(value):
     except (ValueError, AttributeError):
         return None
     return text if parsed.version == 4 and str(parsed) == text else None
+
+
+def _sha256_text(value):
+    text = str(value or "").strip().lower()
+    if (
+        len(text) != 64
+        or any(
+            character not in "0123456789abcdef"
+            for character in text
+        )
+    ):
+        return None
+    return text
+
+
+def _instance_id(value):
+    text = str(value or "").strip()
+    if (
+        not text.isdigit()
+        or not 6 <= len(text) <= 30
+        or text[0] == "0"
+    ):
+        return None
+    return text
 
 
 def _safe_flags(payload):
@@ -144,23 +192,146 @@ def evaluate_manual_paper_authorization(
         else {}
     )
 
+    readiness_run_id = _uuid4(
+        completion_binding.get(
+            "readiness_evidence_run_id"
+        )
+    )
+    g4_run_id = _uuid4(
+        completion_binding.get(
+            "g4_evidence_run_id"
+        )
+    )
+    gce_instance_id = _instance_id(
+        completion_binding.get(
+            "gce_instance_id"
+        )
+    )
+
+    g0_digest = _sha256_text(
+        completion_binding.get(
+            "g0_g1_proof_sha256"
+        )
+    )
+    recorded_g0_digest = _sha256_text(
+        completion_binding.get(
+            "readiness_recorded_g0_g1_proof_sha256"
+        )
+    )
+    g2_digest = _sha256_text(
+        completion_binding.get(
+            "g2_paper_read_only_proof_sha256"
+        )
+    )
+    recorded_g2_digest = _sha256_text(
+        completion_binding.get(
+            "readiness_recorded_g2_proof_sha256"
+        )
+    )
+    g2_attestation_digest = _sha256_text(
+        completion_binding.get(
+            "g2_gateway_read_only_attestation_sha256"
+        )
+    )
+    runtime_attestation_digest = _sha256_text(
+        completion_binding.get(
+            "runtime_gateway_read_only_attestation_sha256"
+        )
+    )
+    readiness_attestation_digest = _sha256_text(
+        completion_binding.get(
+            "readiness_recorded_gateway_attestation_sha256"
+        )
+    )
+    readiness_digest = _sha256_text(
+        completion_binding.get(
+            "readiness_proof_sha256"
+        )
+    )
+    g4_recorded_readiness_digest = _sha256_text(
+        completion_binding.get(
+            "g4_recorded_readiness_proof_sha256"
+        )
+    )
+    completion_shadow_digest = _sha256_text(
+        completion_binding.get(
+            "g4_shadow_order_sha256"
+        )
+    )
+    ledger_payload_digest = _sha256_text(
+        completion_binding.get(
+            "g4_ledger_payload_sha256"
+        )
+    )
+    recomputed_ledger_payload_digest = _sha256_text(
+        completion_binding.get(
+            "g4_recomputed_ledger_payload_sha256"
+        )
+    )
+    ledger_receipt_digest = _sha256_text(
+        completion_binding.get(
+            "g4_ledger_receipt_sha256"
+        )
+    )
+    audited_ledger_receipt_digest = _sha256_text(
+        completion_binding.get(
+            "audited_ledger_receipt_sha256"
+        )
+    )
+
+    completion_checks_exact = (
+        set(completion_checks)
+        ==
+        REQUIRED_COMPLETION_CHECKS
+        and all(
+            completion_checks.get(name) is True
+            for name in REQUIRED_COMPLETION_CHECKS
+        )
+    )
+
+    completion_runtime_binding_valid = (
+        readiness_run_id is not None
+        and readiness_run_id == g4_run_id
+        and gce_instance_id is not None
+        and g0_digest is not None
+        and g0_digest == recorded_g0_digest
+        and g2_digest is not None
+        and g2_digest == recorded_g2_digest
+        and g2_attestation_digest is not None
+        and g2_attestation_digest
+        == runtime_attestation_digest
+        == readiness_attestation_digest
+        and readiness_digest is not None
+        and readiness_digest
+        == g4_recorded_readiness_digest
+        and completion_shadow_digest is not None
+        and ledger_payload_digest is not None
+        and ledger_payload_digest
+        == recomputed_ledger_payload_digest
+        and ledger_receipt_digest is not None
+        and ledger_receipt_digest
+        == audited_ledger_receipt_digest
+    )
+
     checks = {
         "authorization_field_set_exact": (
             set(authorization) == AUTHORIZATION_FIELDS
         ),
         "completion_validated_shadow_only": (
-            completion_status.get("status")
+            completion_status.get("engine")
+            == "AURORA V8.9.29 G0-G4 Completion Gate"
+            and completion_status.get("status")
             == "PAPER_RUNTIME_VALIDATED_SHADOW_ONLY"
             and completion_status.get("next_gate")
             == "MANUAL_PAPER_ORDER_AUTHORIZATION_NOT_GRANTED"
             and completion_status.get("failure_reasons") == []
             and _safe_flags(completion_status)
-            and completion_checks.get(
-                "g4_shadow_order_payload_valid"
-            ) is True
-            and completion_checks.get(
-                "g4_shadow_order_ledger_payload_bound"
-            ) is True
+        ),
+        "completion_check_set_exact_and_passed": (
+            completion_checks_exact
+        ),
+        "completion_runtime_binding_valid": (
+            completion_runtime_binding_valid
         ),
         "shadow_order_accepted": (
             shadow_order.get("status") == "SHADOW_ACCEPTED"
@@ -197,14 +368,12 @@ def evaluate_manual_paper_authorization(
             str(authorization.get("shadow_order_sha256") or "").lower(),
             shadow_digest,
         ),
-        "completion_shadow_order_digest_bound": hmac.compare_digest(
-            str(
-                completion_binding.get(
-                    "g4_shadow_order_sha256"
-                )
-                or ""
-            ).lower(),
-            shadow_digest,
+        "completion_shadow_order_digest_bound": (
+            completion_shadow_digest is not None
+            and hmac.compare_digest(
+                completion_shadow_digest,
+                shadow_digest,
+            )
         ),
         "authorization_permissions_non_executable": (
             _safe_flags(authorization)
@@ -224,8 +393,21 @@ def evaluate_manual_paper_authorization(
         "mode": "PAPER",
         "authorization_issued_at": issued_at.isoformat(),
         "authorization_expires_at": expires_at.isoformat(),
+        "authorization_version": AUTH_VERSION,
+        "authorization_artifact_sha256": _digest(
+            authorization
+        ),
         "completion_status_sha256": completion_digest,
         "shadow_order_sha256": shadow_digest,
+        "evidence_run_id": readiness_run_id,
+        "gce_instance_id": gce_instance_id,
+        "g0_g1_proof_sha256": g0_digest,
+        "g2_paper_read_only_proof_sha256": g2_digest,
+        "gateway_read_only_attestation_sha256": (
+            runtime_attestation_digest
+        ),
+        "readiness_proof_sha256": readiness_digest,
+        "g4_ledger_receipt_sha256": ledger_receipt_digest,
         "checks": checks,
         "authorization_can_be_consumed_once": True,
         "authorization_is_pre_execution_only": True,
