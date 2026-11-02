@@ -399,6 +399,21 @@ def _validate_g2_diagnostic(
         return None, "G2_DIAGNOSTIC_CONFIG_INVALID"
 
     client_id = config.get("client_id")
+    mutation_methods = snapshot.get(
+        "blocked_broker_mutation_methods"
+    )
+    mutation_methods_safe = (
+        isinstance(mutation_methods, list)
+        and len(mutation_methods) == len(
+            _REQUIRED_MUTATION_METHODS
+        )
+        and all(
+            isinstance(method, str)
+            for method in mutation_methods
+        )
+        and set(mutation_methods)
+        == _REQUIRED_MUTATION_METHODS
+    )
     config_safe = (
         snapshot.get("status") == "CONNECTED"
         and snapshot.get("connection_status") == "CONNECTED"
@@ -419,8 +434,7 @@ def _validate_g2_diagnostic(
         and snapshot.get("client_zero_binding_hard_blocked") is True
         and snapshot.get("open_order_observation_mode")
         == "REQ_ALL_OPEN_ORDERS_NON_BINDING"
-        and set(snapshot.get("blocked_broker_mutation_methods") or [])
-        == _REQUIRED_MUTATION_METHODS
+        and mutation_methods_safe
         and snapshot.get("live_trading_allowed") is False
     )
     if not config_safe:
