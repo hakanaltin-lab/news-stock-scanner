@@ -178,6 +178,81 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             with self.subTest(value=value):
                 self.assertIsNone(connector.safe_float(value))
 
+    def test_invalid_broker_numeric_callbacks_do_not_become_zero(self):
+        fake_ibapi = types.ModuleType("ibapi")
+        fake_client = types.ModuleType("ibapi.client")
+        fake_wrapper = types.ModuleType("ibapi.wrapper")
+
+        class FakeClient:
+            def __init__(self, wrapper):
+                self.wrapper = wrapper
+
+        class FakeWrapper:
+            def __init__(self):
+                pass
+
+        fake_client.EClient = FakeClient
+        fake_wrapper.EWrapper = FakeWrapper
+
+        module_path = REPOSITORY_ROOT / "engines/ibkr_gateway_connector.py"
+        specification = importlib.util.spec_from_file_location(
+            "ibkr_connector_numeric_fail_closed_test",
+            module_path,
+        )
+        isolated = importlib.util.module_from_spec(specification)
+
+        with patch.dict(sys.modules, {
+            "ibapi": fake_ibapi,
+            "ibapi.client": fake_client,
+            "ibapi.wrapper": fake_wrapper,
+        }):
+            specification.loader.exec_module(isolated)
+
+        application = isolated._IBKRSnapshotApp()
+
+        class Contract:
+            symbol = "NVDA"
+            secType = "STK"
+            currency = "USD"
+            exchange = "SMART"
+
+        application.position(
+            "DU-REDACTED",
+            Contract(),
+            float("nan"),
+            float("inf"),
+        )
+        self.assertIsNone(application.positions[0]["position"])
+        self.assertIsNone(application.positions[0]["average_cost"])
+
+        application.orderStatus(
+            1,
+            "Submitted",
+            float("nan"),
+            float("inf"),
+            "not-a-number",
+            10,
+            0,
+            0.0,
+            82,
+            "",
+            0.0,
+        )
+        self.assertIsNone(application.order_status_rows[0]["filled"])
+        self.assertIsNone(application.order_status_rows[0]["remaining"])
+        self.assertIsNone(application.order_status_rows[0]["average_fill_price"])
+
+        class Execution:
+            execId = "E1"
+            side = "BOT"
+            shares = float("nan")
+            price = float("inf")
+            time = "20261102 09:00:00"
+
+        application.execDetails(1, Contract(), Execution())
+        self.assertIsNone(application.execution_rows[0]["shares"])
+        self.assertIsNone(application.execution_rows[0]["price"])
+
     def test_account_identifiers_are_masked_in_errors(self):
         account = "DU1234567"
         sanitized = connector._sanitize_errors([{
