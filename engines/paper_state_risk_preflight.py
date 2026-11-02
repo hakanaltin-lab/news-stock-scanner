@@ -1,9 +1,11 @@
 """G7.17 fail-closed Paper broker-state risk preflight.
 
-This module is non-executable. It consumes already-bound G2/G4/G5 evidence,
-rechecks freshness and exact digests, and evaluates BUY cash / SELL inventory
-against the read-only Paper broker snapshot. It never submits or reserves an
-order and never enables execution permissions.
+The authorized G2 proof remains the provenance bound into G0-G4 completion.
+A second post-authorization G2 read-only proof supplies fresh broker state.
+The two proofs must share the exact independently verified attestation and the
+same verified Paper account identity.
+
+This module never submits, reserves, stages, or constructs a broker order.
 """
 
 from __future__ import annotations
@@ -200,6 +202,439 @@ def _uuid4(value):
     return text
 
 
+def _verified_account_fingerprints(snapshot):
+    if not isinstance(
+        snapshot,
+        dict,
+    ):
+        return ()
+
+    guard = snapshot.get(
+        "paper_account_guard"
+    )
+
+    if not isinstance(
+        guard,
+        dict,
+    ):
+        return ()
+
+    if guard.get(
+        "paper_account_verified"
+    ) is not True:
+        return ()
+
+    values = guard.get(
+        "verified_account_fingerprints"
+    )
+
+    if not isinstance(
+        values,
+        list,
+    ):
+        return ()
+
+    fingerprints = tuple(
+        str(
+            value
+        ).strip()
+        for value in values
+    )
+
+    canonical = tuple(
+        sorted(
+            set(
+                fingerprints
+            )
+        )
+    )
+
+    if (
+        not fingerprints
+        or fingerprints
+        !=
+        canonical
+    ):
+        return ()
+
+    if any(
+        len(
+            value
+        )
+        !=
+        15
+        or not value.startswith(
+            "IBKR-"
+        )
+        or any(
+            character
+            not in
+            "0123456789ABCDEF"
+            for character in value[
+                5:
+            ]
+        )
+        for value in fingerprints
+    ):
+        return ()
+
+    summary_fingerprints = snapshot.get(
+        "account_summary_account_fingerprints"
+    )
+
+    if (
+        not isinstance(
+            summary_fingerprints,
+            list,
+        )
+        or tuple(
+            summary_fingerprints
+        )
+        !=
+        fingerprints
+    ):
+        return ()
+
+    return fingerprints
+
+
+def _g2_parts(g2_proof):
+    if not isinstance(
+        g2_proof,
+        dict,
+    ):
+        g2_proof = {}
+
+    run_mode = (
+        g2_proof.get(
+            "run_mode"
+        )
+        if isinstance(
+            g2_proof.get(
+                "run_mode"
+            ),
+            dict,
+        )
+        else {}
+    )
+    snapshot = (
+        g2_proof.get(
+            "snapshot"
+        )
+        if isinstance(
+            g2_proof.get(
+                "snapshot"
+            ),
+            dict,
+        )
+        else {}
+    )
+    readiness = (
+        g2_proof.get(
+            "readiness"
+        )
+        if isinstance(
+            g2_proof.get(
+                "readiness"
+            ),
+            dict,
+        )
+        else {}
+    )
+    attestation = (
+        g2_proof.get(
+            "gateway_read_only_attestation"
+        )
+        if isinstance(
+            g2_proof.get(
+                "gateway_read_only_attestation"
+            ),
+            dict,
+        )
+        else {}
+    )
+
+    return (
+        run_mode,
+        snapshot,
+        readiness,
+        attestation,
+    )
+
+
+def _g2_contract(
+    g2_proof,
+):
+    (
+        run_mode,
+        snapshot,
+        readiness,
+        attestation,
+    ) = _g2_parts(
+        g2_proof
+    )
+
+    config = (
+        snapshot.get(
+            "config"
+        )
+        if isinstance(
+            snapshot.get(
+                "config"
+            ),
+            dict,
+        )
+        else {}
+    )
+    requests_complete = (
+        snapshot.get(
+            "requests_complete"
+        )
+        if isinstance(
+            snapshot.get(
+                "requests_complete"
+            ),
+            dict,
+        )
+        else {}
+    )
+
+    run_mode_valid = (
+        run_mode.get(
+            "mode"
+        )
+        ==
+        "READ_ONLY"
+        and run_mode.get(
+            "mode_valid"
+        )
+        is True
+        and run_mode.get(
+            "read_only"
+        )
+        is True
+        and run_mode.get(
+            "paper_order_submission_requested"
+        )
+        is False
+        and run_mode.get(
+            "live_execution_allowed"
+        )
+        is False
+    )
+
+    snapshot_safe = (
+        snapshot.get(
+            "status"
+        )
+        in {
+            "CONNECTED",
+            "PARTIAL",
+        }
+        and config.get(
+            "mode"
+        )
+        ==
+        "PAPER"
+        and config.get(
+            "mode_valid"
+        )
+        is True
+        and config.get(
+            "endpoint_safe"
+        )
+        is True
+        and config.get(
+            "host"
+        )
+        ==
+        "127.0.0.1"
+        and config.get(
+            "port"
+        )
+        ==
+        4002
+        and config.get(
+            "read_only"
+        )
+        is True
+        and config.get(
+            "live_trading_allowed"
+        )
+        is False
+        and snapshot.get(
+            "order_submission_hard_blocked"
+        )
+        is True
+        and snapshot.get(
+            "live_trading_allowed"
+        )
+        is False
+        and snapshot.get(
+            "gateway_read_only_configuration_independently_attested"
+        )
+        is True
+        and all(
+            requests_complete.get(
+                name
+            )
+            is True
+            for name in (
+                "managed_accounts",
+                "account_summary",
+                "positions",
+                "open_orders",
+            )
+        )
+    )
+
+    readiness_checks = (
+        readiness.get(
+            "checks"
+        )
+        if isinstance(
+            readiness.get(
+                "checks"
+            ),
+            list,
+        )
+        else []
+    )
+
+    required_checks_valid = (
+        bool(
+            readiness_checks
+        )
+        and all(
+            isinstance(
+                item,
+                dict,
+            )
+            and isinstance(
+                item.get(
+                    "check"
+                ),
+                str,
+            )
+            and isinstance(
+                item.get(
+                    "required"
+                ),
+                bool,
+            )
+            and isinstance(
+                item.get(
+                    "passed"
+                ),
+                bool,
+            )
+            for item in readiness_checks
+        )
+        and all(
+            item.get(
+                "passed"
+            )
+            is True
+            for item in readiness_checks
+            if item.get(
+                "required"
+            )
+            is True
+        )
+    )
+
+    readiness_ready = (
+        readiness.get(
+            "readiness"
+        )
+        ==
+        "READY_FOR_PAPER_READ_ONLY"
+        and readiness.get(
+            "required_failure_count"
+        )
+        ==
+        0
+        and readiness.get(
+            "paper_order_submission_allowed"
+        )
+        is False
+        and readiness.get(
+            "live_execution_allowed"
+        )
+        is False
+        and readiness.get(
+            "gateway_read_only_configuration_independently_attested"
+        )
+        is True
+        and required_checks_valid
+    )
+
+    attestation_verified = (
+        attestation.get(
+            "status"
+        )
+        ==
+        "VERIFIED"
+        and attestation.get(
+            "verified"
+        )
+        is True
+        and attestation.get(
+            "gateway_read_only_configuration_independently_attested"
+        )
+        is True
+        and attestation.get(
+            "failure_reasons"
+        )
+        ==
+        []
+        and _safe_flags(
+            attestation
+        )
+    )
+
+    fingerprints = _verified_account_fingerprints(
+        snapshot
+    )
+
+    return {
+        "run_mode":
+        run_mode,
+
+        "snapshot":
+        snapshot,
+
+        "readiness":
+        readiness,
+
+        "attestation":
+        attestation,
+
+        "run_mode_valid":
+        run_mode_valid,
+
+        "snapshot_safe":
+        snapshot_safe,
+
+        "readiness_ready":
+        readiness_ready,
+
+        "attestation_verified":
+        attestation_verified,
+
+        "account_fingerprints":
+        fingerprints,
+
+        "evidence_run_id_valid":
+        _uuid4(
+            g2_proof.get(
+                "evidence_run_id"
+            )
+        )
+        is not None,
+    }
+
+
 def _blocked(
     checks,
     failures,
@@ -223,28 +658,18 @@ def _blocked(
 
         "risk_summary": {
             "buy_available_funds_sufficient":
-            (
-                checks.get(
-                    "buy_available_funds_sufficient"
-                )
-                if "buy_available_funds_sufficient"
-                in checks
-                else None
+            checks.get(
+                "buy_available_funds_sufficient"
             ),
 
             "sell_inventory_sufficient":
-            (
-                checks.get(
-                    "sell_inventory_sufficient"
-                )
-                if "sell_inventory_sufficient"
-                in checks
-                else None
+            checks.get(
+                "sell_inventory_sufficient"
             ),
 
             "broker_state_fresh":
             checks.get(
-                "g2_broker_state_fresh",
+                "fresh_g2_broker_state_fresh",
                 False,
             ),
         },
@@ -270,7 +695,8 @@ def _blocked(
 
 
 def evaluate_paper_state_risk_preflight(
-    g2_proof,
+    authorized_g2_proof,
+    fresh_g2_proof,
     completion_status,
     shadow_order,
     authorization_result,
@@ -304,17 +730,26 @@ def evaluate_paper_state_risk_preflight(
             dict,
         )
         for payload in (
-            g2_proof,
+            authorized_g2_proof,
+            fresh_g2_proof,
             completion_status,
             shadow_order,
             authorization_result,
         )
     )
 
-    g2_proof = (
-        g2_proof
+    authorized_g2_proof = (
+        authorized_g2_proof
         if isinstance(
-            g2_proof,
+            authorized_g2_proof,
+            dict,
+        )
+        else {}
+    )
+    fresh_g2_proof = (
+        fresh_g2_proof
+        if isinstance(
+            fresh_g2_proof,
             dict,
         )
         else {}
@@ -344,8 +779,11 @@ def evaluate_paper_state_risk_preflight(
         else {}
     )
 
-    g2_digest = _digest(
-        g2_proof
+    authorized_g2_digest = _digest(
+        authorized_g2_proof
+    )
+    fresh_g2_digest = _digest(
+        fresh_g2_proof
     )
     completion_digest = _digest(
         completion_status
@@ -355,8 +793,11 @@ def evaluate_paper_state_risk_preflight(
     )
 
     digests = {
-        "g2_paper_read_only_proof_sha256":
-        g2_digest,
+        "authorized_g2_paper_read_only_proof_sha256":
+        authorized_g2_digest,
+
+        "fresh_g2_paper_read_only_proof_sha256":
+        fresh_g2_digest,
 
         "completion_status_sha256":
         completion_digest,
@@ -448,8 +889,8 @@ def evaluate_paper_state_risk_preflight(
         )
     )
 
-    completion_g2_bound = (
-        g2_digest
+    completion_authorized_g2_bound = (
+        authorized_g2_digest
         is not None
         and hmac.compare_digest(
             str(
@@ -458,7 +899,7 @@ def evaluate_paper_state_risk_preflight(
                 )
                 or ""
             ).strip().lower(),
-            g2_digest,
+            authorized_g2_digest,
         )
     )
 
@@ -737,311 +1178,164 @@ def evaluate_paper_state_risk_preflight(
         )
     )
 
-    run_mode = (
-        g2_proof.get(
-            "run_mode"
-        )
-        if isinstance(
-            g2_proof.get(
-                "run_mode"
+    authorized_contract = _g2_contract(
+        authorized_g2_proof
+    )
+    fresh_contract = _g2_contract(
+        fresh_g2_proof
+    )
+
+    authorized_g2_contract_valid = all(
+        (
+            authorized_contract[
+                "run_mode_valid"
+            ],
+            authorized_contract[
+                "snapshot_safe"
+            ],
+            authorized_contract[
+                "readiness_ready"
+            ],
+            authorized_contract[
+                "attestation_verified"
+            ],
+            authorized_contract[
+                "evidence_run_id_valid"
+            ],
+            bool(
+                authorized_contract[
+                    "account_fingerprints"
+                ]
             ),
-            dict,
         )
-        else {}
     )
-    snapshot = (
-        g2_proof.get(
-            "snapshot"
-        )
-        if isinstance(
-            g2_proof.get(
-                "snapshot"
+
+    fresh_g2_contract_valid = all(
+        (
+            fresh_contract[
+                "run_mode_valid"
+            ],
+            fresh_contract[
+                "snapshot_safe"
+            ],
+            fresh_contract[
+                "readiness_ready"
+            ],
+            fresh_contract[
+                "attestation_verified"
+            ],
+            fresh_contract[
+                "evidence_run_id_valid"
+            ],
+            bool(
+                fresh_contract[
+                    "account_fingerprints"
+                ]
             ),
-            dict,
-        )
-        else {}
-    )
-    readiness = (
-        g2_proof.get(
-            "readiness"
-        )
-        if isinstance(
-            g2_proof.get(
-                "readiness"
-            ),
-            dict,
-        )
-        else {}
-    )
-    attestation = (
-        g2_proof.get(
-            "gateway_read_only_attestation"
-        )
-        if isinstance(
-            g2_proof.get(
-                "gateway_read_only_attestation"
-            ),
-            dict,
-        )
-        else {}
-    )
-
-    g2_read_only_mode = (
-        run_mode.get(
-            "mode"
-        )
-        ==
-        "READ_ONLY"
-        and run_mode.get(
-            "mode_valid"
-        )
-        is True
-        and run_mode.get(
-            "read_only"
-        )
-        is True
-        and run_mode.get(
-            "paper_order_submission_requested"
-        )
-        is False
-        and run_mode.get(
-            "live_execution_allowed"
-        )
-        is False
-    )
-
-    config = (
-        snapshot.get(
-            "config"
-        )
-        if isinstance(
-            snapshot.get(
-                "config"
-            ),
-            dict,
-        )
-        else {}
-    )
-    requests_complete = (
-        snapshot.get(
-            "requests_complete"
-        )
-        if isinstance(
-            snapshot.get(
-                "requests_complete"
-            ),
-            dict,
-        )
-        else {}
-    )
-
-    g2_snapshot_safe = (
-        snapshot.get(
-            "status"
-        )
-        in {
-            "CONNECTED",
-            "PARTIAL",
-        }
-        and config.get(
-            "mode"
-        )
-        ==
-        "PAPER"
-        and config.get(
-            "mode_valid"
-        )
-        is True
-        and config.get(
-            "endpoint_safe"
-        )
-        is True
-        and config.get(
-            "host"
-        )
-        ==
-        "127.0.0.1"
-        and config.get(
-            "port"
-        )
-        ==
-        4002
-        and config.get(
-            "read_only"
-        )
-        is True
-        and config.get(
-            "live_trading_allowed"
-        )
-        is False
-        and snapshot.get(
-            "order_submission_hard_blocked"
-        )
-        is True
-        and snapshot.get(
-            "live_trading_allowed"
-        )
-        is False
-        and snapshot.get(
-            "gateway_read_only_configuration_independently_attested"
-        )
-        is True
-        and all(
-            requests_complete.get(
-                name
-            )
-            is True
-            for name in (
-                "managed_accounts",
-                "account_summary",
-                "positions",
-                "open_orders",
-            )
         )
     )
 
-    required_checks = (
-        readiness.get(
-            "checks"
-        )
-        if isinstance(
-            readiness.get(
-                "checks"
-            ),
-            list,
-        )
-        else []
+    authorized_attestation_digest = _digest(
+        authorized_contract[
+            "attestation"
+        ]
+    )
+    fresh_attestation_digest = _digest(
+        fresh_contract[
+            "attestation"
+        ]
     )
 
-    g2_required_checks_valid = (
-        bool(
-            required_checks
+    fresh_identity_matches_authorized = (
+        authorized_attestation_digest
+        is not None
+        and fresh_attestation_digest
+        is not None
+        and hmac.compare_digest(
+            authorized_attestation_digest,
+            fresh_attestation_digest,
         )
-        and all(
-            isinstance(
-                item,
-                dict,
-            )
-            and isinstance(
-                item.get(
-                    "check"
-                ),
-                str,
-            )
-            and isinstance(
-                item.get(
-                    "required"
-                ),
-                bool,
-            )
-            and isinstance(
-                item.get(
-                    "passed"
-                ),
-                bool,
-            )
-            for item in required_checks
+        and authorized_contract[
+            "account_fingerprints"
+        ]
+        ==
+        fresh_contract[
+            "account_fingerprints"
+        ]
+    )
+
+    fresh_snapshot = fresh_contract[
+        "snapshot"
+    ]
+    fresh_readiness = fresh_contract[
+        "readiness"
+    ]
+
+    fresh_snapshot_timestamp = _utc_datetime(
+        fresh_snapshot.get(
+            "timestamp"
         )
-        and all(
-            item.get(
-                "passed"
-            )
-            is True
-            for item in required_checks
-            if item.get(
-                "required"
-            )
-            is True
+    )
+    fresh_readiness_timestamp = _utc_datetime(
+        fresh_readiness.get(
+            "timestamp"
         )
     )
 
-    g2_readiness_ready = (
-        readiness.get(
-            "readiness"
-        )
-        ==
-        "READY_FOR_PAPER_READ_ONLY"
-        and readiness.get(
-            "required_failure_count"
-        )
-        ==
-        0
-        and readiness.get(
-            "paper_order_submission_allowed"
-        )
-        is False
-        and readiness.get(
-            "live_execution_allowed"
-        )
-        is False
-        and readiness.get(
-            "gateway_read_only_configuration_independently_attested"
-        )
-        is True
-        and g2_required_checks_valid
-    )
-
-    g2_attestation_verified = (
-        attestation.get(
-            "status"
-        )
-        ==
-        "VERIFIED"
-        and attestation.get(
-            "verified"
-        )
-        is True
-        and attestation.get(
-            "gateway_read_only_configuration_independently_attested"
-        )
-        is True
-        and attestation.get(
-            "failure_reasons"
-        )
-        ==
-        []
-        and _safe_flags(
-            attestation
-        )
-    )
-
-    snapshot_age = _age_seconds(
-        snapshot.get(
+    fresh_snapshot_age = _age_seconds(
+        fresh_snapshot.get(
             "timestamp"
         ),
         now,
     )
-    readiness_age = _age_seconds(
-        readiness.get(
+    fresh_readiness_age = _age_seconds(
+        fresh_readiness.get(
             "timestamp"
         ),
         now,
     )
 
-    g2_broker_state_fresh = (
+    fresh_g2_broker_state_fresh = (
         risk_policy_valid
-        and snapshot_age
+        and fresh_snapshot_age
         is not None
-        and readiness_age
+        and fresh_readiness_age
         is not None
-        and snapshot_age
+        and fresh_snapshot_age
         <=
         configured_max_age
-        and readiness_age
+        and fresh_readiness_age
         <=
         configured_max_age
     )
 
-    evidence_run_id = _uuid4(
-        g2_proof.get(
-            "evidence_run_id"
-        )
+    fresh_g2_post_authorization = (
+        auth_issued
+        is not None
+        and fresh_snapshot_timestamp
+        is not None
+        and fresh_readiness_timestamp
+        is not None
+        and (
+            fresh_snapshot_timestamp
+            -
+            auth_issued
+        ).total_seconds()
+        >=
+        -2
+        and (
+            fresh_readiness_timestamp
+            -
+            auth_issued
+        ).total_seconds()
+        >=
+        -2
     )
 
-    positions = snapshot.get(
+    positions = fresh_snapshot.get(
         "positions"
     )
-    open_orders = snapshot.get(
+    open_orders = fresh_snapshot.get(
         "open_orders"
     )
 
@@ -1202,11 +1496,11 @@ def evaluate_paper_state_risk_preflight(
                 )
 
     account_metrics = (
-        readiness.get(
+        fresh_readiness.get(
             "account_metrics"
         )
         if isinstance(
-            readiness.get(
+            fresh_readiness.get(
                 "account_metrics"
             ),
             dict,
@@ -1220,11 +1514,11 @@ def evaluate_paper_state_risk_preflight(
     )
 
     account_summary = (
-        snapshot.get(
+        fresh_snapshot.get(
             "account_summary"
         )
         if isinstance(
-            snapshot.get(
+            fresh_snapshot.get(
                 "account_summary"
             ),
             dict,
@@ -1259,8 +1553,7 @@ def evaluate_paper_state_risk_preflight(
         available_funds_currency
         ==
         "USD"
-        and
-        available_funds
+        and available_funds
         is not None
         and available_funds
         >=
@@ -1336,8 +1629,8 @@ def evaluate_paper_state_risk_preflight(
         "completion_validated":
         completion_valid,
 
-        "completion_g2_digest_bound":
-        completion_g2_bound,
+        "completion_authorized_g2_digest_bound":
+        completion_authorized_g2_bound,
 
         "completion_shadow_digest_bound":
         completion_shadow_bound,
@@ -1357,24 +1650,20 @@ def evaluate_paper_state_risk_preflight(
         "authorization_shadow_digest_bound":
         authorization_shadow_bound,
 
-        "g2_evidence_run_id_valid":
-        evidence_run_id
-        is not None,
+        "authorized_g2_contract_valid":
+        authorized_g2_contract_valid,
 
-        "g2_read_only_mode":
-        g2_read_only_mode,
+        "fresh_g2_contract_valid":
+        fresh_g2_contract_valid,
 
-        "g2_snapshot_safe":
-        g2_snapshot_safe,
+        "fresh_g2_identity_matches_authorized":
+        fresh_identity_matches_authorized,
 
-        "g2_readiness_ready":
-        g2_readiness_ready,
+        "fresh_g2_broker_state_fresh":
+        fresh_g2_broker_state_fresh,
 
-        "g2_attestation_verified":
-        g2_attestation_verified,
-
-        "g2_broker_state_fresh":
-        g2_broker_state_fresh,
+        "fresh_g2_post_authorization":
+        fresh_g2_post_authorization,
 
         "broker_state_payload_valid":
         broker_state_payload_valid,
