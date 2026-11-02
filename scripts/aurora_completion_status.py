@@ -357,15 +357,21 @@ def evaluate_completion_status(
             bool(g4_shadow_order)
             and g4_shadow_order.get("status") == "SHADOW_ACCEPTED"
             and _shadow_flags_safe(g4_shadow_order)
-            and str(
-                g4_shadow_order.get("shadow_order_id") or ""
-            ).strip()
-            and str(
-                g4_shadow_order.get("idempotency_key") or ""
-            ).strip()
-            and str(
-                g4_shadow_order.get("symbol") or ""
-            ).strip()
+            and bool(
+                str(
+                    g4_shadow_order.get("shadow_order_id") or ""
+                ).strip()
+            )
+            and bool(
+                str(
+                    g4_shadow_order.get("idempotency_key") or ""
+                ).strip()
+            )
+            and bool(
+                str(
+                    g4_shadow_order.get("symbol") or ""
+                ).strip()
+            )
         ),
         "g4_shadow_order_ledger_payload_bound": (
             actual_g4_shadow_order_digest is not None
