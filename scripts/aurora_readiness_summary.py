@@ -23,6 +23,7 @@ EXPECTED_G2_REQUIRED_CHECKS = {
     "paper_mode_only",
     "safe_loopback_paper_endpoint",
     "paper_account_identity_verified",
+    "gateway_read_only_configuration_independently_attested",
     "order_submission_hard_blocked",
     "live_trading_hard_blocked",
     "gateway_connected",
@@ -205,6 +206,16 @@ def evaluate_readiness_bundle(
             and EXPECTED_G2_REQUIRED_CHECKS.issubset(g2_required_check_names)
             and g2_computed_required_failures
             == g2_readiness.get("required_failure_count")
+        ),
+        "g2_gateway_read_only_independently_attested": (
+            g2_snapshot.get(
+                "gateway_read_only_configuration_independently_attested"
+            )
+            is True
+            and g2_readiness.get(
+                "gateway_read_only_configuration_independently_attested"
+            )
+            is True
         ),
         "g2_order_submission_blocked": (
             g2_readiness.get("paper_order_submission_allowed") is False
