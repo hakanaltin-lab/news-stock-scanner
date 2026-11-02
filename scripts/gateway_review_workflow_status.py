@@ -118,9 +118,18 @@ def evaluate_gateway_review_workflow(
             failure_reason="WORKFLOW_INPUT_INVALID",
         )
 
-    if not all(
-        _all_permissions_false(payload)
-        for payload in payloads
+    attestation_permission_invariant = all(
+        name not in attestation_result
+        or attestation_result.get(name) is False
+        for name in _PERMISSION_FLAGS
+    )
+
+    if (
+        not all(
+            _all_permissions_false(payload)
+            for payload in payloads
+        )
+        or not attestation_permission_invariant
     ):
         return _result(
             status="BLOCKED",
