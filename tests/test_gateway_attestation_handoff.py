@@ -141,6 +141,14 @@ class GatewayAttestationHandoffTests(unittest.TestCase):
             request["g0_runtime_vm_name"],
             EXPECTED_INSTANCE_NAME,
         )
+        self.assertEqual(
+            len(request["reviewer_policy_sha256"]),
+            64,
+        )
+        self.assertEqual(
+            len(request["g0_runtime_proof_sha256"]),
+            64,
+        )
 
     def test_handoff_request_cannot_be_reused_as_attestation(self):
         request = self.evaluate()["handoff_request"]
