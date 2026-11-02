@@ -465,27 +465,41 @@ def evaluate_ibkr_paper_readiness(
         "account_summary_account_fingerprints"
     )
 
-    account_summary_account_fingerprints = (
-        sorted({
-            str(item).strip()
-            for item in account_summary_fingerprint_rows
-            if str(item).strip()
-        })
-        if isinstance(
+    account_summary_fingerprints_valid = (
+        isinstance(
             account_summary_fingerprint_rows,
             list
         )
+        and bool(
+            account_summary_fingerprint_rows
+        )
+        and all(
+            isinstance(
+                item,
+                str
+            )
+            and bool(
+                item.strip()
+            )
+            for item in account_summary_fingerprint_rows
+        )
+    )
+
+    account_summary_account_fingerprints = (
+        sorted({
+            item.strip()
+            for item in account_summary_fingerprint_rows
+        })
+        if account_summary_fingerprints_valid
         else []
     )
 
     add_check(
         "account_summary_accounts_match_managed_accounts",
         (
-            bool(
-                verified_account_fingerprints
-            )
-            and
-            account_summary_account_fingerprints
+            verified_account_fingerprints_valid
+            and account_summary_fingerprints_valid
+            and account_summary_account_fingerprints
             ==
             verified_account_fingerprints
         ),
