@@ -33,7 +33,7 @@ the human approval evidence is narrow, current, and cryptographically bound
 to the exact reviewed shadow intent.
 
 
-## G7.14 G4-to-G5 integration contract
+## G7.15 G4-to-G5 integration contract
 
 The production G4 shadow-order object itself is now guaranteed to carry all
 five fail-closed execution flags explicitly as `false`, including
