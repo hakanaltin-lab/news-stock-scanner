@@ -165,10 +165,20 @@ def _sha256_bytes(raw):
 def _trusted_root_file(path, max_bytes):
     path = Path(path)
     try:
+        link_info = path.lstat()
+        parent_info = path.parent.stat()
         info = path.stat()
     except OSError:
         return False, "MISSING_TRUSTED_FILE"
 
+    if stat.S_ISLNK(link_info.st_mode):
+        return False, "TRUSTED_PATH_SYMLINK_FORBIDDEN"
+    if not stat.S_ISDIR(parent_info.st_mode):
+        return False, "TRUSTED_PARENT_NOT_DIRECTORY"
+    if parent_info.st_uid != 0:
+        return False, "TRUSTED_PARENT_NOT_ROOT_OWNED"
+    if parent_info.st_mode & 0o022:
+        return False, "TRUSTED_PARENT_GROUP_OR_WORLD_WRITABLE"
     if not stat.S_ISREG(info.st_mode):
         return False, "TRUSTED_PATH_NOT_REGULAR_FILE"
     if info.st_uid != 0:
@@ -183,10 +193,18 @@ def _trusted_root_file(path, max_bytes):
 def _artifact_file_safe(path, max_bytes=32768):
     path = Path(path)
     try:
+        link_info = path.lstat()
+        parent_info = path.parent.stat()
         info = path.stat()
     except OSError:
         return False, "ATTESTATION_ARTIFACT_MISSING"
 
+    if stat.S_ISLNK(link_info.st_mode):
+        return False, "ATTESTATION_ARTIFACT_SYMLINK_FORBIDDEN"
+    if not stat.S_ISDIR(parent_info.st_mode):
+        return False, "ATTESTATION_PARENT_NOT_DIRECTORY"
+    if parent_info.st_mode & 0o002:
+        return False, "ATTESTATION_PARENT_WORLD_WRITABLE"
     if not stat.S_ISREG(info.st_mode):
         return False, "ATTESTATION_PATH_NOT_REGULAR_FILE"
     if info.st_mode & 0o002:
