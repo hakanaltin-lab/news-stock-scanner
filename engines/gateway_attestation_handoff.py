@@ -313,6 +313,7 @@ def evaluate_reviewer_handoff_preflight(
         else {}
     )
     required_g0_checks = (
+        "source_payloads_valid",
         "budget_guard_passed",
         "vm_identity",
         "vm_instance_id_valid",
