@@ -37,5 +37,25 @@ class EvidenceFreshnessTests(unittest.TestCase):
         )
 
 
+    def test_invalid_and_non_utc_offsets_rejected(self):
+        for stamp, reason in (
+            ("not-a-date", "INVALID_TIMESTAMP"),
+            ("2026-11-02T15:00:00+03:00", "NON_UTC_TIMESTAMP"),
+            ("", "MISSING_TIMESTAMP"),
+        ):
+            with self.subTest(stamp=stamp):
+                result = evaluate_freshness({"snapshot_generated_at_utc": stamp}, now=self.now)
+                self.assertEqual(result["reason"], reason)
+                self.assertFalse(result["release_approved"])
+
+    def test_invalid_reference_clock_rejected(self):
+        report = {"snapshot_generated_at_utc": "2026-11-02T12:00:00Z"}
+        result = evaluate_freshness(report, now=datetime(2026, 11, 2, 12, 0))
+        self.assertEqual(result["reason"], "INVALID_CLOCK")
+        self.assertFalse(result["paper_order_submission_allowed"])
+
+    def test_future_skew_boundary_only_diagnostic(self):
+        self.check(30, "FRESHNESS_ONLY_NOT_AUTHENTICITY_OR_RELEASE_APPROVAL")
+
 if __name__ == "__main__":
     unittest.main()
