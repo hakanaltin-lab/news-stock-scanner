@@ -437,13 +437,13 @@ if IBAPI_AVAILABLE:
                 "position":
                 safe_float(
                     position,
-                    0.0
+                    None
                 ),
 
                 "average_cost":
                 safe_float(
                     avgCost,
-                    0.0
+                    None
                 )
             })
 
@@ -561,19 +561,19 @@ if IBAPI_AVAILABLE:
                 "filled":
                 safe_float(
                     filled,
-                    0.0
+                    None
                 ),
 
                 "remaining":
                 safe_float(
                     remaining,
-                    0.0
+                    None
                 ),
 
                 "average_fill_price":
                 safe_float(
                     avgFillPrice,
-                    0.0
+                    None
                 )
             })
 
@@ -613,7 +613,7 @@ if IBAPI_AVAILABLE:
                         "shares",
                         None
                     ),
-                    0.0
+                    None
                 ),
 
                 "price":
@@ -623,7 +623,7 @@ if IBAPI_AVAILABLE:
                         "price",
                         None
                     ),
-                    0.0
+                    None
                 ),
 
                 "time":
