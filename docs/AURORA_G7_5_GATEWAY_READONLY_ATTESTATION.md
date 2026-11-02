@@ -50,15 +50,18 @@ canonical JSON with sorted keys and compact separators.
 
 The verifier requires:
 
-- schema version 1;
+- schema version 2;
 - canonical UUIDv4 attestation ID;
-- attestation type `IBKR_GATEWAY_API_READ_ONLY_V1`;
+- attestation type `IBKR_GATEWAY_API_READ_ONLY_V2`;
 - decision `ATTESTED`;
 - the exact reviewer ID pinned by policy;
 - an exact 40-character Git SHA matching the currently checked-out commit;
 - a clean tracked Git working tree;
 - VPS instance `aurora-trading-vps`;
 - zone `europe-west3-a`;
+- GCP project `project-ce9773ef-6814-469c-92b`;
+- the immutable numeric GCE instance ID pinned in both policy and signed artifact;
+- live link-local GCE metadata matching project, VM name, zone and instance ID;
 - broker mode `PAPER`;
 - Gateway port `4002`;
 - `read_only_api_enabled=true`;
@@ -67,8 +70,14 @@ The verifier requires:
 - a valid detached Ed25519 signature from the pinned reviewer public key.
 
 Any unknown field, missing field, duplicate JSON key, malformed timestamp,
-expired/future evidence, key mismatch, dirty repository, invalid signature, or
-filesystem trust failure blocks the attestation.
+expired/future evidence, key mismatch, dirty repository, invalid signature,
+GCE metadata mismatch/unavailability, or filesystem trust failure blocks the
+attestation.
+
+G7.7 reads only four non-secret attributes from the fixed link-local endpoint
+`169.254.169.254`: project ID, instance name, zone and numeric instance ID.
+Proxy use and redirects are disabled; service-account/token metadata is never
+requested.
 
 ## Policy
 
