@@ -1,0 +1,28 @@
+name: G8.29 Order Object Candidate Review Handoff Safety
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/ibkr_order_object_candidate_handoff.py"
+      - "scripts/g6_order_object_candidate_handoff.py"
+      - "tests/test_ibkr_order_object_candidate_handoff.py"
+      - ".github/workflows/g8_29_order_object_candidate_handoff.yml"
+      - "docs/AURORA_G8_29_ORDER_OBJECT_CANDIDATE_HANDOFF.md"
+permissions:
+  contents: read
+jobs:
+  unsigned-review-handoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile only review modules (never import candidate)
+        run: |
+          python -m py_compile engines/ibkr_order_object_candidate_handoff.py
+          python -m py_compile scripts/g6_order_object_candidate_handoff.py
+          python -m py_compile tests/test_ibkr_order_object_candidate_handoff.py
+      - name: Static handoff and negative regression tests
+        run: python -m unittest tests.test_ibkr_order_object_candidate_handoff -v
