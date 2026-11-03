@@ -1,0 +1,28 @@
+name: G8.30 Signed Order Object Candidate Review Safety
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/ibkr_order_object_candidate_attestation.py"
+      - "scripts/verify_order_object_candidate_attestation.py"
+      - "tests/test_ibkr_order_object_candidate_attestation.py"
+      - ".github/workflows/g8_30_order_object_candidate_attestation.yml"
+      - "docs/AURORA_G8_30_SIGNED_ORDER_OBJECT_CANDIDATE.md"
+permissions:
+  contents: read
+jobs:
+  offline-signed-review-verification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile reviewer verifier without importing broker candidate
+        run: |
+          python -m py_compile engines/ibkr_order_object_candidate_attestation.py
+          python -m py_compile scripts/verify_order_object_candidate_attestation.py
+          python -m py_compile tests/test_ibkr_order_object_candidate_attestation.py
+      - name: Negative tests (mock signature accepted only in unit test)
+        run: python -m unittest tests.test_ibkr_order_object_candidate_attestation -v
