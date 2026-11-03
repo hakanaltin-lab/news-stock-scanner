@@ -477,6 +477,8 @@ class IBKRReadinessTests(unittest.TestCase):
         snapshot["positions"] = [{
             "account": "IBKR-TESTACCOUNT",
             "symbol": "NVDA",
+            "security_type": "STK",
+            "currency": "USD",
             "position": 1,
         }]
         readiness = evaluate_ibkr_paper_readiness(snapshot, [])
