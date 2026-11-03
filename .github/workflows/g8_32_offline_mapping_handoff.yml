@@ -1,0 +1,26 @@
+name: G8.32 Offline Mapping Independent Review Handoff
+on:
+  pull_request:
+    paths:
+      - "engines/ibkr_offline_mapping_review_handoff.py"
+      - "tests/test_ibkr_offline_mapping_review_handoff.py"
+      - ".github/workflows/g8_32_offline_mapping_handoff.yml"
+      - "docs/AURORA_G8_32_OFFLINE_MAPPING_HANDOFF.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  review-handoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile offline-only review modules
+        run: |
+          python -m py_compile engines/ibkr_offline_mapping_review_handoff.py
+          python -m py_compile tests/test_ibkr_offline_mapping_review_handoff.py
+      - name: Negative and strict binding tests
+        run: python -m unittest tests.test_ibkr_offline_mapping_review_handoff -v
