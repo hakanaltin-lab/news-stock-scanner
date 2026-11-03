@@ -23,7 +23,7 @@ ENGINE_VERSION = "AURORA G8.31 Offline IBKR Field Mapping Research"
 NEXT_GATE = "INDEPENDENT_OFFLINE_IBKR_MAPPING_REVIEW_REQUIRED"
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 SYMBOL = re.compile(r"^[A-Z][A-Z0-9.-]{0,11}$")
-PRICE = re.compile(r"^[0-9]{1,8}(?:\\.[0-9]{1,4})?$")
+PRICE = re.compile(r"^[0-9]{1,8}(?:\.[0-9]{1,4})?$")
 ATTESTATION_FIELDS = {
     "engine","status","verified","order_object_candidate_independently_attested",
     "reason","checks","review_id","reviewer_id","candidate_source_sha256",
