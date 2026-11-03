@@ -1,0 +1,28 @@
+name: G8.33 Signed Offline IBKR Mapping Review Safety
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/ibkr_offline_mapping_signed_review.py"
+      - "scripts/verify_offline_mapping_signed_review.py"
+      - "tests/test_ibkr_offline_mapping_signed_review.py"
+      - ".github/workflows/g8_33_offline_mapping_signed_review.yml"
+      - "docs/AURORA_G8_33_SIGNED_OFFLINE_MAPPING_REVIEW.md"
+permissions:
+  contents: read
+jobs:
+  signed-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile offline reviewer verifier
+        run: |
+          python -m py_compile engines/ibkr_offline_mapping_signed_review.py
+          python -m py_compile scripts/verify_offline_mapping_signed_review.py
+          python -m py_compile tests/test_ibkr_offline_mapping_signed_review.py
+      - name: Fail-closed signature and artifact binding tests
+        run: python -m unittest tests.test_ibkr_offline_mapping_signed_review -v
