@@ -1054,6 +1054,10 @@ def evaluate_ibkr_paper_readiness(
         compare_positions(portfolio_rows, broker_snapshot)
         if portfolio_rows_valid and positions_payload_valid
         and position_instruments_valid
+        and len(portfolio_symbols) == len(set(portfolio_symbols))
+        and len(position_identity_keys) == len(set(position_identity_keys))
+        and requests_complete.get("positions") is True
+        and position_accounts_verified
         else {
             "expected_position_count": 0,
             "broker_position_count": 0,
