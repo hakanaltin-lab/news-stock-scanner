@@ -3,7 +3,7 @@
   "validation_signature": "V8.6.2",
   "status": "COMPLETE",
   "cache_status": "FRESH",
-  "generated": "2026-11-02T23:13:53.404062+00:00",
+  "generated": "2026-11-03T06:20:47.882234+00:00",
   "test_period": {
     "start": "2022-06-01",
     "end": "2026-06-05"
@@ -22,8 +22,8 @@
     "sp500_unique_members_during_test": 587,
     "nasdaq100_unique_members_during_test": 139,
     "requested_unique_price_tickers": 618,
-    "downloaded_price_tickers": 571,
-    "missing_price_tickers": 47
+    "downloaded_price_tickers": 570,
+    "missing_price_tickers": 48
   },
   "missing_price_ticker_sample": [
     "ABC",
@@ -54,6 +54,7 @@
     "IPG",
     "JNPR",
     "K",
+    "KVUE",
     "MMC",
     "MRO",
     "NLOK",
@@ -83,7 +84,7 @@
       "mode": "TOP12_FULL",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 113557.5,
+        "ending_value": 113557.52,
         "total_return_pct": 13.67,
         "cagr_pct": 3.26,
         "annualized_volatility_pct": 13.29,
@@ -104,9 +105,9 @@
       "rebalance_count": 49,
       "coverage": {
         "rebalance_observations": 49,
-        "average_coverage_pct": 95.15,
+        "average_coverage_pct": 95.05,
         "minimum_coverage_pct": 91.27,
-        "maximum_coverage_pct": 98.61
+        "maximum_coverage_pct": 98.41
       },
       "coverage_history": [
         {
@@ -281,176 +282,176 @@
           "execution_date": "2024-06-03",
           "decision_date": "2024-05-31",
           "pit_member_count": 503,
-          "eligible_count": 478,
-          "coverage_pct": 95.03
+          "eligible_count": 477,
+          "coverage_pct": 94.83
         },
         {
           "execution_date": "2024-07-01",
           "decision_date": "2024-06-28",
           "pit_member_count": 503,
-          "eligible_count": 479,
-          "coverage_pct": 95.23
+          "eligible_count": 478,
+          "coverage_pct": 95.03
         },
         {
           "execution_date": "2024-08-01",
           "decision_date": "2024-07-31",
           "pit_member_count": 503,
-          "eligible_count": 480,
-          "coverage_pct": 95.43
+          "eligible_count": 479,
+          "coverage_pct": 95.23
         },
         {
           "execution_date": "2024-09-03",
           "decision_date": "2024-08-30",
           "pit_member_count": 503,
-          "eligible_count": 480,
-          "coverage_pct": 95.43
+          "eligible_count": 479,
+          "coverage_pct": 95.23
         },
         {
           "execution_date": "2024-10-01",
           "decision_date": "2024-09-30",
           "pit_member_count": 504,
-          "eligible_count": 480,
-          "coverage_pct": 95.24
+          "eligible_count": 479,
+          "coverage_pct": 95.04
         },
         {
           "execution_date": "2024-11-01",
           "decision_date": "2024-10-31",
           "pit_member_count": 503,
-          "eligible_count": 480,
-          "coverage_pct": 95.43
+          "eligible_count": 479,
+          "coverage_pct": 95.23
         },
         {
           "execution_date": "2024-12-02",
           "decision_date": "2024-11-29",
           "pit_member_count": 503,
-          "eligible_count": 481,
-          "coverage_pct": 95.63
+          "eligible_count": 480,
+          "coverage_pct": 95.43
         },
         {
           "execution_date": "2025-01-02",
           "decision_date": "2024-12-31",
           "pit_member_count": 503,
-          "eligible_count": 484,
-          "coverage_pct": 96.22
+          "eligible_count": 483,
+          "coverage_pct": 96.02
         },
         {
           "execution_date": "2025-02-03",
           "decision_date": "2025-01-31",
           "pit_member_count": 503,
-          "eligible_count": 484,
-          "coverage_pct": 96.22
+          "eligible_count": 483,
+          "coverage_pct": 96.02
         },
         {
           "execution_date": "2025-03-03",
           "decision_date": "2025-02-28",
           "pit_member_count": 503,
-          "eligible_count": 484,
-          "coverage_pct": 96.22
+          "eligible_count": 483,
+          "coverage_pct": 96.02
         },
         {
           "execution_date": "2025-04-01",
           "decision_date": "2025-03-31",
           "pit_member_count": 503,
-          "eligible_count": 486,
-          "coverage_pct": 96.62
+          "eligible_count": 485,
+          "coverage_pct": 96.42
         },
         {
           "execution_date": "2025-05-01",
           "decision_date": "2025-04-30",
           "pit_member_count": 503,
-          "eligible_count": 486,
-          "coverage_pct": 96.62
+          "eligible_count": 485,
+          "coverage_pct": 96.42
         },
         {
           "execution_date": "2025-06-02",
           "decision_date": "2025-05-30",
           "pit_member_count": 503,
-          "eligible_count": 487,
-          "coverage_pct": 96.82
+          "eligible_count": 486,
+          "coverage_pct": 96.62
         },
         {
           "execution_date": "2025-07-01",
           "decision_date": "2025-06-30",
           "pit_member_count": 503,
-          "eligible_count": 487,
-          "coverage_pct": 96.82
+          "eligible_count": 486,
+          "coverage_pct": 96.62
         },
         {
           "execution_date": "2025-08-01",
           "decision_date": "2025-07-31",
           "pit_member_count": 503,
-          "eligible_count": 490,
-          "coverage_pct": 97.42
+          "eligible_count": 489,
+          "coverage_pct": 97.22
         },
         {
           "execution_date": "2025-09-02",
           "decision_date": "2025-08-29",
           "pit_member_count": 503,
-          "eligible_count": 490,
-          "coverage_pct": 97.42
+          "eligible_count": 489,
+          "coverage_pct": 97.22
         },
         {
           "execution_date": "2025-10-01",
           "decision_date": "2025-09-30",
           "pit_member_count": 503,
-          "eligible_count": 490,
-          "coverage_pct": 97.42
+          "eligible_count": 489,
+          "coverage_pct": 97.22
         },
         {
           "execution_date": "2025-11-03",
           "decision_date": "2025-10-31",
           "pit_member_count": 503,
-          "eligible_count": 489,
-          "coverage_pct": 97.22
+          "eligible_count": 488,
+          "coverage_pct": 97.02
         },
         {
           "execution_date": "2025-12-01",
           "decision_date": "2025-11-28",
           "pit_member_count": 503,
-          "eligible_count": 489,
-          "coverage_pct": 97.22
+          "eligible_count": 488,
+          "coverage_pct": 97.02
         },
         {
           "execution_date": "2026-01-02",
           "decision_date": "2025-12-31",
           "pit_member_count": 503,
-          "eligible_count": 491,
-          "coverage_pct": 97.61
+          "eligible_count": 490,
+          "coverage_pct": 97.42
         },
         {
           "execution_date": "2026-02-02",
           "decision_date": "2026-01-30",
           "pit_member_count": 503,
-          "eligible_count": 492,
-          "coverage_pct": 97.81
+          "eligible_count": 491,
+          "coverage_pct": 97.61
         },
         {
           "execution_date": "2026-03-02",
           "decision_date": "2026-02-27",
           "pit_member_count": 503,
-          "eligible_count": 494,
-          "coverage_pct": 98.21
+          "eligible_count": 493,
+          "coverage_pct": 98.01
         },
         {
           "execution_date": "2026-04-01",
           "decision_date": "2026-03-31",
           "pit_member_count": 503,
-          "eligible_count": 493,
-          "coverage_pct": 98.01
+          "eligible_count": 492,
+          "coverage_pct": 97.81
         },
         {
           "execution_date": "2026-05-01",
           "decision_date": "2026-04-30",
           "pit_member_count": 503,
-          "eligible_count": 494,
-          "coverage_pct": 98.21
+          "eligible_count": 493,
+          "coverage_pct": 98.01
         },
         {
           "execution_date": "2026-06-01",
           "decision_date": "2026-05-29",
           "pit_member_count": 503,
-          "eligible_count": 496,
-          "coverage_pct": 98.61
+          "eligible_count": 495,
+          "coverage_pct": 98.41
         }
       ],
       "selection_samples": [
@@ -850,7 +851,7 @@
       "mode": "TOP12_RISK_OVERLAY",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 113557.5,
+        "ending_value": 113557.52,
         "total_return_pct": 13.67,
         "cagr_pct": 3.26,
         "annualized_volatility_pct": 13.29,
@@ -871,9 +872,9 @@
       "rebalance_count": 49,
       "coverage": {
         "rebalance_observations": 49,
-        "average_coverage_pct": 95.15,
+        "average_coverage_pct": 95.05,
         "minimum_coverage_pct": 91.27,
-        "maximum_coverage_pct": 98.61
+        "maximum_coverage_pct": 98.41
       },
       "coverage_history": [
         {
@@ -1048,176 +1049,176 @@
           "execution_date": "2024-06-03",
           "decision_date": "2024-05-31",
           "pit_member_count": 503,
-          "eligible_count": 478,
-          "coverage_pct": 95.03
+          "eligible_count": 477,
+          "coverage_pct": 94.83
         },
         {
           "execution_date": "2024-07-01",
           "decision_date": "2024-06-28",
           "pit_member_count": 503,
-          "eligible_count": 479,
-          "coverage_pct": 95.23
+          "eligible_count": 478,
+          "coverage_pct": 95.03
         },
         {
           "execution_date": "2024-08-01",
           "decision_date": "2024-07-31",
           "pit_member_count": 503,
-          "eligible_count": 480,
-          "coverage_pct": 95.43
+          "eligible_count": 479,
+          "coverage_pct": 95.23
         },
         {
           "execution_date": "2024-09-03",
           "decision_date": "2024-08-30",
           "pit_member_count": 503,
-          "eligible_count": 480,
-          "coverage_pct": 95.43
+          "eligible_count": 479,
+          "coverage_pct": 95.23
         },
         {
           "execution_date": "2024-10-01",
           "decision_date": "2024-09-30",
           "pit_member_count": 504,
-          "eligible_count": 480,
-          "coverage_pct": 95.24
+          "eligible_count": 479,
+          "coverage_pct": 95.04
         },
         {
           "execution_date": "2024-11-01",
           "decision_date": "2024-10-31",
           "pit_member_count": 503,
-          "eligible_count": 480,
-          "coverage_pct": 95.43
+          "eligible_count": 479,
+          "coverage_pct": 95.23
         },
         {
           "execution_date": "2024-12-02",
           "decision_date": "2024-11-29",
           "pit_member_count": 503,
-          "eligible_count": 481,
-          "coverage_pct": 95.63
+          "eligible_count": 480,
+          "coverage_pct": 95.43
         },
         {
           "execution_date": "2025-01-02",
           "decision_date": "2024-12-31",
           "pit_member_count": 503,
-          "eligible_count": 484,
-          "coverage_pct": 96.22
+          "eligible_count": 483,
+          "coverage_pct": 96.02
         },
         {
           "execution_date": "2025-02-03",
           "decision_date": "2025-01-31",
           "pit_member_count": 503,
-          "eligible_count": 484,
-          "coverage_pct": 96.22
+          "eligible_count": 483,
+          "coverage_pct": 96.02
         },
         {
           "execution_date": "2025-03-03",
           "decision_date": "2025-02-28",
           "pit_member_count": 503,
-          "eligible_count": 484,
-          "coverage_pct": 96.22
+          "eligible_count": 483,
+          "coverage_pct": 96.02
         },
         {
           "execution_date": "2025-04-01",
           "decision_date": "2025-03-31",
           "pit_member_count": 503,
-          "eligible_count": 486,
-          "coverage_pct": 96.62
+          "eligible_count": 485,
+          "coverage_pct": 96.42
         },
         {
           "execution_date": "2025-05-01",
           "decision_date": "2025-04-30",
           "pit_member_count": 503,
-          "eligible_count": 486,
-          "coverage_pct": 96.62
+          "eligible_count": 485,
+          "coverage_pct": 96.42
         },
         {
           "execution_date": "2025-06-02",
           "decision_date": "2025-05-30",
           "pit_member_count": 503,
-          "eligible_count": 487,
-          "coverage_pct": 96.82
+          "eligible_count": 486,
+          "coverage_pct": 96.62
         },
         {
           "execution_date": "2025-07-01",
           "decision_date": "2025-06-30",
           "pit_member_count": 503,
-          "eligible_count": 487,
-          "coverage_pct": 96.82
+          "eligible_count": 486,
+          "coverage_pct": 96.62
         },
         {
           "execution_date": "2025-08-01",
           "decision_date": "2025-07-31",
           "pit_member_count": 503,
-          "eligible_count": 490,
-          "coverage_pct": 97.42
+          "eligible_count": 489,
+          "coverage_pct": 97.22
         },
         {
           "execution_date": "2025-09-02",
           "decision_date": "2025-08-29",
           "pit_member_count": 503,
-          "eligible_count": 490,
-          "coverage_pct": 97.42
+          "eligible_count": 489,
+          "coverage_pct": 97.22
         },
         {
           "execution_date": "2025-10-01",
           "decision_date": "2025-09-30",
           "pit_member_count": 503,
-          "eligible_count": 490,
-          "coverage_pct": 97.42
+          "eligible_count": 489,
+          "coverage_pct": 97.22
         },
         {
           "execution_date": "2025-11-03",
           "decision_date": "2025-10-31",
           "pit_member_count": 503,
-          "eligible_count": 489,
-          "coverage_pct": 97.22
+          "eligible_count": 488,
+          "coverage_pct": 97.02
         },
         {
           "execution_date": "2025-12-01",
           "decision_date": "2025-11-28",
           "pit_member_count": 503,
-          "eligible_count": 489,
-          "coverage_pct": 97.22
+          "eligible_count": 488,
+          "coverage_pct": 97.02
         },
         {
           "execution_date": "2026-01-02",
           "decision_date": "2025-12-31",
           "pit_member_count": 503,
-          "eligible_count": 491,
-          "coverage_pct": 97.61
+          "eligible_count": 490,
+          "coverage_pct": 97.42
         },
         {
           "execution_date": "2026-02-02",
           "decision_date": "2026-01-30",
           "pit_member_count": 503,
-          "eligible_count": 492,
-          "coverage_pct": 97.81
+          "eligible_count": 491,
+          "coverage_pct": 97.61
         },
         {
           "execution_date": "2026-03-02",
           "decision_date": "2026-02-27",
           "pit_member_count": 503,
-          "eligible_count": 494,
-          "coverage_pct": 98.21
+          "eligible_count": 493,
+          "coverage_pct": 98.01
         },
         {
           "execution_date": "2026-04-01",
           "decision_date": "2026-03-31",
           "pit_member_count": 503,
-          "eligible_count": 493,
-          "coverage_pct": 98.01
+          "eligible_count": 492,
+          "coverage_pct": 97.81
         },
         {
           "execution_date": "2026-05-01",
           "decision_date": "2026-04-30",
           "pit_member_count": 503,
-          "eligible_count": 494,
-          "coverage_pct": 98.21
+          "eligible_count": 493,
+          "coverage_pct": 98.01
         },
         {
           "execution_date": "2026-06-01",
           "decision_date": "2026-05-29",
           "pit_member_count": 503,
-          "eligible_count": 496,
-          "coverage_pct": 98.61
+          "eligible_count": 495,
+          "coverage_pct": 98.41
         }
       ],
       "selection_samples": [
@@ -1617,20 +1618,20 @@
       "mode": "UNIVERSE_EQUAL_WEIGHT",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 153824.85,
-        "total_return_pct": 53.98,
-        "cagr_pct": 11.42,
-        "annualized_volatility_pct": 16.07,
+        "ending_value": 153876.94,
+        "total_return_pct": 54.03,
+        "cagr_pct": 11.43,
+        "annualized_volatility_pct": 16.08,
         "sharpe_ratio": 0.753,
         "sortino_ratio": 1.103,
-        "max_drawdown_pct": 17.84,
+        "max_drawdown_pct": 17.86,
         "calmar_ratio": 0.64,
         "profit_factor_daily": 1.141,
         "spy_total_return_pct": 90.29,
         "spy_cagr_pct": 17.49,
-        "cagr_alpha_vs_spy_pct": -6.07,
-        "total_trading_costs": 465.65,
-        "trading_cost_pct_of_starting_capital": 0.466,
+        "cagr_alpha_vs_spy_pct": -6.06,
+        "total_trading_costs": 465.49,
+        "trading_cost_pct_of_starting_capital": 0.465,
         "annualized_turnover_x": 1.17,
         "trading_days": 1006,
         "years": 3.99
@@ -1638,9 +1639,9 @@
       "rebalance_count": 49,
       "coverage": {
         "rebalance_observations": 49,
-        "average_coverage_pct": 95.15,
+        "average_coverage_pct": 95.05,
         "minimum_coverage_pct": 91.27,
-        "maximum_coverage_pct": 98.61
+        "maximum_coverage_pct": 98.41
       },
       "coverage_history": [
         {
@@ -1815,182 +1816,182 @@
           "execution_date": "2024-06-03",
           "decision_date": "2024-05-31",
           "pit_member_count": 503,
-          "eligible_count": 478,
-          "coverage_pct": 95.03
+          "eligible_count": 477,
+          "coverage_pct": 94.83
         },
         {
           "execution_date": "2024-07-01",
           "decision_date": "2024-06-28",
           "pit_member_count": 503,
-          "eligible_count": 479,
-          "coverage_pct": 95.23
+          "eligible_count": 478,
+          "coverage_pct": 95.03
         },
         {
           "execution_date": "2024-08-01",
           "decision_date": "2024-07-31",
           "pit_member_count": 503,
-          "eligible_count": 480,
-          "coverage_pct": 95.43
+          "eligible_count": 479,
+          "coverage_pct": 95.23
         },
         {
           "execution_date": "2024-09-03",
           "decision_date": "2024-08-30",
           "pit_member_count": 503,
-          "eligible_count": 480,
-          "coverage_pct": 95.43
+          "eligible_count": 479,
+          "coverage_pct": 95.23
         },
         {
           "execution_date": "2024-10-01",
           "decision_date": "2024-09-30",
           "pit_member_count": 504,
-          "eligible_count": 480,
-          "coverage_pct": 95.24
+          "eligible_count": 479,
+          "coverage_pct": 95.04
         },
         {
           "execution_date": "2024-11-01",
           "decision_date": "2024-10-31",
           "pit_member_count": 503,
-          "eligible_count": 480,
-          "coverage_pct": 95.43
+          "eligible_count": 479,
+          "coverage_pct": 95.23
         },
         {
           "execution_date": "2024-12-02",
           "decision_date": "2024-11-29",
           "pit_member_count": 503,
-          "eligible_count": 481,
-          "coverage_pct": 95.63
+          "eligible_count": 480,
+          "coverage_pct": 95.43
         },
         {
           "execution_date": "2025-01-02",
           "decision_date": "2024-12-31",
           "pit_member_count": 503,
-          "eligible_count": 484,
-          "coverage_pct": 96.22
+          "eligible_count": 483,
+          "coverage_pct": 96.02
         },
         {
           "execution_date": "2025-02-03",
           "decision_date": "2025-01-31",
           "pit_member_count": 503,
-          "eligible_count": 484,
-          "coverage_pct": 96.22
+          "eligible_count": 483,
+          "coverage_pct": 96.02
         },
         {
           "execution_date": "2025-03-03",
           "decision_date": "2025-02-28",
           "pit_member_count": 503,
-          "eligible_count": 484,
-          "coverage_pct": 96.22
+          "eligible_count": 483,
+          "coverage_pct": 96.02
         },
         {
           "execution_date": "2025-04-01",
           "decision_date": "2025-03-31",
           "pit_member_count": 503,
-          "eligible_count": 486,
-          "coverage_pct": 96.62
+          "eligible_count": 485,
+          "coverage_pct": 96.42
         },
         {
           "execution_date": "2025-05-01",
           "decision_date": "2025-04-30",
           "pit_member_count": 503,
-          "eligible_count": 486,
-          "coverage_pct": 96.62
+          "eligible_count": 485,
+          "coverage_pct": 96.42
         },
         {
           "execution_date": "2025-06-02",
           "decision_date": "2025-05-30",
           "pit_member_count": 503,
-          "eligible_count": 487,
-          "coverage_pct": 96.82
+          "eligible_count": 486,
+          "coverage_pct": 96.62
         },
         {
           "execution_date": "2025-07-01",
           "decision_date": "2025-06-30",
           "pit_member_count": 503,
-          "eligible_count": 487,
-          "coverage_pct": 96.82
+          "eligible_count": 486,
+          "coverage_pct": 96.62
         },
         {
           "execution_date": "2025-08-01",
           "decision_date": "2025-07-31",
           "pit_member_count": 503,
-          "eligible_count": 490,
-          "coverage_pct": 97.42
+          "eligible_count": 489,
+          "coverage_pct": 97.22
         },
         {
           "execution_date": "2025-09-02",
           "decision_date": "2025-08-29",
           "pit_member_count": 503,
-          "eligible_count": 490,
-          "coverage_pct": 97.42
+          "eligible_count": 489,
+          "coverage_pct": 97.22
         },
         {
           "execution_date": "2025-10-01",
           "decision_date": "2025-09-30",
           "pit_member_count": 503,
-          "eligible_count": 490,
-          "coverage_pct": 97.42
+          "eligible_count": 489,
+          "coverage_pct": 97.22
         },
         {
           "execution_date": "2025-11-03",
           "decision_date": "2025-10-31",
           "pit_member_count": 503,
-          "eligible_count": 489,
-          "coverage_pct": 97.22
+          "eligible_count": 488,
+          "coverage_pct": 97.02
         },
         {
           "execution_date": "2025-12-01",
           "decision_date": "2025-11-28",
           "pit_member_count": 503,
-          "eligible_count": 489,
-          "coverage_pct": 97.22
+          "eligible_count": 488,
+          "coverage_pct": 97.02
         },
         {
           "execution_date": "2026-01-02",
           "decision_date": "2025-12-31",
           "pit_member_count": 503,
-          "eligible_count": 491,
-          "coverage_pct": 97.61
+          "eligible_count": 490,
+          "coverage_pct": 97.42
         },
         {
           "execution_date": "2026-02-02",
           "decision_date": "2026-01-30",
           "pit_member_count": 503,
-          "eligible_count": 492,
-          "coverage_pct": 97.81
+          "eligible_count": 491,
+          "coverage_pct": 97.61
         },
         {
           "execution_date": "2026-03-02",
           "decision_date": "2026-02-27",
           "pit_member_count": 503,
-          "eligible_count": 494,
-          "coverage_pct": 98.21
+          "eligible_count": 493,
+          "coverage_pct": 98.01
         },
         {
           "execution_date": "2026-04-01",
           "decision_date": "2026-03-31",
           "pit_member_count": 503,
-          "eligible_count": 493,
-          "coverage_pct": 98.01
+          "eligible_count": 492,
+          "coverage_pct": 97.81
         },
         {
           "execution_date": "2026-05-01",
           "decision_date": "2026-04-30",
           "pit_member_count": 503,
-          "eligible_count": 494,
-          "coverage_pct": 98.21
+          "eligible_count": 493,
+          "coverage_pct": 98.01
         },
         {
           "execution_date": "2026-06-01",
           "decision_date": "2026-05-29",
           "pit_member_count": 503,
-          "eligible_count": 496,
-          "coverage_pct": 98.61
+          "eligible_count": 495,
+          "coverage_pct": 98.41
         }
       ],
       "selection_samples": []
     },
     "comparison": {
-      "ranking_cagr_alpha_vs_pit_equal_weight_pct": -8.16,
+      "ranking_cagr_alpha_vs_pit_equal_weight_pct": -8.17,
       "ranking_sharpe_advantage": -0.445,
       "risk_overlay_cagr_effect_vs_full_pct": 0.0,
       "risk_overlay_drawdown_improvement_pct": 0.0,
@@ -2001,146 +2002,146 @@
     "cross_sectional_diagnostics": {
       "composite_verdict": "COMPOSITE_INCONCLUSIVE",
       "best_60d_feature": "return_12m_pct",
-      "best_60d_top_minus_bottom_pct": 1.962,
+      "best_60d_top_minus_bottom_pct": 1.988,
       "features": {
         "neutralized_strategic_composite": {
           "20d": {
             "months": 48,
-            "observations": 22957,
-            "average_spearman": 0.0069,
+            "observations": 22933,
+            "average_spearman": 0.007,
             "quintile_excess_return_pct": {
               "Q1": -0.63,
-              "Q2": -0.466,
-              "Q3": -0.423,
-              "Q4": -0.077,
-              "Q5": -0.812
+              "Q2": -0.467,
+              "Q3": -0.417,
+              "Q4": -0.072,
+              "Q5": -0.814
             },
-            "top_minus_bottom_pct": -0.182
+            "top_minus_bottom_pct": -0.184
           },
           "60d": {
             "months": 46,
-            "observations": 21970,
-            "average_spearman": 0.0083,
+            "observations": 21948,
+            "average_spearman": 0.0087,
             "quintile_excess_return_pct": {
-              "Q1": -1.796,
-              "Q2": -1.426,
-              "Q3": -0.905,
-              "Q4": -0.74,
-              "Q5": -1.971
+              "Q1": -1.813,
+              "Q2": -1.418,
+              "Q3": -0.892,
+              "Q4": -0.72,
+              "Q5": -1.979
             },
-            "top_minus_bottom_pct": -0.175
+            "top_minus_bottom_pct": -0.166
           }
         },
         "trend_score": {
           "20d": {
             "months": 48,
-            "observations": 22957,
-            "average_spearman": 0.0124,
+            "observations": 22933,
+            "average_spearman": 0.0125,
             "quintile_excess_return_pct": {
-              "Q1": -0.697,
-              "Q2": -0.531,
+              "Q1": -0.695,
+              "Q2": -0.524,
               "Q3": -0.327,
-              "Q4": -0.444,
-              "Q5": -0.41
+              "Q4": -0.445,
+              "Q5": -0.404
             },
-            "top_minus_bottom_pct": 0.287
+            "top_minus_bottom_pct": 0.291
           },
           "60d": {
             "months": 46,
-            "observations": 21970,
-            "average_spearman": 0.0122,
+            "observations": 21948,
+            "average_spearman": 0.0126,
             "quintile_excess_return_pct": {
-              "Q1": -2.315,
-              "Q2": -1.183,
-              "Q3": -0.813,
-              "Q4": -1.406,
-              "Q5": -1.117
+              "Q1": -2.327,
+              "Q2": -1.153,
+              "Q3": -0.84,
+              "Q4": -1.392,
+              "Q5": -1.104
             },
-            "top_minus_bottom_pct": 1.198
+            "top_minus_bottom_pct": 1.223
           }
         },
         "risk_score": {
           "20d": {
             "months": 48,
-            "observations": 22957,
+            "observations": 22933,
             "average_spearman": -0.0197,
             "quintile_excess_return_pct": {
-              "Q1": 0.327,
-              "Q2": -0.419,
-              "Q3": -0.538,
-              "Q4": -0.904,
-              "Q5": -0.878
+              "Q1": 0.333,
+              "Q2": -0.42,
+              "Q3": -0.546,
+              "Q4": -0.895,
+              "Q5": -0.876
             },
-            "top_minus_bottom_pct": -1.205
+            "top_minus_bottom_pct": -1.209
           },
           "60d": {
             "months": 46,
-            "observations": 21970,
-            "average_spearman": -0.0155,
+            "observations": 21948,
+            "average_spearman": -0.015,
             "quintile_excess_return_pct": {
-              "Q1": 0.09,
-              "Q2": -1.288,
-              "Q3": -1.616,
-              "Q4": -2.173,
-              "Q5": -1.854
+              "Q1": 0.093,
+              "Q2": -1.307,
+              "Q3": -1.604,
+              "Q4": -2.161,
+              "Q5": -1.852
             },
-            "top_minus_bottom_pct": -1.944
+            "top_minus_bottom_pct": -1.945
           }
         },
         "relative_strength_6m_pct": {
           "20d": {
             "months": 48,
-            "observations": 22957,
+            "observations": 22933,
             "average_spearman": 0.0082,
             "quintile_excess_return_pct": {
-              "Q1": -0.403,
-              "Q2": -0.714,
-              "Q3": -0.542,
-              "Q4": -0.54,
-              "Q5": -0.21
+              "Q1": -0.406,
+              "Q2": -0.711,
+              "Q3": -0.54,
+              "Q4": -0.538,
+              "Q5": -0.203
             },
-            "top_minus_bottom_pct": 0.193
+            "top_minus_bottom_pct": 0.203
           },
           "60d": {
             "months": 46,
-            "observations": 21970,
-            "average_spearman": 0.0237,
+            "observations": 21948,
+            "average_spearman": 0.0241,
             "quintile_excess_return_pct": {
-              "Q1": -1.969,
-              "Q2": -1.63,
-              "Q3": -1.46,
-              "Q4": -1.188,
-              "Q5": -0.588
+              "Q1": -1.984,
+              "Q2": -1.624,
+              "Q3": -1.455,
+              "Q4": -1.174,
+              "Q5": -0.581
             },
-            "top_minus_bottom_pct": 1.381
+            "top_minus_bottom_pct": 1.403
           }
         },
         "return_12m_pct": {
           "20d": {
             "months": 48,
-            "observations": 22957,
-            "average_spearman": 0.0394,
+            "observations": 22933,
+            "average_spearman": 0.0395,
             "quintile_excess_return_pct": {
-              "Q1": -0.722,
-              "Q2": -0.771,
-              "Q3": -0.527,
-              "Q4": -0.416,
-              "Q5": 0.031
+              "Q1": -0.706,
+              "Q2": -0.799,
+              "Q3": -0.513,
+              "Q4": -0.412,
+              "Q5": 0.033
             },
-            "top_minus_bottom_pct": 0.753
+            "top_minus_bottom_pct": 0.739
           },
           "60d": {
             "months": 46,
-            "observations": 21970,
-            "average_spearman": 0.0469,
+            "observations": 21948,
+            "average_spearman": 0.0476,
             "quintile_excess_return_pct": {
-              "Q1": -2.122,
-              "Q2": -1.957,
-              "Q3": -1.459,
-              "Q4": -1.134,
-              "Q5": -0.16
+              "Q1": -2.136,
+              "Q2": -1.967,
+              "Q3": -1.439,
+              "Q4": -1.125,
+              "Q5": -0.148
             },
-            "top_minus_bottom_pct": 1.962
+            "top_minus_bottom_pct": 1.988
           }
         }
       }
@@ -2155,7 +2156,7 @@
       "mode": "TOP12_FULL",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 102973.19,
+        "ending_value": 102973.16,
         "total_return_pct": 3.08,
         "cagr_pct": 0.76,
         "annualized_volatility_pct": 15.48,
@@ -2651,7 +2652,7 @@
             },
             {
               "ticker": "MAR",
-              "score": 78.92,
+              "score": 78.9,
               "action": "HOLD"
             }
           ]
@@ -2922,7 +2923,7 @@
       "mode": "TOP12_RISK_OVERLAY",
       "performance": {
         "starting_value": 99910.42,
-        "ending_value": 103980.76,
+        "ending_value": 103980.73,
         "total_return_pct": 4.07,
         "cagr_pct": 1.01,
         "annualized_volatility_pct": 14.86,
@@ -3418,7 +3419,7 @@
             },
             {
               "ticker": "MAR",
-              "score": 78.92,
+              "score": 78.9,
               "action": "HOLD"
             }
           ]
