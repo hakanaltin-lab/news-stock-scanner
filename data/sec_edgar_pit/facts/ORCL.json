@@ -4,7 +4,7 @@
   "availability_rule": "available_date = SEC filed date + 1 calendar day; conservative guard against same-day look-ahead. Exact current and historical acceptance timestamps from SEC submissions metadata are stored for audit but do not make the daily as-of date earlier.",
   "cik": "0001341439",
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
-  "entity_name": "Oracle Corporation",
+  "entity_name": "ORACLE CORP",
   "exact_acceptance_coverage_pct": 100.0,
   "exact_acceptance_fact_count": 1885,
   "fact_count": 1885,
@@ -32126,6 +32126,7 @@
   "source_taxonomy_concept_counts": {
     "dei": 2,
     "ecd": 5,
+    "ffd": 5,
     "us-gaap": 538
   },
   "status": "COMPLETE",
@@ -32145,9 +32146,9 @@
         "name": "CIK0001341439-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1003,
+    "recent_acceptance_count": 1007,
     "status": "COMPLETE",
-    "total_acceptance_count": 2344
+    "total_acceptance_count": 2348
   },
   "taxonomies_supported": [
     "ifrs-full",

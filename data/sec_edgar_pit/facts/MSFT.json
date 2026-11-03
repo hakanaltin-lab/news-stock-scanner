@@ -4,7 +4,7 @@
   "availability_rule": "available_date = SEC filed date + 1 calendar day; conservative guard against same-day look-ahead. Exact current and historical acceptance timestamps from SEC submissions metadata are stored for audit but do not make the daily as-of date earlier.",
   "cik": "0000789019",
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
-  "entity_name": "MICROSOFT CORPORATION",
+  "entity_name": "MICROSOFT CORP",
   "exact_acceptance_coverage_pct": 100.0,
   "exact_acceptance_fact_count": 2785,
   "fact_count": 2785,
@@ -47437,6 +47437,7 @@
   "source_taxonomy_concept_counts": {
     "dei": 3,
     "ecd": 7,
+    "ffd": 6,
     "us-gaap": 562
   },
   "status": "COMPLETE",
@@ -47456,9 +47457,9 @@
         "name": "CIK0000789019-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1001,
+    "recent_acceptance_count": 1002,
     "status": "COMPLETE",
-    "total_acceptance_count": 3006
+    "total_acceptance_count": 3007
   },
   "taxonomies_supported": [
     "ifrs-full",

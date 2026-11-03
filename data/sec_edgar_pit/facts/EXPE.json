@@ -43498,21 +43498,21 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 1057,
+    "historical_acceptance_count": 1058,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 1,
     "historical_files_failed": 0,
     "historical_files_loaded": 1,
     "loaded_files": [
       {
-        "acceptance_count": 1057,
-        "added_acceptance_count": 1057,
+        "acceptance_count": 1058,
+        "added_acceptance_count": 1058,
         "filing_from": "2005-04-25",
-        "filing_to": "2017-02-23",
+        "filing_to": "2017-02-27",
         "name": "CIK0001324424-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1001,
+    "recent_acceptance_count": 1000,
     "status": "COMPLETE",
     "total_acceptance_count": 2058
   },

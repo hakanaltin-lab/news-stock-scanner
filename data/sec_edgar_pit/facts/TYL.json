@@ -35507,23 +35507,23 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 1043,
+    "historical_acceptance_count": 1046,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 1,
     "historical_files_failed": 0,
     "historical_files_loaded": 1,
     "loaded_files": [
       {
-        "acceptance_count": 1043,
-        "added_acceptance_count": 1043,
+        "acceptance_count": 1046,
+        "added_acceptance_count": 1046,
         "filing_from": "1996-02-15",
-        "filing_to": "2016-09-17",
+        "filing_to": "2016-10-01",
         "name": "CIK0000860731-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1003,
+    "recent_acceptance_count": 1001,
     "status": "COMPLETE",
-    "total_acceptance_count": 2046
+    "total_acceptance_count": 2047
   },
   "taxonomies_supported": [
     "ifrs-full",

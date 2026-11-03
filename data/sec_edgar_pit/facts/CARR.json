@@ -4,7 +4,7 @@
   "availability_rule": "available_date = SEC filed date + 1 calendar day; conservative guard against same-day look-ahead. Exact current and historical acceptance timestamps from SEC submissions metadata are stored for audit but do not make the daily as-of date earlier.",
   "cik": "0001783180",
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
-  "entity_name": "CARRIER GLOBAL CORPORATION",
+  "entity_name": "CARRIER GLOBAL Corp",
   "exact_acceptance_coverage_pct": 100.0,
   "exact_acceptance_fact_count": 1083,
   "fact_count": 1083,
@@ -18511,9 +18511,9 @@
     "historical_files_failed": 0,
     "historical_files_loaded": 0,
     "loaded_files": [],
-    "recent_acceptance_count": 569,
+    "recent_acceptance_count": 572,
     "status": "COMPLETE",
-    "total_acceptance_count": 569
+    "total_acceptance_count": 572
   },
   "taxonomies_supported": [
     "ifrs-full",
