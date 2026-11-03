@@ -1,8 +1,8 @@
 {
   "engine": "V8.2 Shadow Policy Monitor",
-  "updated_at": "2026-11-03T13:57:53.202815+00:00",
+  "updated_at": "2026-11-03T20:31:24.716503+00:00",
   "candidate_policy": "MOMENTUM_FRIENDLY",
-  "record_count": 70,
+  "record_count": 80,
   "records": [
     {
       "id": "6171df4dd4e41050",
@@ -2501,6 +2501,366 @@
       "exposure_difference": 0.25,
       "signal_price": 237.53,
       "spy_entry_price": 759.49,
+      "horizons": {
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "6133031dd3e1319c",
+      "signal_date": "2026-11-03",
+      "recorded_at": "2026-11-03T20:31:24.349268+00:00",
+      "ticker": "AMD",
+      "candidate_policy": "MOMENTUM_FRIENDLY",
+      "live_action": "WATCH",
+      "shadow_action": "WATCH",
+      "live_exposure": 0.75,
+      "shadow_exposure": 0.97,
+      "exposure_difference": 0.22,
+      "signal_price": 487.15,
+      "spy_entry_price": 754.33,
+      "horizons": {
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "64f8ea6c0d388cd5",
+      "signal_date": "2026-11-03",
+      "recorded_at": "2026-11-03T20:31:24.349296+00:00",
+      "ticker": "ANET",
+      "candidate_policy": "MOMENTUM_FRIENDLY",
+      "live_action": "WATCH",
+      "shadow_action": "WATCH",
+      "live_exposure": 0.75,
+      "shadow_exposure": 0.97,
+      "exposure_difference": 0.22,
+      "signal_price": 169.05,
+      "spy_entry_price": 754.33,
+      "horizons": {
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "32ed7cf507c83199",
+      "signal_date": "2026-11-03",
+      "recorded_at": "2026-11-03T20:31:24.349314+00:00",
+      "ticker": "ASML",
+      "candidate_policy": "MOMENTUM_FRIENDLY",
+      "live_action": "WATCH",
+      "shadow_action": "WATCH",
+      "live_exposure": 0.75,
+      "shadow_exposure": 0.97,
+      "exposure_difference": 0.22,
+      "signal_price": 1552.37,
+      "spy_entry_price": 754.33,
+      "horizons": {
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "63dea593ba83a43d",
+      "signal_date": "2026-11-03",
+      "recorded_at": "2026-11-03T20:31:24.349331+00:00",
+      "ticker": "BKR",
+      "candidate_policy": "MOMENTUM_FRIENDLY",
+      "live_action": "EXIT",
+      "shadow_action": "REDUCE",
+      "live_exposure": 0.0,
+      "shadow_exposure": 0.8,
+      "exposure_difference": 0.8,
+      "signal_price": 53.28,
+      "spy_entry_price": 754.33,
+      "horizons": {
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "38b1666e302d7c25",
+      "signal_date": "2026-11-03",
+      "recorded_at": "2026-11-03T20:31:24.349346+00:00",
+      "ticker": "CCLD",
+      "candidate_policy": "MOMENTUM_FRIENDLY",
+      "live_action": "EXIT",
+      "shadow_action": "EXIT",
+      "live_exposure": 0.0,
+      "shadow_exposure": 0.25,
+      "exposure_difference": 0.25,
+      "signal_price": 1.73,
+      "spy_entry_price": 754.33,
+      "horizons": {
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "aa6fa02e16c261be",
+      "signal_date": "2026-11-03",
+      "recorded_at": "2026-11-03T20:31:24.349367+00:00",
+      "ticker": "GOOG",
+      "candidate_policy": "MOMENTUM_FRIENDLY",
+      "live_action": "REDUCE",
+      "shadow_action": "EXIT",
+      "live_exposure": 0.5,
+      "shadow_exposure": 0.25,
+      "exposure_difference": -0.25,
+      "signal_price": 277.57,
+      "spy_entry_price": 754.33,
+      "horizons": {
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "87561a2916ef7a25",
+      "signal_date": "2026-11-03",
+      "recorded_at": "2026-11-03T20:31:24.349390+00:00",
+      "ticker": "NBIS",
+      "candidate_policy": "MOMENTUM_FRIENDLY",
+      "live_action": "EXIT",
+      "shadow_action": "EXIT",
+      "live_exposure": 0.0,
+      "shadow_exposure": 0.25,
+      "exposure_difference": 0.25,
+      "signal_price": 151.23,
+      "spy_entry_price": 754.33,
+      "horizons": {
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "8480df70f2fc895a",
+      "signal_date": "2026-11-03",
+      "recorded_at": "2026-11-03T20:31:24.349407+00:00",
+      "ticker": "NVDA",
+      "candidate_policy": "MOMENTUM_FRIENDLY",
+      "live_action": "WATCH",
+      "shadow_action": "HOLD",
+      "live_exposure": 0.75,
+      "shadow_exposure": 1.0,
+      "exposure_difference": 0.25,
+      "signal_price": 206.82,
+      "spy_entry_price": 754.33,
+      "horizons": {
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "f5e25d34d39f37e3",
+      "signal_date": "2026-11-03",
+      "recorded_at": "2026-11-03T20:31:24.349421+00:00",
+      "ticker": "OMDA",
+      "candidate_policy": "MOMENTUM_FRIENDLY",
+      "live_action": "WATCH",
+      "shadow_action": "WATCH",
+      "live_exposure": 0.75,
+      "shadow_exposure": 0.97,
+      "exposure_difference": 0.22,
+      "signal_price": 18.48,
+      "spy_entry_price": 754.33,
+      "horizons": {
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "c93042262ae9f641",
+      "signal_date": "2026-11-03",
+      "recorded_at": "2026-11-03T20:31:24.349441+00:00",
+      "ticker": "VRT",
+      "candidate_policy": "MOMENTUM_FRIENDLY",
+      "live_action": "EXIT",
+      "shadow_action": "EXIT",
+      "live_exposure": 0.0,
+      "shadow_exposure": 0.25,
+      "exposure_difference": 0.25,
+      "signal_price": 234.87,
+      "spy_entry_price": 754.33,
       "horizons": {
         "20d": {
           "target_trading_sessions": 20,

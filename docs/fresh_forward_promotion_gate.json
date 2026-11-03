@@ -1,12 +1,12 @@
 {
   "engine": "V8.4.8 Independent-Cohort Fresh Forward Promotion Gate",
   "gate_signature": "V8.4.8",
-  "generated": "2026-11-03T13:57:53.205767+00:00",
+  "generated": "2026-11-03T20:31:24.720528+00:00",
   "status": "WAITING_FOR_FRESH_EVIDENCE",
   "verdict": "PROMOTION_BLOCKED",
   "candidate_policy": "MOMENTUM_FRIENDLY",
-  "journal_records_total": 70,
-  "candidate_records_total": 70,
+  "journal_records_total": 80,
+  "candidate_records_total": 80,
   "fresh_forward_only": true,
   "automatic_live_promotion": false,
   "manual_live_policy_review_required": true,
@@ -16,7 +16,7 @@
   "fresh_evidence": {
     "20d": {
       "raw_evaluated_records": 0,
-      "raw_pending_records": 70,
+      "raw_pending_records": 80,
       "raw_hit_rate_pct": null,
       "raw_average_shadow_relative_alpha_pct": null,
       "candidate_signal_date_cohorts": 0,
@@ -34,7 +34,7 @@
     },
     "60d": {
       "raw_evaluated_records": 0,
-      "raw_pending_records": 70,
+      "raw_pending_records": 80,
       "raw_hit_rate_pct": null,
       "raw_average_shadow_relative_alpha_pct": null,
       "candidate_signal_date_cohorts": 0,
@@ -110,7 +110,7 @@
   "historical_guardrails": {
     "calibration_candidate_active": {
       "required": "SHADOW_CANDIDATE or PROMOTE_CANDIDATE",
-      "actual": "SHADOW_CANDIDATE",
+      "actual": "PROMOTE_CANDIDATE",
       "passed": true
     },
     "oos_robustness_supportive": {
@@ -125,7 +125,7 @@
     },
     "historical_drawdown_penalty_pct": {
       "required": "<= 5.0",
-      "actual": 3.59,
+      "actual": 2.52,
       "passed": true
     },
     "live_execution_still_blocked": {
