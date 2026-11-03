@@ -50,6 +50,17 @@ def checks(result):
 
 
 class G7PositionInputValidationTests(unittest.TestCase):
+    def test_blocked_reconciliation_is_not_reported_as_observed(self):
+        result = evaluate_ibkr_paper_readiness(
+            snapshot([position(security_type="OPT")]),
+            [{"ticker": "AAPL", "shares": 2}],
+        )
+        self.assertEqual(
+            result["position_sync"]["status"],
+            "BLOCKED_INVALID_POSITION_INPUT",
+        )
+        self.assertFalse(checks(result)["portfolio_sync_observed"])
+
     def test_valid_stock_position_payload(self):
         result = evaluate_ibkr_paper_readiness(snapshot([position()]),
                                                [{"ticker": "AAPL", "shares": "2"}])
