@@ -1,0 +1,64 @@
+name: G8.24 Signed Offline Materializer Attestation Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/offline_order_request_materializer_attestation.py"
+      - "scripts/verify_offline_materializer_attestation.py"
+      - "tests/test_offline_order_request_materializer_attestation.py"
+      - "docs/AURORA_G8_24_SIGNED_OFFLINE_MATERIALIZER_ATTESTATION.md"
+      - ".github/workflows/g8_24_offline_materializer_attestation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  offline-materializer-attestation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile G8.24 verifier components
+        run: |
+          python -m py_compile engines/offline_order_request_materializer_attestation.py
+          python -m py_compile scripts/verify_offline_materializer_attestation.py
+          python -m py_compile tests/test_offline_order_request_materializer_attestation.py
+
+      - name: Prove signed materializer attestation verifier is fail closed
+        run: |
+          python -m unittest tests.test_offline_order_request_materializer_attestation -v
+
+      - name: Prove verified state does not enable execution
+        run: |
+          python - <<'PY'
+          from tests.test_offline_order_request_materializer_attestation import (
+              OfflineMaterializerAttestationTests,
+          )
+
+          case = OfflineMaterializerAttestationTests()
+          result = case.evaluate()
+          assert result["verified"] is True
+          assert result["offline_materializer_independently_attested"] is True
+          for name in (
+              "implementation_allowed",
+              "connection_allowed",
+              "broker_request_materialization_allowed",
+              "broker_order_object_allowed",
+              "automatic_retry_allowed",
+              "automatic_cancel_allowed",
+              "automatic_modify_allowed",
+              "broker_submission_allowed",
+              "paper_order_submission_allowed",
+              "live_execution_allowed",
+              "automatic_promotion_allowed",
+              "real_money_trading_allowed",
+          ):
+              assert result[name] is False
+          PY
