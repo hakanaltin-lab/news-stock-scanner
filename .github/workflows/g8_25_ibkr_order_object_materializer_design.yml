@@ -1,0 +1,64 @@
+name: G8.25 IBKR Order Object Materializer Design Safety
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "config/ibkr_order_object_materializer_design_v1.json"
+      - "engines/ibkr_order_object_materializer_design.py"
+      - "scripts/g6_ibkr_order_object_materializer_design.py"
+      - "tests/test_ibkr_order_object_materializer_design.py"
+      - "docs/AURORA_G8_25_IBKR_ORDER_OBJECT_MATERIALIZER_DESIGN.md"
+      - ".github/workflows/g8_25_ibkr_order_object_materializer_design.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  ibkr-order-object-design:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile G8.25 design components
+        run: |
+          python -m py_compile engines/ibkr_order_object_materializer_design.py
+          python -m py_compile scripts/g6_ibkr_order_object_materializer_design.py
+          python -m py_compile tests/test_ibkr_order_object_materializer_design.py
+
+      - name: Prove design is non-executable and fail closed
+        run: |
+          python -m unittest tests.test_ibkr_order_object_materializer_design -v
+
+      - name: Prove no implementation permission is granted
+        run: |
+          python - <<'PY'
+          from tests.test_ibkr_order_object_materializer_design import (
+              IbkrOrderObjectMaterializerDesignTests,
+          )
+
+          case = IbkrOrderObjectMaterializerDesignTests()
+          result = case.evaluate()
+          assert result["design_validated"] is True
+          for name in (
+              "implementation_allowed",
+              "connection_allowed",
+              "broker_request_materialization_allowed",
+              "broker_order_object_allowed",
+              "automatic_retry_allowed",
+              "automatic_cancel_allowed",
+              "automatic_modify_allowed",
+              "broker_submission_allowed",
+              "paper_order_submission_allowed",
+              "live_execution_allowed",
+              "automatic_promotion_allowed",
+              "real_money_trading_allowed",
+          ):
+              assert result[name] is False
+          PY
