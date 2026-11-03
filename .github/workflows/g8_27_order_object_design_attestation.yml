@@ -1,0 +1,28 @@
+name: G8.27 Signed Order Object Design Attestation Safety
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/ibkr_order_object_design_attestation.py"
+      - "scripts/verify_order_object_design_attestation.py"
+      - "tests/test_ibkr_order_object_design_attestation.py"
+      - ".github/workflows/g8_27_order_object_design_attestation.yml"
+      - "docs/AURORA_G8_27_SIGNED_ORDER_OBJECT_DESIGN_ATTESTATION.md"
+permissions:
+  contents: read
+jobs:
+  signed-design-verification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile isolated verifier
+        run: |
+          python -m py_compile engines/ibkr_order_object_design_attestation.py
+          python -m py_compile scripts/verify_order_object_design_attestation.py
+          python -m py_compile tests/test_ibkr_order_object_design_attestation.py
+      - name: Verify signed-review fail-closed test suite
+        run: python -m unittest tests.test_ibkr_order_object_design_attestation -v
