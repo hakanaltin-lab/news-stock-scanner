@@ -76,6 +76,7 @@ class G7PositionInputValidationTests(unittest.TestCase):
             snapshot(), [{"ticker": "AAPL", "shares": 1},
                          {"ticker": "aapl", "shares": 1}])
         self.assertFalse(checks(result)["portfolio_quantities_and_symbols_valid"])
+        self.assertFalse(result["position_sync"]["all_positions_match"])
         self.assertEqual(result["readiness"], "NOT_READY")
 
     def test_wrong_account_blocks(self):
@@ -83,6 +84,7 @@ class G7PositionInputValidationTests(unittest.TestCase):
             snapshot([position(account="other-account")]),
             [{"ticker": "AAPL", "shares": 2}])
         self.assertFalse(checks(result)["position_instruments_unambiguous"])
+        self.assertFalse(result["position_sync"]["all_positions_match"])
         self.assertEqual(result["readiness"], "NOT_READY")
 
     def test_non_stock_or_non_usd_blocks(self):
@@ -115,6 +117,7 @@ class G7PositionInputValidationTests(unittest.TestCase):
         result = evaluate_ibkr_paper_readiness(data, [])
         self.assertEqual(result["readiness"], "NOT_READY")
         self.assertFalse(checks(result)["positions_snapshot_complete"])
+        self.assertFalse(result["position_sync"]["all_positions_match"])
 
     def test_valid_empty_portfolio_is_not_a_broker_error(self):
         result = evaluate_ibkr_paper_readiness(snapshot(), [])
