@@ -1070,12 +1070,9 @@ def evaluate_ibkr_paper_readiness(
 
     add_check(
         "portfolio_sync_observed",
-        position_sync.get(
-            "broker_position_count",
-            0
-        )
-        >=
-        0,
+        position_sync.get("status") != "BLOCKED_INVALID_POSITION_INPUT"
+        and isinstance(position_sync.get("broker_position_count"), int)
+        and position_sync["broker_position_count"] >= 0,
         False,
         (
             "Paper account positions are compared with AURORA CSV. "
