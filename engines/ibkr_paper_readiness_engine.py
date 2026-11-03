@@ -1003,9 +1003,65 @@ def evaluate_ibkr_paper_readiness(
         "Every reported position must originate from a verified Paper account.",
     )
 
-    position_sync = compare_positions(
-        portfolio_rows,
-        broker_snapshot
+    # Fail closed on malformed portfolio quantities and ambiguous identities.
+    portfolio_rows_valid = (
+        isinstance(portfolio_rows, list)
+        and all(
+            isinstance(row, dict)
+            and isinstance(row.get("ticker"), str)
+            and bool(row["ticker"].strip())
+            and safe_float(row.get("shares"), None) is not None
+            for row in portfolio_rows
+        )
+    )
+    portfolio_symbols = (
+        [row["ticker"].strip().upper() for row in portfolio_rows]
+        if portfolio_rows_valid else []
+    )
+    add_check(
+        "portfolio_quantities_and_symbols_valid",
+        portfolio_rows_valid and len(portfolio_symbols) == len(set(portfolio_symbols)),
+        True,
+        "Portfolio symbols must be unique and quantities finite and explicit.",
+    )
+
+    position_instruments_valid = (
+        positions_payload_valid
+        and all(
+            isinstance(row.get("security_type"), str)
+            and row["security_type"] == "STK"
+            and isinstance(row.get("currency"), str)
+            and row["currency"] == "USD"
+            and isinstance(row.get("account"), str)
+            and row["account"] in verified_account_fingerprints
+            for row in positions
+        )
+    )
+    position_identity_keys = (
+        [(row["account"], row["symbol"].strip().upper(),
+          row["security_type"], row["currency"]) for row in positions]
+        if position_instruments_valid else []
+    )
+    add_check(
+        "position_instruments_unambiguous",
+        position_instruments_valid
+        and len(position_identity_keys) == len(set(position_identity_keys)),
+        True,
+        "Only uniquely identified USD stock positions from verified accounts are supported.",
+    )
+
+    position_sync = (
+        compare_positions(portfolio_rows, broker_snapshot)
+        if portfolio_rows_valid and positions_payload_valid
+        and position_instruments_valid
+        else {
+            "expected_position_count": 0,
+            "broker_position_count": 0,
+            "mismatch_count": None,
+            "all_positions_match": False,
+            "rows": [],
+            "status": "BLOCKED_INVALID_POSITION_INPUT",
+        }
     )
 
     add_check(
