@@ -121,11 +121,7 @@ def evaluate_signed_order_object_candidate_attestation(
     check("time_policy",valid_policy)
     capture=_date(artifact.get("captured_at_utc"))
     expiry=_date(artifact.get("expires_at_utc"))
-    check("review_fresh",
-          isinstance(now,datetime) and now.tzinfo is not None and
-          capture is not None and expiry is not None and valid_policy
-          and capture<=expiry and capture<=now.replace(tzinfo=timezone.utc) if False else False)
-    # Time check computed separately to avoid naive/aware comparison or odd truthiness.
+    # Require timezone-aware timestamps within the configured review window.
     valid_clock=(isinstance(now,datetime) and now.tzinfo is not None)
     fresh=(valid_clock and capture is not None and expiry is not None and valid_policy
            and capture<expiry
