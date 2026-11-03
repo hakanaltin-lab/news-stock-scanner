@@ -1,0 +1,28 @@
+name: G8.26 Order Object Design Handoff Safety
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "engines/ibkr_order_object_design_handoff.py"
+      - "scripts/g6_order_object_design_handoff.py"
+      - "tests/test_ibkr_order_object_design_handoff.py"
+      - ".github/workflows/g8_26_order_object_design_handoff.yml"
+      - "docs/AURORA_G8_26_ORDER_OBJECT_DESIGN_HANDOFF.md"
+permissions:
+  contents: read
+jobs:
+  non-attesting-handoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile
+        run: |
+          python -m py_compile engines/ibkr_order_object_design_handoff.py
+          python -m py_compile scripts/g6_order_object_design_handoff.py
+          python -m py_compile tests/test_ibkr_order_object_design_handoff.py
+      - name: Unit tests (non-executable handoff)
+        run: python -m unittest tests.test_ibkr_order_object_design_handoff -v
