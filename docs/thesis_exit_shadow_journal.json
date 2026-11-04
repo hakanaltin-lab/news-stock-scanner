@@ -1,7 +1,7 @@
 {
   "engine": "V8.5.2 Thesis-Aware Exit Shadow Journal",
-  "updated_at": "2026-11-04T15:40:04.072153+00:00",
-  "record_count": 8,
+  "updated_at": "2026-11-04T16:38:54.899371+00:00",
+  "record_count": 9,
   "records": [
     {
       "id": "446e70f1b98d97f0",
@@ -354,6 +354,54 @@
       "exposure_difference": 0.5,
       "signal_price": 1514.95,
       "spy_entry_price": 767.63,
+      "horizons": {
+        "5d": {
+          "target_trading_sessions": 5,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "20d": {
+          "target_trading_sessions": 20,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        },
+        "60d": {
+          "target_trading_sessions": 60,
+          "status": "PENDING",
+          "evaluation_date": null,
+          "stock_return_pct": null,
+          "spy_return_pct": null,
+          "stock_excess_return_pct": null,
+          "shadow_relative_alpha_pct": null,
+          "shadow_hit": null
+        }
+      }
+    },
+    {
+      "id": "37c1f22f420bffcd",
+      "signal_date": "2026-11-04",
+      "recorded_at": "2026-11-04T16:38:54.726656+00:00",
+      "ticker": "NVDA",
+      "base_action": "REDUCE",
+      "thesis_shadow_action": "HOLD",
+      "review_status": "CONTRADICTED",
+      "thesis_health": "STRONG",
+      "fundamental_score": 85.2,
+      "live_exposure": 0.5,
+      "shadow_exposure": 1.0,
+      "exposure_difference": 0.5,
+      "signal_price": 202.38,
+      "spy_entry_price": 765.65,
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
