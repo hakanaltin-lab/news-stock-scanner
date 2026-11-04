@@ -69,6 +69,7 @@ def prerequisite():
         "authorization_id": AUTHORIZATION_ID,
         "authorization_artifact_sha256": "2" * 64,
         "evidence_run_id": EVIDENCE_RUN_ID,
+        "g2_probe_stage": "POST_REVIEW_PROBE",
         "git_sha": GIT_SHA,
         "gce_instance_id": INSTANCE_ID,
         "g0_g1_proof_sha256": "3" * 64,
@@ -238,6 +239,12 @@ class SourceReviewHandoffTests(unittest.TestCase):
         self.assert_permissions_false(
             result
         )
+
+    def test_pre_review_probe_stage_blocks_handoff(self):
+        review = source_review()
+        review["g2_probe_stage"] = "PRE_REVIEW_DIAGNOSTIC"
+        result = self.evaluate(review=review)
+        self.assertEqual(result["status"], "BLOCKED")
 
     def test_changed_source_or_source_digest_blocks(self):
         changed = source() + "\n# changed\n"
