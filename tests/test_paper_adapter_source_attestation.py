@@ -81,6 +81,7 @@ def prerequisite():
         "authorization_id": AUTHORIZATION_ID,
         "authorization_artifact_sha256": "2" * 64,
         "evidence_run_id": EVIDENCE_RUN_ID,
+        "g2_probe_stage": "POST_REVIEW_PROBE",
         "git_sha": GIT_SHA,
         "gce_instance_id": INSTANCE_ID,
         "g0_g1_proof_sha256": "3" * 64,
@@ -245,6 +246,9 @@ class SourceAttestationTests(unittest.TestCase):
                 "adapter_source_independently_attested"
             ]
         )
+        self.assertTrue(
+            result["checks"]["g2_probe_stage_bound"]
+        )
         self.assertEqual(
             result["review_id"],
             REVIEW_ID,
@@ -273,6 +277,14 @@ class SourceAttestationTests(unittest.TestCase):
         self.assert_permissions_false(
             result
         )
+
+    def test_pre_review_probe_stage_blocks_attestation(self):
+        review = source_review()
+        review["g2_probe_stage"] = "PRE_REVIEW_DIAGNOSTIC"
+        result = self.evaluate(
+            review_value=review,
+        )
+        self.assertEqual(result["status"], "BLOCKED")
 
     def test_unsigned_handoff_template_cannot_verify(self):
         package = handoff()
