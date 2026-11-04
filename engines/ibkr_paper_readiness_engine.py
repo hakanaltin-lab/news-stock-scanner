@@ -74,6 +74,10 @@ def open_order_payload_is_valid(open_orders):
         if (
             type(row.get("order_id")) is not int
             or row["order_id"] < 0
+            or type(row.get("perm_id")) is not int
+            or row["perm_id"] <= 0
+            or type(row.get("client_id")) is not int
+            or row["client_id"] < 0
             or not isinstance(symbol, str)
             or not symbol.strip()
             or row.get("security_type") != "STK"
@@ -120,33 +124,47 @@ def open_order_status_evidence_is_consistent(
     if not isinstance(order_status_rows, list) or not order_status_rows:
         return False
 
-    open_orders_by_id = {}
+    open_orders_by_identity = {}
     for order in open_orders:
         if not isinstance(order, dict):
             return False
         order_id = order.get("order_id")
+        perm_id = order.get("perm_id")
+        client_id = order.get("client_id")
         quantity = safe_float(order.get("quantity"), None)
         if (
             type(order_id) is not int
             or order_id < 0
+            or type(perm_id) is not int
+            or perm_id <= 0
+            or type(client_id) is not int
+            or client_id < 0
             or quantity is None
             or quantity <= 0
         ):
             return False
-        open_orders_by_id[order_id] = order
+        identity = (perm_id, client_id, order_id)
+        if identity in open_orders_by_identity:
+            return False
+        open_orders_by_identity[identity] = order
 
-    evidence_by_id = {}
+    evidence_by_identity = {}
     for row in order_status_rows:
         if not isinstance(row, dict):
             return False
 
         order_id = row.get("order_id")
+        perm_id = row.get("perm_id")
+        client_id = row.get("client_id")
         status = row.get("status")
         filled = safe_float(row.get("filled"), None)
         remaining = safe_float(row.get("remaining"), None)
+        identity = (perm_id, client_id, order_id)
         if (
             type(order_id) is not int
-            or order_id not in open_orders_by_id
+            or type(perm_id) is not int
+            or type(client_id) is not int
+            or identity not in open_orders_by_identity
             or type(status) is not str
             or status not in ACTIVE_OPEN_ORDER_STATUSES
             or filled is None
@@ -156,7 +174,7 @@ def open_order_status_evidence_is_consistent(
             or not math.isclose(
                 filled + remaining,
                 safe_float(
-                    open_orders_by_id[order_id].get("quantity"),
+                    open_orders_by_identity[identity].get("quantity"),
                     None,
                 ),
                 rel_tol=1e-9,
@@ -165,19 +183,20 @@ def open_order_status_evidence_is_consistent(
         ):
             return False
 
-        evidence_by_id.setdefault(order_id, set()).add((
+        evidence_by_identity.setdefault(identity, set()).add((
             status,
             filled,
             remaining,
         ))
 
-    if set(evidence_by_id) != set(open_orders_by_id):
+    if set(evidence_by_identity) != set(open_orders_by_identity):
         return False
 
     return all(
         len(rows) == 1
-        and next(iter(rows))[0] == open_orders_by_id[order_id].get("status")
-        for order_id, rows in evidence_by_id.items()
+        and next(iter(rows))[0]
+        == open_orders_by_identity[identity].get("status")
+        for identity, rows in evidence_by_identity.items()
     )
 
 
@@ -1128,23 +1147,27 @@ def evaluate_ibkr_paper_readiness(
     open_order_identifiers_unique = (
         open_orders_payload_valid
         and len({
-            row[
-                "order_id"
-            ]
+            row["perm_id"]
             for row in open_orders
         })
         ==
         len(
             open_orders
         )
+        and len({
+            (row["client_id"], row["order_id"])
+            for row in open_orders
+        })
+        ==
+        len(open_orders)
     )
     add_check(
         "open_order_identifiers_unique",
         open_order_identifiers_unique,
         True,
         (
-            "Every reported open order must have one unique broker order "
-            "identifier."
+            "Every reported open order must have a unique account-wide "
+            "permId and unique clientId/orderId pair."
         ),
     )
 

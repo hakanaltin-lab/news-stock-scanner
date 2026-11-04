@@ -73,6 +73,8 @@ def ready_open_order(**overrides):
     order = {
         "account": "IBKR-TESTACCOUNT",
         "order_id": 10,
+        "perm_id": 900010,
+        "client_id": 17,
         "symbol": "NVDA",
         "security_type": "STK",
         "currency": "USD",
@@ -82,6 +84,8 @@ def ready_open_order(**overrides):
         "status": "Submitted",
     }
     order.update(overrides)
+    if "order_id" in overrides and "perm_id" not in overrides:
+        order["perm_id"] = 900000 + overrides["order_id"]
     return order
 
 
@@ -89,6 +93,8 @@ def ready_order_status(order=None, **overrides):
     order = order or ready_open_order()
     row = {
         "order_id": order["order_id"],
+        "perm_id": order["perm_id"],
+        "client_id": order["client_id"],
         "status": order["status"],
         "filled": 0.0,
         "remaining": order["quantity"],
@@ -273,6 +279,40 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             exchange = "SMART"
             conId = 4815747
 
+        class Order:
+            account = "DU-REDACTED"
+            permId = 10
+            clientId = 82
+            action = "BUY"
+            orderType = "LMT"
+            totalQuantity = 1.0
+            lmtPrice = 100.0
+
+        class OrderState:
+            status = "Submitted"
+
+        application.openOrder(
+            1,
+            Contract(),
+            Order(),
+            OrderState(),
+        )
+        self.assertEqual(application.open_orders[0]["perm_id"], 10)
+        self.assertEqual(application.open_orders[0]["client_id"], 82)
+
+        class InvalidIdentityOrder(Order):
+            permId = True
+            clientId = -1
+
+        application.openOrder(
+            2,
+            Contract(),
+            InvalidIdentityOrder(),
+            OrderState(),
+        )
+        self.assertIsNone(application.open_orders[1]["perm_id"])
+        self.assertIsNone(application.open_orders[1]["client_id"])
+
         application.position(
             "DU-REDACTED",
             Contract(),
@@ -300,6 +340,8 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             "",
             0.0,
         )
+        self.assertEqual(application.order_status_rows[0]["perm_id"], 10)
+        self.assertEqual(application.order_status_rows[0]["client_id"], 82)
         self.assertIsNone(application.order_status_rows[0]["filled"])
         self.assertIsNone(application.order_status_rows[0]["remaining"])
         self.assertIsNone(application.order_status_rows[0]["average_fill_price"])
@@ -580,6 +622,12 @@ class IBKRReadinessTests(unittest.TestCase):
 
     def test_incomplete_or_unsupported_open_order_contract_blocks_readiness(self):
         mutations = (
+            ("perm_id", None),
+            ("perm_id", 0),
+            ("perm_id", True),
+            ("client_id", None),
+            ("client_id", -1),
+            ("client_id", True),
             ("security_type", "OPT"),
             ("currency", "EUR"),
             ("con_id", None),
@@ -652,12 +700,57 @@ class IBKRReadinessTests(unittest.TestCase):
             "READY_FOR_PAPER_READ_ONLY",
         )
 
+    def test_open_order_broker_identity_must_be_unambiguous(self):
+        invalid_sets = (
+            [
+                ready_open_order(order_id=10, perm_id=900010),
+                ready_open_order(order_id=11, perm_id=900010),
+            ],
+            [
+                ready_open_order(order_id=10, perm_id=900010),
+                ready_open_order(order_id=10, perm_id=900011),
+            ],
+        )
+
+        for orders in invalid_sets:
+            with self.subTest(orders=orders):
+                snapshot = ready_snapshot()
+                set_open_orders(snapshot, orders)
+
+                readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+                self.assertEqual(readiness["readiness"], "NOT_READY")
+                self.assertIn(
+                    "open_order_identifiers_unique",
+                    {
+                        item["check"] for item in readiness["checks"]
+                        if item["required"] and not item["passed"]
+                    },
+                )
+                self.assertFalse(readiness["paper_order_submission_allowed"])
+
+        snapshot = ready_snapshot()
+        set_open_orders(snapshot, [
+            ready_open_order(order_id=10, client_id=17),
+            ready_open_order(order_id=10, perm_id=900011, client_id=18),
+        ])
+
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+        self.assertEqual(
+            readiness["readiness"],
+            "READY_FOR_PAPER_READ_ONLY",
+        )
+        self.assertFalse(readiness["paper_order_submission_allowed"])
+
     def test_missing_or_conflicting_order_status_evidence_blocks_readiness(self):
         order = ready_open_order()
         cases = (
             None,
             [],
             [ready_order_status(order, status="PendingCancel")],
+            [ready_order_status(order, perm_id=900011)],
+            [ready_order_status(order, client_id=18)],
             [
                 ready_order_status(order),
                 ready_order_status(order, remaining=0.5),

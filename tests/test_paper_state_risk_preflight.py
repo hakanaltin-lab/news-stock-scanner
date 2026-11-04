@@ -98,6 +98,21 @@ def g2(
         if open_orders is not None
         else []
     )
+    normalized_open_orders = []
+    for index, row in enumerate(open_orders):
+        normalized = dict(row)
+        order_id = normalized.get("order_id")
+        normalized.setdefault("client_id", 17)
+        normalized.setdefault(
+            "perm_id",
+            (
+                900000 + order_id
+                if type(order_id) is int and order_id >= 0
+                else 990000 + index
+            ),
+        )
+        normalized_open_orders.append(normalized)
+    open_orders = normalized_open_orders
     if order_status is _AUTO_ORDER_STATUS:
         order_status = []
         for row in open_orders:
@@ -110,6 +125,8 @@ def g2(
             )
             order_status.append({
                 "order_id": row.get("order_id"),
+                "perm_id": row.get("perm_id"),
+                "client_id": row.get("client_id"),
                 "status": row.get("status"),
                 "filled": 0.0,
                 "remaining": remaining,
@@ -713,6 +730,8 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             [],
             [{
                 "order_id": 42,
+                "perm_id": 900042,
+                "client_id": 17,
                 "status": "PendingCancel",
                 "filled": 0.0,
                 "remaining": 1.0,
@@ -720,12 +739,16 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             [
                 {
                     "order_id": 42,
+                    "perm_id": 900042,
+                    "client_id": 17,
                     "status": "Submitted",
                     "filled": 0.0,
                     "remaining": 1.0,
                 },
                 {
                     "order_id": 42,
+                    "perm_id": 900042,
+                    "client_id": 17,
                     "status": "Submitted",
                     "filled": 0.5,
                     "remaining": 0.5,
@@ -748,6 +771,55 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                     "open_order_statuses_active",
                     result["failure_reasons"],
                 )
+                self.assertIn(
+                    "broker_state_payload_valid",
+                    result["failure_reasons"],
+                )
+                self.assertFalse(result["paper_order_submission_allowed"])
+
+    def test_missing_or_mismatched_broker_order_identity_blocks(self):
+        open_order = {
+            "order_id": 42,
+            "perm_id": 900042,
+            "client_id": 17,
+            "account": ACCOUNT,
+            "symbol": "BKR",
+            "security_type": "STK",
+            "currency": "USD",
+            "con_id": 7654321,
+            "action": "SELL",
+            "quantity": 1.0,
+            "status": "Submitted",
+        }
+        status = {
+            "order_id": 42,
+            "perm_id": 900042,
+            "client_id": 17,
+            "status": "Submitted",
+            "filled": 0.0,
+            "remaining": 1.0,
+        }
+        cases = (
+            ({**open_order, "perm_id": None}, status),
+            ({**open_order, "client_id": None}, status),
+            (open_order, {**status, "perm_id": 900043}),
+            (open_order, {**status, "client_id": 18}),
+        )
+
+        for observed_order, observed_status in cases:
+            with self.subTest(
+                observed_order=observed_order,
+                observed_status=observed_status,
+            ):
+                result = self.evaluate(
+                    fresh=fresh_g2(
+                        open_orders=[observed_order],
+                        order_status=[observed_status],
+                    ),
+                    order=shadow(action="SELL", quantity=1),
+                )
+
+                self.assertEqual(result["status"], "BLOCKED")
                 self.assertIn(
                     "broker_state_payload_valid",
                     result["failure_reasons"],

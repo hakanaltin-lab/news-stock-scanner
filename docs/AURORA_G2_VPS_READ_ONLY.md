@@ -193,6 +193,11 @@ identifiers, status disagreement, invalid filled/remaining quantities or
 non-identical duplicate callback rows block readiness. Identical duplicate
 messages remain accepted because IBKR can emit them normally.
 
+The two callbacks must bind the same positive account-wide `permId` and the
+same non-negative source `clientId` in addition to the client-local `orderId`.
+Duplicate `permId` values or duplicate `(clientId, orderId)` pairs block the
+snapshot, while the same `orderId` from different clients remains distinct.
+
 These controls do not replace the independent Gateway/TWS Read-Only
 attestation and do not authorize Paper or LIVE order submission.
 

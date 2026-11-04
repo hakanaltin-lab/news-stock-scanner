@@ -44,6 +44,8 @@ The full open-order snapshot, including orders unrelated to the reviewed symbol,
 
 Each open order must also reconcile with the `orderStatus` callback snapshot by order ID, active status and filled/remaining quantity. Missing, orphaned or contradictory callback evidence blocks the risk proof; only exact duplicate status messages are tolerated.
 
+Reconciliation also requires the same account-wide `permId` and source `clientId` on both callbacks. This prevents client-local order ID collisions from being merged into one broker-state observation.
+
 ## Output
 
 A passing status is PAPER_STATE_RISK_VALIDATED_NON_EXECUTABLE.
