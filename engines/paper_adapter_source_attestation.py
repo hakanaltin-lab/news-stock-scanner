@@ -114,6 +114,7 @@ REVIEW_REQUEST_FIELDS = {
     "adapter_class",
     "authorization_id",
     "evidence_run_id",
+    "g2_probe_stage",
     "gce_instance_id",
     "g0_g1_proof_sha256",
     "g2_paper_read_only_proof_sha256",
@@ -139,6 +140,7 @@ SOURCE_REVIEW_FIELDS = {
     "git_sha",
     "authorization_id",
     "evidence_run_id",
+    "g2_probe_stage",
     "gce_instance_id",
     "g0_g1_proof_sha256",
     "g2_paper_read_only_proof_sha256",
@@ -717,6 +719,8 @@ def evaluate_source_attestation(
         is True
         and source_review.get("next_gate")
         == "INDEPENDENT_ADAPTER_SOURCE_REVIEW_REQUIRED"
+        and source_review.get("g2_probe_stage")
+        == "POST_REVIEW_PROBE"
         and _permissions_false(source_review)
     )
     check(
@@ -807,6 +811,13 @@ def evaluate_source_attestation(
             "adapter_class"
         )
         == EXPECTED_CLASS,
+    )
+
+    check(
+        "g2_probe_stage_bound",
+        request.get("g2_probe_stage")
+        == source_review.get("g2_probe_stage")
+        == "POST_REVIEW_PROBE",
     )
 
     check(
