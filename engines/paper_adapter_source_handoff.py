@@ -56,6 +56,7 @@ _SOURCE_REVIEW_FIELDS = {
     "git_sha",
     "authorization_id",
     "evidence_run_id",
+    "g2_probe_stage",
     "gce_instance_id",
     "g0_g1_proof_sha256",
     "g2_paper_read_only_proof_sha256",
@@ -237,6 +238,9 @@ def _source_policy_payload(source_review):
         "evidence_run_id": source_review.get(
             "evidence_run_id"
         ),
+        "g2_probe_stage": source_review.get(
+            "g2_probe_stage"
+        ),
         "gce_instance_id": source_review.get(
             "gce_instance_id"
         ),
@@ -358,6 +362,8 @@ def evaluate_source_review_handoff(
         is True
         and source_review.get("next_gate")
         == "INDEPENDENT_ADAPTER_SOURCE_REVIEW_REQUIRED"
+        and source_review.get("g2_probe_stage")
+        == "POST_REVIEW_PROBE"
         and _permissions_false(source_review)
         and source_review.get(
             "skeleton_version"
@@ -464,6 +470,9 @@ def evaluate_source_review_handoff(
         ),
         "evidence_run_id": source_review.get(
             "evidence_run_id"
+        ),
+        "g2_probe_stage": source_review.get(
+            "g2_probe_stage"
         ),
         "gce_instance_id": source_review.get(
             "gce_instance_id"

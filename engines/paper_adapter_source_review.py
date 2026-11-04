@@ -16,6 +16,7 @@ from uuid import UUID
 
 from engines.paper_connector_review_prerequisite import (
     ENGINE_VERSION as PREREQUISITE_ENGINE_VERSION,
+    EXPECTED_G6_RUNTIME_CHECKS,
 )
 
 
@@ -25,27 +26,9 @@ SKELETON_VERSION = "AURORA_G8_13_IBKR_PAPER_ADAPTER_REVIEW_SKELETON_V1"
 EXPECTED_CLASS = "IBKRPaperAdapterReviewSkeleton"
 DEFAULT_MAX_PREREQUISITE_AGE_SECONDS = 300
 
-EXPECTED_G8_12_CHECKS = {
-    "g5_validation_safe",
-    "g5_recomputed_from_trusted_sources",
-    "g5_authorization_artifact_digest_valid",
-    "g5_completion_digest_bound",
-    "g5_shadow_digest_bound",
-    "g2_proof_digest_bound",
-    "g2_evidence_run_bound",
-    "g2_run_mode_read_only",
-    "g2_connector_config_exact",
-    "g2_runtime_provenance_bound",
-    "g2_fresh",
-    "g2_readiness_recomputed",
-    "g2_recorded_readiness_consistent",
-    "g2_recorded_required_checks_match_recomputed",
-    "paper_account_fingerprint_verified",
-    "gateway_attestation_runtime_verified",
-    "gateway_attestation_exactly_bound",
-    "gateway_attestation_runtime_identity_bound",
-    "git_sha_bound_to_attestation",
-}
+EXPECTED_G8_12_CHECKS = set(
+    EXPECTED_G6_RUNTIME_CHECKS
+)
 
 _PERMISSION_FLAGS = (
     "implementation_allowed",
@@ -370,6 +353,8 @@ def _validate_prerequisite(
         == "READY_FOR_PAPER_CONNECTOR_SOURCE_REVIEW"
         and prerequisite.get("next_gate")
         == "REBASE_AND_REVIEW_BROKER_ADAPTER_SOURCE_AGAINST_G8_12"
+        and prerequisite.get("g2_probe_stage")
+        == "POST_REVIEW_PROBE"
         and prerequisite.get(
             "independent_source_review_required"
         )
@@ -441,6 +426,9 @@ def _validate_prerequisite(
         ),
         "evidence_run_id": prerequisite.get(
             "evidence_run_id"
+        ),
+        "g2_probe_stage": prerequisite.get(
+            "g2_probe_stage"
         ),
         "gce_instance_id": prerequisite.get(
             "gce_instance_id"
@@ -859,6 +847,9 @@ def evaluate_adapter_source_review(
         ],
         "evidence_run_id": prerequisite_summary[
             "evidence_run_id"
+        ],
+        "g2_probe_stage": prerequisite_summary[
+            "g2_probe_stage"
         ],
         "gce_instance_id": prerequisite_summary[
             "gce_instance_id"

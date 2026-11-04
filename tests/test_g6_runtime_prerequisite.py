@@ -13,6 +13,7 @@ from engines.ibkr_paper_readiness_engine import (
     evaluate_ibkr_paper_readiness,
 )
 from engines.paper_connector_review_prerequisite import (
+    EXPECTED_G6_RUNTIME_CHECKS,
     evaluate_g6_runtime_prerequisite,
 )
 from engines.paper_order_authorization_gate import (
@@ -306,6 +307,10 @@ class G6RuntimePrerequisiteTests(unittest.TestCase):
         self.assertEqual(
             result["evidence_run_id"],
             EVIDENCE_RUN_ID,
+        )
+        self.assertEqual(
+            set(result["checks"]),
+            EXPECTED_G6_RUNTIME_CHECKS,
         )
         self.assertTrue(
             result["checks"]["g2_post_review_probe_stage"]
