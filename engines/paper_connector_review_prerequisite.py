@@ -51,6 +51,29 @@ G5_REQUIRED_CHECKS = {
     "authorization_permissions_non_executable",
 }
 
+EXPECTED_G6_RUNTIME_CHECKS = {
+    "g5_validation_safe",
+    "g5_recomputed_from_trusted_sources",
+    "g5_authorization_artifact_digest_valid",
+    "g5_completion_digest_bound",
+    "g5_shadow_digest_bound",
+    "g2_proof_digest_bound",
+    "g2_evidence_run_bound",
+    "g2_post_review_probe_stage",
+    "g2_run_mode_read_only",
+    "g2_connector_config_exact",
+    "g2_runtime_provenance_bound",
+    "g2_fresh",
+    "g2_readiness_recomputed",
+    "g2_recorded_readiness_consistent",
+    "g2_recorded_required_checks_match_recomputed",
+    "paper_account_fingerprint_verified",
+    "gateway_attestation_runtime_verified",
+    "gateway_attestation_exactly_bound",
+    "gateway_attestation_runtime_identity_bound",
+    "git_sha_bound_to_attestation",
+
+
 _PERMISSION_FLAGS = (
     "broker_submission_allowed",
     "paper_order_submission_allowed",
@@ -785,6 +808,12 @@ def evaluate_g6_runtime_prerequisite(
             == g2_git_sha
         ),
     }
+
+    if set(checks) != EXPECTED_G6_RUNTIME_CHECKS:
+        return _blocked(
+            "G6_RUNTIME_CHECK_SET_DRIFT",
+            checks,
+        )
 
     failures = [
         name
