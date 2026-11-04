@@ -144,6 +144,7 @@ def ready_g2(timestamp=None):
     return {
         "git_sha": GIT_SHA,
         "evidence_run_id": EVIDENCE_RUN_ID,
+        "probe_stage": "POST_REVIEW_PROBE",
         "runtime_provenance": runtime_provenance(),
         "run_mode": {"mode": "READ_ONLY"},
         "gateway_read_only_attestation": verified_gateway_attestation(),
@@ -249,6 +250,8 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
         self.assertTrue(result["checks"]["g2_g3_paper_account_bound"])
         self.assertTrue(result["checks"]["g2_g3_same_evidence_run"])
         self.assertTrue(result["checks"]["g2_g3_same_git_sha"])
+        self.assertTrue(result["checks"]["g2_post_review_probe_stage"])
+        self.assertEqual(result["g2_probe_stage"], "POST_REVIEW_PROBE")
         self.assertTrue(result["checks"]["g2_runtime_provenance_bound"])
         self.assertTrue(result["checks"]["g3_runtime_provenance_bound"])
         self.assertTrue(result["checks"]["g2_g3_runtime_identity_bound"])
@@ -279,6 +282,22 @@ class AuroraReadinessSummaryTests(unittest.TestCase):
         self.assertFalse(result["paper_order_submission_allowed"])
         self.assertFalse(result["live_execution_allowed"])
         self.assertFalse(result["automatic_promotion_allowed"])
+
+    def test_pre_review_g2_stage_blocks_bundle(self):
+        g2 = ready_g2()
+        g2["probe_stage"] = "PRE_REVIEW_DIAGNOSTIC"
+        result = evaluate_readiness_bundle(
+            g2,
+            ready_g3(),
+            now=NOW,
+            g0_proof=verified_g0(),
+        )
+        self.assertEqual(result["status"], "NOT_READY")
+        self.assertIn(
+            "g2_post_review_probe_stage",
+            result["failure_reasons"],
+        )
+        self.assertIsNone(result["g2_probe_stage"])
 
     def test_g3_wrong_git_sha_blocks_bundle(self):
         g3 = ready_g3()

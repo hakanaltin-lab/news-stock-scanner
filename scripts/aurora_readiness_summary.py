@@ -415,6 +415,9 @@ def evaluate_readiness_bundle(
             == g0_proof_sha256
         ),
         "g2_read_only_mode": g2_run_mode.get("mode") == "READ_ONLY",
+        "g2_post_review_probe_stage": (
+            g2_proof.get("probe_stage") == "POST_REVIEW_PROBE"
+        ),
         "g2_ready": g2_readiness.get("readiness") == "READY_FOR_PAPER_READ_ONLY",
         "g2_no_required_failures": g2_readiness.get("required_failure_count") == 0,
         "g2_required_checks_consistent": (
@@ -620,6 +623,11 @@ def evaluate_readiness_bundle(
             if checks[
                 "g0_control_plane_instance_bound_to_gateway_attestation"
             ]
+            else None
+        ),
+        "g2_probe_stage": (
+            g2_proof.get("probe_stage")
+            if checks["g2_post_review_probe_stage"]
             else None
         ),
         "g2_paper_read_only_proof_sha256": _digest(g2_proof),
