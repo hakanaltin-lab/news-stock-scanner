@@ -228,6 +228,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             secType = "STK"
             currency = "USD"
             exchange = "SMART"
+            conId = 4815747
 
         application.position(
             "DU-REDACTED",
@@ -235,6 +236,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             float("nan"),
             float("inf"),
         )
+        self.assertEqual(application.positions[0]["con_id"], 4815747)
         self.assertIsNone(application.positions[0]["position"])
         self.assertIsNone(application.positions[0]["average_cost"])
 
@@ -479,6 +481,7 @@ class IBKRReadinessTests(unittest.TestCase):
             "symbol": "NVDA",
             "security_type": "STK",
             "currency": "USD",
+            "con_id": 4815747,
             "position": 1,
         }]
         readiness = evaluate_ibkr_paper_readiness(snapshot, [])
