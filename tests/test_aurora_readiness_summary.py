@@ -53,6 +53,8 @@ G2_REQUIRED_CHECKS = [
     "open_order_accounts_match_verified_paper_accounts",
     "positions_payload_valid",
     "position_accounts_match_verified_paper_accounts",
+    "portfolio_quantities_and_symbols_valid",
+    "position_instruments_unambiguous",
 ]
 
 
