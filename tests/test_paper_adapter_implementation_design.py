@@ -13,6 +13,9 @@ from engines.paper_adapter_implementation_design import (
     PERMISSION_FLAGS,
     evaluate_implementation_design,
 )
+from engines.paper_adapter_source_attestation import (
+    EXPECTED_SOURCE_ATTESTATION_CHECKS,
+)
 from scripts import g6_adapter_implementation_design_review as cli
 
 
@@ -57,8 +60,8 @@ def source_attestation():
         "adapter_source_independently_attested": True,
         "reason": "INDEPENDENT_SOURCE_REVIEW_ATTESTATION_VERIFIED",
         "checks": {
-            "signature_valid": True,
-            "source_bound": True,
+            name: True
+            for name in EXPECTED_SOURCE_ATTESTATION_CHECKS
         },
         "review_id": REVIEW_ID,
         "reviewer_id": "aurora-adapter-source-reviewer",
@@ -152,6 +155,31 @@ class AdapterImplementationDesignTests(unittest.TestCase):
         )
         self.assert_permissions_false(
             result
+        )
+
+    def test_source_attestation_check_set_must_be_exact(self):
+        missing = source_attestation()
+        missing["checks"].pop(
+            "g2_probe_stage_bound"
+        )
+        result = self.evaluate(
+            attestation_value=missing
+        )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["reason"],
+            "SOURCE_ATTESTATION_NOT_VERIFIED",
+        )
+
+        extra = source_attestation()
+        extra["checks"]["fake_check"] = True
+        result = self.evaluate(
+            attestation_value=extra
+        )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["reason"],
+            "SOURCE_ATTESTATION_NOT_VERIFIED",
         )
 
     def test_source_attestation_permission_regression_blocks(self):
