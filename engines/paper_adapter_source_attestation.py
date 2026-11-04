@@ -31,6 +31,56 @@ from engines.paper_adapter_source_review import (
 
 ENGINE_VERSION = "AURORA G8.15 Adapter Source Attestation Verifier"
 
+EXPECTED_SOURCE_ATTESTATION_CHECKS = {
+    "artifact_is_object",
+    "policy_is_object",
+    "handoff_is_object",
+    "source_review_is_object",
+    "artifact_field_set_exact",
+    "policy_field_set_exact",
+    "handoff_field_set_exact",
+    "source_review_field_set_exact",
+    "review_request_field_set_exact",
+    "artifact_schema_version",
+    "artifact_type",
+    "decision_attested",
+    "review_id_uuid4",
+    "signature_algorithm",
+    "signature_encoding_valid",
+    "ed25519_signature_valid",
+    "policy_version",
+    "reviewer_id_format",
+    "reviewer_matches_policy",
+    "policy_skeleton_version",
+    "policy_adapter_class",
+    "reviewer_public_key_material_valid",
+    "policy_public_key_sha256_valid",
+    "public_key_matches_policy",
+    "policy_max_age_valid",
+    "policy_clock_skew_valid",
+    "captured_at_valid",
+    "expires_at_valid",
+    "capture_not_in_future",
+    "attestation_not_expired",
+    "attestation_age_within_policy",
+    "attestation_validity_window_positive",
+    "attestation_validity_window_within_policy",
+    "reviewer_confirms_source_non_executable",
+    "reviewer_confirms_scope_frozen",
+    "reviewer_evidence_sha256_valid",
+    "handoff_ready_and_non_authorizing",
+    "review_request_non_authorizing",
+    "review_request_digest_bound",
+    "source_review_artifact_digest_bound",
+    "source_review_safe_and_non_authorizing",
+    "git_sha_bound",
+    "repository_clean",
+    "source_sha256_bound",
+    "signed_source_identity_bound",
+    "g2_probe_stage_bound",
+    "runtime_provenance_fields_bound",
+}
+
 ARTIFACT_FIELDS = {
     "schema_version",
     "attestation_type",
@@ -854,6 +904,12 @@ def evaluate_source_attestation(
         )
         is not None,
     )
+
+    if set(checks) != EXPECTED_SOURCE_ATTESTATION_CHECKS:
+        return _blocked(
+            "SOURCE_ATTESTATION_CHECK_SET_DRIFT",
+            checks,
+        )
 
     failures = [
         name
