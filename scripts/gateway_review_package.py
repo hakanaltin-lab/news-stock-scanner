@@ -89,10 +89,13 @@ _REQUIRED_G2_PASSED_CHECKS = {
     "positions_snapshot_complete",
     "open_orders_snapshot_complete",
     "open_orders_payload_valid",
+    "open_order_identifiers_unique",
     "open_order_statuses_active",
     "open_order_accounts_match_verified_paper_accounts",
     "positions_payload_valid",
     "position_accounts_match_verified_paper_accounts",
+    "portfolio_quantities_and_symbols_valid",
+    "position_instruments_unambiguous",
 }
 
 _ATTESTATION_CHECK = (
