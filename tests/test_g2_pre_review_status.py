@@ -18,6 +18,7 @@ INSTANCE_ID = "1234567890123456789"
 def g2_proof(run_id=RUN_ID):
     return {
         "evidence_run_id": run_id,
+        "probe_stage": "PRE_REVIEW_DIAGNOSTIC",
     }
 
 
@@ -40,6 +41,7 @@ def package(run_id=RUN_ID):
         "handoff_request_sha256": "b" * 64,
         "g2_diagnostic_summary": {
             "evidence_run_id": run_id,
+            "probe_stage": "PRE_REVIEW_DIAGNOSTIC",
             "gcp_instance_id": INSTANCE_ID,
             "g0_runtime_proof_sha256": "c" * 64,
         },
@@ -95,6 +97,16 @@ class G2PreReviewStatusTests(unittest.TestCase):
             "real_money_trading_allowed",
         ):
             self.assertIs(result[name], False)
+
+    def test_wrong_probe_stage_fails_closed(self):
+        value = g2_proof()
+        value["probe_stage"] = "POST_REVIEW_PROBE"
+        result = self.evaluate(proof=value)
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn(
+            "G2_DIAGNOSTIC_PROBE_STAGE_INVALID",
+            result["failure_reasons"],
+        )
 
     def test_invalid_or_mismatched_run_id_fails_closed(self):
         invalid = self.evaluate(
