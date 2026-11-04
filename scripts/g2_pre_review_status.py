@@ -103,6 +103,12 @@ def evaluate_pre_review_status(
             expected_run_id,
         )
 
+    if g2_proof.get("probe_stage") != "PRE_REVIEW_DIAGNOSTIC":
+        return _blocked(
+            "G2_DIAGNOSTIC_PROBE_STAGE_INVALID",
+            expected_run_id,
+        )
+
     if (
         _uuid4(
             g2_proof.get(
@@ -193,6 +199,8 @@ def evaluate_pre_review_status(
         )
         ==
         expected_run_id
+        and summary.get("probe_stage")
+        == "PRE_REVIEW_DIAGNOSTIC"
     )
     if not package_binding_ready:
         return _blocked(
