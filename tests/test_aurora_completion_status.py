@@ -93,6 +93,7 @@ def proofs():
         digest(g0)
     )
     g2 = {
+        "probe_stage": "POST_REVIEW_PROBE",
         "run_mode": {"mode": "READ_ONLY"},
         "gateway_read_only_attestation": signed_gateway_attestation,
         "readiness": {
@@ -113,6 +114,7 @@ def proofs():
         "generated_at": (NOW - timedelta(seconds=20)).isoformat(),
         "status": "READY_FOR_CONTROLLED_DRY_RUN",
         "failure_reasons": [],
+        "g2_probe_stage": "POST_REVIEW_PROBE",
         "g0_g1_proof_sha256": digest(g0),
         "g2_paper_read_only_proof_sha256": digest(g2),
         "gateway_read_only_attestation_sha256": digest(
@@ -199,6 +201,9 @@ class AuroraCompletionStatusTests(unittest.TestCase):
             result["next_gate"],
             "MANUAL_PAPER_ORDER_AUTHORIZATION_NOT_GRANTED",
         )
+        self.assertTrue(
+            result["checks"]["g2_post_review_probe_stage"]
+        )
         self.assertTrue(result["checks"]["g4_readiness_proof_bound"])
         self.assertTrue(result["checks"]["g4_evidence_run_bound"])
         self.assertTrue(result["checks"]["g4_ledger_receipt_bound"])
@@ -258,6 +263,31 @@ class AuroraCompletionStatusTests(unittest.TestCase):
         self.assertEqual(
             result["evidence_binding"]["readiness_evidence_run_id"],
             result["evidence_binding"]["g4_evidence_run_id"],
+        )
+
+    def test_pre_review_g2_stage_blocks_completion(self):
+        g0, ready, g4, audit, g2 = proofs()
+        g2["probe_stage"] = "PRE_REVIEW_DIAGNOSTIC"
+        ready["g2_probe_stage"] = "PRE_REVIEW_DIAGNOSTIC"
+        ready["g2_paper_read_only_proof_sha256"] = digest(g2)
+        g4["readiness_proof_sha256"] = digest(ready)
+
+        result = evaluate_completion_status(
+            g0,
+            ready,
+            g4,
+            audit,
+            now=NOW,
+            g2_proof=g2,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn(
+            "g2_post_review_probe_stage",
+            result["failure_reasons"],
+        )
+        self.assertFalse(
+            result["checks"]["g2_post_review_probe_stage"]
         )
 
     def test_completion_binds_exact_g0_digest_to_signed_attestation(self):

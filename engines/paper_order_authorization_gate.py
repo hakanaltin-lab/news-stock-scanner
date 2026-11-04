@@ -25,6 +25,7 @@ REQUIRED_COMPLETION_CHECKS = {
     "g0_control_plane_instance_bound_to_gateway_attestation",
     "g0_signed_proof_digest_bound",
     "g2_g3_ready",
+    "g2_post_review_probe_stage",
     "g0_g1_readiness_proof_bound",
     "g2_gateway_read_only_independently_attested",
     "gateway_attestation_runtime_verified",
