@@ -489,6 +489,22 @@ if IBAPI_AVAILABLE:
                 None
             )
 
+            con_id = getattr(
+                contract,
+                "conId",
+                None
+            )
+
+            if (
+                type(con_id)
+                is not int
+                or
+                con_id
+                <=
+                0
+            ):
+                con_id = None
+
             self.positions.append({
                 "account":
                 account,
@@ -504,6 +520,9 @@ if IBAPI_AVAILABLE:
 
                 "exchange":
                 exchange,
+
+                "con_id":
+                con_id,
 
                 "position":
                 safe_float(
@@ -818,6 +837,11 @@ def _sanitize_positions(
             "exchange":
             item.get(
                 "exchange"
+            ),
+
+            "con_id":
+            item.get(
+                "con_id"
             ),
 
             "position":

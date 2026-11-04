@@ -1,0 +1,36 @@
+name: G7 Paper Position Safety Tests
+
+on:
+  pull_request:
+    paths:
+      - 'engines/ibkr_paper_readiness_engine.py'
+      - 'engines/ibkr_gateway_connector.py'
+      - 'tests/test_g7_position_input_validation.py'
+      - '.github/workflows/g7-position-safety.yml'
+  push:
+    branches:
+      - 'fix/g7-position-payload-fail-closed-112'
+    paths:
+      - 'engines/ibkr_paper_readiness_engine.py'
+      - 'engines/ibkr_gateway_connector.py'
+      - 'tests/test_g7_position_input_validation.py'
+      - '.github/workflows/g7-position-safety.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  paper-position-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run isolated G7 safety tests (no broker connection)
+        env:
+          AURORA_IBKR_ENABLED: 'false'
+          AURORA_IBKR_MODE: 'PAPER'
+        run: python -m unittest discover -s tests -p 'test_g7_position_input_validation.py' -v
