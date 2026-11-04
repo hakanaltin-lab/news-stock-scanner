@@ -68,6 +68,22 @@ def ready_snapshot():
     }
 
 
+def ready_open_order(**overrides):
+    order = {
+        "account": "IBKR-TESTACCOUNT",
+        "order_id": 10,
+        "symbol": "NVDA",
+        "security_type": "STK",
+        "currency": "USD",
+        "con_id": 4815747,
+        "action": "SELL",
+        "quantity": 1.0,
+        "status": "Submitted",
+    }
+    order.update(overrides)
+    return order
+
+
 class IBKRConnectorConfigurationTests(unittest.TestCase):
     def test_disabled_connector_never_attempts_a_connection(self):
         with patch.dict(os.environ, {
@@ -429,12 +445,11 @@ class IBKRReadinessTests(unittest.TestCase):
 
     def test_foreign_open_order_blocks_readiness(self):
         snapshot = ready_snapshot()
-        snapshot["open_orders"] = [{
-            "account": "IBKR-OTHERACCOUNT",
-            "order_id": 10,
-            "symbol": "NVDA",
-            "status": "Submitted",
-        }]
+        snapshot["open_orders"] = [
+            ready_open_order(
+                account="IBKR-OTHERACCOUNT",
+            )
+        ]
         readiness = evaluate_ibkr_paper_readiness(snapshot, [])
         self.assertEqual(readiness["readiness"], "NOT_READY")
         self.assertIn(
@@ -447,12 +462,9 @@ class IBKRReadinessTests(unittest.TestCase):
 
     def test_verified_paper_open_order_is_accepted(self):
         snapshot = ready_snapshot()
-        snapshot["open_orders"] = [{
-            "account": "IBKR-TESTACCOUNT",
-            "order_id": 10,
-            "symbol": "NVDA",
-            "status": "Submitted",
-        }]
+        snapshot["open_orders"] = [
+            ready_open_order()
+        ]
         readiness = evaluate_ibkr_paper_readiness(snapshot, [])
         self.assertEqual(readiness["readiness"], "READY_FOR_PAPER_READ_ONLY")
         self.assertFalse(readiness["paper_order_submission_allowed"])
@@ -460,18 +472,11 @@ class IBKRReadinessTests(unittest.TestCase):
     def test_duplicate_open_order_identifier_blocks_readiness(self):
         snapshot = ready_snapshot()
         snapshot["open_orders"] = [
-            {
-                "account": "IBKR-TESTACCOUNT",
-                "order_id": 10,
-                "symbol": "NVDA",
-                "status": "Submitted",
-            },
-            {
-                "account": "IBKR-TESTACCOUNT",
-                "order_id": 10,
-                "symbol": "AMD",
-                "status": "Submitted",
-            },
+            ready_open_order(),
+            ready_open_order(
+                symbol="AMD",
+                con_id=4391,
+            ),
         ]
 
         readiness = evaluate_ibkr_paper_readiness(snapshot, [])
@@ -488,11 +493,9 @@ class IBKRReadinessTests(unittest.TestCase):
 
     def test_open_order_missing_account_blocks_readiness(self):
         snapshot = ready_snapshot()
-        snapshot["open_orders"] = [{
-            "order_id": 10,
-            "symbol": "NVDA",
-            "status": "Submitted",
-        }]
+        order = ready_open_order()
+        order.pop("account")
+        snapshot["open_orders"] = [order]
         readiness = evaluate_ibkr_paper_readiness(snapshot, [])
         self.assertEqual(readiness["readiness"], "NOT_READY")
 
@@ -508,12 +511,10 @@ class IBKRReadinessTests(unittest.TestCase):
         for status in statuses:
             with self.subTest(status=status):
                 snapshot = ready_snapshot()
-                order = {
-                    "account": "IBKR-TESTACCOUNT",
-                    "order_id": 10,
-                    "symbol": "NVDA",
-                }
-                if status is not None:
+                order = ready_open_order()
+                if status is None:
+                    order.pop("status")
+                else:
                     order["status"] = status
                 snapshot["open_orders"] = [order]
 
@@ -539,12 +540,11 @@ class IBKRReadinessTests(unittest.TestCase):
         ):
             with self.subTest(status=status):
                 snapshot = ready_snapshot()
-                snapshot["open_orders"] = [{
-                    "account": "IBKR-TESTACCOUNT",
-                    "order_id": 10,
-                    "symbol": "NVDA",
-                    "status": status,
-                }]
+                snapshot["open_orders"] = [
+                    ready_open_order(
+                        status=status,
+                    )
+                ]
 
                 readiness = evaluate_ibkr_paper_readiness(snapshot, [])
 
@@ -553,6 +553,80 @@ class IBKRReadinessTests(unittest.TestCase):
                     "READY_FOR_PAPER_READ_ONLY",
                 )
                 self.assertFalse(readiness["paper_order_submission_allowed"])
+
+    def test_incomplete_or_unsupported_open_order_contract_blocks_readiness(self):
+        mutations = (
+            ("security_type", "OPT"),
+            ("currency", "EUR"),
+            ("con_id", None),
+            ("con_id", 0),
+            ("con_id", True),
+            ("action", "HOLD"),
+            ("quantity", None),
+            ("quantity", 0),
+            ("quantity", float("nan")),
+            ("quantity", True),
+            ("quantity", "1"),
+        )
+
+        for field, value in mutations:
+            with self.subTest(field=field, value=value):
+                snapshot = ready_snapshot()
+                snapshot["open_orders"] = [
+                    ready_open_order(
+                        **{field: value}
+                    )
+                ]
+
+                readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+                self.assertEqual(readiness["readiness"], "NOT_READY")
+                self.assertIn(
+                    "open_orders_payload_valid",
+                    {
+                        item["check"] for item in readiness["checks"]
+                        if item["required"] and not item["passed"]
+                    },
+                )
+                self.assertFalse(readiness["paper_order_submission_allowed"])
+
+    def test_open_order_symbol_and_contract_mapping_must_be_unambiguous(self):
+        ambiguous_sets = (
+            [
+                ready_open_order(order_id=10),
+                ready_open_order(order_id=11, con_id=123456),
+            ],
+            [
+                ready_open_order(order_id=10),
+                ready_open_order(
+                    order_id=11,
+                    symbol="AMD",
+                ),
+            ],
+        )
+
+        for open_orders in ambiguous_sets:
+            with self.subTest(open_orders=open_orders):
+                snapshot = ready_snapshot()
+                snapshot["open_orders"] = open_orders
+
+                readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+                self.assertEqual(readiness["readiness"], "NOT_READY")
+                self.assertFalse(readiness["paper_order_submission_allowed"])
+
+        snapshot = ready_snapshot()
+        snapshot["open_orders"] = [
+            ready_open_order(order_id=10),
+            ready_open_order(order_id=11, action="BUY"),
+        ]
+
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+        self.assertEqual(
+            readiness["readiness"],
+            "READY_FOR_PAPER_READ_ONLY",
+        )
 
     def test_foreign_paper_position_blocks_readiness(self):
         snapshot = ready_snapshot()

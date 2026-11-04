@@ -181,6 +181,12 @@ TWS status: `ApiPending`, `PendingSubmit`, `PreSubmitted`, `Submitted`, or
 `PendingCancel`. Missing, terminal, or unknown statuses block read-only
 readiness instead of being silently treated as active broker state.
 
+Every open-order row must also identify a USD stock with a positive IBKR
+`conId`, BUY/SELL direction and a positive finite quantity. A symbol may have
+multiple open orders only when they identify the same contract; one symbol
+mapping to multiple `conId` values, or one `conId` mapping to multiple symbols,
+blocks readiness as ambiguous broker state.
+
 These controls do not replace the independent Gateway/TWS Read-Only
 attestation and do not authorize Paper or LIVE order submission.
 
