@@ -114,6 +114,7 @@ def ready_execution(order=None, **overrides):
     order = order or ready_open_order()
     row = {
         "request_id": EXECUTIONS_REQUEST_ID,
+        "account": order["account"],
         "order_id": order["order_id"],
         "perm_id": order["perm_id"],
         "client_id": order["client_id"],
@@ -384,6 +385,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             orderId = 1
             permId = 10
             clientId = 82
+            acctNumber = "DU-REDACTED"
             execId = "E1"
             side = "BOT"
             shares = float("nan")
@@ -409,6 +411,10 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
         self.assertEqual(application.execution_rows[0]["order_id"], 1)
         self.assertEqual(application.execution_rows[0]["perm_id"], 10)
         self.assertEqual(application.execution_rows[0]["client_id"], 82)
+        self.assertEqual(
+            application.execution_rows[0]["account"],
+            isolated.mask_account("DU-REDACTED"),
+        )
         self.assertEqual(application.execution_rows[0]["con_id"], 4815747)
         self.assertIsNone(application.execution_rows[0]["shares"])
         self.assertIsNone(
@@ -923,6 +929,12 @@ class IBKRReadinessTests(unittest.TestCase):
             }],
             [{**valid, "request_id": EXECUTIONS_REQUEST_ID + 1}],
             [{**valid, "request_id": True}],
+            [{
+                key: value
+                for key, value in valid.items()
+                if key != "account"
+            }],
+            [{**valid, "account": "IBKR-OTHERACCOUNT"}],
             [{**valid, "perm_id": 900011}],
             [{**valid, "client_id": 18}],
             [{**valid, "order_id": 11}],
