@@ -20,6 +20,7 @@ from uuid import UUID
 from engines.ibkr_paper_readiness_engine import (
     ACTIVE_OPEN_ORDER_STATUSES,
     open_order_payload_is_valid,
+    open_order_status_evidence_is_consistent,
 )
 
 
@@ -1484,6 +1485,10 @@ def evaluate_paper_state_risk_preflight(
             type(row.get("status")) is str
             and row["status"] in ACTIVE_OPEN_ORDER_STATUSES
             for row in open_orders
+        )
+        and open_order_status_evidence_is_consistent(
+            open_orders,
+            fresh_snapshot.get("order_status"),
         )
     )
 

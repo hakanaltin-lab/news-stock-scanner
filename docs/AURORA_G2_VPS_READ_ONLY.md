@@ -187,6 +187,12 @@ multiple open orders only when they identify the same contract; one symbol
 mapping to multiple `conId` values, or one `conId` mapping to multiple symbols,
 blocks readiness as ambiguous broker state.
 
+For every open order, the non-binding `reqAllOpenOrders` observation must also
+contain matching `orderStatus` callback evidence. Missing rows, orphan order
+identifiers, status disagreement, invalid filled/remaining quantities or
+non-identical duplicate callback rows block readiness. Identical duplicate
+messages remain accepted because IBKR can emit them normally.
+
 These controls do not replace the independent Gateway/TWS Read-Only
 attestation and do not authorize Paper or LIVE order submission.
 

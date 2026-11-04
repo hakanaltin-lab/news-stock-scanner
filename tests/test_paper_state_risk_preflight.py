@@ -25,6 +25,7 @@ AUTHORIZED_RUN_ID = "11111111-1111-4111-8111-111111111111"
 FRESH_RUN_ID = "33333333-3333-4333-8333-333333333333"
 AUTH_ID = "22222222-2222-4222-8222-222222222222"
 ACCOUNT = "IBKR-A1B2C3D4E5"
+_AUTO_ORDER_STATUS = object()
 
 
 def digest(payload):
@@ -74,6 +75,7 @@ def g2(
     account=ACCOUNT,
     positions=None,
     open_orders=None,
+    order_status=_AUTO_ORDER_STATUS,
 ):
     positions = (
         positions
@@ -96,6 +98,23 @@ def g2(
         if open_orders is not None
         else []
     )
+    if order_status is _AUTO_ORDER_STATUS:
+        order_status = []
+        for row in open_orders:
+            quantity = row.get("quantity")
+            remaining = (
+                float(quantity)
+                if type(quantity) in {int, float}
+                and not isinstance(quantity, bool)
+                else None
+            )
+            order_status.append({
+                "order_id": row.get("order_id"),
+                "status": row.get("status"),
+                "filled": 0.0,
+                "remaining": remaining,
+                "average_fill_price": 0.0,
+            })
 
     stamp = (
         now
@@ -158,6 +177,7 @@ def g2(
             },
             "positions": positions,
             "open_orders": open_orders,
+            "order_status": order_status,
         },
         "gateway_read_only_attestation": {
             "status": "VERIFIED",
@@ -663,6 +683,64 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                         open_orders=[open_order],
                     ),
                     order=order,
+                )
+
+                self.assertEqual(result["status"], "BLOCKED")
+                self.assertIn(
+                    "open_order_statuses_active",
+                    result["failure_reasons"],
+                )
+                self.assertIn(
+                    "broker_state_payload_valid",
+                    result["failure_reasons"],
+                )
+                self.assertFalse(result["paper_order_submission_allowed"])
+
+    def test_missing_or_conflicting_order_status_evidence_blocks(self):
+        open_order = {
+            "order_id": 42,
+            "account": ACCOUNT,
+            "symbol": "BKR",
+            "security_type": "STK",
+            "currency": "USD",
+            "con_id": 7654321,
+            "action": "SELL",
+            "quantity": 1.0,
+            "status": "Submitted",
+        }
+        cases = (
+            None,
+            [],
+            [{
+                "order_id": 42,
+                "status": "PendingCancel",
+                "filled": 0.0,
+                "remaining": 1.0,
+            }],
+            [
+                {
+                    "order_id": 42,
+                    "status": "Submitted",
+                    "filled": 0.0,
+                    "remaining": 1.0,
+                },
+                {
+                    "order_id": 42,
+                    "status": "Submitted",
+                    "filled": 0.5,
+                    "remaining": 0.5,
+                },
+            ],
+        )
+
+        for order_status in cases:
+            with self.subTest(order_status=order_status):
+                result = self.evaluate(
+                    fresh=fresh_g2(
+                        open_orders=[open_order],
+                        order_status=order_status,
+                    ),
+                    order=shadow(action="SELL", quantity=1),
                 )
 
                 self.assertEqual(result["status"], "BLOCKED")
