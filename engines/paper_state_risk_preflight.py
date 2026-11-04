@@ -1496,6 +1496,40 @@ def evaluate_paper_state_risk_preflight(
         )
     )
 
+    # Open orders are broker contract identities, not just tickers.
+    # A same-symbol option or a different stock conId must never consume
+    # (or validate) inventory for the reviewed stock order.
+    relevant_open_orders_identity_valid = (
+        open_orders_valid
+        and all(
+            row.get("security_type") == "STK"
+            and row.get("currency") == "USD"
+            and type(row.get("con_id")) is int
+            and row["con_id"] > 0
+            for row in open_orders
+            if row["symbol"].strip().upper() == order_symbol
+        )
+    )
+    same_symbol_position_con_ids = (
+        {
+            row["con_id"]
+            for row in positions
+            if row["symbol"].strip().upper() == order_symbol
+        }
+        if position_identity_valid else set()
+    )
+    relevant_open_orders_match_position = (
+        relevant_open_orders_identity_valid
+        and (
+            order_action != "SELL"
+            or all(
+                row["con_id"] in same_symbol_position_con_ids
+                for row in open_orders
+                if row["symbol"].strip().upper() == order_symbol
+            )
+        )
+    )
+
     broker_position_qty = 0.0
     relevant_position_type_valid = True
 
@@ -1644,6 +1678,7 @@ def evaluate_paper_state_risk_preflight(
         and open_orders_valid
         and relevant_position_type_valid
         and relevant_open_order_type_valid
+        and relevant_open_orders_match_position
         and available_funds_cross_checked
     )
 
@@ -1672,6 +1707,7 @@ def evaluate_paper_state_risk_preflight(
             and open_orders_valid
             and relevant_position_type_valid
             and relevant_open_order_type_valid
+            and relevant_open_orders_match_position
             and max(
                 broker_position_qty,
                 0.0,
