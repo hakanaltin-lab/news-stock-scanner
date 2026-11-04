@@ -58,7 +58,7 @@ class G6ProbePreconnectionGateTests(unittest.TestCase):
             probe._preconnection_stage(
                 MODE,
                 {"verified": True},
-                post_post_review(),
+                post_review(),
             ),
             "POST_REVIEW_PROBE",
         )
@@ -68,7 +68,7 @@ class G6ProbePreconnectionGateTests(unittest.TestCase):
             probe._preconnection_stage(
                 MODE,
                 {"verified": True},
-                pre_post_review(),
+                pre_review(),
             ),
             "PRE_REVIEW_DIAGNOSTIC",
         )
@@ -110,7 +110,7 @@ class G6ProbePreconnectionGateTests(unittest.TestCase):
         for flag in FLAGS:
             for value in (True, None):
                 with self.subTest(flag=flag, value=value):
-                    bad = review()
+                    bad = post_review()
                     bad[flag] = value
                     self.assertFalse(
                         probe._preconnection_gate(
