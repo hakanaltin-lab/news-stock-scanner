@@ -67,6 +67,7 @@ def ready_snapshot():
             "account_summary": True,
             "positions": True,
             "open_orders": True,
+            "executions": True,
         },
     }
 
@@ -266,6 +267,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
     def test_invalid_broker_numeric_callbacks_do_not_become_zero(self):
         fake_ibapi = types.ModuleType("ibapi")
         fake_client = types.ModuleType("ibapi.client")
+        fake_execution = types.ModuleType("ibapi.execution")
         fake_wrapper = types.ModuleType("ibapi.wrapper")
 
         class FakeClient:
@@ -276,7 +278,11 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             def __init__(self):
                 pass
 
+        class FakeExecutionFilter:
+            pass
+
         fake_client.EClient = FakeClient
+        fake_execution.ExecutionFilter = FakeExecutionFilter
         fake_wrapper.EWrapper = FakeWrapper
 
         module_path = REPOSITORY_ROOT / "engines/ibkr_gateway_connector.py"
@@ -289,6 +295,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
         with patch.dict(sys.modules, {
             "ibapi": fake_ibapi,
             "ibapi.client": fake_client,
+            "ibapi.execution": fake_execution,
             "ibapi.wrapper": fake_wrapper,
         }):
             specification.loader.exec_module(isolated)
@@ -380,7 +387,21 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             price = float("inf")
             time = "20261102 09:00:00"
 
-        application.execDetails(1, Contract(), Execution())
+        application.execDetails(
+            isolated.EXECUTIONS_REQUEST_ID + 1,
+            Contract(),
+            Execution(),
+        )
+        self.assertEqual(application.execution_rows, [])
+        application.execDetails(
+            isolated.EXECUTIONS_REQUEST_ID,
+            Contract(),
+            Execution(),
+        )
+        self.assertEqual(
+            application.execution_rows[0]["request_id"],
+            isolated.EXECUTIONS_REQUEST_ID,
+        )
         self.assertEqual(application.execution_rows[0]["order_id"], 1)
         self.assertEqual(application.execution_rows[0]["perm_id"], 10)
         self.assertEqual(application.execution_rows[0]["client_id"], 82)
@@ -390,6 +411,11 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             application.execution_rows[0]["cumulative_quantity"]
         )
         self.assertIsNone(application.execution_rows[0]["price"])
+
+        application.execDetailsEnd(isolated.EXECUTIONS_REQUEST_ID + 1)
+        self.assertFalse(application.executions_event.is_set())
+        application.execDetailsEnd(isolated.EXECUTIONS_REQUEST_ID)
+        self.assertTrue(application.executions_event.is_set())
 
     def test_account_identifiers_are_masked_in_errors(self):
         account = "DU1234567"
@@ -423,6 +449,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
     def test_broker_mutation_surface_is_hard_blocked_even_with_ibapi_available(self):
         fake_ibapi = types.ModuleType("ibapi")
         fake_client = types.ModuleType("ibapi.client")
+        fake_execution = types.ModuleType("ibapi.execution")
         fake_wrapper = types.ModuleType("ibapi.wrapper")
 
         class FakeClient:
@@ -433,7 +460,11 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             def __init__(self):
                 pass
 
+        class FakeExecutionFilter:
+            pass
+
         fake_client.EClient = FakeClient
+        fake_execution.ExecutionFilter = FakeExecutionFilter
         fake_wrapper.EWrapper = FakeWrapper
 
         module_path = REPOSITORY_ROOT / "engines/ibkr_gateway_connector.py"
@@ -446,6 +477,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
         with patch.dict(sys.modules, {
             "ibapi": fake_ibapi,
             "ibapi.client": fake_client,
+            "ibapi.execution": fake_execution,
             "ibapi.wrapper": fake_wrapper,
         }):
             specification.loader.exec_module(isolated)
@@ -469,6 +501,8 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
 
         self.assertIn("app.reqAllOpenOrders()", source)
         self.assertNotIn("app.reqOpenOrders()", source)
+        self.assertIn("app.reqExecutions(", source)
+        self.assertIn("ExecutionFilter()", source)
 
 
 class IBKRReadinessTests(unittest.TestCase):
@@ -496,6 +530,23 @@ class IBKRReadinessTests(unittest.TestCase):
             if item["required"] and not item["passed"]
         }
         self.assertIn("managed_accounts_snapshot_complete", failed)
+
+    def test_incomplete_execution_snapshot_is_not_ready(self):
+        snapshot = ready_snapshot()
+        snapshot["requests_complete"]["executions"] = False
+
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+        self.assertEqual(readiness["readiness"], "NOT_READY")
+        self.assertIn(
+            "execution_snapshot_complete",
+            {
+                item["check"]
+                for item in readiness["checks"]
+                if item["required"] and not item["passed"]
+            },
+        )
+        self.assertFalse(readiness["paper_order_submission_allowed"])
 
     def test_snapshot_account_identity_mismatch_is_not_ready(self):
         snapshot = ready_snapshot()

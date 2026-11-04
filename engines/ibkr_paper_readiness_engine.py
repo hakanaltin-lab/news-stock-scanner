@@ -1254,6 +1254,19 @@ def evaluate_ibkr_paper_readiness(
         )
     )
 
+    add_check(
+        "execution_snapshot_complete",
+        requests_complete.get(
+            "executions"
+        )
+        is True,
+        True,
+        (
+            "Execution request must reach execDetailsEnd before read-only "
+            "readiness can reconcile partial fills."
+        )
+    )
+
     open_orders = broker_snapshot.get(
         "open_orders"
     )

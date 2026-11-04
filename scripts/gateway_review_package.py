@@ -88,6 +88,7 @@ _REQUIRED_G2_PASSED_CHECKS = {
     "account_summary_snapshot_complete",
     "positions_snapshot_complete",
     "open_orders_snapshot_complete",
+    "execution_snapshot_complete",
     "open_orders_payload_valid",
     "open_order_identifiers_unique",
     "open_order_statuses_active",

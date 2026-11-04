@@ -53,6 +53,10 @@ cumulative quantity must equal `orderStatus.filled`. Missing execution evidence,
 orphan callbacks, conflicting duplicate execution IDs and partial-fill quantity
 drift all block the state-risk proof.
 
+The fresh G2 proof must also show that the read-only execution request reached
+its matching `execDetailsEnd` callback. Partial rows from a timed-out or
+mismatched request are never treated as a complete execution snapshot.
+
 ## Output
 
 A passing status is PAPER_STATE_RISK_VALIDATED_NON_EXECUTABLE.

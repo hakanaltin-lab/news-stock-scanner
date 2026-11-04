@@ -35,6 +35,7 @@ from engines.ibkr_account_guard import (
 
 try:
     from ibapi.client import EClient
+    from ibapi.execution import ExecutionFilter
     from ibapi.wrapper import EWrapper
 
     IBAPI_AVAILABLE = True
@@ -68,6 +69,8 @@ BROKER_MUTATION_METHODS_HARD_BLOCKED = (
 OPEN_ORDER_OBSERVATION_MODE = (
     "REQ_ALL_OPEN_ORDERS_NON_BINDING"
 )
+
+EXECUTIONS_REQUEST_ID = 8302
 
 
 def env_bool(
@@ -324,6 +327,10 @@ if IBAPI_AVAILABLE:
             )
 
             self.open_orders_event = (
+                threading.Event()
+            )
+
+            self.executions_event = (
                 threading.Event()
             )
 
@@ -719,7 +726,13 @@ if IBAPI_AVAILABLE:
             contract,
             execution
         ):
+            if reqId != EXECUTIONS_REQUEST_ID:
+                return
+
             self.execution_rows.append({
+                "request_id":
+                reqId,
+
                 "order_id":
                 (
                     getattr(execution, "orderId", None)
@@ -824,6 +837,14 @@ if IBAPI_AVAILABLE:
                     None
                 )
             })
+
+
+        def execDetailsEnd(
+            self,
+            reqId
+        ):
+            if reqId == EXECUTIONS_REQUEST_ID:
+                self.executions_event.set()
 
 
         def error(
@@ -1330,6 +1351,11 @@ def get_ibkr_read_only_snapshot():
 
         app.reqAllOpenOrders()
 
+        app.reqExecutions(
+            EXECUTIONS_REQUEST_ID,
+            ExecutionFilter()
+        )
+
         deadline = (
             time.time()
             +
@@ -1345,6 +1371,8 @@ def get_ibkr_read_only_snapshot():
                 app.positions_event.is_set()
                 and
                 app.open_orders_event.is_set()
+                and
+                app.executions_event.is_set()
             ):
                 break
 
@@ -1389,6 +1417,8 @@ def get_ibkr_read_only_snapshot():
             app.positions_event.is_set()
             and
             app.open_orders_event.is_set()
+            and
+            app.executions_event.is_set()
         )
 
         account_guard = evaluate_paper_account_identity(
@@ -1473,7 +1503,10 @@ def get_ibkr_read_only_snapshot():
                 app.positions_event.is_set(),
 
                 "open_orders":
-                app.open_orders_event.is_set()
+                app.open_orders_event.is_set(),
+
+                "executions":
+                app.executions_event.is_set()
             }
         }
 

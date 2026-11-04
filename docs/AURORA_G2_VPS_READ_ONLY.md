@@ -206,6 +206,15 @@ equal `orderStatus.filled`; missing, orphaned, malformed or contradictory
 execution rows fail closed. An explicit empty execution list is accepted only
 when every active order reports zero filled quantity.
 
+The connector requests the current execution history with an empty,
+read-only `ExecutionFilter` and a fixed request ID. Readiness requires the
+matching `execDetailsEnd` callback before treating the execution snapshot as
+complete, and rows delivered under any other request ID are ignored. A timeout,
+wrong completion request ID or missing completion callback blocks the proof
+even if some execution rows arrived. IB Gateway can return only the
+execution history available under its configured trade-log window, so any
+older partial fill that cannot be reconciled remains fail-closed.
+
 These controls do not replace the independent Gateway/TWS Read-Only
 attestation and do not authorize Paper or LIVE order submission.
 

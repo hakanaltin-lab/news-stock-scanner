@@ -44,6 +44,7 @@ def snapshot():
         "requests_complete": {
             "managed_accounts": True, "account_summary": True,
             "positions": True, "open_orders": True,
+            "executions": True,
         },
         "positions": [],
         "open_orders": [],

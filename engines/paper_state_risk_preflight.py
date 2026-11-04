@@ -54,6 +54,7 @@ _REQUIRED_G7_POSITION_CHECKS = (
     "position_instruments_unambiguous",
     "open_order_identifiers_unique",
     "open_order_statuses_active",
+    "execution_snapshot_complete",
     "open_order_execution_evidence_consistent",
 )
 

@@ -137,11 +137,14 @@ def g2_diagnostic(timestamp=None):
             },
             "positions": [],
             "open_orders": [],
+            "order_status": [],
+            "executions": [],
             "requests_complete": {
                 "managed_accounts": True,
                 "account_summary": True,
                 "positions": True,
                 "open_orders": True,
+                "executions": True,
             },
         },
         "gateway_read_only_attestation": {

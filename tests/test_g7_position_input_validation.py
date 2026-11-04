@@ -33,12 +33,15 @@ def snapshot(positions=None):
         "live_trading_allowed": False,
         "official_ibapi_available": True,
         "requests_complete": {"managed_accounts": True, "account_summary": True,
-                              "positions": True, "open_orders": True},
+                              "positions": True, "open_orders": True,
+                              "executions": True},
         "account_summary": {
             key: {"value": "1000"} for key in
             ("NetLiquidation", "TotalCashValue", "AvailableFunds", "BuyingPower")
         },
         "open_orders": [],
+        "order_status": [],
+        "executions": [],
         "positions": [] if positions is None else positions,
     }
 
