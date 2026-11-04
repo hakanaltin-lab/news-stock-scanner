@@ -14,6 +14,7 @@ from uuid import UUID
 
 from engines.paper_adapter_source_attestation import (
     ENGINE_VERSION as SOURCE_ATTESTATION_ENGINE_VERSION,
+    EXPECTED_SOURCE_ATTESTATION_CHECKS,
 )
 from engines.paper_adapter_source_review import (
     EXPECTED_CLASS,
@@ -244,10 +245,10 @@ def evaluate_implementation_design(
         and source_attestation.get("reason")
         == "INDEPENDENT_SOURCE_REVIEW_ATTESTATION_VERIFIED"
         and isinstance(checks, dict)
-        and bool(checks)
+        and set(checks) == EXPECTED_SOURCE_ATTESTATION_CHECKS
         and all(
-            value is True
-            for value in checks.values()
+            checks.get(name) is True
+            for name in EXPECTED_SOURCE_ATTESTATION_CHECKS
         )
         and _permissions_false(source_attestation)
         and source_attestation.get("next_gate")
