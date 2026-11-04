@@ -19,6 +19,7 @@ from engines.ibkr_paper_readiness_engine import evaluate_ibkr_paper_readiness
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 EVIDENCE_RUN_ID = "11111111-1111-4111-8111-111111111111"
+_AUTO_ORDER_STATUS = object()
 
 
 def ready_snapshot():
@@ -82,6 +83,32 @@ def ready_open_order(**overrides):
     }
     order.update(overrides)
     return order
+
+
+def ready_order_status(order=None, **overrides):
+    order = order or ready_open_order()
+    row = {
+        "order_id": order["order_id"],
+        "status": order["status"],
+        "filled": 0.0,
+        "remaining": order["quantity"],
+        "average_fill_price": 0.0,
+    }
+    row.update(overrides)
+    return row
+
+
+def set_open_orders(
+    snapshot,
+    orders,
+    order_status=_AUTO_ORDER_STATUS,
+):
+    snapshot["open_orders"] = orders
+    snapshot["order_status"] = (
+        [ready_order_status(order) for order in orders]
+        if order_status is _AUTO_ORDER_STATUS
+        else order_status
+    )
 
 
 class IBKRConnectorConfigurationTests(unittest.TestCase):
@@ -445,11 +472,11 @@ class IBKRReadinessTests(unittest.TestCase):
 
     def test_foreign_open_order_blocks_readiness(self):
         snapshot = ready_snapshot()
-        snapshot["open_orders"] = [
+        set_open_orders(snapshot, [
             ready_open_order(
                 account="IBKR-OTHERACCOUNT",
             )
-        ]
+        ])
         readiness = evaluate_ibkr_paper_readiness(snapshot, [])
         self.assertEqual(readiness["readiness"], "NOT_READY")
         self.assertIn(
@@ -462,9 +489,9 @@ class IBKRReadinessTests(unittest.TestCase):
 
     def test_verified_paper_open_order_is_accepted(self):
         snapshot = ready_snapshot()
-        snapshot["open_orders"] = [
+        set_open_orders(snapshot, [
             ready_open_order()
-        ]
+        ])
         readiness = evaluate_ibkr_paper_readiness(snapshot, [])
         self.assertEqual(readiness["readiness"], "READY_FOR_PAPER_READ_ONLY")
         self.assertFalse(readiness["paper_order_submission_allowed"])
@@ -495,7 +522,7 @@ class IBKRReadinessTests(unittest.TestCase):
         snapshot = ready_snapshot()
         order = ready_open_order()
         order.pop("account")
-        snapshot["open_orders"] = [order]
+        set_open_orders(snapshot, [order])
         readiness = evaluate_ibkr_paper_readiness(snapshot, [])
         self.assertEqual(readiness["readiness"], "NOT_READY")
 
@@ -540,11 +567,8 @@ class IBKRReadinessTests(unittest.TestCase):
         ):
             with self.subTest(status=status):
                 snapshot = ready_snapshot()
-                snapshot["open_orders"] = [
-                    ready_open_order(
-                        status=status,
-                    )
-                ]
+                order = ready_open_order(status=status)
+                set_open_orders(snapshot, [order])
 
                 readiness = evaluate_ibkr_paper_readiness(snapshot, [])
 
@@ -616,10 +640,10 @@ class IBKRReadinessTests(unittest.TestCase):
                 self.assertFalse(readiness["paper_order_submission_allowed"])
 
         snapshot = ready_snapshot()
-        snapshot["open_orders"] = [
+        set_open_orders(snapshot, [
             ready_open_order(order_id=10),
             ready_open_order(order_id=11, action="BUY"),
-        ]
+        ])
 
         readiness = evaluate_ibkr_paper_readiness(snapshot, [])
 
@@ -627,6 +651,61 @@ class IBKRReadinessTests(unittest.TestCase):
             readiness["readiness"],
             "READY_FOR_PAPER_READ_ONLY",
         )
+
+    def test_missing_or_conflicting_order_status_evidence_blocks_readiness(self):
+        order = ready_open_order()
+        cases = (
+            None,
+            [],
+            [ready_order_status(order, status="PendingCancel")],
+            [
+                ready_order_status(order),
+                ready_order_status(order, remaining=0.5),
+            ],
+            [ready_order_status(order, filled=float("nan"))],
+            [ready_order_status(order, filled=True)],
+            [ready_order_status(order, remaining=-1.0)],
+        )
+
+        for order_status in cases:
+            with self.subTest(order_status=order_status):
+                snapshot = ready_snapshot()
+                set_open_orders(snapshot, [order], order_status)
+
+                readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+                self.assertEqual(readiness["readiness"], "NOT_READY")
+                self.assertIn(
+                    "open_order_statuses_active",
+                    {
+                        item["check"] for item in readiness["checks"]
+                        if item["required"] and not item["passed"]
+                    },
+                )
+                self.assertFalse(readiness["paper_order_submission_allowed"])
+
+    def test_identical_duplicate_order_status_evidence_is_accepted(self):
+        snapshot = ready_snapshot()
+        order = ready_open_order()
+        status = ready_order_status(order)
+        set_open_orders(snapshot, [order], [status, dict(status)])
+
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+        self.assertEqual(
+            readiness["readiness"],
+            "READY_FOR_PAPER_READ_ONLY",
+        )
+        self.assertFalse(readiness["paper_order_submission_allowed"])
+
+    def test_orphan_order_status_evidence_blocks_empty_snapshot(self):
+        snapshot = ready_snapshot()
+        snapshot["order_status"] = [ready_order_status()]
+
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+        self.assertEqual(readiness["readiness"], "NOT_READY")
+        self.assertFalse(readiness["paper_order_submission_allowed"])
 
     def test_foreign_paper_position_blocks_readiness(self):
         snapshot = ready_snapshot()

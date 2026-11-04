@@ -106,6 +106,81 @@ def open_order_payload_is_valid(open_orders):
     return True
 
 
+def open_order_status_evidence_is_consistent(
+    open_orders,
+    order_status_rows,
+):
+    """Reconcile the two IBKR callbacks that describe each open order."""
+    if not isinstance(open_orders, list):
+        return False
+
+    if not open_orders:
+        return order_status_rows in (None, [])
+
+    if not isinstance(order_status_rows, list) or not order_status_rows:
+        return False
+
+    open_orders_by_id = {}
+    for order in open_orders:
+        if not isinstance(order, dict):
+            return False
+        order_id = order.get("order_id")
+        quantity = safe_float(order.get("quantity"), None)
+        if (
+            type(order_id) is not int
+            or order_id < 0
+            or quantity is None
+            or quantity <= 0
+        ):
+            return False
+        open_orders_by_id[order_id] = order
+
+    evidence_by_id = {}
+    for row in order_status_rows:
+        if not isinstance(row, dict):
+            return False
+
+        order_id = row.get("order_id")
+        status = row.get("status")
+        filled = safe_float(row.get("filled"), None)
+        remaining = safe_float(row.get("remaining"), None)
+        if (
+            type(order_id) is not int
+            or order_id not in open_orders_by_id
+            or type(status) is not str
+            or status not in ACTIVE_OPEN_ORDER_STATUSES
+            or filled is None
+            or filled < 0
+            or remaining is None
+            or remaining < 0
+            or not math.isclose(
+                filled + remaining,
+                safe_float(
+                    open_orders_by_id[order_id].get("quantity"),
+                    None,
+                ),
+                rel_tol=1e-9,
+                abs_tol=1e-9,
+            )
+        ):
+            return False
+
+        evidence_by_id.setdefault(order_id, set()).add((
+            status,
+            filled,
+            remaining,
+        ))
+
+    if set(evidence_by_id) != set(open_orders_by_id):
+        return False
+
+    return all(
+        len(rows) == 1
+        and next(iter(rows))[0] == open_orders_by_id[order_id].get("status")
+        for order_id, rows in evidence_by_id.items()
+    )
+
+
 def account_metric(
     snapshot,
     name
@@ -1080,14 +1155,18 @@ def evaluate_ibkr_paper_readiness(
             and row["status"] in ACTIVE_OPEN_ORDER_STATUSES
             for row in open_orders
         )
+        and open_order_status_evidence_is_consistent(
+            open_orders,
+            broker_snapshot.get("order_status"),
+        )
     )
     add_check(
         "open_order_statuses_active",
         open_order_statuses_active,
         True,
         (
-            "Every reported open order must carry an explicit active IBKR "
-            "status; missing, terminal and unknown states are ambiguous."
+            "Every reported open order must carry matching, complete and "
+            "unambiguous active status evidence from both IBKR callbacks."
         ),
     )
 

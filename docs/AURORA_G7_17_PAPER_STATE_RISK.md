@@ -42,6 +42,8 @@ Every open-order row must carry one of the explicit active TWS states `ApiPendin
 
 The full open-order snapshot, including orders unrelated to the reviewed symbol, must carry USD stock identity, a positive `conId`, BUY/SELL direction and positive finite quantity. Symbol-to-`conId` mappings must be one-to-one across distinct contracts, while multiple orders for the same symbol/contract remain valid. Any unrelated malformed or conflicting row blocks the complete broker-state proof rather than being ignored.
 
+Each open order must also reconcile with the `orderStatus` callback snapshot by order ID, active status and filled/remaining quantity. Missing, orphaned or contradictory callback evidence blocks the risk proof; only exact duplicate status messages are tolerated.
+
 ## Output
 
 A passing status is PAPER_STATE_RISK_VALIDATED_NON_EXECUTABLE.
