@@ -839,6 +839,11 @@ def _sanitize_positions(
                 "exchange"
             ),
 
+            "con_id":
+            item.get(
+                "con_id"
+            ),
+
             "position":
             item.get(
                 "position"
