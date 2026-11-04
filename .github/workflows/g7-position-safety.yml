@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'engines/ibkr_paper_readiness_engine.py'
+      - 'engines/ibkr_gateway_connector.py'
       - 'tests/test_g7_position_input_validation.py'
       - '.github/workflows/g7-position-safety.yml'
   push:
@@ -11,6 +12,7 @@ on:
       - 'fix/g7-position-payload-fail-closed-112'
     paths:
       - 'engines/ibkr_paper_readiness_engine.py'
+      - 'engines/ibkr_gateway_connector.py'
       - 'tests/test_g7_position_input_validation.py'
       - '.github/workflows/g7-position-safety.yml'
   workflow_dispatch:
