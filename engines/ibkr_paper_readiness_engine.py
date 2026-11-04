@@ -1034,20 +1034,36 @@ def evaluate_ibkr_paper_readiness(
             and row["currency"] == "USD"
             and isinstance(row.get("account"), str)
             and row["account"] in verified_account_fingerprints
+            and type(row.get("con_id")) is int
+            and row["con_id"] > 0
             for row in positions
         )
     )
+    position_symbols = (
+        [row["symbol"].strip().upper() for row in positions]
+        if position_instruments_valid else []
+    )
+    position_con_ids = (
+        [row["con_id"] for row in positions]
+        if position_instruments_valid else []
+    )
     position_identity_keys = (
         [(row["account"], row["symbol"].strip().upper(),
-          row["security_type"], row["currency"]) for row in positions]
+          row["security_type"], row["currency"], row["con_id"])
+         for row in positions]
         if position_instruments_valid else []
     )
     add_check(
         "position_instruments_unambiguous",
         position_instruments_valid
-        and len(position_identity_keys) == len(set(position_identity_keys)),
+        and len(position_identity_keys) == len(set(position_identity_keys))
+        and len(position_symbols) == len(set(position_symbols))
+        and len(position_con_ids) == len(set(position_con_ids)),
         True,
-        "Only uniquely identified USD stock positions from verified accounts are supported.",
+        (
+            "Only uniquely identified USD stock positions with positive "
+            "IBKR conIds from verified accounts are supported."
+        ),
     )
 
     position_sync = (
@@ -1056,6 +1072,8 @@ def evaluate_ibkr_paper_readiness(
         and position_instruments_valid
         and len(portfolio_symbols) == len(set(portfolio_symbols))
         and len(position_identity_keys) == len(set(position_identity_keys))
+        and len(position_symbols) == len(set(position_symbols))
+        and len(position_con_ids) == len(set(position_con_ids))
         and requests_complete.get("positions") is True
         and position_accounts_verified
         else {
