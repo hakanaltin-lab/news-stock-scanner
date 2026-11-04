@@ -14,6 +14,7 @@ IDENTITY = {
     "status": "VERIFIED",
     "verified": True,
     "failure_reasons": [],
+    **{flag: False for flag in FLAGS},
 }
 
 def review(**overrides):
@@ -60,6 +61,13 @@ class G6OperatorAcceptanceStatusTests(unittest.TestCase):
         )
         self.assertEqual(result["stage"], "POST_REVIEW_PROBE")
         self.assertTrue(result["ready_for_broker_read"])
+
+    def test_identity_permission_drift_blocks(self):
+        unsafe_identity = dict(IDENTITY)
+        unsafe_identity["paper_order_submission_allowed"] = True
+        result = build_g6_operator_acceptance_status(unsafe_identity, review())
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertFalse(result["ready_for_broker_read"])
 
     def test_identity_or_permission_drift_blocks(self):
         result = build_g6_operator_acceptance_status(
