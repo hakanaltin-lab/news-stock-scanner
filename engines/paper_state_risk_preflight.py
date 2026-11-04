@@ -1471,15 +1471,19 @@ def evaluate_paper_state_risk_preflight(
     open_order_identifiers_unique = (
         open_orders_valid
         and len({
-            row[
-                "order_id"
-            ]
+            row["perm_id"]
             for row in open_orders
         })
         ==
         len(
             open_orders
         )
+        and len({
+            (row["client_id"], row["order_id"])
+            for row in open_orders
+        })
+        ==
+        len(open_orders)
     )
 
     open_order_statuses_active = (

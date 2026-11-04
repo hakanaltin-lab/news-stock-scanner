@@ -673,6 +673,87 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             ]
         )
 
+    def test_duplicate_broker_stable_open_order_identifiers_block(self):
+        order = {
+            "order_id": 42,
+            "perm_id": 900042,
+            "client_id": 17,
+            "account": ACCOUNT,
+            "symbol": "BKR",
+            "security_type": "STK",
+            "currency": "USD",
+            "con_id": 7654321,
+            "action": "SELL",
+            "quantity": 1.0,
+            "status": "Submitted",
+        }
+        conflicting_orders = (
+            {
+                **order,
+                "order_id": 43,
+                "client_id": 18,
+            },
+            {
+                **order,
+                "perm_id": 900043,
+            },
+        )
+
+        for conflicting in conflicting_orders:
+            with self.subTest(conflicting=conflicting):
+                result = self.evaluate(
+                    fresh=fresh_g2(
+                        open_orders=[order, conflicting],
+                    ),
+                )
+
+                self.assertEqual(result["status"], "BLOCKED")
+                self.assertIn(
+                    "open_order_identifiers_unique",
+                    result["failure_reasons"],
+                )
+                self.assertIn(
+                    "broker_state_payload_valid",
+                    result["failure_reasons"],
+                )
+                self.assertFalse(result["paper_order_submission_allowed"])
+
+    def test_same_local_order_id_from_different_clients_is_distinct(self):
+        order = {
+            "order_id": 42,
+            "perm_id": 900042,
+            "client_id": 17,
+            "account": ACCOUNT,
+            "symbol": "BKR",
+            "security_type": "STK",
+            "currency": "USD",
+            "con_id": 7654321,
+            "action": "SELL",
+            "quantity": 1.0,
+            "status": "Submitted",
+        }
+        result = self.evaluate(
+            fresh=fresh_g2(
+                open_orders=[
+                    order,
+                    {
+                        **order,
+                        "perm_id": 900043,
+                        "client_id": 18,
+                    },
+                ],
+            ),
+        )
+
+        self.assertEqual(
+            result["status"],
+            "PAPER_STATE_RISK_VALIDATED_NON_EXECUTABLE",
+        )
+        self.assertTrue(
+            result["checks"]["open_order_identifiers_unique"]
+        )
+        self.assertFalse(result["paper_order_submission_allowed"])
+
     def test_missing_terminal_or_unknown_open_order_status_blocks(self):
         order = shadow(
             action="SELL",
