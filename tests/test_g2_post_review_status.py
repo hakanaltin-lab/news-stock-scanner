@@ -78,6 +78,7 @@ def snapshot():
             "account_summary": True,
             "positions": True,
             "open_orders": True,
+            "executions": True,
         },
     }
 

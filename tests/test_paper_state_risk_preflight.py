@@ -59,6 +59,7 @@ def required_g2_checks():
         "position_instruments_unambiguous",
         "open_order_identifiers_unique",
         "open_order_statuses_active",
+        "execution_snapshot_complete",
         "open_order_execution_evidence_consistent",
     )
     return [
@@ -178,6 +179,7 @@ def g2(
                 "account_summary": True,
                 "positions": True,
                 "open_orders": True,
+                "executions": True,
             },
             "paper_account_guard": {
                 "paper_account_verified": True,
