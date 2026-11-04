@@ -72,7 +72,7 @@ EXPECTED_G6_RUNTIME_CHECKS = {
     "gateway_attestation_exactly_bound",
     "gateway_attestation_runtime_identity_bound",
     "git_sha_bound_to_attestation",
-
+}
 
 _PERMISSION_FLAGS = (
     "broker_submission_allowed",
