@@ -53,10 +53,11 @@ Reconciliation also requires the same account-wide `permId` and source `clientId
 
 An active order with a non-zero filled quantity must additionally reconcile
 with `execDetails`. Execution identity, USD stock contract, side, positive
-shares/price and cumulative quantity are validated, and the greatest
-cumulative quantity must equal `orderStatus.filled`. Missing execution evidence,
-orphan callbacks, conflicting duplicate execution IDs and partial-fill quantity
-drift all block the state-risk proof.
+shares/price, the exact fixed integer execution request ID and cumulative
+quantity are validated, and the greatest cumulative quantity must equal
+`orderStatus.filled`. Missing execution evidence, missing or mismatched request
+IDs, orphan callbacks, conflicting duplicate execution IDs and partial-fill
+quantity drift all block the state-risk proof.
 
 The fresh G2 proof must also show that the read-only execution request reached
 its matching `execDetailsEnd` callback. Partial rows from a timed-out or

@@ -26,6 +26,8 @@ ACTIVE_OPEN_ORDER_STATUSES = frozenset({
     "PendingCancel",
 })
 
+EXECUTIONS_REQUEST_ID = 8302
+
 
 def safe_float(
     value,
@@ -274,6 +276,8 @@ def open_order_execution_evidence_is_consistent(
         )
         if (
             order is None
+            or type(row.get("request_id")) is not int
+            or row["request_id"] != EXECUTIONS_REQUEST_ID
             or not isinstance(execution_id, str)
             or not execution_id.strip()
             or not isinstance(row.get("symbol"), str)
@@ -1347,8 +1351,9 @@ def evaluate_ibkr_paper_readiness(
         True,
         (
             "Every partial fill must carry complete execDetails evidence "
-            "bound to the same permId/clientId/orderId and cumulative "
-            "filled quantity reported by orderStatus."
+            "bound to the fixed execution request ID, the same "
+            "permId/clientId/orderId and cumulative filled quantity "
+            "reported by orderStatus."
         ),
     )
 

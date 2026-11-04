@@ -14,7 +14,10 @@ from unittest.mock import patch
 
 from engines import ibkr_gateway_connector as connector
 from scripts import ibkr_paper_probe as paper_probe
-from engines.ibkr_paper_readiness_engine import evaluate_ibkr_paper_readiness
+from engines.ibkr_paper_readiness_engine import (
+    EXECUTIONS_REQUEST_ID,
+    evaluate_ibkr_paper_readiness,
+)
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
@@ -110,6 +113,7 @@ def ready_order_status(order=None, **overrides):
 def ready_execution(order=None, **overrides):
     order = order or ready_open_order()
     row = {
+        "request_id": EXECUTIONS_REQUEST_ID,
         "order_id": order["order_id"],
         "perm_id": order["perm_id"],
         "client_id": order["client_id"],
@@ -912,6 +916,13 @@ class IBKRReadinessTests(unittest.TestCase):
         cases = (
             None,
             [],
+            [{
+                key: value
+                for key, value in valid.items()
+                if key != "request_id"
+            }],
+            [{**valid, "request_id": EXECUTIONS_REQUEST_ID + 1}],
+            [{**valid, "request_id": True}],
             [{**valid, "perm_id": 900011}],
             [{**valid, "client_id": 18}],
             [{**valid, "order_id": 11}],
