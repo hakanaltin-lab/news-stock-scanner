@@ -18,6 +18,9 @@ from scripts.gateway_review_package import (
     build_runtime_bound_review_package,
     build_unsigned_review_package,
 )
+from scripts.aurora_readiness_summary import (
+    EXPECTED_G2_REQUIRED_CHECKS,
+)
 from engines.gateway_attestation_handoff import (
     HANDOFF_REQUEST_TYPE,
 )
@@ -240,6 +243,14 @@ def runtime_identity():
 
 
 class GatewayReviewPackageTests(unittest.TestCase):
+    def test_pre_review_required_check_set_matches_current_g2_contract(self):
+        self.assertEqual(
+            _REQUIRED_G2_PASSED_CHECKS,
+            EXPECTED_G2_REQUIRED_CHECKS - {
+                "gateway_read_only_configuration_independently_attested"
+            },
+        )
+
     def test_safe_handoff_builds_unsigned_non_authorizing_package(self):
         result = build_unsigned_review_package(
             safe_handoff()
