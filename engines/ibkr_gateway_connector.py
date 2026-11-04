@@ -555,6 +555,22 @@ if IBAPI_AVAILABLE:
                 "order_id":
                 orderId,
 
+                "perm_id":
+                (
+                    getattr(order, "permId", None)
+                    if type(getattr(order, "permId", None)) is int
+                    and getattr(order, "permId", None) > 0
+                    else None
+                ),
+
+                "client_id":
+                (
+                    getattr(order, "clientId", None)
+                    if type(getattr(order, "clientId", None)) is int
+                    and getattr(order, "clientId", None) >= 0
+                    else None
+                ),
+
                 "account":
                 mask_account(
                     getattr(
@@ -659,6 +675,20 @@ if IBAPI_AVAILABLE:
             self.order_status_rows.append({
                 "order_id":
                 orderId,
+
+                "perm_id":
+                (
+                    permId
+                    if type(permId) is int and permId > 0
+                    else None
+                ),
+
+                "client_id":
+                (
+                    clientId
+                    if type(clientId) is int and clientId >= 0
+                    else None
+                ),
 
                 "status":
                 status,
