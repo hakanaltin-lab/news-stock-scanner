@@ -11,6 +11,7 @@ from engines.paper_state_risk_preflight import (
     _EXPECTED_G5_CHECKS,
     evaluate_paper_state_risk_preflight,
 )
+from engines.ibkr_paper_readiness_engine import EXECUTIONS_REQUEST_ID
 
 
 NOW = datetime(
@@ -935,6 +936,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "remaining": 1.0,
         }
         execution = {
+            "request_id": EXECUTIONS_REQUEST_ID,
             "order_id": 42,
             "perm_id": 900042,
             "client_id": 17,
@@ -991,6 +993,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "remaining": 1.0,
         }
         execution = {
+            "request_id": EXECUTIONS_REQUEST_ID,
             "order_id": 42,
             "perm_id": 900042,
             "client_id": 17,
@@ -1007,6 +1010,12 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
 
         for executions in (
             [],
+            [{
+                key: value
+                for key, value in execution.items()
+                if key != "request_id"
+            }],
+            [{**execution, "request_id": EXECUTIONS_REQUEST_ID + 1}],
             [{**execution, "perm_id": 900043}],
             [{**execution, "cumulative_quantity": 0.5}],
         ):

@@ -31,6 +31,7 @@ from engines.ibkr_account_guard import (
     account_fingerprint,
     evaluate_paper_account_identity,
 )
+from engines.ibkr_paper_readiness_engine import EXECUTIONS_REQUEST_ID
 
 
 try:
@@ -69,9 +70,6 @@ BROKER_MUTATION_METHODS_HARD_BLOCKED = (
 OPEN_ORDER_OBSERVATION_MODE = (
     "REQ_ALL_OPEN_ORDERS_NON_BINDING"
 )
-
-EXECUTIONS_REQUEST_ID = 8302
-
 
 def env_bool(
     name,
