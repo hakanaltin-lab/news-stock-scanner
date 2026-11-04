@@ -4,6 +4,7 @@ on:
     paths:
       - "scripts/ibkr_paper_probe.py"
       - "tests/test_g6_probe_preconnection_gate.py"
+      - "tests/test_ibkr_paper_read_only.py"
       - ".github/workflows/g6-preconnection-gate.yml"
   workflow_dispatch:
 permissions:
