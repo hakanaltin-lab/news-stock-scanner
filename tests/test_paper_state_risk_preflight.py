@@ -1,5 +1,7 @@
 """G7.17 offline tests for post-authorization Paper broker-state risk."""
 
+# Cross-stage G2 evidence must fail closed.
+
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
