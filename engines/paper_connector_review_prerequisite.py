@@ -579,6 +579,10 @@ def evaluate_g6_runtime_prerequisite(
             g5_run_id is not None
             and g5_run_id == g2_run_id
         ),
+        "g2_post_review_probe_stage": (
+            g2_proof.get("probe_stage")
+            == "POST_REVIEW_PROBE"
+        ),
         "g2_run_mode_read_only": (
             g2_run_mode.get("mode") == "READ_ONLY"
             and g2_run_mode.get("mode_valid") is True
@@ -811,6 +815,11 @@ def evaluate_g6_runtime_prerequisite(
             )
         ),
         "evidence_run_id": g5_run_id,
+        "g2_probe_stage": (
+            g2_proof.get("probe_stage")
+            if checks["g2_post_review_probe_stage"]
+            else None
+        ),
         "git_sha": g2_git_sha,
         "gce_instance_id": g5_instance_id,
         "g0_g1_proof_sha256": g5_g0_digest,
