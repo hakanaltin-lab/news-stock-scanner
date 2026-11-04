@@ -105,6 +105,12 @@ def evaluate_post_review_g2_status(
             expected_run_id,
         )
 
+    if g2_proof.get("probe_stage") != "POST_REVIEW_PROBE":
+        return _blocked(
+            "G2_POST_REVIEW_PROBE_STAGE_INVALID",
+            expected_run_id,
+        )
+
     if (
         _uuid4(
             g2_proof.get(
