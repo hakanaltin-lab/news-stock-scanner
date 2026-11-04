@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "engines/paper_state_risk_preflight.py"
+      - "engines/ibkr_gateway_connector.py"
       - "tests/test_paper_state_risk_preflight.py"
       - "docs/AURORA_G7_17_PAPER_STATE_RISK.md"
       - ".github/workflows/g7-paper-state-risk-preflight.yml"
