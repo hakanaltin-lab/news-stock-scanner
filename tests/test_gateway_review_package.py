@@ -69,6 +69,7 @@ def g2_diagnostic(timestamp=None):
     return {
         "git_sha": GIT_SHA,
         "evidence_run_id": EVIDENCE_RUN_ID,
+        "probe_stage": "PRE_REVIEW_DIAGNOSTIC",
         "run_mode": {
             "mode": "READ_ONLY",
             "live_execution_allowed": False,
@@ -371,6 +372,20 @@ class GatewayReviewPackageTests(unittest.TestCase):
                 self.assertFalse(
                     result["paper_order_submission_allowed"]
                 )
+
+    def test_runtime_bound_package_rejects_wrong_probe_stage(self):
+        diagnostic = g2_diagnostic()
+        diagnostic["probe_stage"] = "POST_REVIEW_PROBE"
+        result = build_runtime_bound_review_package(
+            safe_handoff(),
+            diagnostic,
+            now=NOW,
+        )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["failure_reasons"],
+            ["G2_DIAGNOSTIC_PROBE_STAGE_INVALID"],
+        )
 
     def test_runtime_bound_package_requires_fresh_clean_g2_diagnostic(self):
         result = build_runtime_bound_review_package(
