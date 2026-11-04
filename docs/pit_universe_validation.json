@@ -3,7 +3,7 @@
   "validation_signature": "V8.6.2",
   "status": "COMPLETE",
   "cache_status": "FRESH",
-  "generated": "2026-11-04T19:38:27.583643+00:00",
+  "generated": "2026-11-04T20:37:35.646605+00:00",
   "test_period": {
     "start": "2022-06-01",
     "end": "2026-06-05"
@@ -84,7 +84,7 @@
       "mode": "TOP12_FULL",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 113557.47,
+        "ending_value": 113557.49,
         "total_return_pct": 13.67,
         "cagr_pct": 3.26,
         "annualized_volatility_pct": 13.29,
@@ -851,7 +851,7 @@
       "mode": "TOP12_RISK_OVERLAY",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 113557.47,
+        "ending_value": 113557.49,
         "total_return_pct": 13.67,
         "cagr_pct": 3.26,
         "annualized_volatility_pct": 13.29,
@@ -2082,10 +2082,10 @@
               "Q1": 0.093,
               "Q2": -1.307,
               "Q3": -1.604,
-              "Q4": -2.161,
-              "Q5": -1.852
+              "Q4": -2.166,
+              "Q5": -1.847
             },
-            "top_minus_bottom_pct": -1.945
+            "top_minus_bottom_pct": -1.94
           }
         },
         "relative_strength_6m_pct": {
@@ -2168,7 +2168,7 @@
         "spy_total_return_pct": 136.3,
         "spy_cagr_pct": 24.04,
         "cagr_alpha_vs_spy_pct": -23.28,
-        "total_trading_costs": 4590.1,
+        "total_trading_costs": 4590.11,
         "trading_cost_pct_of_starting_capital": 4.59,
         "annualized_turnover_x": 11.5,
         "trading_days": 1006,
@@ -2923,7 +2923,7 @@
       "mode": "TOP12_RISK_OVERLAY",
       "performance": {
         "starting_value": 99910.42,
-        "ending_value": 103980.75,
+        "ending_value": 103980.74,
         "total_return_pct": 4.07,
         "cagr_pct": 1.01,
         "annualized_volatility_pct": 14.86,
