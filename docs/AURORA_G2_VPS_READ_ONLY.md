@@ -164,6 +164,11 @@ The probe also refuses IBKR `clientId=0` and observes open orders with
 requesting API client. G2 readiness and the G0-G3 readiness bundle fail closed
 unless these controls are present in fresh runtime evidence.
 
+Every row in the complete open-order snapshot must report an explicit active
+TWS status: `ApiPending`, `PendingSubmit`, `PreSubmitted`, `Submitted`, or
+`PendingCancel`. Missing, terminal, or unknown statuses block read-only
+readiness instead of being silently treated as active broker state.
+
 These controls do not replace the independent Gateway/TWS Read-Only
 attestation and do not authorize Paper or LIVE order submission.
 

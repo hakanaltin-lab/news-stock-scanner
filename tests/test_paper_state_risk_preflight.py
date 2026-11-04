@@ -55,6 +55,7 @@ def required_g2_checks():
         "portfolio_quantities_and_symbols_valid",
         "position_instruments_unambiguous",
         "open_order_identifiers_unique",
+        "open_order_statuses_active",
     )
     return [
         {"check": name, "required": True, "passed": True}
@@ -473,6 +474,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                     "con_id": 7654321,
                     "action": "SELL",
                     "quantity": 6.0,
+                    "status": "Submitted",
                 }
             ],
         )
@@ -507,6 +509,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                     "con_id": 7654321,
                     "action": "SELL",
                     "quantity": 6.0,
+                    "status": "Submitted",
                 }
             ],
         )
@@ -538,6 +541,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                     "con_id": 7654321,
                     "action": "SELL",
                     "quantity": True,
+                    "status": "Submitted",
                 }
             ],
         )
@@ -562,6 +566,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                     "con_id": 7654321,
                     "action": "SELL",
                     "quantity": 1.0,
+                    "status": "Submitted",
                 }
             ],
         )
@@ -585,6 +590,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "con_id": 7654321,
             "action": "SELL",
             "quantity": 1.0,
+            "status": "Submitted",
         }
         bad = fresh_g2(
             open_orders=[
@@ -621,6 +627,51 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                 "paper_order_submission_allowed"
             ]
         )
+
+    def test_missing_terminal_or_unknown_open_order_status_blocks(self):
+        order = shadow(
+            action="SELL",
+            quantity=1,
+        )
+
+        for status in (
+            None,
+            "Filled",
+            "Cancelled",
+            "Inactive",
+            "FutureStatus",
+        ):
+            with self.subTest(status=status):
+                open_order = {
+                    "order_id": 42,
+                    "account": ACCOUNT,
+                    "symbol": "BKR",
+                    "security_type": "STK",
+                    "currency": "USD",
+                    "con_id": 7654321,
+                    "action": "SELL",
+                    "quantity": 1.0,
+                }
+                if status is not None:
+                    open_order["status"] = status
+
+                result = self.evaluate(
+                    fresh=fresh_g2(
+                        open_orders=[open_order],
+                    ),
+                    order=order,
+                )
+
+                self.assertEqual(result["status"], "BLOCKED")
+                self.assertIn(
+                    "open_order_statuses_active",
+                    result["failure_reasons"],
+                )
+                self.assertIn(
+                    "broker_state_payload_valid",
+                    result["failure_reasons"],
+                )
+                self.assertFalse(result["paper_order_submission_allowed"])
 
     def test_fresh_g2_missing_position_identity_check_blocks(self):
         bad = fresh_g2()
@@ -669,7 +720,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
         bad = fresh_g2(open_orders=[{
             "order_id": 42, "account": ACCOUNT, "symbol": "BKR",
             "security_type": "STK", "currency": "USD",
-            "action": "SELL", "quantity": 1.0,
+            "action": "SELL", "quantity": 1.0, "status": "Submitted",
         }])
         result = self.evaluate(fresh=bad, order=order)
         self.assertEqual(result["status"], "BLOCKED")
@@ -681,6 +732,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "order_id": 42, "account": ACCOUNT, "symbol": "BKR",
             "security_type": "STK", "currency": "USD",
             "con_id": 123456, "action": "SELL", "quantity": 1.0,
+            "status": "Submitted",
         }])
         result = self.evaluate(fresh=bad, order=order)
         self.assertEqual(result["status"], "BLOCKED")
@@ -692,6 +744,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "order_id": 42, "account": ACCOUNT, "symbol": "BKR",
             "security_type": "STK", "currency": "EUR",
             "con_id": 7654321, "action": "SELL", "quantity": 1.0,
+            "status": "Submitted",
         }])
         result = self.evaluate(fresh=bad, order=order)
         self.assertEqual(result["status"], "BLOCKED")

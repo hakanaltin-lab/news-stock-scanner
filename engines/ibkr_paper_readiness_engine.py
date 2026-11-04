@@ -18,6 +18,14 @@ ENGINE_VERSION = (
     "V8.9.5 IBKR Paper Readiness Safety Gate"
 )
 
+ACTIVE_OPEN_ORDER_STATUSES = frozenset({
+    "ApiPending",
+    "PendingSubmit",
+    "PreSubmitted",
+    "Submitted",
+    "PendingCancel",
+})
+
 
 def safe_float(
     value,
@@ -1042,6 +1050,24 @@ def evaluate_ibkr_paper_readiness(
         (
             "Every reported open order must have one unique broker order "
             "identifier."
+        ),
+    )
+
+    open_order_statuses_active = (
+        open_orders_payload_valid
+        and all(
+            type(row.get("status")) is str
+            and row["status"] in ACTIVE_OPEN_ORDER_STATUSES
+            for row in open_orders
+        )
+    )
+    add_check(
+        "open_order_statuses_active",
+        open_order_statuses_active,
+        True,
+        (
+            "Every reported open order must carry an explicit active IBKR "
+            "status; missing, terminal and unknown states are ambiguous."
         ),
     )
 

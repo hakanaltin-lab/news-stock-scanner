@@ -38,6 +38,8 @@ Every position/open-order row used by the gate must belong to the verified Paper
 
 Open-order identifiers must also be unique within the complete broker snapshot. Duplicate identifiers are treated as ambiguous broker state and fail closed before any inventory or funds decision.
 
+Every open-order row must carry one of the explicit active TWS states `ApiPending`, `PendingSubmit`, `PreSubmitted`, `Submitted`, or `PendingCancel`. `PendingCancel` remains inventory-consuming because execution is still possible until cancellation is confirmed. Missing, terminal (`Filled`, `Cancelled`, `Inactive`, `ApiCancelled`), or unknown states are ambiguous in an active-order snapshot and fail closed; the gate never silently ignores them or treats them as safe inventory.
+
 ## Output
 
 A passing status is PAPER_STATE_RISK_VALIDATED_NON_EXECUTABLE.

@@ -17,6 +17,10 @@ import json
 import math
 from uuid import UUID
 
+from engines.ibkr_paper_readiness_engine import (
+    ACTIVE_OPEN_ORDER_STATUSES,
+)
+
 
 ENGINE_VERSION = "AURORA G7.17 Paper State-Risk Preflight"
 DEFAULT_MAX_G2_AGE_SECONDS = 60.0
@@ -46,6 +50,7 @@ _REQUIRED_G7_POSITION_CHECKS = (
     "portfolio_quantities_and_symbols_valid",
     "position_instruments_unambiguous",
     "open_order_identifiers_unique",
+    "open_order_statuses_active",
 )
 
 _EXPECTED_G5_CHECKS = {
@@ -1511,6 +1516,15 @@ def evaluate_paper_state_risk_preflight(
         )
     )
 
+    open_order_statuses_active = (
+        open_orders_valid
+        and all(
+            type(row.get("status")) is str
+            and row["status"] in ACTIVE_OPEN_ORDER_STATUSES
+            for row in open_orders
+        )
+    )
+
     # Open orders are broker contract identities, not just tickers.
     # A same-symbol option or a different stock conId must never consume
     # (or validate) inventory for the reviewed stock order.
@@ -1692,6 +1706,7 @@ def evaluate_paper_state_risk_preflight(
         position_identity_valid
         and open_orders_valid
         and open_order_identifiers_unique
+        and open_order_statuses_active
         and relevant_position_type_valid
         and relevant_open_order_type_valid
         and relevant_open_orders_match_position
@@ -1721,6 +1736,7 @@ def evaluate_paper_state_risk_preflight(
             is not None
             and position_identity_valid
             and open_orders_valid
+            and open_order_statuses_active
             and relevant_position_type_valid
             and relevant_open_order_type_valid
             and relevant_open_orders_match_position
@@ -1789,6 +1805,9 @@ def evaluate_paper_state_risk_preflight(
 
         "open_order_identifiers_unique":
         open_order_identifiers_unique,
+
+        "open_order_statuses_active":
+        open_order_statuses_active,
 
         "buy_available_funds_sufficient":
         buy_available_funds_sufficient,
