@@ -237,6 +237,10 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             float("inf"),
         )
         self.assertEqual(application.positions[0]["con_id"], 4815747)
+        sanitized_position = isolated._sanitize_positions(
+            application.positions
+        )[0]
+        self.assertEqual(sanitized_position["con_id"], 4815747)
         self.assertIsNone(application.positions[0]["position"])
         self.assertIsNone(application.positions[0]["average_cost"])
 
