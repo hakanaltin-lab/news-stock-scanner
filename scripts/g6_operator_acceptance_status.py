@@ -39,6 +39,7 @@ def build_g6_operator_acceptance_status(identity=None, review=None):
         and identity.get("status") == "VERIFIED"
         and identity.get("verified") is True
         and identity.get("failure_reasons") == []
+        and all(identity.get(flag) is False for flag in _PERMISSION_FLAGS)
     )
     review_safe = (
         isinstance(review, dict)
