@@ -132,6 +132,18 @@ readiness = NOT_READY
 next_milestone = INDEPENDENT_GATEWAY_READ_ONLY_ATTESTATION
 ```
 
+The broker socket is allowed in exactly two read-only stages:
+
+1. **PRE_REVIEW_DIAGNOSTIC** — only after trusted GCE/G0 identity and reviewer
+   handoff are ready, solely to produce the fresh diagnostic proof required by
+   the independent review package. Paper/LIVE submission remains false and the
+   expected readiness is still `NOT_READY`.
+2. **POST_REVIEW_PROBE** — only after the independently signed attestation is
+   installed and the workflow reports `VERIFIED_FOR_G2_READ_ONLY_PROBE`.
+
+While the workflow is waiting for the human reviewer, or any identity/handoff
+condition is invalid, the probe must stop before opening the broker socket.
+
 G2 passes only after the independently reviewed evidence is present:
 
 ```text
