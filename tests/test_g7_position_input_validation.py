@@ -40,7 +40,8 @@ def snapshot(positions=None):
 
 def position(**changes):
     row = {"account": "paper-fingerprint", "symbol": "AAPL",
-           "security_type": "STK", "currency": "USD", "position": 2}
+           "security_type": "STK", "currency": "USD",
+           "con_id": 265598, "position": 2}
     row.update(changes)
     return row
 
@@ -111,6 +112,40 @@ class G7PositionInputValidationTests(unittest.TestCase):
         result = evaluate_ibkr_paper_readiness(
             snapshot([position(position=1), position(position=1)]),
             [{"ticker": "AAPL", "shares": 2}])
+        self.assertFalse(checks(result)["position_instruments_unambiguous"])
+        self.assertEqual(result["readiness"], "NOT_READY")
+
+    def test_missing_or_invalid_con_id_blocks(self):
+        for bad in (None, 0, -1, True, "265598", 265598.0):
+            with self.subTest(bad=bad):
+                result = evaluate_ibkr_paper_readiness(
+                    snapshot([position(con_id=bad)]),
+                    [{"ticker": "AAPL", "shares": 2}],
+                )
+                self.assertFalse(checks(result)["position_instruments_unambiguous"])
+                self.assertFalse(result["position_sync"]["all_positions_match"])
+                self.assertEqual(result["readiness"], "NOT_READY")
+
+    def test_same_symbol_with_distinct_con_ids_blocks(self):
+        result = evaluate_ibkr_paper_readiness(
+            snapshot([
+                position(con_id=265598, position=1),
+                position(con_id=999001, position=1),
+            ]),
+            [{"ticker": "AAPL", "shares": 2}],
+        )
+        self.assertFalse(checks(result)["position_instruments_unambiguous"])
+        self.assertEqual(result["readiness"], "NOT_READY")
+
+    def test_same_con_id_with_distinct_symbols_blocks(self):
+        result = evaluate_ibkr_paper_readiness(
+            snapshot([
+                position(symbol="AAPL", con_id=265598, position=1),
+                position(symbol="MSFT", con_id=265598, position=1),
+            ]),
+            [{"ticker": "AAPL", "shares": 1},
+             {"ticker": "MSFT", "shares": 1}],
+        )
         self.assertFalse(checks(result)["position_instruments_unambiguous"])
         self.assertEqual(result["readiness"], "NOT_READY")
 
