@@ -455,6 +455,33 @@ class IBKRReadinessTests(unittest.TestCase):
         self.assertEqual(readiness["readiness"], "READY_FOR_PAPER_READ_ONLY")
         self.assertFalse(readiness["paper_order_submission_allowed"])
 
+    def test_duplicate_open_order_identifier_blocks_readiness(self):
+        snapshot = ready_snapshot()
+        snapshot["open_orders"] = [
+            {
+                "account": "IBKR-TESTACCOUNT",
+                "order_id": 10,
+                "symbol": "NVDA",
+            },
+            {
+                "account": "IBKR-TESTACCOUNT",
+                "order_id": 10,
+                "symbol": "AMD",
+            },
+        ]
+
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+        self.assertEqual(readiness["readiness"], "NOT_READY")
+        self.assertIn(
+            "open_order_identifiers_unique",
+            {
+                item["check"] for item in readiness["checks"]
+                if item["required"] and not item["passed"]
+            },
+        )
+        self.assertFalse(readiness["paper_order_submission_allowed"])
+
     def test_open_order_missing_account_blocks_readiness(self):
         snapshot = ready_snapshot()
         snapshot["open_orders"] = [{"order_id": 10, "symbol": "NVDA"}]

@@ -45,6 +45,7 @@ _REQUIRED_G7_POSITION_CHECKS = (
     "position_accounts_match_verified_paper_accounts",
     "portfolio_quantities_and_symbols_valid",
     "position_instruments_unambiguous",
+    "open_order_identifiers_unique",
 )
 
 _EXPECTED_G5_CHECKS = {
@@ -1496,6 +1497,20 @@ def evaluate_paper_state_risk_preflight(
         )
     )
 
+    open_order_identifiers_unique = (
+        open_orders_valid
+        and len({
+            row[
+                "order_id"
+            ]
+            for row in open_orders
+        })
+        ==
+        len(
+            open_orders
+        )
+    )
+
     # Open orders are broker contract identities, not just tickers.
     # A same-symbol option or a different stock conId must never consume
     # (or validate) inventory for the reviewed stock order.
@@ -1676,6 +1691,7 @@ def evaluate_paper_state_risk_preflight(
     broker_state_payload_valid = (
         position_identity_valid
         and open_orders_valid
+        and open_order_identifiers_unique
         and relevant_position_type_valid
         and relevant_open_order_type_valid
         and relevant_open_orders_match_position
@@ -1770,6 +1786,9 @@ def evaluate_paper_state_risk_preflight(
 
         "broker_state_payload_valid":
         broker_state_payload_valid,
+
+        "open_order_identifiers_unique":
+        open_order_identifiers_unique,
 
         "buy_available_funds_sufficient":
         buy_available_funds_sufficient,

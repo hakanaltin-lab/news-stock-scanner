@@ -54,6 +54,7 @@ def required_g2_checks():
         "position_accounts_match_verified_paper_accounts",
         "portfolio_quantities_and_symbols_valid",
         "position_instruments_unambiguous",
+        "open_order_identifiers_unique",
     )
     return [
         {"check": name, "required": True, "passed": True}
@@ -572,6 +573,53 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
         self.assertIn(
             "broker_state_payload_valid",
             second["failure_reasons"],
+        )
+
+    def test_duplicate_open_order_identifier_blocks(self):
+        order = {
+            "order_id": 42,
+            "account": ACCOUNT,
+            "symbol": "BKR",
+            "security_type": "STK",
+            "currency": "USD",
+            "con_id": 7654321,
+            "action": "SELL",
+            "quantity": 1.0,
+        }
+        bad = fresh_g2(
+            open_orders=[
+                order,
+                {
+                    **order,
+                    "quantity": 2.0,
+                },
+            ],
+        )
+
+        result = self.evaluate(
+            fresh=bad,
+            order=shadow(
+                action="SELL",
+                quantity=1,
+            ),
+        )
+
+        self.assertEqual(
+            result["status"],
+            "BLOCKED",
+        )
+        self.assertIn(
+            "open_order_identifiers_unique",
+            result["failure_reasons"],
+        )
+        self.assertIn(
+            "broker_state_payload_valid",
+            result["failure_reasons"],
+        )
+        self.assertFalse(
+            result[
+                "paper_order_submission_allowed"
+            ]
         )
 
     def test_fresh_g2_missing_position_identity_check_blocks(self):
