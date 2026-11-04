@@ -15,11 +15,16 @@ def review():
             "failure_reasons": [], **{x: False for x in FLAGS}}
 
 MODE = {"mode": "READ_ONLY", "mode_valid": True,
-        "read_only": True, "paper_order_submission_requested": False}
+        "read_only": True, "paper_order_submission_requested": False,
+        "live_execution_allowed": False}
 
 class G6PreconnectionTests(unittest.TestCase):
     def test_valid_approval_allows_readonly_probe(self):
         self.assertTrue(probe._preconnection_gate(MODE, {"verified": True}, review()))
+
+    def test_live_mode_permission_drift_blocks(self):
+        mode = dict(MODE, live_execution_allowed=True)
+        self.assertFalse(probe._preconnection_gate(mode, {"verified": True}, review()))
 
     def test_missing_unverified_or_permission_drift_blocks(self):
         self.assertFalse(probe._preconnection_gate(MODE, {"verified": False}, review()))
