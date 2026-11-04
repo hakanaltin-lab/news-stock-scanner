@@ -36,6 +36,8 @@ For a SELL, AURORA does not assume short-selling capacity. Available inventory i
 
 Every position/open-order row used by the gate must belong to the verified Paper account. Malformed rows, non-stock rows for the target symbol, non-finite quantities, stale state, account or attestation drift, evidence mismatch, non-USD funds, or expired human approval fail closed.
 
+Open-order identifiers must also be unique within the complete broker snapshot. Duplicate identifiers are treated as ambiguous broker state and fail closed before any inventory or funds decision.
+
 ## Output
 
 A passing status is PAPER_STATE_RISK_VALIDATED_NON_EXECUTABLE.

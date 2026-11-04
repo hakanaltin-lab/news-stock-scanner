@@ -1022,8 +1022,32 @@ def evaluate_ibkr_paper_readiness(
         ),
     )
 
+    open_order_identifiers_unique = (
+        open_orders_payload_valid
+        and len({
+            row[
+                "order_id"
+            ]
+            for row in open_orders
+        })
+        ==
+        len(
+            open_orders
+        )
+    )
+    add_check(
+        "open_order_identifiers_unique",
+        open_order_identifiers_unique,
+        True,
+        (
+            "Every reported open order must have one unique broker order "
+            "identifier."
+        ),
+    )
+
     open_order_accounts_verified = (
         open_orders_payload_valid
+        and open_order_identifiers_unique
         and all(
             isinstance(
                 row.get(
