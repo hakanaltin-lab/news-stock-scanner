@@ -307,6 +307,10 @@ def evaluate_completion_status(
                 include_real_money=True,
             )
         ),
+        "g2_post_review_probe_stage": (
+            g2_proof.get("probe_stage") == "POST_REVIEW_PROBE"
+            and readiness.get("g2_probe_stage") == "POST_REVIEW_PROBE"
+        ),
         "g0_g1_readiness_proof_bound": (
             _is_sha256(readiness_g0_digest)
             and hmac.compare_digest(
