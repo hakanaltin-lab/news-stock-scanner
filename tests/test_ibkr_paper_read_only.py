@@ -694,13 +694,13 @@ class IBKRProbeEntrypointTests(unittest.TestCase):
 
             self.assertEqual(completed.returncode, 2, completed.stderr)
             summary = json.loads(completed.stdout)
-            proof = json.loads(output.read_text(encoding="utf-8"))
-            self.assertEqual(summary["run_mode"], "SAFE_OFF")
-            self.assertEqual(summary["snapshot_status"], "DISABLED")
-            self.assertEqual(proof["run_mode"]["mode"], "SAFE_OFF")
-            self.assertEqual(proof["evidence_run_id"], EVIDENCE_RUN_ID)
-            self.assertEqual(proof["readiness"]["readiness"], "DISABLED")
-            self.assertFalse(proof["readiness"]["live_execution_allowed"])
+            self.assertEqual(
+                summary["status"],
+                "BLOCKED_BEFORE_BROKER_CONNECTION",
+            )
+            self.assertFalse(output.exists())
+            self.assertFalse(summary["paper_order_submission_allowed"])
+            self.assertFalse(summary["live_execution_allowed"])
 
 
 
