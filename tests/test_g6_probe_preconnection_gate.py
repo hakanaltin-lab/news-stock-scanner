@@ -22,23 +22,55 @@ MODE = {
 }
 
 
-def review():
+def post_review():
     return {
         "status": "VERIFIED_FOR_G2_READ_ONLY_PROBE",
+        "workflow_stage": "SIGNED_ATTESTATION_VERIFIED",
         "next_action": "RUN_G2_PAPER_READ_ONLY_PROBE",
+        "human_action_required": False,
+        "runtime_identity_verified": True,
+        "handoff_ready": True,
+        "review_package_ready": False,
+        "signed_attestation_verified": True,
         "failure_reasons": [],
         **{name: False for name in FLAGS},
     }
 
 
+def pre_review():
+    return {
+        "status": "BLOCKED",
+        "workflow_stage": "REVIEW_PACKAGE",
+        "next_action": "RUN_FRESH_G2_DIAGNOSTIC_PRE_REVIEW",
+        "human_action_required": True,
+        "runtime_identity_verified": True,
+        "handoff_ready": True,
+        "review_package_ready": False,
+        "signed_attestation_verified": False,
+        "failure_reasons": ["G2_DIAGNOSTIC_REVIEW_PACKAGE_NOT_READY"],
+        **{name: False for name in FLAGS},
+    }
+
+
 class G6ProbePreconnectionGateTests(unittest.TestCase):
-    def test_valid_review_allows_readonly_probe_only(self):
-        self.assertTrue(
-            probe._preconnection_gate(
+    def test_signed_review_allows_post_review_probe(self):
+        self.assertEqual(
+            probe._preconnection_stage(
                 MODE,
                 {"verified": True},
-                review(),
-            )
+                post_review(),
+            ),
+            "POST_REVIEW_PROBE",
+        )
+
+    def test_handoff_allows_only_pre_review_diagnostic(self):
+        self.assertEqual(
+            probe._preconnection_stage(
+                MODE,
+                {"verified": True},
+                pre_review(),
+            ),
+            "PRE_REVIEW_DIAGNOSTIC",
         )
 
     def test_unverified_runtime_or_review_blocks(self):
@@ -46,7 +78,7 @@ class G6ProbePreconnectionGateTests(unittest.TestCase):
             probe._preconnection_gate(
                 MODE,
                 {"verified": False},
-                review(),
+                post_review(),
             )
         )
         self.assertFalse(
@@ -57,11 +89,28 @@ class G6ProbePreconnectionGateTests(unittest.TestCase):
             )
         )
 
+    def test_waiting_for_human_review_blocks_further_broker_reads(self):
+        waiting = pre_review()
+        waiting.update({
+            "status": "WAITING_FOR_INDEPENDENT_REVIEW",
+            "workflow_stage": "INDEPENDENT_REVIEW",
+            "next_action": "COMPLETE_INDEPENDENT_REVIEW_AND_INSTALL_SIGNED_ATTESTATION",
+            "review_package_ready": True,
+            "failure_reasons": [],
+        })
+        self.assertIsNone(
+            probe._preconnection_stage(
+                MODE,
+                {"verified": True},
+                waiting,
+            )
+        )
+
     def test_each_execution_permission_must_be_explicit_false(self):
         for flag in FLAGS:
             for value in (True, None):
                 with self.subTest(flag=flag, value=value):
-                    bad = review()
+                    bad = post_review()
                     bad[flag] = value
                     self.assertFalse(
                         probe._preconnection_gate(
@@ -78,7 +127,7 @@ class G6ProbePreconnectionGateTests(unittest.TestCase):
             probe._preconnection_gate(
                 bad_mode,
                 {"verified": True},
-                review(),
+                post_review(),
             )
         )
 

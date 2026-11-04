@@ -444,8 +444,8 @@ def _current_git_sha():
     return value
 
 
-def _preconnection_gate(run_mode, runtime_provenance, review):
-    """Fail closed before opening an IBKR socket or writing broker evidence."""
+def _preconnection_stage(run_mode, runtime_provenance, review):
+    """Return the only broker-read stages allowed before opening an IBKR socket."""
     required_flags = (
         "broker_submission_allowed",
         "paper_order_submission_allowed",
@@ -453,7 +453,7 @@ def _preconnection_gate(run_mode, runtime_provenance, review):
         "automatic_promotion_allowed",
         "real_money_trading_allowed",
     )
-    return (
+    common_safe = (
         isinstance(run_mode, dict)
         and run_mode.get("mode") == "READ_ONLY"
         and run_mode.get("mode_valid") is True
@@ -463,14 +463,49 @@ def _preconnection_gate(run_mode, runtime_provenance, review):
         and isinstance(runtime_provenance, dict)
         and runtime_provenance.get("verified") is True
         and isinstance(review, dict)
-        and review.get("status") == "VERIFIED_FOR_G2_READ_ONLY_PROBE"
-        and review.get("next_action") == "RUN_G2_PAPER_READ_ONLY_PROBE"
-        and review.get("failure_reasons") == []
+        and review.get("runtime_identity_verified") is True
+        and review.get("handoff_ready") is True
         and all(
             review.get(flag) is False
             for flag in required_flags
         )
     )
+    if not common_safe:
+        return None
+
+    pre_review_diagnostic = (
+        review.get("status") == "BLOCKED"
+        and review.get("workflow_stage") == "REVIEW_PACKAGE"
+        and review.get("next_action") == "RUN_FRESH_G2_DIAGNOSTIC_PRE_REVIEW"
+        and review.get("human_action_required") is True
+        and review.get("review_package_ready") is False
+        and review.get("signed_attestation_verified") is False
+        and review.get("failure_reasons")
+        == ["G2_DIAGNOSTIC_REVIEW_PACKAGE_NOT_READY"]
+    )
+    if pre_review_diagnostic:
+        return "PRE_REVIEW_DIAGNOSTIC"
+
+    post_review_probe = (
+        review.get("status") == "VERIFIED_FOR_G2_READ_ONLY_PROBE"
+        and review.get("workflow_stage") == "SIGNED_ATTESTATION_VERIFIED"
+        and review.get("next_action") == "RUN_G2_PAPER_READ_ONLY_PROBE"
+        and review.get("human_action_required") is False
+        and review.get("signed_attestation_verified") is True
+        and review.get("failure_reasons") == []
+    )
+    if post_review_probe:
+        return "POST_REVIEW_PROBE"
+
+    return None
+
+
+def _preconnection_gate(run_mode, runtime_provenance, review):
+    return _preconnection_stage(
+        run_mode,
+        runtime_provenance,
+        review,
+    ) is not None
 
 
 def main():
@@ -485,7 +520,12 @@ def main():
     except (OSError, RuntimeError, ValueError, TypeError, KeyError):
         review = {}
 
-    if not _preconnection_gate(run_mode, runtime_provenance, review):
+    probe_stage = _preconnection_stage(
+        run_mode,
+        runtime_provenance,
+        review,
+    )
+    if probe_stage is None:
         print(json.dumps({
             "status": "BLOCKED_BEFORE_BROKER_CONNECTION",
             "reason": "G6_EXTERNAL_READ_ONLY_ACCEPTANCE_REQUIRED",
@@ -521,6 +561,9 @@ def main():
     )
 
     result = {
+        "probe_stage":
+        probe_stage,
+
         "git_sha":
         _current_git_sha(),
 
