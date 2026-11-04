@@ -89,37 +89,59 @@ def account_metric(
 def normalize_expected_positions(
     portfolio_rows
 ):
-    expected = {}
-
     if not isinstance(
         portfolio_rows,
         list
     ):
-        return expected
+        raise ValueError(
+            "portfolio_rows must be an explicit list."
+        )
+
+    expected = {}
 
     for row in portfolio_rows:
         if not isinstance(
             row,
             dict
         ):
-            continue
-
-        ticker = str(
-            row.get(
-                "ticker",
-                ""
+            raise ValueError(
+                "Every portfolio row must be an object."
             )
-        ).strip().upper()
 
-        if not ticker:
-            continue
+        ticker = row.get(
+            "ticker"
+        )
+
+        if (
+            not isinstance(
+                ticker,
+                str
+            )
+            or
+            not ticker.strip()
+        ):
+            raise ValueError(
+                "Every portfolio row requires a non-empty ticker."
+            )
+
+        ticker = ticker.strip().upper()
+
+        if ticker in expected:
+            raise ValueError(
+                "Duplicate portfolio symbols are not allowed."
+            )
 
         shares = safe_float(
             row.get(
                 "shares"
             ),
-            0.0
+            None
         )
+
+        if shares is None:
+            raise ValueError(
+                "Portfolio share quantities must be finite numbers."
+            )
 
         expected[
             ticker
@@ -131,13 +153,13 @@ def normalize_expected_positions(
 def normalize_broker_positions(
     snapshot
 ):
-    broker = {}
-
     if not isinstance(
         snapshot,
         dict
     ):
-        return broker
+        raise ValueError(
+            "Broker snapshot must be an object."
+        )
 
     positions = snapshot.get(
         "positions"
@@ -147,31 +169,126 @@ def normalize_broker_positions(
         positions,
         list
     ):
-        return broker
+        raise ValueError(
+            "Broker positions must be an explicit list."
+        )
+
+    broker = {}
+    seen_symbols = set()
+    seen_con_ids = set()
+    seen_accounts = set()
 
     for row in positions:
         if not isinstance(
             row,
             dict
         ):
-            continue
-
-        ticker = str(
-            row.get(
-                "symbol",
-                ""
+            raise ValueError(
+                "Every broker position row must be an object."
             )
-        ).strip().upper()
 
-        if not ticker:
-            continue
+        ticker = row.get(
+            "symbol"
+        )
 
+        if (
+            not isinstance(
+                ticker,
+                str
+            )
+            or
+            not ticker.strip()
+        ):
+            raise ValueError(
+                "Every broker position requires a non-empty symbol."
+            )
+
+        ticker = ticker.strip().upper()
+
+        account = row.get(
+            "account"
+        )
+        security_type = row.get(
+            "security_type"
+        )
+        currency = row.get(
+            "currency"
+        )
+        con_id = row.get(
+            "con_id"
+        )
         position = safe_float(
             row.get(
                 "position"
             ),
-            0.0
+            None
         )
+
+        if (
+            not isinstance(
+                account,
+                str
+            )
+            or
+            not account.strip()
+        ):
+            raise ValueError(
+                "Every broker position requires an account fingerprint."
+            )
+
+        if security_type != "STK":
+            raise ValueError(
+                "Only stock broker positions are supported."
+            )
+
+        if currency != "USD":
+            raise ValueError(
+                "Only USD broker positions are supported."
+            )
+
+        if (
+            type(con_id)
+            is not int
+            or
+            con_id
+            <=
+            0
+        ):
+            raise ValueError(
+                "Every broker position requires a positive integer conId."
+            )
+
+        if position is None:
+            raise ValueError(
+                "Broker position quantities must be finite numbers."
+            )
+
+        if ticker in seen_symbols:
+            raise ValueError(
+                "Duplicate broker symbols are ambiguous."
+            )
+
+        if con_id in seen_con_ids:
+            raise ValueError(
+                "Duplicate broker conIds are ambiguous."
+            )
+
+        seen_symbols.add(
+            ticker
+        )
+        seen_con_ids.add(
+            con_id
+        )
+        seen_accounts.add(
+            account.strip()
+        )
+
+        if len(
+            seen_accounts
+        ) > 1:
+            raise ValueError(
+                "Cross-account broker positions are not supported."
+            )
 
         if abs(
             position
@@ -180,17 +297,9 @@ def normalize_broker_positions(
 
         broker[
             ticker
-        ] = (
-            broker.get(
-                ticker,
-                0.0
-            )
-            +
-            position
-        )
+        ] = position
 
     return broker
-
 
 def compare_positions(
     portfolio_rows,
