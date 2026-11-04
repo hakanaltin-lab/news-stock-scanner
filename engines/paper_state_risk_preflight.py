@@ -652,6 +652,11 @@ def _g2_contract(
         "account_fingerprints":
         fingerprints,
 
+        "post_review_probe_stage":
+        g2_proof.get("probe_stage")
+        ==
+        "POST_REVIEW_PROBE",
+
         "evidence_run_id_valid":
         _uuid4(
             g2_proof.get(
@@ -1229,6 +1234,9 @@ def evaluate_paper_state_risk_preflight(
             authorized_contract[
                 "evidence_run_id_valid"
             ],
+            authorized_contract[
+                "post_review_probe_stage"
+            ],
             bool(
                 authorized_contract[
                     "account_fingerprints"
@@ -1253,6 +1261,9 @@ def evaluate_paper_state_risk_preflight(
             ],
             fresh_contract[
                 "evidence_run_id_valid"
+            ],
+            fresh_contract[
+                "post_review_probe_stage"
             ],
             bool(
                 fresh_contract[
