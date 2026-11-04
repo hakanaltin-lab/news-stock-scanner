@@ -41873,20 +41873,20 @@
         "acceptance_count": 2000,
         "added_acceptance_count": 2000,
         "filing_from": "2000-11-21",
-        "filing_to": "2011-05-19",
+        "filing_to": "2011-05-18",
         "name": "CIK0000092122-submissions-002.json"
       },
       {
         "acceptance_count": 2001,
         "added_acceptance_count": 2001,
         "filing_from": "2011-05-20",
-        "filing_to": "2021-02-16",
+        "filing_to": "2021-02-15",
         "name": "CIK0000092122-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1007,
+    "recent_acceptance_count": 1008,
     "status": "COMPLETE",
-    "total_acceptance_count": 5008
+    "total_acceptance_count": 5009
   },
   "taxonomies_supported": [
     "ifrs-full",

@@ -49755,21 +49755,21 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 1612,
+    "historical_acceptance_count": 1615,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 1,
     "historical_files_failed": 0,
     "historical_files_loaded": 1,
     "loaded_files": [
       {
-        "acceptance_count": 1612,
-        "added_acceptance_count": 1612,
+        "acceptance_count": 1615,
+        "added_acceptance_count": 1615,
         "filing_from": "1999-11-05",
-        "filing_to": "2016-08-18",
+        "filing_to": "2016-08-27",
         "name": "CIK0001097864-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1003,
+    "recent_acceptance_count": 1000,
     "status": "COMPLETE",
     "total_acceptance_count": 2615
   },

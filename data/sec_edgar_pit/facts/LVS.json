@@ -4,7 +4,7 @@
   "availability_rule": "available_date = SEC filed date + 1 calendar day; conservative guard against same-day look-ahead. Exact current and historical acceptance timestamps from SEC submissions metadata are stored for audit but do not make the daily as-of date earlier.",
   "cik": "0001300514",
   "engine": "V8.8.3 SEC EDGAR Point-in-Time Fundamental Foundation",
-  "entity_name": "LAS VEGAS SANDS CORP.",
+  "entity_name": "LAS VEGAS SANDS CORP",
   "exact_acceptance_coverage_pct": 100.0,
   "exact_acceptance_fact_count": 2948,
   "fact_count": 2948,
@@ -50221,9 +50221,9 @@
         "name": "CIK0001300514-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1000,
+    "recent_acceptance_count": 1002,
     "status": "COMPLETE",
-    "total_acceptance_count": 1377
+    "total_acceptance_count": 1379
   },
   "taxonomies_supported": [
     "ifrs-full",

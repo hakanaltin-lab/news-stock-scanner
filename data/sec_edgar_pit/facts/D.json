@@ -54041,23 +54041,23 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 2002,
+    "historical_acceptance_count": 2000,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 1,
     "historical_files_failed": 0,
     "historical_files_loaded": 1,
     "loaded_files": [
       {
-        "acceptance_count": 2002,
-        "added_acceptance_count": 2002,
-        "filing_from": "2004-11-10",
-        "filing_to": "2018-03-12",
+        "acceptance_count": 2000,
+        "added_acceptance_count": 2000,
+        "filing_from": "2004-11-12",
+        "filing_to": "2018-03-21",
         "name": "CIK0000715957-submissions-001.json"
       }
     ],
     "recent_acceptance_count": 1005,
     "status": "COMPLETE",
-    "total_acceptance_count": 3007
+    "total_acceptance_count": 3005
   },
   "taxonomies_supported": [
     "ifrs-full",

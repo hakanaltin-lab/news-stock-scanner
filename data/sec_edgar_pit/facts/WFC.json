@@ -28901,7 +28901,7 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 14099,
+    "historical_acceptance_count": 14102,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 7,
     "historical_files_failed": 0,
@@ -28936,30 +28936,30 @@
         "name": "CIK0000072971-submissions-004.json"
       },
       {
-        "acceptance_count": 2037,
-        "added_acceptance_count": 2037,
+        "acceptance_count": 2056,
+        "added_acceptance_count": 2056,
         "filing_from": "2017-01-24",
-        "filing_to": "2018-12-01",
+        "filing_to": "2018-12-02",
         "name": "CIK0000072971-submissions-003.json"
       },
       {
-        "acceptance_count": 2015,
-        "added_acceptance_count": 2015,
-        "filing_from": "2018-12-03",
-        "filing_to": "2020-05-27",
+        "acceptance_count": 2004,
+        "added_acceptance_count": 2004,
+        "filing_from": "2018-12-04",
+        "filing_to": "2020-05-30",
         "name": "CIK0000072971-submissions-002.json"
       },
       {
-        "acceptance_count": 2006,
-        "added_acceptance_count": 2006,
-        "filing_from": "2020-05-29",
-        "filing_to": "2025-10-29",
+        "acceptance_count": 2001,
+        "added_acceptance_count": 2001,
+        "filing_from": "2020-06-01",
+        "filing_to": "2025-11-01",
         "name": "CIK0000072971-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1344,
+    "recent_acceptance_count": 1365,
     "status": "COMPLETE",
-    "total_acceptance_count": 15443
+    "total_acceptance_count": 15467
   },
   "taxonomies_supported": [
     "ifrs-full",

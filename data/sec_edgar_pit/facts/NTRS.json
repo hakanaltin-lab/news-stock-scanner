@@ -28645,23 +28645,23 @@
   "status": "COMPLETE",
   "submissions_metadata": {
     "failed_files": [],
-    "historical_acceptance_count": 2000,
+    "historical_acceptance_count": 2001,
     "historical_cutoff_date": "2009-01-01",
     "historical_files_discovered": 1,
     "historical_files_failed": 0,
     "historical_files_loaded": 1,
     "loaded_files": [
       {
-        "acceptance_count": 2000,
-        "added_acceptance_count": 2000,
-        "filing_from": "2007-10-25",
-        "filing_to": "2020-02-23",
+        "acceptance_count": 2001,
+        "added_acceptance_count": 2001,
+        "filing_from": "2007-11-06",
+        "filing_to": "2020-03-01",
         "name": "CIK0000073124-submissions-001.json"
       }
     ],
-    "recent_acceptance_count": 1012,
+    "recent_acceptance_count": 1000,
     "status": "COMPLETE",
-    "total_acceptance_count": 3012
+    "total_acceptance_count": 3001
   },
   "taxonomies_supported": [
     "ifrs-full",
