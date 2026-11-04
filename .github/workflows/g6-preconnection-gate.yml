@@ -1,0 +1,31 @@
+name: G6 Broker Preconnection Read-Only Gate
+
+on:
+  pull_request:
+    paths:
+      - "scripts/ibkr_paper_probe.py"
+      - "tests/test_g6_probe_preconnection_gate.py"
+      - "tests/test_ibkr_paper_read_only.py"
+      - ".github/workflows/g6-preconnection-gate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fail-closed-before-connect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile and run preconnection safety tests
+        run: |
+          python -m py_compile scripts/ibkr_paper_probe.py
+          python -m unittest tests.test_g6_probe_preconnection_gate -v
+      - name: Regression for IBKR read-only boundaries
+        run: |
+          python -m unittest tests.test_ibkr_paper_read_only -v
+          python -m unittest tests.test_ibkr_readonly_readiness_g7 -v
