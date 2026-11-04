@@ -1,0 +1,26 @@
+name: G6 Operator Acceptance Status Safety
+on:
+  pull_request:
+    paths:
+      - "scripts/g6_operator_acceptance_status.py"
+      - "tests/test_g6_operator_acceptance_status.py"
+      - ".github/workflows/g6-operator-acceptance-status.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sanitized-status:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile and test operator acceptance status
+        run: |
+          python -m py_compile scripts/g6_operator_acceptance_status.py
+          python -m unittest tests.test_g6_operator_acceptance_status -v
+      - name: Prove no broker mutation or IBKR connector import
+        run: |
+          ! grep -E "placeOrder|submit_order|get_ibkr_read_only_snapshot|from ibapi|import ibapi|PAPER_ENABLED|4001" scripts/g6_operator_acceptance_status.py
