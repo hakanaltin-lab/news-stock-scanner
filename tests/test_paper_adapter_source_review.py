@@ -64,6 +64,7 @@ def prerequisite():
         "authorization_id": AUTHORIZATION_ID,
         "authorization_artifact_sha256": "2" * 64,
         "evidence_run_id": EVIDENCE_RUN_ID,
+        "g2_probe_stage": "POST_REVIEW_PROBE",
         "git_sha": GIT_SHA,
         "gce_instance_id": INSTANCE_ID,
         "g0_g1_proof_sha256": "3" * 64,
@@ -164,6 +165,10 @@ class AdapterSourceReviewTests(unittest.TestCase):
         self.assertEqual(
             result["evidence_run_id"],
             EVIDENCE_RUN_ID,
+        )
+        self.assertEqual(
+            result["g2_probe_stage"],
+            "POST_REVIEW_PROBE",
         )
         self.assertEqual(
             result["paper_account_fingerprints"],
@@ -278,6 +283,18 @@ class AdapterSourceReviewTests(unittest.TestCase):
         self.assertEqual(
             result["reason"],
             "SOURCE_DESCRIBE_INVALID",
+        )
+
+    def test_prerequisite_probe_stage_regression_blocks(self):
+        unsafe = prerequisite()
+        unsafe["g2_probe_stage"] = "PRE_REVIEW_DIAGNOSTIC"
+        result = self.evaluate(
+            prerequisite_value=unsafe
+        )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(
+            result["reason"],
+            "G8_12_PREREQUISITE_NOT_READY_FOR_SOURCE_REVIEW",
         )
 
     def test_prerequisite_permission_or_check_regression_blocks(self):
