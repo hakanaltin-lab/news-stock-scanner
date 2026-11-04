@@ -1,5 +1,7 @@
 """G7.17 offline tests for post-authorization Paper broker-state risk."""
 
+# Cross-stage G2 evidence must fail closed.
+
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
@@ -105,6 +107,7 @@ def g2(
 
     return {
         "evidence_run_id": run_id,
+        "probe_stage": "POST_REVIEW_PROBE",
         "run_mode": {
             "requested_mode": "READ_ONLY",
             "mode": "READ_ONLY",
@@ -792,6 +795,33 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
         self.assertIn(
             "fresh_g2_post_authorization",
             result["failure_reasons"],
+        )
+
+    def test_pre_review_probe_stage_blocks_authorized_or_fresh_g2(self):
+        fresh = fresh_g2()
+        fresh["probe_stage"] = "PRE_REVIEW_DIAGNOSTIC"
+        first = self.evaluate(fresh=fresh)
+        self.assertEqual(first["status"], "BLOCKED")
+        self.assertIn(
+            "fresh_g2_contract_valid",
+            first["failure_reasons"],
+        )
+
+        authorized = authorized_g2()
+        authorized["probe_stage"] = "PRE_REVIEW_DIAGNOSTIC"
+        order = shadow()
+        comp = completion(authorized, order)
+        auth = authorization_result(comp, order)
+        second = self.evaluate(
+            authorized=authorized,
+            order=order,
+            comp=comp,
+            auth=auth,
+        )
+        self.assertEqual(second["status"], "BLOCKED")
+        self.assertIn(
+            "authorized_g2_contract_valid",
+            second["failure_reasons"],
         )
 
     def test_fresh_g2_must_match_authorized_attestation_and_account(self):
