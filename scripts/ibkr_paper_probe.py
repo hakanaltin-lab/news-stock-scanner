@@ -51,6 +51,10 @@ from engines.ibkr_paper_readiness_engine import (
     evaluate_ibkr_paper_readiness
 )
 
+from scripts.gateway_review_workflow_status import (
+    build_installed_gateway_review_workflow_status,
+)
+
 
 from engines.aurora_run_mode_engine import (
     load_run_mode
@@ -440,6 +444,35 @@ def _current_git_sha():
     return value
 
 
+def _preconnection_gate(run_mode, runtime_provenance, review):
+    """Fail closed before opening an IBKR socket or writing broker evidence."""
+    required_flags = (
+        "broker_submission_allowed",
+        "paper_order_submission_allowed",
+        "live_execution_allowed",
+        "automatic_promotion_allowed",
+        "real_money_trading_allowed",
+    )
+    return (
+        isinstance(run_mode, dict)
+        and run_mode.get("mode") == "READ_ONLY"
+        and run_mode.get("mode_valid") is True
+        and run_mode.get("read_only") is True
+        and run_mode.get("paper_order_submission_requested") is False
+        and run_mode.get("live_execution_allowed") is False
+        and isinstance(runtime_provenance, dict)
+        and runtime_provenance.get("verified") is True
+        and isinstance(review, dict)
+        and review.get("status") == "VERIFIED_FOR_G2_READ_ONLY_PROBE"
+        and review.get("next_action") == "RUN_G2_PAPER_READ_ONLY_PROBE"
+        and review.get("failure_reasons") == []
+        and all(
+            review.get(flag) is False
+            for flag in required_flags
+        )
+    )
+
+
 def main():
     run_mode = load_run_mode()
 
@@ -447,6 +480,19 @@ def main():
         read_gce_runtime_identity(),
         load_g0_runtime_proof(),
     )
+    try:
+        review = build_installed_gateway_review_workflow_status()
+    except (OSError, RuntimeError, ValueError, TypeError, KeyError):
+        review = {}
+
+    if not _preconnection_gate(run_mode, runtime_provenance, review):
+        print(json.dumps({
+            "status": "BLOCKED_BEFORE_BROKER_CONNECTION",
+            "reason": "G6_EXTERNAL_READ_ONLY_ACCEPTANCE_REQUIRED",
+            "paper_order_submission_allowed": False,
+            "live_execution_allowed": False,
+        }, sort_keys=True))
+        return 2
 
     snapshot = (
         get_ibkr_read_only_snapshot()
