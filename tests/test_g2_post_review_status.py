@@ -84,6 +84,7 @@ def proof():
     broker_snapshot = snapshot()
     return {
         "evidence_run_id": RUN_ID,
+        "probe_stage": "POST_REVIEW_PROBE",
         "run_mode": {
             "mode": "READ_ONLY",
             "live_execution_allowed": False,
@@ -138,6 +139,19 @@ class G2PostReviewStatusTests(unittest.TestCase):
         )
         for name in safe_permissions():
             self.assertIs(result[name], False)
+
+    def test_pre_review_probe_stage_blocks(self):
+        value = proof()
+        value["probe_stage"] = "PRE_REVIEW_DIAGNOSTIC"
+        result = evaluate_post_review_g2_status(
+            RUN_ID,
+            value,
+        )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn(
+            "G2_POST_REVIEW_PROBE_STAGE_INVALID",
+            result["failure_reasons"],
+        )
 
     def test_mismatched_run_id_blocks(self):
         value = proof()
