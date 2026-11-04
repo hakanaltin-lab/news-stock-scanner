@@ -5,7 +5,12 @@ No broker connection or orders are used.
 """
 import unittest
 
-from engines.ibkr_paper_readiness_engine import evaluate_ibkr_paper_readiness
+from engines.ibkr_paper_readiness_engine import (
+    compare_positions,
+    evaluate_ibkr_paper_readiness,
+    normalize_broker_positions,
+    normalize_expected_positions,
+)
 
 
 def snapshot(positions=None):
@@ -48,6 +53,62 @@ def position(**changes):
 
 def checks(result):
     return {item["check"]: item["passed"] for item in result["checks"]}
+
+
+class G7PositionNormalizationTests(unittest.TestCase):
+    def test_expected_positions_reject_invalid_quantities_directly(self):
+        for bad in (None, "nan", "inf", True, "invalid"):
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                normalize_expected_positions(
+                    [{"ticker": "AAPL", "shares": bad}]
+                )
+
+    def test_expected_positions_reject_duplicate_symbols_directly(self):
+        with self.assertRaises(ValueError):
+            normalize_expected_positions([
+                {"ticker": "AAPL", "shares": 1},
+                {"ticker": "aapl", "shares": 1},
+            ])
+
+    def test_broker_positions_reject_invalid_quantities_directly(self):
+        for bad in (None, "nan", "inf", True, "invalid"):
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                normalize_broker_positions(
+                    snapshot([position(position=bad)])
+                )
+
+    def test_broker_positions_reject_ambiguous_identity_directly(self):
+        with self.assertRaises(ValueError):
+            normalize_broker_positions(
+                snapshot([
+                    position(con_id=265598, position=1),
+                    position(con_id=999001, position=1),
+                ])
+            )
+
+        with self.assertRaises(ValueError):
+            normalize_broker_positions(
+                snapshot([
+                    position(symbol="AAPL", con_id=265598, position=1),
+                    position(symbol="MSFT", con_id=265598, position=1),
+                ])
+            )
+
+        with self.assertRaises(ValueError):
+            normalize_broker_positions(
+                snapshot([
+                    position(symbol="AAPL", con_id=265598, account="paper-a"),
+                    position(symbol="MSFT", con_id=999001, account="paper-b"),
+                ])
+            )
+
+    def test_compare_positions_direct_valid_path_is_deterministic(self):
+        result = compare_positions(
+            [{"ticker": "AAPL", "shares": 2}],
+            snapshot([position(position=2)]),
+        )
+        self.assertTrue(result["all_positions_match"])
+        self.assertEqual(result["mismatch_count"], 0)
 
 
 class G7PositionInputValidationTests(unittest.TestCase):
