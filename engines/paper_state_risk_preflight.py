@@ -19,6 +19,7 @@ from uuid import UUID
 
 from engines.ibkr_paper_readiness_engine import (
     ACTIVE_OPEN_ORDER_STATUSES,
+    open_order_payload_is_valid,
 )
 
 
@@ -1445,61 +1446,11 @@ def evaluate_paper_state_risk_preflight(
     )
 
     open_orders_valid = (
-        isinstance(
-            open_orders,
-            list,
+        open_order_payload_is_valid(
+            open_orders
         )
         and all(
             isinstance(
-                row,
-                dict,
-            )
-            and type(
-                row.get(
-                    "order_id"
-                )
-            )
-            is int
-            and row.get(
-                "order_id"
-            )
-            >=
-            0
-            and isinstance(
-                row.get(
-                    "symbol"
-                ),
-                str,
-            )
-            and bool(
-                row.get(
-                    "symbol"
-                ).strip()
-            )
-            and str(
-                row.get(
-                    "action"
-                )
-                or ""
-            ).strip().upper()
-            in {
-                "BUY",
-                "SELL",
-            }
-            and _safe_number(
-                row.get(
-                    "quantity"
-                )
-            )
-            is not None
-            and _safe_number(
-                row.get(
-                    "quantity"
-                )
-            )
-            >
-            0
-            and isinstance(
                 row.get(
                     "account"
                 ),
@@ -1539,17 +1490,6 @@ def evaluate_paper_state_risk_preflight(
     # Open orders are broker contract identities, not just tickers.
     # A same-symbol option or a different stock conId must never consume
     # (or validate) inventory for the reviewed stock order.
-    relevant_open_orders_identity_valid = (
-        open_orders_valid
-        and all(
-            row.get("security_type") == "STK"
-            and row.get("currency") == "USD"
-            and type(row.get("con_id")) is int
-            and row["con_id"] > 0
-            for row in open_orders
-            if row["symbol"].strip().upper() == order_symbol
-        )
-    )
     same_symbol_position_con_ids = (
         {
             row["con_id"]
@@ -1559,7 +1499,7 @@ def evaluate_paper_state_risk_preflight(
         if position_identity_valid else set()
     )
     relevant_open_orders_match_position = (
-        relevant_open_orders_identity_valid
+        open_orders_valid
         and (
             order_action != "SELL"
             or all(

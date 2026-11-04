@@ -56,6 +56,56 @@ def safe_float(
     return parsed
 
 
+def open_order_payload_is_valid(open_orders):
+    """Validate the complete stock-order identity needed by risk gates."""
+    if not isinstance(open_orders, list):
+        return False
+
+    symbol_to_con_id = {}
+    con_id_to_symbol = {}
+
+    for row in open_orders:
+        if not isinstance(row, dict):
+            return False
+
+        symbol = row.get("symbol")
+        con_id = row.get("con_id")
+        quantity = row.get("quantity")
+        if (
+            type(row.get("order_id")) is not int
+            or row["order_id"] < 0
+            or not isinstance(symbol, str)
+            or not symbol.strip()
+            or row.get("security_type") != "STK"
+            or row.get("currency") != "USD"
+            or type(con_id) is not int
+            or con_id <= 0
+            or str(row.get("action") or "").strip().upper()
+            not in {"BUY", "SELL"}
+            or type(quantity) not in {int, float}
+            or safe_float(quantity, None) is None
+            or safe_float(quantity, None) <= 0
+        ):
+            return False
+
+        symbol = symbol.strip().upper()
+        if (
+            symbol in symbol_to_con_id
+            and symbol_to_con_id[symbol] != con_id
+        ):
+            return False
+        if (
+            con_id in con_id_to_symbol
+            and con_id_to_symbol[con_id] != symbol
+        ):
+            return False
+
+        symbol_to_con_id[symbol] = con_id
+        con_id_to_symbol[con_id] = symbol
+
+    return True
+
+
 def account_metric(
     snapshot,
     name
@@ -986,47 +1036,17 @@ def evaluate_ibkr_paper_readiness(
     open_orders = broker_snapshot.get(
         "open_orders"
     )
-    open_orders_payload_valid = (
-        isinstance(
-            open_orders,
-            list
-        )
-        and all(
-            isinstance(
-                row,
-                dict
-            )
-            and type(
-                row.get(
-                    "order_id"
-                )
-            )
-            is int
-            and row.get(
-                "order_id"
-            )
-            >= 0
-            and isinstance(
-                row.get(
-                    "symbol"
-                ),
-                str
-            )
-            and bool(
-                row.get(
-                    "symbol"
-                ).strip()
-            )
-            for row in open_orders
-        )
+    open_orders_payload_valid = open_order_payload_is_valid(
+        open_orders
     )
     add_check(
         "open_orders_payload_valid",
         open_orders_payload_valid,
         True,
         (
-            "Open-order payload must be an explicit list with valid "
-            "order identifiers and symbols."
+            "Open-order payload must contain valid identifiers, symbols, "
+            "USD stock contract identity, BUY/SELL direction, positive "
+            "finite quantity and an unambiguous symbol-to-conId mapping."
         ),
     )
 

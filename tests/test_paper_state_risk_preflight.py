@@ -753,6 +753,80 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
         self.assertEqual(result["status"], "BLOCKED")
         self.assertIn("broker_state_payload_valid", result["failure_reasons"])
 
+    def test_unrelated_open_order_contract_drift_blocks_state_risk(self):
+        base = {
+            "order_id": 42,
+            "account": ACCOUNT,
+            "symbol": "AMD",
+            "security_type": "STK",
+            "currency": "USD",
+            "con_id": 4391,
+            "action": "BUY",
+            "quantity": 1.0,
+            "status": "Submitted",
+        }
+        mutations = (
+            {"security_type": "OPT"},
+            {"currency": "EUR"},
+            {"con_id": None},
+            {"action": "HOLD"},
+            {"quantity": 0},
+        )
+
+        for mutation in mutations:
+            with self.subTest(mutation=mutation):
+                result = self.evaluate(
+                    fresh=fresh_g2(
+                        open_orders=[
+                            {
+                                **base,
+                                **mutation,
+                            }
+                        ],
+                    ),
+                )
+
+                self.assertEqual(result["status"], "BLOCKED")
+                self.assertIn(
+                    "broker_state_payload_valid",
+                    result["failure_reasons"],
+                )
+                self.assertFalse(result["paper_order_submission_allowed"])
+
+    def test_unrelated_open_order_symbol_contract_ambiguity_blocks(self):
+        first = {
+            "order_id": 42,
+            "account": ACCOUNT,
+            "symbol": "AMD",
+            "security_type": "STK",
+            "currency": "USD",
+            "con_id": 4391,
+            "action": "BUY",
+            "quantity": 1.0,
+            "status": "Submitted",
+        }
+        second = {
+            **first,
+            "order_id": 43,
+            "con_id": 123456,
+        }
+
+        result = self.evaluate(
+            fresh=fresh_g2(
+                open_orders=[
+                    first,
+                    second,
+                ],
+            ),
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn(
+            "broker_state_payload_valid",
+            result["failure_reasons"],
+        )
+        self.assertFalse(result["paper_order_submission_allowed"])
+
     def test_stale_fresh_g2_blocks_even_when_authorized_proof_is_valid(self):
         stale = fresh_g2(
             now=(

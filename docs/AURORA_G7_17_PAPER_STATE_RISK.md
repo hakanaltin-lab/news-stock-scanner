@@ -40,6 +40,8 @@ Open-order identifiers must also be unique within the complete broker snapshot. 
 
 Every open-order row must carry one of the explicit active TWS states `ApiPending`, `PendingSubmit`, `PreSubmitted`, `Submitted`, or `PendingCancel`. `PendingCancel` remains inventory-consuming because execution is still possible until cancellation is confirmed. Missing, terminal (`Filled`, `Cancelled`, `Inactive`, `ApiCancelled`), or unknown states are ambiguous in an active-order snapshot and fail closed; the gate never silently ignores them or treats them as safe inventory.
 
+The full open-order snapshot, including orders unrelated to the reviewed symbol, must carry USD stock identity, a positive `conId`, BUY/SELL direction and positive finite quantity. Symbol-to-`conId` mappings must be one-to-one across distinct contracts, while multiple orders for the same symbol/contract remain valid. Any unrelated malformed or conflicting row blocks the complete broker-state proof rather than being ignored.
+
 ## Output
 
 A passing status is PAPER_STATE_RISK_VALIDATED_NON_EXECUTABLE.
