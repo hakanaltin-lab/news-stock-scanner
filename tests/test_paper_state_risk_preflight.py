@@ -468,6 +468,8 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                     "account": ACCOUNT,
                     "symbol": "BKR",
                     "security_type": "STK",
+                    "currency": "USD",
+                    "con_id": 7654321,
                     "action": "SELL",
                     "quantity": 6.0,
                 }
@@ -500,6 +502,8 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                     "account": ACCOUNT,
                     "symbol": "BKR",
                     "security_type": "STK",
+                    "currency": "USD",
+                    "con_id": 7654321,
                     "action": "SELL",
                     "quantity": 6.0,
                 }
@@ -529,6 +533,8 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                     "account": ACCOUNT,
                     "symbol": "AMD",
                     "security_type": "STK",
+                    "currency": "USD",
+                    "con_id": 7654321,
                     "action": "SELL",
                     "quantity": True,
                 }
@@ -551,6 +557,8 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                     "account": "IBKR-FFFFFFFFFF",
                     "symbol": "AMD",
                     "security_type": "STK",
+                    "currency": "USD",
+                    "con_id": 7654321,
                     "action": "SELL",
                     "quantity": 1.0,
                 }
@@ -605,6 +613,39 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
         duplicate["symbol"] = "NVDA"
         bad["snapshot"]["positions"].append(duplicate)
         result = self.evaluate(fresh=bad)
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn("broker_state_payload_valid", result["failure_reasons"])
+
+    def test_open_sell_order_missing_con_id_blocks(self):
+        order = shadow(action="SELL", quantity=1)
+        bad = fresh_g2(open_orders=[{
+            "order_id": 42, "account": ACCOUNT, "symbol": "BKR",
+            "security_type": "STK", "currency": "USD",
+            "action": "SELL", "quantity": 1.0,
+        }])
+        result = self.evaluate(fresh=bad, order=order)
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn("broker_state_payload_valid", result["failure_reasons"])
+
+    def test_open_sell_order_wrong_con_id_blocks(self):
+        order = shadow(action="SELL", quantity=1)
+        bad = fresh_g2(open_orders=[{
+            "order_id": 42, "account": ACCOUNT, "symbol": "BKR",
+            "security_type": "STK", "currency": "USD",
+            "con_id": 123456, "action": "SELL", "quantity": 1.0,
+        }])
+        result = self.evaluate(fresh=bad, order=order)
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn("broker_state_payload_valid", result["failure_reasons"])
+
+    def test_open_sell_order_non_usd_blocks(self):
+        order = shadow(action="SELL", quantity=1)
+        bad = fresh_g2(open_orders=[{
+            "order_id": 42, "account": ACCOUNT, "symbol": "BKR",
+            "security_type": "STK", "currency": "EUR",
+            "con_id": 7654321, "action": "SELL", "quantity": 1.0,
+        }])
+        result = self.evaluate(fresh=bad, order=order)
         self.assertEqual(result["status"], "BLOCKED")
         self.assertIn("broker_state_payload_valid", result["failure_reasons"])
 
