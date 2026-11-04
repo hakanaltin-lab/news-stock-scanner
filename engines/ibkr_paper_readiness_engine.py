@@ -265,6 +265,7 @@ def open_order_execution_evidence_is_consistent(
         )
         normalized = (
             identity,
+            row.get("account"),
             row.get("symbol"),
             row.get("security_type"),
             row.get("currency"),
@@ -278,6 +279,8 @@ def open_order_execution_evidence_is_consistent(
             order is None
             or type(row.get("request_id")) is not int
             or row["request_id"] != EXECUTIONS_REQUEST_ID
+            or not isinstance(row.get("account"), str)
+            or row["account"] != order.get("account")
             or not isinstance(execution_id, str)
             or not execution_id.strip()
             or not isinstance(row.get("symbol"), str)
@@ -1351,9 +1354,9 @@ def evaluate_ibkr_paper_readiness(
         True,
         (
             "Every partial fill must carry complete execDetails evidence "
-            "bound to the fixed execution request ID, the same "
-            "permId/clientId/orderId and cumulative filled quantity "
-            "reported by orderStatus."
+            "bound to the fixed execution request ID, the verified Paper "
+            "account, the same permId/clientId/orderId and cumulative "
+            "filled quantity reported by orderStatus."
         ),
     )
 

@@ -755,6 +755,15 @@ if IBAPI_AVAILABLE:
                     else None
                 ),
 
+                "account":
+                mask_account(
+                    getattr(
+                        execution,
+                        "acctNumber",
+                        None
+                    )
+                ),
+
                 "symbol":
                 getattr(
                     contract,

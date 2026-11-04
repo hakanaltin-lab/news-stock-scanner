@@ -200,11 +200,12 @@ snapshot, while the same `orderId` from different clients remains distinct.
 
 If `orderStatus` reports a non-zero filled quantity for an active order, the
 snapshot must also contain matching `execDetails` evidence. Each execution is
-bound to the same `permId`, source `clientId`, client-local `orderId`, USD stock
-contract and BUY/SELL side. The greatest reported cumulative quantity must
-equal `orderStatus.filled`; missing, orphaned, malformed or contradictory
-execution rows fail closed. An explicit empty execution list is accepted only
-when every active order reports zero filled quantity.
+bound to the same masked and verified Paper account, `permId`, source
+`clientId`, client-local `orderId`, USD stock contract and BUY/SELL side. The
+greatest reported cumulative quantity must equal `orderStatus.filled`; a
+missing or mismatched execution account, or any orphaned, malformed or
+contradictory execution row, fails closed. An explicit empty execution list is
+accepted only when every active order reports zero filled quantity.
 
 The connector requests the current execution history with an empty,
 read-only `ExecutionFilter` and a fixed request ID. Readiness requires the
