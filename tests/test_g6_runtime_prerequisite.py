@@ -153,6 +153,7 @@ def g2_proof():
     return {
         "git_sha": GIT_SHA,
         "evidence_run_id": EVIDENCE_RUN_ID,
+        "probe_stage": "POST_REVIEW_PROBE",
         "run_mode": {
             "requested_mode": "READ_ONLY",
             "mode": "READ_ONLY",
@@ -306,6 +307,13 @@ class G6RuntimePrerequisiteTests(unittest.TestCase):
             result["evidence_run_id"],
             EVIDENCE_RUN_ID,
         )
+        self.assertTrue(
+            result["checks"]["g2_post_review_probe_stage"]
+        )
+        self.assertEqual(
+            result["g2_probe_stage"],
+            "POST_REVIEW_PROBE",
+        )
         self.assertEqual(result["git_sha"], GIT_SHA)
         self.assertEqual(
             result["gce_instance_id"],
@@ -330,6 +338,25 @@ class G6RuntimePrerequisiteTests(unittest.TestCase):
             "real_money_trading_allowed",
         ):
             self.assertIs(result[name], False)
+
+    def test_pre_review_g2_stage_blocks_runtime_prerequisite(self):
+        g5, comp, g4, auth, g2, attestation = full_chain()
+        g2["probe_stage"] = "PRE_REVIEW_DIAGNOSTIC"
+
+        result = evaluate_g6_runtime_prerequisite(
+            g5,
+            comp,
+            g4,
+            auth,
+            g2,
+            attestation,
+            now=NOW,
+        )
+
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertFalse(
+            result["checks"]["g2_post_review_probe_stage"]
+        )
 
     def test_non_read_only_run_mode_blocks(self):
         g5, comp, g4, auth, g2, attestation = full_chain()
