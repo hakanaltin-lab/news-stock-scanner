@@ -459,6 +459,7 @@ def _preconnection_gate(run_mode, runtime_provenance, review):
         and run_mode.get("mode_valid") is True
         and run_mode.get("read_only") is True
         and run_mode.get("paper_order_submission_requested") is False
+        and run_mode.get("live_execution_allowed") is False
         and isinstance(runtime_provenance, dict)
         and runtime_provenance.get("verified") is True
         and isinstance(review, dict)
