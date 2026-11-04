@@ -47,6 +47,8 @@ def snapshot():
         },
         "positions": [],
         "open_orders": [],
+        "order_status": [],
+        "executions": [],
     }
 
 

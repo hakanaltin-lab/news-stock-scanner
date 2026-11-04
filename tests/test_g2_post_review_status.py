@@ -71,6 +71,8 @@ def snapshot():
         },
         "positions": [],
         "open_orders": [],
+        "order_status": [],
+        "executions": [],
         "requests_complete": {
             "managed_accounts": True,
             "account_summary": True,

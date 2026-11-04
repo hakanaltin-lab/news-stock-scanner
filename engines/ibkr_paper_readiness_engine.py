@@ -200,6 +200,133 @@ def open_order_status_evidence_is_consistent(
     )
 
 
+def open_order_execution_evidence_is_consistent(
+    open_orders,
+    order_status_rows,
+    execution_rows,
+):
+    """Bind partial-fill callbacks to the exact active broker order."""
+    if (
+        not isinstance(open_orders, list)
+        or not isinstance(order_status_rows, list)
+        or not isinstance(execution_rows, list)
+        or not open_order_status_evidence_is_consistent(
+            open_orders,
+            order_status_rows,
+        )
+    ):
+        return False
+
+    open_orders_by_identity = {
+        (
+            row.get("perm_id"),
+            row.get("client_id"),
+            row.get("order_id"),
+        ): row
+        for row in open_orders
+    }
+    status_by_identity = {}
+    for row in order_status_rows:
+        identity = (
+            row.get("perm_id"),
+            row.get("client_id"),
+            row.get("order_id"),
+        )
+        status_by_identity[identity] = safe_float(
+            row.get("filled"),
+            None,
+        )
+
+    executions_by_identity = {}
+    execution_ids = {}
+    for row in execution_rows:
+        if not isinstance(row, dict):
+            return False
+
+        identity = (
+            row.get("perm_id"),
+            row.get("client_id"),
+            row.get("order_id"),
+        )
+        order = open_orders_by_identity.get(identity)
+        execution_id = row.get("execution_id")
+        shares = safe_float(row.get("shares"), None)
+        cumulative_quantity = safe_float(
+            row.get("cumulative_quantity"),
+            None,
+        )
+        price = safe_float(row.get("price"), None)
+        expected_side = (
+            "BOT"
+            if str(order.get("action") if order else "").upper() == "BUY"
+            else "SLD"
+        )
+        normalized = (
+            identity,
+            row.get("symbol"),
+            row.get("security_type"),
+            row.get("currency"),
+            row.get("con_id"),
+            row.get("side"),
+            shares,
+            cumulative_quantity,
+            price,
+        )
+        if (
+            order is None
+            or not isinstance(execution_id, str)
+            or not execution_id.strip()
+            or not isinstance(row.get("symbol"), str)
+            or row["symbol"].strip().upper()
+            != str(order.get("symbol") or "").strip().upper()
+            or row.get("security_type") != "STK"
+            or row.get("currency") != "USD"
+            or row.get("con_id") != order.get("con_id")
+            or row.get("side") != expected_side
+            or shares is None
+            or shares <= 0
+            or cumulative_quantity is None
+            or cumulative_quantity <= 0
+            or cumulative_quantity
+            > safe_float(order.get("quantity"), 0)
+            or price is None
+            or price <= 0
+            or (
+                execution_id in execution_ids
+                and execution_ids[execution_id] != normalized
+            )
+        ):
+            return False
+
+        execution_ids[execution_id] = normalized
+        executions_by_identity.setdefault(identity, []).append(
+            cumulative_quantity
+        )
+
+    for identity, order in open_orders_by_identity.items():
+        filled = status_by_identity.get(identity)
+        cumulative_quantities = executions_by_identity.get(identity, [])
+        if filled is None:
+            return False
+        if filled == 0:
+            if cumulative_quantities:
+                return False
+            continue
+        if (
+            not cumulative_quantities
+            or not math.isclose(
+                max(cumulative_quantities),
+                filled,
+                rel_tol=1e-9,
+                abs_tol=1e-9,
+            )
+            or filled > safe_float(order.get("quantity"), 0)
+        ):
+            return False
+
+    return True
+
+
 def account_metric(
     snapshot,
     name
@@ -1190,6 +1317,25 @@ def evaluate_ibkr_paper_readiness(
         (
             "Every reported open order must carry matching, complete and "
             "unambiguous active status evidence from both IBKR callbacks."
+        ),
+    )
+
+    open_order_execution_evidence_consistent = (
+        open_order_statuses_active
+        and open_order_execution_evidence_is_consistent(
+            open_orders,
+            broker_snapshot.get("order_status"),
+            broker_snapshot.get("executions"),
+        )
+    )
+    add_check(
+        "open_order_execution_evidence_consistent",
+        open_order_execution_evidence_consistent,
+        True,
+        (
+            "Every partial fill must carry complete execDetails evidence "
+            "bound to the same permId/clientId/orderId and cumulative "
+            "filled quantity reported by orderStatus."
         ),
     )
 

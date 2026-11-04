@@ -91,6 +91,7 @@ _REQUIRED_G2_PASSED_CHECKS = {
     "open_orders_payload_valid",
     "open_order_identifiers_unique",
     "open_order_statuses_active",
+    "open_order_execution_evidence_consistent",
     "open_order_accounts_match_verified_paper_accounts",
     "positions_payload_valid",
     "position_accounts_match_verified_paper_accounts",

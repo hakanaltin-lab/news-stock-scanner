@@ -19,6 +19,7 @@ from uuid import UUID
 
 from engines.ibkr_paper_readiness_engine import (
     ACTIVE_OPEN_ORDER_STATUSES,
+    open_order_execution_evidence_is_consistent,
     open_order_payload_is_valid,
     open_order_status_evidence_is_consistent,
 )
@@ -53,6 +54,7 @@ _REQUIRED_G7_POSITION_CHECKS = (
     "position_instruments_unambiguous",
     "open_order_identifiers_unique",
     "open_order_statuses_active",
+    "open_order_execution_evidence_consistent",
 )
 
 _EXPECTED_G5_CHECKS = {
@@ -1492,6 +1494,15 @@ def evaluate_paper_state_risk_preflight(
         )
     )
 
+    open_order_execution_evidence_consistent = (
+        open_order_statuses_active
+        and open_order_execution_evidence_is_consistent(
+            open_orders,
+            fresh_snapshot.get("order_status"),
+            fresh_snapshot.get("executions"),
+        )
+    )
+
     # Open orders are broker contract identities, not just tickers.
     # A same-symbol option or a different stock conId must never consume
     # (or validate) inventory for the reviewed stock order.
@@ -1663,6 +1674,7 @@ def evaluate_paper_state_risk_preflight(
         and open_orders_valid
         and open_order_identifiers_unique
         and open_order_statuses_active
+        and open_order_execution_evidence_consistent
         and relevant_position_type_valid
         and relevant_open_order_type_valid
         and relevant_open_orders_match_position
@@ -1693,6 +1705,7 @@ def evaluate_paper_state_risk_preflight(
             and position_identity_valid
             and open_orders_valid
             and open_order_statuses_active
+            and open_order_execution_evidence_consistent
             and relevant_position_type_valid
             and relevant_open_order_type_valid
             and relevant_open_orders_match_position
@@ -1764,6 +1777,9 @@ def evaluate_paper_state_risk_preflight(
 
         "open_order_statuses_active":
         open_order_statuses_active,
+
+        "open_order_execution_evidence_consistent":
+        open_order_execution_evidence_consistent,
 
         "buy_available_funds_sufficient":
         buy_available_funds_sufficient,

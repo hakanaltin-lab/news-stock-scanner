@@ -46,6 +46,13 @@ Each open order must also reconcile with the `orderStatus` callback snapshot by 
 
 Reconciliation also requires the same account-wide `permId` and source `clientId` on both callbacks. This prevents client-local order ID collisions from being merged into one broker-state observation.
 
+An active order with a non-zero filled quantity must additionally reconcile
+with `execDetails`. Execution identity, USD stock contract, side, positive
+shares/price and cumulative quantity are validated, and the greatest
+cumulative quantity must equal `orderStatus.filled`. Missing execution evidence,
+orphan callbacks, conflicting duplicate execution IDs and partial-fill quantity
+drift all block the state-risk proof.
+
 ## Output
 
 A passing status is PAPER_STATE_RISK_VALIDATED_NON_EXECUTABLE.
