@@ -1,0 +1,43 @@
+name: G7.17 Paper State-Risk Preflight Safety
+
+on:
+  pull_request:
+    paths:
+      - "engines/paper_state_risk_preflight.py"
+      - "tests/test_paper_state_risk_preflight.py"
+      - "docs/AURORA_G7_17_PAPER_STATE_RISK.md"
+      - ".github/workflows/g7-paper-state-risk-preflight.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  paper-state-risk-fail-closed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile G7.17 components
+        run: |
+          python -m py_compile engines/paper_state_risk_preflight.py
+          python -m py_compile tests/test_paper_state_risk_preflight.py
+
+      - name: Prove fresh bound broker-state risk fails closed
+        run: |
+          python -m unittest tests.test_paper_state_risk_preflight -v
+
+      - name: Prove upstream G2 completion and G5 contracts still pass
+        run: |
+          python -m unittest tests.test_ibkr_readonly_readiness_g7 -v
+          python -m unittest tests.test_aurora_completion_status -v
+          python -m unittest tests.test_paper_order_authorization_gate -v
+
+      - name: Prove G7.17 has no execution or persistence path
+        run: |
+          ! grep -E "placeOrder|submit_order|from ibapi|import ibapi|PAPER_ENABLED|4001|write_text|write_bytes|os\.replace|sqlite3" engines/paper_state_risk_preflight.py
