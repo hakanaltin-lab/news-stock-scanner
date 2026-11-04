@@ -578,6 +578,21 @@ if IBAPI_AVAILABLE:
                     None
                 ),
 
+                "currency":
+                getattr(
+                    contract,
+                    "currency",
+                    None
+                ),
+
+                "con_id":
+                (
+                    getattr(contract, "conId", None)
+                    if type(getattr(contract, "conId", None)) is int
+                    and getattr(contract, "conId", None) > 0
+                    else None
+                ),
+
                 "action":
                 getattr(
                     order,
