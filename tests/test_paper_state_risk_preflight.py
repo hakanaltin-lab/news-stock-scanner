@@ -46,17 +46,18 @@ def safe_flags():
 
 
 def required_g2_checks():
+    names = (
+        "paper_mode_only",
+        "gateway_connected",
+        "positions_snapshot_complete",
+        "positions_payload_valid",
+        "position_accounts_match_verified_paper_accounts",
+        "portfolio_quantities_and_symbols_valid",
+        "position_instruments_unambiguous",
+    )
     return [
-        {
-            "check": "paper_mode_only",
-            "required": True,
-            "passed": True,
-        },
-        {
-            "check": "gateway_connected",
-            "required": True,
-            "passed": True,
-        },
+        {"check": name, "required": True, "passed": True}
+        for name in names
     ]
 
 
@@ -564,6 +565,16 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "broker_state_payload_valid",
             second["failure_reasons"],
         )
+
+    def test_fresh_g2_missing_position_identity_check_blocks(self):
+        bad = fresh_g2()
+        bad["readiness"]["checks"] = [
+            item for item in bad["readiness"]["checks"]
+            if item["check"] != "position_instruments_unambiguous"
+        ]
+        result = self.evaluate(fresh=bad)
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn("fresh_g2_contract_valid", result["failure_reasons"])
 
     def test_missing_con_id_blocks_state_risk(self):
         bad = fresh_g2()
