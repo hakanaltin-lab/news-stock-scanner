@@ -1,7 +1,7 @@
 {
   "engine": "V8.4 Historical Evidence Recovery Engine",
   "recovery_signature": "V8.4.1",
-  "generated": "2026-11-03T06:18:31.133762+00:00",
+  "generated": "2026-11-04T00:48:44.018366+00:00",
   "status": "COMPLETE",
   "cache_status": "FRESH",
   "record_count": 138,
@@ -20,7 +20,7 @@
       "records": 21
     },
     "modern_json": {
-      "scanned_dates": 88,
+      "scanned_dates": 89,
       "usable_dates": 6,
       "records": 18,
       "excluded_foundation_snapshots": 77
