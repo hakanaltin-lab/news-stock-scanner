@@ -59,6 +59,7 @@ def required_g2_checks():
         "position_instruments_unambiguous",
         "open_order_identifiers_unique",
         "open_order_statuses_active",
+        "open_order_execution_evidence_consistent",
     )
     return [
         {"check": name, "required": True, "passed": True}
@@ -76,6 +77,7 @@ def g2(
     positions=None,
     open_orders=None,
     order_status=_AUTO_ORDER_STATUS,
+    executions=None,
 ):
     positions = (
         positions
@@ -195,6 +197,7 @@ def g2(
             "positions": positions,
             "open_orders": open_orders,
             "order_status": order_status,
+            "executions": executions if executions is not None else [],
         },
         "gateway_read_only_attestation": {
             "status": "VERIFIED",
@@ -820,6 +823,125 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                 )
 
                 self.assertEqual(result["status"], "BLOCKED")
+                self.assertIn(
+                    "broker_state_payload_valid",
+                    result["failure_reasons"],
+                )
+                self.assertFalse(result["paper_order_submission_allowed"])
+
+    def test_matching_partial_fill_evidence_passes_state_risk(self):
+        open_order = {
+            "order_id": 42,
+            "perm_id": 900042,
+            "client_id": 17,
+            "account": ACCOUNT,
+            "symbol": "BKR",
+            "security_type": "STK",
+            "currency": "USD",
+            "con_id": 7654321,
+            "action": "SELL",
+            "quantity": 2.0,
+            "status": "Submitted",
+        }
+        status = {
+            "order_id": 42,
+            "perm_id": 900042,
+            "client_id": 17,
+            "status": "Submitted",
+            "filled": 1.0,
+            "remaining": 1.0,
+        }
+        execution = {
+            "order_id": 42,
+            "perm_id": 900042,
+            "client_id": 17,
+            "symbol": "BKR",
+            "security_type": "STK",
+            "currency": "USD",
+            "con_id": 7654321,
+            "execution_id": "E-42-1",
+            "side": "SLD",
+            "shares": 1.0,
+            "cumulative_quantity": 1.0,
+            "price": 50.0,
+        }
+
+        result = self.evaluate(
+            fresh=fresh_g2(
+                open_orders=[open_order],
+                order_status=[status],
+                executions=[execution],
+            ),
+            order=shadow(action="SELL", quantity=1),
+        )
+
+        self.assertEqual(
+            result["status"],
+            "PAPER_STATE_RISK_VALIDATED_NON_EXECUTABLE",
+        )
+        self.assertTrue(
+            result["checks"][
+                "open_order_execution_evidence_consistent"
+            ]
+        )
+
+    def test_partial_fill_identity_or_quantity_mismatch_blocks_state_risk(self):
+        open_order = {
+            "order_id": 42,
+            "perm_id": 900042,
+            "client_id": 17,
+            "account": ACCOUNT,
+            "symbol": "BKR",
+            "security_type": "STK",
+            "currency": "USD",
+            "con_id": 7654321,
+            "action": "SELL",
+            "quantity": 2.0,
+            "status": "Submitted",
+        }
+        status = {
+            "order_id": 42,
+            "perm_id": 900042,
+            "client_id": 17,
+            "status": "Submitted",
+            "filled": 1.0,
+            "remaining": 1.0,
+        }
+        execution = {
+            "order_id": 42,
+            "perm_id": 900042,
+            "client_id": 17,
+            "symbol": "BKR",
+            "security_type": "STK",
+            "currency": "USD",
+            "con_id": 7654321,
+            "execution_id": "E-42-1",
+            "side": "SLD",
+            "shares": 1.0,
+            "cumulative_quantity": 1.0,
+            "price": 50.0,
+        }
+
+        for executions in (
+            [],
+            [{**execution, "perm_id": 900043}],
+            [{**execution, "cumulative_quantity": 0.5}],
+        ):
+            with self.subTest(executions=executions):
+                result = self.evaluate(
+                    fresh=fresh_g2(
+                        open_orders=[open_order],
+                        order_status=[status],
+                        executions=executions,
+                    ),
+                    order=shadow(action="SELL", quantity=1),
+                )
+
+                self.assertEqual(result["status"], "BLOCKED")
+                self.assertIn(
+                    "open_order_execution_evidence_consistent",
+                    result["failure_reasons"],
+                )
                 self.assertIn(
                     "broker_state_payload_valid",
                     result["failure_reasons"],

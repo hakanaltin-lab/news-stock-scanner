@@ -60,6 +60,8 @@ def ready_snapshot():
         },
         "positions": [],
         "open_orders": [],
+        "order_status": [],
+        "executions": [],
         "requests_complete": {
             "managed_accounts": True,
             "account_summary": True,
@@ -99,6 +101,27 @@ def ready_order_status(order=None, **overrides):
         "filled": 0.0,
         "remaining": order["quantity"],
         "average_fill_price": 0.0,
+    }
+    row.update(overrides)
+    return row
+
+
+def ready_execution(order=None, **overrides):
+    order = order or ready_open_order()
+    row = {
+        "order_id": order["order_id"],
+        "perm_id": order["perm_id"],
+        "client_id": order["client_id"],
+        "symbol": order["symbol"],
+        "security_type": order["security_type"],
+        "currency": order["currency"],
+        "con_id": order["con_id"],
+        "execution_id": "E-1",
+        "side": "BOT" if order["action"] == "BUY" else "SLD",
+        "shares": 0.5,
+        "cumulative_quantity": 0.5,
+        "price": 100.0,
+        "time": "20261104 09:00:00",
     }
     row.update(overrides)
     return row
@@ -347,14 +370,25 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
         self.assertIsNone(application.order_status_rows[0]["average_fill_price"])
 
         class Execution:
+            orderId = 1
+            permId = 10
+            clientId = 82
             execId = "E1"
             side = "BOT"
             shares = float("nan")
+            cumQty = float("nan")
             price = float("inf")
             time = "20261102 09:00:00"
 
         application.execDetails(1, Contract(), Execution())
+        self.assertEqual(application.execution_rows[0]["order_id"], 1)
+        self.assertEqual(application.execution_rows[0]["perm_id"], 10)
+        self.assertEqual(application.execution_rows[0]["client_id"], 82)
+        self.assertEqual(application.execution_rows[0]["con_id"], 4815747)
         self.assertIsNone(application.execution_rows[0]["shares"])
+        self.assertIsNone(
+            application.execution_rows[0]["cumulative_quantity"]
+        )
         self.assertIsNone(application.execution_rows[0]["price"])
 
     def test_account_identifiers_are_masked_in_errors(self):
@@ -789,6 +823,82 @@ class IBKRReadinessTests(unittest.TestCase):
             readiness["readiness"],
             "READY_FOR_PAPER_READ_ONLY",
         )
+        self.assertFalse(readiness["paper_order_submission_allowed"])
+
+    def test_partial_fill_requires_matching_execution_evidence(self):
+        order = ready_open_order(
+            quantity=2.0,
+        )
+        status = ready_order_status(
+            order,
+            filled=0.5,
+            remaining=1.5,
+            average_fill_price=100.0,
+        )
+        snapshot = ready_snapshot()
+        set_open_orders(snapshot, [order], [status])
+        snapshot["executions"] = [ready_execution(order)]
+
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+        self.assertEqual(
+            readiness["readiness"],
+            "READY_FOR_PAPER_READ_ONLY",
+        )
+        self.assertFalse(readiness["paper_order_submission_allowed"])
+
+    def test_missing_or_mismatched_partial_fill_evidence_blocks(self):
+        order = ready_open_order(
+            quantity=2.0,
+        )
+        status = ready_order_status(
+            order,
+            filled=0.5,
+            remaining=1.5,
+            average_fill_price=100.0,
+        )
+        valid = ready_execution(order)
+        cases = (
+            None,
+            [],
+            [{**valid, "perm_id": 900011}],
+            [{**valid, "client_id": 18}],
+            [{**valid, "order_id": 11}],
+            [{**valid, "con_id": 999999}],
+            [{**valid, "side": "BOT"}],
+            [{**valid, "cumulative_quantity": 0.25}],
+            [{**valid, "shares": float("nan")}],
+            [valid, {**valid, "cumulative_quantity": 0.25}],
+        )
+
+        for executions in cases:
+            with self.subTest(executions=executions):
+                snapshot = ready_snapshot()
+                set_open_orders(snapshot, [order], [status])
+                if executions is None:
+                    snapshot.pop("executions")
+                else:
+                    snapshot["executions"] = executions
+
+                readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+                self.assertEqual(readiness["readiness"], "NOT_READY")
+                self.assertIn(
+                    "open_order_execution_evidence_consistent",
+                    {
+                        item["check"] for item in readiness["checks"]
+                        if item["required"] and not item["passed"]
+                    },
+                )
+                self.assertFalse(readiness["paper_order_submission_allowed"])
+
+    def test_execution_evidence_without_open_order_blocks(self):
+        snapshot = ready_snapshot()
+        snapshot["executions"] = [ready_execution()]
+
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+        self.assertEqual(readiness["readiness"], "NOT_READY")
         self.assertFalse(readiness["paper_order_submission_allowed"])
 
     def test_orphan_order_status_evidence_blocks_empty_snapshot(self):

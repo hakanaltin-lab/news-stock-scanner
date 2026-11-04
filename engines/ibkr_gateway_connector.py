@@ -720,11 +720,57 @@ if IBAPI_AVAILABLE:
             execution
         ):
             self.execution_rows.append({
+                "order_id":
+                (
+                    getattr(execution, "orderId", None)
+                    if type(getattr(execution, "orderId", None)) is int
+                    and getattr(execution, "orderId", None) >= 0
+                    else None
+                ),
+
+                "perm_id":
+                (
+                    getattr(execution, "permId", None)
+                    if type(getattr(execution, "permId", None)) is int
+                    and getattr(execution, "permId", None) > 0
+                    else None
+                ),
+
+                "client_id":
+                (
+                    getattr(execution, "clientId", None)
+                    if type(getattr(execution, "clientId", None)) is int
+                    and getattr(execution, "clientId", None) >= 0
+                    else None
+                ),
+
                 "symbol":
                 getattr(
                     contract,
                     "symbol",
                     None
+                ),
+
+                "security_type":
+                getattr(
+                    contract,
+                    "secType",
+                    None
+                ),
+
+                "currency":
+                getattr(
+                    contract,
+                    "currency",
+                    None
+                ),
+
+                "con_id":
+                (
+                    getattr(contract, "conId", None)
+                    if type(getattr(contract, "conId", None)) is int
+                    and getattr(contract, "conId", None) > 0
+                    else None
                 ),
 
                 "execution_id":
@@ -746,6 +792,16 @@ if IBAPI_AVAILABLE:
                     getattr(
                         execution,
                         "shares",
+                        None
+                    ),
+                    None
+                ),
+
+                "cumulative_quantity":
+                safe_float(
+                    getattr(
+                        execution,
+                        "cumQty",
                         None
                     ),
                     None
