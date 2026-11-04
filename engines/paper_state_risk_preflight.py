@@ -39,6 +39,14 @@ _REQUIRED_COMPLETION_CHECKS = (
     "g4_shadow_order_ledger_payload_bound",
 )
 
+_REQUIRED_G7_POSITION_CHECKS = (
+    "positions_snapshot_complete",
+    "positions_payload_valid",
+    "position_accounts_match_verified_paper_accounts",
+    "portfolio_quantities_and_symbols_valid",
+    "position_instruments_unambiguous",
+)
+
 _EXPECTED_G5_CHECKS = {
     "completion_validated_shadow_only",
     "shadow_order_accepted",
@@ -544,6 +552,15 @@ def _g2_contract(
                 "required"
             )
             is True
+        )
+        and all(
+            sum(
+                1 for item in readiness_checks
+                if item.get("check") == name
+                and item.get("required") is True
+                and item.get("passed") is True
+            ) == 1
+            for name in _REQUIRED_G7_POSITION_CHECKS
         )
     )
 
