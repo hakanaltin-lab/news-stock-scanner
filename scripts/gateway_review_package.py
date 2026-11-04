@@ -369,6 +369,9 @@ def _validate_g2_diagnostic(
     if evidence_run_id is None:
         return None, "G2_DIAGNOSTIC_EVIDENCE_RUN_ID_INVALID"
 
+    if g2_proof.get("probe_stage") != "PRE_REVIEW_DIAGNOSTIC":
+        return None, "G2_DIAGNOSTIC_PROBE_STAGE_INVALID"
+
     git_sha = str(g2_proof.get("git_sha") or "").strip().lower()
     handoff_git_sha = str(
         handoff_request.get("git_sha") or ""
@@ -619,6 +622,7 @@ def _validate_g2_diagnostic(
 
     summary = {
         "evidence_run_id": evidence_run_id,
+        "probe_stage": "PRE_REVIEW_DIAGNOSTIC",
         "captured_at_utc": captured_at.isoformat(),
         "age_seconds": round(max(0.0, age_seconds), 3),
         "git_sha": git_sha,
