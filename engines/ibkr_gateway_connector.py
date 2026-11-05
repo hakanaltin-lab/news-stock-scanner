@@ -1472,6 +1472,10 @@ def get_ibkr_read_only_snapshot():
         else:
             status = "PARTIAL"
 
+        snapshot_completed_at_utc = datetime.now(
+            timezone.utc
+        ).isoformat()
+
         return {
             **base,
 
@@ -1480,6 +1484,9 @@ def get_ibkr_read_only_snapshot():
 
             "connection_status":
             "CONNECTED",
+
+            "snapshot_completed_at_utc":
+            snapshot_completed_at_utc,
 
             "accounts":
             masked_accounts,

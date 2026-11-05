@@ -75,6 +75,9 @@ def gateway_attestation():
 def broker_snapshot():
     return {
         "timestamp": (NOW - timedelta(seconds=10)).isoformat(),
+        "snapshot_completed_at_utc": (
+            NOW - timedelta(seconds=9)
+        ).isoformat(),
         "status": "CONNECTED",
         "connection_status": "CONNECTED",
         "config": {

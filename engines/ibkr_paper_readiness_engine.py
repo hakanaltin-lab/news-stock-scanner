@@ -39,6 +39,11 @@ EXECUTION_EXCHANGE_PATTERN = re.compile(
     r"^[A-Za-z0-9][A-Za-z0-9._:+/-]{0,63}$"
 )
 
+SNAPSHOT_UTC_TIMESTAMP_PATTERN = re.compile(
+    r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}"
+    r"(?:\.\d{1,6})?(?:Z|\+00:00)$"
+)
+
 
 def safe_float(
     value,
@@ -86,7 +91,7 @@ def execution_correction_family(execution_id):
 
 
 def parse_execution_time(value):
-    """Return a comparable timestamp and its broker time context."""
+    """Return an unambiguous UTC timestamp and its broker time context."""
     if not isinstance(value, str):
         return None
 
@@ -108,12 +113,34 @@ def parse_execution_time(value):
     except ValueError:
         return None
 
-    time_context = (
-        "UTC"
-        if separator == "-"
-        else match.group("timezone") or "GATEWAY_LOCAL"
+    if separator != "-":
+        return None
+
+    return timestamp.replace(tzinfo=timezone.utc), "UTC"
+
+
+def parse_snapshot_utc_timestamp(value):
+    """Parse a canonical UTC snapshot timestamp without coercion."""
+    if (
+        not isinstance(value, str)
+        or SNAPSHOT_UTC_TIMESTAMP_PATTERN.fullmatch(value) is None
+    ):
+        return None
+
+    normalized = (
+        value[:-1] + "+00:00"
+        if value.endswith("Z")
+        else value
     )
-    return timestamp, time_context
+    try:
+        parsed = datetime.fromisoformat(normalized)
+    except ValueError:
+        return None
+
+    if parsed.utcoffset() != timezone.utc.utcoffset(parsed):
+        return None
+
+    return parsed.astimezone(timezone.utc)
 
 
 def open_order_payload_is_valid(open_orders):
@@ -273,6 +300,7 @@ def open_order_execution_evidence_is_consistent(
     open_orders,
     order_status_rows,
     execution_rows,
+    snapshot_completed_at_utc,
 ):
     """Bind partial-fill callbacks to the exact active broker order."""
     if (
@@ -285,6 +313,10 @@ def open_order_execution_evidence_is_consistent(
         )
     ):
         return False
+
+    snapshot_completion_time = parse_snapshot_utc_timestamp(
+        snapshot_completed_at_utc
+    )
 
     open_orders_by_identity = {
         (
@@ -397,6 +429,8 @@ def open_order_execution_evidence_is_consistent(
             or type(pending_price_revision) is not bool
             or pending_price_revision is not False
             or parsed_execution_time is None
+            or snapshot_completion_time is None
+            or parsed_execution_time[0] > snapshot_completion_time
             or (
                 execution_id in execution_ids
                 and execution_ids[execution_id] != normalized
@@ -1472,16 +1506,29 @@ def evaluate_ibkr_paper_readiness(
         )
     )
 
+    snapshot_started_at = parse_snapshot_utc_timestamp(
+        broker_snapshot.get("timestamp")
+    )
+    snapshot_completed_at = parse_snapshot_utc_timestamp(
+        broker_snapshot.get("snapshot_completed_at_utc")
+    )
+    snapshot_time_window_valid = (
+        snapshot_started_at is not None
+        and snapshot_completed_at is not None
+        and snapshot_completed_at >= snapshot_started_at
+    )
+
     add_check(
         "execution_snapshot_complete",
-        requests_complete.get(
-            "executions"
-        )
-        is True,
+        (
+            requests_complete.get("executions") is True
+            and snapshot_time_window_valid
+        ),
         True,
         (
             "Execution request must reach execDetailsEnd before read-only "
-            "readiness can reconcile partial fills."
+            "readiness can reconcile partial fills, and the snapshot must "
+            "carry an ordered canonical UTC start/completion window."
         )
     )
 
@@ -1557,6 +1604,7 @@ def evaluate_ibkr_paper_readiness(
             open_orders,
             broker_snapshot.get("order_status"),
             broker_snapshot.get("executions"),
+            broker_snapshot.get("snapshot_completed_at_utc"),
         )
     )
     add_check(
