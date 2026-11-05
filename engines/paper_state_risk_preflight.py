@@ -1319,6 +1319,11 @@ def evaluate_paper_state_risk_preflight(
             "timestamp"
         )
     )
+    fresh_snapshot_completed_at = _utc_datetime(
+        fresh_snapshot.get(
+            "snapshot_completed_at_utc"
+        )
+    )
     fresh_readiness_timestamp = _utc_datetime(
         fresh_readiness.get(
             "timestamp"
@@ -1328,6 +1333,12 @@ def evaluate_paper_state_risk_preflight(
     fresh_snapshot_age = _age_seconds(
         fresh_snapshot.get(
             "timestamp"
+        ),
+        now,
+    )
+    fresh_snapshot_completion_age = _age_seconds(
+        fresh_snapshot.get(
+            "snapshot_completed_at_utc"
         ),
         now,
     )
@@ -1342,14 +1353,28 @@ def evaluate_paper_state_risk_preflight(
         risk_policy_valid
         and fresh_snapshot_age
         is not None
+        and fresh_snapshot_completion_age
+        is not None
         and fresh_readiness_age
         is not None
         and fresh_snapshot_age
         <=
         configured_max_age
+        and fresh_snapshot_completion_age
+        <=
+        configured_max_age
         and fresh_readiness_age
         <=
         configured_max_age
+        and fresh_snapshot_completed_at
+        is not None
+        and fresh_snapshot_timestamp
+        is not None
+        and fresh_snapshot_timestamp
+        <=
+        fresh_snapshot_completed_at
+        <=
+        fresh_readiness_timestamp
     )
 
     fresh_g2_post_authorization = (
@@ -1357,10 +1382,19 @@ def evaluate_paper_state_risk_preflight(
         is not None
         and fresh_snapshot_timestamp
         is not None
+        and fresh_snapshot_completed_at
+        is not None
         and fresh_readiness_timestamp
         is not None
         and (
             fresh_snapshot_timestamp
+            -
+            auth_issued
+        ).total_seconds()
+        >=
+        -2
+        and (
+            fresh_snapshot_completed_at
             -
             auth_issued
         ).total_seconds()
@@ -1505,6 +1539,7 @@ def evaluate_paper_state_risk_preflight(
             open_orders,
             fresh_snapshot.get("order_status"),
             fresh_snapshot.get("executions"),
+            fresh_snapshot.get("snapshot_completed_at_utc"),
         )
     )
 

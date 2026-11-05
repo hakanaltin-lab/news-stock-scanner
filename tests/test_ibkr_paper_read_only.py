@@ -27,6 +27,8 @@ _AUTO_ORDER_STATUS = object()
 
 def ready_snapshot():
     return {
+        "timestamp": "2026-11-04T13:59:55+00:00",
+        "snapshot_completed_at_utc": "2026-11-04T14:00:00+00:00",
         "status": "CONNECTED",
         "config": {
             "mode": "PAPER",
@@ -131,7 +133,7 @@ def ready_execution(order=None, **overrides):
         "average_price": 100.0,
         "liquidation": 0,
         "pending_price_revision": False,
-        "time": "20261104 09:00:00",
+        "time": "20261104-09:00:00",
     }
     row.update(overrides)
     return row
@@ -963,7 +965,6 @@ class IBKRReadinessTests(unittest.TestCase):
         )
         valid = ready_execution(order)
         valid_times = (
-            "20261104 09:00:00",
             "20261104 09:00:00 US/Eastern",
             "20261104-09:00:00",
         )
@@ -972,6 +973,9 @@ class IBKRReadinessTests(unittest.TestCase):
             "",
             " 20261104 09:00:00",
             "20261104T09:00:00",
+            "20261104 09:00:00",
+            "20261104 09:00:00 Not/AZone",
+            "20261101 01:30:00 US/Eastern",
             "20260230 09:00:00",
             "20261104 24:00:00",
             "20261104-09:00:00 UTC",
@@ -1016,6 +1020,84 @@ class IBKRReadinessTests(unittest.TestCase):
                 )
                 self.assertFalse(
                     readiness["paper_order_submission_allowed"]
+                )
+
+    def test_execution_time_must_not_exceed_snapshot_completion(self):
+        order = ready_open_order(quantity=2.0)
+        status = ready_order_status(
+            order,
+            filled=0.5,
+            remaining=1.5,
+            average_fill_price=100.0,
+        )
+
+        for completion_time in (
+            None,
+            "",
+            "2026-11-04T09:00:00+03:00",
+            True,
+        ):
+            with self.subTest(completion_time=completion_time):
+                snapshot = ready_snapshot()
+                snapshot["snapshot_completed_at_utc"] = completion_time
+                set_open_orders(snapshot, [order], [status])
+                snapshot["executions"] = [ready_execution(order)]
+
+                readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+                self.assertEqual(readiness["readiness"], "NOT_READY")
+                self.assertIn(
+                    "open_order_execution_evidence_consistent",
+                    {
+                        item["check"] for item in readiness["checks"]
+                        if item["required"] and not item["passed"]
+                    },
+                )
+                self.assertFalse(
+                    readiness["paper_order_submission_allowed"]
+                )
+
+        snapshot = ready_snapshot()
+        set_open_orders(snapshot, [order], [status])
+        snapshot["executions"] = [ready_execution(
+            order,
+            time="20261104-14:00:01",
+        )]
+
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+        self.assertEqual(readiness["readiness"], "NOT_READY")
+        checks = {
+            item["check"]: item["passed"]
+            for item in readiness["checks"]
+        }
+        self.assertTrue(checks["execution_snapshot_complete"])
+        self.assertFalse(
+            checks["open_order_execution_evidence_consistent"]
+        )
+        self.assertFalse(readiness["paper_order_submission_allowed"])
+
+    def test_snapshot_completion_window_must_be_ordered_utc(self):
+        for completion_time in (
+            None,
+            "",
+            "2026-11-04T13:59:54+00:00",
+            "2026-11-04T14:00:00+03:00",
+            True,
+        ):
+            with self.subTest(completion_time=completion_time):
+                snapshot = ready_snapshot()
+                snapshot["snapshot_completed_at_utc"] = completion_time
+
+                readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+                self.assertEqual(readiness["readiness"], "NOT_READY")
+                self.assertIn(
+                    "execution_snapshot_complete",
+                    {
+                        item["check"] for item in readiness["checks"]
+                        if item["required"] and not item["passed"]
+                    },
                 )
 
     def test_execution_exchange_must_be_canonical(self):
@@ -1111,7 +1193,7 @@ class IBKRReadinessTests(unittest.TestCase):
                 cumulative_quantity=0.5,
                 price=110.0,
                 average_price=100.0,
-                time="20261104 09:00:01",
+                time="20261104-09:00:01",
             ),
             ready_execution(
                 order,
@@ -1120,7 +1202,7 @@ class IBKRReadinessTests(unittest.TestCase):
                 cumulative_quantity=0.25,
                 price=90.0,
                 average_price=90.0,
-                time="20261104 09:00:00",
+                time="20261104-09:00:00",
             ),
         ]
 
@@ -1141,8 +1223,8 @@ class IBKRReadinessTests(unittest.TestCase):
         )
         time_cases = (
             (
-                "20261104 09:00:01",
-                "20261104 09:00:00",
+                "20261104-09:00:01",
+                "20261104-09:00:00",
             ),
             (
                 "20261104 09:00:00 US/Eastern",

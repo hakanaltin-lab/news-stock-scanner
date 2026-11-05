@@ -28,6 +28,8 @@ def safe_permissions():
 
 def snapshot():
     return {
+        "timestamp": "2026-11-04T09:00:00+00:00",
+        "snapshot_completed_at_utc": "2026-11-04T09:00:01+00:00",
         "status": "CONNECTED",
         "connection_status": "CONNECTED",
         "config": {

@@ -15,6 +15,8 @@ from engines.ibkr_paper_readiness_engine import (
 
 def snapshot(positions=None):
     return {
+        "timestamp": "2026-11-04T09:00:00+00:00",
+        "snapshot_completed_at_utc": "2026-11-04T09:00:01+00:00",
         "status": "CONNECTED",
         "config": {"mode": "PAPER", "mode_valid": True, "endpoint_safe": True,
                    "read_only": True, "client_id": 82, "client_id_valid": True},

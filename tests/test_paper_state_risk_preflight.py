@@ -160,6 +160,7 @@ def g2(
         },
         "snapshot": {
             "timestamp": stamp,
+            "snapshot_completed_at_utc": stamp,
             "status": "CONNECTED",
             "connection_status": "CONNECTED",
             "config": {
@@ -955,7 +956,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "average_price": 50.0,
             "liquidation": 0,
             "pending_price_revision": False,
-            "time": "20261104 09:00:00",
+            "time": "20261102-11:59:50",
         }
 
         result = self.evaluate(
@@ -1019,7 +1020,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "average_price": 50.0,
             "liquidation": 0,
             "pending_price_revision": False,
-            "time": "20261104 09:00:00",
+            "time": "20261102-11:59:50",
         }
 
         for executions in (
@@ -1279,6 +1280,40 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "fresh_g2_broker_state_fresh",
             result["failure_reasons"],
         )
+
+    def test_fresh_g2_requires_coherent_snapshot_completion_time(self):
+        cases = []
+
+        missing = fresh_g2()
+        missing["snapshot"].pop("snapshot_completed_at_utc")
+        cases.append(missing)
+
+        before_start = fresh_g2()
+        before_start["snapshot"]["snapshot_completed_at_utc"] = (
+            NOW - timedelta(seconds=6)
+        ).isoformat()
+        cases.append(before_start)
+
+        future = fresh_g2()
+        future["snapshot"]["snapshot_completed_at_utc"] = (
+            NOW + timedelta(seconds=3)
+        ).isoformat()
+        cases.append(future)
+
+        for fresh in cases:
+            with self.subTest(
+                completion=fresh["snapshot"].get(
+                    "snapshot_completed_at_utc"
+                )
+            ):
+                result = self.evaluate(fresh=fresh)
+
+                self.assertEqual(result["status"], "BLOCKED")
+                self.assertIn(
+                    "fresh_g2_broker_state_fresh",
+                    result["failure_reasons"],
+                )
+                self.assertFalse(result["paper_order_submission_allowed"])
 
     def test_fresh_g2_must_be_post_authorization(self):
         pre_auth = fresh_g2(
