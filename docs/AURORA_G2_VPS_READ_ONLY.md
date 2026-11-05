@@ -252,6 +252,10 @@ callback arrival order. Their cumulative quantities must increase strictly,
 and every `cumQty` must equal the running sum of the retained `shares` within
 the same tolerance. This blocks malformed intermediate partial-fill progress
 even when the final share total and greatest cumulative quantity agree.
+The corresponding execution times must use one comparable broker time context
+and must not move backward as `cumQty` increases. Equal timestamps remain
+valid for multiple fills reported within the same second; callback arrival
+order remains irrelevant.
 
 The connector requests the current execution history with an empty,
 read-only `ExecutionFilter` and a fixed request ID. Readiness requires the

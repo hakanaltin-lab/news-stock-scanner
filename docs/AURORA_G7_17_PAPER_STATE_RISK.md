@@ -89,6 +89,9 @@ Distinct execution families are sorted by `cumQty`, independent of callback
 arrival order; those values must increase strictly and each must equal the
 running sum of retained `shares`. Intermediate partial-fill drift therefore
 fails closed even when the final totals match.
+Their execution times must also share one comparable broker time context and
+must be non-decreasing as cumulative quantity advances. Time-context drift or
+backward partial-fill chronology fails closed.
 
 The fresh G2 proof must also show that the read-only execution request reached
 its matching `execDetailsEnd` callback. Partial rows from a timed-out or

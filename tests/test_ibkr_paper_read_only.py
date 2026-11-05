@@ -1075,6 +1075,7 @@ class IBKRReadinessTests(unittest.TestCase):
                 cumulative_quantity=0.5,
                 price=110.0,
                 average_price=100.0,
+                time="20261104 09:00:01",
             ),
             ready_execution(
                 order,
@@ -1083,6 +1084,7 @@ class IBKRReadinessTests(unittest.TestCase):
                 cumulative_quantity=0.25,
                 price=90.0,
                 average_price=90.0,
+                time="20261104 09:00:00",
             ),
         ]
 
@@ -1092,6 +1094,67 @@ class IBKRReadinessTests(unittest.TestCase):
             readiness["readiness"],
             "READY_FOR_PAPER_READ_ONLY",
         )
+
+    def test_execution_time_progress_must_be_comparable_and_monotonic(self):
+        order = ready_open_order(quantity=2.0)
+        status = ready_order_status(
+            order,
+            filled=0.5,
+            remaining=1.5,
+            average_fill_price=100.0,
+        )
+        time_cases = (
+            (
+                "20261104 09:00:01",
+                "20261104 09:00:00",
+            ),
+            (
+                "20261104 09:00:00 US/Eastern",
+                "20261104 09:00:01 UTC",
+            ),
+        )
+
+        for first_time, second_time in time_cases:
+            with self.subTest(
+                first_time=first_time,
+                second_time=second_time,
+            ):
+                snapshot = ready_snapshot()
+                set_open_orders(snapshot, [order], [status])
+                snapshot["executions"] = [
+                    ready_execution(
+                        order,
+                        execution_id="FILL-1.01",
+                        shares=0.25,
+                        cumulative_quantity=0.25,
+                        price=90.0,
+                        average_price=90.0,
+                        time=first_time,
+                    ),
+                    ready_execution(
+                        order,
+                        execution_id="FILL-2.01",
+                        shares=0.25,
+                        cumulative_quantity=0.5,
+                        price=110.0,
+                        average_price=100.0,
+                        time=second_time,
+                    ),
+                ]
+
+                readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+                self.assertEqual(readiness["readiness"], "NOT_READY")
+                self.assertIn(
+                    "open_order_execution_evidence_consistent",
+                    {
+                        item["check"] for item in readiness["checks"]
+                        if item["required"] and not item["passed"]
+                    },
+                )
+                self.assertFalse(
+                    readiness["paper_order_submission_allowed"]
+                )
 
     def test_execution_cumulative_progression_must_match_running_shares(self):
         order = ready_open_order(quantity=2.0)

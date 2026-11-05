@@ -81,30 +81,35 @@ def execution_correction_family(execution_id):
     return normalized
 
 
-def execution_time_is_valid(value):
-    """Accept only canonical, calendar-valid IBKR execution timestamps."""
+def parse_execution_time(value):
+    """Return a comparable timestamp and its broker time context."""
     if not isinstance(value, str):
-        return False
+        return None
 
     match = EXECUTION_TIME_PATTERN.fullmatch(value)
     if match is None:
-        return False
+        return None
 
     separator = match.group("separator")
     if separator == "-" and match.group("timezone") is not None:
-        return False
+        return None
 
     try:
-        datetime.strptime(
+        timestamp = datetime.strptime(
             match.group("timestamp"),
             "%Y%m%d-%H:%M:%S"
             if separator == "-"
             else "%Y%m%d %H:%M:%S",
         )
     except ValueError:
-        return False
+        return None
 
-    return True
+    time_context = (
+        "UTC"
+        if separator == "-"
+        else match.group("timezone") or "GATEWAY_LOCAL"
+    )
+    return timestamp, time_context
 
 
 def open_order_payload_is_valid(open_orders):
@@ -329,6 +334,7 @@ def open_order_execution_evidence_is_consistent(
         liquidation = row.get("liquidation")
         pending_price_revision = row.get("pending_price_revision")
         execution_time = row.get("time")
+        parsed_execution_time = parse_execution_time(execution_time)
         expected_side = (
             "BOT"
             if str(order.get("action") if order else "").upper() == "BUY"
@@ -380,7 +386,7 @@ def open_order_execution_evidence_is_consistent(
             or liquidation != 0
             or type(pending_price_revision) is not bool
             or pending_price_revision is not False
-            or not execution_time_is_valid(execution_time)
+            or parsed_execution_time is None
             or (
                 execution_id in execution_ids
                 and execution_ids[execution_id] != normalized
@@ -402,6 +408,7 @@ def open_order_execution_evidence_is_consistent(
             cumulative_quantity,
             average_price,
             price,
+            parsed_execution_time,
         )
 
     for identity, order in open_orders_by_identity.items():
@@ -435,9 +442,22 @@ def open_order_execution_evidence_is_consistent(
         )
         running_shares = 0.0
         previous_cumulative_quantity = 0.0
+        previous_execution_time = None
+        execution_time_context = None
         for values in ordered_execution_families:
             shares, cumulative_quantity = values[:2]
+            execution_time, time_context = values[4]
             if cumulative_quantity <= previous_cumulative_quantity:
+                return False
+            if (
+                execution_time_context is not None
+                and time_context != execution_time_context
+            ):
+                return False
+            if (
+                previous_execution_time is not None
+                and execution_time < previous_execution_time
+            ):
                 return False
             try:
                 running_shares = math.fsum((running_shares, shares))
@@ -451,6 +471,8 @@ def open_order_execution_evidence_is_consistent(
             ):
                 return False
             previous_cumulative_quantity = cumulative_quantity
+            previous_execution_time = execution_time
+            execution_time_context = time_context
         if any(not math.isfinite(value) for value in execution_notionals):
             return False
         try:
