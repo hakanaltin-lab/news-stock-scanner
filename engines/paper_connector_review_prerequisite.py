@@ -458,12 +458,20 @@ def evaluate_g6_runtime_prerequisite(
     snapshot_timestamp = _utc_datetime(
         g2_snapshot.get("timestamp")
     )
+    snapshot_completed_at = _utc_datetime(
+        g2_snapshot.get("snapshot_completed_at_utc")
+    )
     readiness_timestamp = _utc_datetime(
         g2_readiness_recorded.get("timestamp")
     )
     snapshot_age_seconds = (
         (now - snapshot_timestamp).total_seconds()
         if snapshot_timestamp is not None
+        else None
+    )
+    snapshot_completion_age_seconds = (
+        (now - snapshot_completed_at).total_seconds()
+        if snapshot_completed_at is not None
         else None
     )
     readiness_age_seconds = (
@@ -476,6 +484,22 @@ def evaluate_g6_runtime_prerequisite(
         if (
             readiness_timestamp is not None
             and snapshot_timestamp is not None
+        )
+        else None
+    )
+    snapshot_collection_seconds = (
+        (snapshot_completed_at - snapshot_timestamp).total_seconds()
+        if (
+            snapshot_completed_at is not None
+            and snapshot_timestamp is not None
+        )
+        else None
+    )
+    completion_to_readiness_seconds = (
+        (readiness_timestamp - snapshot_completed_at).total_seconds()
+        if (
+            readiness_timestamp is not None
+            and snapshot_completed_at is not None
         )
         else None
     )
@@ -664,13 +688,20 @@ def evaluate_g6_runtime_prerequisite(
         ),
         "g2_fresh": (
             snapshot_age_seconds is not None
+            and snapshot_completion_age_seconds is not None
             and readiness_age_seconds is not None
             and timestamp_chain_seconds is not None
+            and snapshot_collection_seconds is not None
+            and completion_to_readiness_seconds is not None
             and -2 <= snapshot_age_seconds
+            <= max_g2_age_seconds
+            and -2 <= snapshot_completion_age_seconds
             <= max_g2_age_seconds
             and -2 <= readiness_age_seconds
             <= max_g2_age_seconds
             and 0 <= timestamp_chain_seconds <= 60
+            and 0 <= snapshot_collection_seconds <= 60
+            and 0 <= completion_to_readiness_seconds <= 60
         ),
         "g2_readiness_recomputed": (
             g2_recomputed.get("readiness")
@@ -872,6 +903,13 @@ def evaluate_g6_runtime_prerequisite(
             max(
                 0.0,
                 snapshot_age_seconds,
+            ),
+            3,
+        ),
+        "g2_snapshot_completion_age_seconds": round(
+            max(
+                0.0,
+                snapshot_completion_age_seconds,
             ),
             3,
         ),

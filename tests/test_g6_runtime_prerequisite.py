@@ -154,7 +154,7 @@ def g2_proof():
         [],
     )
     readiness["timestamp"] = (
-        NOW - timedelta(seconds=10)
+        NOW - timedelta(seconds=8)
     ).isoformat()
 
     return {
@@ -327,6 +327,10 @@ class G6RuntimePrerequisiteTests(unittest.TestCase):
         )
         self.assertEqual(result["git_sha"], GIT_SHA)
         self.assertEqual(
+            result["g2_snapshot_completion_age_seconds"],
+            9.0,
+        )
+        self.assertEqual(
             result["gce_instance_id"],
             INSTANCE_ID,
         )
@@ -453,6 +457,40 @@ class G6RuntimePrerequisiteTests(unittest.TestCase):
         self.assertFalse(
             result["checks"]["g2_fresh"]
         )
+
+    def test_snapshot_completion_temporal_drift_blocks_g2_fresh(self):
+        cases = (
+            None,
+            "not-a-timestamp",
+            (NOW - timedelta(seconds=11)).isoformat(),
+            (NOW - timedelta(seconds=7)).isoformat(),
+            (NOW + timedelta(seconds=3)).isoformat(),
+        )
+
+        for completion_time in cases:
+            with self.subTest(completion_time=completion_time):
+                g5, comp, g4, auth, g2, attestation = full_chain()
+                if completion_time is None:
+                    g2["snapshot"].pop("snapshot_completed_at_utc")
+                else:
+                    g2["snapshot"][
+                        "snapshot_completed_at_utc"
+                    ] = completion_time
+
+                result = evaluate_g6_runtime_prerequisite(
+                    g5,
+                    comp,
+                    g4,
+                    auth,
+                    g2,
+                    attestation,
+                    now=NOW,
+                )
+
+                self.assertEqual(result["status"], "BLOCKED")
+                self.assertFalse(result["checks"]["g2_fresh"])
+                self.assertFalse(result["paper_order_submission_allowed"])
+                self.assertFalse(result["live_execution_allowed"])
 
     def test_recorded_required_check_drift_blocks(self):
         g5, comp, g4, auth, g2, attestation = full_chain()
