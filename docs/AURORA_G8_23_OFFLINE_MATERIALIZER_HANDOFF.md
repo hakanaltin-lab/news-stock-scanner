@@ -14,7 +14,9 @@ The handoff independently rechecks:
 - the tracked offline materializer source;
 - the tracked bounded CLI source;
 - absence of IBKR/network imports and broker mutation calls;
-- required offline safety markers;
+- the exact AST-level count of every offline safety marker, with every
+  occurrence required to be the literal boolean `false` so duplicate text,
+  comments or false-like values cannot mask an unsafe path;
 - all execution permissions remain false.
 
 The package binds SHA-256 digests of the design, materializer source and CLI

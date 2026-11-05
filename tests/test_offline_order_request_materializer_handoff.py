@@ -95,15 +95,45 @@ class OfflineMaterializerHandoffTests(unittest.TestCase):
         self.assertEqual(result["status"], "BLOCKED")
         self.assertEqual(result["reason"], "BROKER_OR_NETWORK_CALL_FORBIDDEN")
 
-    def test_missing_offline_safety_marker_blocks(self):
-        changed = materializer_source().replace(
-            '"network_accessed": False',
-            '"network_accessed": True',
-            1,
-        )
-        result = self.evaluate(materializer_value=changed)
-        self.assertEqual(result["status"], "BLOCKED")
-        self.assertEqual(result["reason"], "OFFLINE_SAFETY_MARKER_MISSING")
+    def test_each_offline_safety_marker_must_always_be_literal_false(self):
+        for marker in (
+            "broker_request_materialized",
+            "broker_order_object_created",
+            "network_accessed",
+            "transmit",
+        ):
+            with self.subTest(marker=marker):
+                changed = materializer_source().replace(
+                    f'"{marker}": False',
+                    f'"{marker}": True',
+                    1,
+                )
+                result = self.evaluate(materializer_value=changed)
+                self.assertEqual(result["status"], "BLOCKED")
+                self.assertEqual(
+                    result["reason"],
+                    "OFFLINE_SAFETY_MARKER_MISSING",
+                )
+                self.assert_permissions_false(result)
+
+    def test_removed_or_nonliteral_offline_safety_marker_blocks(self):
+        for replacement in (
+            '"network_accessed_removed": False',
+            '"network_accessed": 0',
+        ):
+            with self.subTest(replacement=replacement):
+                changed = materializer_source().replace(
+                    '"network_accessed": False',
+                    replacement,
+                    1,
+                )
+                result = self.evaluate(materializer_value=changed)
+                self.assertEqual(result["status"], "BLOCKED")
+                self.assertEqual(
+                    result["reason"],
+                    "OFFLINE_SAFETY_MARKER_MISSING",
+                )
+                self.assert_permissions_false(result)
 
     def test_cli_network_import_injection_blocks(self):
         result = self.evaluate(

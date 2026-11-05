@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - "engines/offline_order_request_materializer_handoff.py"
       - "engines/offline_order_request_materializer_attestation.py"
       - "scripts/verify_offline_materializer_attestation.py"
       - "tests/test_offline_order_request_materializer_attestation.py"
