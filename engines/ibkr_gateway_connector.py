@@ -844,6 +844,15 @@ if IBAPI_AVAILABLE:
                     else None
                 ),
 
+                "pending_price_revision":
+                (
+                    getattr(execution, "pendingPriceRevision", None)
+                    if type(
+                        getattr(execution, "pendingPriceRevision", None)
+                    ) is bool
+                    else None
+                ),
+
                 "time":
                 getattr(
                     execution,

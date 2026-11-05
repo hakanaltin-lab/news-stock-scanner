@@ -951,6 +951,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "cumulative_quantity": 1.0,
             "price": 50.0,
             "liquidation": 0,
+            "pending_price_revision": False,
         }
 
         result = self.evaluate(
@@ -1010,6 +1011,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "cumulative_quantity": 1.0,
             "price": 50.0,
             "liquidation": 0,
+            "pending_price_revision": False,
         }
 
         for executions in (
@@ -1035,6 +1037,13 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             }],
             [{**execution, "liquidation": 1}],
             [{**execution, "liquidation": True}],
+            [{
+                key: value
+                for key, value in execution.items()
+                if key != "pending_price_revision"
+            }],
+            [{**execution, "pending_price_revision": True}],
+            [{**execution, "pending_price_revision": 0}],
             [
                 {**execution, "execution_id": "FILL-42.01"},
                 {

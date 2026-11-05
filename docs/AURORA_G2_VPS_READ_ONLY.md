@@ -211,12 +211,17 @@ Every retained execution must also carry an exact integer `liquidation=0`.
 Missing, boolean or non-zero values fail closed because they cannot prove that
 the fill was free of an IB-initiated liquidation.
 
+The execution must also carry the exact boolean
+`pending_price_revision=false`. Missing, true or integer look-alike values fail
+closed so a provisional execution price cannot be accepted as final evidence.
+
 IBKR correction callbacks share the execution ID prefix before the final
 period and differ only in the numeric revision after it. Rows in one correction
 family must therefore be identical in every retained evidence field other than
 that revision. Conflicting account, order, contract, side, quantity, price,
-liquidation or time evidence inside one family blocks readiness, while distinct
-execution families may advance cumulative fill quantity normally.
+liquidation, price-revision or time evidence inside one family blocks
+readiness, while distinct execution families may advance cumulative fill
+quantity normally.
 
 After correction-family deduplication, the sum of each distinct execution's
 `shares` must equal both the greatest `cumQty` and `orderStatus.filled` within
