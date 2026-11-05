@@ -3,7 +3,7 @@
   "validation_signature": "V8.6.2",
   "status": "COMPLETE",
   "cache_status": "FRESH",
-  "generated": "2026-11-05T07:30:43.691815+00:00",
+  "generated": "2026-11-05T08:39:18.933064+00:00",
   "test_period": {
     "start": "2022-06-01",
     "end": "2026-06-05"
@@ -84,7 +84,7 @@
       "mode": "TOP12_FULL",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 113557.52,
+        "ending_value": 113557.5,
         "total_return_pct": 13.67,
         "cagr_pct": 3.26,
         "annualized_volatility_pct": 13.29,
@@ -851,7 +851,7 @@
       "mode": "TOP12_RISK_OVERLAY",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 113557.52,
+        "ending_value": 113557.5,
         "total_return_pct": 13.67,
         "cagr_pct": 3.26,
         "annualized_volatility_pct": 13.29,
@@ -3690,7 +3690,7 @@
       "mode": "UNIVERSE_EQUAL_WEIGHT",
       "performance": {
         "starting_value": 99900.0,
-        "ending_value": 184738.25,
+        "ending_value": 184738.24,
         "total_return_pct": 84.92,
         "cagr_pct": 16.65,
         "annualized_volatility_pct": 20.19,
