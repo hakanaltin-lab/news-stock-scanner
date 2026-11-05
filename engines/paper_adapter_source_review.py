@@ -21,7 +21,7 @@ from engines.paper_connector_review_prerequisite import (
 
 
 ENGINE_VERSION = "AURORA G8.13 Paper Adapter Source Review"
-POLICY_VERSION = "AURORA_G8_13_ADAPTER_SOURCE_POLICY_V1"
+POLICY_VERSION = "AURORA_G8_13_ADAPTER_SOURCE_POLICY_V2"
 SKELETON_VERSION = "AURORA_G8_13_IBKR_PAPER_ADAPTER_REVIEW_SKELETON_V1"
 EXPECTED_CLASS = "IBKRPaperAdapterReviewSkeleton"
 DEFAULT_MAX_PREREQUISITE_AGE_SECONDS = 300
@@ -329,6 +329,9 @@ def _validate_prerequisite(
     snapshot_age = prerequisite.get(
         "g2_snapshot_age_seconds"
     )
+    snapshot_completion_age = prerequisite.get(
+        "g2_snapshot_completion_age_seconds"
+    )
     ages_valid = (
         isinstance(evidence_age, (int, float))
         and not isinstance(evidence_age, bool)
@@ -338,6 +341,11 @@ def _validate_prerequisite(
         and not isinstance(snapshot_age, bool)
         and math.isfinite(float(snapshot_age))
         and 0 <= float(snapshot_age) <= 300
+        and isinstance(snapshot_completion_age, (int, float))
+        and not isinstance(snapshot_completion_age, bool)
+        and math.isfinite(float(snapshot_completion_age))
+        and 0 <= float(snapshot_completion_age) <= 300
+        and float(snapshot_completion_age) <= float(snapshot_age)
     )
 
     fingerprints = _fingerprints(

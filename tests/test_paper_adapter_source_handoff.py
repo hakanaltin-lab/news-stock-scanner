@@ -78,6 +78,7 @@ def prerequisite():
         "paper_account_fingerprints": [ACCOUNT],
         "g2_evidence_age_seconds": 10.0,
         "g2_snapshot_age_seconds": 10.5,
+        "g2_snapshot_completion_age_seconds": 10.25,
         "independent_source_review_required": True,
         **runtime_permissions(),
         "next_gate": (

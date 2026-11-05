@@ -73,6 +73,7 @@ def prerequisite():
         "paper_account_fingerprints": [ACCOUNT],
         "g2_evidence_age_seconds": 10.0,
         "g2_snapshot_age_seconds": 10.5,
+        "g2_snapshot_completion_age_seconds": 10.25,
         "independent_source_review_required": True,
         **safe_permissions(),
         "next_gate": (
@@ -383,6 +384,44 @@ class AdapterSourceReviewTests(unittest.TestCase):
             result["status"],
             "BLOCKED",
         )
+
+    def test_missing_or_invalid_snapshot_completion_age_blocks(self):
+        invalid_values = (
+            None,
+            True,
+            float("nan"),
+            -0.001,
+            301,
+            10.501,
+        )
+
+        for invalid_value in invalid_values:
+            with self.subTest(invalid_value=invalid_value):
+                unsafe = prerequisite()
+                if invalid_value is None:
+                    unsafe.pop(
+                        "g2_snapshot_completion_age_seconds"
+                    )
+                else:
+                    unsafe[
+                        "g2_snapshot_completion_age_seconds"
+                    ] = invalid_value
+
+                result = self.evaluate(
+                    prerequisite_value=unsafe
+                )
+
+                self.assertEqual(
+                    result["status"],
+                    "BLOCKED",
+                )
+                self.assertEqual(
+                    result["reason"],
+                    "G8_12_PREREQUISITE_NOT_READY_FOR_SOURCE_REVIEW",
+                )
+                self.assert_non_executable(
+                    result
+                )
 
     def test_fixed_source_reader_matches_git_tracked_blob(self):
         tracked = cli._read_fixed_tracked_source()

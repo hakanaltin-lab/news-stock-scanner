@@ -26,6 +26,12 @@ runtime check as passed. It must remain bound to the same:
 - independently signed Gateway/TWS Read-Only attestation digest;
 - single sanitized Paper account fingerprint.
 
+The G2 evidence age, snapshot-start age and snapshot-completion age must each
+be finite and no more than five minutes old. The completion age must not exceed
+the snapshot-start age. Omitting or corrupting the completion age fails closed,
+and the exact G8.12 artifact containing it remains bound by the prerequisite
+SHA-256 in the G8.13 result.
+
 All implementation, connection, broker request, order object, Paper/LIVE and
 real-money permission fields must remain false.
 
