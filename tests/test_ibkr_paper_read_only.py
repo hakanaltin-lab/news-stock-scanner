@@ -965,7 +965,6 @@ class IBKRReadinessTests(unittest.TestCase):
         )
         valid = ready_execution(order)
         valid_times = (
-            "20261104 09:00:00 US/Eastern",
             "20261104-09:00:00",
         )
         invalid_times = (
@@ -974,6 +973,7 @@ class IBKRReadinessTests(unittest.TestCase):
             " 20261104 09:00:00",
             "20261104T09:00:00",
             "20261104 09:00:00",
+            "20261104 09:00:00 US/Eastern",
             "20261104 09:00:00 Not/AZone",
             "20261101 01:30:00 US/Eastern",
             "20260230 09:00:00",
@@ -1225,10 +1225,6 @@ class IBKRReadinessTests(unittest.TestCase):
             (
                 "20261104-09:00:01",
                 "20261104-09:00:00",
-            ),
-            (
-                "20261104 09:00:00 US/Eastern",
-                "20261104 09:00:01 UTC",
             ),
         )
 

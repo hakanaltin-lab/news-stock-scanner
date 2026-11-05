@@ -67,9 +67,8 @@ Every execution also requires a finite positive `avgPrice`; the row at the
 greatest `cumQty` must match `orderStatus.avgFillPrice`. Missing, non-finite or
 mismatched average-price evidence blocks the proof.
 Execution server time must be present, canonical and calendar-valid in the
-supported IBKR timestamp forms and must resolve unambiguously to UTC. Missing,
-unqualified Gateway-local, unknown-zone, DST-ambiguous or malformed temporal
-evidence blocks the proof. Every execution must be at or before the connector's
+UTC IBKR timestamp form. Missing, Gateway-local, named-zone or malformed
+temporal evidence blocks the proof. Every execution must be at or before the connector's
 canonical UTC snapshot completion timestamp. The start, completion and
 readiness timestamps must be ordered, fresh and post-authorization; a missing,
 future or regressing completion timestamp fails closed.
@@ -94,10 +93,9 @@ Distinct execution families are sorted by `cumQty`, independent of callback
 arrival order; those values must increase strictly and each must equal the
 running sum of retained `shares`. Intermediate partial-fill drift therefore
 fails closed even when the final totals match.
-Their execution times must also share one comparable broker time context and
-must be non-decreasing as cumulative quantity advances. Time-context drift,
-backward partial-fill chronology or an execution after snapshot completion
-fails closed.
+Their UTC execution times must be non-decreasing as cumulative quantity
+advances. Backward partial-fill chronology or an execution after snapshot
+completion fails closed.
 
 The fresh G2 proof must also show that the read-only execution request reached
 its matching `execDetailsEnd` callback. Partial rows from a timed-out or

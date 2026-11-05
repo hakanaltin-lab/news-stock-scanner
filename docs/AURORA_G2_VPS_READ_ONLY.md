@@ -217,14 +217,14 @@ same strict floating-point tolerance used for fill quantities. Missing,
 non-finite or mismatched average-price evidence fails closed.
 
 Every execution must also carry a canonical, calendar-valid IBKR server time.
-The gate accepts `YYYYMMDD HH:MM:SS` only with a resolvable, unambiguous IANA
-timezone token, or the UTC `YYYYMMDD-HH:MM:SS` form. Unqualified Gateway-local
-wall time, unknown zones, DST gaps/folds, missing timestamps, impossible dates
-or times, surrounding whitespace and malformed suffixes fail closed. The
+The gate accepts only the unambiguous UTC `YYYYMMDD-HH:MM:SS` form.
+Gateway-local wall time, named zones, missing timestamps, impossible dates or
+times, surrounding whitespace and malformed suffixes fail closed. The
 connector records a canonical UTC snapshot completion timestamp after all
 callbacks are collected. That timestamp must not precede snapshot start, and
 no execution may be later than snapshot completion. This bounds temporal
-evidence without trusting the operator machine's local timezone.
+evidence without trusting the operator machine's timezone database or local
+timezone.
 
 After correction-family deduplication, readiness independently calculates the
 share-weighted execution price as `sum(price * shares) / sum(shares)`.

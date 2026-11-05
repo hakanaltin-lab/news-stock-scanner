@@ -13,7 +13,6 @@ This engine does not place orders.
 from datetime import datetime, timezone
 import math
 import re
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
 ENGINE_VERSION = (
@@ -114,37 +113,10 @@ def parse_execution_time(value):
     except ValueError:
         return None
 
-    if separator == "-":
-        return timestamp.replace(tzinfo=timezone.utc), "UTC"
-
-    time_context = match.group("timezone")
-    if time_context is None:
+    if separator != "-":
         return None
 
-    try:
-        broker_timezone = ZoneInfo(time_context)
-    except (ZoneInfoNotFoundError, ValueError):
-        return None
-
-    # A wall-clock value in a DST fold can identify two different instants;
-    # a value in a DST gap identifies none. Both are unsafe audit evidence.
-    utc_candidates = set()
-    for fold in (0, 1):
-        localized = timestamp.replace(
-            tzinfo=broker_timezone,
-            fold=fold,
-        )
-        candidate = localized.astimezone(timezone.utc)
-        round_trip = candidate.astimezone(
-            broker_timezone
-        ).replace(tzinfo=None)
-        if round_trip == timestamp:
-            utc_candidates.add(candidate)
-
-    if len(utc_candidates) != 1:
-        return None
-
-    return next(iter(utc_candidates)), time_context
+    return timestamp.replace(tzinfo=timezone.utc), "UTC"
 
 
 def parse_snapshot_utc_timestamp(value):
