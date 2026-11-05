@@ -12,6 +12,7 @@ This engine does not place orders.
 
 from datetime import datetime, timezone
 import math
+import re
 
 
 ENGINE_VERSION = (
@@ -27,6 +28,12 @@ ACTIVE_OPEN_ORDER_STATUSES = frozenset({
 })
 
 EXECUTIONS_REQUEST_ID = 8302
+
+EXECUTION_TIME_PATTERN = re.compile(
+    r"^(?P<timestamp>\d{8}(?P<separator>[ -])\d{2}:\d{2}:\d{2})"
+    r"(?: (?P<timezone>[A-Za-z][A-Za-z0-9_+-]*"
+    r"(?:/[A-Za-z0-9_+-]+)*))?$"
+)
 
 
 def safe_float(
@@ -72,6 +79,32 @@ def execution_correction_family(execution_id):
         return prefix
 
     return normalized
+
+
+def execution_time_is_valid(value):
+    """Accept only canonical, calendar-valid IBKR execution timestamps."""
+    if not isinstance(value, str):
+        return False
+
+    match = EXECUTION_TIME_PATTERN.fullmatch(value)
+    if match is None:
+        return False
+
+    separator = match.group("separator")
+    if separator == "-" and match.group("timezone") is not None:
+        return False
+
+    try:
+        datetime.strptime(
+            match.group("timestamp"),
+            "%Y%m%d-%H:%M:%S"
+            if separator == "-"
+            else "%Y%m%d %H:%M:%S",
+        )
+    except ValueError:
+        return False
+
+    return True
 
 
 def open_order_payload_is_valid(open_orders):
@@ -295,6 +328,7 @@ def open_order_execution_evidence_is_consistent(
         average_price = safe_float(row.get("average_price"), None)
         liquidation = row.get("liquidation")
         pending_price_revision = row.get("pending_price_revision")
+        execution_time = row.get("time")
         expected_side = (
             "BOT"
             if str(order.get("action") if order else "").upper() == "BUY"
@@ -314,7 +348,7 @@ def open_order_execution_evidence_is_consistent(
             average_price,
             liquidation,
             pending_price_revision,
-            row.get("time"),
+            execution_time,
         )
         if (
             order is None
@@ -346,6 +380,7 @@ def open_order_execution_evidence_is_consistent(
             or liquidation != 0
             or type(pending_price_revision) is not bool
             or pending_price_revision is not False
+            or not execution_time_is_valid(execution_time)
             or (
                 execution_id in execution_ids
                 and execution_ids[execution_id] != normalized

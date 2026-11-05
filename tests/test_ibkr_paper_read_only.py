@@ -433,6 +433,10 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             application.execution_rows[0]["pending_price_revision"],
             False,
         )
+        self.assertEqual(
+            application.execution_rows[0]["time"],
+            "20261102 09:00:00",
+        )
 
         application.execDetailsEnd(isolated.EXECUTIONS_REQUEST_ID + 1)
         self.assertFalse(application.executions_event.is_set())
@@ -945,6 +949,71 @@ class IBKRReadinessTests(unittest.TestCase):
             readiness["readiness"],
             "READY_FOR_PAPER_READ_ONLY",
         )
+
+    def test_execution_time_must_be_canonical_and_parseable(self):
+        order = ready_open_order(quantity=2.0)
+        status = ready_order_status(
+            order,
+            filled=0.5,
+            remaining=1.5,
+            average_fill_price=100.0,
+        )
+        valid = ready_execution(order)
+        valid_times = (
+            "20261104 09:00:00",
+            "20261104 09:00:00 US/Eastern",
+            "20261104-09:00:00",
+        )
+        invalid_times = (
+            None,
+            "",
+            " 20261104 09:00:00",
+            "20261104T09:00:00",
+            "20260230 09:00:00",
+            "20261104 24:00:00",
+            "20261104-09:00:00 UTC",
+            "20261104 09:00:00 Bad Zone",
+            True,
+        )
+
+        for execution_time in valid_times:
+            with self.subTest(valid_execution_time=execution_time):
+                snapshot = ready_snapshot()
+                set_open_orders(snapshot, [order], [status])
+                snapshot["executions"] = [{
+                    **valid,
+                    "time": execution_time,
+                }]
+
+                readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+                self.assertEqual(
+                    readiness["readiness"],
+                    "READY_FOR_PAPER_READ_ONLY",
+                )
+
+        for execution_time in invalid_times:
+            with self.subTest(execution_time=execution_time):
+                snapshot = ready_snapshot()
+                set_open_orders(snapshot, [order], [status])
+                snapshot["executions"] = [{
+                    **valid,
+                    "time": execution_time,
+                }]
+
+                readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+                self.assertEqual(readiness["readiness"], "NOT_READY")
+                self.assertIn(
+                    "open_order_execution_evidence_consistent",
+                    {
+                        item["check"] for item in readiness["checks"]
+                        if item["required"] and not item["passed"]
+                    },
+                )
+                self.assertFalse(
+                    readiness["paper_order_submission_allowed"]
+                )
 
     def test_partial_fill_average_price_status_evidence_must_match(self):
         order = ready_open_order(quantity=2.0)
