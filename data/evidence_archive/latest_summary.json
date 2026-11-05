@@ -1,10 +1,10 @@
 {
   "engine": "V8.7 Daily Forward Evidence Archive",
   "archive_signature": "V8.7.0",
-  "archive_date": "2026-11-04",
-  "retrieved_at": "2026-11-04T02:35:30.537142+00:00",
+  "archive_date": "2026-11-05",
+  "retrieved_at": "2026-11-05T02:41:32.951988+00:00",
   "status": "COMPLETE",
-  "archive_file": "data/evidence_archive/2026-11-04.json",
+  "archive_file": "data/evidence_archive/2026-11-05.json",
   "universe": {
     "source": "Union of data/us_universe.json and data/portfolio.csv",
     "ticker_count": 65
