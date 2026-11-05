@@ -82,6 +82,10 @@ closed instead of competing through the maximum cumulative-quantity rule.
 The deduplicated `shares` total must also equal both the greatest `cumQty` and
 `orderStatus.filled`, so duplicated or incomplete execution rows cannot pass
 through a matching cumulative maximum alone.
+Distinct execution families are sorted by `cumQty`, independent of callback
+arrival order; those values must increase strictly and each must equal the
+running sum of retained `shares`. Intermediate partial-fill drift therefore
+fails closed even when the final totals match.
 
 The fresh G2 proof must also show that the read-only execution request reached
 its matching `execDetailsEnd` callback. Partial rows from a timed-out or

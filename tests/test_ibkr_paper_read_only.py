@@ -1001,9 +1001,45 @@ class IBKRReadinessTests(unittest.TestCase):
         snapshot["executions"] = [
             ready_execution(
                 order,
+                execution_id="FILL-2.01",
+                shares=0.25,
+                cumulative_quantity=0.5,
+                price=110.0,
+                average_price=100.0,
+            ),
+            ready_execution(
+                order,
                 execution_id="FILL-1.01",
                 shares=0.25,
                 cumulative_quantity=0.25,
+                price=90.0,
+                average_price=90.0,
+            ),
+        ]
+
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+        self.assertEqual(
+            readiness["readiness"],
+            "READY_FOR_PAPER_READ_ONLY",
+        )
+
+    def test_execution_cumulative_progression_must_match_running_shares(self):
+        order = ready_open_order(quantity=2.0)
+        status = ready_order_status(
+            order,
+            filled=0.5,
+            remaining=1.5,
+            average_fill_price=100.0,
+        )
+        snapshot = ready_snapshot()
+        set_open_orders(snapshot, [order], [status])
+        snapshot["executions"] = [
+            ready_execution(
+                order,
+                execution_id="FILL-1.01",
+                shares=0.25,
+                cumulative_quantity=0.4,
                 price=90.0,
                 average_price=90.0,
             ),
@@ -1019,10 +1055,15 @@ class IBKRReadinessTests(unittest.TestCase):
 
         readiness = evaluate_ibkr_paper_readiness(snapshot, [])
 
-        self.assertEqual(
-            readiness["readiness"],
-            "READY_FOR_PAPER_READ_ONLY",
+        self.assertEqual(readiness["readiness"], "NOT_READY")
+        self.assertIn(
+            "open_order_execution_evidence_consistent",
+            {
+                item["check"] for item in readiness["checks"]
+                if item["required"] and not item["passed"]
+            },
         )
+        self.assertFalse(readiness["paper_order_submission_allowed"])
 
     def test_execution_weighted_average_must_match_reported_average(self):
         order = ready_open_order(quantity=2.0)
