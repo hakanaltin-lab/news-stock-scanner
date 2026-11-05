@@ -123,6 +123,7 @@ def ready_execution(order=None, **overrides):
         "currency": order["currency"],
         "con_id": order["con_id"],
         "execution_id": "E-1",
+        "exchange": "NYSE",
         "side": "BOT" if order["action"] == "BUY" else "SLD",
         "shares": 0.5,
         "cumulative_quantity": 0.5,
@@ -390,6 +391,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             clientId = 82
             acctNumber = "DU-REDACTED"
             execId = "E1"
+            exchange = "NYSE"
             side = "BOT"
             shares = float("nan")
             cumQty = float("nan")
@@ -422,6 +424,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             isolated.mask_account("DU-REDACTED"),
         )
         self.assertEqual(application.execution_rows[0]["con_id"], 4815747)
+        self.assertEqual(application.execution_rows[0]["exchange"], "NYSE")
         self.assertIsNone(application.execution_rows[0]["shares"])
         self.assertIsNone(
             application.execution_rows[0]["cumulative_quantity"]
@@ -1015,6 +1018,39 @@ class IBKRReadinessTests(unittest.TestCase):
                     readiness["paper_order_submission_allowed"]
                 )
 
+    def test_execution_exchange_must_be_canonical(self):
+        order = ready_open_order(quantity=2.0)
+        status = ready_order_status(
+            order,
+            filled=0.5,
+            remaining=1.5,
+            average_fill_price=100.0,
+        )
+        valid = ready_execution(order)
+
+        for exchange in (None, "", " NYSE", "NYSE ", "NYSE EXEC", True):
+            with self.subTest(exchange=exchange):
+                snapshot = ready_snapshot()
+                set_open_orders(snapshot, [order], [status])
+                snapshot["executions"] = [{
+                    **valid,
+                    "exchange": exchange,
+                }]
+
+                readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+                self.assertEqual(readiness["readiness"], "NOT_READY")
+                self.assertIn(
+                    "open_order_execution_evidence_consistent",
+                    {
+                        item["check"] for item in readiness["checks"]
+                        if item["required"] and not item["passed"]
+                    },
+                )
+                self.assertFalse(
+                    readiness["paper_order_submission_allowed"]
+                )
+
     def test_partial_fill_average_price_status_evidence_must_match(self):
         order = ready_open_order(quantity=2.0)
         valid_status = ready_order_status(
@@ -1297,6 +1333,11 @@ class IBKRReadinessTests(unittest.TestCase):
             [{
                 key: value
                 for key, value in valid.items()
+                if key != "exchange"
+            }],
+            [{
+                key: value
+                for key, value in valid.items()
                 if key != "account"
             }],
             [{**valid, "account": "IBKR-OTHERACCOUNT"}],
@@ -1349,6 +1390,14 @@ class IBKRReadinessTests(unittest.TestCase):
                     **valid,
                     "execution_id": "FILL-1.02",
                     "price": 101.0,
+                },
+            ],
+            [
+                {**valid, "execution_id": "FILL-EXCHANGE.01"},
+                {
+                    **valid,
+                    "execution_id": "FILL-EXCHANGE.02",
+                    "exchange": "NASDAQ",
                 },
             ],
         )

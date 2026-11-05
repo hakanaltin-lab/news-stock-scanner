@@ -947,6 +947,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "currency": "USD",
             "con_id": 7654321,
             "execution_id": "E-42-1",
+            "exchange": "NYSE",
             "side": "SLD",
             "shares": 1.0,
             "cumulative_quantity": 1.0,
@@ -1010,6 +1011,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "currency": "USD",
             "con_id": 7654321,
             "execution_id": "E-42-1",
+            "exchange": "NYSE",
             "side": "SLD",
             "shares": 1.0,
             "cumulative_quantity": 1.0,
@@ -1028,6 +1030,12 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                 if key != "request_id"
             }],
             [{**execution, "request_id": EXECUTIONS_REQUEST_ID + 1}],
+            [{
+                key: value
+                for key, value in execution.items()
+                if key != "exchange"
+            }],
+            [{**execution, "exchange": ""}],
             [{
                 key: value
                 for key, value in execution.items()

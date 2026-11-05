@@ -203,8 +203,10 @@ requires a positive value and an unfilled order requires zero.
 If `orderStatus` reports a non-zero filled quantity for an active order, the
 snapshot must also contain matching `execDetails` evidence. Each execution is
 bound to the same masked and verified Paper account, `permId`, source
-`clientId`, client-local `orderId`, USD stock contract and BUY/SELL side. The
-greatest reported cumulative quantity must equal `orderStatus.filled`; a
+`clientId`, client-local `orderId`, USD stock contract, canonical execution
+exchange and BUY/SELL side. The exchange must be a non-empty broker venue code
+of at most 64 safe characters. The greatest reported cumulative quantity must
+equal `orderStatus.filled`; a
 missing or mismatched execution account, or any orphaned, malformed or
 contradictory execution row, fails closed. An explicit empty execution list is
 accepted only when every active order reports zero filled quantity.
@@ -239,6 +241,7 @@ period and differ only in the numeric revision after it. Rows in one correction
 family must therefore be identical in every retained evidence field other than
 that revision. Conflicting account, order, contract, side, quantity, price,
 average price, liquidation, price-revision or time evidence inside one family
+blocks readiness. Exchange disagreement inside a correction family also
 blocks readiness, while distinct execution families may advance cumulative
 fill quantity normally.
 
