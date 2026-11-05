@@ -954,6 +954,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "average_price": 50.0,
             "liquidation": 0,
             "pending_price_revision": False,
+            "time": "20261104 09:00:00",
         }
 
         result = self.evaluate(
@@ -1016,6 +1017,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "average_price": 50.0,
             "liquidation": 0,
             "pending_price_revision": False,
+            "time": "20261104 09:00:00",
         }
 
         for executions in (
@@ -1055,6 +1057,12 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             }],
             [{**execution, "pending_price_revision": True}],
             [{**execution, "pending_price_revision": 0}],
+            [{
+                key: value
+                for key, value in execution.items()
+                if key != "time"
+            }],
+            [{**execution, "time": "20260230 09:00:00"}],
             [
                 {**execution, "execution_id": "FILL-42.01"},
                 {

@@ -214,6 +214,13 @@ row with the greatest `cumQty` must equal `orderStatus.avgFillPrice` within the
 same strict floating-point tolerance used for fill quantities. Missing,
 non-finite or mismatched average-price evidence fails closed.
 
+Every execution must also carry a canonical, calendar-valid IBKR server time.
+The gate accepts the legacy `YYYYMMDD HH:MM:SS` form, the same form with one
+timezone token, or the UTC `YYYYMMDD-HH:MM:SS` form. Missing timestamps,
+impossible dates or times, surrounding whitespace and malformed timezone
+suffixes fail closed. This validates audit syntax only; it does not claim
+execution freshness.
+
 After correction-family deduplication, readiness independently calculates the
 share-weighted execution price as `sum(price * shares) / sum(shares)`.
 Non-finite notional arithmetic or disagreement with either the final

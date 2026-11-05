@@ -65,6 +65,9 @@ execution IDs and partial-fill quantity drift all block the state-risk proof.
 Every execution also requires a finite positive `avgPrice`; the row at the
 greatest `cumQty` must match `orderStatus.avgFillPrice`. Missing, non-finite or
 mismatched average-price evidence blocks the proof.
+Execution server time must be present, canonical and calendar-valid in the
+supported IBKR timestamp forms. Missing or malformed temporal evidence blocks
+the proof; timestamp freshness remains a separate later control.
 The proof also recomputes `sum(price * shares) / sum(shares)` after correction
 deduplication and requires that weighted price to match both reported averages.
 Non-finite notional arithmetic or any disagreement blocks the proof.
