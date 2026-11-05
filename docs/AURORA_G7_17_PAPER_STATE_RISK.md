@@ -59,6 +59,9 @@ exactly match the open order's verified account, and the greatest cumulative
 quantity must equal `orderStatus.filled`. Missing execution evidence, missing
 or mismatched request/account identity, orphan callbacks, conflicting duplicate
 execution IDs and partial-fill quantity drift all block the state-risk proof.
+Each retained execution must additionally carry the exact integer
+`liquidation=0`; missing, boolean or non-zero liquidation evidence blocks the
+proof rather than accepting an IB-initiated liquidation as ordinary fill data.
 
 Execution IDs whose final period is followed by a numeric revision are treated
 as one IBKR correction family. Every retained field other than that revision

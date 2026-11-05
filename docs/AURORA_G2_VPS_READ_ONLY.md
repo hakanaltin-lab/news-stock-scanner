@@ -207,12 +207,16 @@ missing or mismatched execution account, or any orphaned, malformed or
 contradictory execution row, fails closed. An explicit empty execution list is
 accepted only when every active order reports zero filled quantity.
 
+Every retained execution must also carry an exact integer `liquidation=0`.
+Missing, boolean or non-zero values fail closed because they cannot prove that
+the fill was free of an IB-initiated liquidation.
+
 IBKR correction callbacks share the execution ID prefix before the final
 period and differ only in the numeric revision after it. Rows in one correction
 family must therefore be identical in every retained evidence field other than
-that revision. Conflicting account, order, contract, side, quantity, price or
-time evidence inside one family blocks readiness, while distinct execution
-families may advance cumulative fill quantity normally.
+that revision. Conflicting account, order, contract, side, quantity, price,
+liquidation or time evidence inside one family blocks readiness, while distinct
+execution families may advance cumulative fill quantity normally.
 
 After correction-family deduplication, the sum of each distinct execution's
 `shares` must equal both the greatest `cumQty` and `orderStatus.filled` within
