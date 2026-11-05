@@ -142,6 +142,46 @@ class OfflineMaterializerHandoffTests(unittest.TestCase):
         self.assertEqual(result["status"], "BLOCKED")
         self.assertEqual(result["reason"], "BROKER_OR_NETWORK_IMPORT_FORBIDDEN")
 
+    def test_materializer_entrypoint_must_be_unique_and_synchronous(self):
+        duplicates = (
+            "\n\ndef materialize_offline_order_request(*args, **kwargs):\n"
+            "    return None\n",
+            "\n\nasync def materialize_offline_order_request(*args, **kwargs):\n"
+            "    return None\n",
+        )
+        for duplicate in duplicates:
+            with self.subTest(duplicate=duplicate.splitlines()[2]):
+                result = self.evaluate(
+                    materializer_value=materializer_source() + duplicate
+                )
+                self.assertEqual(result["status"], "BLOCKED")
+                self.assertEqual(
+                    result["reason"],
+                    "MATERIALIZER_ENTRYPOINT_MISSING",
+                )
+                self.assert_permissions_false(result)
+
+    def test_cli_entrypoint_must_be_unique_ast_function(self):
+        decoy = cli_source().replace(
+            "def build_installed_offline_request(",
+            "def renamed_offline_request(",
+            1,
+        ) + "\n# build_installed_offline_request\n"
+        result = self.evaluate(cli_value=decoy)
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(result["reason"], "CLI_ENTRYPOINT_MISSING")
+        self.assert_permissions_false(result)
+
+        duplicate = (
+            cli_source()
+            + "\n\ndef build_installed_offline_request(*args, **kwargs):\n"
+            "    return None\n"
+        )
+        result = self.evaluate(cli_value=duplicate)
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(result["reason"], "CLI_ENTRYPOINT_MISSING")
+        self.assert_permissions_false(result)
+
     def test_same_sources_produce_same_bound_digests(self):
         first = self.evaluate()
         second = self.evaluate()

@@ -206,6 +206,19 @@ class OfflineMaterializerAttestationTests(unittest.TestCase):
         )
         self.assert_permissions_false(result)
 
+    def test_duplicate_materializer_entrypoint_blocks(self):
+        changed = (
+            materializer_source()
+            + "\n\ndef materialize_offline_order_request(*args, **kwargs):\n"
+            "    return None\n"
+        )
+        result = self.evaluate(materializer_value=changed)
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertFalse(
+            result["checks"]["materializer_source_policy_and_digest_bound"]
+        )
+        self.assert_permissions_false(result)
+
     def test_handoff_tamper_and_extra_field_block(self):
         changed = handoff()
         changed["review_request_sha256"] = "f" * 64
