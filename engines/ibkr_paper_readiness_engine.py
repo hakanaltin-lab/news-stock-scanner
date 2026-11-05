@@ -394,6 +394,28 @@ def open_order_execution_evidence_is_consistent(
             if cumulative_quantities:
                 return False
             continue
+        ordered_execution_families = sorted(
+            execution_families.values(),
+            key=lambda values: values[1],
+        )
+        running_shares = 0.0
+        previous_cumulative_quantity = 0.0
+        for values in ordered_execution_families:
+            shares, cumulative_quantity = values[:2]
+            if cumulative_quantity <= previous_cumulative_quantity:
+                return False
+            try:
+                running_shares = math.fsum((running_shares, shares))
+            except (OverflowError, ValueError):
+                return False
+            if not math.isclose(
+                running_shares,
+                cumulative_quantity,
+                rel_tol=1e-9,
+                abs_tol=1e-9,
+            ):
+                return False
+            previous_cumulative_quantity = cumulative_quantity
         if any(not math.isfinite(value) for value in execution_notionals):
             return False
         try:

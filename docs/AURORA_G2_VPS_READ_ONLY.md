@@ -240,6 +240,12 @@ After correction-family deduplication, the sum of each distinct execution's
 floating-point tolerance. This blocks duplicated or missing fill rows that a
 maximum-cumulative check alone could conceal.
 
+The distinct execution families are also sorted by `cumQty`, independently of
+callback arrival order. Their cumulative quantities must increase strictly,
+and every `cumQty` must equal the running sum of the retained `shares` within
+the same tolerance. This blocks malformed intermediate partial-fill progress
+even when the final share total and greatest cumulative quantity agree.
+
 The connector requests the current execution history with an empty,
 read-only `ExecutionFilter` and a fixed request ID. Readiness requires the
 matching `execDetailsEnd` callback before treating the execution snapshot as
