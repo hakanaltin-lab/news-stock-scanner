@@ -60,6 +60,11 @@ quantity must equal `orderStatus.filled`. Missing execution evidence, missing
 or mismatched request/account identity, orphan callbacks, conflicting duplicate
 execution IDs and partial-fill quantity drift all block the state-risk proof.
 
+Execution IDs whose final period is followed by a numeric revision are treated
+as one IBKR correction family. Every retained field other than that revision
+must be identical across the family; contradictory correction callbacks fail
+closed instead of competing through the maximum cumulative-quantity rule.
+
 The fresh G2 proof must also show that the read-only execution request reached
 its matching `execDetailsEnd` callback. Partial rows from a timed-out or
 mismatched request are never treated as a complete execution snapshot.

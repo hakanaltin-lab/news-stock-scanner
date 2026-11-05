@@ -908,6 +908,62 @@ class IBKRReadinessTests(unittest.TestCase):
         )
         self.assertFalse(readiness["paper_order_submission_allowed"])
 
+    def test_identical_execution_correction_family_is_accepted(self):
+        order = ready_open_order(quantity=2.0)
+        status = ready_order_status(
+            order,
+            filled=0.5,
+            remaining=1.5,
+        )
+        execution = ready_execution(
+            order,
+            execution_id="FILL-1.01",
+        )
+        snapshot = ready_snapshot()
+        set_open_orders(snapshot, [order], [status])
+        snapshot["executions"] = [
+            execution,
+            {**execution, "execution_id": "FILL-1.02"},
+        ]
+
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+        self.assertEqual(
+            readiness["readiness"],
+            "READY_FOR_PAPER_READ_ONLY",
+        )
+
+    def test_distinct_execution_families_preserve_fill_progress(self):
+        order = ready_open_order(quantity=2.0)
+        status = ready_order_status(
+            order,
+            filled=0.5,
+            remaining=1.5,
+        )
+        snapshot = ready_snapshot()
+        set_open_orders(snapshot, [order], [status])
+        snapshot["executions"] = [
+            ready_execution(
+                order,
+                execution_id="FILL-1.01",
+                shares=0.25,
+                cumulative_quantity=0.25,
+            ),
+            ready_execution(
+                order,
+                execution_id="FILL-2.01",
+                shares=0.25,
+                cumulative_quantity=0.5,
+            ),
+        ]
+
+        readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+        self.assertEqual(
+            readiness["readiness"],
+            "READY_FOR_PAPER_READ_ONLY",
+        )
+
     def test_missing_or_mismatched_partial_fill_evidence_blocks(self):
         order = ready_open_order(
             quantity=2.0,
@@ -943,6 +999,14 @@ class IBKRReadinessTests(unittest.TestCase):
             [{**valid, "cumulative_quantity": 0.25}],
             [{**valid, "shares": float("nan")}],
             [valid, {**valid, "cumulative_quantity": 0.25}],
+            [
+                {**valid, "execution_id": "FILL-1.01"},
+                {
+                    **valid,
+                    "execution_id": "FILL-1.02",
+                    "price": 101.0,
+                },
+            ],
         )
 
         for executions in cases:
