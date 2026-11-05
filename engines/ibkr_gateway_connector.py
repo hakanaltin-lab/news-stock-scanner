@@ -837,6 +837,13 @@ if IBAPI_AVAILABLE:
                     None
                 ),
 
+                "liquidation":
+                (
+                    getattr(execution, "liquidation", None)
+                    if type(getattr(execution, "liquidation", None)) is int
+                    else None
+                ),
+
                 "time":
                 getattr(
                     execution,

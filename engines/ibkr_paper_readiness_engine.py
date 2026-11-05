@@ -278,6 +278,7 @@ def open_order_execution_evidence_is_consistent(
             None,
         )
         price = safe_float(row.get("price"), None)
+        liquidation = row.get("liquidation")
         expected_side = (
             "BOT"
             if str(order.get("action") if order else "").upper() == "BUY"
@@ -294,6 +295,7 @@ def open_order_execution_evidence_is_consistent(
             shares,
             cumulative_quantity,
             price,
+            liquidation,
             row.get("time"),
         )
         if (
@@ -320,6 +322,8 @@ def open_order_execution_evidence_is_consistent(
             > safe_float(order.get("quantity"), 0)
             or price is None
             or price <= 0
+            or type(liquidation) is not int
+            or liquidation != 0
             or (
                 execution_id in execution_ids
                 and execution_ids[execution_id] != normalized

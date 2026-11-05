@@ -950,6 +950,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "shares": 1.0,
             "cumulative_quantity": 1.0,
             "price": 50.0,
+            "liquidation": 0,
         }
 
         result = self.evaluate(
@@ -1008,6 +1009,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "shares": 1.0,
             "cumulative_quantity": 1.0,
             "price": 50.0,
+            "liquidation": 0,
         }
 
         for executions in (
@@ -1026,6 +1028,13 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             [{**execution, "account": "IBKR-OTHERACCOUNT"}],
             [{**execution, "perm_id": 900043}],
             [{**execution, "cumulative_quantity": 0.5}],
+            [{
+                key: value
+                for key, value in execution.items()
+                if key != "liquidation"
+            }],
+            [{**execution, "liquidation": 1}],
+            [{**execution, "liquidation": True}],
             [
                 {**execution, "execution_id": "FILL-42.01"},
                 {

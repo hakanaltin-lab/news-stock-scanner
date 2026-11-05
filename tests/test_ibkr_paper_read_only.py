@@ -127,6 +127,7 @@ def ready_execution(order=None, **overrides):
         "shares": 0.5,
         "cumulative_quantity": 0.5,
         "price": 100.0,
+        "liquidation": 0,
         "time": "20261104 09:00:00",
     }
     row.update(overrides)
@@ -391,6 +392,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             shares = float("nan")
             cumQty = float("nan")
             price = float("inf")
+            liquidation = 0
             time = "20261102 09:00:00"
 
         application.execDetails(
@@ -421,6 +423,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             application.execution_rows[0]["cumulative_quantity"]
         )
         self.assertIsNone(application.execution_rows[0]["price"])
+        self.assertEqual(application.execution_rows[0]["liquidation"], 0)
 
         application.execDetailsEnd(isolated.EXECUTIONS_REQUEST_ID + 1)
         self.assertFalse(application.executions_event.is_set())
@@ -1033,6 +1036,13 @@ class IBKRReadinessTests(unittest.TestCase):
             [{**valid, "side": "BOT"}],
             [{**valid, "cumulative_quantity": 0.25}],
             [{**valid, "shares": float("nan")}],
+            [{
+                key: value
+                for key, value in valid.items()
+                if key != "liquidation"
+            }],
+            [{**valid, "liquidation": 1}],
+            [{**valid, "liquidation": True}],
             [valid, {**valid, "cumulative_quantity": 0.25}],
             [
                 {**valid, "execution_id": "FILL-1.01"},
