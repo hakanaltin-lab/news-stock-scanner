@@ -4,8 +4,8 @@
   "portfolio_signature": "ec19f05aec2acca5",
   "cache_status": "FRESH",
   "status": "COMPLETE",
-  "generated": "2026-11-05T01:25:42.392730+00:00",
-  "market_date": "2026-11-03",
+  "generated": "2026-11-05T02:32:18.929306+00:00",
+  "market_date": "2026-11-04",
   "source_backtest_signature": "V8.4.5",
   "source_calibration_signature": "V8.1.2",
   "source_robustness_verdict": "OOS_MIXED_ROBUSTNESS",
@@ -20,19 +20,19 @@
   "failing_regimes_repaired": 2,
   "failing_regimes_total": 2,
   "overall_shadow_vs_default": {
-    "sessions": 743,
+    "sessions": 744,
     "start_date": "2023-11-09",
-    "end_date": "2026-11-03",
-    "default_annualized_return_pct": 30.94,
-    "shadow_annualized_return_pct": 42.85,
-    "shadow_return_advantage_pct_points": 11.91,
-    "default_sharpe": 1.513,
-    "shadow_sharpe": 1.602,
-    "shadow_sharpe_advantage": 0.088,
+    "end_date": "2026-11-04",
+    "default_annualized_return_pct": 31.06,
+    "shadow_annualized_return_pct": 42.7,
+    "shadow_return_advantage_pct_points": 11.65,
+    "default_sharpe": 1.519,
+    "shadow_sharpe": 1.598,
+    "shadow_sharpe_advantage": 0.08,
     "default_max_drawdown_pct": 18.99,
     "shadow_max_drawdown_pct": 21.77,
     "shadow_drawdown_advantage_pct": -2.79,
-    "shadow_relative_wealth_advantage_pct": 29.25
+    "shadow_relative_wealth_advantage_pct": 28.57
   },
   "regime_repair": {
     "RISK_ON": {
@@ -51,19 +51,19 @@
       "shadow_relative_wealth_advantage_pct": 22.41
     },
     "RISK_OFF": {
-      "sessions": 96,
+      "sessions": 97,
       "start_date": "2023-11-09",
-      "end_date": "2026-11-03",
-      "default_annualized_return_pct": 8.53,
-      "shadow_annualized_return_pct": 25.18,
-      "shadow_return_advantage_pct_points": 16.66,
-      "default_sharpe": 0.546,
-      "shadow_sharpe": 1.064,
-      "shadow_sharpe_advantage": 0.518,
+      "end_date": "2026-11-04",
+      "default_annualized_return_pct": 9.45,
+      "shadow_annualized_return_pct": 24.35,
+      "shadow_return_advantage_pct_points": 14.9,
+      "default_sharpe": 0.596,
+      "shadow_sharpe": 1.04,
+      "shadow_sharpe_advantage": 0.445,
       "default_max_drawdown_pct": 11.86,
       "shadow_max_drawdown_pct": 13.01,
       "shadow_drawdown_advantage_pct": -1.15,
-      "shadow_relative_wealth_advantage_pct": 5.59
+      "shadow_relative_wealth_advantage_pct": 5.04
     },
     "HIGH_VOL": {
       "sessions": 307,
@@ -81,19 +81,19 @@
       "shadow_relative_wealth_advantage_pct": 22.09
     },
     "LOWER_VOL": {
-      "sessions": 436,
+      "sessions": 437,
       "start_date": "2023-11-28",
-      "end_date": "2026-11-03",
-      "default_annualized_return_pct": 11.46,
-      "shadow_annualized_return_pct": 15.19,
-      "shadow_return_advantage_pct_points": 3.74,
-      "default_sharpe": 0.687,
-      "shadow_sharpe": 0.732,
-      "shadow_sharpe_advantage": 0.045,
+      "end_date": "2026-11-04",
+      "default_annualized_return_pct": 11.66,
+      "shadow_annualized_return_pct": 15.04,
+      "shadow_return_advantage_pct_points": 3.38,
+      "default_sharpe": 0.697,
+      "shadow_sharpe": 0.727,
+      "shadow_sharpe_advantage": 0.03,
       "default_max_drawdown_pct": 20.89,
       "shadow_max_drawdown_pct": 25.06,
       "shadow_drawdown_advantage_pct": -4.17,
-      "shadow_relative_wealth_advantage_pct": 5.87
+      "shadow_relative_wealth_advantage_pct": 5.31
     }
   },
   "fold_diagnostics": [
@@ -183,19 +183,19 @@
       "selected_policy": "MOMENTUM_FRIENDLY"
     },
     {
-      "sessions": 118,
+      "sessions": 119,
       "start_date": "2026-05-18",
-      "end_date": "2026-11-03",
-      "default_annualized_return_pct": -0.9,
-      "shadow_annualized_return_pct": -1.82,
-      "shadow_return_advantage_pct_points": -0.92,
-      "default_sharpe": 0.061,
-      "shadow_sharpe": 0.069,
-      "shadow_sharpe_advantage": 0.008,
+      "end_date": "2026-11-04",
+      "default_annualized_return_pct": -0.14,
+      "shadow_annualized_return_pct": -2.15,
+      "shadow_return_advantage_pct_points": -2.01,
+      "default_sharpe": 0.097,
+      "shadow_sharpe": 0.056,
+      "shadow_sharpe_advantage": -0.041,
       "default_max_drawdown_pct": 11.38,
       "shadow_max_drawdown_pct": 15.34,
       "shadow_drawdown_advantage_pct": -3.96,
-      "shadow_relative_wealth_advantage_pct": -0.43,
+      "shadow_relative_wealth_advantage_pct": -0.96,
       "fold": 6,
       "selected_policy": "MOMENTUM_FRIENDLY"
     }
@@ -309,7 +309,7 @@
     "evaluated_event_count": 1284
   },
   "diagnostic_interpretation": {
-    "risk_off_shadow_return_repair_pct_points": 16.66,
+    "risk_off_shadow_return_repair_pct_points": 14.9,
     "high_vol_shadow_return_repair_pct_points": 29.3,
     "default_reduce_exit_more_exposure_avg_shadow_alpha_20d_pct": 0.436,
     "risk_off_defensive_avg_shadow_alpha_20d_pct": 0.414,
