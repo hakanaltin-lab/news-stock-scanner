@@ -13,6 +13,9 @@ The handoff independently rechecks:
 - the exact G8.22 design contract;
 - the tracked offline materializer source;
 - the tracked bounded CLI source;
+- exactly one synchronous top-level materializer entrypoint and exactly one
+  synchronous top-level CLI entrypoint; duplicate overrides, async replacements
+  and comment/string decoys do not satisfy the policy;
 - absence of IBKR/network imports and broker mutation calls;
 - the exact AST-level count of every offline safety marker, with every
   occurrence required to be the literal boolean `false` so duplicate text,

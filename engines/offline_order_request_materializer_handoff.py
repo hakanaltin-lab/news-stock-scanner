@@ -173,6 +173,22 @@ def _offline_safety_markers_valid(tree):
     )
 
 
+def _has_unique_sync_entrypoint(tree, name):
+    definitions = [
+        node
+        for node in tree.body
+        if isinstance(
+            node,
+            (ast.FunctionDef, ast.AsyncFunctionDef),
+        )
+        and node.name == name
+    ]
+    return (
+        len(definitions) == 1
+        and isinstance(definitions[0], ast.FunctionDef)
+    )
+
+
 def _validate_source(source, *, materializer):
     if not isinstance(source, str) or not source.strip():
         return False, "SOURCE_UNAVAILABLE"
@@ -198,15 +214,18 @@ def _validate_source(source, *, materializer):
         return False, "SIGNING_PATH_FORBIDDEN"
 
     if materializer:
-        functions = {
-            node.name for node in tree.body if isinstance(node, ast.FunctionDef)
-        }
-        if "materialize_offline_order_request" not in functions:
+        if not _has_unique_sync_entrypoint(
+            tree,
+            "materialize_offline_order_request",
+        ):
             return False, "MATERIALIZER_ENTRYPOINT_MISSING"
         if not _offline_safety_markers_valid(tree):
             return False, "OFFLINE_SAFETY_MARKER_MISSING"
     else:
-        if "build_installed_offline_request" not in source:
+        if not _has_unique_sync_entrypoint(
+            tree,
+            "build_installed_offline_request",
+        ):
             return False, "CLI_ENTRYPOINT_MISSING"
 
     return True, None
