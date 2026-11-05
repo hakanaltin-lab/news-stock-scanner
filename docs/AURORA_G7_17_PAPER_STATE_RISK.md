@@ -65,6 +65,9 @@ execution IDs and partial-fill quantity drift all block the state-risk proof.
 Every execution also requires a finite positive `avgPrice`; the row at the
 greatest `cumQty` must match `orderStatus.avgFillPrice`. Missing, non-finite or
 mismatched average-price evidence blocks the proof.
+The proof also recomputes `sum(price * shares) / sum(shares)` after correction
+deduplication and requires that weighted price to match both reported averages.
+Non-finite notional arithmetic or any disagreement blocks the proof.
 Each retained execution must additionally carry the exact integer
 `liquidation=0`; missing, boolean or non-zero liquidation evidence blocks the
 proof rather than accepting an IB-initiated liquidation as ordinary fill data.

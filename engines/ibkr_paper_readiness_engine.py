@@ -366,6 +366,7 @@ def open_order_execution_evidence_is_consistent(
             shares,
             cumulative_quantity,
             average_price,
+            price,
         )
 
     for identity, order in open_orders_by_identity.items():
@@ -376,16 +377,33 @@ def open_order_execution_evidence_is_consistent(
             values[1]
             for values in execution_families.values()
         ]
-        executed_shares = math.fsum(
-            values[0]
+        try:
+            executed_shares = math.fsum(
+                values[0]
+                for values in execution_families.values()
+            )
+        except (OverflowError, ValueError):
+            return False
+        execution_notionals = [
+            values[0] * values[3]
             for values in execution_families.values()
-        )
+        ]
         if filled is None:
             return False
         if filled == 0:
             if cumulative_quantities:
                 return False
             continue
+        if any(not math.isfinite(value) for value in execution_notionals):
+            return False
+        try:
+            weighted_average_price = (
+                math.fsum(execution_notionals) / executed_shares
+                if executed_shares > 0
+                else None
+            )
+        except (OverflowError, ValueError):
+            return False
         greatest_cumulative_quantity = max(cumulative_quantities, default=0)
         final_average_prices = [
             values[2]
@@ -401,6 +419,8 @@ def open_order_execution_evidence_is_consistent(
             not cumulative_quantities
             or average_fill_price is None
             or average_fill_price <= 0
+            or weighted_average_price is None
+            or not math.isfinite(weighted_average_price)
             or not math.isclose(
                 greatest_cumulative_quantity,
                 filled,
@@ -414,10 +434,16 @@ def open_order_execution_evidence_is_consistent(
                 abs_tol=1e-9,
             )
             or not final_average_prices
+            or not math.isclose(
+                weighted_average_price,
+                average_fill_price,
+                rel_tol=1e-9,
+                abs_tol=1e-9,
+            )
             or any(
                 not math.isclose(
                     average_price,
-                    average_fill_price,
+                    weighted_average_price,
                     rel_tol=1e-9,
                     abs_tol=1e-9,
                 )

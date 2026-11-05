@@ -214,6 +214,11 @@ row with the greatest `cumQty` must equal `orderStatus.avgFillPrice` within the
 same strict floating-point tolerance used for fill quantities. Missing,
 non-finite or mismatched average-price evidence fails closed.
 
+After correction-family deduplication, readiness independently calculates the
+share-weighted execution price as `sum(price * shares) / sum(shares)`.
+Non-finite notional arithmetic or disagreement with either the final
+`avgPrice` or `orderStatus.avgFillPrice` fails closed.
+
 Every retained execution must also carry an exact integer `liquidation=0`.
 Missing, boolean or non-zero values fail closed because they cannot prove that
 the fill was free of an IB-initiated liquidation.
