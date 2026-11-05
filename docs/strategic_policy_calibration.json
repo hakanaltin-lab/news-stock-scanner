@@ -4,8 +4,8 @@
   "portfolio_signature": "ec19f05aec2acca5",
   "cache_status": "FRESH",
   "status": "COMPLETE",
-  "generated": "2026-11-05T02:32:05.381224+00:00",
-  "market_date": "2026-11-04",
+  "generated": "2026-11-05T18:32:36.402584+00:00",
+  "market_date": "2026-11-05",
   "live_policy_status": "V7.9 DEFAULT UNCHANGED",
   "validation_scope": "CURRENT_PORTFOLIO_STRATEGIC_PRICE_RISK_LAYER",
   "methodology": {
@@ -130,39 +130,39 @@
     "fold_count": 6,
     "calibrated_policy": {
       "starting_value": 100000.0,
-      "ending_value": 285706.97,
-      "total_return_pct": 185.71,
-      "cagr_pct": 42.7,
-      "annualized_volatility_pct": 24.08,
-      "sharpe_ratio": 1.598,
-      "sortino_ratio": 2.223,
+      "ending_value": 270187.39,
+      "total_return_pct": 170.19,
+      "cagr_pct": 39.96,
+      "annualized_volatility_pct": 24.28,
+      "sharpe_ratio": 1.507,
+      "sortino_ratio": 2.067,
       "max_drawdown_pct": 21.77,
-      "trading_days": 744,
-      "years": 2.95
+      "trading_days": 745,
+      "years": 2.96
     },
     "default_v7_9": {
       "starting_value": 100000.0,
-      "ending_value": 222213.12,
-      "total_return_pct": 122.21,
-      "cagr_pct": 31.06,
-      "annualized_volatility_pct": 19.01,
-      "sharpe_ratio": 1.519,
-      "sortino_ratio": 2.09,
+      "ending_value": 213234.54,
+      "total_return_pct": 113.23,
+      "cagr_pct": 29.19,
+      "annualized_volatility_pct": 19.15,
+      "sharpe_ratio": 1.434,
+      "sortino_ratio": 1.952,
       "max_drawdown_pct": 18.99,
-      "trading_days": 744,
-      "years": 2.95
+      "trading_days": 745,
+      "years": 2.96
     },
     "equal_weight_control": {
       "starting_value": 100000.0,
-      "ending_value": 344748.91,
-      "total_return_pct": 244.75,
-      "cagr_pct": 52.07,
-      "annualized_volatility_pct": 29.18,
-      "sharpe_ratio": 1.583,
-      "sortino_ratio": 2.208,
+      "ending_value": 326147.98,
+      "total_return_pct": 226.15,
+      "cagr_pct": 49.16,
+      "annualized_volatility_pct": 29.34,
+      "sharpe_ratio": 1.51,
+      "sortino_ratio": 2.09,
       "max_drawdown_pct": 32.39,
-      "trading_days": 744,
-      "years": 2.95
+      "trading_days": 745,
+      "years": 2.96
     },
     "folds": [
       {
@@ -320,7 +320,7 @@
         "train_start": "2022-11-07",
         "train_end": "2026-05-14",
         "oos_start": "2026-05-15",
-        "oos_end": "2026-11-04",
+        "oos_end": "2026-11-05",
         "selected_policy": "MOMENTUM_FRIENDLY",
         "selection_rule": "Highest training CAGR among policies reducing max drawdown by at least 15% vs equal-weight control",
         "selected_training_result": {
@@ -334,16 +334,16 @@
           "risk_constraint_pass": true,
           "training_score": -8.27
         },
-        "oos_calibrated_return_pct": -1.02,
-        "oos_default_return_pct": -0.07,
-        "oos_control_return_pct": -2.07,
-        "calibrated_vs_default_pct": -0.95,
-        "calibrated_vs_control_pct": 1.05,
-        "calibrated_max_drawdown_pct": 15.34,
-        "default_max_drawdown_pct": 11.38,
-        "control_max_drawdown_pct": 17.43,
-        "calibrated_sharpe": 0.056,
-        "default_sharpe": 0.097
+        "oos_calibrated_return_pct": -6.4,
+        "oos_default_return_pct": -4.1,
+        "oos_control_return_pct": -7.35,
+        "calibrated_vs_default_pct": -2.3,
+        "calibrated_vs_control_pct": 0.95,
+        "calibrated_max_drawdown_pct": 18.63,
+        "default_max_drawdown_pct": 13.52,
+        "control_max_drawdown_pct": 20.8,
+        "calibrated_sharpe": -0.35,
+        "default_sharpe": -0.299
       }
     ]
   },
@@ -351,9 +351,9 @@
     "status": "SHADOW_CANDIDATE",
     "message": "Calibrated policy is materially stronger than the live default out-of-sample, but not yet strong enough for live promotion. Run it in shadow mode on fresh forward data.",
     "criteria": {
-      "cagr_improvement_vs_default_pct": 11.64,
-      "cagr_gap_vs_control_pct": -9.37,
-      "sharpe_improvement_vs_default": 0.079,
+      "cagr_improvement_vs_default_pct": 10.77,
+      "cagr_gap_vs_control_pct": -9.2,
+      "sharpe_improvement_vs_default": 0.073,
       "drawdown_reduction_vs_control_pct": 10.62,
       "fold_win_rate_vs_default_pct": 66.7,
       "fold_win_rate_vs_control_pct": 16.7

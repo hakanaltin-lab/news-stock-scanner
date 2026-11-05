@@ -1,12 +1,12 @@
 {
   "engine": "V8.4.8 Independent-Cohort Fresh Forward Promotion Gate",
   "gate_signature": "V8.4.8",
-  "generated": "2026-11-05T14:27:52.012315+00:00",
+  "generated": "2026-11-05T18:32:53.238286+00:00",
   "status": "WAITING_FOR_FRESH_EVIDENCE",
   "verdict": "PROMOTION_BLOCKED",
   "candidate_policy": "MOMENTUM_FRIENDLY",
-  "journal_records_total": 90,
-  "candidate_records_total": 90,
+  "journal_records_total": 100,
+  "candidate_records_total": 100,
   "fresh_forward_only": true,
   "automatic_live_promotion": false,
   "manual_live_policy_review_required": true,
@@ -16,7 +16,7 @@
   "fresh_evidence": {
     "20d": {
       "raw_evaluated_records": 0,
-      "raw_pending_records": 90,
+      "raw_pending_records": 100,
       "raw_hit_rate_pct": null,
       "raw_average_shadow_relative_alpha_pct": null,
       "candidate_signal_date_cohorts": 0,
@@ -34,7 +34,7 @@
     },
     "60d": {
       "raw_evaluated_records": 0,
-      "raw_pending_records": 90,
+      "raw_pending_records": 100,
       "raw_hit_rate_pct": null,
       "raw_average_shadow_relative_alpha_pct": null,
       "candidate_signal_date_cohorts": 0,
