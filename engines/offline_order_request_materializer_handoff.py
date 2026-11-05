@@ -59,12 +59,12 @@ FORBIDDEN_CALL_NAMES = {
     "createOrder",
     "urlopen",
 }
-REQUIRED_MATERIALIZER_MARKERS = (
-    '"broker_request_materialized": False',
-    '"broker_order_object_created": False',
-    '"network_accessed": False',
-    '"transmit": False',
-)
+REQUIRED_MATERIALIZER_MARKER_COUNTS = {
+    "broker_request_materialized": 3,
+    "broker_order_object_created": 3,
+    "network_accessed": 2,
+    "transmit": 3,
+}
 
 
 def canonical_json_sha256(payload):
@@ -145,6 +145,34 @@ def _call_names(tree):
     return values
 
 
+def _offline_safety_markers_valid(tree):
+    observed = {
+        name: []
+        for name in REQUIRED_MATERIALIZER_MARKER_COUNTS
+    }
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Dict):
+            continue
+        for key, value in zip(node.keys, node.values):
+            if (
+                isinstance(key, ast.Constant)
+                and isinstance(key.value, str)
+                and key.value in observed
+            ):
+                observed[key.value].append(value)
+
+    return all(
+        len(observed[name]) == expected_count
+        and all(
+            isinstance(value, ast.Constant)
+            and value.value is False
+            for value in observed[name]
+        )
+        for name, expected_count
+        in REQUIRED_MATERIALIZER_MARKER_COUNTS.items()
+    )
+
+
 def _validate_source(source, *, materializer):
     if not isinstance(source, str) or not source.strip():
         return False, "SOURCE_UNAVAILABLE"
@@ -175,7 +203,7 @@ def _validate_source(source, *, materializer):
         }
         if "materialize_offline_order_request" not in functions:
             return False, "MATERIALIZER_ENTRYPOINT_MISSING"
-        if not all(marker in source for marker in REQUIRED_MATERIALIZER_MARKERS):
+        if not _offline_safety_markers_valid(tree):
             return False, "OFFLINE_SAFETY_MARKER_MISSING"
     else:
         if "build_installed_offline_request" not in source:

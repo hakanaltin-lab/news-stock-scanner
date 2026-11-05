@@ -193,6 +193,19 @@ class OfflineMaterializerAttestationTests(unittest.TestCase):
         self.assertEqual(result["status"], "BLOCKED")
         self.assertFalse(result["checks"]["cli_source_policy_and_digest_bound"])
 
+    def test_unsafe_duplicate_materializer_marker_blocks(self):
+        changed = materializer_source().replace(
+            '"network_accessed": False',
+            '"network_accessed": True',
+            1,
+        )
+        result = self.evaluate(materializer_value=changed)
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertFalse(
+            result["checks"]["materializer_source_policy_and_digest_bound"]
+        )
+        self.assert_permissions_false(result)
+
     def test_handoff_tamper_and_extra_field_block(self):
         changed = handoff()
         changed["review_request_sha256"] = "f" * 64
