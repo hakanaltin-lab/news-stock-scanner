@@ -62,6 +62,9 @@ execution IDs and partial-fill quantity drift all block the state-risk proof.
 Each retained execution must additionally carry the exact integer
 `liquidation=0`; missing, boolean or non-zero liquidation evidence blocks the
 proof rather than accepting an IB-initiated liquidation as ordinary fill data.
+It must also carry the exact boolean `pending_price_revision=false`; missing,
+true or integer look-alike values block the proof so a provisional price is not
+accepted as final execution evidence.
 
 Execution IDs whose final period is followed by a numeric revision are treated
 as one IBKR correction family. Every retained field other than that revision
