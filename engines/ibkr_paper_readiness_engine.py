@@ -58,6 +58,22 @@ def safe_float(
     return parsed
 
 
+def execution_correction_family(execution_id):
+    """Return the stable IBKR execution ID prefix shared by corrections."""
+    if not isinstance(execution_id, str):
+        return None
+
+    normalized = execution_id.strip()
+    if not normalized:
+        return None
+
+    prefix, separator, revision = normalized.rpartition(".")
+    if separator and prefix and revision.isdigit():
+        return prefix
+
+    return normalized
+
+
 def open_order_payload_is_valid(open_orders):
     """Validate the complete stock-order identity needed by risk gates."""
     if not isinstance(open_orders, list):
@@ -241,6 +257,7 @@ def open_order_execution_evidence_is_consistent(
 
     executions_by_identity = {}
     execution_ids = {}
+    execution_correction_families = {}
     for row in execution_rows:
         if not isinstance(row, dict):
             return False
@@ -252,6 +269,9 @@ def open_order_execution_evidence_is_consistent(
         )
         order = open_orders_by_identity.get(identity)
         execution_id = row.get("execution_id")
+        correction_family = execution_correction_family(
+            execution_id
+        )
         shares = safe_float(row.get("shares"), None)
         cumulative_quantity = safe_float(
             row.get("cumulative_quantity"),
@@ -274,6 +294,7 @@ def open_order_execution_evidence_is_consistent(
             shares,
             cumulative_quantity,
             price,
+            row.get("time"),
         )
         if (
             order is None
@@ -283,6 +304,7 @@ def open_order_execution_evidence_is_consistent(
             or row["account"] != order.get("account")
             or not isinstance(execution_id, str)
             or not execution_id.strip()
+            or correction_family is None
             or not isinstance(row.get("symbol"), str)
             or row["symbol"].strip().upper()
             != str(order.get("symbol") or "").strip().upper()
@@ -302,10 +324,16 @@ def open_order_execution_evidence_is_consistent(
                 execution_id in execution_ids
                 and execution_ids[execution_id] != normalized
             )
+            or (
+                correction_family in execution_correction_families
+                and execution_correction_families[correction_family]
+                != normalized
+            )
         ):
             return False
 
         execution_ids[execution_id] = normalized
+        execution_correction_families[correction_family] = normalized
         executions_by_identity.setdefault(identity, []).append(
             cumulative_quantity
         )
@@ -1356,7 +1384,8 @@ def evaluate_ibkr_paper_readiness(
             "Every partial fill must carry complete execDetails evidence "
             "bound to the fixed execution request ID, the verified Paper "
             "account, the same permId/clientId/orderId and cumulative "
-            "filled quantity reported by orderStatus."
+            "filled quantity reported by orderStatus; correction-family "
+            "callbacks must be identical except for execution ID revision."
         ),
     )
 

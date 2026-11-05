@@ -1026,6 +1026,14 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             [{**execution, "account": "IBKR-OTHERACCOUNT"}],
             [{**execution, "perm_id": 900043}],
             [{**execution, "cumulative_quantity": 0.5}],
+            [
+                {**execution, "execution_id": "FILL-42.01"},
+                {
+                    **execution,
+                    "execution_id": "FILL-42.02",
+                    "price": 51.0,
+                },
+            ],
         ):
             with self.subTest(executions=executions):
                 result = self.evaluate(

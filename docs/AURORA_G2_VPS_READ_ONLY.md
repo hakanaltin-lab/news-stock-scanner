@@ -207,6 +207,13 @@ missing or mismatched execution account, or any orphaned, malformed or
 contradictory execution row, fails closed. An explicit empty execution list is
 accepted only when every active order reports zero filled quantity.
 
+IBKR correction callbacks share the execution ID prefix before the final
+period and differ only in the numeric revision after it. Rows in one correction
+family must therefore be identical in every retained evidence field other than
+that revision. Conflicting account, order, contract, side, quantity, price or
+time evidence inside one family blocks readiness, while distinct execution
+families may advance cumulative fill quantity normally.
+
 The connector requests the current execution history with an empty,
 read-only `ExecutionFilter` and a fixed request ID. Readiness requires the
 matching `execDetailsEnd` callback before treating the execution snapshot as
