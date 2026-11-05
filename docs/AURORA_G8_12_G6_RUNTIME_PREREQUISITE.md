@@ -47,9 +47,10 @@ It also requires:
 - verified GCE runtime provenance for the approved project, VM name, zone and
   the same immutable instance ID;
 - the exact same canonical G0/G1 proof digest;
-- both the broker snapshot and readiness record to be fresh, with the
-  readiness timestamp following the snapshot within the bounded diagnostic
-  window;
+- the broker snapshot start, snapshot completion and readiness record to all
+  be fresh and ordered within the bounded diagnostic window; missing, future,
+  regressing or post-readiness completion evidence fails closed even when the
+  snapshot contains no executions;
 - G2 readiness to recompute as `READY_FOR_PAPER_READ_ONLY`;
 - the recorded required G2 check map to exactly match the freshly recomputed
   required check map with every required check passing;
