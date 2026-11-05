@@ -56,8 +56,9 @@ Reconciliation also requires the same account-wide `permId` and source `clientId
 
 An active order with a non-zero filled quantity must additionally reconcile
 with `execDetails`. Execution identity, USD stock contract, side, positive
-shares/price, the exact fixed integer execution request ID, masked Paper
-account and cumulative quantity are validated. The execution account must
+shares/price, canonical broker exchange, the exact fixed integer execution
+request ID, masked Paper account and cumulative quantity are validated. The
+execution account must
 exactly match the open order's verified account, and the greatest cumulative
 quantity must equal `orderStatus.filled`. Missing execution evidence, missing
 or mismatched request/account identity, orphan callbacks, conflicting duplicate

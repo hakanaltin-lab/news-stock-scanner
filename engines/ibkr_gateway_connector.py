@@ -800,6 +800,13 @@ if IBAPI_AVAILABLE:
                     None
                 ),
 
+                "exchange":
+                getattr(
+                    execution,
+                    "exchange",
+                    None
+                ),
+
                 "side":
                 getattr(
                     execution,

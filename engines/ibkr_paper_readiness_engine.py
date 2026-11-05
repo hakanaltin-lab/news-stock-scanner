@@ -35,6 +35,10 @@ EXECUTION_TIME_PATTERN = re.compile(
     r"(?:/[A-Za-z0-9_+-]+)*))?$"
 )
 
+EXECUTION_EXCHANGE_PATTERN = re.compile(
+    r"^[A-Za-z0-9][A-Za-z0-9._:+/-]{0,63}$"
+)
+
 
 def safe_float(
     value,
@@ -321,6 +325,7 @@ def open_order_execution_evidence_is_consistent(
         )
         order = open_orders_by_identity.get(identity)
         execution_id = row.get("execution_id")
+        execution_exchange = row.get("exchange")
         correction_family = execution_correction_family(
             execution_id
         )
@@ -347,6 +352,7 @@ def open_order_execution_evidence_is_consistent(
             row.get("security_type"),
             row.get("currency"),
             row.get("con_id"),
+            execution_exchange,
             row.get("side"),
             shares,
             cumulative_quantity,
@@ -365,6 +371,10 @@ def open_order_execution_evidence_is_consistent(
             or not isinstance(execution_id, str)
             or not execution_id.strip()
             or correction_family is None
+            or not isinstance(execution_exchange, str)
+            or EXECUTION_EXCHANGE_PATTERN.fullmatch(
+                execution_exchange
+            ) is None
             or not isinstance(row.get("symbol"), str)
             or row["symbol"].strip().upper()
             != str(order.get("symbol") or "").strip().upper()
