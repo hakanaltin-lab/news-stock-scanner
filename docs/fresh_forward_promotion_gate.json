@@ -1,7 +1,7 @@
 {
   "engine": "V8.4.8 Independent-Cohort Fresh Forward Promotion Gate",
   "gate_signature": "V8.4.8",
-  "generated": "2026-11-04T23:39:42.787584+00:00",
+  "generated": "2026-11-05T01:25:42.830695+00:00",
   "status": "WAITING_FOR_FRESH_EVIDENCE",
   "verdict": "PROMOTION_BLOCKED",
   "candidate_policy": "MOMENTUM_FRIENDLY",
@@ -125,7 +125,7 @@
     },
     "historical_drawdown_penalty_pct": {
       "required": "<= 5.0",
-      "actual": 2.57,
+      "actual": 2.79,
       "passed": true
     },
     "live_execution_still_blocked": {
