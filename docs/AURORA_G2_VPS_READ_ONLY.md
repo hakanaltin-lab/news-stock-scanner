@@ -197,6 +197,8 @@ The two callbacks must bind the same positive account-wide `permId` and the
 same non-negative source `clientId` in addition to the client-local `orderId`.
 Duplicate `permId` values or duplicate `(clientId, orderId)` pairs block the
 snapshot, while the same `orderId` from different clients remains distinct.
+Duplicate status callbacks must also agree on `avgFillPrice`; a filled order
+requires a positive value and an unfilled order requires zero.
 
 If `orderStatus` reports a non-zero filled quantity for an active order, the
 snapshot must also contain matching `execDetails` evidence. Each execution is
@@ -206,6 +208,11 @@ greatest reported cumulative quantity must equal `orderStatus.filled`; a
 missing or mismatched execution account, or any orphaned, malformed or
 contradictory execution row, fails closed. An explicit empty execution list is
 accepted only when every active order reports zero filled quantity.
+
+Every execution must carry a finite positive `avgPrice`. The `avgPrice` on the
+row with the greatest `cumQty` must equal `orderStatus.avgFillPrice` within the
+same strict floating-point tolerance used for fill quantities. Missing,
+non-finite or mismatched average-price evidence fails closed.
 
 Every retained execution must also carry an exact integer `liquidation=0`.
 Missing, boolean or non-zero values fail closed because they cannot prove that
@@ -219,9 +226,9 @@ IBKR correction callbacks share the execution ID prefix before the final
 period and differ only in the numeric revision after it. Rows in one correction
 family must therefore be identical in every retained evidence field other than
 that revision. Conflicting account, order, contract, side, quantity, price,
-liquidation, price-revision or time evidence inside one family blocks
-readiness, while distinct execution families may advance cumulative fill
-quantity normally.
+average price, liquidation, price-revision or time evidence inside one family
+blocks readiness, while distinct execution families may advance cumulative
+fill quantity normally.
 
 After correction-family deduplication, the sum of each distinct execution's
 `shares` must equal both the greatest `cumQty` and `orderStatus.filled` within

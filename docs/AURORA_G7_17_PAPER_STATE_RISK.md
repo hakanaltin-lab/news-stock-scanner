@@ -49,6 +49,9 @@ The full open-order snapshot, including orders unrelated to the reviewed symbol,
 
 Each open order must also reconcile with the `orderStatus` callback snapshot by order ID, active status and filled/remaining quantity. Missing, orphaned or contradictory callback evidence blocks the risk proof; only exact duplicate status messages are tolerated.
 
+Duplicate status callbacks must agree on `avgFillPrice`; filled orders require
+a positive value and unfilled orders require zero.
+
 Reconciliation also requires the same account-wide `permId` and source `clientId` on both callbacks. This prevents client-local order ID collisions from being merged into one broker-state observation.
 
 An active order with a non-zero filled quantity must additionally reconcile
@@ -59,6 +62,9 @@ exactly match the open order's verified account, and the greatest cumulative
 quantity must equal `orderStatus.filled`. Missing execution evidence, missing
 or mismatched request/account identity, orphan callbacks, conflicting duplicate
 execution IDs and partial-fill quantity drift all block the state-risk proof.
+Every execution also requires a finite positive `avgPrice`; the row at the
+greatest `cumQty` must match `orderStatus.avgFillPrice`. Missing, non-finite or
+mismatched average-price evidence blocks the proof.
 Each retained execution must additionally carry the exact integer
 `liquidation=0`; missing, boolean or non-zero liquidation evidence blocks the
 proof rather than accepting an IB-initiated liquidation as ordinary fill data.

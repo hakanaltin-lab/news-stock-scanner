@@ -837,6 +837,16 @@ if IBAPI_AVAILABLE:
                     None
                 ),
 
+                "average_price":
+                safe_float(
+                    getattr(
+                        execution,
+                        "avgPrice",
+                        None
+                    ),
+                    None
+                ),
+
                 "liquidation":
                 (
                     getattr(execution, "liquidation", None)
