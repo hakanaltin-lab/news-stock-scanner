@@ -934,6 +934,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "status": "Submitted",
             "filled": 1.0,
             "remaining": 1.0,
+            "average_fill_price": 50.0,
         }
         execution = {
             "request_id": EXECUTIONS_REQUEST_ID,
@@ -950,6 +951,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "shares": 1.0,
             "cumulative_quantity": 1.0,
             "price": 50.0,
+            "average_price": 50.0,
             "liquidation": 0,
             "pending_price_revision": False,
         }
@@ -994,6 +996,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "status": "Submitted",
             "filled": 1.0,
             "remaining": 1.0,
+            "average_fill_price": 50.0,
         }
         execution = {
             "request_id": EXECUTIONS_REQUEST_ID,
@@ -1010,6 +1013,7 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             "shares": 1.0,
             "cumulative_quantity": 1.0,
             "price": 50.0,
+            "average_price": 50.0,
             "liquidation": 0,
             "pending_price_revision": False,
         }
@@ -1030,6 +1034,13 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
             [{**execution, "account": "IBKR-OTHERACCOUNT"}],
             [{**execution, "perm_id": 900043}],
             [{**execution, "cumulative_quantity": 0.5}],
+            [{
+                key: value
+                for key, value in execution.items()
+                if key != "average_price"
+            }],
+            [{**execution, "average_price": float("nan")}],
+            [{**execution, "average_price": 51.0}],
             [{
                 key: value
                 for key, value in execution.items()

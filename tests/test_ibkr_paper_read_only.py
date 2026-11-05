@@ -127,6 +127,7 @@ def ready_execution(order=None, **overrides):
         "shares": 0.5,
         "cumulative_quantity": 0.5,
         "price": 100.0,
+        "average_price": 100.0,
         "liquidation": 0,
         "pending_price_revision": False,
         "time": "20261104 09:00:00",
@@ -393,6 +394,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             shares = float("nan")
             cumQty = float("nan")
             price = float("inf")
+            avgPrice = 99.5
             liquidation = 0
             pendingPriceRevision = False
             time = "20261102 09:00:00"
@@ -425,6 +427,7 @@ class IBKRConnectorConfigurationTests(unittest.TestCase):
             application.execution_rows[0]["cumulative_quantity"]
         )
         self.assertIsNone(application.execution_rows[0]["price"])
+        self.assertEqual(application.execution_rows[0]["average_price"], 99.5)
         self.assertEqual(application.execution_rows[0]["liquidation"], 0)
         self.assertIs(
             application.execution_rows[0]["pending_price_revision"],
@@ -923,6 +926,7 @@ class IBKRReadinessTests(unittest.TestCase):
             order,
             filled=0.5,
             remaining=1.5,
+            average_fill_price=100.0,
         )
         execution = ready_execution(
             order,
@@ -942,12 +946,55 @@ class IBKRReadinessTests(unittest.TestCase):
             "READY_FOR_PAPER_READ_ONLY",
         )
 
+    def test_partial_fill_average_price_status_evidence_must_match(self):
+        order = ready_open_order(quantity=2.0)
+        valid_status = ready_order_status(
+            order,
+            filled=0.5,
+            remaining=1.5,
+            average_fill_price=100.0,
+        )
+        cases = (
+            [{
+                key: value
+                for key, value in valid_status.items()
+                if key != "average_fill_price"
+            }],
+            [{**valid_status, "average_fill_price": 0.0}],
+            [{**valid_status, "average_fill_price": 101.0}],
+            [valid_status, {
+                **valid_status,
+                "average_fill_price": 101.0,
+            }],
+        )
+
+        for statuses in cases:
+            with self.subTest(statuses=statuses):
+                snapshot = ready_snapshot()
+                set_open_orders(snapshot, [order], statuses)
+                snapshot["executions"] = [ready_execution(order)]
+
+                readiness = evaluate_ibkr_paper_readiness(snapshot, [])
+
+                self.assertEqual(readiness["readiness"], "NOT_READY")
+                self.assertIn(
+                    "open_order_execution_evidence_consistent",
+                    {
+                        item["check"] for item in readiness["checks"]
+                        if item["required"] and not item["passed"]
+                    },
+                )
+                self.assertFalse(
+                    readiness["paper_order_submission_allowed"]
+                )
+
     def test_distinct_execution_families_preserve_fill_progress(self):
         order = ready_open_order(quantity=2.0)
         status = ready_order_status(
             order,
             filled=0.5,
             remaining=1.5,
+            average_fill_price=100.0,
         )
         snapshot = ready_snapshot()
         set_open_orders(snapshot, [order], [status])
@@ -1042,6 +1089,13 @@ class IBKRReadinessTests(unittest.TestCase):
             [{**valid, "side": "BOT"}],
             [{**valid, "cumulative_quantity": 0.25}],
             [{**valid, "shares": float("nan")}],
+            [{
+                key: value
+                for key, value in valid.items()
+                if key != "average_price"
+            }],
+            [{**valid, "average_price": float("nan")}],
+            [{**valid, "average_price": 101.0}],
             [{
                 key: value
                 for key, value in valid.items()

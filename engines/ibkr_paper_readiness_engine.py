@@ -177,6 +177,10 @@ def open_order_status_evidence_is_consistent(
         status = row.get("status")
         filled = safe_float(row.get("filled"), None)
         remaining = safe_float(row.get("remaining"), None)
+        average_fill_price = safe_float(
+            row.get("average_fill_price"),
+            None,
+        )
         identity = (perm_id, client_id, order_id)
         if (
             type(order_id) is not int
@@ -189,6 +193,10 @@ def open_order_status_evidence_is_consistent(
             or filled < 0
             or remaining is None
             or remaining < 0
+            or average_fill_price is None
+            or average_fill_price < 0
+            or (filled == 0 and average_fill_price != 0)
+            or (filled > 0 and average_fill_price <= 0)
             or not math.isclose(
                 filled + remaining,
                 safe_float(
@@ -205,6 +213,7 @@ def open_order_status_evidence_is_consistent(
             status,
             filled,
             remaining,
+            average_fill_price,
         ))
 
     if set(evidence_by_identity) != set(open_orders_by_identity):
@@ -244,6 +253,7 @@ def open_order_execution_evidence_is_consistent(
         for row in open_orders
     }
     status_by_identity = {}
+    status_average_price_by_identity = {}
     for row in order_status_rows:
         identity = (
             row.get("perm_id"),
@@ -252,6 +262,10 @@ def open_order_execution_evidence_is_consistent(
         )
         status_by_identity[identity] = safe_float(
             row.get("filled"),
+            None,
+        )
+        status_average_price_by_identity[identity] = safe_float(
+            row.get("average_fill_price"),
             None,
         )
 
@@ -278,6 +292,7 @@ def open_order_execution_evidence_is_consistent(
             None,
         )
         price = safe_float(row.get("price"), None)
+        average_price = safe_float(row.get("average_price"), None)
         liquidation = row.get("liquidation")
         pending_price_revision = row.get("pending_price_revision")
         expected_side = (
@@ -296,6 +311,7 @@ def open_order_execution_evidence_is_consistent(
             shares,
             cumulative_quantity,
             price,
+            average_price,
             liquidation,
             pending_price_revision,
             row.get("time"),
@@ -324,6 +340,8 @@ def open_order_execution_evidence_is_consistent(
             > safe_float(order.get("quantity"), 0)
             or price is None
             or price <= 0
+            or average_price is None
+            or average_price <= 0
             or type(liquidation) is not int
             or liquidation != 0
             or type(pending_price_revision) is not bool
@@ -347,10 +365,12 @@ def open_order_execution_evidence_is_consistent(
         ] = (
             shares,
             cumulative_quantity,
+            average_price,
         )
 
     for identity, order in open_orders_by_identity.items():
         filled = status_by_identity.get(identity)
+        average_fill_price = status_average_price_by_identity.get(identity)
         execution_families = executions_by_identity.get(identity, {})
         cumulative_quantities = [
             values[1]
@@ -366,10 +386,23 @@ def open_order_execution_evidence_is_consistent(
             if cumulative_quantities:
                 return False
             continue
+        greatest_cumulative_quantity = max(cumulative_quantities, default=0)
+        final_average_prices = [
+            values[2]
+            for values in execution_families.values()
+            if math.isclose(
+                values[1],
+                greatest_cumulative_quantity,
+                rel_tol=1e-9,
+                abs_tol=1e-9,
+            )
+        ]
         if (
             not cumulative_quantities
+            or average_fill_price is None
+            or average_fill_price <= 0
             or not math.isclose(
-                max(cumulative_quantities),
+                greatest_cumulative_quantity,
                 filled,
                 rel_tol=1e-9,
                 abs_tol=1e-9,
@@ -379,6 +412,16 @@ def open_order_execution_evidence_is_consistent(
                 filled,
                 rel_tol=1e-9,
                 abs_tol=1e-9,
+            )
+            or not final_average_prices
+            or any(
+                not math.isclose(
+                    average_price,
+                    average_fill_price,
+                    rel_tol=1e-9,
+                    abs_tol=1e-9,
+                )
+                for average_price in final_average_prices
             )
             or filled > safe_float(order.get("quantity"), 0)
         ):
