@@ -214,6 +214,11 @@ that revision. Conflicting account, order, contract, side, quantity, price or
 time evidence inside one family blocks readiness, while distinct execution
 families may advance cumulative fill quantity normally.
 
+After correction-family deduplication, the sum of each distinct execution's
+`shares` must equal both the greatest `cumQty` and `orderStatus.filled` within
+floating-point tolerance. This blocks duplicated or missing fill rows that a
+maximum-cumulative check alone could conceal.
+
 The connector requests the current execution history with an empty,
 read-only `ExecutionFilter` and a fixed request ID. Readiness requires the
 matching `execDetailsEnd` callback before treating the execution snapshot as

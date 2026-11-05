@@ -64,6 +64,9 @@ Execution IDs whose final period is followed by a numeric revision are treated
 as one IBKR correction family. Every retained field other than that revision
 must be identical across the family; contradictory correction callbacks fail
 closed instead of competing through the maximum cumulative-quantity rule.
+The deduplicated `shares` total must also equal both the greatest `cumQty` and
+`orderStatus.filled`, so duplicated or incomplete execution rows cannot pass
+through a matching cumulative maximum alone.
 
 The fresh G2 proof must also show that the read-only execution request reached
 its matching `execDetailsEnd` callback. Partial rows from a timed-out or

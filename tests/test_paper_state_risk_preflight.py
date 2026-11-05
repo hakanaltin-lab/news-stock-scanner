@@ -1034,6 +1034,10 @@ class PaperStateRiskPreflightTests(unittest.TestCase):
                     "price": 51.0,
                 },
             ],
+            [
+                {**execution, "execution_id": "FILL-42-A.01"},
+                {**execution, "execution_id": "FILL-42-B.01"},
+            ],
         ):
             with self.subTest(executions=executions):
                 result = self.evaluate(

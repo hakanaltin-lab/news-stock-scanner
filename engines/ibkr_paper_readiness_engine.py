@@ -334,13 +334,24 @@ def open_order_execution_evidence_is_consistent(
 
         execution_ids[execution_id] = normalized
         execution_correction_families[correction_family] = normalized
-        executions_by_identity.setdefault(identity, []).append(
-            cumulative_quantity
+        executions_by_identity.setdefault(identity, {})[
+            correction_family
+        ] = (
+            shares,
+            cumulative_quantity,
         )
 
     for identity, order in open_orders_by_identity.items():
         filled = status_by_identity.get(identity)
-        cumulative_quantities = executions_by_identity.get(identity, [])
+        execution_families = executions_by_identity.get(identity, {})
+        cumulative_quantities = [
+            values[1]
+            for values in execution_families.values()
+        ]
+        executed_shares = math.fsum(
+            values[0]
+            for values in execution_families.values()
+        )
         if filled is None:
             return False
         if filled == 0:
@@ -351,6 +362,12 @@ def open_order_execution_evidence_is_consistent(
             not cumulative_quantities
             or not math.isclose(
                 max(cumulative_quantities),
+                filled,
+                rel_tol=1e-9,
+                abs_tol=1e-9,
+            )
+            or not math.isclose(
+                executed_shares,
                 filled,
                 rel_tol=1e-9,
                 abs_tol=1e-9,
@@ -1385,7 +1402,8 @@ def evaluate_ibkr_paper_readiness(
             "bound to the fixed execution request ID, the verified Paper "
             "account, the same permId/clientId/orderId and cumulative "
             "filled quantity reported by orderStatus; correction-family "
-            "callbacks must be identical except for execution ID revision."
+            "callbacks must be identical except for execution ID revision, "
+            "and unique-family shares must sum to the filled quantity."
         ),
     )
 
