@@ -1,6 +1,6 @@
 {
   "engine": "V8.5.2 Thesis-Aware Exit Shadow Journal",
-  "updated_at": "2026-11-06T14:05:55.618156+00:00",
+  "updated_at": "2026-11-06T20:23:52.037753+00:00",
   "record_count": 10,
   "records": [
     {
@@ -213,13 +213,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "stock_excess_return_pct": null,
-          "shadow_relative_alpha_pct": null,
-          "shadow_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-11-06",
+          "stock_return_pct": -14.15,
+          "spy_return_pct": -2.26,
+          "stock_excess_return_pct": -11.89,
+          "shadow_relative_alpha_pct": -8.91,
+          "shadow_hit": false
         },
         "20d": {
           "target_trading_sessions": 20,
