@@ -5,6 +5,7 @@ on:
     paths:
       - 'tests/test_forward_promotion_report_safety.py'
       - 'tests/test_forward_journal_integrity.py'
+      - 'tests/test_trading_session_calendar_boundaries.py'
       - 'docs/recommendation_journal.json'
       - 'docs/recommendation_performance.json'
       - 'docs/fresh_forward_promotion_gate.json'
@@ -29,3 +30,4 @@ jobs:
         run: |
           python -m unittest discover -s tests -p 'test_forward_promotion_report_safety.py' -v
           python -m unittest discover -s tests -p 'test_forward_journal_integrity.py' -v
+          python -m unittest discover -s tests -p 'test_trading_session_calendar_boundaries.py' -v
