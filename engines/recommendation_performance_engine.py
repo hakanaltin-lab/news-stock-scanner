@@ -645,12 +645,10 @@ def extract_snapshot_signals(
                 {}
             )
 
-            if (
+            # Fail closed: allocated candidates require matching,
+            # verified LIVE market provenance in top_actionable.
+            if not live_market_item(
                 source_item
-                and
-                not live_market_item(
-                    source_item
-                )
             ):
                 continue
 
