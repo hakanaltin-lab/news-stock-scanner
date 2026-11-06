@@ -4,6 +4,8 @@ A calendar function is deliberately pure: no broker, market-data API or wall clo
 Holidays must be supplied by the caller; weekends alone are insufficient for NYSE.
 """
 from datetime import date, timedelta
+import json
+from pathlib import Path
 import unittest
 
 
@@ -26,6 +28,21 @@ def is_mature(signal_date, as_of_date, sessions, holidays=()):
 
 
 class TradingSessionCalendarTests(unittest.TestCase):
+    def test_published_evaluations_are_not_premature(self):
+        journal_path = Path(__file__).resolve().parents[1] / "docs" / "recommendation_journal.json"
+        records = json.loads(journal_path.read_text(encoding="utf-8"))["records"]
+        for record in records:
+            signal = date.fromisoformat(record["signal_date"])
+            for horizon, outcome in record["horizons"].items():
+                if outcome["status"] != "EVALUATED":
+                    continue
+                minimum_due = nth_trading_session_after(
+                    signal, outcome["target_trading_sessions"]
+                )
+                evaluated = date.fromisoformat(outcome["evaluation_date"])
+                with self.subTest(id=record["id"], horizon=horizon):
+                    self.assertGreaterEqual(evaluated, minimum_due)
+
     def test_weekend_is_not_a_session(self):
         self.assertEqual(
             nth_trading_session_after(date(2026, 11, 6), 1),
