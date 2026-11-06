@@ -12,6 +12,7 @@ from unittest.mock import patch
 
 from engines.paper_adapter_source_attestation import (
     ATTESTATION_TYPE,
+    EXPECTED_SOURCE_ATTESTATION_CHECKS,
     SIGNATURE_ALGORITHM,
     canonical_signed_payload,
     evaluate_source_attestation,
@@ -269,6 +270,10 @@ class SourceAttestationTests(unittest.TestCase):
         self.assertEqual(
             result["next_gate"],
             "NON_EXECUTABLE_ADAPTER_IMPLEMENTATION_DESIGN_REVIEW_REQUIRED",
+        )
+        self.assertEqual(
+            set(result["checks"]),
+            EXPECTED_SOURCE_ATTESTATION_CHECKS,
         )
         self.assertTrue(
             all(
