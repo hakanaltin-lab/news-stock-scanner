@@ -33,6 +33,30 @@ class ForwardPromotionReportSafetyTests(unittest.TestCase):
                 self.assertEqual(report["verdict"], "PROMOTION_BLOCKED")
                 self.assertIs(report["fresh_gate_checks"][horizon]["independent_cohorts"]["passed"], False)
 
+    def test_failed_gate_cannot_claim_review_eligibility(self):
+        report = self.report
+        failed_checks = [
+            (section, horizon, name)
+            for section, groups in (
+                ("fresh_gate_checks", report["fresh_gate_checks"]),
+                ("historical_guardrails", {"historical": report["historical_guardrails"]}),
+            )
+            for horizon, checks in groups.items()
+            for name, check in checks.items()
+            if check["passed"] is False
+        ]
+        if failed_checks:
+            self.assertEqual(report["verdict"], "PROMOTION_BLOCKED")
+
+    def test_cohort_count_matches_reported_gate(self):
+        for horizon in ("20d", "60d"):
+            evidence = self.report["fresh_evidence"][horizon]
+            gate = self.report["fresh_gate_checks"][horizon]["independent_cohorts"]
+            required = self.report["thresholds"][f"min_{horizon}_independent_cohorts"]
+            self.assertEqual(gate["actual"], evidence["independent_cohorts"])
+            self.assertEqual(gate["required"], required)
+            self.assertIs(gate["passed"], evidence["independent_cohorts"] >= required)
+
     def test_pending_records_do_not_count_as_evaluated(self):
         for horizon in ("20d", "60d"):
             evidence = self.report["fresh_evidence"][horizon]
