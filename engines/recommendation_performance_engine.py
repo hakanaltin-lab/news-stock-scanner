@@ -604,7 +604,22 @@ def extract_snapshot_signals(
             else:
                 opportunity_lookup[candidate_ticker] = candidate
 
+        # Multiple executable allocations for one ticker are ambiguous.
+        allocation_counts = {}
+        for candidate in allocation_plan:
+            if not isinstance(candidate, dict):
+                continue
+            if (candidate.get("action") in NEW_ENTRY_ACTIONS
+                    and candidate.get("allocation_status") == "ALLOCATE"):
+                candidate_ticker = candidate.get("ticker")
+                if candidate_ticker:
+                    allocation_counts[candidate_ticker] = (
+                        allocation_counts.get(candidate_ticker, 0) + 1
+                    )
+
         for item in allocation_plan:
+            if not isinstance(item, dict):
+                continue
             action = item.get(
                 "action"
             )
@@ -630,7 +645,7 @@ def extract_snapshot_signals(
                 "price"
             )
 
-            if ticker in ambiguous_tickers:
+            if ticker in ambiguous_tickers or allocation_counts.get(ticker, 0) != 1:
                 continue
 
             source_item = (
