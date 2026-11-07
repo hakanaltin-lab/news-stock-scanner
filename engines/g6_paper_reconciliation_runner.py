@@ -3,11 +3,13 @@
 Never connects to a broker or authorizes paper order submission.
 """
 import sqlite3
+import re
 from engines.g6_paper_reconciliation import reconcile_paper_snapshot
 
 
 def reconcile_journal(journal, broker_snapshot, *, expected_account_id, now=None):
-    if not isinstance(expected_account_id, str) or not expected_account_id.strip():
+    if (not isinstance(expected_account_id, str)
+            or re.fullmatch(r"DU[0-9]+", expected_account_id) is None):
         return {"ready": False, "reason": "EXPECTED_PAPER_ACCOUNT_REQUIRED"}
     try:
         inventory = journal.list_unresolved()
