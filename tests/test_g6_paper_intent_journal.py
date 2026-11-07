@@ -129,6 +129,20 @@ class JournalTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "PAPER_JOURNAL_SCHEMA_INVALID"):
                 PersistentPaperIntentJournal(path)
 
+    def test_registered_schema_without_status_check_is_rejected(self):
+        import sqlite3
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            PersistentPaperIntentJournal(path)
+            with sqlite3.connect(path) as db:
+                db.execute("DROP TABLE paper_intents")
+                db.execute(
+                    "CREATE TABLE paper_intents (client_order_id TEXT PRIMARY KEY NOT NULL, "
+                    "status TEXT NOT NULL, created_at TEXT NOT NULL)"
+                )
+            with self.assertRaisesRegex(RuntimeError, "PAPER_JOURNAL_SCHEMA_INVALID"):
+                PersistentPaperIntentJournal(path)
+
     def test_memory_database_rejected(self):
         with self.assertRaises(ValueError):
             PersistentPaperIntentJournal(":memory:")
