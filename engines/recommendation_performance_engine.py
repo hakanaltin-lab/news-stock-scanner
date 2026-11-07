@@ -729,14 +729,19 @@ def extract_snapshot_signals(
             {}
         )
 
-        for item in (
-            opportunity_analysis.get(
-                "top_actionable",
-                []
-            )
-            or
-            []
-        ):
+        # Legacy snapshots also require unique evidence per ticker.
+        legacy_items = opportunity_analysis.get("top_actionable", []) or []
+        legacy_counts = {}
+        for candidate in legacy_items:
+            if isinstance(candidate, dict) and candidate.get("ticker"):
+                ticker_key = candidate["ticker"]
+                legacy_counts[ticker_key] = legacy_counts.get(ticker_key, 0) + 1
+
+        for item in legacy_items:
+            if not isinstance(item, dict):
+                continue
+            if legacy_counts.get(item.get("ticker"), 0) != 1:
+                continue
             action = item.get(
                 "action"
             )
