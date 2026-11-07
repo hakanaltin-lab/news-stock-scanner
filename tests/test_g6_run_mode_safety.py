@@ -36,7 +36,14 @@ class RunModeSafetyTests(unittest.TestCase):
     def test_paper_transition_requires_dry_run(self):
         self.assertFalse(can_transition(READ_ONLY, PAPER_ENABLED))
         self.assertTrue(can_transition(READ_ONLY, DRY_RUN))
-        self.assertTrue(can_transition(DRY_RUN, PAPER_ENABLED))
+        self.assertFalse(can_transition(DRY_RUN, PAPER_ENABLED))
+        self.assertFalse(can_transition(PAPER_ENABLED, PAPER_ENABLED))
+        self.assertTrue(can_transition(PAPER_ENABLED, SAFE_OFF))
+
+    def test_no_mode_can_arm_paper_without_authorization(self):
+        for current in (SAFE_OFF, READ_ONLY, DRY_RUN, PAPER_ENABLED):
+            with self.subTest(current=current):
+                self.assertFalse(can_transition(current, PAPER_ENABLED))
 
     def test_restart_always_disables_orders(self):
         state = restart_state()
