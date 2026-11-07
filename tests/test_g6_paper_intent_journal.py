@@ -28,6 +28,20 @@ class JournalTests(unittest.TestCase):
             ))
             self.assertEqual(len(journals[0].list_unresolved()["orders"]), 1)
 
+    def test_concurrent_distinct_reservations_are_all_preserved(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            journal = PersistentPaperIntentJournal(path)
+            order_ids = [f"order-{index}" for index in range(8)]
+            with ThreadPoolExecutor(max_workers=8) as pool:
+                results = list(pool.map(journal.reserve, order_ids))
+            self.assertTrue(all(result["allowed"] for result in results))
+            inventory = journal.list_unresolved()
+            self.assertTrue(inventory["valid"])
+            self.assertEqual(
+                {item["client_order_id"] for item in inventory["orders"]}, set(order_ids)
+            )
+
     def test_unknown_cannot_be_reused(self):
         with tempfile.TemporaryDirectory() as directory:
             journal = PersistentPaperIntentJournal(Path(directory) / "paper.sqlite3")
