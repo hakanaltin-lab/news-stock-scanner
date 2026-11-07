@@ -105,6 +105,29 @@ class AllocatedEntryProvenanceTests(unittest.TestCase):
         data["capital_allocation"]["allocation_plan"].append(None)
         self.assertEqual(len(extract_snapshot_signals(data)), 1)
 
+    def test_legacy_duplicate_sources_rejected(self):
+        source = {"ticker": "AAPL", "action": "BUY", "market": {
+            "data_quality": "LIVE", "last_price": 100}}
+        data = snapshot(source)
+        data.pop("capital_allocation")
+        data["opportunity_analysis"]["top_actionable"].append(dict(source))
+        self.assertEqual(extract_snapshot_signals(data), [])
+
+    def test_legacy_unique_source_accepted(self):
+        source = {"ticker": "AAPL", "action": "BUY", "market": {
+            "data_quality": "LIVE", "last_price": 100}}
+        data = snapshot(source)
+        data.pop("capital_allocation")
+        self.assertEqual(len(extract_snapshot_signals(data)), 1)
+
+    def test_legacy_malformed_source_ignored(self):
+        source = {"ticker": "AAPL", "action": "BUY", "market": {
+            "data_quality": "LIVE", "last_price": 100}}
+        data = snapshot(source)
+        data.pop("capital_allocation")
+        data["opportunity_analysis"]["top_actionable"].append(None)
+        self.assertEqual(len(extract_snapshot_signals(data)), 1)
+
     def test_verified_source_accepted(self):
         source = {"ticker": "AAPL", "market": {
             "data_quality": "LIVE", "last_price": 100}}
