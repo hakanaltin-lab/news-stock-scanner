@@ -216,6 +216,19 @@ class JournalTests(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, "PAPER_JOURNAL_INITIALIZATION_RACE"):
                     PersistentPaperIntentJournal(path)
 
+    def test_restart_with_corrupted_sentinel_refuses_recovery(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            first = PersistentPaperIntentJournal(path)
+            self.assertTrue(first.reserve("restart-unknown")["allowed"])
+            self.assertTrue(first.mark_unknown("restart-unknown"))
+            marker = Path(str(path) + ".initialized")
+            marker.write_text("CORRUPTED\n", encoding="utf-8")
+            with self.assertRaisesRegex(RuntimeError, "PAPER_JOURNAL_SENTINEL_INVALID"):
+                PersistentPaperIntentJournal(path)
+            self.assertEqual(marker.read_text(encoding="utf-8"), "CORRUPTED\n")
+            self.assertFalse(first.reserve("restart-unknown")["allowed"])
+
     def test_memory_database_rejected(self):
         with self.assertRaises(ValueError):
             PersistentPaperIntentJournal(":memory:")
