@@ -1,4 +1,5 @@
 import tempfile
+import sqlite3
 import unittest
 from datetime import datetime, timezone
 from pathlib import Path
@@ -53,7 +54,8 @@ class JournalReconciliationTests(unittest.TestCase):
         self.assertEqual(result["reason"], "EXPECTED_PAPER_ACCOUNT_REQUIRED")
 
     def test_runtime_or_filesystem_journal_failure_blocks(self):
-        for failure in (RuntimeError("journal lost"), OSError("disk unavailable")):
+        for failure in (RuntimeError("journal lost"), OSError("disk unavailable"),
+                        sqlite3.DatabaseError("database corrupted")):
             with self.subTest(failure=type(failure).__name__):
                 class FailingJournal:
                     def list_unresolved(self):
