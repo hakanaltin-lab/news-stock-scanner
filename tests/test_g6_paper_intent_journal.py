@@ -246,6 +246,23 @@ class JournalTests(unittest.TestCase):
             self.assertEqual(duplicate["reason"], "DUPLICATE_OR_UNRECONCILED")
             self.assertFalse(restarted.mark_unknown("restart-pending"))
 
+    def test_restart_preserves_reserved_intent_and_blocks_duplicate_retry(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            first = PersistentPaperIntentJournal(path)
+            self.assertTrue(first.reserve("restart-reserved")["allowed"])
+            del first
+            restarted = PersistentPaperIntentJournal(path)
+            self.assertEqual(restarted.list_unresolved(), {
+                "valid": True,
+                "orders": [{"client_order_id": "restart-reserved", "status": "RESERVED"}],
+            })
+            duplicate = restarted.reserve("restart-reserved")
+            self.assertFalse(duplicate["allowed"])
+            self.assertEqual(duplicate["reason"], "DUPLICATE_OR_UNRECONCILED")
+            self.assertTrue(restarted.mark_unknown("restart-reserved"))
+            self.assertFalse(restarted.reserve("restart-reserved")["allowed"])
+
     def test_memory_database_rejected(self):
         with self.assertRaises(ValueError):
             PersistentPaperIntentJournal(":memory:")
