@@ -3,6 +3,7 @@ import unittest
 from datetime import datetime, timezone
 from pathlib import Path
 from engines.g6_paper_intent_journal import PersistentPaperIntentJournal
+from engines.g6_ibkr_paper_snapshot_adapter import normalize_ibkr_paper_orders
 from engines.g6_reconciliation_report import build_g6_reconciliation_report
 
 NOW = datetime(2026, 11, 7, 12, 0, tzinfo=timezone.utc)
@@ -27,6 +28,29 @@ class ReconciliationReportTests(unittest.TestCase):
             self.assertFalse(report["execution_allowed"])
             self.assertFalse(report["paper_order_submission_allowed"])
             self.assertTrue(report["manual_review_required"])
+
+    def test_adapter_to_journal_to_report_never_authorizes_orders(self):
+        with tempfile.TemporaryDirectory() as folder:
+            journal = PersistentPaperIntentJournal(Path(folder) / "paper.sqlite")
+            self.assertTrue(journal.reserve("paper-1")["allowed"])
+            self.assertTrue(journal.reserve("paper-2")["allowed"])
+            self.assertTrue(journal.mark_unknown("paper-2"))
+            snapshot = normalize_ibkr_paper_orders(
+                [{"orderRef": "paper-1", "account": "DU123"}],
+                account_id="DU123", captured_at=NOW,
+                transport_authenticated=True, complete=True,
+            )
+            report = build_g6_reconciliation_report(
+                journal, snapshot, expected_account_id="DU123", now=NOW
+            )
+            self.assertEqual(report["status"], "BLOCKED")
+            self.assertEqual(report["reason"], "UNRESOLVED_LOCAL_ORDERS")
+            self.assertEqual(report["matched_count"], 1)
+            self.assertEqual(report["unresolved_order_ids"], ["paper-2"])
+            self.assertFalse(report["execution_allowed"])
+            self.assertFalse(report["paper_order_submission_allowed"])
+            self.assertTrue(report["manual_review_required"])
+            self.assertFalse(journal.reserve("paper-2")["allowed"])
 
     def test_invalid_review_timestamp_fails_closed(self):
         for invalid in ("2026-11-07", datetime(2026, 11, 7, 12, 0)):
