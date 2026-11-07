@@ -49,6 +49,19 @@ class JournalTests(unittest.TestCase):
             self.assertTrue(journal.mark_unknown("order-2"))
             self.assertFalse(journal.reserve("order-2")["allowed"])
 
+    def test_concurrent_unknown_transition_only_succeeds_once(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            journal = PersistentPaperIntentJournal(path)
+            self.assertTrue(journal.reserve("uncertain-order")["allowed"])
+            with ThreadPoolExecutor(max_workers=8) as pool:
+                results = list(pool.map(journal.mark_unknown, ["uncertain-order"] * 8))
+            self.assertEqual(sum(results), 1)
+            self.assertEqual(journal.list_unresolved()["orders"], [
+                {"client_order_id": "uncertain-order", "status": "UNKNOWN"}
+            ])
+            self.assertFalse(journal.reserve("uncertain-order")["allowed"])
+
     def test_malformed_id_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:
             journal = PersistentPaperIntentJournal(Path(directory) / "paper.sqlite3")
