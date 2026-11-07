@@ -37,6 +37,17 @@ class JournalTests(unittest.TestCase):
             self.assertFalse(journal.list_unresolved()["valid"])
             self.assertFalse(path.exists())
 
+    def test_restart_after_database_loss_is_blocked(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            journal = PersistentPaperIntentJournal(path)
+            self.assertTrue(journal.reserve("order-5")["allowed"])
+            self.assertTrue(Path(str(path) + ".initialized").exists())
+            path.unlink()
+            with self.assertRaisesRegex(RuntimeError, "PAPER_JOURNAL_LOST"):
+                PersistentPaperIntentJournal(path)
+            self.assertFalse(path.exists())
+
     def test_memory_database_rejected(self):
         with self.assertRaises(ValueError):
             PersistentPaperIntentJournal(":memory:")
