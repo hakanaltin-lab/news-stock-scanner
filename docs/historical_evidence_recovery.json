@@ -1,7 +1,7 @@
 {
   "engine": "V8.4 Historical Evidence Recovery Engine",
   "recovery_signature": "V8.4.1",
-  "generated": "2026-11-06T01:47:32.031937+00:00",
+  "generated": "2026-11-07T00:15:15.456347+00:00",
   "status": "COMPLETE",
   "cache_status": "FRESH",
   "record_count": 138,
@@ -20,7 +20,7 @@
       "records": 21
     },
     "modern_json": {
-      "scanned_dates": 91,
+      "scanned_dates": 92,
       "usable_dates": 6,
       "records": 18,
       "excluded_foundation_snapshots": 77
@@ -29,12 +29,12 @@
   "primary_evidence": {
     "modern_action_changes": {
       "5d": {
-        "evaluated": 17,
-        "pending": 1,
-        "benchmark_hit_rate_pct": 64.7,
-        "average_decision_alpha_pct": 0.44,
-        "average_stock_return_pct": -1.19,
-        "average_spy_return_pct": -0.71
+        "evaluated": 18,
+        "pending": 0,
+        "benchmark_hit_rate_pct": 61.1,
+        "average_decision_alpha_pct": -0.04,
+        "average_stock_return_pct": -1.84,
+        "average_spy_return_pct": -0.93
       },
       "20d": {
         "evaluated": 0,
@@ -108,12 +108,12 @@
       },
       "BUY": {
         "5d": {
-          "evaluated": 3,
-          "pending": 1,
-          "benchmark_hit_rate_pct": 66.7,
-          "average_decision_alpha_pct": 0.99,
-          "average_stock_return_pct": 0.04,
-          "average_spy_return_pct": -0.95
+          "evaluated": 4,
+          "pending": 0,
+          "benchmark_hit_rate_pct": 50.0,
+          "average_decision_alpha_pct": -1.31,
+          "average_stock_return_pct": -3.2,
+          "average_spy_return_pct": -1.9
         },
         "20d": {
           "evaluated": 0,
@@ -213,12 +213,12 @@
     },
     "modern_long_add_buy_accumulate": {
       "5d": {
-        "evaluated": 7,
-        "pending": 1,
-        "benchmark_hit_rate_pct": 42.9,
-        "average_decision_alpha_pct": -0.06,
-        "average_stock_return_pct": -0.95,
-        "average_spy_return_pct": -0.89
+        "evaluated": 8,
+        "pending": 0,
+        "benchmark_hit_rate_pct": 37.5,
+        "average_decision_alpha_pct": -1.08,
+        "average_stock_return_pct": -2.45,
+        "average_spy_return_pct": -1.37
       },
       "20d": {
         "evaluated": 0,
@@ -345,12 +345,12 @@
     },
     "MODERN_ACTION_CHANGE": {
       "5d": {
-        "evaluated": 17,
-        "pending": 1,
-        "benchmark_hit_rate_pct": 64.7,
-        "average_decision_alpha_pct": 0.44,
-        "average_stock_return_pct": -1.19,
-        "average_spy_return_pct": -0.71
+        "evaluated": 18,
+        "pending": 0,
+        "benchmark_hit_rate_pct": 61.1,
+        "average_decision_alpha_pct": -0.04,
+        "average_stock_return_pct": -1.84,
+        "average_spy_return_pct": -0.93
       },
       "20d": {
         "evaluated": 0,
@@ -399,12 +399,12 @@
     },
     "V8.6": {
       "5d": {
-        "evaluated": 7,
-        "pending": 1,
-        "benchmark_hit_rate_pct": 71.4,
-        "average_decision_alpha_pct": 1.53,
-        "average_stock_return_pct": -1.85,
-        "average_spy_return_pct": -0.92
+        "evaluated": 8,
+        "pending": 0,
+        "benchmark_hit_rate_pct": 62.5,
+        "average_decision_alpha_pct": 0.31,
+        "average_stock_return_pct": -3.24,
+        "average_spy_return_pct": -1.39
       },
       "20d": {
         "evaluated": 0,
@@ -7038,13 +7038,13 @@
       "horizons": {
         "5d": {
           "target_trading_sessions": 5,
-          "status": "PENDING",
-          "evaluation_date": null,
-          "stock_return_pct": null,
-          "spy_return_pct": null,
-          "excess_return_pct": null,
-          "decision_alpha_pct": null,
-          "benchmark_hit": null
+          "status": "EVALUATED",
+          "evaluation_date": "2026-11-05",
+          "stock_return_pct": -12.92,
+          "spy_return_pct": -4.73,
+          "excess_return_pct": -8.2,
+          "decision_alpha_pct": -8.2,
+          "benchmark_hit": false
         },
         "20d": {
           "target_trading_sessions": 20,
