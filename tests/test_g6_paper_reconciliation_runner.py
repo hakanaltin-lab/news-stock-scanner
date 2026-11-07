@@ -24,6 +24,30 @@ class JournalReconciliationTests(unittest.TestCase):
             self.assertEqual(result["matched"], ["paper-1"])
             self.assertEqual(result["unresolved"], ["paper-2"])
 
+    def test_duplicate_inventory_rejected(self):
+        class DuplicateJournal:
+            def list_unresolved(self):
+                return {"valid": True, "orders": [
+                    {"client_order_id": "same", "status": "RESERVED"},
+                    {"client_order_id": "same", "status": "UNKNOWN"},
+                ]}
+        result = reconcile_journal(
+            DuplicateJournal(), {}, expected_account_id="DU123", now=NOW
+        )
+        self.assertEqual(result["reason"], "DUPLICATE_JOURNAL_ORDER_REFERENCE")
+        self.assertFalse(result["ready"])
+
+    def test_whitespace_inventory_reference_rejected(self):
+        class InvalidJournal:
+            def list_unresolved(self):
+                return {"valid": True, "orders": [
+                    {"client_order_id": " order-1 ", "status": "UNKNOWN"},
+                ]}
+        result = reconcile_journal(
+            InvalidJournal(), {}, expected_account_id="DU123", now=NOW
+        )
+        self.assertEqual(result["reason"], "INVALID_JOURNAL_ORDER_REFERENCE")
+
     def test_account_id_is_mandatory(self):
         result = reconcile_journal(None, {}, expected_account_id=None, now=NOW)
         self.assertEqual(result["reason"], "EXPECTED_PAPER_ACCOUNT_REQUIRED")
