@@ -63,6 +63,24 @@ class PaperReconciliationTests(unittest.TestCase):
         self.assertFalse(result["ready"])
         self.assertEqual(result["reason"], "READ_ONLY_RECONCILIATION")
 
+    def test_invalid_broker_order_ids_rejected(self):
+        for invalid in ("", " ", " paper-1 ", "x" * 129):
+            with self.subTest(invalid=invalid):
+                result = reconcile_paper_snapshot(
+                    ["paper-1"],
+                    snapshot(orders=[{"client_order_id": invalid}]),
+                    now=NOW,
+                )
+                self.assertEqual(result["reason"], "INVALID_ORDER_LIST")
+                self.assertFalse(result["ready"])
+
+    def test_invalid_local_order_ids_rejected(self):
+        for invalid in ("", " ", " paper-1 ", "x" * 129):
+            with self.subTest(invalid=invalid):
+                result = reconcile_paper_snapshot([invalid], snapshot(), now=NOW)
+                self.assertEqual(result["reason"], "INVALID_LOCAL_ORDER_IDS")
+                self.assertFalse(result["ready"])
+
     def test_duplicate_local_ids_rejected(self):
         result = reconcile_paper_snapshot(["paper-1", "paper-1"], snapshot(), now=NOW)
         self.assertEqual(result["reason"], "DUPLICATE_LOCAL_ORDER_IDS")
