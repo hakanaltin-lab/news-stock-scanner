@@ -19,6 +19,7 @@ def normalize_ibkr_paper_orders(raw_orders, *, account_id, captured_at=None,
     if not isinstance(raw_orders, list):
         return {**blocked, "reason": "INVALID_BROKER_ORDERS"}
     normalized = []
+    seen_order_refs = set()
     for item in raw_orders:
         if not isinstance(item, dict):
             return {**blocked, "reason": "INVALID_BROKER_ORDER"}
@@ -27,6 +28,11 @@ def normalize_ibkr_paper_orders(raw_orders, *, account_id, captured_at=None,
             return {**blocked, "reason": "MISSING_ORDER_REFERENCE"}
         if item.get("account") != account_id:
             return {**blocked, "reason": "ORDER_ACCOUNT_MISMATCH"}
+        if order_id != order_id.strip():
+            return {**blocked, "reason": "INVALID_ORDER_REFERENCE_WHITESPACE"}
+        if order_id in seen_order_refs:
+            return {**blocked, "reason": "DUPLICATE_BROKER_ORDER_REFERENCE"}
+        seen_order_refs.add(order_id)
         normalized.append({"client_order_id": order_id})
     # Never fabricate freshness: capture time must come from the trusted caller.
     observed = captured_at
