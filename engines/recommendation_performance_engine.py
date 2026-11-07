@@ -1064,7 +1064,7 @@ def evaluate_record(
         )
     )
 
-    if benchmark_entry <= 0:
+    if not math.isfinite(benchmark_entry) or benchmark_entry <= 0:
         benchmark_entry = safe_float(
             price_on_or_before(
                 spy_series,
@@ -1072,7 +1072,7 @@ def evaluate_record(
             )
         )
 
-        if benchmark_entry > 0:
+        if math.isfinite(benchmark_entry) and benchmark_entry > 0:
             record[
                 "benchmark_entry_price"
             ] = round(
@@ -1081,9 +1081,10 @@ def evaluate_record(
             )
 
     if (
-        entry_price <= 0
-        or
-        benchmark_entry <= 0
+        not math.isfinite(entry_price)
+        or not math.isfinite(benchmark_entry)
+        or entry_price <= 0
+        or benchmark_entry <= 0
     ):
         return record
 
@@ -1147,9 +1148,10 @@ def evaluate_record(
             continue
 
         if (
-            future_spy_price <= 0
-            or
-            future_stock_price <= 0
+            not math.isfinite(future_spy_price)
+            or not math.isfinite(future_stock_price)
+            or future_spy_price <= 0
+            or future_stock_price <= 0
         ):
             continue
 
