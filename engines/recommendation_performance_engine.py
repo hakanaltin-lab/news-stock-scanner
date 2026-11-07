@@ -416,33 +416,17 @@ def build_record(
     }
 
 
-def live_market_item(
-    item
-):
-    market = (
-        item.get(
-            "market",
-            {}
-        )
-        or
-        {}
-    )
-
+def live_market_item(item):
+    if not isinstance(item, dict):
+        return False
+    market = item.get("market") or {}
+    if not isinstance(market, dict):
+        return False
+    price = safe_float(market.get("last_price"))
     return (
-        market.get(
-            "data_quality"
-        )
-        ==
-        "LIVE"
-        and
-        safe_float(
-            market.get(
-                "last_price",
-                0
-            )
-        )
-        >
-        0
+        market.get("data_quality") == "LIVE"
+        and math.isfinite(price)
+        and price > 0
     )
 
 
