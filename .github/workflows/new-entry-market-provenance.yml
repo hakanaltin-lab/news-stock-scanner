@@ -1,0 +1,28 @@
+name: New-entry market provenance (read-only)
+
+on:
+  pull_request:
+    paths:
+      - 'engines/recommendation_performance_engine.py'
+      - 'tests/test_new_entry_market_provenance.py'
+      - '.github/workflows/new-entry-market-provenance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  provenance-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install test dependencies
+        run: python -m pip install pandas yfinance
+      - name: Run offline provenance regression
+        run: python -m unittest discover -s tests -p 'test_new_entry_market_provenance.py' -v
