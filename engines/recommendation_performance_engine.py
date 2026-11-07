@@ -586,30 +586,23 @@ def extract_snapshot_signals(
     )
 
     if allocation_plan:
-        opportunity_lookup = {
-            item.get(
-                "ticker"
-            ):
-            item
-            for item in (
-                (
-                    snapshot.get(
-                        "opportunity_analysis",
-                        {}
-                    )
-                    or
-                    {}
-                ).get(
-                    "top_actionable",
-                    []
-                )
-                or
-                []
-            )
-            if item.get(
-                "ticker"
-            )
-        }
+        # Never silently pick the last source for duplicate tickers.
+        opportunity_lookup = {}
+        ambiguous_tickers = set()
+        for candidate in (
+            (snapshot.get("opportunity_analysis") or {}).get(
+                "top_actionable", []
+            ) or []
+        ):
+            if not isinstance(candidate, dict):
+                continue
+            candidate_ticker = candidate.get("ticker")
+            if not candidate_ticker:
+                continue
+            if candidate_ticker in opportunity_lookup:
+                ambiguous_tickers.add(candidate_ticker)
+            else:
+                opportunity_lookup[candidate_ticker] = candidate
 
         for item in allocation_plan:
             action = item.get(
@@ -636,6 +629,9 @@ def extract_snapshot_signals(
             price = item.get(
                 "price"
             )
+
+            if ticker in ambiguous_tickers:
+                continue
 
             source_item = (
                 opportunity_lookup.get(
