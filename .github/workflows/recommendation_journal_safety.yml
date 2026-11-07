@@ -26,3 +26,5 @@ jobs:
         run: python -m compileall -q engines/recommendation_performance_engine.py tests/test_allocated_entry_provenance_failclosed.py
       - name: Run provenance regression tests
         run: python -m pytest -q tests/test_allocated_entry_provenance_failclosed.py
+      - name: Run existing CIO integration smoke tests
+        run: python -m pytest -q tests/integration_test.py
