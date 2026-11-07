@@ -64,6 +64,23 @@ class JournalTests(unittest.TestCase):
             with self.assertRaises(Exception):
                 PersistentPaperIntentJournal(path)
 
+    def test_missing_sentinel_blocks_active_session(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            journal = PersistentPaperIntentJournal(path)
+            Path(str(path) + ".initialized").unlink()
+            self.assertEqual(journal.reserve("new-order")["reason"], "JOURNAL_UNAVAILABLE")
+            self.assertFalse(journal.list_unresolved()["valid"])
+
+    def test_tampered_sentinel_blocks_restart_and_active_session(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            journal = PersistentPaperIntentJournal(path)
+            Path(str(path) + ".initialized").write_text("INVALID", encoding="utf-8")
+            self.assertEqual(journal.reserve("new-order")["reason"], "JOURNAL_UNAVAILABLE")
+            with self.assertRaisesRegex(RuntimeError, "PAPER_JOURNAL_SENTINEL_INVALID"):
+                PersistentPaperIntentJournal(path)
+
     def test_memory_database_rejected(self):
         with self.assertRaises(ValueError):
             PersistentPaperIntentJournal(":memory:")
