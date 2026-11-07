@@ -5,6 +5,8 @@ on:
     paths:
       - "engines/aurora_run_mode_engine.py"
       - "tests/test_g6_run_mode_safety.py"
+      - "engines/g6_paper_intent_guard.py"
+      - "tests/test_g6_paper_intent_guard.py"
       - ".github/workflows/g6_run_mode_safety.yml"
   push:
     branches:
@@ -12,6 +14,8 @@ on:
     paths:
       - "engines/aurora_run_mode_engine.py"
       - "tests/test_g6_run_mode_safety.py"
+      - "engines/g6_paper_intent_guard.py"
+      - "tests/test_g6_paper_intent_guard.py"
       - ".github/workflows/g6_run_mode_safety.yml"
 
 permissions:
@@ -27,6 +31,8 @@ jobs:
         with:
           python-version: "3.11"
       - name: Compile safety module and regression tests
-        run: python -m py_compile engines/aurora_run_mode_engine.py tests/test_g6_run_mode_safety.py
+        run: python -m py_compile engines/aurora_run_mode_engine.py engines/g6_paper_intent_guard.py tests/test_g6_run_mode_safety.py tests/test_g6_paper_intent_guard.py
       - name: Run isolated safety regression tests
-        run: python -m unittest discover -s tests -p 'test_g6_run_mode_safety.py' -v
+        run: |
+          python -m unittest discover -s tests -p 'test_g6_run_mode_safety.py' -v
+          python -m unittest discover -s tests -p 'test_g6_paper_intent_guard.py' -v
