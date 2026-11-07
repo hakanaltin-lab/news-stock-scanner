@@ -42,7 +42,11 @@ class PersistentPaperIntentJournal:
                 }
                 if not all(name in columns for name in required):
                     raise RuntimeError("PAPER_JOURNAL_SCHEMA_MISSING")
-                if columns["client_order_id"][5] != 1 or columns["status"][3] != 1:
+                normalized_schema = " ".join(schema[0].upper().split())
+                if (columns["client_order_id"][5] != 1
+                        or columns["client_order_id"][3] != 1
+                        or columns["status"][3] != 1
+                        or "CHECK(STATUSIN('RESERVED','UNKNOWN','RECONCILED'))" not in normalized_schema.replace(" ", "")):
                     raise RuntimeError("PAPER_JOURNAL_SCHEMA_INVALID")
             db.execute("""CREATE TABLE IF NOT EXISTS paper_intents (
                 client_order_id TEXT PRIMARY KEY NOT NULL,
