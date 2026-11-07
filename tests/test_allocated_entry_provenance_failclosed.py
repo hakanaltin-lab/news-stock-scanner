@@ -153,6 +153,23 @@ class AllocatedEntryProvenanceTests(unittest.TestCase):
             "data_quality": "LIVE", "last_price": float("nan")}}))
         self.assertFalse(live_market_item(None))
 
+    def test_allocated_entry_price_provenance_auditable(self):
+        source = {"ticker": "AAPL", "market": {
+            "data_quality": "LIVE", "last_price": 100}}
+        record = extract_snapshot_signals(snapshot(source))[0]
+        lineage = record["price_provenance"]
+        self.assertEqual(lineage["allocation_price"], 100)
+        self.assertEqual(lineage["verified_source_price"], 100)
+        self.assertFalse(lineage["quote_freshness_verified"])
+
+    def test_legacy_entry_provenance_remains_optional(self):
+        source = {"ticker": "AAPL", "action": "BUY", "market": {
+            "data_quality": "LIVE", "last_price": 100}}
+        data = snapshot(source)
+        data.pop("capital_allocation")
+        record = extract_snapshot_signals(data)[0]
+        self.assertIsNone(record["price_provenance"])
+
     def test_verified_source_accepted(self):
         source = {"ticker": "AAPL", "market": {
             "data_quality": "LIVE", "last_price": 100}}
