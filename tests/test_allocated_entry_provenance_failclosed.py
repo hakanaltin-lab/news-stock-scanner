@@ -141,6 +141,18 @@ class AllocatedEntryProvenanceTests(unittest.TestCase):
             "market": {"data_quality": "LIVE", "last_price": float("inf")}}]
         self.assertEqual(extract_snapshot_signals(data), [])
 
+    def test_malformed_market_payload_rejected(self):
+        source = {"ticker": "AAPL", "market": "not-a-market-dict"}
+        self.assertEqual(extract_snapshot_signals(snapshot(source)), [])
+
+    def test_nonfinite_live_market_helper_rejected(self):
+        from engines.recommendation_performance_engine import live_market_item
+        self.assertFalse(live_market_item({"market": {
+            "data_quality": "LIVE", "last_price": float("inf")}}))
+        self.assertFalse(live_market_item({"market": {
+            "data_quality": "LIVE", "last_price": float("nan")}}))
+        self.assertFalse(live_market_item(None))
+
     def test_verified_source_accepted(self):
         source = {"ticker": "AAPL", "market": {
             "data_quality": "LIVE", "last_price": 100}}
