@@ -225,6 +225,27 @@ class ReconciliationReportTests(unittest.TestCase):
             self.assertFalse(sentinel.exists())
             self.assertTrue(database.exists())
 
+    def test_corrupted_journal_sentinel_blocks_without_mutation(self):
+        with tempfile.TemporaryDirectory() as folder:
+            database = Path(folder) / "paper.sqlite"
+            journal = PersistentPaperIntentJournal(database)
+            self.assertTrue(journal.reserve("paper-corrupt")["allowed"])
+            sentinel = Path(str(database) + ".initialized")
+            sentinel.write_text("CORRUPTED\n", encoding="utf-8")
+            snapshot = normalize_ibkr_paper_orders(
+                [{"orderRef": "paper-corrupt", "account": "DU123"}],
+                account_id="DU123", captured_at=NOW,
+                transport_authenticated=True, complete=True,
+            )
+            report = build_g6_reconciliation_report(
+                journal, snapshot, expected_account_id="DU123", now=NOW
+            )
+            self.assertEqual(report["status"], "BLOCKED")
+            self.assertEqual(report["reason"], "JOURNAL_UNAVAILABLE")
+            self.assertFalse(report["paper_order_submission_allowed"])
+            self.assertEqual(sentinel.read_text(encoding="utf-8"), "CORRUPTED\n")
+            self.assertTrue(database.exists())
+
     def test_invalid_review_timestamp_fails_closed(self):
         for invalid in ("2026-11-07", datetime(2026, 11, 7, 12, 0)):
             with self.subTest(invalid=str(invalid)):
