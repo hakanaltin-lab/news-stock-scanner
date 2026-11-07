@@ -30,6 +30,13 @@ class PersistentPaperIntentJournal:
         with sqlite3.connect(self.database_path, timeout=5) as db:
             if db.execute("PRAGMA quick_check").fetchone() != ("ok",):
                 raise RuntimeError("PAPER_JOURNAL_INTEGRITY_FAILURE")
+            if sentinel.exists():
+                schema = db.execute(
+                    "SELECT sql FROM sqlite_master WHERE type='table' AND name='paper_intents'"
+                ).fetchone()
+                required = ("client_order_id", "status", "created_at")
+                if not schema or not all(name in schema[0] for name in required):
+                    raise RuntimeError("PAPER_JOURNAL_SCHEMA_MISSING")
             db.execute("""CREATE TABLE IF NOT EXISTS paper_intents (
                 client_order_id TEXT PRIMARY KEY NOT NULL,
                 status TEXT NOT NULL CHECK(status IN ('RESERVED', 'UNKNOWN', 'RECONCILED')),
