@@ -30,7 +30,10 @@ def reconcile_paper_snapshot(local_order_ids, snapshot, *, now=None, max_age_sec
         observed = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
         if observed.tzinfo is None:
             raise ValueError("naive timestamp")
-        reference = now or datetime.now(timezone.utc)
+        reference = now if now is not None else datetime.now(timezone.utc)
+        if (not isinstance(reference, datetime) or reference.tzinfo is None
+                or reference.utcoffset() is None):
+            raise ValueError("invalid review timestamp")
         age = (reference - observed).total_seconds()
         if not 0 <= age <= max_age_seconds:
             raise ValueError("stale or future timestamp")
