@@ -78,7 +78,7 @@ class PersistentPaperIntentJournal:
         try:
             if sentinel.read_text(encoding="utf-8") != "AURORA_PAPER_JOURNAL_V1\n":
                 raise sqlite3.OperationalError("PAPER_JOURNAL_SENTINEL_INVALID")
-        except OSError as exc:
+        except (OSError, UnicodeError) as exc:
             raise sqlite3.OperationalError("PAPER_JOURNAL_SENTINEL_UNAVAILABLE") from exc
         db = sqlite3.connect(uri, timeout=5, uri=True)
         try:
