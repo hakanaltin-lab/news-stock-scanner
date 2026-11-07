@@ -44,10 +44,9 @@ class RunModeSafetyTests(unittest.TestCase):
         self.assertFalse(state["live_execution_allowed"])
         self.assertFalse(state["paper_order_submission_requested"])
 
-    @unittest.expectedFailure
     def test_environment_cannot_bypass_paper_transition(self):
         # Safety requirement: environment alone must not arm paper orders.
-        # Expected failure documents the existing gap until remediation.
+        # Regression: direct environment selection must remain unarmed.
         with patch.dict(os.environ, {"AURORA_RUN_MODE": PAPER_ENABLED}):
             state = load_run_mode()
         self.assertFalse(state["paper_order_submission_requested"])
