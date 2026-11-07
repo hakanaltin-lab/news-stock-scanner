@@ -21,7 +21,7 @@ class PersistentPaperIntentJournal:
         sentinel = Path(str(path) + ".initialized")
         if sentinel.exists() and not path.is_file():
             raise RuntimeError("PAPER_JOURNAL_LOST")
-        if sentinel.exists() and sentinel.read_text(encoding="utf-8") != "AURORA_PAPER_JOURNAL_V1\\n":
+        if sentinel.exists() and sentinel.read_text(encoding="utf-8") != "AURORA_PAPER_JOURNAL_V1\n":
             raise RuntimeError("PAPER_JOURNAL_SENTINEL_INVALID")
         if path.is_file() and not sentinel.exists():
             # An unregistered existing database must be reviewed/migrated
@@ -58,7 +58,7 @@ class PersistentPaperIntentJournal:
         if not sentinel.is_file():
             raise sqlite3.OperationalError("PAPER_JOURNAL_SENTINEL_MISSING")
         try:
-            if sentinel.read_text(encoding="utf-8") != "AURORA_PAPER_JOURNAL_V1\\n":
+            if sentinel.read_text(encoding="utf-8") != "AURORA_PAPER_JOURNAL_V1\n":
                 raise sqlite3.OperationalError("PAPER_JOURNAL_SENTINEL_INVALID")
         except OSError as exc:
             raise sqlite3.OperationalError("PAPER_JOURNAL_SENTINEL_UNAVAILABLE") from exc
