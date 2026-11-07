@@ -81,6 +81,15 @@ class JournalTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "PAPER_JOURNAL_SENTINEL_INVALID"):
                 PersistentPaperIntentJournal(path)
 
+    def test_invalid_utf8_sentinel_fails_closed_in_active_session(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            journal = PersistentPaperIntentJournal(path)
+            Path(str(path) + ".initialized").write_bytes(b"\\xff\\xfe")
+            self.assertEqual(journal.reserve("new-order")["reason"], "JOURNAL_UNAVAILABLE")
+            self.assertFalse(journal.mark_unknown("new-order"))
+            self.assertEqual(journal.list_unresolved()["valid"], False)
+
     def test_database_replacement_blocks_active_session(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "paper.sqlite3"
