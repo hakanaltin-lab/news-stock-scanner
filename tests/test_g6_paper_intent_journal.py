@@ -1,4 +1,5 @@
 import tempfile
+import sqlite3
 import unittest
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
