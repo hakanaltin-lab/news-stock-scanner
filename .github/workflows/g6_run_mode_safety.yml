@@ -54,6 +54,7 @@ jobs:
         run: python -m py_compile engines/g6_ibkr_paper_snapshot_adapter.py tests/test_g6_ibkr_paper_snapshot_adapter.py engines/g6_reconciliation_report.py tests/test_g6_reconciliation_report.py engines/g6_paper_reconciliation_runner.py tests/test_g6_paper_reconciliation_runner.py engines/g6_paper_reconciliation.py tests/test_g6_paper_reconciliation.py engines/aurora_run_mode_engine.py engines/g6_paper_intent_guard.py engines/g6_paper_intent_journal.py tests/test_g6_paper_intent_journal.py tests/test_g6_run_mode_safety.py tests/test_g6_paper_intent_guard.py
       - name: Run isolated safety regression tests
         run: |
+          set -e
           python -m unittest discover -s tests -p 'test_g6_run_mode_safety.py' -v
           python -m unittest discover -s tests -p 'test_g6_paper_intent_guard.py' -v
           python -m unittest discover -s tests -p 'test_g6_paper_intent_journal.py' -v
