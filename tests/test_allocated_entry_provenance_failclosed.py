@@ -39,6 +39,25 @@ class AllocatedEntryProvenanceTests(unittest.TestCase):
             "data_quality": "LIVE", "last_price": 100}}
         self.assertEqual(extract_snapshot_signals(snapshot(source)), [])
 
+    def test_mismatched_allocation_price_rejected(self):
+        source = {"ticker": "AAPL", "market": {
+            "data_quality": "LIVE", "last_price": 100}}
+        self.assertEqual(
+            extract_snapshot_signals(snapshot(source, price=105)), []
+        )
+
+    def test_nonfinite_allocation_price_rejected(self):
+        source = {"ticker": "AAPL", "market": {
+            "data_quality": "LIVE", "last_price": 100}}
+        self.assertEqual(
+            extract_snapshot_signals(snapshot(source, price=float("nan"))), []
+        )
+
+    def test_nonfinite_source_price_rejected(self):
+        source = {"ticker": "AAPL", "market": {
+            "data_quality": "LIVE", "last_price": float("inf")}}
+        self.assertEqual(extract_snapshot_signals(snapshot(source)), [])
+
     def test_verified_source_accepted(self):
         source = {"ticker": "AAPL", "market": {
             "data_quality": "LIVE", "last_price": 100}}
