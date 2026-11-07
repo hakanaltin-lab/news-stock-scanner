@@ -52,6 +52,18 @@ class JournalReconciliationTests(unittest.TestCase):
         result = reconcile_journal(None, {}, expected_account_id=None, now=NOW)
         self.assertEqual(result["reason"], "EXPECTED_PAPER_ACCOUNT_REQUIRED")
 
+    def test_runtime_or_filesystem_journal_failure_blocks(self):
+        for failure in (RuntimeError("journal lost"), OSError("disk unavailable")):
+            with self.subTest(failure=type(failure).__name__):
+                class FailingJournal:
+                    def list_unresolved(self):
+                        raise failure
+                result = reconcile_journal(
+                    FailingJournal(), {}, expected_account_id="DU123", now=NOW
+                )
+                self.assertEqual(result["reason"], "JOURNAL_UNAVAILABLE")
+                self.assertFalse(result["ready"])
+
     def test_broken_journal_blocks(self):
         result = reconcile_journal(None, {}, expected_account_id="DU123", now=NOW)
         self.assertEqual(result["reason"], "JOURNAL_UNAVAILABLE")
