@@ -30,7 +30,7 @@ _ALLOWED_TRANSITIONS = {
 def load_run_mode():
     requested = os.getenv("AURORA_RUN_MODE", SAFE_OFF).strip().upper()
     valid = requested in VALID_RUN_MODES
-    effective = requested if valid else SAFE_OFF
+    # Environment configuration is not an authorization to arm paper orders.\n    # Until a separate verified, stateful arming protocol exists, reject\n    # direct PAPER_ENABLED requests and fail closed.\n    effective = requested if valid and requested != PAPER_ENABLED else SAFE_OFF
 
     return {
         "requested_mode": requested,
