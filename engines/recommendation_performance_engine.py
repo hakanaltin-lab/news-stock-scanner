@@ -645,13 +645,8 @@ def extract_snapshot_signals(
                 {}
             )
 
-            if (
-                source_item
-                and
-                not live_market_item(
-                    source_item
-                )
-            ):
+            # Missing source evidence must never authorize a journal entry.
+            if not source_item or not live_market_item(source_item):
                 continue
 
             if (
