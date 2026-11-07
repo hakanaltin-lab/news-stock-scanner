@@ -1,0 +1,28 @@
+name: AURORA Recommendation Journal Safety
+
+on:
+  pull_request:
+    paths:
+      - 'engines/recommendation_performance_engine.py'
+      - 'tests/test_allocated_entry_provenance_failclosed.py'
+      - '.github/workflows/recommendation_journal_safety.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  journal-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install test dependencies
+        run: python -m pip install -r requirements.txt pytest
+      - name: Check syntax
+        run: python -m compileall -q engines/recommendation_performance_engine.py tests/test_allocated_entry_provenance_failclosed.py
+      - name: Run provenance regression tests
+        run: python -m pytest -q tests/test_allocated_entry_provenance_failclosed.py
