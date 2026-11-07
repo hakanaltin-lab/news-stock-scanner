@@ -34,7 +34,11 @@ def reconcile_paper_snapshot(local_order_ids, snapshot, *, now=None, max_age_sec
         return {**blocked, "reason": "STALE_OR_INVALID_SNAPSHOT"}
     orders = snapshot.get("orders")
     if not isinstance(orders, list) or any(
-        not isinstance(order, dict) or not isinstance(order.get("client_order_id"), str)
+        not isinstance(order, dict)
+        or not isinstance(order.get("client_order_id"), str)
+        or not order["client_order_id"].strip()
+        or order["client_order_id"] != order["client_order_id"].strip()
+        or len(order["client_order_id"]) > 128
         for order in orders
     ):
         return {**blocked, "reason": "INVALID_ORDER_LIST"}
@@ -42,7 +46,8 @@ def reconcile_paper_snapshot(local_order_ids, snapshot, *, now=None, max_age_sec
     if len(ids) != len(set(ids)):
         return {**blocked, "reason": "DUPLICATE_BROKER_ORDER_IDS"}
     if not isinstance(local_order_ids, (list, tuple, set)) or any(
-        not isinstance(key, str) or not key for key in local_order_ids
+        not isinstance(key, str) or not key.strip()
+        or key != key.strip() or len(key) > 128 for key in local_order_ids
     ):
         return {**blocked, "reason": "INVALID_LOCAL_ORDER_IDS"}
     if len(local_order_ids) != len(set(local_order_ids)):
