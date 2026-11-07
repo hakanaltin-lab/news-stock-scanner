@@ -32,6 +32,7 @@ Important:
 from datetime import datetime, date, timedelta, timezone
 import hashlib
 import json
+import math
 import os
 import subprocess
 
@@ -645,8 +646,24 @@ def extract_snapshot_signals(
                 {}
             )
 
-            # Missing source evidence must never authorize a journal entry.
+            # Journal only verified, price-consistent new-entry evidence.
             if not source_item or not live_market_item(source_item):
+                continue
+
+            source_price = safe_float(
+                (source_item.get("market") or {}).get("last_price")
+            )
+            allocation_price = safe_float(price)
+            if (
+                not math.isfinite(source_price)
+                or not math.isfinite(allocation_price)
+                or source_price <= 0
+                or allocation_price <= 0
+                or not math.isclose(
+                    allocation_price, source_price,
+                    rel_tol=1e-6, abs_tol=1e-6
+                )
+            ):
                 continue
 
             if (
