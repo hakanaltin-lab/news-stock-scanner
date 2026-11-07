@@ -57,6 +57,15 @@ class PaperReconciliationTests(unittest.TestCase):
                 self.assertEqual(result["reason"], "INVALID_SNAPSHOT_AGE_LIMIT")
                 self.assertFalse(result["ready"])
 
+    def test_invalid_review_times_fail_closed(self):
+        for invalid in ("", 0, False, datetime(2026, 11, 7, 12, 0)):
+            with self.subTest(invalid=repr(invalid)):
+                result = reconcile_paper_snapshot(
+                    ["paper-1"], snapshot(), now=invalid
+                )
+                self.assertEqual(result["reason"], "STALE_OR_INVALID_SNAPSHOT")
+                self.assertFalse(result["ready"])
+
     def test_expected_account_mismatch_blocks(self):
         result = reconcile_paper_snapshot(
             ["paper-1"], snapshot(account_id="DU12345"), now=NOW,
