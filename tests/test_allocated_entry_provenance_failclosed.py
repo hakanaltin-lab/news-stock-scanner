@@ -88,6 +88,23 @@ class AllocatedEntryProvenanceTests(unittest.TestCase):
         })
         self.assertEqual(extract_snapshot_signals(data), [])
 
+    def test_duplicate_executable_allocations_rejected(self):
+        source = {"ticker": "AAPL", "market": {
+            "data_quality": "LIVE", "last_price": 100}}
+        data = snapshot(source)
+        data["capital_allocation"]["allocation_plan"].append({
+            "ticker": "AAPL", "action": "BUY",
+            "allocation_status": "ALLOCATE", "price": 100
+        })
+        self.assertEqual(extract_snapshot_signals(data), [])
+
+    def test_malformed_allocation_item_ignored(self):
+        source = {"ticker": "AAPL", "market": {
+            "data_quality": "LIVE", "last_price": 100}}
+        data = snapshot(source)
+        data["capital_allocation"]["allocation_plan"].append(None)
+        self.assertEqual(len(extract_snapshot_signals(data)), 1)
+
     def test_verified_source_accepted(self):
         source = {"ticker": "AAPL", "market": {
             "data_quality": "LIVE", "last_price": 100}}
