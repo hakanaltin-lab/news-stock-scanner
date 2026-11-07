@@ -4,6 +4,7 @@ SQLite UNIQUE key prevents duplicate reservations across restarts/processes.
 UNKNOWN is intentionally not auto-retryable; broker reconciliation is required.
 """
 import sqlite3
+from contextlib import closing
 from urllib.parse import quote
 from pathlib import Path
 
@@ -94,7 +95,7 @@ class PersistentPaperIntentJournal:
                 or client_order_id != client_order_id.strip() or len(client_order_id) > 128):
             return {"allowed": False, "reason": "INVALID_ORDER_ID"}
         try:
-            with self._connect() as db:
+            with closing(self._connect()) as db, db:
                 db.execute(
                     "INSERT INTO paper_intents (client_order_id, status) VALUES (?, 'RESERVED')",
                     (client_order_id,),
@@ -108,7 +109,7 @@ class PersistentPaperIntentJournal:
     def mark_unknown(self, client_order_id):
         """After uncertain broker outcome, block retry until external reconciliation."""
         try:
-            with self._connect() as db:
+            with closing(self._connect()) as db, db:
                 cursor = db.execute(
                     "UPDATE paper_intents SET status='UNKNOWN' WHERE client_order_id=? AND status='RESERVED'",
                     (client_order_id,),
@@ -120,7 +121,7 @@ class PersistentPaperIntentJournal:
     def list_unresolved(self):
         """Read-only inventory for broker reconciliation; fail closed on DB errors."""
         try:
-            with self._connect() as db:
+            with closing(self._connect()) as db, db:
                 rows = db.execute(
                     "SELECT client_order_id, status FROM paper_intents "
                     "WHERE status IN ('RESERVED', 'UNKNOWN') ORDER BY client_order_id"
