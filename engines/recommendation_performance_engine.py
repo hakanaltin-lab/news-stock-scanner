@@ -32,6 +32,7 @@ Important:
 from datetime import datetime, date, timedelta, timezone
 import hashlib
 import json
+import math
 import os
 import subprocess
 
@@ -335,7 +336,8 @@ def build_record(
     signal_price,
     benchmark_price=None,
     scores=None,
-    origin_commit=None
+    origin_commit=None,
+    price_provenance=None
 ):
     direction = signal_direction(
         action
@@ -393,9 +395,10 @@ def build_record(
                 ),
                 4
             )
-            if safe_float(
-                benchmark_price
-            ) > 0
+            if (
+                math.isfinite(safe_float(benchmark_price))
+                and safe_float(benchmark_price) > 0
+            )
             else None
         ),
 
@@ -407,6 +410,9 @@ def build_record(
         "origin_commit":
         origin_commit,
 
+        "price_provenance":
+        price_provenance,
+
         "evaluation_basis":
         "signal_price_to_future_daily_close",
 
@@ -415,33 +421,17 @@ def build_record(
     }
 
 
-def live_market_item(
-    item
-):
-    market = (
-        item.get(
-            "market",
-            {}
-        )
-        or
-        {}
-    )
-
+def live_market_item(item):
+    if not isinstance(item, dict):
+        return False
+    market = item.get("market") or {}
+    if not isinstance(market, dict):
+        return False
+    price = safe_float(market.get("last_price"))
     return (
-        market.get(
-            "data_quality"
-        )
-        ==
-        "LIVE"
-        and
-        safe_float(
-            market.get(
-                "last_price",
-                0
-            )
-        )
-        >
-        0
+        market.get("data_quality") == "LIVE"
+        and math.isfinite(price)
+        and price > 0
     )
 
 
@@ -540,7 +530,8 @@ def extract_snapshot_signals(
         if (
             not ticker
             or
-            safe_float(
+            not math.isfinite(safe_float(price))
+            or safe_float(
                 price
             )
             <=
@@ -585,32 +576,40 @@ def extract_snapshot_signals(
     )
 
     if allocation_plan:
-        opportunity_lookup = {
-            item.get(
-                "ticker"
-            ):
-            item
-            for item in (
-                (
-                    snapshot.get(
-                        "opportunity_analysis",
-                        {}
+        # Never silently pick the last source for duplicate tickers.
+        opportunity_lookup = {}
+        ambiguous_tickers = set()
+        for candidate in (
+            (snapshot.get("opportunity_analysis") or {}).get(
+                "top_actionable", []
+            ) or []
+        ):
+            if not isinstance(candidate, dict):
+                continue
+            candidate_ticker = candidate.get("ticker")
+            if not candidate_ticker:
+                continue
+            if candidate_ticker in opportunity_lookup:
+                ambiguous_tickers.add(candidate_ticker)
+            else:
+                opportunity_lookup[candidate_ticker] = candidate
+
+        # Multiple executable allocations for one ticker are ambiguous.
+        allocation_counts = {}
+        for candidate in allocation_plan:
+            if not isinstance(candidate, dict):
+                continue
+            if (candidate.get("action") in NEW_ENTRY_ACTIONS
+                    and candidate.get("allocation_status") == "ALLOCATE"):
+                candidate_ticker = candidate.get("ticker")
+                if candidate_ticker:
+                    allocation_counts[candidate_ticker] = (
+                        allocation_counts.get(candidate_ticker, 0) + 1
                     )
-                    or
-                    {}
-                ).get(
-                    "top_actionable",
-                    []
-                )
-                or
-                []
-            )
-            if item.get(
-                "ticker"
-            )
-        }
 
         for item in allocation_plan:
+            if not isinstance(item, dict):
+                continue
             action = item.get(
                 "action"
             )
@@ -636,6 +635,9 @@ def extract_snapshot_signals(
                 "price"
             )
 
+            if ticker in ambiguous_tickers or allocation_counts.get(ticker, 0) != 1:
+                continue
+
             source_item = (
                 opportunity_lookup.get(
                     ticker,
@@ -645,11 +647,22 @@ def extract_snapshot_signals(
                 {}
             )
 
+            # Journal only verified, price-consistent new-entry evidence.
+            if not source_item or not live_market_item(source_item):
+                continue
+
+            source_price = safe_float(
+                (source_item.get("market") or {}).get("last_price")
+            )
+            allocation_price = safe_float(price)
             if (
-                source_item
-                and
-                not live_market_item(
-                    source_item
+                not math.isfinite(source_price)
+                or not math.isfinite(allocation_price)
+                or source_price <= 0
+                or allocation_price <= 0
+                or not math.isclose(
+                    allocation_price, source_price,
+                    rel_tol=1e-6, abs_tol=1e-6
                 )
             ):
                 continue
@@ -691,7 +704,15 @@ def extract_snapshot_signals(
                             "confidence"
                         )
                     },
-                    origin_commit=origin_commit
+                    origin_commit=origin_commit,
+                    price_provenance={
+                        "source": "opportunity_analysis.top_actionable.market.last_price",
+                        "allocation_price": allocation_price,
+                        "verified_source_price": source_price,
+                        "match_rule": "isclose(rel_tol=1e-6,abs_tol=1e-6)",
+                        "quality_label": "LIVE",
+                        "quote_freshness_verified": False
+                    }
                 )
             )
 
@@ -706,14 +727,19 @@ def extract_snapshot_signals(
             {}
         )
 
-        for item in (
-            opportunity_analysis.get(
-                "top_actionable",
-                []
-            )
-            or
-            []
-        ):
+        # Legacy snapshots also require unique evidence per ticker.
+        legacy_items = opportunity_analysis.get("top_actionable", []) or []
+        legacy_counts = {}
+        for candidate in legacy_items:
+            if isinstance(candidate, dict) and candidate.get("ticker"):
+                ticker_key = candidate["ticker"]
+                legacy_counts[ticker_key] = legacy_counts.get(ticker_key, 0) + 1
+
+        for item in legacy_items:
+            if not isinstance(item, dict):
+                continue
+            if legacy_counts.get(item.get("ticker"), 0) != 1:
+                continue
             action = item.get(
                 "action"
             )
@@ -744,7 +770,8 @@ def extract_snapshot_signals(
             if (
                 not ticker
                 or
-                safe_float(
+                not math.isfinite(safe_float(price))
+            or safe_float(
                     price
                 )
                 <=
@@ -1038,7 +1065,7 @@ def evaluate_record(
         )
     )
 
-    if benchmark_entry <= 0:
+    if not math.isfinite(benchmark_entry) or benchmark_entry <= 0:
         benchmark_entry = safe_float(
             price_on_or_before(
                 spy_series,
@@ -1046,7 +1073,7 @@ def evaluate_record(
             )
         )
 
-        if benchmark_entry > 0:
+        if math.isfinite(benchmark_entry) and benchmark_entry > 0:
             record[
                 "benchmark_entry_price"
             ] = round(
@@ -1055,9 +1082,10 @@ def evaluate_record(
             )
 
     if (
-        entry_price <= 0
-        or
-        benchmark_entry <= 0
+        not math.isfinite(entry_price)
+        or not math.isfinite(benchmark_entry)
+        or entry_price <= 0
+        or benchmark_entry <= 0
     ):
         return record
 
@@ -1121,9 +1149,10 @@ def evaluate_record(
             continue
 
         if (
-            future_spy_price <= 0
-            or
-            future_stock_price <= 0
+            not math.isfinite(future_spy_price)
+            or not math.isfinite(future_stock_price)
+            or future_spy_price <= 0
+            or future_stock_price <= 0
         ):
             continue
 
