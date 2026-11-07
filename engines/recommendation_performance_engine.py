@@ -395,9 +395,10 @@ def build_record(
                 ),
                 4
             )
-            if safe_float(
-                benchmark_price
-            ) > 0
+            if (
+                math.isfinite(safe_float(benchmark_price))
+                and safe_float(benchmark_price) > 0
+            )
             else None
         ),
 
