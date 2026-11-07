@@ -1,6 +1,7 @@
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 from engines.g6_paper_intent_journal import PersistentPaperIntentJournal
 
 
@@ -151,6 +152,20 @@ class JournalTests(unittest.TestCase):
                 )
             with self.assertRaisesRegex(RuntimeError, "PAPER_JOURNAL_SCHEMA_INVALID"):
                 PersistentPaperIntentJournal(path)
+
+    def test_concurrent_sentinel_creation_fails_closed(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            original_open = Path.open
+
+            def competing_open(target, mode="r", *args, **kwargs):
+                if str(target) == str(path) + ".initialized" and mode == "x":
+                    raise FileExistsError("competing journal initializer")
+                return original_open(target, mode, *args, **kwargs)
+
+            with patch.object(Path, "open", competing_open):
+                with self.assertRaisesRegex(RuntimeError, "PAPER_JOURNAL_INITIALIZATION_RACE"):
+                    PersistentPaperIntentJournal(path)
 
     def test_memory_database_rejected(self):
         with self.assertRaises(ValueError):
