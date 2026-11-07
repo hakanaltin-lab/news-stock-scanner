@@ -22,8 +22,13 @@ def reconcile_journal(journal, broker_snapshot, *, expected_account_id, now=None
         for item in orders
     ):
         return {"ready": False, "reason": "INVALID_JOURNAL_INVENTORY"}
+    ids = [item["client_order_id"] for item in orders]
+    if any(not key.strip() or key != key.strip() or len(key) > 128 for key in ids):
+        return {"ready": False, "reason": "INVALID_JOURNAL_ORDER_REFERENCE"}
+    if len(ids) != len(set(ids)):
+        return {"ready": False, "reason": "DUPLICATE_JOURNAL_ORDER_REFERENCE"}
     return reconcile_paper_snapshot(
-        [item["client_order_id"] for item in orders],
+        ids,
         broker_snapshot,
         expected_account_id=expected_account_id,
         now=now,
