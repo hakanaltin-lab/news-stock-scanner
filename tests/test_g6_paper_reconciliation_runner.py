@@ -53,6 +53,15 @@ class JournalReconciliationTests(unittest.TestCase):
         result = reconcile_journal(None, {}, expected_account_id=None, now=NOW)
         self.assertEqual(result["reason"], "EXPECTED_PAPER_ACCOUNT_REQUIRED")
 
+    def test_invalid_ibkr_paper_account_identity_blocks(self):
+        for account in ("U123", "DU", "DU123 ", " DU123", "DU12X", "", 123):
+            with self.subTest(account=repr(account)):
+                result = reconcile_journal(
+                    None, {}, expected_account_id=account, now=NOW
+                )
+                self.assertEqual(result["reason"], "EXPECTED_PAPER_ACCOUNT_REQUIRED")
+                self.assertFalse(result["ready"])
+
     def test_runtime_or_filesystem_journal_failure_blocks(self):
         for failure in (RuntimeError("journal lost"), OSError("disk unavailable"),
                         sqlite3.DatabaseError("database corrupted")):
