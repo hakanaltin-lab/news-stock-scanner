@@ -60,8 +60,10 @@ class PersistentPaperIntentJournal:
             try:
                 with sentinel.open("x", encoding="utf-8") as marker:
                     marker.write("AURORA_PAPER_JOURNAL_V1\n")
-            except FileExistsError:
-                pass
+            except FileExistsError as exc:
+                # Another initializer won the sentinel race; never assume its
+                # journal identity or contents without a fresh verification.
+                raise RuntimeError("PAPER_JOURNAL_INITIALIZATION_RACE") from exc
 
     def _connect(self):
         path = Path(self.database_path)
