@@ -34,6 +34,14 @@ class PaperIntentGuardTests(unittest.TestCase):
             with self.subTest(bad=bad):
                 self.assertFalse(self.check(bad)["allowed"])
 
+    def test_whitespace_order_ids_fail_closed(self):
+        for key in (" paper-001", "paper-001 ", "\\tpaper-001", "paper-001\\n"):
+            with self.subTest(key=repr(key)):
+                result = self.check({**GOOD, "client_order_id": key})
+                self.assertFalse(result["allowed"])
+                self.assertIn("MISSING_ORDER_ID", result["reasons"])
+        self.assertTrue(self.check()["allowed"])
+
     def test_failed_intent_does_not_reserve_id(self):
         self.assertFalse(self.check(broker_connected=False)["allowed"])
         self.assertTrue(self.check()["allowed"])
