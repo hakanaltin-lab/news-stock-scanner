@@ -1,0 +1,64 @@
+name: G6 Run Mode Safety Tests
+
+on:
+  pull_request:
+    paths:
+      - "engines/aurora_run_mode_engine.py"
+      - "tests/test_g6_run_mode_safety.py"
+      - "engines/g6_paper_intent_guard.py"
+      - "tests/test_g6_paper_intent_guard.py"
+      - "engines/g6_paper_intent_journal.py"
+      - "tests/test_g6_paper_intent_journal.py"
+      - "engines/g6_paper_reconciliation.py"
+      - "tests/test_g6_paper_reconciliation.py"
+      - "engines/g6_paper_reconciliation_runner.py"
+      - "tests/test_g6_paper_reconciliation_runner.py"
+      - "engines/g6_reconciliation_report.py"
+      - "tests/test_g6_reconciliation_report.py"
+      - "engines/g6_ibkr_paper_snapshot_adapter.py"
+      - "tests/test_g6_ibkr_paper_snapshot_adapter.py"
+      - ".github/workflows/g6_run_mode_safety.yml"
+  push:
+    branches:
+      - "aurora/**"
+    paths:
+      - "engines/aurora_run_mode_engine.py"
+      - "tests/test_g6_run_mode_safety.py"
+      - "engines/g6_paper_intent_guard.py"
+      - "tests/test_g6_paper_intent_guard.py"
+      - "engines/g6_paper_intent_journal.py"
+      - "tests/test_g6_paper_intent_journal.py"
+      - "engines/g6_paper_reconciliation.py"
+      - "tests/test_g6_paper_reconciliation.py"
+      - "engines/g6_paper_reconciliation_runner.py"
+      - "tests/test_g6_paper_reconciliation_runner.py"
+      - "engines/g6_reconciliation_report.py"
+      - "tests/test_g6_reconciliation_report.py"
+      - "engines/g6_ibkr_paper_snapshot_adapter.py"
+      - "tests/test_g6_ibkr_paper_snapshot_adapter.py"
+      - ".github/workflows/g6_run_mode_safety.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  safety-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile safety module and regression tests
+        run: python -m py_compile engines/g6_ibkr_paper_snapshot_adapter.py tests/test_g6_ibkr_paper_snapshot_adapter.py engines/g6_reconciliation_report.py tests/test_g6_reconciliation_report.py engines/g6_paper_reconciliation_runner.py tests/test_g6_paper_reconciliation_runner.py engines/g6_paper_reconciliation.py tests/test_g6_paper_reconciliation.py engines/aurora_run_mode_engine.py engines/g6_paper_intent_guard.py engines/g6_paper_intent_journal.py tests/test_g6_paper_intent_journal.py tests/test_g6_run_mode_safety.py tests/test_g6_paper_intent_guard.py
+      - name: Run isolated safety regression tests
+        run: |
+          set -e
+          python -m unittest discover -s tests -p 'test_g6_run_mode_safety.py' -v
+          python -m unittest discover -s tests -p 'test_g6_paper_intent_guard.py' -v
+          python -m unittest discover -s tests -p 'test_g6_paper_intent_journal.py' -v
+          python -m unittest discover -s tests -p 'test_g6_paper_reconciliation.py' -v
+          python -m unittest discover -s tests -p 'test_g6_paper_reconciliation_runner.py' -v
+          python -m unittest discover -s tests -p 'test_g6_reconciliation_report.py' -v
+          python -m unittest discover -s tests -p 'test_g6_ibkr_paper_snapshot_adapter.py' -v

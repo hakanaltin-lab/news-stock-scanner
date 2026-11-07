@@ -90,7 +90,9 @@ class RunModeControllerTests(unittest.TestCase):
     def test_paper_enabled_requires_transition_path(self):
         self.assertTrue(can_transition(SAFE_OFF, READ_ONLY))
         self.assertTrue(can_transition(READ_ONLY, DRY_RUN))
-        self.assertTrue(can_transition(DRY_RUN, PAPER_ENABLED))
+        # No state transition may arm Paper without an independently reviewed gate.
+        self.assertFalse(can_transition(DRY_RUN, PAPER_ENABLED))
+        self.assertFalse(can_transition(PAPER_ENABLED, PAPER_ENABLED))
         self.assertFalse(can_transition(SAFE_OFF, PAPER_ENABLED))
 
     def test_restart_always_returns_safe_off(self):

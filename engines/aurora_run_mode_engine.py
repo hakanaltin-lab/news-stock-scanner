@@ -30,7 +30,10 @@ _ALLOWED_TRANSITIONS = {
 def load_run_mode():
     requested = os.getenv("AURORA_RUN_MODE", SAFE_OFF).strip().upper()
     valid = requested in VALID_RUN_MODES
-    effective = requested if valid else SAFE_OFF
+    # Environment configuration is not an authorization to arm paper orders.
+    # Until a separate verified, stateful arming protocol exists, reject
+    # direct PAPER_ENABLED requests and fail closed.
+    effective = requested if valid and requested != PAPER_ENABLED else SAFE_OFF
 
     return {
         "requested_mode": requested,
@@ -49,6 +52,11 @@ def can_transition(current_mode, target_mode):
     target = str(target_mode or SAFE_OFF).strip().upper()
 
     if current not in VALID_RUN_MODES or target not in VALID_RUN_MODES:
+        return False
+
+    # A transition request alone cannot arm Paper Trading. A separate
+    # authenticated, stateful authorization gate must be reviewed first.
+    if target == PAPER_ENABLED:
         return False
 
     return target in _ALLOWED_TRANSITIONS[current]

@@ -1,0 +1,93 @@
+import tempfile
+import sqlite3
+import unittest
+from datetime import datetime, timezone
+from pathlib import Path
+from engines.g6_paper_intent_journal import PersistentPaperIntentJournal
+from engines.g6_paper_reconciliation_runner import reconcile_journal
+
+NOW = datetime(2026, 11, 7, 12, 0, tzinfo=timezone.utc)
+
+class JournalReconciliationTests(unittest.TestCase):
+    def test_unresolved_journal_reconciles_read_only(self):
+        with tempfile.TemporaryDirectory() as folder:
+            journal = PersistentPaperIntentJournal(Path(folder) / "paper.db")
+            journal.reserve("paper-1")
+            journal.reserve("paper-2")
+            journal.mark_unknown("paper-2")
+            snapshot = {
+                "account_type": "PAPER", "account_id": "DU123",
+                "verified": True, "complete": True, "timestamp": NOW.isoformat(),
+                "orders": [{"client_order_id": "paper-1"}],
+            }
+            result = reconcile_journal(journal, snapshot, expected_account_id="DU123", now=NOW)
+            self.assertFalse(result["ready"])
+            self.assertEqual(result["matched"], ["paper-1"])
+            self.assertEqual(result["unresolved"], ["paper-2"])
+
+    def test_duplicate_inventory_rejected(self):
+        class DuplicateJournal:
+            def list_unresolved(self):
+                return {"valid": True, "orders": [
+                    {"client_order_id": "same", "status": "RESERVED"},
+                    {"client_order_id": "same", "status": "UNKNOWN"},
+                ]}
+        result = reconcile_journal(
+            DuplicateJournal(), {}, expected_account_id="DU123", now=NOW
+        )
+        self.assertEqual(result["reason"], "DUPLICATE_JOURNAL_ORDER_REFERENCE")
+        self.assertFalse(result["ready"])
+
+    def test_whitespace_inventory_reference_rejected(self):
+        class InvalidJournal:
+            def list_unresolved(self):
+                return {"valid": True, "orders": [
+                    {"client_order_id": " order-1 ", "status": "UNKNOWN"},
+                ]}
+        result = reconcile_journal(
+            InvalidJournal(), {}, expected_account_id="DU123", now=NOW
+        )
+        self.assertEqual(result["reason"], "INVALID_JOURNAL_ORDER_REFERENCE")
+
+    def test_account_id_is_mandatory(self):
+        result = reconcile_journal(None, {}, expected_account_id=None, now=NOW)
+        self.assertEqual(result["reason"], "EXPECTED_PAPER_ACCOUNT_REQUIRED")
+
+    def test_invalid_ibkr_paper_account_identity_blocks(self):
+        for account in ("U123", "DU", "DU123 ", " DU123", "DU12X", "", 123):
+            with self.subTest(account=repr(account)):
+                result = reconcile_journal(
+                    None, {}, expected_account_id=account, now=NOW
+                )
+                self.assertEqual(result["reason"], "EXPECTED_PAPER_ACCOUNT_REQUIRED")
+                self.assertFalse(result["ready"])
+
+    def test_runtime_or_filesystem_journal_failure_blocks(self):
+        for failure in (RuntimeError("journal lost"), OSError("disk unavailable"),
+                        sqlite3.DatabaseError("database corrupted")):
+            with self.subTest(failure=type(failure).__name__):
+                class FailingJournal:
+                    def list_unresolved(self):
+                        raise failure
+                result = reconcile_journal(
+                    FailingJournal(), {}, expected_account_id="DU123", now=NOW
+                )
+                self.assertEqual(result["reason"], "JOURNAL_UNAVAILABLE")
+                self.assertFalse(result["ready"])
+
+    def test_journal_read_timeout_fails_closed(self):
+        class TimedOutJournal:
+            def list_unresolved(self):
+                raise TimeoutError("simulated broker-adjacent read timeout")
+        result = reconcile_journal(
+            TimedOutJournal(), {}, expected_account_id="DU123", now=NOW
+        )
+        self.assertEqual(result["reason"], "JOURNAL_UNAVAILABLE")
+        self.assertFalse(result["ready"])
+
+    def test_broken_journal_blocks(self):
+        result = reconcile_journal(None, {}, expected_account_id="DU123", now=NOW)
+        self.assertEqual(result["reason"], "JOURNAL_UNAVAILABLE")
+
+if __name__ == "__main__":
+    unittest.main()
