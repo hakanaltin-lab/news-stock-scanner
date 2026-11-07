@@ -28,6 +28,17 @@ class ReconciliationReportTests(unittest.TestCase):
             self.assertFalse(report["paper_order_submission_allowed"])
             self.assertTrue(report["manual_review_required"])
 
+    def test_invalid_review_timestamp_fails_closed(self):
+        for invalid in ("2026-11-07", datetime(2026, 11, 7, 12, 0)):
+            with self.subTest(invalid=str(invalid)):
+                report = build_g6_reconciliation_report(
+                    None, None, expected_account_id="DU123", now=invalid
+                )
+                self.assertEqual(report["status"], "BLOCKED")
+                self.assertEqual(report["reason"], "INVALID_REVIEW_TIMESTAMP")
+                self.assertFalse(report["paper_order_submission_allowed"])
+                self.assertTrue(report["manual_review_required"])
+
     def test_missing_snapshot_is_blocked(self):
         report = build_g6_reconciliation_report(
             None, None, expected_account_id="DU123", now=NOW
