@@ -170,6 +170,26 @@ class AllocatedEntryProvenanceTests(unittest.TestCase):
         record = extract_snapshot_signals(data)[0]
         self.assertIsNone(record["price_provenance"])
 
+    def test_price_lineage_survives_json_round_trip(self):
+        import json
+        source = {"ticker": "AAPL", "market": {
+            "data_quality": "LIVE", "last_price": 100}}
+        record = extract_snapshot_signals(snapshot(source))[0]
+        restored = json.loads(json.dumps(record))
+        self.assertEqual(restored["price_provenance"], record["price_provenance"])
+        self.assertEqual(restored["signal_price"], 100)
+
+    def test_legacy_record_json_round_trip(self):
+        import json
+        source = {"ticker": "AAPL", "action": "BUY", "market": {
+            "data_quality": "LIVE", "last_price": 100}}
+        data = snapshot(source)
+        data.pop("capital_allocation")
+        record = extract_snapshot_signals(data)[0]
+        restored = json.loads(json.dumps(record))
+        self.assertIsNone(restored["price_provenance"])
+        self.assertEqual(restored["ticker"], "AAPL")
+
     def test_verified_source_accepted(self):
         source = {"ticker": "AAPL", "market": {
             "data_quality": "LIVE", "last_price": 100}}
