@@ -37,6 +37,13 @@ class PersistentPaperIntentJournal:
                 required = ("client_order_id", "status", "created_at")
                 if not schema or not all(name in schema[0] for name in required):
                     raise RuntimeError("PAPER_JOURNAL_SCHEMA_MISSING")
+                columns = {
+                    row[1]: row for row in db.execute("PRAGMA table_info(paper_intents)").fetchall()
+                }
+                if not all(name in columns for name in required):
+                    raise RuntimeError("PAPER_JOURNAL_SCHEMA_MISSING")
+                if columns["client_order_id"][5] != 1 or columns["status"][3] != 1:
+                    raise RuntimeError("PAPER_JOURNAL_SCHEMA_INVALID")
             db.execute("""CREATE TABLE IF NOT EXISTS paper_intents (
                 client_order_id TEXT PRIMARY KEY NOT NULL,
                 status TEXT NOT NULL CHECK(status IN ('RESERVED', 'UNKNOWN', 'RECONCILED')),
