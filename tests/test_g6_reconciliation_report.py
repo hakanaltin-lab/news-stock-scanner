@@ -72,6 +72,25 @@ class ReconciliationReportTests(unittest.TestCase):
             self.assertTrue(report["manual_review_required"])
             self.assertEqual(journal.list_unresolved(), before)
 
+    def test_mismatched_paper_account_blocks_without_changing_journal(self):
+        with tempfile.TemporaryDirectory() as folder:
+            journal = PersistentPaperIntentJournal(Path(folder) / "paper.sqlite")
+            self.assertTrue(journal.reserve("paper-account")["allowed"])
+            snapshot = normalize_ibkr_paper_orders(
+                [{"orderRef": "paper-account", "account": "DU999"}],
+                account_id="DU999", captured_at=NOW,
+                transport_authenticated=True, complete=True,
+            )
+            before = journal.list_unresolved()
+            report = build_g6_reconciliation_report(
+                journal, snapshot, expected_account_id="DU123", now=NOW
+            )
+            self.assertEqual(report["status"], "BLOCKED")
+            self.assertEqual(report["reason"], "BROKER_ACCOUNT_MISMATCH")
+            self.assertEqual(report["matched_count"], 0)
+            self.assertFalse(report["paper_order_submission_allowed"])
+            self.assertEqual(journal.list_unresolved(), before)
+
     def test_invalid_review_timestamp_fails_closed(self):
         for invalid in ("2026-11-07", datetime(2026, 11, 7, 12, 0)):
             with self.subTest(invalid=str(invalid)):
