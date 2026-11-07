@@ -28,7 +28,7 @@ class PersistentPaperIntentJournal:
             # An unregistered existing database must be reviewed/migrated
             # separately; never silently trust it or overwrite its history.
             raise RuntimeError("UNREGISTERED_PAPER_JOURNAL")
-        with sqlite3.connect(self.database_path, timeout=5) as db:
+        with closing(sqlite3.connect(self.database_path, timeout=5)) as db, db:
             if db.execute("PRAGMA quick_check").fetchone() != ("ok",):
                 raise RuntimeError("PAPER_JOURNAL_INTEGRITY_FAILURE")
             if sentinel.exists():
