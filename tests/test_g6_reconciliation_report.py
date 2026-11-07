@@ -105,7 +105,7 @@ class ReconciliationReportTests(unittest.TestCase):
                 journal, snapshot, expected_account_id="DU123", now=NOW
             )
             self.assertEqual(report["status"], "BLOCKED")
-            self.assertEqual(report["reason"], "INCOMPLETE_OR_UNVERIFIED_SNAPSHOT")
+            self.assertEqual(report["reason"], "UNVERIFIED_PAPER_ACCOUNT")
             self.assertFalse(report["execution_allowed"])
             self.assertFalse(report["paper_order_submission_allowed"])
             self.assertTrue(report["manual_review_required"])
@@ -125,7 +125,7 @@ class ReconciliationReportTests(unittest.TestCase):
                 journal, snapshot, expected_account_id="DU123", now=NOW
             )
             self.assertEqual(report["status"], "BLOCKED")
-            self.assertEqual(report["reason"], "INCOMPLETE_OR_UNVERIFIED_SNAPSHOT")
+            self.assertEqual(report["reason"], "UNVERIFIED_PAPER_ACCOUNT")
             self.assertFalse(report["paper_order_submission_allowed"])
             self.assertTrue(report["manual_review_required"])
             self.assertEqual(journal.list_unresolved(), before)
