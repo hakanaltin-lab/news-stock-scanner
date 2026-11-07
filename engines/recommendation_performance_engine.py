@@ -645,9 +645,10 @@ def extract_snapshot_signals(
                 {}
             )
 
+            # Fail closed: every allocated entry needs verified LIVE provenance.
             if (
-                source_item
-                and
+                not source_item
+                or
                 not live_market_item(
                     source_item
                 )
