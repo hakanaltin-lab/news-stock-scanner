@@ -75,6 +75,16 @@ class JournalReconciliationTests(unittest.TestCase):
                 self.assertEqual(result["reason"], "JOURNAL_UNAVAILABLE")
                 self.assertFalse(result["ready"])
 
+    def test_journal_read_timeout_fails_closed(self):
+        class TimedOutJournal:
+            def list_unresolved(self):
+                raise TimeoutError("simulated broker-adjacent read timeout")
+        result = reconcile_journal(
+            TimedOutJournal(), {}, expected_account_id="DU123", now=NOW
+        )
+        self.assertEqual(result["reason"], "JOURNAL_UNAVAILABLE")
+        self.assertFalse(result["ready"])
+
     def test_broken_journal_blocks(self):
         result = reconcile_journal(None, {}, expected_account_id="DU123", now=NOW)
         self.assertEqual(result["reason"], "JOURNAL_UNAVAILABLE")
