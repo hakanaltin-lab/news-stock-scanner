@@ -24,7 +24,7 @@ class PaperIntentGuard:
         if run_mode != "PAPER_ENABLED":
             reasons.append("PAPER_MODE_NOT_ARMED")
         key = intent.get("client_order_id")
-        if not isinstance(key, str) or not key.strip():
+        if not isinstance(key, str) or not key.strip() or len(key) > 128:
             reasons.append("MISSING_ORDER_ID")
         elif key in self._seen:
             reasons.append("DUPLICATE_ORDER_ID")
@@ -32,7 +32,7 @@ class PaperIntentGuard:
         if not isinstance(symbol, str) or not symbol.strip():
             reasons.append("INVALID_SYMBOL")
         side = intent.get("side")
-        if side not in ("BUY", "SELL"):
+        if not isinstance(side, str) or side not in ("BUY", "SELL"):
             reasons.append("INVALID_SIDE")
         qty = intent.get("quantity")
         if type(qty) not in (int, float) or not math.isfinite(qty) or qty <= 0:
