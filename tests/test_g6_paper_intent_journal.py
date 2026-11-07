@@ -27,6 +27,16 @@ class JournalTests(unittest.TestCase):
                 with self.subTest(value=value):
                     self.assertFalse(journal.reserve(value)["allowed"])
 
+    def test_deleted_database_does_not_silently_recreate_in_active_session(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            journal = PersistentPaperIntentJournal(path)
+            self.assertTrue(journal.reserve("order-3")["allowed"])
+            path.unlink()
+            self.assertEqual(journal.reserve("order-4")["reason"], "JOURNAL_UNAVAILABLE")
+            self.assertFalse(journal.list_unresolved()["valid"])
+            self.assertFalse(path.exists())
+
     def test_memory_database_rejected(self):
         with self.assertRaises(ValueError):
             PersistentPaperIntentJournal(":memory:")
