@@ -7,12 +7,18 @@ Missing orders are UNKNOWN, never proof that an order did not execute.
 from datetime import datetime, timezone
 
 
-def reconcile_paper_snapshot(local_order_ids, snapshot, *, now=None, max_age_seconds=30):
+def reconcile_paper_snapshot(local_order_ids, snapshot, *, now=None, max_age_seconds=30, expected_account_id=None):
     blocked = {"ready": False, "matched": [], "unresolved": [], "reason": None}
     if not isinstance(snapshot, dict):
         return {**blocked, "reason": "INVALID_SNAPSHOT"}
     if snapshot.get("account_type") != "PAPER":
         return {**blocked, "reason": "UNVERIFIED_PAPER_ACCOUNT"}
+    # A self-declared PAPER label is insufficient when an expected broker
+    # account identifier is available. Refuse missing or mismatched identity.
+    if expected_account_id is not None:
+        if (not isinstance(expected_account_id, str) or not expected_account_id.strip()
+                or snapshot.get("account_id") != expected_account_id):
+            return {**blocked, "reason": "BROKER_ACCOUNT_MISMATCH"}
     if snapshot.get("complete") is not True or snapshot.get("verified") is not True:
         return {**blocked, "reason": "INCOMPLETE_OR_UNVERIFIED_SNAPSHOT"}
     timestamp = snapshot.get("timestamp")
@@ -39,6 +45,8 @@ def reconcile_paper_snapshot(local_order_ids, snapshot, *, now=None, max_age_sec
         not isinstance(key, str) or not key for key in local_order_ids
     ):
         return {**blocked, "reason": "INVALID_LOCAL_ORDER_IDS"}
+    if len(local_order_ids) != len(set(local_order_ids)):
+        return {**blocked, "reason": "DUPLICATE_LOCAL_ORDER_IDS"}
     broker_ids = set(ids)
     matched = sorted(set(local_order_ids) & broker_ids)
     unresolved = sorted(set(local_order_ids) - broker_ids)
