@@ -190,6 +190,29 @@ class AllocatedEntryProvenanceTests(unittest.TestCase):
         self.assertIsNone(restored["price_provenance"])
         self.assertEqual(restored["ticker"], "AAPL")
 
+    def test_evaluation_rejects_nonfinite_entry_price(self):
+        import pandas as pd
+        from engines.recommendation_performance_engine import evaluate_record, build_record
+        from datetime import date
+        record = build_record(date(2026, 1, 5), "2026-01-05", "test",
+            "NEW_ENTRY", "AAPL", "BUY", float("inf"), benchmark_price=100)
+        frame = pd.DataFrame({"AAPL": [100] * 70, "SPY": [100] * 70},
+            index=pd.bdate_range("2026-01-05", periods=70).date)
+        evaluated = evaluate_record(record, frame)
+        self.assertEqual(evaluated["horizons"]["5d"]["status"], "PENDING")
+
+    def test_evaluation_rejects_nonfinite_future_quote(self):
+        import pandas as pd
+        from engines.recommendation_performance_engine import evaluate_record, build_record
+        from datetime import date
+        record = build_record(date(2026, 1, 5), "2026-01-05", "test",
+            "NEW_ENTRY", "AAPL", "BUY", 100, benchmark_price=100)
+        dates = pd.bdate_range("2026-01-05", periods=8).date
+        frame = pd.DataFrame({"AAPL": [100] * 5 + [float("inf")] + [100] * 2,
+                              "SPY": [100] * 8}, index=dates)
+        evaluated = evaluate_record(record, frame)
+        self.assertEqual(evaluated["horizons"]["5d"]["status"], "PENDING")
+
     def test_verified_source_accepted(self):
         source = {"ticker": "AAPL", "market": {
             "data_quality": "LIVE", "last_price": 100}}
