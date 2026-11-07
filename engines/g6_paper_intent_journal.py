@@ -4,6 +4,7 @@ SQLite UNIQUE key prevents duplicate reservations across restarts/processes.
 UNKNOWN is intentionally not auto-retryable; broker reconciliation is required.
 """
 import sqlite3
+from urllib.parse import quote
 from pathlib import Path
 
 
@@ -15,7 +16,7 @@ class PersistentPaperIntentJournal:
         path = Path(self.database_path)
         if not path.parent.exists():
             raise ValueError("DATABASE_DIRECTORY_MISSING")
-        with self._connect() as db:
+        with sqlite3.connect(self.database_path, timeout=5) as db:
             db.execute("""CREATE TABLE IF NOT EXISTS paper_intents (
                 client_order_id TEXT PRIMARY KEY NOT NULL,
                 status TEXT NOT NULL CHECK(status IN ('RESERVED', 'UNKNOWN', 'RECONCILED')),
@@ -23,7 +24,9 @@ class PersistentPaperIntentJournal:
             )""")
 
     def _connect(self):
-        return sqlite3.connect(self.database_path, timeout=5)
+        # mode=rw prevents silently recreating an erased journal on restart.
+        uri = "file:" + quote(str(Path(self.database_path).resolve()), safe="/") + "?mode=rw"
+        return sqlite3.connect(uri, timeout=5, uri=True)
 
     def reserve(self, client_order_id):
         if not isinstance(client_order_id, str) or not client_order_id.strip() or len(client_order_id) > 128:
