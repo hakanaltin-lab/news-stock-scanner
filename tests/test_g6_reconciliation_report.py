@@ -111,6 +111,25 @@ class ReconciliationReportTests(unittest.TestCase):
             self.assertTrue(report["manual_review_required"])
             self.assertEqual(journal.list_unresolved(), before)
 
+    def test_unauthenticated_broker_snapshot_blocks_without_changing_journal(self):
+        with tempfile.TemporaryDirectory() as folder:
+            journal = PersistentPaperIntentJournal(Path(folder) / "paper.sqlite")
+            self.assertTrue(journal.reserve("paper-unverified")["allowed"])
+            snapshot = normalize_ibkr_paper_orders(
+                [{"orderRef": "paper-unverified", "account": "DU123"}],
+                account_id="DU123", captured_at=NOW,
+                transport_authenticated=False, complete=True,
+            )
+            before = journal.list_unresolved()
+            report = build_g6_reconciliation_report(
+                journal, snapshot, expected_account_id="DU123", now=NOW
+            )
+            self.assertEqual(report["status"], "BLOCKED")
+            self.assertEqual(report["reason"], "INCOMPLETE_OR_UNVERIFIED_SNAPSHOT")
+            self.assertFalse(report["paper_order_submission_allowed"])
+            self.assertTrue(report["manual_review_required"])
+            self.assertEqual(journal.list_unresolved(), before)
+
     def test_invalid_review_timestamp_fails_closed(self):
         for invalid in ("2026-11-07", datetime(2026, 11, 7, 12, 0)):
             with self.subTest(invalid=str(invalid)):
