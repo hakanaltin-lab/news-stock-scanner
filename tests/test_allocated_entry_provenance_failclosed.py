@@ -213,6 +213,21 @@ class AllocatedEntryProvenanceTests(unittest.TestCase):
         evaluated = evaluate_record(record, frame)
         self.assertEqual(evaluated["horizons"]["5d"]["status"], "PENDING")
 
+    def test_nonfinite_benchmark_entry_is_omitted(self):
+        from engines.recommendation_performance_engine import build_record
+        from datetime import date
+        for invalid in (float("inf"), float("-inf"), float("nan")):
+            record = build_record(date(2026, 1, 5), "2026-01-05", "test",
+                "NEW_ENTRY", "AAPL", "BUY", 100, benchmark_price=invalid)
+            self.assertIsNone(record["benchmark_entry_price"])
+
+    def test_valid_benchmark_entry_is_preserved(self):
+        from engines.recommendation_performance_engine import build_record
+        from datetime import date
+        record = build_record(date(2026, 1, 5), "2026-01-05", "test",
+            "NEW_ENTRY", "AAPL", "BUY", 100, benchmark_price=123.45678)
+        self.assertEqual(record["benchmark_entry_price"], 123.4568)
+
     def test_verified_source_accepted(self):
         source = {"ticker": "AAPL", "market": {
             "data_quality": "LIVE", "last_price": 100}}
