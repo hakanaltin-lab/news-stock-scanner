@@ -150,6 +150,39 @@ class ReconciliationReportTests(unittest.TestCase):
                     self.assertFalse(report["paper_order_submission_allowed"])
                     self.assertEqual(journal.list_unresolved(), before)
 
+    def test_reconnected_snapshot_requires_fresh_review_and_preserves_unknown(self):
+        with tempfile.TemporaryDirectory() as folder:
+            journal = PersistentPaperIntentJournal(Path(folder) / "paper.sqlite")
+            self.assertTrue(journal.reserve("paper-reconnect")["allowed"])
+            self.assertTrue(journal.mark_unknown("paper-reconnect"))
+            stale = normalize_ibkr_paper_orders(
+                [{"orderRef": "paper-reconnect", "account": "DU123"}],
+                account_id="DU123",
+                captured_at=datetime(2026, 11, 7, 11, 58, tzinfo=timezone.utc),
+                transport_authenticated=True, complete=True,
+            )
+            blocked = build_g6_reconciliation_report(
+                journal, stale, expected_account_id="DU123", now=NOW
+            )
+            self.assertEqual(blocked["status"], "BLOCKED")
+            self.assertEqual(blocked["reason"], "STALE_OR_INVALID_SNAPSHOT")
+            fresh = normalize_ibkr_paper_orders(
+                [{"orderRef": "paper-reconnect", "account": "DU123"}],
+                account_id="DU123", captured_at=NOW,
+                transport_authenticated=True, complete=True,
+            )
+            reviewed = build_g6_reconciliation_report(
+                journal, fresh, expected_account_id="DU123", now=NOW
+            )
+            self.assertEqual(reviewed["status"], "REVIEW_REQUIRED")
+            self.assertEqual(reviewed["matched_count"], 1)
+            self.assertFalse(reviewed["paper_order_submission_allowed"])
+            self.assertTrue(reviewed["manual_review_required"])
+            self.assertEqual(journal.list_unresolved()["orders"], [
+                {"client_order_id": "paper-reconnect", "status": "UNKNOWN"}
+            ])
+            self.assertFalse(journal.reserve("paper-reconnect")["allowed"])
+
     def test_invalid_review_timestamp_fails_closed(self):
         for invalid in ("2026-11-07", datetime(2026, 11, 7, 12, 0)):
             with self.subTest(invalid=str(invalid)):
