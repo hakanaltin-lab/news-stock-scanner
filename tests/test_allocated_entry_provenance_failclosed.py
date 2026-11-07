@@ -128,6 +128,19 @@ class AllocatedEntryProvenanceTests(unittest.TestCase):
         data["opportunity_analysis"]["top_actionable"].append(None)
         self.assertEqual(len(extract_snapshot_signals(data)), 1)
 
+    def test_legacy_nonfinite_price_rejected(self):
+        source = {"ticker": "AAPL", "action": "BUY", "market": {
+            "data_quality": "LIVE", "last_price": float("inf")}}
+        data = snapshot(source)
+        data.pop("capital_allocation")
+        self.assertEqual(extract_snapshot_signals(data), [])
+
+    def test_portfolio_nonfinite_price_rejected(self):
+        data = snapshot()
+        data["portfolio"] = [{"ticker": "AAPL", "portfolio_action": "ADD",
+            "market": {"data_quality": "LIVE", "last_price": float("inf")}}]
+        self.assertEqual(extract_snapshot_signals(data), [])
+
     def test_verified_source_accepted(self):
         source = {"ticker": "AAPL", "market": {
             "data_quality": "LIVE", "last_price": 100}}
