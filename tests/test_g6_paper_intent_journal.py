@@ -92,6 +92,19 @@ class JournalTests(unittest.TestCase):
             self.assertEqual(journal.reserve("order-2")["reason"], "JOURNAL_UNAVAILABLE")
             self.assertFalse(journal.list_unresolved()["valid"])
 
+    def test_sentinel_content_survives_restart_and_allows_reservations(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            first = PersistentPaperIntentJournal(path)
+            self.assertEqual(
+                Path(str(path) + ".initialized").read_text(encoding="utf-8"),
+                "AURORA_PAPER_JOURNAL_V1\\n",
+            )
+            self.assertTrue(first.reserve("order-first")["allowed"])
+            second = PersistentPaperIntentJournal(path)
+            self.assertTrue(second.reserve("order-second")["allowed"])
+            self.assertEqual(len(second.list_unresolved()["orders"]), 2)
+
     def test_memory_database_rejected(self):
         with self.assertRaises(ValueError):
             PersistentPaperIntentJournal(":memory:")
