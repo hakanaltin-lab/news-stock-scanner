@@ -51,3 +51,17 @@ class PersistentPaperIntentJournal:
                 return cursor.rowcount == 1
         except sqlite3.Error:
             return False
+
+    def list_unresolved(self):
+        """Read-only inventory for broker reconciliation; fail closed on DB errors."""
+        try:
+            with self._connect() as db:
+                rows = db.execute(
+                    "SELECT client_order_id, status FROM paper_intents "
+                    "WHERE status IN ('RESERVED', 'UNKNOWN') ORDER BY client_order_id"
+                ).fetchall()
+            return {"valid": True, "orders": [
+                {"client_order_id": key, "status": status} for key, status in rows
+            ]}
+        except sqlite3.Error:
+            return {"valid": False, "orders": [], "reason": "JOURNAL_UNAVAILABLE"}
