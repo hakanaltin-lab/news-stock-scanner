@@ -73,6 +73,16 @@ class PaperReconciliationTests(unittest.TestCase):
         )
         self.assertEqual(result["reason"], "BROKER_ACCOUNT_MISMATCH")
 
+    def test_malformed_expected_account_blocks_direct_reconciliation(self):
+        for account in ("U123", "DU", "DU123 ", "DU12X", "", 123):
+            with self.subTest(account=repr(account)):
+                result = reconcile_paper_snapshot(
+                    ["paper-1"], snapshot(account_id=account), now=NOW,
+                    expected_account_id=account
+                )
+                self.assertEqual(result["reason"], "BROKER_ACCOUNT_MISMATCH")
+                self.assertFalse(result["ready"])
+
     def test_expected_account_match_is_still_read_only(self):
         result = reconcile_paper_snapshot(
             ["paper-1"], snapshot(account_id="DU12345"), now=NOW,
