@@ -336,7 +336,8 @@ def build_record(
     signal_price,
     benchmark_price=None,
     scores=None,
-    origin_commit=None
+    origin_commit=None,
+    price_provenance=None
 ):
     direction = signal_direction(
         action
@@ -407,6 +408,9 @@ def build_record(
 
         "origin_commit":
         origin_commit,
+
+        "price_provenance":
+        price_provenance,
 
         "evaluation_basis":
         "signal_price_to_future_daily_close",
@@ -699,7 +703,15 @@ def extract_snapshot_signals(
                             "confidence"
                         )
                     },
-                    origin_commit=origin_commit
+                    origin_commit=origin_commit,
+                    price_provenance={
+                        "source": "opportunity_analysis.top_actionable.market.last_price",
+                        "allocation_price": allocation_price,
+                        "verified_source_price": source_price,
+                        "match_rule": "isclose(rel_tol=1e-6,abs_tol=1e-6)",
+                        "quality_label": "LIVE",
+                        "quote_freshness_verified": False
+                    }
                 )
             )
 
