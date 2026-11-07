@@ -10,7 +10,7 @@ def reconcile_journal(journal, broker_snapshot, *, expected_account_id, now=None
         return {"ready": False, "reason": "EXPECTED_PAPER_ACCOUNT_REQUIRED"}
     try:
         inventory = journal.list_unresolved()
-    except (AttributeError, TypeError, ValueError):
+    except (AttributeError, TypeError, ValueError, RuntimeError, OSError):
         return {"ready": False, "reason": "JOURNAL_UNAVAILABLE"}
     if not isinstance(inventory, dict) or inventory.get("valid") is not True:
         return {"ready": False, "reason": "JOURNAL_UNAVAILABLE"}
