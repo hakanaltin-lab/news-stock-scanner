@@ -23,7 +23,7 @@ class JournalTests(unittest.TestCase):
     def test_malformed_id_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:
             journal = PersistentPaperIntentJournal(Path(directory) / "paper.sqlite3")
-            for value in (None, [], {}, "", "x" * 129):
+            for value in (None, [], {}, "", " ", " order-1", "order-1 ", "x" * 129):
                 with self.subTest(value=value):
                     self.assertFalse(journal.reserve(value)["allowed"])
 
