@@ -98,7 +98,7 @@ class JournalTests(unittest.TestCase):
             first = PersistentPaperIntentJournal(path)
             self.assertEqual(
                 Path(str(path) + ".initialized").read_text(encoding="utf-8"),
-                "AURORA_PAPER_JOURNAL_V1\\n",
+                "AURORA_PAPER_JOURNAL_V1\n",
             )
             self.assertTrue(first.reserve("order-first")["allowed"])
             second = PersistentPaperIntentJournal(path)
