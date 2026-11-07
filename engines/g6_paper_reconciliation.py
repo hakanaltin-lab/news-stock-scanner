@@ -5,6 +5,7 @@ A snapshot must be explicitly verified as complete, fresh and from PAPER.
 Missing orders are UNKNOWN, never proof that an order did not execute.
 """
 from datetime import datetime, timezone
+import math
 
 
 def reconcile_paper_snapshot(local_order_ids, snapshot, *, now=None, max_age_seconds=30, expected_account_id=None):
@@ -21,6 +22,9 @@ def reconcile_paper_snapshot(local_order_ids, snapshot, *, now=None, max_age_sec
             return {**blocked, "reason": "BROKER_ACCOUNT_MISMATCH"}
     if snapshot.get("complete") is not True or snapshot.get("verified") is not True:
         return {**blocked, "reason": "INCOMPLETE_OR_UNVERIFIED_SNAPSHOT"}
+    if (type(max_age_seconds) not in (int, float)
+            or not math.isfinite(max_age_seconds) or max_age_seconds <= 0):
+        return {**blocked, "reason": "INVALID_SNAPSHOT_AGE_LIMIT"}
     timestamp = snapshot.get("timestamp")
     try:
         observed = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
