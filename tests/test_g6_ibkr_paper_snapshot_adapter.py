@@ -42,6 +42,22 @@ class IBKRSnapshotAdapterTests(unittest.TestCase):
         )
         self.assertEqual(result["reason"], "MISSING_ORDER_REFERENCE")
 
+    def test_missing_capture_timestamp_fails_closed(self):
+        result = normalize_ibkr_paper_orders(
+            ORDERS, account_id="DU12345",
+            transport_authenticated=True, complete=True
+        )
+        self.assertEqual(result["reason"], "INVALID_CAPTURE_TIMESTAMP")
+        self.assertFalse(result["verified"])
+
+    def test_naive_capture_timestamp_fails_closed(self):
+        result = normalize_ibkr_paper_orders(
+            ORDERS, account_id="DU12345",
+            captured_at=datetime(2026, 11, 7, 12, 0),
+            transport_authenticated=True, complete=True
+        )
+        self.assertEqual(result["reason"], "INVALID_CAPTURE_TIMESTAMP")
+
     def test_normalized_snapshot_remains_read_only(self):
         snapshot = normalize_ibkr_paper_orders(
             ORDERS, account_id="DU12345", captured_at=NOW,
