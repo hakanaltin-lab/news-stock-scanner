@@ -48,6 +48,22 @@ class JournalTests(unittest.TestCase):
                 PersistentPaperIntentJournal(path)
             self.assertFalse(path.exists())
 
+    def test_existing_unregistered_database_requires_review(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "legacy.sqlite3"
+            path.write_bytes(b"not a trusted database")
+            with self.assertRaisesRegex(RuntimeError, "UNREGISTERED_PAPER_JOURNAL"):
+                PersistentPaperIntentJournal(path)
+            self.assertFalse(Path(str(path) + ".initialized").exists())
+
+    def test_corrupted_registered_database_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            PersistentPaperIntentJournal(path)
+            path.write_bytes(b"corrupted sqlite database")
+            with self.assertRaises(Exception):
+                PersistentPaperIntentJournal(path)
+
     def test_memory_database_rejected(self):
         with self.assertRaises(ValueError):
             PersistentPaperIntentJournal(":memory:")
