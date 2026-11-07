@@ -28,6 +28,16 @@ class IBKRSnapshotAdapterTests(unittest.TestCase):
         )
         self.assertFalse(result["verified"])
 
+    def test_malformed_paper_account_identifiers_rejected(self):
+        for account in ("DU", "DUabc", "DU123 ", "DU12-34", "du123", "DU123\\n"):
+            with self.subTest(account=repr(account)):
+                result = normalize_ibkr_paper_orders(
+                    [], account_id=account, captured_at=NOW,
+                    transport_authenticated=True, complete=True
+                )
+                self.assertEqual(result["reason"], "INVALID_PAPER_ACCOUNT")
+                self.assertFalse(result["verified"])
+
     def test_order_account_mismatch_rejected(self):
         result = normalize_ibkr_paper_orders(
             ORDERS, account_id="DU99999", captured_at=NOW,
