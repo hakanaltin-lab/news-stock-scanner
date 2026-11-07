@@ -203,6 +203,28 @@ class ReconciliationReportTests(unittest.TestCase):
             self.assertTrue(report["manual_review_required"])
             self.assertFalse(database.exists())
 
+    def test_missing_journal_sentinel_blocks_without_reinitialization(self):
+        with tempfile.TemporaryDirectory() as folder:
+            database = Path(folder) / "paper.sqlite"
+            journal = PersistentPaperIntentJournal(database)
+            self.assertTrue(journal.reserve("paper-sentinel")["allowed"])
+            sentinel = Path(str(database) + ".initialized")
+            sentinel.unlink()
+            snapshot = normalize_ibkr_paper_orders(
+                [{"orderRef": "paper-sentinel", "account": "DU123"}],
+                account_id="DU123", captured_at=NOW,
+                transport_authenticated=True, complete=True,
+            )
+            report = build_g6_reconciliation_report(
+                journal, snapshot, expected_account_id="DU123", now=NOW
+            )
+            self.assertEqual(report["status"], "BLOCKED")
+            self.assertEqual(report["reason"], "JOURNAL_UNAVAILABLE")
+            self.assertFalse(report["execution_allowed"])
+            self.assertFalse(report["paper_order_submission_allowed"])
+            self.assertFalse(sentinel.exists())
+            self.assertTrue(database.exists())
+
     def test_invalid_review_timestamp_fails_closed(self):
         for invalid in ("2026-11-07", datetime(2026, 11, 7, 12, 0)):
             with self.subTest(invalid=str(invalid)):
