@@ -22,10 +22,12 @@ class PersistentPaperIntentJournal:
         if sentinel.exists() and not path.is_file():
             raise RuntimeError("PAPER_JOURNAL_LOST")
         if path.is_file() and not sentinel.exists():
-            # Existing legacy databases are accepted, but deployment must
-            # independently verify their provenance before use.
-            pass
+            # An unregistered existing database must be reviewed/migrated
+            # separately; never silently trust it or overwrite its history.
+            raise RuntimeError("UNREGISTERED_PAPER_JOURNAL")
         with sqlite3.connect(self.database_path, timeout=5) as db:
+            if db.execute("PRAGMA quick_check").fetchone() != ("ok",):
+                raise RuntimeError("PAPER_JOURNAL_INTEGRITY_FAILURE")
             db.execute("""CREATE TABLE IF NOT EXISTS paper_intents (
                 client_order_id TEXT PRIMARY KEY NOT NULL,
                 status TEXT NOT NULL CHECK(status IN ('RESERVED', 'UNKNOWN', 'RECONCILED')),
@@ -34,7 +36,7 @@ class PersistentPaperIntentJournal:
         if not sentinel.exists():
             try:
                 with sentinel.open("x", encoding="utf-8") as marker:
-                    marker.write("AURORA_PAPER_JOURNAL_V1\\n")
+                    marker.write("AURORA_PAPER_JOURNAL_V1\n")
             except FileExistsError:
                 pass
 
