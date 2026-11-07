@@ -48,6 +48,25 @@ class PaperReconciliationTests(unittest.TestCase):
                 )
                 self.assertEqual(result["reason"], "STALE_OR_INVALID_SNAPSHOT")
 
+    def test_expected_account_mismatch_blocks(self):
+        result = reconcile_paper_snapshot(
+            ["paper-1"], snapshot(account_id="DU12345"), now=NOW,
+            expected_account_id="DU99999"
+        )
+        self.assertEqual(result["reason"], "BROKER_ACCOUNT_MISMATCH")
+
+    def test_expected_account_match_is_still_read_only(self):
+        result = reconcile_paper_snapshot(
+            ["paper-1"], snapshot(account_id="DU12345"), now=NOW,
+            expected_account_id="DU12345"
+        )
+        self.assertFalse(result["ready"])
+        self.assertEqual(result["reason"], "READ_ONLY_RECONCILIATION")
+
+    def test_duplicate_local_ids_rejected(self):
+        result = reconcile_paper_snapshot(["paper-1", "paper-1"], snapshot(), now=NOW)
+        self.assertEqual(result["reason"], "DUPLICATE_LOCAL_ORDER_IDS")
+
     def test_duplicate_broker_ids_rejected(self):
         result = reconcile_paper_snapshot(
             ["paper-1"], snapshot(orders=[{"client_order_id": "paper-1"}] * 2), now=NOW
