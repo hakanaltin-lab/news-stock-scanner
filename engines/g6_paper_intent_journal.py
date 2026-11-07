@@ -35,6 +35,8 @@ class PersistentPaperIntentJournal:
                 status TEXT NOT NULL CHECK(status IN ('RESERVED', 'UNKNOWN', 'RECONCILED')),
                 created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
             )""")
+        # Detect database file replacement during the current process lifetime.
+        self._database_identity = (path.stat().st_dev, path.stat().st_ino)
         if not sentinel.exists():
             try:
                 with sentinel.open("x", encoding="utf-8") as marker:
@@ -43,6 +45,13 @@ class PersistentPaperIntentJournal:
                 pass
 
     def _connect(self):
+        path = Path(self.database_path)
+        try:
+            current_identity = (path.stat().st_dev, path.stat().st_ino)
+            if current_identity != self._database_identity:
+                raise sqlite3.OperationalError("PAPER_JOURNAL_FILE_REPLACED")
+        except OSError as exc:
+            raise sqlite3.OperationalError("PAPER_JOURNAL_FILE_UNAVAILABLE") from exc
         # mode=rw prevents silently recreating an erased journal on restart.
         uri = "file:" + quote(str(Path(self.database_path).resolve()), safe="/") + "?mode=rw"
         sentinel = Path(self.database_path + ".initialized")
