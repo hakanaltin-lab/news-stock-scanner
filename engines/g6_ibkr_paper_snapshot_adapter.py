@@ -5,6 +5,7 @@ network request or infers account authenticity from a payload. A separate
 authenticated transport must attest provenance and completeness.
 """
 from datetime import datetime
+import re
 
 
 def normalize_ibkr_paper_orders(raw_orders, *, account_id, captured_at=None,
@@ -14,7 +15,7 @@ def normalize_ibkr_paper_orders(raw_orders, *, account_id, captured_at=None,
                "reason": "UNVERIFIED_BROKER_PROVENANCE"}
     if transport_authenticated is not True or complete is not True:
         return blocked
-    if not isinstance(account_id, str) or not account_id.startswith("DU"):
+    if not isinstance(account_id, str) or re.fullmatch(r"DU[0-9]+", account_id) is None:
         return {**blocked, "reason": "INVALID_PAPER_ACCOUNT"}
     if not isinstance(raw_orders, list):
         return {**blocked, "reason": "INVALID_BROKER_ORDERS"}
