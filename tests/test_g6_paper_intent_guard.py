@@ -35,7 +35,7 @@ class PaperIntentGuardTests(unittest.TestCase):
                 self.assertFalse(self.check(bad)["allowed"])
 
     def test_whitespace_order_ids_fail_closed(self):
-        for key in (" paper-001", "paper-001 ", "\\tpaper-001", "paper-001\\n"):
+        for key in (" paper-001", "paper-001 ", "\tpaper-001", "paper-001\n"):
             with self.subTest(key=repr(key)):
                 result = self.check({**GOOD, "client_order_id": key})
                 self.assertFalse(result["allowed"])
