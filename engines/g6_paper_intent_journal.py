@@ -90,7 +90,8 @@ class PersistentPaperIntentJournal:
             raise
 
     def reserve(self, client_order_id):
-        if (not isinstance(client_order_id, str) or not client_order_id.strip()\n                or client_order_id != client_order_id.strip() or len(client_order_id) > 128):
+        if (not isinstance(client_order_id, str) or not client_order_id.strip()
+                or client_order_id != client_order_id.strip() or len(client_order_id) > 128):
             return {"allowed": False, "reason": "INVALID_ORDER_ID"}
         try:
             with self._connect() as db:
