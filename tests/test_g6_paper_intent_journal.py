@@ -1,5 +1,6 @@
 import tempfile
 import unittest
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from unittest.mock import patch
 from engines.g6_paper_intent_journal import PersistentPaperIntentJournal
@@ -13,6 +14,19 @@ class JournalTests(unittest.TestCase):
             self.assertTrue(first.reserve("order-1")["allowed"])
             second = PersistentPaperIntentJournal(path)
             self.assertEqual(second.reserve("order-1")["reason"], "DUPLICATE_OR_UNRECONCILED")
+
+    def test_concurrent_duplicate_reservations_allow_exactly_one(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            journals = [PersistentPaperIntentJournal(path) for _ in range(8)]
+            with ThreadPoolExecutor(max_workers=8) as pool:
+                results = list(pool.map(lambda journal: journal.reserve("same-order"), journals))
+            self.assertEqual(sum(result["allowed"] for result in results), 1)
+            self.assertTrue(all(
+                result["reason"] in ("RESERVED", "DUPLICATE_OR_UNRECONCILED")
+                for result in results
+            ))
+            self.assertEqual(len(journals[0].list_unresolved()["orders"]), 1)
 
     def test_unknown_cannot_be_reused(self):
         with tempfile.TemporaryDirectory() as directory:
