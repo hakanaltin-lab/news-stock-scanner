@@ -263,6 +263,25 @@ class JournalTests(unittest.TestCase):
             self.assertTrue(restarted.mark_unknown("restart-reserved"))
             self.assertFalse(restarted.reserve("restart-reserved")["allowed"])
 
+    def test_replaced_database_file_is_not_trusted_by_running_journal(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            journal = PersistentPaperIntentJournal(path)
+            self.assertTrue(journal.reserve("original-intent")["allowed"])
+            replacement = Path(directory) / "replacement.sqlite3"
+            with sqlite3.connect(replacement) as db:
+                db.execute("""CREATE TABLE paper_intents (
+                    client_order_id TEXT PRIMARY KEY NOT NULL,
+                    status TEXT NOT NULL CHECK(status IN ('RESERVED', 'UNKNOWN', 'RECONCILED')),
+                    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+                )""")
+            replacement.replace(path)
+            self.assertEqual(journal.reserve("new-intent"), {
+                "allowed": False, "reason": "JOURNAL_UNAVAILABLE"
+            })
+            self.assertFalse(journal.list_unresolved()["valid"])
+            self.assertFalse(journal.mark_unknown("original-intent"))
+
     def test_memory_database_rejected(self):
         with self.assertRaises(ValueError):
             PersistentPaperIntentJournal(":memory:")
