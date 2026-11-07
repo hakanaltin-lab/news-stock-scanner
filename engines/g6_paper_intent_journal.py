@@ -21,6 +21,8 @@ class PersistentPaperIntentJournal:
         sentinel = Path(str(path) + ".initialized")
         if sentinel.exists() and not path.is_file():
             raise RuntimeError("PAPER_JOURNAL_LOST")
+        if sentinel.exists() and sentinel.read_text(encoding="utf-8") != "AURORA_PAPER_JOURNAL_V1\\n":
+            raise RuntimeError("PAPER_JOURNAL_SENTINEL_INVALID")
         if path.is_file() and not sentinel.exists():
             # An unregistered existing database must be reviewed/migrated
             # separately; never silently trust it or overwrite its history.
@@ -43,7 +45,22 @@ class PersistentPaperIntentJournal:
     def _connect(self):
         # mode=rw prevents silently recreating an erased journal on restart.
         uri = "file:" + quote(str(Path(self.database_path).resolve()), safe="/") + "?mode=rw"
-        return sqlite3.connect(uri, timeout=5, uri=True)
+        sentinel = Path(self.database_path + ".initialized")
+        if not sentinel.is_file():
+            raise sqlite3.OperationalError("PAPER_JOURNAL_SENTINEL_MISSING")
+        try:
+            if sentinel.read_text(encoding="utf-8") != "AURORA_PAPER_JOURNAL_V1\\n":
+                raise sqlite3.OperationalError("PAPER_JOURNAL_SENTINEL_INVALID")
+        except OSError as exc:
+            raise sqlite3.OperationalError("PAPER_JOURNAL_SENTINEL_UNAVAILABLE") from exc
+        db = sqlite3.connect(uri, timeout=5, uri=True)
+        try:
+            if db.execute("PRAGMA quick_check").fetchone() != ("ok",):
+                raise sqlite3.DatabaseError("PAPER_JOURNAL_INTEGRITY_FAILURE")
+            return db
+        except BaseException:
+            db.close()
+            raise
 
     def reserve(self, client_order_id):
         if not isinstance(client_order_id, str) or not client_order_id.strip() or len(client_order_id) > 128:
