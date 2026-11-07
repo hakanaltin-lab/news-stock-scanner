@@ -541,7 +541,8 @@ def extract_snapshot_signals(
         if (
             not ticker
             or
-            safe_float(
+            not math.isfinite(safe_float(price))
+            or safe_float(
                 price
             )
             <=
@@ -772,7 +773,8 @@ def extract_snapshot_signals(
             if (
                 not ticker
                 or
-                safe_float(
+                not math.isfinite(safe_float(price))
+            or safe_float(
                     price
                 )
                 <=
