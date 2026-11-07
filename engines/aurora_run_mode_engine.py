@@ -54,6 +54,11 @@ def can_transition(current_mode, target_mode):
     if current not in VALID_RUN_MODES or target not in VALID_RUN_MODES:
         return False
 
+    # A transition request alone cannot arm Paper Trading. A separate
+    # authenticated, stateful authorization gate must be reviewed first.
+    if target == PAPER_ENABLED:
+        return False
+
     return target in _ALLOWED_TRANSITIONS[current]
 
 
