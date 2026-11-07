@@ -105,6 +105,17 @@ class JournalTests(unittest.TestCase):
             self.assertTrue(second.reserve("order-second")["allowed"])
             self.assertEqual(len(second.list_unresolved()["orders"]), 2)
 
+    def test_registered_empty_database_does_not_regenerate_missing_schema(self):
+        import sqlite3
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "paper.sqlite3"
+            PersistentPaperIntentJournal(path)
+            path.unlink()
+            with sqlite3.connect(path):
+                pass
+            with self.assertRaisesRegex(RuntimeError, "PAPER_JOURNAL_SCHEMA_MISSING"):
+                PersistentPaperIntentJournal(path)
+
     def test_memory_database_rejected(self):
         with self.assertRaises(ValueError):
             PersistentPaperIntentJournal(":memory:")
