@@ -58,6 +58,24 @@ class IBKRSnapshotAdapterTests(unittest.TestCase):
         )
         self.assertEqual(result["reason"], "INVALID_CAPTURE_TIMESTAMP")
 
+    def test_duplicate_order_references_fail_closed(self):
+        result = normalize_ibkr_paper_orders(
+            ORDERS + ORDERS, account_id="DU12345", captured_at=NOW,
+            transport_authenticated=True, complete=True
+        )
+        self.assertEqual(result["reason"], "DUPLICATE_BROKER_ORDER_REFERENCE")
+        self.assertFalse(result["verified"])
+        self.assertEqual(result["orders"], [])
+
+    def test_order_reference_whitespace_fails_closed(self):
+        result = normalize_ibkr_paper_orders(
+            [{"orderRef": " aurora-1 ", "account": "DU12345"}],
+            account_id="DU12345", captured_at=NOW,
+            transport_authenticated=True, complete=True
+        )
+        self.assertEqual(result["reason"], "INVALID_ORDER_REFERENCE_WHITESPACE")
+        self.assertFalse(result["verified"])
+
     def test_normalized_snapshot_remains_read_only(self):
         snapshot = normalize_ibkr_paper_orders(
             ORDERS, account_id="DU12345", captured_at=NOW,
