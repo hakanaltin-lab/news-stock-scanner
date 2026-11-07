@@ -24,7 +24,8 @@ class PaperIntentGuard:
         if run_mode != "PAPER_ENABLED":
             reasons.append("PAPER_MODE_NOT_ARMED")
         key = intent.get("client_order_id")
-        if (not isinstance(key, str) or not key.strip() or key != key.strip()\n                or len(key) > 128):
+        if (not isinstance(key, str) or not key.strip() or key != key.strip()
+                or len(key) > 128):
             reasons.append("MISSING_ORDER_ID")
         elif key in self._seen:
             reasons.append("DUPLICATE_ORDER_ID")
