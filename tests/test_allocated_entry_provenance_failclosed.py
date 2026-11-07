@@ -71,6 +71,23 @@ class AllocatedEntryProvenanceTests(unittest.TestCase):
         records = extract_snapshot_signals(snapshot(source, price=100.00001))
         self.assertEqual(len(records), 1)
 
+    def test_duplicate_sources_rejected_even_if_prices_match(self):
+        source = {"ticker": "AAPL", "market": {
+            "data_quality": "LIVE", "last_price": 100}}
+        data = snapshot(source)
+        data["opportunity_analysis"]["top_actionable"].append(dict(source))
+        self.assertEqual(extract_snapshot_signals(data), [])
+
+    def test_conflicting_duplicate_sources_rejected(self):
+        source = {"ticker": "AAPL", "market": {
+            "data_quality": "LIVE", "last_price": 100}}
+        data = snapshot(source)
+        data["opportunity_analysis"]["top_actionable"].append({
+            "ticker": "AAPL",
+            "market": {"data_quality": "LIVE", "last_price": 110}
+        })
+        self.assertEqual(extract_snapshot_signals(data), [])
+
     def test_verified_source_accepted(self):
         source = {"ticker": "AAPL", "market": {
             "data_quality": "LIVE", "last_price": 100}}
